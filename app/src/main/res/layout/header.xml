@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/my"
+    android:background="@drawable/loginbutton">
+
+    <TextView
+        android:id="@+id/eventname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorwhite"
+        android:padding="3dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/activetab"
+        android:textSize="@dimen/textsizenormal" />
+
+
+    <TextView
+        android:id="@+id/fceTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/eventname"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:paddingBottom="4dp"
+        android:text="Face 2017"
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+
+    <RelativeLayout
+        android:id="@+id/relbelo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/fceTv"
+        android:layout_below="@+id/fceTv"
+        android:layout_centerInParent="true"
+        android:background="@color/activetab"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="@dimen/margin"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/profileIV"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="TODO"
+                    android:scaleType="centerCrop" />
+
+                <ProgressBar
+                    android:id="@+id/progressView"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nameTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/designationTv"
+                    android:layout_alignTop="@+id/imageView"
+                    android:paddingLeft="5dp"
+                    android:text=""
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmall" />
+
+                <TextView
+                    android:id="@+id/lastNameTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/designationTv"
+                    android:layout_alignTop="@+id/imageView"
+                    android:paddingLeft="5dp"
+                    android:text=""
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/designationTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameTv"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/imageView"
+                    android:paddingLeft="5dp"
+                    android:text=""
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmall" />
+
+
+                <TextView
+                    android:id="@+id/compantyTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/designationTv"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/imageView"
+                    android:paddingLeft="5dp"
+                    android:text=""
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmall" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="bottom|right"
+                android:layout_marginRight="10dp">
+
+                <ImageView
+                    android:id="@+id/editIv"
+                    android:contentDescription="TODO"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:src="@drawable/edit_profile_icon" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

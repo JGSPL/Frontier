@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@android:color/transparent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:background="@drawable/speakerdatabg"
+        android:layout_margin="@dimen/margin"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            android:padding="5dp"
+            android:textSize="@dimen/textsizenormal"
+            android:textColor="@color/black"
+            android:text="@string/sendrating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_margin="2dp"
+            android:background="@color/colorwhite"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RatingBar
+                android:id="@+id/ratingbar"
+                android:layout_gravity="center"
+                android:theme="@style/RatingBar"
+                android:stepSize="0.5"
+                android:numStars="5"
+                android:layout_margin="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                    android:layout_width="0dp"
+                    android:id="@+id/ratebtn"
+                    android:text="@string/ratebtn"
+                    android:layout_margin="@dimen/margin"
+                    android:textSize="@dimen/textsizesmall"
+                    android:textColor="@color/colorwhite"
+                    android:background="@drawable/speakerbtnbg"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                    android:layout_width="0dp"
+                    android:id="@+id/canclebtn"
+                    android:text="@string/cancel"
+                    android:layout_margin="@dimen/margin"
+                    android:textSize="@dimen/textsizesmall"
+                    android:textColor="@color/colorwhite"
+                    android:background="@drawable/speakerbtnbg"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

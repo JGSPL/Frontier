@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.procialize.mrgeApp20.CustomTools.TouchImageView
+        android:id="@+id/image"
+        android:layout_below="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:layout_centerInParent="true" />
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/loader" />
+
+    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        android:id="@+id/name"
+        android:visibility="visible"
+        android:gravity="center"
+        android:textColor="@color/colorwhite"
+        android:layout_alignParentTop="true"
+        android:textSize="@dimen/textsizebigger"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

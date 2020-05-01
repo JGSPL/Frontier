@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/trans"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/deleteTv"
+            android:gravity="center"
+            android:padding="@dimen/padding"
+            android:textSize="@dimen/textsizenormal"
+            android:textColor="@color/black"
+            android:text="@string/deletecomment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:id="@+id/reportTv"
+            android:gravity="center"
+            android:padding="@dimen/padding"
+            android:textSize="@dimen/textsizenormal"
+            android:textColor="@color/black"
+            android:text="@string/reportcomment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+
+        <TextView
+            android:id="@+id/hideTv"
+            android:gravity="center"
+            android:padding="@dimen/padding"
+            android:textSize="@dimen/textsizenormal"
+            android:textColor="@color/black"
+            android:text="@string/hidecomment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:id="@+id/reportuserTv"
+            android:gravity="center"
+            android:padding="@dimen/padding"
+            android:textSize="@dimen/textsizenormal"
+            android:textColor="@color/black"
+            android:text="@string/reportuser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:id="@+id/cancelTv"
+            android:gravity="center"
+            android:padding="@dimen/padding"
+            android:textSize="@dimen/textsizenormal"
+            android:textColor="@color/black"
+            android:text="@string/cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+

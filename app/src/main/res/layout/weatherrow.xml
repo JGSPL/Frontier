@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/mainLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#1F73BA"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/nameTv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text=""
+                android:textColor="@color/colorwhite"
+                android:textSize="@dimen/textsizesmall" />
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/dateTv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text=""
+                android:textColor="@color/colorwhite"
+                android:textSize="@dimen/textsizesmall" />
+
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/typev"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text=""
+                android:textColor="@color/colorwhite"
+                android:textSize="9sp" />
+
+            <ImageView
+                android:id="@+id/imageIv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:contentDescription="TODO"
+                android:src="@drawable/sunny"
+                android:visibility="gone" />
+
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/maxTv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text=""
+                android:textColor="@color/colorwhite"
+                android:textSize="@dimen/textsizesmall" />
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/minTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text=""
+                android:textColor="@color/colorwhite"
+                android:textSize="@dimen/textsizesmall" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

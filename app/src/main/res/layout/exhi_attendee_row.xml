@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/mainLL"
+        android:padding="5dp"
+        android:background="@color/colorwhite"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="5dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:gravity="center"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/profileIV"
+                android:layout_centerInParent="true"
+                android:src="@drawable/profilepic_placeholder"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                android:scaleType="centerCrop" />
+
+            <ProgressBar
+                android:visibility="visible"
+                android:id="@+id/progressBar"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:background="@drawable/loader"/>
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="top"
+            android:layout_weight="7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:paddingLeft="5dp"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abheejit Saxena"
+                android:textColor="@color/activetab"
+                android:id="@+id/nameTv" />
+
+            <TextView
+                android:paddingLeft="5dp"
+                android:id="@+id/designationTv"
+                android:textSize="@dimen/textsizesmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Simens LTD"
+                android:textColor="@color/black" />
+
+
+            <TextView
+                android:paddingLeft="5dp"
+                android:textSize="@dimen/textsizesmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delhi"
+                android:textColor="@color/black"
+                android:id="@+id/locationTv" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ic_rightarrow"
+                android:contentDescription="TODO"
+                android:src="@drawable/ic_rightarrow"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

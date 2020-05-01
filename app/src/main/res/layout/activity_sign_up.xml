@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context="com.procialize.mrgeApp20.Activity.SignUpActivity">
+
+
+  <androidx.core.widget.NestedScrollView
+      android:fillViewport="true"
+      android:layout_marginBottom="10dp"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <androidx.constraintlayout.ConstraintLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+
+          <com.procialize.eventsapp.Fonts.RobotoTextview
+              android:id="@+id/textView8"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginEnd="8dp"
+              android:layout_marginStart="8dp"
+              android:layout_marginTop="16dp"
+              android:text="@string/signup"
+              android:textColor="@color/loginbutton"
+              android:textSize="@dimen/textsizebigger"
+              />
+
+          <ImageView
+              android:id="@+id/profileIV"
+              android:layout_width="100dp"
+              android:layout_height="100dp"
+              android:layout_marginEnd="8dp"
+              android:layout_marginStart="8dp"
+              android:layout_marginTop="24dp"
+              android:contentDescription="TODO"
+              android:src="@drawable/profilepic_placeholder"
+            />
+
+          <com.procialize.eventsapp.Fonts.RobotoTextview
+              android:id="@+id/textView9"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginEnd="8dp"
+              android:layout_marginStart="8dp"
+              android:layout_marginTop="16dp"
+              android:text="@string/uploadphoto"
+              android:textSize="@dimen/textsizenormal"
+              android:textColor="@color/black"
+            />
+
+          <LinearLayout
+              android:id="@+id/linearLayout3"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginEnd="16dp"
+              android:layout_marginStart="16dp"
+              android:layout_marginTop="36dp"
+              android:layout_marginBottom="20dp"
+              android:orientation="vertical"
+            >
+
+              <com.google.android.material.textfield.TextInputLayout
+                  android:id="@+id/input_layout_email"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/black"
+                  android:textColorHint="@color/black">
+
+                  <com.procialize.eventsapp.Fonts.RobotoTextInputEditext
+                      android:id="@+id/input_email"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:hint="@string/hint_email"
+                      android:imeOptions="actionNext"
+                      android:inputType="textEmailAddress"
+                      android:maxLines="1"
+                      android:textSize="@dimen/textsizesmall"
+                      android:textColor="@color/black"
+                      android:textColorHint="@color/black" />
+              </com.google.android.material.textfield.TextInputLayout>
+
+
+              <com.google.android.material.textfield.TextInputLayout
+                  android:id="@+id/input_layout_firstname"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/black"
+                  android:textColorHint="@color/black">
+
+                  <com.procialize.eventsapp.Fonts.RobotoTextInputEditext
+                      android:id="@+id/input_firstname"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:hint="@string/firstname"
+                      android:imeOptions="actionNext"
+                      android:inputType="textEmailAddress"
+                      android:maxLines="1"
+                      android:textSize="@dimen/textsizesmall"
+                      android:textColor="@color/black"
+                      android:textColorHint="@color/black"/>
+              </com.google.android.material.textfield.TextInputLayout>
+
+
+              <com.google.android.material.textfield.TextInputLayout
+                  android:id="@+id/input_layoutlastname"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/black"
+                  android:textColorHint="@color/black">
+
+                  <com.procialize.eventsapp.Fonts.RobotoTextInputEditext
+                      android:id="@+id/input_lastname"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:hint="@string/lastname"
+                      android:imeOptions="actionNext"
+                      android:inputType="textEmailAddress"
+                      android:maxLines="1"
+                      android:textSize="@dimen/textsizesmall"
+                      android:textColor="@color/black"
+                      android:textColorHint="@color/black"/>
+              </com.google.android.material.textfield.TextInputLayout>
+
+
+              <com.google.android.material.textfield.TextInputLayout
+                  android:id="@+id/input_layoutdesignation"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/black"
+                  android:textColorHint="@color/black">
+
+                  <com.procialize.eventsapp.Fonts.RobotoTextInputEditext
+                      android:id="@+id/input_designation"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:hint="@string/designation"
+                      android:imeOptions="actionNext"
+                      android:inputType="textEmailAddress"
+                      android:maxLines="1"
+                      android:textSize="@dimen/textsizesmall"
+                      android:textColor="@color/black"
+                      android:textColorHint="@color/black"/>
+              </com.google.android.material.textfield.TextInputLayout>
+
+
+              <com.google.android.material.textfield.TextInputLayout
+                  android:id="@+id/input_layout_company"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/black"
+                  android:textColorHint="@color/black">
+
+                  <com.procialize.eventsapp.Fonts.RobotoTextInputEditext
+                      android:id="@+id/input_company"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:hint="@string/company"
+                      android:imeOptions="actionNext"
+                      android:inputType="textEmailAddress"
+                      android:maxLines="1"
+                      android:textSize="@dimen/textsizesmall"
+                      android:textColor="@color/black"
+                      android:textColorHint="@color/black" />
+              </com.google.android.material.textfield.TextInputLayout>
+
+
+
+              <com.google.android.material.textfield.TextInputLayout
+                  android:id="@+id/input_layout_city"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/black"
+                  android:textColorHint="@color/black">
+
+                  <com.procialize.eventsapp.Fonts.RobotoTextInputEditext
+                      android:id="@+id/input_city"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:hint="@string/city"
+                      android:imeOptions="actionNext"
+                      android:inputType="textEmailAddress"
+                      android:maxLines="1"
+                      android:textSize="@dimen/textsizesmall"
+                      android:textColor="@color/black"
+                      android:textColorHint="@color/black" />
+              </com.google.android.material.textfield.TextInputLayout>
+
+              <com.google.android.material.textfield.TextInputLayout
+                  android:id="@+id/input_layout_contact"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/black"
+                  android:textColorHint="@color/black">
+
+                  <com.procialize.eventsapp.Fonts.RobotoTextInputEditext
+                      android:id="@+id/input_mobile"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:hint="@string/contactno"
+                      android:imeOptions="actionDone"
+                      android:nextFocusDown="@+id/signupbtn"
+                      android:inputType="textEmailAddress"
+                      android:maxLength="10"
+                      android:maxLines="1"
+                      android:textSize="@dimen/textsizesmall"
+                      android:textColor="@color/black"
+                      android:textColorHint="@color/black" />
+              </com.google.android.material.textfield.TextInputLayout>
+          </LinearLayout>
+
+          <com.procialize.eventsapp.Fonts.RobotoButton
+              android:id="@+id/signupbtn"
+              android:layout_margin="15dp"
+              android:background="@drawable/signupbutton"
+              android:text="@string/btnsignup"
+              android:textSize="@dimen/textsizesmall"
+              android:textColor="@color/colorwhite"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              />
+      </androidx.constraintlayout.ConstraintLayout>
+  </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.ConstraintLayout>

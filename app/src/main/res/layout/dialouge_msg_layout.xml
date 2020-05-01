@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|top"
+    android:background="@android:color/transparent"
+    android:gravity="top"
+    android:orientation="vertical"
+    android:layout_marginBottom="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/diatitle"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="top"
+            android:background="@color/activetab"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8.5"
+                android:paddingLeft="10dp"
+                android:text="@string/sendmsg"
+                android:textColor="@color/colorwhite"
+                android:textSize="@dimen/textsizenormal"
+                android:layout_marginLeft="10dp"/>
+
+            <ImageView
+                android:id="@+id/imgCancel"
+                android:layout_width="10dp"
+                android:layout_height="15dp"
+                android:layout_gravity="right|center"
+                android:layout_weight="1.5"
+                android:contentDescription="TODO"
+                android:src="@drawable/cancel_btn" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@color/colorwhite"
+            android:orientation="vertical">
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/nametv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="To anupam"
+                android:textColor="@color/activetab" />
+
+
+            <com.procialize.mrgeApp20.Fonts.RobotoEditext
+                android:id="@+id/etmsg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/sendmessage"
+                android:gravity="top|left"
+                android:hint="Type your question..."
+                android:imeOptions="actionSend|flagNoEnterAction"
+                android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
+                android:lines="5"
+                android:maxLength="250"
+                android:maxLines="10"
+                android:minLines="4"
+                android:padding="5dp"
+                android:scrollbars="vertical"
+                android:textColor="#000"
+                android:textSize="@dimen/textsizenormal" />
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/counttv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:gravity="right"
+                android:text="250"
+                android:textColor="#000" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                    android:id="@+id/ratebtn"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/speakerbtnbg"
+                    android:text="@string/sendmsg"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="14sp" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                    android:id="@+id/canclebtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/speakerbtnbg"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmaller"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

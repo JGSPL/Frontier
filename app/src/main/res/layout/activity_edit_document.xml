@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
+    tools:context=".Fragments.EditDocumentFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Exhibitor Stall Number" />
+
+        <EditText
+            android:id="@+id/edit_stall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edittexthmbg"
+            android:padding="10dp" />
+
+        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Exhibitor Address/Details" />
+
+
+        <com.procialize.mrgeApp20.Fonts.RobotoEditext
+            android:id="@+id/edit_address_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/edittexthmbg"
+            android:gravity="top|left"
+            android:imeOptions="actionSend|flagNoEnterAction"
+            android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
+            android:minHeight="80dp"
+            android:padding="10dp"
+            android:scrollbars="vertical"
+            android:textColorHint="@color/black"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

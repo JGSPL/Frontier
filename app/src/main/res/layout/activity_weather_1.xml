@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".InnerDrawerActivity.WeatherActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appBarLayout"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colortoolbar"
+            android:contentInsetLeft="0dp"
+            android:contentInsetStart="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            android:contentInsetRight="0dp"
+            android:contentInsetEnd="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetEnd="0dp"
+            android:minHeight="?attr/actionBarSize">
+
+            <ImageView
+                android:layout_marginLeft="-10dp"
+                android:layout_width="150dp"
+                android:contentDescription=" "
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/splashlogo"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#1F73BA"
+        android:gravity="center"
+        android:padding="4sp"
+        android:textSize="@dimen/textsizesmall"
+        android:text="Time and Weather"
+        />
+    
+    <LinearLayout
+        android:background="#1F73BA"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/cityTv"
+                android:layout_marginLeft="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorwhite"
+                android:gravity="center"
+                android:padding="4sp"
+                android:textSize="@dimen/textsizenormal"
+                android:text=""
+                />
+
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/countryTv"
+                android:layout_marginLeft="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorwhite"
+                android:gravity="center"
+                android:padding="4sp"
+                android:textSize="@dimen/textsizesmall"
+                android:text=""
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/dateTv"
+                android:layout_marginRight="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorwhite"
+                android:gravity="right"
+                android:padding="4sp"
+                android:textSize="@dimen/textsizenormal"
+                android:text=""
+                />
+
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/timeTv"
+                android:layout_marginRight="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorwhite"
+                android:gravity="right"
+                android:padding="4sp"
+                android:textSize="@dimen/textsizesmall"
+                android:text=""
+                />
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:fillViewport="true"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:background="#F1F1F1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+
+                        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                            android:id="@+id/dayTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#1F73BA"
+                            android:padding="4sp"
+                            android:layout_marginTop="10dp"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/textsizesmall"
+                            android:text=""
+                            />
+
+                        <LinearLayout
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                                android:id="@+id/tempTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#1F73BA"
+                                android:padding="4sp"
+                                android:textStyle="bold"
+                                android:textSize="35sp"
+                                android:text=""
+                                />
+
+                            <LinearLayout
+                                android:weightSum="3"
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <LinearLayout
+                                    android:layout_weight="0.5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp">
+
+                                </LinearLayout>
+
+                                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                                    android:id="@+id/cTv"
+                                    android:layout_weight="1.25"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:textColor="#1F73BA"
+                                    android:textStyle="bold"
+                                    android:textSize="@dimen/textsizesmall"
+                                    android:text="C"
+                                    />
+
+                                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                                    android:id="@+id/fTv"
+                                    android:layout_weight="1.25"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:textColor="#1F73BA"
+                                    android:textStyle="bold"
+                                    android:textSize="@dimen/textsizesmall"
+                                    android:text="F"
+                                    />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                                android:id="@+id/maxTv"
+                                android:layout_margin="3dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#1F73BA"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/textsizesmall"
+                                android:text=""
+                                />
+
+                            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                                android:id="@+id/minTv"
+                                android:layout_margin="3dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#1F73BA"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/textsizesmall"
+                                android:text=""
+                                />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+
+
+                        <ImageView
+                            android:id="@+id/infoIv"
+                            android:src="@drawable/sunny"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp" />
+
+                        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                            android:id="@+id/infoTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#1F73BA"
+                            android:padding="4sp"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/textsizesmall"
+                            android:text=""
+                            />
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        android:layout_marginRight="0dp"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:gravity="left"
+                        android:padding="4sp"
+                        android:textSize="@dimen/textsizesmall"
+                        android:text="Feels like"
+                        />
+
+
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        android:id="@+id/feelTv"
+                        android:layout_marginRight="25dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:gravity="right"
+                        android:padding="4sp"
+                        android:textSize="@dimen/textsizesmall"
+                        android:text=""
+                        />
+
+                </LinearLayout>
+                <View
+                    android:background="@color/colorgrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+
+                <LinearLayout
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        android:layout_marginRight="0dp"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:gravity="left"
+                        android:padding="4sp"
+                        android:textSize="@dimen/textsizesmall"
+                        android:text="Humidity"
+                        />
+
+
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        android:id="@+id/humidityTv"
+                        android:layout_marginRight="25dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:gravity="right"
+                        android:padding="4sp"
+                        android:textSize="@dimen/textsizesmall"
+                        android:text=""
+                        />
+
+                </LinearLayout>
+                <View
+                    android:background="@color/colorgrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+
+                <LinearLayout
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        android:layout_marginRight="0dp"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:gravity="left"
+                        android:padding="4sp"
+                        android:textSize="@dimen/textsizesmall"
+                        android:text="Visibility"
+                        />
+
+
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        android:id="@+id/visibilityTv"
+                        android:layout_marginRight="25dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:gravity="right"
+                        android:padding="4sp"
+                        android:textSize="@dimen/textsizesmall"
+                        android:text=""
+                        />
+
+                </LinearLayout>
+                <View
+                    android:background="@color/colorgrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+                <LinearLayout
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        android:layout_marginRight="0dp"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:gravity="left"
+                        android:padding="4sp"
+                        android:textSize="@dimen/textsizesmall"
+                        android:text="Index"
+                        />
+
+
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        android:id="@+id/indexTv"
+                        android:layout_marginRight="25dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:gravity="right"
+                        android:padding="4sp"
+                        android:textSize="@dimen/textsizesmall"
+                        android:text=""
+                        />
+
+                </LinearLayout>
+                <View
+                    android:background="@color/colorgrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+            </LinearLayout>
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/weatherRV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

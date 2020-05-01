@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="210dp"
+    android:layout_gravity="center|top"
+    android:background="@android:color/transparent"
+    android:gravity="top"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8.5"
+                android:padding="5dp"
+                android:text="Forgot Password?"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:layout_marginLeft="20dp"/>
+
+            <ImageView
+                android:id="@+id/imgCancel"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="right|center"
+                android:layout_weight="1.5"
+                android:contentDescription="TODO"
+                android:src="@drawable/forgotpass" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@color/colorwhite"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit_emailid"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/sendmessage"
+                android:gravity="center"
+                android:hint="Enter Your Email Id"
+                android:inputType=""
+                android:textColor="#000"
+                android:textSize="14sp"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                    android:id="@+id/submit"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:layout_marginRight="@dimen/margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/speakerbtnbg"
+                    android:elevation="@dimen/elevation"
+                    android:text="Submit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="18sp" />
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

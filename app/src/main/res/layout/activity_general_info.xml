@@ -1,0 +1,285 @@
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/generalInforefresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.procialize.mrgeApp20.Fragments.FeedFragment"
+    >
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        >
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:elevation="0dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colortoolbar"
+                android:contentInsetEnd="0dp"
+                android:contentInsetLeft="0dp"
+                android:contentInsetRight="0dp"
+                android:contentInsetStart="0dp"
+                android:minHeight="?attr/actionBarSize"
+                app:contentInsetEnd="0dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetRight="0dp"
+                app:contentInsetStart="0dp">
+
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="TODO"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_back" />
+
+                <ImageView
+                    android:id="@+id/headerlogoIv"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="-10dp"
+                    android:contentDescription=" " />
+
+            </androidx.appcompat.widget.Toolbar>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/linecolor"/>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/appBarLayout"
+            android:scrollbars="none">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:padding="@dimen/padding"
+                    android:text="General Info"
+                    android:textColor="@color/activetab"
+                    android:textSize="17dp" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/pullrefresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/header"
+                    android:layout_marginTop="2dp"
+                    android:alpha="0.8"
+                    android:gravity="center"
+                    android:text="Pull Down to Refresh"
+                    android:textColor="@color/inactivetab"
+                    android:textSize="10sp"
+                    android:visibility="visible" />
+
+
+                <LinearLayout
+                    android:id="@+id/linearlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/pullrefresh"
+                    android:orientation="vertical">
+
+
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="10dp"
+                        android:text="General Info"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:visibility="gone" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone" android:background="@drawable/loader"/>
+
+                    <LinearLayout
+                        android:id="@+id/general_info_cur"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/colorwhite"
+                        android:baselineAligned="false"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="10">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="9">
+
+                            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                                android:id="@+id/abtcurency_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="5dp"
+                                android:drawablePadding="10dp"
+                                android:gravity="left|center"
+                                android:padding="5dp"
+                                android:text="Currency Converter"
+                                android:textAllCaps="false"
+                                android:textColor="@color/activetab"
+                                android:textSize="@dimen/textsizesmall"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/ic_rightarrow"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:contentDescription="TODO"
+                                android:src="@drawable/ic_rightarrow" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                    <!--
+                                        <eventss.RobotoTextview
+                                            android:id="@+id/weather_tv"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:background="@drawable/agendabg"
+                                            android:drawablePadding="5dp"
+                                            android:drawableRight="@drawable/ic_rightarrow"
+
+                                            android:gravity="center"
+                                            android:padding="10dp"
+                                            android:text="Time &amp; Weather"
+                                            android:textColor="@color/black"
+                                            android:visibility="gone" />
+                    -->
+                    <LinearLayout
+                        android:id="@+id/general_info_wea"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/colorwhite"
+                        android:baselineAligned="false"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="10">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="9">
+
+                            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                                android:id="@+id/weather_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="5dp"
+                                android:drawablePadding="10dp"
+                                android:gravity="left|center"
+                                android:padding="5dp"
+                                android:text="Time &amp; Weather"
+                                android:textAllCaps="false"
+                                android:textSize="@dimen/textsizesmall"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/ic_arrow_we"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:contentDescription="TODO"
+                                android:src="@drawable/ic_rightarrow" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                    <!--
+                                        <eventss.RobotoTextview
+                                            android:id="@+id/abtcurency_tv"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:background="@drawable/agendabg"
+                                            android:drawablePadding="5dp"
+
+                                            android:drawableRight="@drawable/ic_rightarrow"
+                                            android:gravity="center"
+                                            android:padding="10dp"
+                                            android:text="Currency Converter"
+                                            android:textColor="@color/black"
+                                            android:visibility="gone" />
+                    -->
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/general_item_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="vertical"
+                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
+
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

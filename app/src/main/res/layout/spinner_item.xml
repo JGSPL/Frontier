@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.procialize.mrgeApp20.Fonts.RobotoTextview xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ellipsize="end"
+    android:gravity="center_vertical"
+    android:paddingTop="5dip"
+    android:paddingBottom="5dip"
+    android:paddingLeft="5dip"
+    android:paddingRight="15dp"
+    android:textColor="@color/black"
+    android:textSize="@dimen/textsizesmall"
+    android:singleLine="true"
+    android:maxLines="1"/>

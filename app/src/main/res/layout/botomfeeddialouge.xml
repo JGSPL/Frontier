@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/trans"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/editIV"
+                android:gravity="center"
+                android:padding="@dimen/padding"
+                android:textSize="@dimen/textsizenormal"
+                android:textColor="@color/black"
+                android:text="Edit Post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:background="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/deleteTv"
+                android:gravity="center"
+                android:padding="@dimen/padding"
+                android:textSize="@dimen/textsizenormal"
+                android:textColor="@color/black"
+                android:text="@string/deletepost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:background="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/reportTv"
+                android:gravity="center"
+                android:padding="@dimen/padding"
+                android:textSize="@dimen/textsizenormal"
+                android:textColor="@color/black"
+                android:text="@string/reportpost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:background="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/hideTv"
+                android:gravity="center"
+                android:padding="@dimen/padding"
+                android:textSize="@dimen/textsizenormal"
+                android:textColor="@color/black"
+                android:text="@string/hidepost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:background="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/reportuserTv"
+                android:gravity="center"
+                android:padding="@dimen/padding"
+                android:textSize="@dimen/textsizenormal"
+                android:textColor="@color/black"
+                android:text="@string/reportuser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:background="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/blockuserTv"
+                android:gravity="center"
+                android:padding="@dimen/padding"
+                android:textSize="@dimen/textsizenormal"
+                android:textColor="@color/black"
+                android:text="@string/blockuser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:background="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/cancelTv"
+                android:gravity="center"
+                android:padding="@dimen/padding"
+                android:textSize="@dimen/textsizenormal"
+                android:textColor="@color/black"
+                android:text="@string/cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
