@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_login"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:gravity="center|top"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:contentDescription="TODO"
+            app:srcCompat="@drawable/splashlogo" />
+
+        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/logindummy"
+            android:textColor="@color/colorwhite"
+            android:textSize="@dimen/textsizenormal"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <!--<com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black">-->
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                android:id="@+id/input_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_background"
+                android:hint="@string/hint_email"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress|textNoSuggestions"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorwhite"
+                android:textColorHint="@color/colorwhite"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="@dimen/textsizesmall" />
+            <!-- </com.google.android.material.textfield.TextInputLayout>-->
+
+            <!--<com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorwhite"
+                android:textColorHint="@color/black"
+                app:passwordToggleEnabled="true">-->
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edit_background"
+                android:hint="@string/hint_password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword|textNoSuggestions"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorwhite"
+                android:textColorHint="@color/colorwhite"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="@dimen/textsizesmall" />
+            <!--</com.google.android.material.textfield.TextInputLayout>-->
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/text_forgotPswd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:text="Forgot Password"
+                android:textColor="@color/colorwhite"
+                android:textColorHint="@color/colorwhite"
+                android:textSize="@dimen/textsizesmall" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:buttonTint="@color/colorwhite"
+                android:gravity="center"
+                android:id="@+id/chk_box"
+                android:text="I Agree to the  "
+                android:textColor="@color/colorwhite"
+                android:textColorLink="@color/colorwhite"
+                />
+
+            <TextView
+                android:id="@+id/txt_termslink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Terms &amp; Conditions"
+                android:textColor="@color/colorwhite"
+                />
+        </LinearLayout>
+
+        <com.procialize.mrgeApp20.Fonts.RobotoButton
+            android:id="@+id/loginbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@color/colorwhite"
+            android:stateListAnimator="@null"
+            android:text="@string/login"
+            android:textAllCaps="false"
+            android:textColor="@color/logintxt"
+            android:textSize="@dimen/textsizenormal" />
+
+        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OR"
+            android:textAlignment="center"
+            android:textColor="@color/colorwhite"
+            android:textSize="15sp"
+            android:visibility="invisible" />
+
+        <com.procialize.mrgeApp20.Fonts.RobotoButton
+            android:id="@+id/createaccbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@color/colorwhite"
+
+            android:stateListAnimator="@null"
+            android:text="@string/create_evnt"
+            android:textAllCaps="false"
+            android:textColor="@color/logintxt"
+            android:textSize="@dimen/textsizenormal"
+            android:visibility="gone" />
+
+        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/colorwhite"
+            android:textSize="15sp" />
+
+
+    </LinearLayout>
+</RelativeLayout>

@@ -3,12 +3,11 @@ package com.procialize.mrgeApp20.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.procialize.mrgeApp20.R;
-//import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.Session.SessionManager;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -33,8 +32,9 @@ public class SplashActivity extends AppCompatActivity {
                 // This method will be executed once the timer is over
                 // Start your app main activity
 
-                /*SessionManager sessionManager = new SessionManager(getApplicationContext());
+                SessionManager sessionManager = new SessionManager(getApplicationContext());
 
+//                sessionManager.checkLogin();
 
                 if (sessionManager.isLoggedIn() == true) {
                     Intent i = new Intent(SplashActivity.this, HomeActivity.class);
@@ -54,7 +54,7 @@ public class SplashActivity extends AppCompatActivity {
                     bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "splash");
                     bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
                     mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-                }*/
+                }
 
 
             }

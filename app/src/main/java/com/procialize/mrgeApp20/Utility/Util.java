@@ -18,7 +18,9 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-
+import com.procialize.mrgeApp20.Activity.HomeActivity;
+import com.procialize.mrgeApp20.Activity.ProfileActivity;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.R;
 
 import java.util.HashMap;
@@ -27,7 +29,7 @@ import java.util.regex.Pattern;
 
 
 public class Util {
-   /* public static void setTextViewDrawableColor(TextView textView, String color) {
+    public static void setTextViewDrawableColor(TextView textView, String color) {
         for (Drawable drawable : textView.getCompoundDrawables()) {
             if (drawable != null) {
                 drawable.setColorFilter(new PorterDuffColorFilter(Color.parseColor(color), PorterDuff.Mode.SRC_IN));
@@ -84,7 +86,7 @@ public class Util {
         }
     }
 
-*//*
+/*
     public static void logomethod(final Context context, final ImageView headerlogoIv)
     {
         Glide.with(context).load("http://www.procialize.info/uploads/app_logo/logo-testing.png").listener(new RequestListener<Drawable>() {
@@ -100,7 +102,7 @@ public class Util {
             }
         }).into(headerlogoIv);
     }
-*//*
+*/
 
 
     public static String getYoutubeVideoIdFromUrl(String inUrl) {
@@ -140,7 +142,7 @@ public class Util {
             }
         }
         return bitmap;
-    }*/
+    }
 
 
 }

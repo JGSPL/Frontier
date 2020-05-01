@@ -163,6 +163,17 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':mentions-release')
     implementation project(':tools-release')
+    implementation project(path: ':keyframe')
+    implementation project(path: ':YouTubeAndroidPlayerApi')
+    implementation project(path: ':coffeetubefloatvideo')
+
+
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:8.0.1'
+
+
+    //Zoom
+    implementation project(path: ':commonlib')
+    implementation project(path: ':mobilertc')
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
@@ -240,6 +251,16 @@ dependencies {
     //Firebase analytics
     //implementation 'com.google.firebase:firebase-analytics:17.3.0'
     implementation 'com.google.android.gms:play-services-analytics:11.8.0'
+//Zoom
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+    implementation 'com.google.android:flexbox:1.0.0'
+//Cropping
+    implementation 'com.github.yalantis:ucrop:2.2.2-native'
+
+    //pdf viewr
+    implementation 'com.github.barteksc:android-pdf-viewer:2.6.1'
+    //QR Scanner
+    implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
 
 }
 apply plugin: 'com.google.gms.google-services'

@@ -46,13 +46,590 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".Activity.SplashActivity">
+
+        <activity android:name="com.procialize.mrgeApp20.Activity.MyAgendaSessionActivity"></activity>
+        <activity android:name="com.procialize.mrgeApp20.Activity.AgendaSessionActivity" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.MeetingUsersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.MsgInboxUsersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.VisitUsersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.AnalyticUserListingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.NotificationExhibitorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.SponsorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.ExhibitorSideMenu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.DocumentDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.ExhibitorAnalytics"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.EditDocumentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.EditExhibitorActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.PDFDocumentDownloadActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.ExhibitorDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.ImageMultipleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.ExhibitorListingDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.LeaderboardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.ExhibitorListingActivity"
+            android:label="@string/title_activity_exhibitor_listing"
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- <meta-data -->
+        <!-- android:name="asset_statements" -->
+        <!-- android:resource="@string/asset_statements" /> -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBM7hXgoejSIXc7Y9KwXKsxbH0lc_gKNEo" />
+
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.ExhibitorCatListActivity"
+            android:label="@string/title_activity_exhibitor_listing"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.HomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustNothing" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.ProfileActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.LoginActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.procialize.mrgeApp20.Activity.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.SignUpActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.procialize.mrgeApp20.Activity.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.CommentActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.PostViewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.VideoViewActivity"
+            android:screenOrientation="sensor"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.SpeakerDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.AttendeeDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.AgendaDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.EventInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.procialize.mrgeApp20.Activity.HomeActivity" />
+        </activity>
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.FeedBackActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.PdfViewerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.DocumentsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.MyTravelActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.QRGeneratorActivity"
+            android:screenOrientation="sensorPortrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.QRScanActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.GalleryActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.VideoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.LivePollActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.PollDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.QuizActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.QuizDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.QAAttendeeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.QASpeakerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.EngagementActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.GalleryFirstLevelActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.VideoFirstLevelActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.SelfieContestActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.VideoContestActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.SelfieUploadActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.VideoContestUploadActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.SwappingGalleryActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.SwappingSelfieActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.CustomTools.DocumentViewerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.AgendaActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.SpeakerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.EventChooserActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.PostEditActivityOld"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.WebViewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.AttendeeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <!--
+  <provider
+              android:name="android.support.v4.content.FileProvider"
+              android:authorities="com.procialize.eventsapp.android.fileprovider"
+              android:exported="false"
+              android:grantUriPermissions="true">
+              <meta-data
+                  android:name="android.support.FILE_PROVIDER_PATHS"
+                  android:resource="@xml/file_paths" />
+          </provider>
+        -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.procialize.mrgeApp20.android.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"
+                tools:replace="android:resource" />
+        </provider>
+
+        <service
+            android:name="com.procialize.mrgeApp20.gcm.MyFirebaseMessagingService"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.procialize.mrgeApp20.gcm.MyFirebaseInstanceIDService"
+            android:permission="">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service> <!-- Goolge API Key -->
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.TimeWeatherActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.CurrencyConverter"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.InitGeneralInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.GeneralInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.SelfieContentActivityNew"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.LikeDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.ExoVideoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.EULAActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.PrivacyPolicy"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.EmptyViewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Utility.ImageCropActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.QADirectActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.AgendaVacationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.FolderQuizActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.WeatherActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.PostActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.SelfiePost"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.PostEditActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.ViewPDFActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.QuizNewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.AnswersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.InnerDrawerActivity.YourScoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.PostActivityVideo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.ImageMultipleActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.ForgotPasswordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            tools:ignore="LockedOrientationActivity">
+            <tools:validation testUrl="http://procialize.info/resetPassword.html" />
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="procialize.info"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="com.procialize.mrgeApp20.Background.BackgroundService"
+            android:exported="false" />
+        <service
+            android:name="com.procialize.mrgeApp20.Background.WallPostService"
+            android:exported="false" />
+
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.EmptyView2"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            tools:ignore="LockedOrientationActivity" />
+
+        <receiver android:name="com.procialize.mrgeApp20.Session.UninstallIntentReceiver">
+            <intent-filter android:priority="0">
+                <action android:name="android.intent.action.QUERY_PACKAGE_RESTART" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.procialize.mrgeApp20.Activity.SuveyDetailActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- Zoom Activities -->
+        <activity
+            android:name="com.procialize.mrgeApp20.Zoom.ui.InitAuthSDKActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="sensor"
+            android:theme="@style/Theme.UserDialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>-->
+        </activity>
+        <activity
+            android:name="com.procialize.mrgeApp20.Zoom.ui.APIUserStartJoinMeetingActivity"
+            android:icon="@drawable/app_icon"
+            android:label="@string/app_name"
+            android:theme="@style/ZMTheme.MainWindow">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.procialize.mrgeApp20.Zoom.ui.LoginUserStartJoinMeetingActivity"
+            android:icon="@drawable/app_icon"
+            android:label="@string/app_name"
+            android:theme="@style/ZMTheme.MainWindow">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.procialize.mrgeApp20.Zoom.ui.EmailUserLoginActivity"
+            android:icon="@drawable/app_icon"
+            android:label="@string/app_name"
+            android:theme="@style/ZMTheme.MainWindow">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.procialize.mrgeApp20.Zoom.ui.SSOUserLoginActivity"
+            android:icon="@drawable/app_icon"
+            android:label="@string/app_name"
+            android:theme="@style/ZMTheme.MainWindow">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.procialize.mrgeApp20.Zoom.otherfeatures.scheduleforloginuser.PreMeetingExampleActivity"
+            android:icon="@drawable/app_icon"
+            android:label="@string/app_name"
+            android:theme="@style/ZMTheme.MainWindow">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.procialize.mrgeApp20.Zoom.otherfeatures.scheduleforloginuser.ScheduleMeetingExampleActivity"
+            android:icon="@drawable/app_icon"
+            android:label="@string/app_name"
+            android:theme="@style/ZMTheme.MainWindow">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.procialize.mrgeApp20.Zoom.otherfeatures.MyInviteActivity"
+            android:icon="@drawable/app_icon"
+            android:label="@string/invite_acitivity_name"
+            android:theme="@style/ZMTheme.MainWindow">
+            <intent-filter>
+                <action android:name="us.zoom.sdkexample.intent.action.MeetingInvite" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.procialize.mrgeApp20.Zoom.otherfeatures.MyWaitJoinActivity"
+            android:icon="@drawable/app_icon"
+            android:theme="@style/ZMTheme.MainWindow">
+            <intent-filter>
+                <action android:name="us.zoom.sdkexample.intent.action.JoinBeforeHost" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.procialize.mrgeApp20.Zoom.otherfeatures.MyCallMeByPhoneActivity"
+            android:icon="@drawable/app_icon"
+            android:theme="@style/ZMTheme.MainWindow">
+            <intent-filter>
+                <action android:name="us.zoom.sdkexample.intent.action.CallMyPhone" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.MyMeetingActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/ZMTheme.SubWindow" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Zoom.ui.MeetingSettingActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/ZMTheme.SubWindow" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.RawDataMeetingActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden|keyboard"
+            android:screenOrientation="portrait"
+            android:theme="@style/ZMTheme.SubWindow" />
+        <activity android:name="com.procialize.mrgeApp20.Zoom.ui.QAActivity" />
+        <activity
+            android:name="com.procialize.mrgeApp20.Zoom.inmeetingfunction.CustomZoomUIActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="false"
+            android:theme="@style/ZMTheme.SubWindow" />
+        <activity
+            android:name="com.zipow.videobox.JoinByURLActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="false"
+            android:theme="@style/ZMTheme.MainWindow" />
+        <activity
+            android:name="com.zipow.videobox.ConfActivityNormal"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="false"
+            android:theme="@style/ZMTheme.SubWindow" />
+        <activity
+            android:name="com.zipow.videobox.PListActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="false"
+            android:theme="@style/ZMTheme.SubWindow" />
+        <activity
+            android:name="com.zipow.videobox.SimpleActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="false"
+            android:theme="@style/ZMTheme.SubWindow" />
     </application>
 
 </manifest>
