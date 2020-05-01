@@ -1,0 +1,246 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.firebase.crashlytics'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.procialize.mrgeApp20"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        ndk {
+            abiFilters "armeabi-v7a", 'arm64-v8a', 'x86', 'x86_64'
+        }
+        android {
+            lintOptions {
+                checkReleaseBuilds false // Add this
+                abortOnError false
+            }
+
+            packagingOptions {
+                exclude 'META-INF/DEPENDENCIES'
+                exclude 'AndroidManifest.xml'
+                exclude 'lib/arm64-v8a/libcardioDecider.so'
+                exclude 'lib/arm64-v8a/libcardioRecognizer.so'
+                exclude 'lib/arm64-v8a/libcardioRecognizer_tegra2.so'
+                exclude 'lib/arm64-v8a/libopencv_core.so'
+                exclude 'lib/arm64-v8a/libopencv_imgproc.so'
+                exclude 'lib/armeabi/libcardioDecider.so'
+                exclude 'lib/armeabi-v7a/libcardioDecider.so'
+                exclude 'lib/armeabi-v7a/libcardioRecognizer.so'
+                exclude 'lib/armeabi-v7a/libcardioRecognizer_tegra2.so'
+                exclude 'lib/armeabi-v7a/libopencv_core.so'
+                exclude 'lib/armeabi-v7a/libopencv_imgproc.so'
+                exclude 'lib/mips/libcardioDecider.so'
+                exclude 'lib/x86/libcardioDecider.so'
+                exclude 'lib/x86/libcardioRecognizer.so'
+                exclude 'lib/x86/libcardioRecognizer_tegra2.so'
+                exclude 'lib/x86/libopencv_core.so'
+                exclude 'lib/x86/libopencv_imgproc.so'
+                exclude 'lib/x86_64/libcardioDecider.so'
+                exclude 'lib/x86_64/libcardioRecognizer.so'
+                exclude 'lib/x86_64/libcardioRecognizer_tegra2.so'
+                exclude 'lib/x86_64/libopencv_core.so'
+                exclude 'lib/x86_64/libopencv_imgproc.so'
+                exclude 'META-INF/core_release.kotlin_module'
+            }
+
+        }
+        buildTypes {
+            release {
+                minifyEnabled false
+                shrinkResources false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+            debug {
+                minifyEnabled false
+                shrinkResources false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+        }
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
+        repositories {
+            mavenCentral()
+            jcenter()
+            maven { url 'https://maven.google.com' }
+            maven { url 'https://jitpack.io' }
+
+        }
+
+    }
+    buildToolsVersion = '28.0.2'
+}
+/*android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.procialize.mrgeApp20"
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        ndk {
+            abiFilters "armeabi-v7a", 'arm64-v8a', 'x86', 'x86_64'
+        }
+        android {
+            lintOptions {
+                checkReleaseBuilds false // Add this
+                abortOnError false
+            }
+
+            packagingOptions {
+                exclude 'META-INF/DEPENDENCIES'
+                exclude 'AndroidManifest.xml'
+                exclude 'lib/arm64-v8a/libcardioDecider.so'
+                exclude 'lib/arm64-v8a/libcardioRecognizer.so'
+                exclude 'lib/arm64-v8a/libcardioRecognizer_tegra2.so'
+                exclude 'lib/arm64-v8a/libopencv_core.so'
+                exclude 'lib/arm64-v8a/libopencv_imgproc.so'
+                exclude 'lib/armeabi/libcardioDecider.so'
+                exclude 'lib/armeabi-v7a/libcardioDecider.so'
+                exclude 'lib/armeabi-v7a/libcardioRecognizer.so'
+                exclude 'lib/armeabi-v7a/libcardioRecognizer_tegra2.so'
+                exclude 'lib/armeabi-v7a/libopencv_core.so'
+                exclude 'lib/armeabi-v7a/libopencv_imgproc.so'
+                exclude 'lib/mips/libcardioDecider.so'
+                exclude 'lib/x86/libcardioDecider.so'
+                exclude 'lib/x86/libcardioRecognizer.so'
+                exclude 'lib/x86/libcardioRecognizer_tegra2.so'
+                exclude 'lib/x86/libopencv_core.so'
+                exclude 'lib/x86/libopencv_imgproc.so'
+                exclude 'lib/x86_64/libcardioDecider.so'
+                exclude 'lib/x86_64/libcardioRecognizer.so'
+                exclude 'lib/x86_64/libcardioRecognizer_tegra2.so'
+                exclude 'lib/x86_64/libopencv_core.so'
+                exclude 'lib/x86_64/libopencv_imgproc.so'
+                exclude 'META-INF/core_release.kotlin_module'
+            }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
+        repositories {
+            mavenCentral()
+            jcenter()
+            maven { url 'https://maven.google.com' }
+            maven { url 'https://jitpack.io' }
+
+        }
+
+}*/
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':mentions-release')
+    implementation project(':tools-release')
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'com.google.android.material:material:1.0.0'
+
+    implementation 'com.google.firebase:firebase-auth:11.8.0'
+    implementation 'com.google.firebase:firebase-crash:11.8.0'
+    implementation 'com.squareup.okhttp:okhttp:2.5.0'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.0.+'
+    implementation 'com.squareup.okio:okio:1.14.0'
+    implementation "im.ene.toro3:toro:3.0.0-beta1"
+ // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+
+// JSON Parsing
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    ///image & video loader
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'com.squareup.picasso:picasso:2.5.0'
+
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    implementation 'com.devbrackets.android:exomedia:3.1.1'
+
+//Emoji
+    implementation 'org.apache.commons:commons-lang3:3.6'
+    //Video Player
+    implementation 'cn.jzvd:jiaozivideoplayer:6.2.3'
+//connection
+    implementation 'com.facebook.network.connectionclass:connectionclass:1.0.1'
+
+//progressbar
+    implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
+
+//    implementation 'com.github.eneim:Toro:develop-SNAPSHOT'
+
+//    compile project(':autoplay-video-library')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    implementation 'com.google.firebase:firebase-dynamic-links:11.8.0'
+
+//    implementation project(':autoplay-video-library-release')
+    implementation 'com.google.android.exoplayer:exoplayer:r1.5.0'
+    implementation 'com.google.firebase:firebase-messaging:11.8.0'
+
+//    implementation 'com.google.firebase:firebase-core:11.8.0'
+    implementation 'com.google.android.gms:play-services:11.8.0'
+    implementation 'com.albinmathew:photo-crop-library:1.0.3'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.5'
+    implementation 'org.apache.httpcomponents:httpmime:4.5.2'
+    implementation 'com.squareup.okhttp:okhttp:2.5.0'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.0.+'
+    implementation 'com.squareup.okio:okio:1.14.0'
+    implementation 'info.guardianproject.netcipher:netcipher:1.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.5'
+    implementation 'org.apache.httpcomponents:httpmime:4.5.2'
+    implementation 'info.guardianproject.netcipher:netcipher:1.2'
+    implementation 'com.afollestad.material-dialogs:core:0.8.5.9'
+// multidex
+    implementation 'androidx.multidex:multidex:2.0.0'
+    implementation 'com.percolate:caffeine:0.3.3'
+    implementation 'com.yanzhenjie:album:2.1.3'
+
+    // implementation project(path: ':album')
+    implementation 'com.writingminds:FFmpegAndroid:0.3.2'
+
+    // Firebase Crashlytics dependency.
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
+    //Firebase analytics
+    //implementation 'com.google.firebase:firebase-analytics:17.3.0'
+    implementation 'com.google.android.gms:play-services-analytics:11.8.0'
+
+}
+apply plugin: 'com.google.gms.google-services'
+

@@ -1,0 +1,2 @@
+rootProject.name='MergeApp2020'
+include ':app', ':mentions-release', ':tools-release'

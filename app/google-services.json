@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "212819142910",
+    "firebase_url": "https://mrgeapp20.firebaseio.com",
+    "project_id": "mrgeapp20",
+    "storage_bucket": "mrgeapp20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:212819142910:android:e1c765b020f68078aa1daf",
+        "android_client_info": {
+          "package_name": "com.procialize.mrgeApp20"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "212819142910-ff5r5r21u4984p9ladeaqn1h1ftc5unt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4kiD8A6Q4d7rt2RS1HJOEvCmiU4QWYjU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "212819142910-ff5r5r21u4984p9ladeaqn1h1ftc5unt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

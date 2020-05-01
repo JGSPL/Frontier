@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0E73BA</color>
+    <color name="colorPrimaryDark">@android:color/transparent</color>
+    <color name="colorAccent">#000</color>
+    <color name="error">#F25A30</color>
+    <color name="orange">#F25A30</color>
+    <color name="colorgrey">#f1f1f1</color>
+    <color name="trans">#80000000</color>
+    <color name="colorunselectedtab">#7898a9</color>
+    <color name="colorselectedtab">#f15a2b</color>
+    <color name="colortoolbar">#ffffff</color>
+    <color name="loginbutton">#F25A30</color>
+    <color name="feedwhtsmindbg">#DCDCDC</color>
+    <color name="feedpostingbgcolor">#7898a9</color>
+    <color name="feedpostingbgcolornew">#F1F1F1</color>
+    <color name="black">#000000</color>
+    <color name="colorwhite">#ffffff</color>
+    <color name="logintxt">#0E73BA</color>
+    <color name="linecolor">#C5C6C6</color>
+    <color name="edit_corner">#C5C6C6</color>
+    <color name="inactivetab">#4D4D4D</color>
+    <color name="activetab">#0E73BA</color>
+    <color name="qnarow">#f1f1f1</color>
+    <color name="transperent">@android:color/transparent</color>
+    <color name="grey_light">#f3f3f3</color>
+
+</resources>
