@@ -194,9 +194,9 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Enter Email Id", Toast.LENGTH_SHORT).show();
                 } else if (Etpassword.getText().toString().isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Enter Password", Toast.LENGTH_SHORT).show();
-                } else if (!(chk_box.isChecked())) {
+                } /*else if (!(chk_box.isChecked())) {
                     Toast.makeText(LoginActivity.this, "Please accept terms & conditions", Toast.LENGTH_SHORT).show();
-                } else {
+                } */else {
 //                    inputLayoutpassword.setError(null);
 //                    inputLayoutemail.setError(null);
 

@@ -22,15 +22,6 @@
             android:contentDescription="TODO"
             app:srcCompat="@drawable/splashlogo" />
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="@string/logindummy"
-            android:textColor="@color/colorwhite"
-            android:textSize="@dimen/textsizenormal"
-            android:visibility="gone" />
 
 
         <LinearLayout
@@ -42,27 +33,54 @@
             android:layout_marginRight="20dp"
             android:orientation="vertical">
 
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="LOGIN"
+                android:layout_marginBottom="15dp"
+
+                android:textColor="@color/colorwhite"
+                android:textSize="@dimen/textsizenormal"
+                android:visibility="visible" />
+
+
             <!--<com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black">-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:background="@drawable/edit_background"
+
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/mobile_icon"></ImageView>
 
             <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edit_background"
                 android:hint="@string/hint_email"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress|textNoSuggestions"
                 android:maxLines="1"
-                android:padding="15dp"
-                android:textColor="@color/colorwhite"
-                android:textColorHint="@color/colorwhite"
+                android:background="@android:color/transparent"
+                android:layout_margin="5dp"
+                android:padding="0dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:textCursorDrawable="@drawable/color_cursor"
                 android:textSize="@dimen/textsizesmall" />
+            </LinearLayout>
             <!-- </com.google.android.material.textfield.TextInputLayout>-->
 
             <!--<com.google.android.material.textfield.TextInputLayout
@@ -84,11 +102,22 @@
                 android:inputType="textPassword|textNoSuggestions"
                 android:maxLines="1"
                 android:padding="15dp"
-                android:textColor="@color/colorwhite"
-                android:textColorHint="@color/colorwhite"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:textCursorDrawable="@drawable/color_cursor"
                 android:textSize="@dimen/textsizesmall" />
             <!--</com.google.android.material.textfield.TextInputLayout>-->
+            <com.procialize.mrgeApp20.Fonts.RobotoButton
+                android:id="@+id/loginbtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edit_white"
+                android:stateListAnimator="@null"
+                android:text="@string/login"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textsizenormal" />
 
             <com.procialize.mrgeApp20.Fonts.RobotoTextview
                 android:id="@+id/text_forgotPswd"
@@ -97,9 +126,10 @@
                 android:gravity="right"
                 android:maxLines="1"
                 android:padding="5dp"
+                android:visibility="gone"
                 android:text="Forgot Password"
-                android:textColor="@color/colorwhite"
-                android:textColorHint="@color/colorwhite"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:textSize="@dimen/textsizesmall" />
 
         </LinearLayout>
@@ -124,6 +154,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:visibility="invisible"
             android:orientation="horizontal">
 
             <CheckBox
@@ -147,17 +178,6 @@
                 />
         </LinearLayout>
 
-        <com.procialize.mrgeApp20.Fonts.RobotoButton
-            android:id="@+id/loginbtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:background="@color/colorwhite"
-            android:stateListAnimator="@null"
-            android:text="@string/login"
-            android:textAllCaps="false"
-            android:textColor="@color/logintxt"
-            android:textSize="@dimen/textsizenormal" />
 
         <com.procialize.mrgeApp20.Fonts.RobotoTextview
             android:layout_width="match_parent"
