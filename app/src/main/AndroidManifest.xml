@@ -123,6 +123,12 @@
             android:name="com.procialize.mrgeApp20.Activity.HomeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustNothing" />
+
+        <activity
+            android:name="com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustNothing" />
+
         <activity
             android:name="com.procialize.mrgeApp20.Activity.ProfileActivity"
             android:screenOrientation="portrait"

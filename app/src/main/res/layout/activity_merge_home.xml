@@ -160,366 +160,39 @@
                 android:layout_below="@+id/linear_layout"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
-
-            <com.google.android.material.appbar.AppBarLayout
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/navigation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:background="@android:color/transparent"
-                android:layout_marginRight="15dp"
+                android:layout_gravity="bottom"
+                android:background="?android:attr/windowBackground"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:itemIconTint="@color/activetab"
+                app:itemTextColor="@color/inactivetab"
+                app:labelVisibilityMode="labeled"
                 android:layout_alignParentBottom="true"
-                >
-                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:weightSum="4"
-                    android:visibility="gone"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/tab_bg_selected"
-                    android:id="@+id/linTab1"
-                    android:orientation="horizontal">
+                app:menu="@menu/navmenu" />
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                app:tabGravity="fill"
+                app:tabIndicatorHeight="0dp"
+                app:tabBackground="@drawable/tab_dot_indicatior"
+                app:tabMode="fixed"
+                android:visibility="gone"
+                app:tabSelectedTextColor="@color/colorwhite"
+                app:tabTextAppearance="@style/MyCustomTabText"
+                app:tabTextColor="@color/colorwhite" />
 
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:id="@+id/ll1"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@drawable/active_dot"/>
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/app_icon"/>
-
-                        <TextView
-                            android:id="@+id/tvtab1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TWO"
-                            android:visibility="visible"
-                            android:textColor="@color/inactivetab"
-                            android:textSize="10sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:id="@+id/ll2"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_marginBottom="5dp"
-                            android:src="@drawable/active_dot"/>
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/app_icon"/>
-
-                        <TextView
-                            android:id="@+id/tvtab2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TWO"
-                            android:visibility="visible"
-                            android:textColor="@color/inactivetab"
-                            android:textSize="10sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:id="@+id/ll3"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_marginBottom="5dp"
-                            android:src="@drawable/tab_dot_indicatior"/>
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/app_icon"/>
-
-                        <TextView
-                            android:id="@+id/tvtab3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TWO"
-                            android:visibility="visible"
-                            android:textColor="@color/inactivetab"
-                            android:textSize="10sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:id="@+id/ll4"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_marginBottom="5dp"
-                            android:src="@drawable/tab_dot_indicatior"/>
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/app_icon"/>
-
-                        <TextView
-                            android:id="@+id/tvtab4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TWO"
-                            android:visibility="visible"
-                            android:textColor="@color/inactivetab"
-                            android:textSize="10sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/tab_bg_selected">
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/Subtabs"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        app:tabGravity="fill"
-                        app:tabIndicatorHeight="0dp"
-                        app:tabBackground="@drawable/tab_dot_indicatior"
-                        app:tabMode="fixed"
-                        android:visibility="gone"
-                        app:tabSelectedTextColor="@color/colorwhite"
-                        app:tabTextAppearance="@style/MyCustomTabText"
-                        app:tabTextColor="@color/colorwhite" />
-
-                    <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabs"
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    app:tabGravity="fill"
-                    app:tabIndicatorHeight="0dp"
-                    app:tabBackground="@drawable/tab_dot_indicatior"
-                    app:tabMode="fixed"
-                    app:tabSelectedTextColor="@color/colorwhite"
-                    app:tabTextAppearance="@style/MyCustomTabText"
-                    app:tabTextColor="@color/colorwhite" />
-                </LinearLayout>
-
-            </com.google.android.material.appbar.AppBarLayout>
 
         </RelativeLayout>
 
 
-<!--
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/linear_livestream"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="#686868"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/txt_streaming"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="Nothing Streaming Currently"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorwhite"
-                    android:textSize="@dimen/textsizesmall" />
-
-                <ImageView
-                    android:id="@+id/img_stream"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:src="@drawable/livestream" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_zoom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="#686868"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/txt_zoom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="No Meeting active currently"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorwhite"
-                    android:textSize="@dimen/textsizesmall" />
-
-                <ImageView
-                    android:id="@+id/img_zoom"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:src="@drawable/zoommeeting" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/linear_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <ImageView
-                    android:id="@+id/float_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/floating_icon" />
-
-                <fragment
-                    android:id="@+id/youtube_player_fragment"
-                    android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <com.procialize.eventsapp.CustomTools.CustomViewPager
-                android:id="@+id/viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_above="@+id/tabs"
-                android:layout_weight="9"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-            <com.google.android.material.appbar.AppBarLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:elevation="60dp">
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabs"
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    app:tabBackground="@drawable/agenda_tab_bg_selector"
-                    app:tabGravity="fill"
-                    app:tabIndicatorHeight="0dp"
-                    app:tabMode="fixed"
-                    app:tabSelectedTextColor="@color/inactivetab"
-                    app:tabTextAppearance="@style/MyCustomTabText"
-                    app:tabTextColor="@color/colorPrimary" />
-
-            </com.google.android.material.appbar.AppBarLayout>
-        </LinearLayout>
--->
     </LinearLayout>
 
 
-    <!--
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <com.google.android.material.appbar.AppBarLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="@color/colortoolbar"
-                    android:contentInsetEnd="0dp"
-                    android:contentInsetLeft="0dp"
-                    android:contentInsetRight="0dp"
-                    android:contentInsetStart="0dp"
-                    android:elevation="@dimen/elevation"
-                    android:minHeight="?attr/actionBarSize"
-                    app:contentInsetEnd="0dp"
-                    app:contentInsetLeft="0dp"
-                    app:contentInsetRight="0dp"
-                    app:contentInsetStart="0dp">
-
-                    <ImageView
-                        android:id="@+id/headerlogoIv"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="-10dp"
-                        android:contentDescription=" "
-                        android:src="@drawable/header_logo" />
-
-                </androidx.appcompat.widget.Toolbar>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/linecolor"/>
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabs"
-                    android:layout_width="fill_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_marginLeft="0dp"
-                    android:elevation="@dimen/elevation"
-                    app:tabGravity="fill"
-                    app:tabMode="fixed"
-                    app:tabTextAppearance="@style/MyCustomTabText"
-                    android:background="#ffff"/>
-
-            </com.google.android.material.appbar.AppBarLayout>
-
-            <eventsomTools.CustomViewPager
-                android:id="@+id/viewpager"
-                style="@style/Widget.Design.TabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-        </LinearLayout>
-    -->
 
 
     <com.google.android.material.navigation.NavigationView

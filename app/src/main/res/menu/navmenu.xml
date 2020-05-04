@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_catalogue"
+        android:icon="@drawable/ic_newsfeed"
+        android:title="News Feed"
+        android:enabled="true"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_contracts"
+        android:icon="@drawable/agenda"
+        android:title="Agenda"
+        android:enabled="true"
+        app:showAsAction="never">
+        <menu>
+
+            <item
+                android:id="@+id/subitem1"
+                android:title="Sub Item 1" />
+
+            <item
+                android:id="@+id/subitem2"
+                android:title="Sub Item 2" />
+
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/action_prospects"
+        android:icon="@drawable/engagement"
+        android:title="Engagement"
+        android:enabled="true"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_performance"
+        android:icon="@drawable/qr_badge"
+        android:title="Folder"
+        android:enabled="true"
+        app:showAsAction="ifRoom" />
+
+</menu>

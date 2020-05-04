@@ -1,4 +1,4 @@
-package com.procialize.mrgeApp20.Activity;
+package com.procialize.mrgeApp20.MergeMain;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -60,6 +60,14 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pierfrancescosoffritti.androidyoutubeplayer.utils.YouTubePlayerTracker;
 import com.pipvideo.youtubepipvideoplayer.FlyingVideo;
 import com.pipvideo.youtubepipvideoplayer.TaskCoffeeVideo;
+import com.procialize.mrgeApp20.Activity.EULAActivity;
+import com.procialize.mrgeApp20.Activity.EventChooserActivity;
+import com.procialize.mrgeApp20.Activity.ExhibitorAnalytics;
+import com.procialize.mrgeApp20.Activity.ExhibitorListingActivity;
+import com.procialize.mrgeApp20.Activity.LoginActivity;
+import com.procialize.mrgeApp20.Activity.PrivacyPolicy;
+import com.procialize.mrgeApp20.Activity.ProfileActivity;
+import com.procialize.mrgeApp20.Activity.WebViewActivity;
 import com.procialize.mrgeApp20.Adapter.CustomMenuAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
@@ -74,11 +82,6 @@ import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.EmptyViewActivity;
 import com.procialize.mrgeApp20.Fragments.AgendaFolderFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFragment;
-import com.procialize.mrgeApp20.Fragments.AllExhibitorFragment;
-import com.procialize.mrgeApp20.Fragments.AttendeeFragment;
-import com.procialize.mrgeApp20.Fragments.ExhiCatFragment;
-import com.procialize.mrgeApp20.Fragments.GeneralInfo;
-import com.procialize.mrgeApp20.Fragments.SpeakerFragment;
 import com.procialize.mrgeApp20.Fragments.WallFragment_POST;
 import com.procialize.mrgeApp20.GetterSetter.AgendaList;
 import com.procialize.mrgeApp20.GetterSetter.EventMenuSettingList;
@@ -139,10 +142,7 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 
-
-//preet
-
-public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter.CustomMenuAdapterListner {
+public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAdapter.CustomMenuAdapterListner {
 
     public static final int RequestPermissionCode = 8;
     public static String logoImg = "", colorActive = "", eventback = "";
@@ -177,12 +177,11 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
     String imgname, accesstoken;
     HashMap<String, String> user;
     String MY_PREFS_CATEGORY = "categorycnt";
-    WallPostReciever mReceiver;
+    MrgeHomeActivity.WallPostReciever mReceiver;
     IntentFilter mFilter;
     String catcnt;
     private Toolbar toolbar;
     private TabLayout tabLayout;
-    private TabLayout subtabLayout;
 
     private CustomViewPager viewPager;
     private NavigationView navigationView;
@@ -216,8 +215,6 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
     YouTubePlayer youTubePlayer;
     public static TextView txt_zoom, txt_streaming;
     public static ImageView img_zoom, img_stream;
-    SpringIndicator activity_spring_indicator_indicator_default;
-    LinearLayout linTab1;
 
     @Override
     public Resources getResources() {
@@ -231,7 +228,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_merge_home);
         //  overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -266,7 +263,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
         initializeView();
 
         try {
-            mReceiver = new WallPostReciever();
+            mReceiver = new MrgeHomeActivity.WallPostReciever();
             mFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_BUZZ_FEED);
             // Registering BroadcastReceiver with this activity for the intent filter
             LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, mFilter);
@@ -305,7 +302,6 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
         txt_zoom = findViewById(R.id.txt_zoom);
         img_stream = findViewById(R.id.img_stream);
         img_zoom = findViewById(R.id.img_zoom);
-        linTab1 = findViewById(R.id.linTab1);
 
 
 
@@ -325,14 +321,14 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
         linear_zoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, InitAuthSDKActivity.class);
+                Intent intent = new Intent(MrgeHomeActivity.this, InitAuthSDKActivity.class);
                 intent.putExtra("meeting_id", zoom_meeting_id);
                 intent.putExtra("meeting_password", zoom_password);
                 startActivity(intent);
             }
         });
 
-        FlyingVideo.get(HomeActivity.this).close();  // token
+        FlyingVideo.get(MrgeHomeActivity.this).close();  // token
 
         SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_LOGIN, MODE_PRIVATE).edit();
         editor.putString("loginfirst", "1");
@@ -355,7 +351,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 
         imgname = "background";//url.substring(58, 60);
 
-        PicassoTrustAll.getInstance(HomeActivity.this)
+        PicassoTrustAll.getInstance(MrgeHomeActivity.this)
                 .load(ApiConstant.eventpic + eventback)
                 .into(new com.squareup.picasso.Target() {
                           @Override
@@ -429,7 +425,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
         Util.logomethod(this, headerlogoIv);
 
         viewPager = findViewById(R.id.viewpager);
-       // activity_spring_indicator_indicator_default = findViewById(R.id.activity_spring_indicator_indicator_default);
+        // activity_spring_indicator_indicator_default = findViewById(R.id.activity_spring_indicator_indicator_default);
 
         viewPager.setPagingEnabled(false);
         setupViewPager(viewPager);
@@ -448,7 +444,6 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 
 
         tabLayout = findViewById(R.id.tabs);
-        subtabLayout = findViewById(R.id.Subtabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
         tabLayout.setTabTextColors(Color.parseColor("#4D4D4D"), Color.parseColor(colorActive));
@@ -493,16 +488,10 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         JZVideoPlayerStandard.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
-                        InputMethodManager imm = (InputMethodManager) HomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
+                        InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Agenda")){
-                            linTab1.setVisibility(View.VISIBLE);
 
-                        }else{
-                            linTab1.setVisibility(View.GONE);
-
-                        }
 
                     }
 
@@ -513,10 +502,6 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         int color1 = Color.parseColor(string1);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                         tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
-                        if(i == 1){
-                            linTab1.setVisibility(View.GONE);
-
-                        }
                     }
 
                     @Override
@@ -539,16 +524,10 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         JZVideoPlayerStandard.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
-                        InputMethodManager imm = (InputMethodManager) HomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
+                        InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Agenda")){
-                            linTab1.setVisibility(View.VISIBLE);
 
-                        }else{
-                            linTab1.setVisibility(View.GONE);
-
-                        }
 
 
                     }
@@ -561,10 +540,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
                         tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
-                        if(i == 1){
-                            linTab1.setVisibility(View.GONE);
 
-                        }
                     }
 
                     @Override
@@ -587,13 +563,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Agenda")){
-                            linTab1.setVisibility(View.VISIBLE);
 
-                        }else{
-                            linTab1.setVisibility(View.GONE);
-
-                        }
 
 
                     }
@@ -604,12 +574,9 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         String string1 = "#4D4D4D";
                         int color1 = Color.parseColor(string1);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-// int tabIconColor = ContextCompat.getColor(HomeActivity.this,color1);//tabunselected color
+// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this,color1);//tabunselected color
                         tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
-                        if(i == 1){
-                            linTab1.setVisibility(View.GONE);
 
-                        }
                     }
 
                     @Override
@@ -633,15 +600,9 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                        if(tab.getText().equals("Agenda")){
-                            linTab1.setVisibility(View.VISIBLE);
 
-                        }else{
-                            linTab1.setVisibility(View.GONE);
 
-                        }
-
-// int tabIconColor = ContextCompat.getColor(HomeActivity.this, color); //tabselected color
+// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
 
 //                        if (tab.getText().equals("Agenda")) {
@@ -659,12 +620,9 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         int color1 = Color.parseColor(string1);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-// int tabIconColor = ContextCompat.getColor(HomeActivity.this,color1);//tabunselected color
+// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this,color1);//tabunselected color
                         tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
-                        if(i == 1){
-                            linTab1.setVisibility(View.GONE);
 
-                        }
                     }
 
                     @Override
@@ -680,21 +638,14 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        linTab1.setVisibility(View.VISIBLE);
-                        if(tab.getText().equals("Agenda")){
-                            linTab1.setVisibility(View.VISIBLE);
 
-                        }else{
-                            linTab1.setVisibility(View.GONE);
-
-                        }
 
                         JZVideoPlayerStandard.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-// int tabIconColor = ContextCompat.getColor(HomeActivity.this, color); //tabselected color
+// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
 
 //                        if (tab.getText().equals("Agenda")) {
@@ -712,7 +663,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 //                       String string1 = "#7898a9";
 //                       int color1 = Color.parseColor(string1);
 //
-//// int tabIconColor = ContextCompat.getColor(HomeActivity.this,color1);//tabunselected color
+//// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this,color1);//tabunselected color
 //                       tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
                     }
 
@@ -768,7 +719,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
         exh_analytics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, ExhibitorAnalytics.class);
+                Intent intent = new Intent(MrgeHomeActivity.this, ExhibitorAnalytics.class);
                 startActivity(intent);
 
             }
@@ -788,7 +739,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                dbHelper.deleteData(HomeActivity.this);
+                dbHelper.deleteData(MrgeHomeActivity.this);
 //                SharedPreferences settings = getSharedPreferences(MY_PREFS_LOGIN, 0);
 //                if (settings.contains("loginfirst")) {
 //                    SharedPreferences.Editor editor = settings.edit();
@@ -805,7 +756,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
             @Override
             public void onClick(View v) {
 
-                Intent main = new Intent(getApplicationContext(), HomeActivity.class);
+                Intent main = new Intent(getApplicationContext(), MrgeHomeActivity.class);
                 startActivity(main);
                 finish();
             }
@@ -914,7 +865,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 
                 session.logoutUser();
 
-                dbHelper.deleteData(HomeActivity.this);
+                dbHelper.deleteData(MrgeHomeActivity.this);
                 Intent main = new Intent(getApplicationContext(), EventChooserActivity.class);
                 main.putExtra("email", email);
                 main.putExtra("password", password);
@@ -1100,13 +1051,6 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
         }
 
     }
-    private void SubTab2(){
-        subtabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        subtabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        subtabLayout.getTabAt(2).setIcon(tabIcons[2]);
-        subtabLayout.getTabAt(3).setIcon(tabIcons[3]);
-
-    }
 
     private void setupTabIcons() {
 
@@ -1236,7 +1180,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 
     private void setupViewPager(ViewPager viewPager) {
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        MrgeHomeActivity.ViewPagerAdapter adapter = new MrgeHomeActivity.ViewPagerAdapter(getSupportFragmentManager());
         if (news_feed.equalsIgnoreCase("1")) {
             adapter.addFragment(new WallFragment_POST(), "News Feed");
         }
@@ -1246,24 +1190,6 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
             } else if (agenda_vacation.equalsIgnoreCase("1")) {
                 adapter.addFragment(new WallFragment_POST(), "Agenda");
             }
-            LinearLayout ll1,ll2,ll3,ll4;
-            ll1 = findViewById(R.id.ll1);
-            ll2 = findViewById(R.id.ll2);
-            ll3 = findViewById(R.id.ll3);
-            ll4 = findViewById(R.id.ll4);
-/*
-            ll1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (agenda_conference.equalsIgnoreCase("1")) {
-                        adapter.addFragment(new AgendaFragment());
-                    } else if (agenda_vacation.equalsIgnoreCase("1")) {
-                        adapter.addFragment(new AgendaFolderFragment());
-                    }
-                }
-            });
-*/
-
 
         }
         if (attendee.equalsIgnoreCase("1")) {
@@ -1454,7 +1380,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
             MyJZVideoPlayerStandard.quitFullscreenOrTinyWindow();
         } else {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(MrgeHomeActivity.this);
             builder.setTitle("Exit");
             builder.setMessage("Are you sure you want to exit?");
             builder.setNegativeButton("NO",
@@ -1469,7 +1395,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         public void onClick(DialogInterface dialog,
                                             int which) {
 
-                            ActivityCompat.finishAffinity(HomeActivity.this);
+                            ActivityCompat.finishAffinity(MrgeHomeActivity.this);
 
                         }
                     });
@@ -1512,7 +1438,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_feedback")) {
 //            Intent feedback = new Intent(this, FeedBackActivity.class);
 ////            startActivity(feedback);
-            Toast.makeText(HomeActivity.this, "Comming Soon...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MrgeHomeActivity.this, "Comming Soon...", Toast.LENGTH_SHORT).show();
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_gallery_video")) {
             Intent video = new Intent(this, VideoActivity.class);
@@ -1543,7 +1469,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                 startActivity(event);
             } else {
 
-                Intent intent = new Intent(HomeActivity.this, EmptyViewActivity.class);
+                Intent intent = new Intent(MrgeHomeActivity.this, EmptyViewActivity.class);
                 startActivity(intent);
 //                setContentView(R.layout.activity_empty_view);
 //                ImageView imageView = findViewById(R.id.back);
@@ -1566,7 +1492,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 //                imageView.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
-//                        Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+//                        Intent intent = new Intent(MrgeHomeActivity.this, MrgeHomeActivity.class);
 //                        startActivity(intent);
 //                    }
 //                });
@@ -1614,7 +1540,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
             Intent generalinfo = new Intent(this, WebViewActivity.class);
             startActivity(generalinfo);
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_email_template")) {
-            Toast.makeText(HomeActivity.this, "Coming Soon...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MrgeHomeActivity.this, "Coming Soon...", Toast.LENGTH_SHORT).show();
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_leaderboard")) {
             Intent generalinfo = new Intent(this, LeaderboardActivity.class);
@@ -1652,7 +1578,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
     private void RequestMultiplePermission() {
 
         // Creating String Array with Permissions.
-        ActivityCompat.requestPermissions(HomeActivity.this, new String[]
+        ActivityCompat.requestPermissions(MrgeHomeActivity.this, new String[]
                 {
 
                         WRITE_EXTERNAL_STORAGE,
@@ -1678,7 +1604,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 //                        Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_LONG).show();
                     } else {
 
-                        Toast.makeText(HomeActivity.this, "We need your permission so you can enjoy full features of app", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MrgeHomeActivity.this, "We need your permission so you can enjoy full features of app", Toast.LENGTH_LONG).show();
                         RequestMultiplePermission();
 
                     }
@@ -1752,7 +1678,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                     if (response.body().getMsg().equalsIgnoreCase("Invalid Token!")) {
                         session.logoutUser();
 
-                        Intent main = new Intent(HomeActivity.this, LoginActivity.class);
+                        Intent main = new Intent(MrgeHomeActivity.this, LoginActivity.class);
                         startActivity(main);
                         finish();
                     } else {
@@ -1766,7 +1692,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 
 //                    dismissProgress();
                     try {
-                        Toast.makeText(HomeActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MrgeHomeActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -1806,7 +1732,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                     String exhibitor_status = response.body().getUserData().getExhibitor_status();
 
 
-                    SessionManager sessionManager = new SessionManager(HomeActivity.this);
+                    SessionManager sessionManager = new SessionManager(MrgeHomeActivity.this);
                     if (sessionManager != null) {
                         sessionManager.createProfileSession(name, company, designation, pic, lastname, city, description, country, email, mobno, attendee_status, exhibitor_id, exhibitor_status);
                     }
@@ -1818,7 +1744,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 
             }
         } else {
-            Toast.makeText(HomeActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MrgeHomeActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -1951,7 +1877,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
     private void initializeYoutubePlayer() {
 
         flagshown = false;
-        FlyingVideo.get(HomeActivity.this).close();
+        FlyingVideo.get(MrgeHomeActivity.this).close();
         linear_layout.setVisibility(View.VISIBLE);
         linear_livestream.setVisibility(View.GONE);
 
@@ -2009,7 +1935,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                 linear_layout.setVisibility(View.GONE);
                 linear_livestream.setVisibility(View.VISIBLE);
                 mTracker = new YouTubePlayerTracker();
-                FlyingVideo.get(HomeActivity.this)
+                FlyingVideo.get(MrgeHomeActivity.this)
                         .setFloatMode(TaskCoffeeVideo.FLOAT_MOVE.FREE)
                         .setVideoStartSecond((mTracker == null) ? 0 : mTracker.getCurrentSecond())
                         .coffeeVideoSetup(YouvideoId)
@@ -2020,3 +1946,4 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
     }
 
 }
+

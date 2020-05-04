@@ -3,12 +3,13 @@ package com.procialize.mrgeApp20.Utility;
 import android.content.res.Resources;
 import android.os.Build;
 
+import com.procialize.mrgeApp20.Activity.HomeActivity;
 
 /**
  * Created by Rahul on 03-11-2018.
  */
 
-public class Res{} /*extends Resources {
+public class Res extends Resources {
 
 
     public Res(Resources original) {
@@ -29,12 +30,12 @@ public class Res{} /*extends Resources {
         }
     }
 
-*//*
+/*
     @Override public int getColor(int id) throws NotFoundException {
         return getColor(id, null);
-    }*//*
+    }*/
 
-*//*
+/*
     @Override public int getColor(int id, Theme theme) throws NotFoundException {
         switch (getResourceEntryName(id)) {
             case "activetab":
@@ -47,5 +48,5 @@ public class Res{} /*extends Resources {
                 return super.getColor(id);
         }
     }
-
-}*/
+*/
+}
