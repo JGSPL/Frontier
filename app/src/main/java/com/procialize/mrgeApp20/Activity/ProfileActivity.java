@@ -23,6 +23,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import androidx.annotation.Nullable;
+
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -376,7 +379,7 @@ public class ProfileActivity extends AppCompatActivity {
         header.setTextColor(Color.parseColor(colorActive));
 
         RelativeLayout layoutTop = findViewById(R.id.layoutTop);
-        layoutTop.setBackgroundColor(Color.parseColor(colorActive));
+      //  layoutTop.setBackgroundColor(Color.parseColor(colorActive));
 
         GradientDrawable shape = setgradientDrawable(5, colorActive);
 
@@ -531,7 +534,10 @@ public class ProfileActivity extends AppCompatActivity {
             txt_upload.setVisibility(View.VISIBLE);
             relative.setVisibility(View.VISIBLE);
             if (profilepic != null) {
-                Glide.with(this).load(ApiConstant.profilepic + profilepic).listener(new RequestListener<Drawable>() {
+                Glide.with(this).load(ApiConstant.profilepic + profilepic)
+                        .apply(RequestOptions.skipMemoryCacheOf(true))
+                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
+                        .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         progressView.setVisibility(View.GONE);
@@ -546,12 +552,15 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 }).into(profileIV);
             } else {
-                profileIV.setImageResource(R.drawable.profilepic_placeholder);
+               // profileIV.setImageResource(R.drawable.profilepic_placeholder);
                 progressView.setVisibility(View.GONE);
             }
         } else {
             if (profilepic != null) {
-                Glide.with(this).load(ApiConstant.profilepic + profilepic).listener(new RequestListener<Drawable>() {
+                Glide.with(this).load(ApiConstant.profilepic + profilepic)
+                        .apply(RequestOptions.skipMemoryCacheOf(true))
+                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
+                        .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         progressView.setVisibility(View.GONE);
@@ -1065,7 +1074,10 @@ public class ProfileActivity extends AppCompatActivity {
                 file = new File(compressedImagePath);
 
                 // PicassoTrustAll.getInstance(this).load(compressedImagePath).into(post_thumbnail);
-                Glide.with(this).load(compressedImagePath).into(profileIV);
+                Glide.with(this).load(compressedImagePath)
+                        .apply(RequestOptions.skipMemoryCacheOf(true))
+                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).circleCrop()
+                        .into(profileIV);
 
 
                 // PicassoTrustAll.getInstance(PostActivity.this).load(compressedImagePath)
@@ -1085,7 +1097,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
         } else {
             if (profilepic != null) {
-                Glide.with(this).load(ApiConstant.profilepic + profilepic).listener(new RequestListener<Drawable>() {
+                Glide.with(this).load(ApiConstant.profilepic + profilepic)
+                        .apply(RequestOptions.skipMemoryCacheOf(true))
+                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
+                        .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         progressView.setVisibility(View.GONE);
@@ -1193,7 +1208,10 @@ public class ProfileActivity extends AppCompatActivity {
 
 //        profileIV.setImageURI(tempUri);
 
-            Glide.with(this).load(tempUri).listener(new RequestListener<Drawable>() {
+            Glide.with(this).load(tempUri)
+                    .apply(RequestOptions.skipMemoryCacheOf(true))
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).circleCrop()
+                    .listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     progressView.setVisibility(View.GONE);
@@ -1249,7 +1267,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }
 
-        Glide.with(this).load(bm).listener(new RequestListener<Drawable>() {
+        Glide.with(this).load(bm)
+                .apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).circleCrop()
+                .listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 progressView.setVisibility(View.GONE);
@@ -1286,7 +1307,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         }
 
-        Glide.with(this).load(tempUri).listener(new RequestListener<Drawable>() {
+        Glide.with(this).load(tempUri)
+                .apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).circleCrop()
+                .listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 progressView.setVisibility(View.GONE);

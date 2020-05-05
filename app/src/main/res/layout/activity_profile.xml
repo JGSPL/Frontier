@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background"
     tools:context="com.procialize.mrgeApp20.Activity.ProfileActivity">
 
 
@@ -34,11 +35,23 @@
                 app:contentInsetRight="0dp"
                 app:contentInsetStart="0dp">
 
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin"
+                    android:gravity="left"
+                    android:text="Edit Profile"
+                    android:textColor="@color/activetab"
+                    android:textSize="@dimen/textsizesmall" />
+
+
                 <ImageView
                     android:id="@+id/headerlogoIv"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:visibility="gone"
                     android:layout_marginLeft="-10dp"
                     android:contentDescription=" " />
 
@@ -60,15 +73,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin"
-                    android:gravity="center"
-                    android:text="Edit Profile"
-                    android:textColor="@color/activetab"
-                    android:textSize="@dimen/textsizesmall" />
 
                 <RelativeLayout
                     android:id="@+id/relative"
@@ -76,20 +80,20 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/attendeetitle"
                     android:layout_marginTop="10dp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <RelativeLayout
                         android:id="@+id/layoutTop"
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
-                        android:background="@color/activetab">
+                        android:background="@color/background">
 
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/layoutBottom"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_width="402dp"
+                        android:layout_height="48dp"
                         android:layout_below="@id/layoutTop"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -117,13 +121,12 @@
                             android:adjustViewBounds="true"
                             android:background="@drawable/image_border"
                             android:contentDescription="TODO"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/profilepic_placeholder" />
+                            android:scaleType="fitXY"></ImageView>
 
                         <ProgressBar
                             android:id="@+id/progressView"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="18dp"
+                            android:layout_height="17dp"
                             android:layout_centerInParent="true"
                             android:layout_gravity="center"
                             android:visibility="visible" />
@@ -148,7 +151,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/agendabg"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edit_white"
                     android:focusableInTouchMode="true"
                     android:orientation="vertical">
 
@@ -169,6 +173,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/firstname"
+                            android:background="@drawable/edit_background"
                             android:inputType="textEmailAddress"
                             android:textColor="@color/black"
                             android:textSize="@dimen/textsizesmall" />
@@ -184,7 +189,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:textColorHint="@color/trans"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
                             android:id="@+id/Etlastname"
@@ -206,7 +211,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:textColorHint="@color/trans"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
                             android:id="@+id/Etdesignation"
@@ -228,7 +233,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:textColorHint="@color/trans"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
                             android:id="@+id/Etcompany"
@@ -249,7 +254,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:textColorHint="@color/trans"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
                             android:id="@+id/Etmobile"
@@ -271,7 +276,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:textColorHint="@color/trans"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
                             android:id="@+id/Etdescription"

@@ -9,9 +9,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
         android:layout_marginTop="50dp"
+        android:id="@+id/linTopLogin"
         android:gravity="center|top"
         android:orientation="vertical">
 
@@ -21,6 +22,7 @@
             android:layout_gravity="center"
             android:contentDescription="TODO"
             app:srcCompat="@drawable/splashlogo" />
+    </LinearLayout>
 
 
 
@@ -30,6 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="60dp"
+            android:visibility="visible"
+            android:layout_below="@+id/linTopLogin"
             android:layout_marginRight="20dp"
             android:orientation="vertical">
 
@@ -134,6 +138,136 @@
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rel2"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="30dp"
+            android:visibility="gone"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/linheader"
+                android:weightSum="10"
+                android:layout_marginLeft="30dp"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/imgBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_back">
+
+                </ImageView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:textColor="@color/colorwhite"
+                    android:gravity="center|top"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="5dp"
+                    android:text="OTP"
+                    >
+
+                </TextView>
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/black"
+                android:visibility="invisible"
+                android:layout_below="@+id/linheader"
+                android:layout_marginBottom="5dp"
+                android:text="Enter Your Email ID*"
+                android:id="@+id/txtEmailAdd">
+
+            </TextView>
+
+            <EditText
+                android:id="@+id/login_otp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_below="@+id/txtEmailAdd"
+                android:focusable="true"
+                android:background="@drawable/edit_background"
+                android:inputType="textEmailAddress"
+                android:minEms="20"
+                android:hint="*OTP"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/black"
+                android:textSize="@dimen/textsizenormal"
+                android:visibility="visible" />
+
+
+            <LinearLayout
+                android:id="@+id/email_btn_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/login_otp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:minHeight="60dp"
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/otp_submit_btn"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/loginbutton"
+                    android:elevation="4dp"
+                    android:gravity="center"
+                    android:minHeight="40dp"
+                    android:layout_marginRight="5dp"
+                    android:text="Submit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizenormal"
+                    android:textStyle="normal" />
+
+                <Button
+                    android:id="@+id/otp_resubmit_btn"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittextborder"
+                    android:elevation="4dp"
+                    android:gravity="center"
+                    android:minHeight="40dp"
+                    android:text="Resend OTP"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizenormal"
+                    android:textStyle="normal" />
+
+            </LinearLayout>
+
+
+
+
+        </RelativeLayout>
+
+
         <ProgressBar
             android:id="@+id/progressBar2"
             style="?android:attr/progressBarStyle"
@@ -141,7 +275,6 @@
             android:layout_height="20dp"
             android:layout_gravity="center"
             android:visibility="gone" />
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

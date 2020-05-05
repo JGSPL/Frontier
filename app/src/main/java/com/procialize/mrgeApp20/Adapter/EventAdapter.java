@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -72,11 +74,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         final UserEventList evnt = eventListfilter.get(position);
 
 
-        try {
+        /*try {
             holder.eventnaem.setBackgroundColor(Color.parseColor(evnt.getPrimary_color_code()));
         }catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
 
         /*int colorInt = Color.parseColor(evnt.getPrimary_color_code());
 
@@ -84,7 +86,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         Drawable drawable = DrawableCompat.wrap(holder.imgArrow.getDrawable());
         DrawableCompat.setTintList(drawable, csl);
         holder.imgArrow.setImageDrawable(drawable);*/
-        holder.imgArrow.setColorFilter(Color.parseColor(evnt.getPrimary_color_code()), PorterDuff.Mode.SRC_ATOP);
+       // holder.imgArrow.setColorFilter(Color.parseColor(evnt.getPrimary_color_code()), PorterDuff.Mode.SRC_ATOP);
 
 
         holder.nameTv.setText(evnt.getName());
@@ -116,9 +118,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
 
             Glide.with(context).load(ApiConstant.eventpic + evnt.getLogo())
                     .apply(RequestOptions.skipMemoryCacheOf(true))
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
+                    .listener(new RequestListener<Drawable>() {
+
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+
                     holder.progressBar.setVisibility(View.GONE);
                     holder.profileIv.setImageResource(R.drawable.profilepic_placeholder);
                     return true;

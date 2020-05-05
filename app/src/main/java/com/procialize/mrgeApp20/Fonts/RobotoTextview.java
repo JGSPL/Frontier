@@ -28,7 +28,7 @@ public class RobotoTextview extends AppCompatTextView {
     }
 
     public void init() {
-        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "DINPro-Light_13935.ttf");
+        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "DINPro-Regular.ttf");
         setTypeface(tf, 1);
 
 

@@ -4,15 +4,15 @@
     android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorgrey"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".Activity.EventChooserActivity">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorwhite"
+        android:layout_height="60dp"
+        android:background="@color/background"
         android:baselineAligned="false"
         android:elevation="0dp"
         android:orientation="horizontal"
@@ -31,6 +31,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
+                android:tint="@color/black"
                 android:contentDescription="TODO"
                 android:padding="2dp"
                 android:src="@drawable/ic_logout" />
@@ -50,7 +51,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="2dp"
                 android:contentDescription="TODO"
-                android:src="@drawable/header_logo"
+                android:src="@drawable/mergelogo"
                 android:visibility="visible" />
         </LinearLayout>
 
@@ -73,6 +74,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:visibility="gone"
         android:background="@color/linecolor" />
 
     <ProgressBar
@@ -92,7 +94,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="1dp"
-        android:background="@drawable/edittexthmbg"
+        android:background="@drawable/edit_white"
         android:hint="@string/search_event_here"
         android:imeOptions="actionDone"
         android:padding="10dp"
