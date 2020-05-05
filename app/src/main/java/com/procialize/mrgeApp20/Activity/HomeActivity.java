@@ -1908,6 +1908,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                 if (response.isSuccessful()) {
                     Log.i("hit", "post submitted to API." + response.body().toString());
 
+/*
                     for (int i = 0; i < response.body().getLive_steaming_info().size(); i++) {
 
                         zoom_meeting_id = response.body().getLive_steaming_info().get(i).getZoom_meeting_id();
@@ -1949,6 +1950,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         }
 
                     }
+*/
 
 
                 } else {
