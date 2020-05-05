@@ -166,9 +166,7 @@ dependencies {
     implementation project(path: ':keyframe')
     implementation project(path: ':YouTubeAndroidPlayerApi')
     implementation project(path: ':coffeetubefloatvideo')
-
-
-
+    implementation project(path: ':flashytabbarandroidNew')
 
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:8.0.1'
 
@@ -178,6 +176,7 @@ dependencies {
     implementation project(path: ':mobilertc')
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -189,7 +188,7 @@ dependencies {
     implementation 'com.squareup.okhttp:okhttp-urlconnection:2.0.+'
     implementation 'com.squareup.okio:okio:1.14.0'
     implementation "im.ene.toro3:toro:3.0.0-beta1"
- // Retrofit
+    // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
 
 // JSON Parsing
@@ -210,7 +209,7 @@ dependencies {
     implementation 'com.facebook.network.connectionclass:connectionclass:1.0.1'
 
 //progressbar
-    implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
+    //implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
 
 //    implementation 'com.github.eneim:Toro:develop-SNAPSHOT'
 
@@ -263,6 +262,6 @@ dependencies {
     implementation 'com.github.barteksc:android-pdf-viewer:2.6.1'
     //QR Scanner
     implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
-    implementation 'com.github.chenupt.android:springindicator:1.0.2@aar'}
+    implementation 'com.github.chenupt.android:springindicator:1.0.2@aar'
+}
 apply plugin: 'com.google.gms.google-services'
-

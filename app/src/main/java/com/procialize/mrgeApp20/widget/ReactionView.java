@@ -36,36 +36,37 @@ import retrofit2.Response;
 import static android.content.Context.MODE_PRIVATE;
 
 
+
+
 /**
  * Created by KenZira on 3/10/17.
  */
 
 public class ReactionView extends View {
-    String MY_PREFS_NAME = "ProcializeInfo";
-    private APIService mAPIService;
-    SessionManager sessionManager;
     private static final int SCALE_DURATION = 200;
     private static final int TRANSLATION_DURATION = 1000;
     private static final int CHILD_TRANSLATION_DURATION = 300;
     private static final int CHILD_DELAY = 100;
     private static final int DRAW_DELAY = 50;
-    private RoundedBoard board;
-    private List<Emotion> emotions;
-    private int selectedIndex = -1;
+    String MY_PREFS_NAME = "ProcializeInfo";
+    SessionManager sessionManager;
     NewsFeedList feed;
     int position;
     TextView likeimage;
     TextView liketext;
     Context context;
     String eventid, colorActive;
-    private HashMap<String, String> user;
     RelativeLayout relative;
     String token;
     FrameLayout root;
-
+    Float height;
+    private APIService mAPIService;
+    private RoundedBoard board;
+    private List<Emotion> emotions;
+    private int selectedIndex = -1;
+    private HashMap<String, String> user;
     private SelectingAnimation selectingAnimation;
     private DeselectAnimation deselectAnimation;
-
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -78,11 +79,12 @@ public class ReactionView extends View {
         init();
     }
 
-    public ReactionView(Context context, NewsFeedList _feed, int _position, TextView _likeimage, TextView _liketext, FrameLayout _root, RelativeLayout _relative) {
+    public ReactionView(Context context, NewsFeedList _feed, int _position, TextView _likeimage, TextView _liketext, FrameLayout _root, RelativeLayout _relative, Float _height) {
         super(context);
         this.context = context;
         feed = _feed;
         position = _position;
+        height = _height;
         root = _root;
         likeimage = _likeimage;
         liketext = _liketext;
@@ -144,27 +146,46 @@ public class ReactionView extends View {
     }
 
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                onDeselect();
+                return true;
+            case MotionEvent.ACTION_OUTSIDE:
+                onDeselect();
                 return true;
             case MotionEvent.ACTION_MOVE:
                 for (int i = 0; i < emotions.size(); i++) {
-                    if (event.getX() > emotions.get(i).x &&
-                            event.getX() < emotions.get(i).x + emotions.get(i).size) {
+                    if (i == 0) {
+                        Log.e("Rect b", i + "==" + "left,top,right,bottom");
+                    }
+                    if (event.getX() > emotions.get(i).x && event.getX() < emotions.get(i).x + emotions.get(i).size
+                            && event.getY() > emotions.get(i).y && event.getY() < emotions.get(i).y + emotions.get(i).size) {
+                       /* Rect b = emotions.get(i).getBound();
+                        Log.e("Event X", String.valueOf(event.getX()));
+                        Log.e("Emotion X", String.valueOf(emotions.get(i).x));
+                        Log.e("Event Y", String.valueOf(event.getY()));
+                        Log.e("Emotion Y", String.valueOf(emotions.get(i).y));
+                        Log.e("Emotion Size", String.valueOf(emotions.get(i).size));
+                        Rect b = emotions.get(i).getBound();
+                        Log.e("Rect b", i + "==" + b.toString());*/
                         onSelect(i);
                         break;
                     }
                 }
                 return true;
+
             case MotionEvent.ACTION_UP:
                 onDeselect();
                 return true;
             case MotionEvent.ACTION_CANCEL:
-
+                onDeselect();
                 return true;
+            case MotionEvent.ACTION_SCROLL:
+                onDeselect();
+                return true;
+
         }
         return super.onTouchEvent(event);
     }
@@ -183,6 +204,8 @@ public class ReactionView extends View {
 
 
     private void onSelect(int index) {
+
+
         Bitmap bitmap;
         Bitmap bitmap2 = null;
         if (selectedIndex == index) {
@@ -203,7 +226,7 @@ public class ReactionView extends View {
         token = user.get(SessionManager.KEY_TOKEN);
 
         Drawable[] drawables = likeimage.getCompoundDrawables();
-        bitmap = ((BitmapDrawable) drawables[2]).getBitmap();
+        bitmap = (( BitmapDrawable ) drawables[2]).getBitmap();
 
         feed.setLikeFlag(String.valueOf(selectedIndex));
 
@@ -214,7 +237,7 @@ public class ReactionView extends View {
             likeimage.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.love_1, 0);
         } else if (selectedIndex == 2) {
             likeimage.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.smile_2, 0);
-        }else if (selectedIndex == 3) {
+        } else if (selectedIndex == 3) {
             likeimage.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.haha_3, 0);
 
         } else if (selectedIndex == 4) {
@@ -254,7 +277,6 @@ public class ReactionView extends View {
 
 
     /*private void animateEmotions(float interpolatedTime) {
-
         for (Emotion emotion : emotions) {
             animateEmotionSize(emotion, interpolatedTime);
             animateEmotionPosition(emotion);
@@ -291,8 +313,59 @@ public class ReactionView extends View {
     }*/
 
     private void animateRoundedBoard(float interpolatedTime) {
-        board.setCurrentHeight(board.startAnimatedHeight + (interpolatedTime *
-                (board.endAnimatedHeight - board.startAnimatedHeight)));
+        float height = board.startAnimatedHeight + (interpolatedTime *
+                (board.endAnimatedHeight - board.startAnimatedHeight));
+        board.setCurrentHeight(height);
+    }
+
+    public void PostLike(String reaction_type, String eventid, String feedid, String token) {
+
+//        showProgress();
+        mAPIService.NewsFeedReaction(reaction_type, eventid, feedid, token).enqueue(new Callback<LikePost>() {
+            @Override
+            public void onResponse(Call<LikePost> call, Response<LikePost> response) {
+
+                if (response.isSuccessful()) {
+                    Log.i("hit", "post submitted to API." + response.toString());
+//                    dismissProgress();
+                    showPostlikeresponse(response);
+                } else {
+//                    dismissProgress();
+                    Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                    // Toast.makeText(getContext(), "Unable to process", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LikePost> call, Throwable t) {
+                Log.e("hit", "Unable to submit post to API.");
+//                dismissProgress();
+                // Toast.makeText(getContext(), "Unable to process", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private void showPostlikeresponse(Response<LikePost> response) {
+
+        if (response.body().getStatus().equals("Success")) {
+            String count = String.valueOf(response.body().getLikeCount());
+            liketext.setText(count + " Likes");
+            feed.setTotalLikes(String.valueOf(count));
+
+            // String likeFlag = String.valueOf(response.body().getLikeFlag());
+            WallFragment_POST.newsfeedList.set(position, feed);
+            Log.e("post", "success");
+/*
+            if (device.equalsIgnoreCase("vivo V3")) {
+                fetchFeed(token, eventid);
+            }*/
+//            fetchFeed(token, eventid);
+        } else {
+            Log.e("post", "fail");
+            Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class SelectingAnimation extends Animation {
@@ -350,7 +423,7 @@ public class ReactionView extends View {
 
         private void prepareRoundedBoard() {
             board.startAnimatedHeight = board.height;
-            board.endAnimatedHeight =RoundedBoard.HEIGHT;
+            board.endAnimatedHeight = RoundedBoard.HEIGHT;
         }
 
         @Override
@@ -362,8 +435,9 @@ public class ReactionView extends View {
 
     private class TranslationAnimation extends Animation {
 
-        private static final int TRANSLATION_DISTANCE = 180;
         private final int EMOTION_RADIUS = Emotion.MEDIUM_SIZE / 2;
+        // private static final int TRANSLATION_DISTANCE = 180;
+        private int TRANSLATION_DISTANCE;// = 180;
 
         TranslationAnimation() {
             setDuration(TRANSLATION_DURATION);
@@ -372,10 +446,21 @@ public class ReactionView extends View {
         }
 
         private void prepareEmotions() {
+            Float bottom;//=RoundedBoard.BOTTOM;
+            float TOP;//= RoundedBoard.TOP;
+            if (height > 1400) {
+                bottom = height - 100;//RoundedBoard.BOTTOM;
+                TRANSLATION_DISTANCE = 180;
+                TOP = 1256;
+            } else {
+                bottom = height - 30;
+                TRANSLATION_DISTANCE = 54;
+                TOP = 200;
+            }
             for (int i = 0; i < emotions.size(); i++) {
-                emotions.get(i).endAnimatedY = RoundedBoard.TOP + Constants.VERTICAL_SPACING;
+                emotions.get(i).endAnimatedY = TOP + Constants.VERTICAL_SPACING;
                 emotions.get(i).startAnimatedY =
-                        emotions.get(i).y = RoundedBoard.BOTTOM + TRANSLATION_DISTANCE;
+                        emotions.get(i).y = bottom + TRANSLATION_DISTANCE;
 
                 emotions.get(i).startAnimatedX
                         = emotions.get(i).x = i == 0 ? RoundedBoard.LEFT
@@ -385,8 +470,20 @@ public class ReactionView extends View {
         }
 
         private void prepareRoundedBoard() {
-            board.startAnimatedY = board.y = RoundedBoard.BOTTOM + TRANSLATION_DISTANCE;
-            board.endAnimatedY = RoundedBoard.TOP;
+            Float bottom;//=RoundedBoard.BOTTOM;
+            float TOP;//= RoundedBoard.TOP;
+            if (height > 1400) {
+                bottom = height - 100;//RoundedBoard.BOTTOM;
+                //TRANSLATION_DISTANCE = 180;
+                TOP = 1256;
+            } else {
+                bottom = height - 30;
+                //TRANSLATION_DISTANCE = 54;
+                TOP = 200;
+            }
+            board.startAnimatedY = board.y = bottom + TRANSLATION_DISTANCE;
+            //TOP = RoundedBoard.TOP;
+            board.endAnimatedY = TOP;
         }
 
         @Override
@@ -411,7 +508,7 @@ public class ReactionView extends View {
 
                         view.x = view.startAnimatedX - progressOfChild * EMOTION_RADIUS;
 
-                        view.setCurrentSize((int) (progressOfChild * Emotion.MEDIUM_SIZE));
+                        view.setCurrentSize(( int ) (progressOfChild * Emotion.MEDIUM_SIZE));
                     } else {
                         view.x = view.startAnimatedX - EMOTION_RADIUS;
                         view.y = view.endAnimatedY;
@@ -429,59 +526,5 @@ public class ReactionView extends View {
 
             board.y = board.startAnimatedY + d;
         }
-
     }
-
-
-    public void PostLike(String reaction_type, String eventid, String feedid, String token) {
-
-//        showProgress();
-        mAPIService.NewsFeedReaction(reaction_type, eventid, feedid, token).enqueue(new Callback<LikePost>() {
-            @Override
-            public void onResponse(Call<LikePost> call, Response<LikePost> response) {
-
-                if (response.isSuccessful()) {
-                    Log.i("hit", "post submitted to API." + response.toString());
-//                    dismissProgress();
-                    showPostlikeresponse(response);
-                } else {
-//                    dismissProgress();
-                    Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-
-                    // Toast.makeText(getContext(), "Unable to process", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LikePost> call, Throwable t) {
-                Log.e("hit", "Unable to submit post to API.");
-//                dismissProgress();
-                // Toast.makeText(getContext(), "Unable to process", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-
-    private void showPostlikeresponse(Response<LikePost> response) {
-
-        if (response.body().getStatus().equals("Success")) {
-            String count = String.valueOf(response.body().getLikeCount());
-            liketext.setText(count + " Likes");
-            feed.setTotalLikes(String.valueOf(count));
-
-           // String likeFlag = String.valueOf(response.body().getLikeFlag());
-            WallFragment_POST.newsfeedList.set(position, feed);
-            Log.e("post", "success");
-/*
-            if (device.equalsIgnoreCase("vivo V3")) {
-                fetchFeed(token, eventid);
-            }*/
-//            fetchFeed(token, eventid);
-        } else {
-            Log.e("post", "fail");
-            Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
 }

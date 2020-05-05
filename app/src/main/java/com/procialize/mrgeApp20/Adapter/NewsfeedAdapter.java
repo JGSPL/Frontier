@@ -82,6 +82,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class NewsfeedAdapter extends BaseAdapter {
 
+    int  width;
+    float  height;
     String profilepic = "";
     String attendee_status = "";
     public List<NewsFeedList> feedLists;
@@ -674,8 +676,9 @@ public class NewsfeedAdapter extends BaseAdapter {
             @Override
             public boolean onLongClick(View view) {
                 if (cd.isConnectingToInternet()) {
-
-                    ReactionView rvl = new ReactionView(context, feedLists.get(position), position, holder.img_like, holder.liketext, holder.root, relative);
+                    width  = holder.root.getMeasuredWidth();
+                    height = holder.root.getMeasuredHeight();
+                    ReactionView rvl = new ReactionView(context, feedLists.get(position), position, holder.img_like, holder.liketext, holder.root, relative,height);
                     holder.root.addView(rvl);
                 } else {
                     Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show();
