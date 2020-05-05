@@ -57,6 +57,7 @@ import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.Analytic;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.ProfileSave;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -206,7 +207,7 @@ public class ProfileActivity extends AppCompatActivity {
                 );
 
         try {
-//            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
+//            ContextWrapper cw = new ContextWrapper(MrgeHomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
 
@@ -878,14 +879,14 @@ public class ProfileActivity extends AppCompatActivity {
                             sessionManager.createProfileSession(name, company, designation, pic, lastname, city, description, country, email, mobno, attendee_type, exhibitor_id, exhibitor_status);
 //                      initializeView();
 
-                            Intent home = new Intent(getApplicationContext(), HomeActivity.class);
+                            Intent home = new Intent(getApplicationContext(), MrgeHomeActivity.class);
                             startActivity(home);
                             finish();
 
                             SubmitAnalytics(api_token, eventid, "", "", "EditProfileSubmit");
                         } else {
                             Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-//                        Intent home = new Intent(getApplicationContext(), HomeActivity.class);
+//                        Intent home = new Intent(getApplicationContext(), MrgeHomeActivity.class);
 //                        home.putExtra("eventId", eventid);
 //                        home.putExtra("eventnamestr", eventnamestr);
 //                        startActivity(home);
@@ -941,14 +942,14 @@ public class ProfileActivity extends AppCompatActivity {
                             sessionManager.createProfileSession(name, company, designation, pic, lastname, city, description, country, email, mobno, attendee_status, exhibitor_id, exhibitor_status);
 //                      initializeView();
 
-                            Intent home = new Intent(getApplicationContext(), HomeActivity.class);
+                            Intent home = new Intent(getApplicationContext(), MrgeHomeActivity.class);
                             startActivity(home);
                             finish();
 
                             SubmitAnalytics(api_token, eventid, "", "", "EditProfileSubmit");
                         } else {
                             Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-//                        Intent home = new Intent(getApplicationContext(), HomeActivity.class);
+//                        Intent home = new Intent(getApplicationContext(), MrgeHomeActivity.class);
 //                        home.putExtra("eventId", eventid);
 //                        home.putExtra("eventnamestr", eventnamestr);
 //                        startActivity(home);
@@ -1344,7 +1345,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent home = new Intent(getApplicationContext(), HomeActivity.class);
+        Intent home = new Intent(getApplicationContext(), MrgeHomeActivity.class);
         startActivity(home);
         finish();
     }

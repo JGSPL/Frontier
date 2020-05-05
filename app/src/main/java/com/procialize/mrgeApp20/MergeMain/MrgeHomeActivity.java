@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -40,6 +41,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,6 +53,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.crashlytics.android.Crashlytics;
+import com.cuberto.flashytabbarandroid.TabFlashyAnimatorWithTitle;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -82,6 +85,9 @@ import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.EmptyViewActivity;
 import com.procialize.mrgeApp20.Fragments.AgendaFolderFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFragment;
+import com.procialize.mrgeApp20.Fragments.AttendeeFragment;
+import com.procialize.mrgeApp20.Fragments.GeneralInfo;
+import com.procialize.mrgeApp20.Fragments.SpeakerFragment;
 import com.procialize.mrgeApp20.Fragments.WallFragment_POST;
 import com.procialize.mrgeApp20.GetterSetter.AgendaList;
 import com.procialize.mrgeApp20.GetterSetter.EventMenuSettingList;
@@ -183,7 +189,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     private Toolbar toolbar;
     private TabLayout tabLayout;
 
-    private CustomViewPager viewPager;
+    private CustomViewPager viewPager,Subviewpager;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private APIService mAPIService;
@@ -215,6 +221,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     YouTubePlayer youTubePlayer;
     public static TextView txt_zoom, txt_streaming;
     public static ImageView img_zoom, img_stream;
+
+    private TabFlashyAnimatorWithTitle tabFlashyAnimator;
+    private TabLayout sub2tabLayout;
+    Fragment fragment = null;
+
 
     @Override
     public Resources getResources() {
@@ -425,10 +436,14 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         Util.logomethod(this, headerlogoIv);
 
         viewPager = findViewById(R.id.viewpager);
+        Subviewpager= findViewById(R.id.Subviewpager);
         // activity_spring_indicator_indicator_default = findViewById(R.id.activity_spring_indicator_indicator_default);
 
         viewPager.setPagingEnabled(false);
         setupViewPager(viewPager);
+
+        Subviewpager.setPagingEnabled(false);
+        Sub2setupViewPager(Subviewpager);
 
 
 
@@ -447,6 +462,14 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
         tabLayout.setTabTextColors(Color.parseColor("#4D4D4D"), Color.parseColor(colorActive));
+
+        sub2tabLayout = findViewById(R.id.tabsSecond);
+        sub2tabLayout.setupWithViewPager(Subviewpager);
+        sub2tabLayout.setVisibility(View.GONE);
+
+        tabFlashyAnimator = new TabFlashyAnimatorWithTitle(sub2tabLayout);
+        Sub2setupTabIcons();
+        sub2tabLayout.setTabTextColors(Color.parseColor("#4D4D4D"), Color.parseColor(colorActive));
 
 
 
@@ -491,7 +514,18 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        if(tab.getText().equals("Agenda")){
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
 
+                        }else{
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+
+
+                        }
 
                     }
 
@@ -527,8 +561,18 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        if(tab.getText().equals("Agenda")){
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
+
+                        }else{
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
 
 
+                        }
 
                     }
 
@@ -564,7 +608,18 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
 
+                        if(tab.getText().equals("Agenda")){
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
 
+                        }else{
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+
+
+                        }
 
                     }
 
@@ -604,13 +659,19 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
 // int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        if(tab.getText().equals("Agenda")){
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
 
-//                        if (tab.getText().equals("Agenda")) {
-//                            if (cd.isConnectingToInternet()) {
-//
-//                                fetchAgenda(token, eventid);
-//                            }
-//                        }
+                        }else{
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+
+
+                        }
+
                     }
 
                     @Override
@@ -620,7 +681,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         int color1 = Color.parseColor(string1);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this,color1);//tabunselected color
                         tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
 
                     }
@@ -631,7 +691,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     }
                 });
             } else if (i == 1) {
-//               tabLayout.getTabAt(0).setIcon(tabIcons[0]);
 
                 tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
 
@@ -645,26 +704,26 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        if(tab.getText().equals("Agenda")){
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
 
-//                        if (tab.getText().equals("Agenda")) {
-//                            if (cd.isConnectingToInternet()) {
-//
-//                                fetchAgenda(token, eventid);
-//                            }
-//                        }
+                        }else{
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+
+
+                        }
                     }
 
                     @Override
                     public void onTabUnselected(TabLayout.Tab tab) {
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-//                       String string1 = "#7898a9";
-//                       int color1 = Color.parseColor(string1);
-//
-//// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this,color1);//tabunselected color
-//                       tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
                     }
 
                     @Override
@@ -772,12 +831,31 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
             }
         });
+
         eventInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent main = new Intent(getApplicationContext(), EventInfoActivity.class);
-                startActivity(main);
+               /* Intent main = new Intent(getApplicationContext(), EventInfoActivity.class);
+                startActivity(main);*/
+                fragment = new SpeakerFragment();
+
+                /* Fragment fragment2 = new MainFragment();
+                 *//*getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, fragment2, fragment2.getClass().getSimpleName()).addToBackStack(null).commit();*//*
+                MainFragment.flag = flag;*/
+                viewPager.setVisibility(View.GONE);
+                Subviewpager.setVisibility(View.GONE);
+                FrameLayout f = findViewById(R.id.content_frame);
+                f.setVisibility(View.VISIBLE);
+
+               if (fragment != null) {
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager
+                            .beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                    fragmentTransaction.commit();
+                }
 
             }
         });
@@ -938,6 +1016,65 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             navigationView.setVisibility(View.VISIBLE);
         }
 
+    }
+
+    private void Sub2setupTabIcons() {
+        tabFlashyAnimator.addTabItem("Event Info", R.drawable.ic_newsfeed);
+        tabFlashyAnimator.addTabItem("Participant",
+                R.drawable.ic_agenda);
+        tabFlashyAnimator.addTabItem("Schedule",
+                R.drawable.ic_attendee);
+        tabFlashyAnimator.addTabItem("Emergency",
+                R.drawable.general_info);
+        tabFlashyAnimator.highLightTab(0);
+        Subviewpager.addOnPageChangeListener(tabFlashyAnimator);
+
+
+    }
+    private void Sub2setupViewPager(ViewPager viewPager) {
+
+        ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
+        adapter.addFragment(new WallFragment_POST(), "Event Info");
+        adapter.addFragment(new AgendaFragment(), "Participant");
+        adapter.addFragment(new AttendeeFragment(), "Schedule");
+        adapter.addFragment(new GeneralInfo(), "Emergency");
+
+       // sub2tabLayout.getTabAt(0).getCustomView().setSelected(false);
+
+        Subviewpager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapterSub extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapterSub(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        public void addFragment(Fragment fragment) {
+            mFragmentList.add(fragment);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 
     public void profiledetails() {
@@ -1816,6 +1953,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 if (response.isSuccessful()) {
                     Log.i("hit", "post submitted to API." + response.body().toString());
 
+/*
                     for (int i = 0; i < response.body().getLive_steaming_info().size(); i++) {
 
                         zoom_meeting_id = response.body().getLive_steaming_info().get(i).getZoom_meeting_id();
@@ -1857,6 +1995,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         }
 
                     }
+*/
 
 
                 } else {

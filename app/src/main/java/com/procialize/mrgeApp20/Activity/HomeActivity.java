@@ -221,7 +221,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
     public static ImageView img_zoom, img_stream;
     SpringIndicator activity_spring_indicator_indicator_default;
     //LinearLayout linTab1;
-    private TabFlashyAnimator tabFlashyAnimator;
+    private com.cuberto.flashytabbarandroid.TabFlashyAnimator tabFlashyAnimator;
     @Override
     public Resources getResources() {
         if (res == null) {
