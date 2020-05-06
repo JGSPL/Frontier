@@ -38,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
 //                sessionManager.checkLogin();
 
                 if (sessionManager.isLoggedIn() == true) {
-                    Intent i = new Intent(SplashActivity.this, HomeActivity.class);
+                    Intent i = new Intent(SplashActivity.this, MrgeHomeActivity.class);
                     startActivity(i);
                     finish();
                     Bundle bundle = new Bundle();
