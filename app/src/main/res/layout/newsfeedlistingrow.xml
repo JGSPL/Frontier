@@ -61,7 +61,7 @@
                     android:layout_height="40dp"
                     android:layout_weight="1">
 
-                    <ImageView
+                    <com.procialize.mrgeApp20.CustomTools.ScaledImageView
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_centerInParent="true"
@@ -83,7 +83,7 @@
                     android:layout_height="40dp"
                     android:layout_weight="1">
 
-                    <ImageView
+                    <com.procialize.mrgeApp20.CustomTools.ScaledImageView
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_centerInParent="true"
@@ -353,6 +353,7 @@
 
 
             <LinearLayout
+                android:id="@+id/ll_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -383,10 +384,10 @@
                         android:textColor="@color/inactivetab"
                         android:textSize="@dimen/textsizesmall" />
 
-                    <TextView
+                    <ImageView
                         android:id="@+id/img_like"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:drawablePadding="5dp"
                         android:gravity="center" />
 

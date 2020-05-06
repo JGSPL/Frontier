@@ -263,5 +263,7 @@ dependencies {
     //QR Scanner
     implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
     implementation 'com.github.chenupt.android:springindicator:1.0.2@aar'
+
+    implementation 'com.github.rubensousa:floatingtoolbar:1.5.1'
 }
 apply plugin: 'com.google.gms.google-services'

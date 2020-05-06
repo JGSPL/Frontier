@@ -57,13 +57,33 @@
         <activity
             android:name="com.procialize.mrgeApp20.Activity.MeetingUsersActivity"
             android:screenOrientation="fullSensor"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.procialize.mrgeApp20.Activity.MsgInboxUsersActivity"
             android:screenOrientation="fullSensor"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.procialize.mrgeApp20.Activity.VisitUsersActivity"
+            android:screenOrientation="fullSensor"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="com.procialize.mrgeApp20.NewsFeed.Views.Activity.CommentActivity"
+            android:screenOrientation="fullSensor"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="com.procialize.mrgeApp20.NewsFeed.Views.Activity.ImageMultipleActivity"
+            android:screenOrientation="fullSensor"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="com.procialize.mrgeApp20.NewsFeed.Views.Activity.ImageViewActivity"
+            android:screenOrientation="fullSensor"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="com.procialize.mrgeApp20.NewsFeed.Views.Activity.PostNewActivity"
+            android:screenOrientation="fullSensor"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="com.procialize.mrgeApp20.NewsFeed.Views.Activity.AttendeeDetailActivity"
             android:screenOrientation="fullSensor"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -101,9 +121,9 @@
         <activity
             android:name="com.procialize.mrgeApp20.Activity.ExhibitorDetailActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="com.procialize.mrgeApp20.Activity.ImageMultipleActivity"
-            android:screenOrientation="portrait" />
+        <!-- <activity
+             android:name="com.procialize.mrgeApp20.Activity.ImageMultipleActivity"
+             android:screenOrientation="portrait" />-->
         <activity
             android:name="com.procialize.mrgeApp20.Activity.ExhibitorListingDetailActivity"
             android:screenOrientation="portrait" />
@@ -161,10 +181,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.procialize.mrgeApp20.Activity.MainActivity" />
         </activity>
-        <activity
-            android:name="com.procialize.mrgeApp20.Activity.CommentActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <!-- <activity
+             android:name="com.procialize.mrgeApp20.Activity.CommentActivity"
+             android:screenOrientation="portrait"
+             android:windowSoftInputMode="stateHidden|adjustResize" />-->
         <activity
             android:name="com.procialize.mrgeApp20.Activity.PostViewActivity"
             android:screenOrientation="portrait"
@@ -178,10 +198,10 @@
             android:name="com.procialize.mrgeApp20.Activity.SpeakerDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
+        <!--<activity
             android:name="com.procialize.mrgeApp20.Activity.AttendeeDetailActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize" />-->
         <activity
             android:name="com.procialize.mrgeApp20.Activity.AgendaDetailActivity"
             android:screenOrientation="portrait"
@@ -444,10 +464,6 @@
         <activity
             android:name="com.procialize.mrgeApp20.Activity.PostActivityVideo"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="com.procialize.mrgeApp20.Activity.ImageMultipleActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.procialize.mrgeApp20.Activity.ForgotPasswordActivity"
             android:screenOrientation="portrait"

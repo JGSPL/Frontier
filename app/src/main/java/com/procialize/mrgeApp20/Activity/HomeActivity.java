@@ -20,8 +20,6 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,7 +50,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.crashlytics.android.Crashlytics;
 import com.cuberto.flashytabbarandroid.TabFlashyAnimator;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -74,13 +71,7 @@ import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.EmptyViewActivity;
-import com.procialize.mrgeApp20.Fragments.AgendaFolderFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFragment;
-import com.procialize.mrgeApp20.Fragments.AllExhibitorFragment;
-import com.procialize.mrgeApp20.Fragments.AttendeeFragment;
-import com.procialize.mrgeApp20.Fragments.ExhiCatFragment;
-import com.procialize.mrgeApp20.Fragments.GeneralInfo;
-import com.procialize.mrgeApp20.Fragments.SpeakerFragment;
 import com.procialize.mrgeApp20.Fragments.WallFragment_POST;
 import com.procialize.mrgeApp20.GetterSetter.AgendaList;
 import com.procialize.mrgeApp20.GetterSetter.EventMenuSettingList;
@@ -112,9 +103,9 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.QRScanActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SpeakerActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SponsorActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.VideoActivity;
+import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
-import com.procialize.mrgeApp20.SubTabFragment.FragmentSecond;
 import com.procialize.mrgeApp20.Utility.PlayerConfig;
 import com.procialize.mrgeApp20.Utility.Res;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -151,6 +142,10 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
     public static String logoImg = "", colorActive = "", eventback = "";
     public static int activetab;
     public static int flag = 0;
+    public static LinearLayout linear_livestream, linear_zoom, linear_layout;
+    public static boolean flagshown = false;
+    public static TextView txt_zoom, txt_streaming;
+    public static ImageView img_zoom, img_stream;
     RecyclerView menurecycler;
     SessionManager session;
     List<EventSettingList> eventSettingLists;
@@ -181,12 +176,18 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
     HashMap<String, String> user;
     String MY_PREFS_CATEGORY = "categorycnt";
     WallPostReciever mReceiver;
+    // private TabLayout subtabLayout;
     IntentFilter mFilter;
     String catcnt;
+    String zoom_meeting_id, zoom_password, zoom_status, youtube_stream_url, stream_status, zoom_time, stream_time;
+    ImageView float_icon;
+    String YouvideoId;
+    YouTubePlayerTracker mTracker = null;
+    YouTubePlayer youTubePlayer;
+    SpringIndicator activity_spring_indicator_indicator_default;
+    LinearLayout linTab1;
     private Toolbar toolbar;
     private TabLayout tabLayout;
-   // private TabLayout subtabLayout;
-
     private CustomViewPager viewPager;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -208,20 +209,9 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
     };
     private Res res;
     private DBHelper dbHelper;
-
     private YouTubePlayerSupportFragment youTubePlayerFragment;
-    public static LinearLayout linear_livestream, linear_zoom, linear_layout;
-    String zoom_meeting_id, zoom_password, zoom_status, youtube_stream_url, stream_status, zoom_time, stream_time;
-    ImageView float_icon;
-    String YouvideoId;
-    public static boolean flagshown = false;
-    YouTubePlayerTracker mTracker = null;
-    YouTubePlayer youTubePlayer;
-    public static TextView txt_zoom, txt_streaming;
-    public static ImageView img_zoom, img_stream;
-    SpringIndicator activity_spring_indicator_indicator_default;
-    //LinearLayout linTab1;
     private TabFlashyAnimator tabFlashyAnimator;
+
     @Override
     public Resources getResources() {
         if (res == null) {
@@ -308,7 +298,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
         txt_zoom = findViewById(R.id.txt_zoom);
         img_stream = findViewById(R.id.img_stream);
         img_zoom = findViewById(R.id.img_zoom);
-     //   linTab1 = findViewById(R.id.linTab1);
+        linTab1 = findViewById(R.id.linTab1);
 
 
 
@@ -432,12 +422,10 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
         Util.logomethod(this, headerlogoIv);
 
         viewPager = findViewById(R.id.viewpager);
-       // activity_spring_indicator_indicator_default = findViewById(R.id.activity_spring_indicator_indicator_default);
+        // activity_spring_indicator_indicator_default = findViewById(R.id.activity_spring_indicator_indicator_default);
 
         viewPager.setPagingEnabled(false);
         setupViewPager(viewPager);
-
-
 
 
         if (flag == 0) {
@@ -452,13 +440,11 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 
         tabLayout = findViewById(R.id.tabs);
 
-     //   subtabLayout = findViewById(R.id.Subtabs);
+        //   subtabLayout = findViewById(R.id.Subtabs);
         tabLayout.setupWithViewPager(viewPager);
         tabFlashyAnimator = new TabFlashyAnimator(tabLayout);
         setupTabIcons();
         tabLayout.setTabTextColors(Color.parseColor("#4D4D4D"), Color.parseColor(colorActive));
-
-
 
 
         try {
@@ -501,13 +487,13 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         InputMethodManager imm = (InputMethodManager) HomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                      /*  if(tab.getText().equals("Agenda")){
+                        if (tab.getText().equals("Agenda")) {
                             linTab1.setVisibility(View.VISIBLE);
 
-                        }else{
+                        } else {
                             linTab1.setVisibility(View.GONE);
 
-                        }*/
+                        }
 
                     }
 
@@ -518,10 +504,10 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         int color1 = Color.parseColor(string1);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                         tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
-                       /* if(i == 1){
+                        if (i == 1) {
                             linTab1.setVisibility(View.GONE);
 
-                        }*/
+                        }
                     }
 
                     @Override
@@ -547,14 +533,13 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         InputMethodManager imm = (InputMethodManager) HomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                       /* if(tab.getText().equals("Agenda")){
+                        if (tab.getText().equals("Agenda")) {
                             linTab1.setVisibility(View.VISIBLE);
 
-                        }else{
+                        } else {
                             linTab1.setVisibility(View.GONE);
 
                         }
-*/
 
                     }
 
@@ -566,10 +551,10 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
                         tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
-                       /* if(i == 1){
+                        if (i == 1) {
                             linTab1.setVisibility(View.GONE);
 
-                        }*/
+                        }
                     }
 
                     @Override
@@ -592,13 +577,13 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                      /*  if(tab.getText().equals("Agenda")){
+                        if (tab.getText().equals("Agenda")) {
                             linTab1.setVisibility(View.VISIBLE);
 
-                        }else{
+                        } else {
                             linTab1.setVisibility(View.GONE);
 
-                        }*/
+                        }
 
 
                     }
@@ -611,10 +596,10 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 // int tabIconColor = ContextCompat.getColor(HomeActivity.this,color1);//tabunselected color
                         tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
-                      /*  if(i == 1){
+                        if (i == 1) {
                             linTab1.setVisibility(View.GONE);
 
-                        }*/
+                        }
                     }
 
                     @Override
@@ -638,14 +623,13 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                      /*  if(tab.getText().equals("Agenda")){
+                        if (tab.getText().equals("Agenda")) {
                             linTab1.setVisibility(View.VISIBLE);
 
-                        }else{
+                        } else {
                             linTab1.setVisibility(View.GONE);
 
                         }
-*/
 // int tabIconColor = ContextCompat.getColor(HomeActivity.this, color); //tabselected color
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
 
@@ -666,10 +650,10 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 
 // int tabIconColor = ContextCompat.getColor(HomeActivity.this,color1);//tabunselected color
                         tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
-                                                 /* if(i == 1){
-                                linTab1.setVisibility(View.GONE);
+                        if (i == 1) {
+                            linTab1.setVisibility(View.GONE);
 
-                        }*/
+                        }
                     }
 
                     @Override
@@ -685,14 +669,14 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        /*linTab1.setVisibility(View.VISIBLE);
-                        if(tab.getText().equals("Agenda")){
+                        linTab1.setVisibility(View.VISIBLE);
+                        if (tab.getText().equals("Agenda")) {
                             linTab1.setVisibility(View.VISIBLE);
 
-                        }else{
+                        } else {
                             linTab1.setVisibility(View.GONE);
 
-                        }*/
+                        }
 
                         JZVideoPlayerStandard.releaseAllVideos();
                         String string = colorActive;
@@ -1114,7 +1098,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
     }*/
 
     private void setupTabIcons() {
-        tabFlashyAnimator.addTabItem("News Feed",tabIcons[0]);
+        tabFlashyAnimator.addTabItem("News Feed", tabIcons[0]);
         tabFlashyAnimator.addTabItem("Agenda", tabIcons[1]);
         tabFlashyAnimator.addTabItem("Attendee", tabIcons[2]);
         tabFlashyAnimator.addTabItem("General Info", tabIcons[5]);
@@ -1255,15 +1239,15 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         if (news_feed.equalsIgnoreCase("1")) {
-            adapter.addFragment(new WallFragment_POST(), "News Feed");
+            adapter.addFragment(new FragmentNewsFeed(), "News Feed");
         }
         if (agenda.equalsIgnoreCase("1")) {
-            adapter.addFragment(new FragmentSecond(), "Agenda");
-           /* if (agenda_conference.equalsIgnoreCase("1")) {
-                adapter.addFragment(new AgendaFragment(), "Agenda");
-            } else if (agenda_vacation.equalsIgnoreCase("1")) {
-                adapter.addFragment(new WallFragment_POST(), "Agenda");
-            }*/
+            // adapter.addFragment(new FragmentSecond(), "Agenda");
+          /*  if (agenda_conference.equalsIgnoreCase("1")) {
+                adapter.addFragment(new WallFragment_POST(), "News Feed");
+            } else if (agenda_vacation.equalsIgnoreCase("1")) {*/
+                adapter.addFragment(new FragmentNewsFeed(), "News Feed");
+          /*  }*/
 /*            LinearLayout ll1,ll2,ll3,ll4;
             ll1 = findViewById(R.id.ll1);
             ll2 = findViewById(R.id.ll2);
@@ -1285,29 +1269,28 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 
         }
         if (attendee.equalsIgnoreCase("1")) {
-            adapter.addFragment(new WallFragment_POST(), "Attendee");
+            adapter.addFragment(new FragmentNewsFeed(), "Attendee");
         }
 
         if (main_tab_exhibitor.equalsIgnoreCase("1")) {
             try {
                 if (Integer.parseInt(catcnt) <= 3) {
-                    adapter.addFragment(new WallFragment_POST(), "Exhibitors");
+                    adapter.addFragment(new FragmentNewsFeed(), "Exhibitors");
                 } else {
-                    adapter.addFragment(new WallFragment_POST(), "Exhibitors");
+                    adapter.addFragment(new FragmentNewsFeed(), "Exhibitors");
                 }
             } catch (Exception e) {
-                adapter.addFragment(new WallFragment_POST(), "Exhibitors");
+                adapter.addFragment(new FragmentNewsFeed(), "Exhibitors");
             }
-
         }
 
         if (speaker.equalsIgnoreCase("1")) {
-            adapter.addFragment(new WallFragment_POST(), "Speaker");
+            adapter.addFragment(new FragmentNewsFeed(), "Speaker");
         }
 
 
         if (general_ifo.equalsIgnoreCase("1")) {
-            adapter.addFragment(new WallFragment_POST(), "General Info");
+            adapter.addFragment(new FragmentNewsFeed(), "General Info");
         }
 
 
@@ -1329,7 +1312,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
         subtabLayout.setVisibility(View.VISIBLE);*/
 
 
-       /* }*/
+        /* }*/
         viewPager.setAdapter(adapter);
     }
 
@@ -1455,7 +1438,6 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 
                     side_menu_sponsor = eventSettingLists.get(i).getFieldValue();
                 }
-
             }
         }
 
@@ -1467,10 +1449,10 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 
         boolean check = MyJZVideoPlayerStandard.backPress();
 
-        if (check == true) {
+      //  if (check == true) {
             MyJZVideoPlayerStandard.goOnPlayOnPause();
             MyJZVideoPlayerStandard.quitFullscreenOrTinyWindow();
-        } else {
+      //  } else {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
             builder.setTitle("Exit");
@@ -1492,7 +1474,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                         }
                     });
             builder.show();
-        }
+        //}
     }
 
     @Override
@@ -1841,47 +1823,6 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
         }
     }
 
-
-    private class WallPostReciever extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // progressbarForSubmit.setVisibility(View.GONE);
-            Log.d("service end", "service end");
-        }
-    }
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-        public void addFragment(Fragment fragment) {
-            mFragmentList.add(fragment);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
-
     public void firbaseAnalytics() {
         FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle bundle = new Bundle();
@@ -2049,5 +1990,52 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
     protected void onStop() {
         super.onStop();
         tabFlashyAnimator.onStop();
+    }
+
+    private class WallPostReciever extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // progressbarForSubmit.setVisibility(View.GONE);
+            Log.d("service end", "service end");
+        }
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 2) {
+                linTab1.setVisibility(View.VISIBLE);
+                return new WallFragment_POST();
+            } else {
+                linTab1.setVisibility(View.GONE);
+                return mFragmentList.get(position);
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        public void addFragment(Fragment fragment) {
+            mFragmentList.add(fragment);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 }
