@@ -191,6 +191,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     String catcnt;
     private Toolbar toolbar;
     private TabLayout tabLayout;
+LinearLayout linTab4,linTab3,linTab2;
 
     private CustomViewPager viewPager,Subviewpager,Subviewpager2,Subviewpager3;
     private NavigationView navigationView;
@@ -251,7 +252,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     public static ImageView img_zoom, img_stream;
 
     private TabFlashyAnimatorWithTitle tabFlashyAnimator;
-    private TabLayout sub2tabLayout, sub3tabLayout;
+    private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
     Fragment fragment = null;
 
 
@@ -478,7 +479,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         Sub2setupViewPager(Subviewpager);
         Sub3setupViewPager(Subviewpager2);
-
+        Sub4setupViewPager(Subviewpager3);
 
 
         if (flag == 0) {
@@ -496,6 +497,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         setupTabIcons();
         tabLayout.setTabTextColors(Color.parseColor("#4D4D4D"), Color.parseColor(colorActive));
 
+        linTab2 = findViewById(R.id.linTab2);
+        linTab3 = findViewById(R.id.linTab3);
+        linTab4 = findViewById(R.id.linTab4);
+        linTab2.setVisibility(View.GONE);
+        linTab3.setVisibility(View.GONE);
+        linTab4.setVisibility(View.GONE);
+
         sub2tabLayout = findViewById(R.id.tabsSecond);
         sub2tabLayout.setupWithViewPager(Subviewpager);
         sub2tabLayout.setVisibility(View.GONE);
@@ -504,12 +512,17 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         sub3tabLayout.setupWithViewPager(Subviewpager2);
         sub3tabLayout.setVisibility(View.GONE);
 
+        sub4tabLayout = findViewById(R.id.tabsForth);
+        sub4tabLayout.setupWithViewPager(Subviewpager3);
+        sub4tabLayout.setVisibility(View.GONE);
 
         Sub2setupTabIcons();
         Sub3setupTabIcons();
+        Sub4setupTabIcons();
 
         sub2tabLayout.setTabTextColors(Color.parseColor("#4D4D4D"), Color.parseColor(colorActive));
         sub3tabLayout.setTabTextColors(Color.parseColor("#4D4D4D"), Color.parseColor(colorActive));
+        sub4tabLayout.setTabTextColors(Color.parseColor("#4D4D4D"), Color.parseColor(colorActive));
 
         try {
 
@@ -532,6 +545,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         MainTabMecahnism();
         SubTab2Mechanism();
         SubTab3Mechanism();
+        SubTab4Mechanism();
 
 
         //Initializing NavigationView
@@ -923,6 +937,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
 
     }
+
     private void Sub3setupViewPager(ViewPager viewPager) {
 
         ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
@@ -968,6 +983,51 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             return mFragmentTitleList.get(position);
         }
     }
+
+    private void Sub4setupTabIcons() {
+        if (sub4tabLayout.getTabAt(0) != null) {
+            if (sub4tabLayout.getTabAt(0).getText().equals("Image")) {
+                sub4tabLayout.getTabAt(0).setIcon(sub3tabIcons[0]);
+            } else if (sub4tabLayout.getTabAt(0).getText().equals("Video")) {
+                sub4tabLayout.getTabAt(0).setIcon(sub3tabIcons[1]);
+            } else if (sub4tabLayout.getTabAt(0).getText().equals("Downloads")) {
+                sub4tabLayout.getTabAt(0).setIcon(sub3tabIcons[2]);
+            }
+        }
+
+
+        if (sub4tabLayout.getTabAt(1) != null) {
+            if (sub4tabLayout.getTabAt(1).getText().equals("Image")) {
+                sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[0]);
+            } else if (sub4tabLayout.getTabAt(1).getText().equals("Video")) {
+                sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[1]);
+            } else if (sub4tabLayout.getTabAt(1).getText().equals("Downloads")) {
+                sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[2]);
+            }
+        }
+
+
+        if (sub4tabLayout.getTabAt(2) != null) {
+            if (sub4tabLayout.getTabAt(2).getText().equals("Image")) {
+                sub4tabLayout.getTabAt(2).setIcon(sub3tabIcons[0]);
+            } else if (sub4tabLayout.getTabAt(2).getText().equals("Video")) {
+                sub4tabLayout.getTabAt(2).setIcon(sub3tabIcons[1]);
+            } else if (sub4tabLayout.getTabAt(2).getText().equals("Downloads")) {
+                sub4tabLayout.getTabAt(2).setIcon(sub3tabIcons[2]);
+            }
+        }
+
+    }
+    private void Sub4setupViewPager(ViewPager viewPager) {
+
+        ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
+        adapter.addFragment(new FolderQuizFragment(), "Image");
+        adapter.addFragment(new FolderQuizFragment(), "Video");
+        adapter.addFragment(new FolderQuizFragment(), "Downloads");
+
+        Subviewpager3.setAdapter(adapter);
+    }
+
 
     public void profiledetails() {
 
@@ -1978,6 +2038,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         if(tab.getText().equals("Agenda")){
                             Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
                             viewPager.setVisibility(View.GONE);
@@ -1986,6 +2050,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                         } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.VISIBLE);
@@ -1995,7 +2062,25 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
 
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+
+
                         }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
                             sub2tabLayout.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager.setVisibility(View.GONE);
@@ -2022,6 +2107,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     public void onTabReselected(TabLayout.Tab tab) {
                         if(tab.getText().equals("Agenda")){
                             Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
                             viewPager.setVisibility(View.GONE);
@@ -2030,6 +2119,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                         } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.VISIBLE);
@@ -2039,7 +2131,25 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
 
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+
+
                         }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
                             sub2tabLayout.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager.setVisibility(View.GONE);
@@ -2049,6 +2159,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
 
                         }
+
 
                     }
                 });
@@ -2072,6 +2183,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         if(tab.getText().equals("Agenda")){
                             Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
                             viewPager.setVisibility(View.GONE);
@@ -2080,6 +2195,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                         } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.VISIBLE);
@@ -2089,18 +2207,32 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
 
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+
+
                         }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
                             sub2tabLayout.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-
-
                         }
-
-
                     }
 
                     @Override
@@ -2118,6 +2250,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     public void onTabReselected(TabLayout.Tab tab) {
                         if(tab.getText().equals("Agenda")){
                             Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
                             viewPager.setVisibility(View.GONE);
@@ -2126,6 +2262,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                         } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.VISIBLE);
@@ -2134,16 +2273,31 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+
 
                         }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
                             sub2tabLayout.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-
-
                         }
 
                     }
@@ -2166,6 +2320,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                         if(tab.getText().equals("Agenda")){
                             Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
                             viewPager.setVisibility(View.GONE);
@@ -2174,6 +2332,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                         } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.VISIBLE);
@@ -2183,15 +2344,31 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
 
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+
+
                         }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
                             sub2tabLayout.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-
-
                         }
 
                     }
@@ -2211,6 +2388,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     public void onTabReselected(TabLayout.Tab tab) {
                         if(tab.getText().equals("Agenda")){
                             Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
                             viewPager.setVisibility(View.GONE);
@@ -2219,6 +2400,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                         } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.VISIBLE);
@@ -2228,17 +2412,32 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
 
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+
+
                         }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
                             sub2tabLayout.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-
-
                         }
-
                     }
                 });
             } else if (i == 2) {
@@ -2258,11 +2457,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-
-// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         if(tab.getText().equals("Agenda")){
                             Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
                             viewPager.setVisibility(View.GONE);
@@ -2271,6 +2472,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                         } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.VISIBLE);
@@ -2280,17 +2484,32 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
 
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+
+
                         }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
                             sub2tabLayout.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-
-
                         }
-
                     }
 
                     @Override
@@ -2308,6 +2527,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     public void onTabReselected(TabLayout.Tab tab) {
                         if(tab.getText().equals("Agenda")){
                             Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
                             viewPager.setVisibility(View.GONE);
@@ -2316,6 +2539,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                         } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.VISIBLE);
@@ -2323,19 +2549,35 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager.setPagingEnabled(false);
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
+                            sub4tabLayout.setVisibility(View.GONE);
+
+
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
 
 
                         }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
                             sub2tabLayout.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-
-
                         }
-
                     }
                 });
             } else if (i == 1) {
@@ -2355,6 +2597,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         if(tab.getText().equals("Agenda")){
                             Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
                             viewPager.setVisibility(View.GONE);
@@ -2363,6 +2609,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                         } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.VISIBLE);
@@ -2372,17 +2621,32 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
 
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+
+
                         }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
                             sub2tabLayout.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-
-
                         }
-
                     }
 
                     @Override
@@ -2396,6 +2660,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     public void onTabReselected(TabLayout.Tab tab) {
                         if(tab.getText().equals("Agenda")){
                             Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
                             viewPager.setVisibility(View.GONE);
@@ -2404,6 +2672,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                         } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.VISIBLE);
@@ -2413,7 +2684,25 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
 
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+
+
                         }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
                             sub2tabLayout.setVisibility(View.GONE);
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager.setVisibility(View.GONE);
@@ -2456,6 +2745,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub2tabLayout.setVisibility(View.GONE);
+                        linTab2.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -2489,6 +2779,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        linTab2.setVisibility(View.GONE);
 
                         sub2tabLayout.setVisibility(View.GONE);
                     }
@@ -2527,6 +2818,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 // int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub2tabLayout.setVisibility(View.GONE);
+                        linTab2.setVisibility(View.GONE);
+
                     }
 
                     @Override
@@ -2604,6 +2897,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub3tabLayout.setVisibility(View.GONE);
+                        linTab3.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -2637,6 +2931,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        linTab3.setVisibility(View.GONE);
 
                         sub3tabLayout.setVisibility(View.GONE);
                     }
@@ -2675,6 +2970,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 // int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub3tabLayout.setVisibility(View.GONE);
+                        linTab3.setVisibility(View.GONE);
+
                     }
 
                     @Override
@@ -2730,6 +3027,158 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
     }
 
+    void SubTab4Mechanism(){
+        try {
+
+            int i = sub4tabLayout.getTabCount();
+            if (i == 4) {
+
+
+                sub4tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                sub4tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub4tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub4tabLayout.getTabAt(3).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+
+                sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JZVideoPlayerStandard.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        sub4tabLayout.setVisibility(View.GONE);
+                        linTab4.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            } else if (i == 3) {
+
+                sub4tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                sub4tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub4tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+                sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JZVideoPlayerStandard.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        linTab4.setVisibility(View.GONE);
+
+                        sub4tabLayout.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this,color1);//tabunselected color
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            } else if (i == 2) {
+
+                sub4tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                sub4tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+
+                sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JZVideoPlayerStandard.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        sub4tabLayout.setVisibility(View.GONE);
+                        linTab4.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            } else if (i == 1) {
+
+                sub4tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+
+                sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+
+
+                        JZVideoPlayerStandard.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        // sub3tabLayout.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }
 
