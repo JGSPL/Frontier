@@ -162,7 +162,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     List<EventSettingList> eventSettingLists;
     List<EventMenuSettingList> eventMenuSettingLists;
     HashMap<String, String> eventlist;
-    ImageView headerlogoIv;
+    public static ImageView headerlogoIv;
+    public static TextView txtMainHeader;
+
     String side_menu = "0", side_menu_my_travel = "0", side_menu_notification = "0", side_menu_display_qr = "0", side_menu_qr_scanner = "0",
             side_menu_quiz = "0", side_menu_live_poll = "0", side_menu_survey = "0",
             side_menu_feedback = "0", side_menu_gallery_video = "0", gallery_video_native = "0", gallery_video_youtube = "0",
@@ -254,7 +256,6 @@ LinearLayout linTab4,linTab3,linTab2;
     private TabFlashyAnimatorWithTitle tabFlashyAnimator;
     private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
     Fragment fragment = null;
-
 
     @Override
     public Resources getResources() {
@@ -461,6 +462,8 @@ LinearLayout linTab4,linTab3,linTab2;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
+         txtMainHeader = findViewById(R.id.txtMainHeader);
+
 
         Util.logomethod(this, headerlogoIv);
 
@@ -873,7 +876,7 @@ LinearLayout linTab4,linTab3,linTab2;
     private void Sub2setupViewPager(ViewPager viewPager) {
 
         ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
-        adapter.addFragment(new FolderQuizFragment(), "Event Info");
+        adapter.addFragment(new EventInfoFragment(), "Event Info");
         adapter.addFragment(new AgendaFragment(), "Participant");
         adapter.addFragment(new AttendeeFragment(), "Schedule");
         adapter.addFragment(new GeneralInfo(), "Emergency");
@@ -2041,7 +2044,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
-
+                            linear_livestream.setVisibility(View.GONE);
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
                             viewPager.setVisibility(View.GONE);
@@ -2060,6 +2063,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager.setPagingEnabled(false);
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
@@ -2075,6 +2079,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else{
@@ -2088,6 +2093,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
 
+                            linear_livestream.setVisibility(View.VISIBLE);
 
                         }
 
@@ -2110,6 +2116,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
@@ -2129,6 +2136,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager.setPagingEnabled(false);
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
@@ -2144,6 +2152,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else{
@@ -2156,6 +2165,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
 
 
                         }
@@ -2186,6 +2196,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
@@ -2205,6 +2216,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager.setPagingEnabled(false);
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
@@ -2220,6 +2232,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else{
@@ -2232,6 +2245,8 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
                         }
                     }
 
@@ -2253,6 +2268,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
@@ -2272,6 +2288,8 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager.setPagingEnabled(false);
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
 
                         }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
                                 tab.getText().equals("Exhibitors")){
@@ -2286,6 +2304,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else{
@@ -2298,6 +2317,8 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
                         }
 
                     }
@@ -2323,6 +2344,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
@@ -2342,6 +2364,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager.setPagingEnabled(false);
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
@@ -2357,6 +2380,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else{
@@ -2369,6 +2393,8 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
                         }
 
                     }
@@ -2391,6 +2417,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
@@ -2410,6 +2437,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager.setPagingEnabled(false);
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
@@ -2425,6 +2453,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else{
@@ -2437,6 +2466,8 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
                         }
                     }
                 });
@@ -2463,6 +2494,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
@@ -2482,6 +2514,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager.setPagingEnabled(false);
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
@@ -2497,6 +2530,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else{
@@ -2509,6 +2543,8 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
                         }
                     }
 
@@ -2530,6 +2566,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
@@ -2550,6 +2587,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             sub4tabLayout.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
@@ -2565,6 +2603,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else{
@@ -2577,6 +2616,8 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
                         }
                     }
                 });
@@ -2600,6 +2641,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
                             sub2tabLayout.setVisibility(View.VISIBLE);
                             Subviewpager.setVisibility(View.VISIBLE);
@@ -2619,6 +2661,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager.setPagingEnabled(false);
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
@@ -2634,6 +2677,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }else{
@@ -2646,6 +2690,8 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
                         }
                     }
 

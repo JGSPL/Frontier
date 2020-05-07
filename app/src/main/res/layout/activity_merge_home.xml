@@ -46,6 +46,15 @@
                     app:contentInsetRight="0dp"
                     app:contentInsetStart="0dp"
                     app:layout_collapseMode="pin">
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        android:id="@+id/txtMainHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:padding="@dimen/padding"
+                        android:textColor="@color/activetab"
+                        android:textSize="@dimen/textsizenormal" />
+
 
                     <ImageView
                         android:id="@+id/headerlogoIv"
@@ -105,6 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linear_livestream"
                 android:layout_margin="5dp"
+                android:visibility="gone"
                 android:background="#686868"
                 android:gravity="center"
                 android:orientation="horizontal">

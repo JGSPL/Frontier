@@ -83,6 +83,7 @@ import com.procialize.mrgeApp20.GetterSetter.ReportPostHide;
 import com.procialize.mrgeApp20.GetterSetter.ReportUser;
 import com.procialize.mrgeApp20.GetterSetter.ReportUserHide;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.squareup.picasso.Picasso;
@@ -272,6 +273,10 @@ public class WallFragment_POST extends Fragment implements NewsfeedAdapter.FeedA
         if (eventSettingLists.size() != 0) {
             applysetting(eventSettingLists);
         }
+
+        MrgeHomeActivity.txtMainHeader.setVisibility(View.INVISIBLE);
+        MrgeHomeActivity.headerlogoIv.setVisibility(View.VISIBLE);
+
 
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");

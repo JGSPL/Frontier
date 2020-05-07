@@ -42,6 +42,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.procialize.mrgeApp20.Activity.HomeActivity;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
@@ -50,6 +51,7 @@ import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.EventInfoFetch;
 import com.procialize.mrgeApp20.GetterSetter.EventList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -102,11 +104,12 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.activity_eventinfo2, container, false);
+        View view2 = inflater.inflate(R.layout.activity_eventinfo2, container, false);
+
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
-        relative_head = view.findViewById(R.id.relative_head);
+        relative_head = view2.findViewById(R.id.relative_head);
         sessionManager = new SessionManager(getContext());
 
         // get user data from session
@@ -134,34 +137,42 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         if (eventSettingLists.size() != 0) {
             applysetting(eventSettingLists);
         }
+        MrgeHomeActivity.headerlogoIv.setVisibility(View.INVISIBLE);
+        MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);
+
+        Util.logomethodwithText(getContext(), MrgeHomeActivity.txtMainHeader, "Event Info");
+
+
         cd = new ConnectionDetector(getContext());
         mAPIService = ApiUtils.getAPIService();
         dbHelper = new DBHelper(getContext());
         sessionManager = new SessionManager(getContext());
+        logoIv =view2. findViewById(R.id.logoIv);
+        nameTv = view2.findViewById(R.id.nameTv);
+        dateTv = view2.findViewById(R.id.dateTv);
+        cityTv = view2.findViewById(R.id.cityTv);
 
+        event_desc = view2.findViewById(R.id.event_desc);
+        view = view2.findViewById(R.id.view);
+        progressbar = view2.findViewById(R.id.progressbar);
+        back = view2.findViewById(R.id.back);
+        linMap = view2.findViewById(R.id.linMap);
         procializeDB = new DBHelper(getContext());
         db = procializeDB.getWritableDatabase();
-        fm = ( SupportMapFragment ) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
+       // fm = ( SupportMapFragment ) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
+        fm = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
+
 
         fm.getMapAsync(this);
 
-        logoIv =view. findViewById(R.id.logoIv);
-        nameTv = view.findViewById(R.id.nameTv);
-        dateTv = view.findViewById(R.id.dateTv);
-        cityTv = view.findViewById(R.id.cityTv);
 
-        event_desc = view.findViewById(R.id.event_desc);
-        view = view.findViewById(R.id.view);
-        progressbar = view.findViewById(R.id.progressbar);
-        back = view.findViewById(R.id.back);
-        linMap = view.findViewById(R.id.linMap);
 
-        TextView header = ( TextView ) view.findViewById(R.id.event_info_heading);
+       TextView header = ( TextView ) view2.findViewById(R.id.event_info_heading);
         header.setTextColor(Color.parseColor(colorActive));
         nameTv.setTextColor(Color.parseColor(colorActive));
 
 
-        RelativeLayout layoutTop = ( RelativeLayout ) view.findViewById(R.id.layoutTop);
+        RelativeLayout layoutTop = ( RelativeLayout ) view2.findViewById(R.id.layoutTop);
         layoutTop.setBackgroundColor(Color.parseColor(colorActive));
 
 
@@ -176,7 +187,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         }
 
 
-        return view;
+        return view2;
     }
 
     private void applysetting(List<EventSettingList> eventSettingLists) {
@@ -194,7 +205,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
 
     public void fetchEventInfo(String token, String eventid) {
-        showProgress();
+       // showProgress();
         mAPIService.EventInfoFetch(token, eventid).enqueue(new Callback<EventInfoFetch>() {
             @Override
             public void onResponse(Call<EventInfoFetch> call, Response<EventInfoFetch> response) {
@@ -202,7 +213,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                 if (response.isSuccessful()) {
                     Log.i("hit", "post submitted to API." + response.body().toString());
 
-                    dismissProgress();
+                  //  dismissProgress();
                     showResponse(response);
                 } else {
                     dismissProgress();
@@ -212,7 +223,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public void onFailure(Call<EventInfoFetch> call, Throwable t) {
-                dismissProgress();
+                //dismissProgress();
                 Toast.makeText(getContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
             }
         });
