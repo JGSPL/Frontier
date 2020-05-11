@@ -60,6 +60,14 @@ public class Util {
         }
     }
 
+    public static void logomethodwithText(final Context context, TextView txtHeader, String HeaderText)
+
+    {
+        String logoHeader = HomeActivity.logoImg;
+        txtHeader.setText(HeaderText);
+    }
+
+
     public static void logomethod1(final Context context, final ImageView headerlogoIv) {
         String logoHeader = ProfileActivity.logoImg;
 

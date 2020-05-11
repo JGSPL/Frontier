@@ -21,6 +21,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -77,15 +79,17 @@ import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.Background.WallPostService;
 import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.CustomTools.CustomViewPager;
-
+import com.procialize.mrgeApp20.CustomTools.MyJZVideoPlayerStandard;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.EmptyViewActivity;
+import com.procialize.mrgeApp20.Fragments.AgendaFolderFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFragment;
 import com.procialize.mrgeApp20.Fragments.AttendeeFragment;
 import com.procialize.mrgeApp20.Fragments.GeneralInfo;
 import com.procialize.mrgeApp20.Fragments.SpeakerFragment;
+import com.procialize.mrgeApp20.Fragments.WallFragment_POST;
 import com.procialize.mrgeApp20.GetterSetter.AgendaList;
 import com.procialize.mrgeApp20.GetterSetter.EventMenuSettingList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
@@ -116,6 +120,8 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.QRScanActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SpeakerActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SponsorActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.VideoActivity;
+import com.procialize.mrgeApp20.MrgeInnerFragment.EventInfoFragment;
+import com.procialize.mrgeApp20.MrgeInnerFragment.FolderQuizFragment;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -130,6 +136,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nullable;
 
@@ -156,7 +163,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     List<EventSettingList> eventSettingLists;
     List<EventMenuSettingList> eventMenuSettingLists;
     HashMap<String, String> eventlist;
-    ImageView headerlogoIv;
+    public static ImageView headerlogoIv;
+    public static TextView txtMainHeader;
+
     String side_menu = "0", side_menu_my_travel = "0", side_menu_notification = "0", side_menu_display_qr = "0", side_menu_qr_scanner = "0",
             side_menu_quiz = "0", side_menu_live_poll = "0", side_menu_survey = "0",
             side_menu_feedback = "0", side_menu_gallery_video = "0", gallery_video_native = "0", gallery_video_youtube = "0",
@@ -185,8 +194,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     String catcnt;
     private Toolbar toolbar;
     private TabLayout tabLayout;
+LinearLayout linTab4,linTab3,linTab2;
 
-    private CustomViewPager viewPager,Subviewpager;
+    private CustomViewPager viewPager,Subviewpager,Subviewpager2,Subviewpager3;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private APIService mAPIService;
@@ -205,6 +215,31 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             R.drawable.general_info
 
     };
+    private int[] sub1tabIcons = {
+            R.drawable.quiz,
+            R.drawable.live_poll,
+            R.drawable.qna_arrow,
+            R.drawable.engagement,
+
+
+    };
+    private int[] sub2tabIcons = {
+            R.drawable.quiz,
+            R.drawable.live_poll,
+            R.drawable.qna_arrow,
+            R.drawable.engagement,
+
+
+    };
+
+    private int[] sub3tabIcons = {
+            R.drawable.quiz,
+            R.drawable.live_poll,
+            R.drawable.qna_arrow,
+            R.drawable.engagement,
+
+
+    };
     private Res res;
     private DBHelper dbHelper;
 
@@ -220,9 +255,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     public static ImageView img_zoom, img_stream;
 
     private TabFlashyAnimatorWithTitle tabFlashyAnimator;
-    private TabLayout sub2tabLayout;
+    private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
     Fragment fragment = null;
-
 
     @Override
     public Resources getResources() {
@@ -312,12 +346,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         img_zoom = findViewById(R.id.img_zoom);
 
 
-        /*if (cd.isConnectingToInternet()) {
+
+        if (cd.isConnectingToInternet()) {
             fetchFeed(token, eventid);
         } else {
 
         }
-*/
+
         linear_livestream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -428,20 +463,27 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
+         txtMainHeader = findViewById(R.id.txtMainHeader);
+
 
         Util.logomethod(this, headerlogoIv);
 
         viewPager = findViewById(R.id.viewpager);
         Subviewpager= findViewById(R.id.Subviewpager);
+        Subviewpager2 = findViewById(R.id.Subviewpager2);
+        Subviewpager3 = findViewById(R.id.Subviewpager3);
+
         // activity_spring_indicator_indicator_default = findViewById(R.id.activity_spring_indicator_indicator_default);
 
         viewPager.setPagingEnabled(false);
         setupViewPager(viewPager);
 
         Subviewpager.setPagingEnabled(false);
+        Subviewpager3.setPagingEnabled(false);
+
         Sub2setupViewPager(Subviewpager);
-
-
+        Sub3setupViewPager(Subviewpager2);
+        Sub4setupViewPager(Subviewpager3);
 
 
         if (flag == 0) {
@@ -459,16 +501,32 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         setupTabIcons();
         tabLayout.setTabTextColors(Color.parseColor("#4D4D4D"), Color.parseColor(colorActive));
 
+        linTab2 = findViewById(R.id.linTab2);
+        linTab3 = findViewById(R.id.linTab3);
+        linTab4 = findViewById(R.id.linTab4);
+        linTab2.setVisibility(View.GONE);
+        linTab3.setVisibility(View.GONE);
+        linTab4.setVisibility(View.GONE);
+
         sub2tabLayout = findViewById(R.id.tabsSecond);
         sub2tabLayout.setupWithViewPager(Subviewpager);
         sub2tabLayout.setVisibility(View.GONE);
 
-        tabFlashyAnimator = new TabFlashyAnimatorWithTitle(sub2tabLayout);
+        sub3tabLayout = findViewById(R.id.tabsThird);
+        sub3tabLayout.setupWithViewPager(Subviewpager2);
+        sub3tabLayout.setVisibility(View.GONE);
+
+        sub4tabLayout = findViewById(R.id.tabsForth);
+        sub4tabLayout.setupWithViewPager(Subviewpager3);
+        sub4tabLayout.setVisibility(View.GONE);
+
         Sub2setupTabIcons();
+        Sub3setupTabIcons();
+        Sub4setupTabIcons();
+
         sub2tabLayout.setTabTextColors(Color.parseColor("#4D4D4D"), Color.parseColor(colorActive));
-
-
-
+        sub3tabLayout.setTabTextColors(Color.parseColor("#4D4D4D"), Color.parseColor(colorActive));
+        sub4tabLayout.setTabTextColors(Color.parseColor("#4D4D4D"), Color.parseColor(colorActive));
 
         try {
 
@@ -488,245 +546,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             viewPager.setBackgroundResource(Integer.parseInt(ApiConstant.eventpic + eventback));
         }
 
-        try {
-
-            int i = tabLayout.getTabCount();
-            if (i == 5) {
-
-
-                tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
-                tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
-                tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
-                tabLayout.getTabAt(3).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
-                tabLayout.getTabAt(4).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
-
-
-                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-                        JzvdStd.releaseAllVideos();
-                        String string = colorActive;
-                        int color = Color.parseColor(string);
-                        InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
-                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Agenda")){
-                            sub2tabLayout.setVisibility(View.VISIBLE);
-                            Subviewpager.setVisibility(View.VISIBLE);
-                            viewPager.setVisibility(View.GONE);
-
-                        }else{
-                            sub2tabLayout.setVisibility(View.GONE);
-                            Subviewpager.setVisibility(View.GONE);
-                            viewPager.setVisibility(View.VISIBLE);
-                        }
-                    }
-
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-                        String string1 = "#4D4D4D";
-                        int color1 = Color.parseColor(string1);
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-
-                    }
-                });
-            } else if (i == 4) {
-
-
-                tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
-                tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
-                tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
-                tabLayout.getTabAt(3).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
-
-
-                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-                        JzvdStd.releaseAllVideos();
-                        String string = colorActive;
-                        int color = Color.parseColor(string);
-                        InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
-                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Agenda")){
-                            sub2tabLayout.setVisibility(View.VISIBLE);
-                            Subviewpager.setVisibility(View.VISIBLE);
-                            viewPager.setVisibility(View.GONE);
-
-                        }else{
-                            sub2tabLayout.setVisibility(View.GONE);
-                            Subviewpager.setVisibility(View.GONE);
-                            viewPager.setVisibility(View.VISIBLE);
-
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-
-                        String string1 = "#4D4D4D";
-                        int color1 = Color.parseColor(string1);
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
-
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-
-                    }
-                });
-            } else if (i == 3) {
-
-                tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
-                tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
-                tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
-
-                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-                        JzvdStd.releaseAllVideos();
-                        String string = colorActive;
-                        int color = Color.parseColor(string);
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-
-                        if(tab.getText().equals("Agenda")){
-                            sub2tabLayout.setVisibility(View.VISIBLE);
-                            Subviewpager.setVisibility(View.VISIBLE);
-                            viewPager.setVisibility(View.GONE);
-
-                        }else{
-                            sub2tabLayout.setVisibility(View.GONE);
-                            Subviewpager.setVisibility(View.GONE);
-                            viewPager.setVisibility(View.VISIBLE);
-
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-
-                        String string1 = "#4D4D4D";
-                        int color1 = Color.parseColor(string1);
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this,color1);//tabunselected color
-                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
-
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-
-                    }
-                });
-            } else if (i == 2) {
-//               tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-//               tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-
-
-                tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
-                tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
-
-
-                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-                        JzvdStd.releaseAllVideos();
-                        String string = colorActive;
-                        int color = Color.parseColor(string);
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-
-// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
-                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Agenda")){
-                            sub2tabLayout.setVisibility(View.VISIBLE);
-                            Subviewpager.setVisibility(View.VISIBLE);
-                            viewPager.setVisibility(View.GONE);
-
-                        }else{
-                            sub2tabLayout.setVisibility(View.GONE);
-                            Subviewpager.setVisibility(View.GONE);
-                            viewPager.setVisibility(View.VISIBLE);
-
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-
-                        String string1 = "#4D4D4D";
-                        int color1 = Color.parseColor(string1);
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
-
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-
-                    }
-                });
-            } else if (i == 1) {
-
-                tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
-
-                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-
-
-                        JzvdStd.releaseAllVideos();
-                        String string = colorActive;
-                        int color = Color.parseColor(string);
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Agenda")){
-                            sub2tabLayout.setVisibility(View.VISIBLE);
-                            Subviewpager.setVisibility(View.VISIBLE);
-                            viewPager.setVisibility(View.GONE);
-
-                        }else{
-                            sub2tabLayout.setVisibility(View.GONE);
-                            Subviewpager.setVisibility(View.GONE);
-                            viewPager.setVisibility(View.VISIBLE);
-
-
-                        }
-                    }
-
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-
-                    }
-                });
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainTabMecahnism();
+        SubTab2Mechanism();
+        SubTab3Mechanism();
+        SubTab4Mechanism();
 
 
         //Initializing NavigationView
@@ -999,21 +822,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 super.onDrawerOpened(drawerView);
             }
         };
-//        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
-//        actionBarDrawerToggle.setHomeAsUpIndicator(R.drawable.menuicon);
-//
-//        actionBarDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
-//                if (drawer.isDrawerOpen(GravityCompat.START)) {
-//                    drawer.closeDrawer(GravityCompat.START);
-//                } else {
-//                    drawer.openDrawer(GravityCompat.START);
-//                }
-//            }
-//        });
-        //Setting the actionbarToggle to drawer layout
+
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
         //calling sync state is necessay or else your hamburger icon wont show up
@@ -1028,22 +837,64 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     }
 
     private void Sub2setupTabIcons() {
-        tabFlashyAnimator.addTabItem("Event Info", R.drawable.ic_newsfeed);
-        tabFlashyAnimator.addTabItem("Participant",
-                R.drawable.ic_agenda);
-        tabFlashyAnimator.addTabItem("Schedule",
-                R.drawable.ic_attendee);
-        tabFlashyAnimator.addTabItem("Emergency",
-                R.drawable.general_info);
-        tabFlashyAnimator.highLightTab(0);
-        Subviewpager.addOnPageChangeListener(tabFlashyAnimator);
+        if (sub2tabLayout.getTabAt(0) != null) {
+            if (sub2tabLayout.getTabAt(0).getText().equals("Event Info")) {
+                sub2tabLayout.getTabAt(0).setIcon(sub1tabIcons[0]);
+            } else if (sub2tabLayout.getTabAt(0).getText().equals("Participant")) {
+                sub2tabLayout.getTabAt(0).setIcon(sub1tabIcons[1]);
+            } else if (sub2tabLayout.getTabAt(0).getText().equals("Schedule")) {
+                sub2tabLayout.getTabAt(0).setIcon(sub1tabIcons[2]);
+            } else if (sub2tabLayout.getTabAt(0).getText().equals("Emergency")) {
+                sub2tabLayout.getTabAt(0).setIcon(sub1tabIcons[3]);
+            }
+        }
+
+
+        if (sub2tabLayout.getTabAt(1) != null) {
+            if (sub2tabLayout.getTabAt(1).getText().equals("Event Info")) {
+                sub2tabLayout.getTabAt(1).setIcon(sub1tabIcons[0]);
+            } else if (sub2tabLayout.getTabAt(1).getText().equals("Participant")) {
+                sub2tabLayout.getTabAt(1).setIcon(sub1tabIcons[1]);
+            } else if (sub2tabLayout.getTabAt(1).getText().equals("Schedule")) {
+                sub2tabLayout.getTabAt(1).setIcon(sub1tabIcons[2]);
+            } else if (sub2tabLayout.getTabAt(1).getText().equals("Emergency")) {
+                sub2tabLayout.getTabAt(1).setIcon(sub1tabIcons[3]);
+            }
+        }
+
+
+        if (sub2tabLayout.getTabAt(2) != null) {
+            if (sub2tabLayout.getTabAt(2).getText().equals("Event Info")) {
+                sub2tabLayout.getTabAt(2).setIcon(sub1tabIcons[0]);
+            } else if (sub2tabLayout.getTabAt(2).getText().equals("Participant")) {
+                sub2tabLayout.getTabAt(2).setIcon(sub1tabIcons[1]);
+            } else if (sub2tabLayout.getTabAt(2).getText().equals("Schedule")) {
+                sub2tabLayout.getTabAt(2).setIcon(sub1tabIcons[2]);
+            } else if (sub2tabLayout.getTabAt(2).getText().equals("Emergency")) {
+                sub2tabLayout.getTabAt(2).setIcon(sub1tabIcons[3]);
+            }
+        }
+
+
+        if (sub2tabLayout.getTabAt(3) != null) {
+            if (sub2tabLayout.getTabAt(3).getText().equals("Event Info")) {
+                sub2tabLayout.getTabAt(3).setIcon(sub1tabIcons[0]);
+            } else if (sub2tabLayout.getTabAt(3).getText().equals("Participant")) {
+                sub2tabLayout.getTabAt(3).setIcon(sub1tabIcons[1]);
+            } else if (sub2tabLayout.getTabAt(3).getText().equals("Schedule")) {
+                sub2tabLayout.getTabAt(3).setIcon(sub1tabIcons[2]);
+            } else if (sub2tabLayout.getTabAt(3).getText().equals("Emergency")) {
+                sub2tabLayout.getTabAt(3).setIcon(sub1tabIcons[3]);
+            }
+        }
+
 
 
     }
     private void Sub2setupViewPager(ViewPager viewPager) {
 
         ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
-        adapter.addFragment(new FragmentNewsFeed(), "Event Info");
+        adapter.addFragment(new EventInfoFragment(), "Event Info");
         adapter.addFragment(new AgendaFragment(), "Participant");
         adapter.addFragment(new AttendeeFragment(), "Schedule");
         adapter.addFragment(new GeneralInfo(), "Emergency");
@@ -1051,6 +902,74 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
        // sub2tabLayout.getTabAt(0).getCustomView().setSelected(false);
 
         Subviewpager.setAdapter(adapter);
+    }
+
+    private void Sub3setupTabIcons() {
+        if (sub3tabLayout.getTabAt(0) != null) {
+            if (sub3tabLayout.getTabAt(0).getText().equals("Quiz")) {
+                sub3tabLayout.getTabAt(0).setIcon(sub2tabIcons[0]);
+            } else if (sub3tabLayout.getTabAt(0).getText().equals("Live Poll")) {
+                sub3tabLayout.getTabAt(0).setIcon(sub2tabIcons[1]);
+            } else if (sub3tabLayout.getTabAt(0).getText().equals("QnA")) {
+                sub3tabLayout.getTabAt(0).setIcon(sub2tabIcons[2]);
+            } else if (Objects.requireNonNull(sub3tabLayout.getTabAt(0)).getText().equals("Engagement")) {
+                sub3tabLayout.getTabAt(0).setIcon(sub2tabIcons[3]);
+            }
+        }
+
+
+        if (sub3tabLayout.getTabAt(1) != null) {
+            if (sub3tabLayout.getTabAt(1).getText().equals("Quiz")) {
+                sub3tabLayout.getTabAt(1).setIcon(sub2tabIcons[0]);
+            } else if (sub3tabLayout.getTabAt(1).getText().equals("Live Poll")) {
+                sub3tabLayout.getTabAt(1).setIcon(sub2tabIcons[1]);
+            } else if (sub3tabLayout.getTabAt(1).getText().equals("QnA")) {
+                sub3tabLayout.getTabAt(1).setIcon(sub2tabIcons[2]);
+            } else if (sub3tabLayout.getTabAt(1).getText().equals("Engagement")) {
+                sub3tabLayout.getTabAt(1).setIcon(sub2tabIcons[3]);
+            }
+        }
+
+
+        if (sub3tabLayout.getTabAt(2) != null) {
+            if (sub3tabLayout.getTabAt(2).getText().equals("Quiz")) {
+                sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[0]);
+            } else if (sub3tabLayout.getTabAt(2).getText().equals("Live Poll")) {
+                sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[1]);
+            } else if (sub3tabLayout.getTabAt(2).getText().equals("QnA")) {
+                sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[2]);
+            } else if (sub3tabLayout.getTabAt(2).getText().equals("Engagement")) {
+                sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[3]);
+            }
+        }
+
+
+        if (sub3tabLayout.getTabAt(3) != null) {
+            if (sub3tabLayout.getTabAt(3).getText().equals("Quiz")) {
+                sub3tabLayout.getTabAt(3).setIcon(sub2tabIcons[0]);
+            } else if (sub3tabLayout.getTabAt(3).getText().equals("Live Poll")) {
+                sub3tabLayout.getTabAt(3).setIcon(sub2tabIcons[1]);
+            } else if (sub3tabLayout.getTabAt(3).getText().equals("QnA")) {
+                sub3tabLayout.getTabAt(3).setIcon(sub2tabIcons[2]);
+            } else if (sub3tabLayout.getTabAt(3).getText().equals("Engagement")) {
+                sub3tabLayout.getTabAt(3).setIcon(sub2tabIcons[3]);
+            }
+        }
+
+
+    }
+
+    private void Sub3setupViewPager(ViewPager viewPager) {
+
+        ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
+        adapter.addFragment(new FolderQuizFragment(), "Quiz");
+        adapter.addFragment(new FolderQuizFragment(), "Live Poll");
+        adapter.addFragment(new FolderQuizFragment(), "QnA");
+        adapter.addFragment(new FolderQuizFragment(), "Engagement");
+
+        // sub2tabLayout.getTabAt(0).getCustomView().setSelected(false);
+
+        Subviewpager2.setAdapter(adapter);
     }
 
     class ViewPagerAdapterSub extends FragmentPagerAdapter {
@@ -1085,6 +1004,51 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             return mFragmentTitleList.get(position);
         }
     }
+
+    private void Sub4setupTabIcons() {
+        if (sub4tabLayout.getTabAt(0) != null) {
+            if (sub4tabLayout.getTabAt(0).getText().equals("Image")) {
+                sub4tabLayout.getTabAt(0).setIcon(sub3tabIcons[0]);
+            } else if (sub4tabLayout.getTabAt(0).getText().equals("Video")) {
+                sub4tabLayout.getTabAt(0).setIcon(sub3tabIcons[1]);
+            } else if (sub4tabLayout.getTabAt(0).getText().equals("Downloads")) {
+                sub4tabLayout.getTabAt(0).setIcon(sub3tabIcons[2]);
+            }
+        }
+
+
+        if (sub4tabLayout.getTabAt(1) != null) {
+            if (sub4tabLayout.getTabAt(1).getText().equals("Image")) {
+                sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[0]);
+            } else if (sub4tabLayout.getTabAt(1).getText().equals("Video")) {
+                sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[1]);
+            } else if (sub4tabLayout.getTabAt(1).getText().equals("Downloads")) {
+                sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[2]);
+            }
+        }
+
+
+        if (sub4tabLayout.getTabAt(2) != null) {
+            if (sub4tabLayout.getTabAt(2).getText().equals("Image")) {
+                sub4tabLayout.getTabAt(2).setIcon(sub3tabIcons[0]);
+            } else if (sub4tabLayout.getTabAt(2).getText().equals("Video")) {
+                sub4tabLayout.getTabAt(2).setIcon(sub3tabIcons[1]);
+            } else if (sub4tabLayout.getTabAt(2).getText().equals("Downloads")) {
+                sub4tabLayout.getTabAt(2).setIcon(sub3tabIcons[2]);
+            }
+        }
+
+    }
+    private void Sub4setupViewPager(ViewPager viewPager) {
+
+        ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
+        adapter.addFragment(new FolderQuizFragment(), "Image");
+        adapter.addFragment(new FolderQuizFragment(), "Video");
+        adapter.addFragment(new FolderQuizFragment(), "Downloads");
+
+        Subviewpager3.setAdapter(adapter);
+    }
+
 
     public void profiledetails() {
 
@@ -1298,30 +1262,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             }
         }
 
-//
-//        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-//            //noinspection ConstantConditions
-//            TextView tv=(TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab,null);
-//            ImageView imageView= (ImageView) LayoutInflater.from(this).inflate(R.layout.custom_tab,null);
-//            if (i==0)
-//            {
-//                tv.setText("News Feed");
-//                imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_newsfeed) );
-//            }else if (i==1)
-//            {
-//                tv.setText("Agenda");
-//                imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_newsfeed) );
-//            }else if (i==2)
-//            {
-//                tv.setText("Attendees");
-//
-//            }else if (i==3)
-//            {
-//                tv.setText("Speakers");
-//            }
-//            tabLayout.getTabAt(i).setCustomView(tv);
-//
-//        }
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -2091,6 +2032,1216 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         .show(linear_layout);
             }
         });
+    }
+
+    void MainTabMecahnism(){
+        try {
+
+            int i = tabLayout.getTabCount();
+            if (i == 5) {
+
+
+                tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                tabLayout.getTabAt(3).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                tabLayout.getTabAt(4).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+
+                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        if(tab.getText().equals("Agenda")){
+                            Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+
+                        } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.VISIBLE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+
+                            linear_livestream.setVisibility(View.VISIBLE);
+
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("Agenda")){
+                            Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+
+                        } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.VISIBLE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
+
+                        }
+
+
+                    }
+                });
+            } else if (i == 4) {
+
+
+                tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                tabLayout.getTabAt(3).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+
+                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        if(tab.getText().equals("Agenda")){
+                            Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+
+                        } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.VISIBLE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
+                        }
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("Agenda")){
+                            Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+
+                        } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.VISIBLE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
+                        }
+
+                    }
+                });
+            } else if (i == 3) {
+
+                tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+
+                        if(tab.getText().equals("Agenda")){
+                            Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+
+                        } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.VISIBLE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this,color1);//tabunselected color
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("Agenda")){
+                            Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+
+                        } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.VISIBLE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
+                        }
+                    }
+                });
+            } else if (i == 2) {
+//               tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+//               tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+
+
+                tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+
+                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        if(tab.getText().equals("Agenda")){
+                            Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+
+                        } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.VISIBLE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
+                        }
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("Agenda")){
+                            Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+
+                        } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.VISIBLE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            sub4tabLayout.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
+                        }
+                    }
+                });
+            } else if (i == 1) {
+
+                tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+
+                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+
+
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        if(tab.getText().equals("Agenda")){
+                            Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+
+                        } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.VISIBLE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
+
+
+                        }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
+                        }
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("Agenda")){
+                            Subviewpager.setPagingEnabled(false);
+                            linTab2.setVisibility(View.VISIBLE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+
+                            sub2tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+
+                        } else if(tab.getText().equals("Attendee")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.VISIBLE);
+                            linTab4.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.VISIBLE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.VISIBLE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+
+
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                                tab.getText().equals("Exhibitors")){
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.VISIBLE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setPagingEnabled(false);
+                            viewPager.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.VISIBLE);
+                            sub4tabLayout.setVisibility(View.VISIBLE);
+
+
+                        }else{
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+
+
+                        }
+
+                    }
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    void SubTab2Mechanism(){
+        try {
+
+            int i = sub2tabLayout.getTabCount();
+            if (i == 4) {
+
+
+                sub2tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                sub2tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub2tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub2tabLayout.getTabAt(3).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+
+                sub2tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        sub2tabLayout.setVisibility(View.GONE);
+                        linTab2.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            } else if (i == 3) {
+
+                sub2tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                sub2tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub2tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+                sub2tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        linTab2.setVisibility(View.GONE);
+
+                        sub2tabLayout.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this,color1);//tabunselected color
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            } else if (i == 2) {
+
+                sub2tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                sub2tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+
+                sub2tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        sub2tabLayout.setVisibility(View.GONE);
+                        linTab2.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            } else if (i == 1) {
+
+                sub2tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+
+                sub2tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+
+
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        // sub2tabLayout.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    void SubTab3Mechanism(){
+        try {
+
+            int i = sub3tabLayout.getTabCount();
+            if (i == 4) {
+
+
+                sub3tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                sub3tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub3tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub3tabLayout.getTabAt(3).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+
+                sub3tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        sub3tabLayout.setVisibility(View.GONE);
+                        linTab3.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            } else if (i == 3) {
+
+                sub3tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                sub3tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub3tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+                sub3tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        linTab3.setVisibility(View.GONE);
+
+                        sub3tabLayout.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this,color1);//tabunselected color
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            } else if (i == 2) {
+
+                sub3tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                sub3tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+
+                sub3tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        sub3tabLayout.setVisibility(View.GONE);
+                        linTab3.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            } else if (i == 1) {
+
+                sub3tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+
+                sub3tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+
+
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        // sub3tabLayout.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    void SubTab4Mechanism(){
+        try {
+
+            int i = sub4tabLayout.getTabCount();
+            if (i == 4) {
+
+
+                sub4tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                sub4tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub4tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub4tabLayout.getTabAt(3).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+
+                sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        sub4tabLayout.setVisibility(View.GONE);
+                        linTab4.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            } else if (i == 3) {
+
+                sub4tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                sub4tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub4tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+                sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        linTab4.setVisibility(View.GONE);
+
+                        sub4tabLayout.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this,color1);//tabunselected color
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            } else if (i == 2) {
+
+                sub4tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                sub4tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+
+                sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+// int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        sub4tabLayout.setVisibility(View.GONE);
+                        linTab4.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            } else if (i == 1) {
+
+                sub4tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+
+                sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+
+
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        // sub3tabLayout.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
