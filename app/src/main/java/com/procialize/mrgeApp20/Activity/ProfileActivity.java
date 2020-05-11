@@ -85,6 +85,7 @@ import retrofit2.Response;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static com.procialize.mrgeApp20.Session.SessionManager.MY_PREFS_NAME;
 import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -111,8 +112,8 @@ public class ProfileActivity extends AppCompatActivity {
     ImageView headerlogoIv;
     RelativeLayout linear_upload;
     String MY_PREFS_LOGIN = "ProcializeLogin";
-    TextInputLayout input_layout_firstname, input_layout_lastname, input_layout_designation, input_layout_company,
-            input_layout_mobile, input_layout_desc, input_layout_city, input_layout_emailid, input_layout_country;
+   /* TextInputLayout input_layout_firstname, input_layout_lastname, input_layout_designation, input_layout_company,
+            input_layout_mobile, input_layout_desc, input_layout_city, input_layout_emailid, input_layout_country;*/
     RelativeLayout relative;
     ProgressDialog progressDialog;
     String mCurrentPhotoPath = "";
@@ -349,7 +350,7 @@ public class ProfileActivity extends AppCompatActivity {
             applysetting(eventSettingLists);
         }
 
-
+/*
         input_layout_firstname = findViewById(R.id.input_layout_firstname);
         input_layout_lastname = findViewById(R.id.input_layout_lastname);
         input_layout_designation = findViewById(R.id.input_layout_designation);
@@ -358,7 +359,7 @@ public class ProfileActivity extends AppCompatActivity {
         input_layout_desc = findViewById(R.id.input_layout_desc);
         input_layout_city = findViewById(R.id.input_layout_city);
         input_layout_emailid = findViewById(R.id.input_layout_emailid);
-        input_layout_country = findViewById(R.id.input_layout_country);
+        input_layout_country = findViewById(R.id.input_layout_country);*/
         relative = findViewById(R.id.relative);
 
 
@@ -383,8 +384,14 @@ public class ProfileActivity extends AppCompatActivity {
       //  layoutTop.setBackgroundColor(Color.parseColor(colorActive));
 
         GradientDrawable shape = setgradientDrawable(5, colorActive);
-
         savebtn.setBackground(shape);
+
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        eventid = prefs.getString("eventid", "1");
+        String colorActive = prefs.getString("colorActive", "");
+
+      /*  GradientDrawable drawable = (GradientDrawable)savebtn.getBackground();
+        drawable.setColor(Color.parseColor(colorActive));*/
 
         txt_upload.setTextColor(Color.parseColor(colorActive));
 
@@ -396,44 +403,44 @@ public class ProfileActivity extends AppCompatActivity {
         if (designation != null && edit_profile_designation.equalsIgnoreCase("1")) {
             Etdesignation.setText(designation);
             Etdesignation.setVisibility(View.VISIBLE);
-            input_layout_designation.setVisibility(View.VISIBLE);
+           // input_layout_designation.setVisibility(View.VISIBLE);
         } else {
             if (designation != null) {
                 Etdesignation.setText(designation);
                 Etdesignation.setVisibility(View.VISIBLE);
-                input_layout_designation.setVisibility(View.VISIBLE);
+               // input_layout_designation.setVisibility(View.VISIBLE);
 
             }
             Etdesignation.setVisibility(View.GONE);
-            input_layout_designation.setVisibility(View.GONE);
+           // input_layout_designation.setVisibility(View.GONE);
         }
 
         if (description != null) {
             Etdescription.setText(description);
             Etdescription.setVisibility(View.GONE);
-            input_layout_desc.setVisibility(View.GONE);
+         //   input_layout_desc.setVisibility(View.GONE);
         } else {
             if (description != null) {
                 Etdescription.setText(description);
                 Etdescription.setVisibility(View.GONE);
-                input_layout_desc.setVisibility(View.GONE);
+              //  input_layout_desc.setVisibility(View.GONE);
             }
             Etdescription.setVisibility(View.GONE);
-            input_layout_desc.setVisibility(View.GONE);
+          //  input_layout_desc.setVisibility(View.GONE);
         }
 
         if (city != null && edit_profile_location.equalsIgnoreCase("1")) {
             Etcity.setText(city);
             Etcity.setVisibility(View.VISIBLE);
-            input_layout_city.setVisibility(View.VISIBLE);
+          //  input_layout_city.setVisibility(View.VISIBLE);
         } else {
             if (city != null) {
                 Etcity.setText(city);
                 Etcity.setVisibility(View.VISIBLE);
-                input_layout_city.setVisibility(View.VISIBLE);
+              //  input_layout_city.setVisibility(View.VISIBLE);
             }
             Etcity.setVisibility(View.GONE);
-            input_layout_city.setVisibility(View.GONE);
+           // input_layout_city.setVisibility(View.GONE);
         }
 
 //        if (country != null && edit_profile_location.equalsIgnoreCase("1")) {
@@ -454,34 +461,34 @@ public class ProfileActivity extends AppCompatActivity {
         if (mobile != null && edit_profile_mobile.equalsIgnoreCase("1")) {
             Etmobile.setText(mobile);
             Etmobile.setVisibility(View.VISIBLE);
-            input_layout_mobile.setVisibility(View.VISIBLE);
+         //   input_layout_mobile.setVisibility(View.VISIBLE);
         } else {
             if (mobile != null) {
                 Etmobile.setText(mobile);
                 Etmobile.setVisibility(View.VISIBLE);
-                input_layout_mobile.setVisibility(View.VISIBLE);
+         //       input_layout_mobile.setVisibility(View.VISIBLE);
             }
             Etmobile.setVisibility(View.GONE);
-            input_layout_mobile.setVisibility(View.GONE);
+         //   input_layout_mobile.setVisibility(View.GONE);
 
         }
 
         if (company != null && edit_profile_company.equalsIgnoreCase("1")) {
             Etcompany.setText(company);
             Etcompany.setVisibility(View.VISIBLE);
-            input_layout_company.setVisibility(View.VISIBLE);
+        //    input_layout_company.setVisibility(View.VISIBLE);
 
         } else {
 
             if (company != null) {
                 Etcompany.setText(company);
                 Etcompany.setVisibility(View.VISIBLE);
-                input_layout_company.setVisibility(View.VISIBLE);
+         //       input_layout_company.setVisibility(View.VISIBLE);
 
             }
 
             Etcompany.setVisibility(View.GONE);
-            input_layout_company.setVisibility(View.GONE);
+         //   input_layout_company.setVisibility(View.GONE);
         }
 
         try {
@@ -491,8 +498,8 @@ public class ProfileActivity extends AppCompatActivity {
                 Etlastname.setText(lname);
                 Etfirstname.setVisibility(View.VISIBLE);
                 Etlastname.setVisibility(View.VISIBLE);
-                input_layout_firstname.setVisibility(View.VISIBLE);
-                input_layout_lastname.setVisibility(View.VISIBLE);
+          /*      input_layout_firstname.setVisibility(View.VISIBLE);
+                input_layout_lastname.setVisibility(View.VISIBLE);*/
 
             } else {
                 if (name != null) {
@@ -500,13 +507,13 @@ public class ProfileActivity extends AppCompatActivity {
                     Etlastname.setText(lname);
                     Etfirstname.setVisibility(View.VISIBLE);
                     Etlastname.setVisibility(View.VISIBLE);
-                    input_layout_firstname.setVisibility(View.VISIBLE);
-                    input_layout_lastname.setVisibility(View.VISIBLE);
+                /*    input_layout_firstname.setVisibility(View.VISIBLE);
+                    input_layout_lastname.setVisibility(View.VISIBLE);*/
                 }
                 Etfirstname.setVisibility(View.GONE);
                 Etlastname.setVisibility(View.GONE);
-                input_layout_firstname.setVisibility(View.GONE);
-                input_layout_lastname.setVisibility(View.GONE);
+             /*   input_layout_firstname.setVisibility(View.GONE);
+                input_layout_lastname.setVisibility(View.GONE);*/
 
             }
         } catch (Exception e) {
@@ -517,16 +524,16 @@ public class ProfileActivity extends AppCompatActivity {
         if (email != null && edit_profile_email.equalsIgnoreCase("1")) {
             Etemail.setText(email);
             Etemail.setVisibility(View.VISIBLE);
-            input_layout_emailid.setVisibility(View.VISIBLE);
+           /* input_layout_emailid.setVisibility(View.VISIBLE);*/
         } else {
             if (email != null) {
                 Etemail.setText(email);
                 Etemail.setVisibility(View.VISIBLE);
-                input_layout_emailid.setVisibility(View.VISIBLE);
+             /*   input_layout_emailid.setVisibility(View.VISIBLE);*/
 
             }
             Etemail.setVisibility(View.GONE);
-            input_layout_emailid.setVisibility(View.GONE);
+          /*  input_layout_emailid.setVisibility(View.GONE);*/
         }
 
 

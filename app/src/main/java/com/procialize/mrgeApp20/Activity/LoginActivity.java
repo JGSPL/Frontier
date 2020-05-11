@@ -33,7 +33,7 @@ import com.procialize.mrgeApp20.GetterSetter.EventListing;
 import com.procialize.mrgeApp20.GetterSetter.Forgot;
 import com.procialize.mrgeApp20.R;
 
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.JzvdStd;
 import io.fabric.sdk.android.Fabric;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -421,13 +421,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        JZVideoPlayerStandard.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
         ActivityCompat.finishAffinity(LoginActivity.this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        JZVideoPlayerStandard.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
     }
 }

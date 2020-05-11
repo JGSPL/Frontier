@@ -31,25 +31,25 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/edittexthmbg"
         android:gravity="center"
         android:orientation="horizontal">
 
         <com.procialize.mrgeApp20.CustomTools.ScaledImageView
             android:id="@+id/profilestatus"
-            android:layout_width="80px"
-            android:layout_height="80px"
+            android:layout_width="100px"
+            android:layout_height="100px"
             android:layout_centerInParent="true"
-            android:layout_margin="5dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/profilepic_placeholder" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
+            android:padding="5dp"
+            android:background="@color/colorwhite"
             android:hint="@string/whatsmind"
             android:textColor="@color/black"
             android:textSize="@dimen/textsizesmall" />

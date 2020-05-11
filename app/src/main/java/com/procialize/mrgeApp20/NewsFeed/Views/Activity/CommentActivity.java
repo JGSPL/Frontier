@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -31,6 +32,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,6 +46,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -65,7 +68,7 @@ import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.ApiConstant.TenorApiService;
 import com.procialize.mrgeApp20.BuildConfig;
-import com.procialize.mrgeApp20.CustomTools.MyJZVideoPlayerStandard;
+
 import com.procialize.mrgeApp20.CustomTools.PixabayImageView;
 import com.procialize.mrgeApp20.CustomTools.RecyclerItemClickListener;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
@@ -87,13 +90,14 @@ import com.procialize.mrgeApp20.GetterSetter.ReportUser;
 import com.procialize.mrgeApp20.GetterSetter.Result;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
 import com.procialize.mrgeApp20.GetterSetter.response;
-import com.procialize.mrgeApp20.R;
-import com.procialize.mrgeApp20.Session.SessionManager;
-import com.procialize.mrgeApp20.Utility.Utility;
 import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.CommentAdapter;
 import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.GifEmojiAdapter;
 import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.SwipeMultimediaAdapter;
 import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.UsersAdapter;
+import com.procialize.mrgeApp20.R;
+import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.Utility.Utility;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -115,19 +119,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.JzvdStd;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.procialize.mrgeApp20.Utility.Util.setTextViewDrawableColor;
 import static com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed.getLocalBitmapUri;
 
 public class CommentActivity extends AppCompatActivity implements CommentAdapter.CommentAdapterListner, GifEmojiAdapter.GifEmojiAdapterListner, QueryListener, SuggestionsListener {
 
     private static final String API_KEY = "TVG20YJW1MXR";
+    public static int swipableAdapterPosition = 0;
     public TextView nameTv, designationTv, companyTv, dateTv, headingTv, likeTv, commentTv, sharetext;
-    public ImageView profileIv;
+    public ImageView profileIv, iv_like;
     public ProgressBar progressView, feedprogress;
     public PixabayImageView feedimageIv;
     String fname, lname, name, company, designation, heading, date, Likes, Likeflag, Comments, profileurl, noti_profileurl, feedurl, flag, type, feedid, apikey, thumbImg, videourl, noti_type;
@@ -146,7 +150,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
     View view;
     RecyclerView gifrecycler;
     LinearLayout action_container, container2;
-    MyJZVideoPlayerStandard videoplayer;
+    JzvdStd videoplayer;
     LinearLayout linearshare,
             linearcomment,
             linearlike;
@@ -169,6 +173,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
     ViewPager vp_slider;
     ArrayList<news_feed_media> news_feed_media;
     String strPath;
+    ConnectionDetector cd;
     private APIService mAPIService;
     private TenorApiService mAPItenorService;
     private String id;
@@ -179,8 +184,6 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
     private SQLiteDatabase db;
     private UsersAdapter usersAdapter;
     private List<AttendeeList> attendeeDBList;
-    ConnectionDetector cd;
-    public static int swipableAdapterPosition =0;
 
     static public void shareImage(final String data, String url, final Context context) {
         Picasso.with(context).load(url).into(new com.squareup.picasso.Target() {
@@ -212,7 +215,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         cd = new ConnectionDetector(getApplicationContext());
         //  overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
-       /* Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -226,18 +229,17 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 //                Intent intent = new Intent(CommentActivity.this, HomeActivity.class);
 //                startActivity(intent);
                 finish();
-                JZVideoPlayer.releaseAllVideos();
+                JzvdStd.releaseAllVideos();
             }
         });
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        headerlogoIv = findViewById(R.id.headerlogoIv);*/
-        // Util.logomethod(this, headerlogoIv);
+        headerlogoIv = findViewById(R.id.headerlogoIv);
+        Util.logomethod(this, headerlogoIv);
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
-
 
         Intent intent = getIntent();
         mAPIService = ApiUtils.getAPIService();
@@ -253,7 +255,6 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         if (eventSettingLists.size() != 0) {
             applysetting(eventSettingLists);
         }
-
 
         try {
             if (intent != null) {
@@ -291,14 +292,11 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                 }
 
                 type = intent.getStringExtra("type");
-
-
                 feedid = intent.getStringExtra("feedid");
-
-                p1 = intent.getFloatExtra("AspectRatio", ( float ) 0.000);
+                p1 = intent.getFloatExtra("AspectRatio", (float) 0.000);
 
                 try {
-                    myList = ( ArrayList<news_feed_media> ) getIntent().getSerializableExtra("media_list");
+                    myList = (ArrayList<news_feed_media>) getIntent().getSerializableExtra("media_list");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -341,7 +339,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         mentionsList.setLayoutManager(new LinearLayoutManager(this));
         usersAdapter = new UsersAdapter(this);
         mentionsList.setAdapter(usersAdapter);
-        InputMethodManager inputManager = ( InputMethodManager ) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(commentEt.getWindowToken(), 0);
         // set on item click listener
         mentionsList.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
@@ -375,6 +373,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         dateTv = findViewById(R.id.dateTv);
         headingTv = findViewById(R.id.headingTv);
         likeTv = findViewById(R.id.likeTv);
+        iv_like = findViewById(R.id.iv_like);
         commentTv = findViewById(R.id.commentTv);
         sharetext = findViewById(R.id.sharetext);
 
@@ -386,7 +385,9 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         linearcomment = findViewById(R.id.linearcomment);
         linearlike = findViewById(R.id.linearlike);
         testdata = findViewById(R.id.testdata);
-        // commentbtn.setBackgroundColor(Color.parseColor(colorActive));
+
+
+         commentbtn.setBackgroundColor(Color.parseColor(colorActive));
 
         feedimageIv = findViewById(R.id.feedimageIv);
 //        feedimageIv.setAspectRatio(p1);
@@ -435,7 +436,10 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         final SpannableStringBuilder stringBuilder = new SpannableStringBuilder(testdata.getText());
         if (heading != null) {
 
-            headingTv.setVisibility(View.VISIBLE);
+            if (!heading.isEmpty())
+                headingTv.setVisibility(View.VISIBLE);
+            else
+                headingTv.setVisibility(View.GONE);
 //                    holder.wallNotificationText.setText(getEmojiFromString(notificationImageStatus));
             int flag = 0;
             for (int i = 0; i < stringBuilder.length(); i++) {
@@ -597,7 +601,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
         view = this.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = ( InputMethodManager ) getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
 
@@ -632,7 +636,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                 if (container2.getVisibility() == View.GONE) {
 
                     try {
-                        InputMethodManager imm = ( InputMethodManager ) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                         commentEt.setTextColor(Color.parseColor("#0000"));
                     } catch (Exception e) {
@@ -647,7 +651,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                     action_container.setVisibility(View.VISIBLE);
                     container2.setVisibility(View.GONE);
                     try {
-                        InputMethodManager imm = ( InputMethodManager ) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -664,7 +668,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                     action_container.setVisibility(View.VISIBLE);
                     container2.setVisibility(View.GONE);
                     try {
-                        InputMethodManager imm = ( InputMethodManager ) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -717,7 +721,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                 postMsg = highlightMentions(textData, comment.getMentions());
                 View view = CommentActivity.this.getCurrentFocus();
                 if (view != null) {
-                    InputMethodManager imm = ( InputMethodManager ) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
                 if (postMsg.equals("") || postMsg.equals(" ")) {
@@ -797,50 +801,50 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
                 final List<news_feed_media> newsFeedMedia = myList;
                 type = newsFeedMedia.get(swipableAdapterPosition).getMedia_type();
-                    if (cd.isConnectingToInternet()) {
-                        if (newsFeedMedia.size() > 0) {
+                if (cd.isConnectingToInternet()) {
+                    if (newsFeedMedia.size() > 0) {
 
-                            if (type.equals("Video")) {
-                                boolean isPresentFile = false;
-                                File dir = new File(Environment.getExternalStorageDirectory().toString() + "/" + ApiConstant.folderName);
-                                if (dir.isDirectory()) {
-                                    String[] children = dir.list();
-                                    for (int i = 0; i < children.length; i++) {
-                                        String filename = children[i].toString();
-                                        if (newsFeedMedia.get(swipableAdapterPosition).getMediaFile().equals(filename)) {
-                                            isPresentFile = true;
-                                        }
+                        if (type.equals("Video")) {
+                            boolean isPresentFile = false;
+                            File dir = new File(Environment.getExternalStorageDirectory().toString() + "/" + ApiConstant.folderName);
+                            if (dir.isDirectory()) {
+                                String[] children = dir.list();
+                                for (int i = 0; i < children.length; i++) {
+                                    String filename = children[i].toString();
+                                    if (newsFeedMedia.get(swipableAdapterPosition).getMediaFile().equals(filename)) {
+                                        isPresentFile = true;
                                     }
                                 }
+                            }
 
-                                if (!isPresentFile) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(CommentActivity.this);
-                                    builder.setTitle("Download and Share");
-                                    builder.setMessage("Video will be share only after download,\nDo you want to continue for download and share?");
-                                    builder.setNegativeButton("NO",
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog,
-                                                                    int which) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
-                                    builder.setPositiveButton("YES",
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog,
-                                                                    int which) {
-                                                    new DownloadFile().execute(ApiConstant.newsfeedwall + newsFeedMedia.get(swipableAdapterPosition).getMediaFile());
-                                                }
-                                            });
-                                    builder.show();
+                            if (!isPresentFile) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(CommentActivity.this);
+                                builder.setTitle("Download and Share");
+                                builder.setMessage("Video will be share only after download,\nDo you want to continue for download and share?");
+                                builder.setNegativeButton("NO",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                builder.setPositiveButton("YES",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                new DownloadFile().execute(ApiConstant.newsfeedwall + newsFeedMedia.get(swipableAdapterPosition).getMediaFile());
+                                            }
+                                        });
+                                builder.show();
 
-                                } else if (isPresentFile) {
-                                    String folder = Environment.getExternalStorageDirectory().toString() + "/" + ApiConstant.folderName + "/";
-                                    //Create androiddeft folder if it does not exist
-                                    File directory = new File(folder);
-                                    if (!directory.exists()) {
-                                        directory.mkdirs();
-                                    }
-                                    strPath = folder + newsFeedMedia.get(swipableAdapterPosition).getMediaFile();
+                            } else if (isPresentFile) {
+                                String folder = Environment.getExternalStorageDirectory().toString() + "/" + ApiConstant.folderName + "/";
+                                //Create androiddeft folder if it does not exist
+                                File directory = new File(folder);
+                                if (!directory.exists()) {
+                                    directory.mkdirs();
+                                }
+                                strPath = folder + newsFeedMedia.get(swipableAdapterPosition).getMediaFile();
                               /*              ContentValues content = new ContentValues(4);
                                             content.put(MediaStore.Video.VideoColumns.DATE_ADDED,
                                                     System.currentTimeMillis() / 1000);
@@ -848,24 +852,24 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                                             content.put(MediaStore.Video.Media.DATA, strPath);
                                             ContentResolver resolver = CommentActivity.this.getContentResolver();
                                             Uri uri =strPath; resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, content);*/
-                                    Uri contentUri = FileProvider.getUriForFile(CommentActivity.this,
-                                            BuildConfig.APPLICATION_ID + ".android.fileprovider", new File(strPath));
+                                Uri contentUri = FileProvider.getUriForFile(CommentActivity.this,
+                                        BuildConfig.APPLICATION_ID + ".android.fileprovider", new File(strPath));
 
-                                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                    sharingIntent.setType("video/*");
-                                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Video Share");
-                                    sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
-                                    sharingIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                                    startActivity(Intent.createChooser(sharingIntent, "Share Video"));
-                                }
-                            } else {
-                                shareImage(date + "\n" + heading, ApiConstant.newsfeedwall + newsFeedMedia.get(swipableAdapterPosition).getMediaFile(), CommentActivity.this);
+                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                sharingIntent.setType("video/*");
+                                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Video Share");
+                                sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
+                                sharingIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                                startActivity(Intent.createChooser(sharingIntent, "Share Video"));
                             }
                         } else {
-                            shareTextUrl(date + "\n" + heading, StringEscapeUtils.unescapeJava(heading));
+                            shareImage(date + "\n" + heading, ApiConstant.newsfeedwall + newsFeedMedia.get(swipableAdapterPosition).getMediaFile(), CommentActivity.this);
                         }
+                    } else {
+                        shareTextUrl(date + "\n" + heading, StringEscapeUtils.unescapeJava(heading));
                     }
                 }
+            }
                /* if (type.equals("Image")) {
 
                     shareTextUrl(date + "\n" + heading, feedurl);
@@ -1360,19 +1364,19 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                         vp_slider.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                             @Override
                             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                                JZVideoPlayerStandard.releaseAllVideos();
+                                JzvdStd.releaseAllVideos();
                             }
 
                             @Override
                             public void onPageSelected(int position1) {
                                 swipableAdapterPosition = position1;
-                                JZVideoPlayerStandard.releaseAllVideos();
+                                JzvdStd.releaseAllVideos();
                                 setupPagerIndidcatorDots(position1, ll_dots, imagesSelectednew.size());
                             }
 
                             @Override
                             public void onPageScrollStateChanged(int state) {
-                                JZVideoPlayerStandard.releaseAllVideos();
+                                JzvdStd.releaseAllVideos();
                             }
                         });
                     }
@@ -1700,7 +1704,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         action_container.setVisibility(View.VISIBLE);
         container2.setVisibility(View.GONE);
         try {
-            InputMethodManager imm = ( InputMethodManager ) getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         } catch (Exception e) {
             e.printStackTrace();
@@ -1766,8 +1770,9 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
         if (Likeflag != null) {
             if (Likeflag.equals("1")) {
-                likeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_afterlike, 0);
-                setTextViewDrawableColor(likeTv, colorActive);
+                iv_like.setImageDrawable(getResources().getDrawable(R.drawable.ic_afterlike));
+               /*  likeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_afterlike, 0);
+               setTextViewDrawableColor(likeTv, colorActive);*/
 //                if (attendeeList.getReaction().equals("0"))
 //                    holder.iv_reaction.setImageDrawable(context.getResources().getDrawable(R.drawable.like_0));
 //                else if (attendeeList.getReaction().equals("1"))
@@ -1787,7 +1792,8 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 //            }
 
             } else {
-                likeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.like_icon, 0);
+                iv_like.setImageDrawable(getResources().getDrawable(R.drawable.ic_like));
+                // likeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_like, 0);
             }
         }
 
@@ -1877,8 +1883,11 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                 feedimageIv.setVisibility(View.GONE);
                 videoplayer.setVisibility(View.VISIBLE);
                 playicon.setVisibility(View.GONE);
-                videoplayer.setUp(videourl
-                        , JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");
+              /*  videoplayer.setUp(videourl
+                        , JzvdStd.SCREEN_WINDOW_NORMAL, "");*/
+
+                videoplayer.setUp(videourl,""
+                        , JzvdStd.SCREEN_NORMAL);
 
                 Glide.with(CommentActivity.this).load(thumbImg).into(videoplayer.thumbImageView);
 
@@ -1917,7 +1926,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        JZVideoPlayerStandard.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
         finish();
     }
 
@@ -2090,15 +2099,13 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         } catch (Exception e) {
 
         }
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        JZVideoPlayerStandard.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
     }
-
 
 
     private class DownloadFile extends AsyncTask<String, String, String> {
@@ -2163,8 +2170,8 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                     total += count;
                     // publishing the progress....
                     // After this onProgressUpdate will be called
-                    publishProgress("" + ( int ) ((total * 100) / lengthOfFile));
-                    Log.d("ImageMultipleActivity", "Progress: " + ( int ) ((total * 100) / lengthOfFile));
+                    publishProgress("" + (int) ((total * 100) / lengthOfFile));
+                    Log.d("ImageMultipleActivity", "Progress: " + (int) ((total * 100) / lengthOfFile));
 
                     // writing data to file
                     output.write(data, 0, count);
@@ -2203,7 +2210,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
           /*  Toast.makeText(CommentActivity.this,
                     message, Toast.LENGTH_LONG).show();*/
 
-            Uri contentUri = FileProvider.getUriForFile(CommentActivity.this, BuildConfig.APPLICATION_ID+".android.fileprovider", new File(strPath));
+            Uri contentUri = FileProvider.getUriForFile(CommentActivity.this, BuildConfig.APPLICATION_ID + ".android.fileprovider", new File(strPath));
 /*
             Intent share = new Intent(Intent.ACTION_SEND);
             share.setType("video/*");

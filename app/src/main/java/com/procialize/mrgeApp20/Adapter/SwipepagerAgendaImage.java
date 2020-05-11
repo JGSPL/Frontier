@@ -22,7 +22,7 @@ import com.procialize.mrgeApp20.R;
 
 import java.util.List;
 
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.JzvdStd;
 
 
 /**
@@ -31,7 +31,7 @@ import cn.jzvd.JZVideoPlayerStandard;
 
 public class SwipepagerAgendaImage extends PagerAdapter {
 
-    public static JZVideoPlayerStandard videoplayer;
+    public static JzvdStd videoplayer;
     ApiConstant constant;
     String image_url, thumb_image_url;
     String deviceMan;
@@ -116,8 +116,11 @@ public class SwipepagerAgendaImage extends PagerAdapter {
             videoplayer.setVisibility(View.VISIBLE);
             videoWebView.setVisibility(View.GONE);
 
-            videoplayer.setUp(image_url
-                    , JZVideoPlayerStandard.SCREEN_WINDOW_LIST, "");
+     /*       videoplayer.setUp(image_url
+                    , JzvdStd.SCREEN_WINDOW_LIST, "");*/
+
+            videoplayer.setUp(image_url,""
+                    , JzvdStd.SCREEN_NORMAL);
             Glide.with(context).load(image_url).into(videoplayer.thumbImageView);
 //            PicassoTrustAll.getInstance(context)
 //                    .load(image_url)

@@ -43,7 +43,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JzvdStd;
 
 public class SwappingGalleryActivity extends AppCompatActivity implements SwipeImageAdapter.SwipeImageAdapterListner {
 
@@ -397,7 +397,7 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
     public void onPause() {
         super.onPause();
 
-        JZVideoPlayer.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
 
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MergeApp2020</string>
+    <string name="app_name">MrgeApp2020</string>
     <string name="hint_email">* Mobile Number</string>
     <string name="hint_password">* Enter Password</string>
 
@@ -14,7 +14,7 @@
     <string name="documents">Documents</string>
     <string name="livepol">Live Poll</string>
     <string name="quiz">Quiz</string>
-    <string name="contactus"> Emergency Contact</string>
+    <string name="contactus">Contact Helpdesk</string>
     <string name="privacy_policy">  Privacy Policy</string>
     <string name="swit">Switch Events</string>
     <string name="openDrawer">Drawer Open</string>
@@ -53,6 +53,7 @@
     <string name="create_evnt">Create an event</string>
     <string name="signup">CREATE ACCOUNT</string>
     <string name="whatsmind">What\'s on your mind?</string>
+    <string name="typeMessage">Type here your message...</string>
     <string name="post">Post</string>
     <string name="postquestion">Post Question</string>
     <string name="createcontact">Create Contact</string>

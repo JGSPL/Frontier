@@ -39,7 +39,7 @@ import com.procialize.mrgeApp20.Utility.Util;
 import java.io.File;
 import java.util.HashMap;
 
-import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JzvdStd;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -244,7 +244,7 @@ public class DocumentsActivity extends AppCompatActivity implements DocumentsAda
     public void onPause() {
         super.onPause();
 
-        JZVideoPlayer.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
 
     }
 

@@ -20,7 +20,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.procialize.mrgeApp20.CustomTools.MyJZVideoPlayerStandard;
+
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
 import com.procialize.mrgeApp20.R;
@@ -30,13 +30,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.jzvd.JZVideoPlayer;
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.Jzvd;
+import cn.jzvd.JzvdStd;
+
 
 public class SwipeMultimediaAdapter extends PagerAdapter {
 
     public ImageView myImage;
-    public MyJZVideoPlayerStandard videoview;
+    public JzvdStd videoview;
     public TextView name;
     String MY_PREFS_NAME = "ProcializeInfo";
     ImageView imgplay, thumbimg;
@@ -86,7 +87,6 @@ public class SwipeMultimediaAdapter extends PagerAdapter {
 //            card_video.setVisibility(View.GONE);
             imgplay.setVisibility(View.GONE);
 //            thumbimg.setVisibility(View.GONE);
-            JZVideoPlayer.goOnPlayOnPause();
 
             if (firstLevelFilter.contains("gif")) {
                 progressBar.setVisibility(View.GONE);
@@ -117,13 +117,15 @@ public class SwipeMultimediaAdapter extends PagerAdapter {
             imgplay.setVisibility(View.GONE);
 //            thumbimg.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
-            JZVideoPlayerStandard.se
-            videoview.setUp(firstLevelFilter
-                    , JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");
+       /*     videoview.setUp(firstLevelFilter
+                    , JzvdStd.SCREEN_WINDOW_NORMAL, "");*/
+            videoview.setUp(firstLevelFilter,""
+                    , JzvdStd.SCREEN_NORMAL);
+            Jzvd.setVideoImageDisplayType(Jzvd.VIDEO_IMAGE_DISPLAY_TYPE_FILL_SCROP);
 
                       /*HttpProxyCacheServer proxy = getProxy(context);
             String proxyUrl = proxy.getProxyUrl(firstLevelFilter);
-            videoview.setUp(proxyUrl , JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");*/
+            videoview.setUp(proxyUrl , JzvdStd.SCREEN_WINDOW_NORMAL, "");*/
 
             Glide.with(videoview)
                     .load(thumbImage)

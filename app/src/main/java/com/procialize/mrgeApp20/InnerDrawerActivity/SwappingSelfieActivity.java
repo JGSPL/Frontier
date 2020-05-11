@@ -45,7 +45,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JzvdStd;
 
 public class SwappingSelfieActivity extends AppCompatActivity implements SwipeImageSelfieAdapter.SwipeImageSelfieAdapterListner {
     public int rvposition = 0;
@@ -380,7 +380,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
     public void onPause() {
         super.onPause();
 
-        JZVideoPlayer.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
 
     }
 }

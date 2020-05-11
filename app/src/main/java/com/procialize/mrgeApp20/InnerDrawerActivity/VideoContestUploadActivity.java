@@ -53,7 +53,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JzvdStd;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -527,7 +527,7 @@ public class VideoContestUploadActivity extends AppCompatActivity implements Pro
     public void onPause() {
         super.onPause();
 
-        JZVideoPlayer.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
 
     }
 

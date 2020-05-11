@@ -1,6 +1,8 @@
 package com.procialize.mrgeApp20.NewsFeed.Views.Activity;
 
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -14,12 +16,14 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +45,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.BuildConfig;
+import com.procialize.mrgeApp20.CustomTools.MyJzvdStd;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
@@ -64,8 +69,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import cn.jzvd.JZVideoPlayer;
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.JzvdStd;
+
+import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
 
 public class ImageMultipleActivity extends AppCompatActivity {
     public ProgressDialog progressDialog;
@@ -83,6 +89,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private ConnectionDetector cd;
     private String strPath;
+    boolean isShare;
 
     static public void shareImage(String url, final Context context) {
   /*      if (url.contains("mp4")) {
@@ -163,7 +170,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
 //                Intent intent = new Intent(CommentMultiActivity.this, HomeActivity.class);
 //                startActivity(intent);
                 finish();
-                JZVideoPlayer.releaseAllVideos();
+                JzvdStd.releaseAllVideos();
             }
         });
 
@@ -227,11 +234,15 @@ public class ImageMultipleActivity extends AppCompatActivity {
         ll_dots = findViewById(R.id.ll_dots);
         progressBar = findViewById(R.id.progressBar);
 
+        GradientDrawable shape = setgradientDrawable(5, colorActive);
+        savebtn.setBackground(shape);
+        sharebtn.setBackground(shape);
 
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (cd.isConnectingToInternet()) {
+                    isShare = false;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
                         if (ImageMultipleActivity.this.checkSelfPermission(
@@ -316,6 +327,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
         sharebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isShare = true;
                /* url = ApiConstant.newsfeedwall + news_feed_media.get(shareOrSaveImagePosition).getMediaFile();
                 if (url.contains("mp4")) {
                     Intent share = new Intent(Intent.ACTION_SEND);
@@ -365,35 +377,31 @@ public class ImageMultipleActivity extends AppCompatActivity {
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog,
                                                                 int which) {
-                                                new ImageMultipleActivity.DownloadFile().execute(ApiConstant.newsfeedwall + news_feed_media.get(shareOrSaveImagePosition).getMediaFile());
+
+                                                new DownloadFile().execute(ApiConstant.newsfeedwall + news_feed_media.get(shareOrSaveImagePosition).getMediaFile());
                                             }
                                         });
                                 builder.show();
 
                             } else if (isPresentFile) {
-                                String folder = Environment.getExternalStorageDirectory().toString() + "/" + ApiConstant.folderName + "/";
-                                //Create androiddeft folder if it does not exist
-                                File directory = new File(folder);
-                                if (!directory.exists()) {
-                                    directory.mkdirs();
-                                }
-                                strPath = folder + news_feed_media.get(shareOrSaveImagePosition).getMediaFile();
-                              /*              ContentValues content = new ContentValues(4);
-                                            content.put(MediaStore.Video.VideoColumns.DATE_ADDED,
-                                                    System.currentTimeMillis() / 1000);
-                                            content.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
-                                            content.put(MediaStore.Video.Media.DATA, strPath);
-                                            ContentResolver resolver = ImageMultipleActivity.this.getContentResolver();
-                                            Uri uri =strPath; resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, content);*/
-                                Uri contentUri = FileProvider.getUriForFile(ImageMultipleActivity.this,
-                                        BuildConfig.APPLICATION_ID + ".android.fileprovider", new File(strPath));
-
-                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                sharingIntent.setType("video/*");
-                                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Video Share");
-                                sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
-                                sharingIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                                startActivity(Intent.createChooser(sharingIntent, "Share Video"));
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ImageMultipleActivity.this);
+                                builder.setTitle("Download and Share");
+                                builder.setMessage("Video will be share only after download,\nDo you want to continue for download and share?");
+                                builder.setNegativeButton("NO",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                builder.setPositiveButton("YES",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                new DownloadFile().execute(ApiConstant.newsfeedwall + news_feed_media.get(shareOrSaveImagePosition).getMediaFile());
+                                            }
+                                        });
+                                builder.show();
                             }
                         } else {
                             shareImage( ApiConstant.newsfeedwall + news_feed_media.get(shareOrSaveImagePosition).getMediaFile(), ImageMultipleActivity.this);
@@ -403,10 +411,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
                     }
                 }
             }
-
         });
-
-
 
         SwipeMultimediaDetailsAdapter swipepagerAdapter = new SwipeMultimediaDetailsAdapter(ImageMultipleActivity.this, imagesSelectednew, imagesSelectednew1);
         rvp_slide.setAdapter(swipepagerAdapter);
@@ -419,21 +424,16 @@ public class ImageMultipleActivity extends AppCompatActivity {
             rvp_slide.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    JZVideoPlayerStandard.releaseAllVideos();
-                    /*NewsfeedAdapter.ViewHolder viewHolder = new NewsfeedAdapter.ViewHolder();
-                    if (viewHolder.VideoView != null) {
-                        viewHolder.VideoView.pause();
-                    }*/
-
+                    JzvdStd.releaseAllVideos();
+                    MyJzvdStd.releaseAllVideos();
                     MediaPlayer mediaPlayer = new MediaPlayer();
                     mediaPlayer.pause();
-
                 }
 
                 @Override
                 public void onPageSelected(int position1) {
                     shareOrSaveImagePosition = position1;
-                    JZVideoPlayerStandard.releaseAllVideos();
+                    JzvdStd.releaseAllVideos();
                     setupPagerIndidcatorDots(position1, ll_dots, imagesSelectednew.size());
                    /* NewsfeedAdapter.ViewHolder viewHolder = new NewsfeedAdapter.ViewHolder();
                     if (viewHolder.VideoView != null) {
@@ -445,7 +445,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-                    JZVideoPlayerStandard.releaseAllVideos();
+                    JzvdStd.releaseAllVideos();
                     MediaPlayer mediaPlayer = new MediaPlayer();
                     mediaPlayer.pause();
                 }
@@ -571,10 +571,10 @@ public class ImageMultipleActivity extends AppCompatActivity {
                 //Extract file name from URL
                 fileName = f_url[0].substring(f_url[0].lastIndexOf('/') + 1, f_url[0].length());
                 //Append timestamp to file name
-                fileName = timestamp + "_" + fileName;
+                //fileName = timestamp + "_" + fileName;
                 //External directory path to save file
                 //folder = Environment.getExternalStorageDirectory() + File.separator + "androiddeft/";
-                String folder = Environment.getExternalStorageDirectory().toString() + "/"+ApiConstant.folderName+"/";
+                String folder = Environment.getExternalStorageDirectory().toString() + "/" + ApiConstant.folderName + "/";
 
 
                 //Create androiddeft folder if it does not exist
@@ -584,6 +584,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
                     directory.mkdirs();
                 }
 
+                strPath = folder + fileName;
                 // Output stream to write file
                 OutputStream output = new FileOutputStream(folder + fileName);
 
@@ -608,7 +609,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
                 // closing streams
                 output.close();
                 input.close();
-                return "Download completed- check folder "+ApiConstant.folderName;
+                return "Download completed- check folder " + ApiConstant.folderName;
 
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage());
@@ -631,16 +632,36 @@ public class ImageMultipleActivity extends AppCompatActivity {
             // dismiss the dialog after the file was downloaded
             this.progressDialog.dismiss();
 
-            // Display File path after downloading
-            Toast.makeText(getApplicationContext(),
-                    message, Toast.LENGTH_LONG).show();
+            if(isShare)
+            {
+                ContentValues content = new ContentValues(4);
+                content.put(MediaStore.Video.VideoColumns.DATE_ADDED,
+                        System.currentTimeMillis() / 1000);
+                content.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+                content.put(MediaStore.Video.Media.DATA, strPath);
+
+                ContentResolver resolver = getContentResolver();
+                Uri uri = resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, content);
+
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.setType("video/*");
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Video Share");
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                startActivity(Intent.createChooser(sharingIntent, "Share Video"));}
+            else {
+                // Display File path after downloading
+                Toast.makeText(getApplicationContext(),
+                        message, Toast.LENGTH_LONG).show();
+            }
         }
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
+        MyJzvdStd.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
         finish();
     }
 

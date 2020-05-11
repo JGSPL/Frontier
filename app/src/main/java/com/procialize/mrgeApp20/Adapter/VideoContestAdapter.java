@@ -78,7 +78,7 @@ public class VideoContestAdapter extends RecyclerView.Adapter<VideoContestAdapte
         holder.countTv.setText(galleryList.getTotalLikes());
 //        holder.countTv.setTextColor(Color.parseColor(colorActive));
 //        holder.videoPlayerStandard.setUp(ApiConstant.selfievideo+galleryList.getFileName()
-//                , JZVideoPlayerStandard.SCREEN_WINDOW_LIST, "");
+//                , JzvdStd.SCREEN_WINDOW_LIST, "");
 
         String url = ApiConstant.selfievideo + galleryList.getThumbName();
 

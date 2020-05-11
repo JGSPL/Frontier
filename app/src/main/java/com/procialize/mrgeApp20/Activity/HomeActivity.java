@@ -20,8 +20,6 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,7 +50,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.crashlytics.android.Crashlytics;
 import com.cuberto.flashytabbarandroid.TabFlashyAnimator;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -69,19 +66,10 @@ import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.Background.WallPostService;
 import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.CustomTools.CustomViewPager;
-import com.procialize.mrgeApp20.CustomTools.MyJZVideoPlayerStandard;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.EmptyViewActivity;
-import com.procialize.mrgeApp20.Fragments.AgendaFolderFragment;
-import com.procialize.mrgeApp20.Fragments.AgendaFragment;
-import com.procialize.mrgeApp20.Fragments.AllExhibitorFragment;
-import com.procialize.mrgeApp20.Fragments.AttendeeFragment;
-import com.procialize.mrgeApp20.Fragments.ExhiCatFragment;
-import com.procialize.mrgeApp20.Fragments.GeneralInfo;
-import com.procialize.mrgeApp20.Fragments.SpeakerFragment;
-import com.procialize.mrgeApp20.Fragments.WallFragment_POST;
 import com.procialize.mrgeApp20.GetterSetter.AgendaList;
 import com.procialize.mrgeApp20.GetterSetter.EventMenuSettingList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
@@ -115,7 +103,6 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.VideoActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
-import com.procialize.mrgeApp20.SubTabFragment.FragmentSecond;
 import com.procialize.mrgeApp20.Utility.PlayerConfig;
 import com.procialize.mrgeApp20.Utility.Res;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -130,7 +117,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.JzvdStd;
 import github.chenupt.springindicator.SpringIndicator;
 import io.fabric.sdk.android.Fabric;
 import okhttp3.MediaType;
@@ -496,7 +483,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        JZVideoPlayerStandard.releaseAllVideos();
+                        JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         InputMethodManager imm = (InputMethodManager) HomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
@@ -542,7 +529,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        JZVideoPlayerStandard.releaseAllVideos();
+                        JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         InputMethodManager imm = (InputMethodManager) HomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
@@ -587,7 +574,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        JZVideoPlayerStandard.releaseAllVideos();
+                        JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -635,7 +622,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        JZVideoPlayerStandard.releaseAllVideos();
+                        JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -695,7 +682,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 
                         }*/
 
-                        JZVideoPlayerStandard.releaseAllVideos();
+                        JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -1452,10 +1439,8 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
                 } else if (eventSettingLists.get(i).getFieldName().equals("side_menu_exhibitor")) {
                     side_menu_exhibitor = eventSettingLists.get(i).getFieldValue();
                 } else if (eventSettingLists.get(i).getFieldName().equals("side_menu_sponsor")) {
-
                     side_menu_sponsor = eventSettingLists.get(i).getFieldValue();
                 }
-
             }
         }
 
@@ -1465,11 +1450,10 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
     @Override
     public void onBackPressed() {
 
-        boolean check = MyJZVideoPlayerStandard.backPress();
+        boolean check = JzvdStd.backPress();
 
       //  if (check == true) {
-            MyJZVideoPlayerStandard.goOnPlayOnPause();
-            MyJZVideoPlayerStandard.quitFullscreenOrTinyWindow();
+        JzvdStd.goOnPlayOnPause();
       //  } else {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);

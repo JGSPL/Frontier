@@ -37,7 +37,7 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.JzvdStd;
 
 
 /**
@@ -45,7 +45,7 @@ import cn.jzvd.JZVideoPlayerStandard;
  */
 public class ExoVideoActivity extends AppCompatActivity {
 
-    JZVideoPlayerStandard emVideoView;
+    JzvdStd emVideoView;
 
     String videoUrl = "";
     String title = "";
@@ -248,8 +248,11 @@ public class ExoVideoActivity extends AppCompatActivity {
         MediaController mediaController = new MediaController(this);
         Uri uri = Uri.parse(videoUrl1);
         emVideoView = findViewById(R.id.video_view);
-        emVideoView.setUp(videoUrl1
-                , JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");
+  /*      emVideoView.setUp(videoUrl1
+                , JzvdStd.SCREEN_WINDOW_NORMAL, "");*/
+
+        emVideoView.setUp(videoUrl1,""
+                , JzvdStd.SCREEN_NORMAL);
 
         emVideoView.startVideo();
 
@@ -363,7 +366,7 @@ public class ExoVideoActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        JZVideoPlayerStandard.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
         super.onPause();
     }
 }

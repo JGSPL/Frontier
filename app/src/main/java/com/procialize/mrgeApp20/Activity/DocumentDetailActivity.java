@@ -57,7 +57,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.JzvdStd;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,7 +69,7 @@ public class DocumentDetailActivity extends AppCompatActivity {
     String MY_PREFS_NAME = "ProcializeInfo";
     WebView webview;
     ImageView image_view;
-    JZVideoPlayerStandard video_view;
+    JzvdStd video_view;
     String filetype, file, br_id;
     File download_file, pdffile;
     ImageView headerlogoIv;
@@ -102,7 +102,7 @@ public class DocumentDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-                JZVideoPlayerStandard.releaseAllVideos();
+                JzvdStd.releaseAllVideos();
             }
         });
 
@@ -231,8 +231,11 @@ public class DocumentDetailActivity extends AppCompatActivity {
             video_view.setVisibility(View.VISIBLE);
             image_view.setVisibility(View.GONE);
 
-            video_view.setUp(ApiConstant.doc + "uploads/exhibitor_brochure/" + file
-                    , JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");
+           /* video_view.setUp(ApiConstant.doc + "uploads/exhibitor_brochure/" + file
+                    , JzvdStd.SCREEN_WINDOW_NORMAL, "");
+*/
+            video_view.setUp("uploads/exhibitor_brochure/" + file,""
+                    , JzvdStd.SCREEN_NORMAL);
 
             video_view.startVideo();
 
@@ -242,7 +245,7 @@ public class DocumentDetailActivity extends AppCompatActivity {
         btn_download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JZVideoPlayerStandard.releaseAllVideos();
+                JzvdStd.releaseAllVideos();
                 ExhibitorAnalyticsSubmit(eventid, accesstoken, "exhibitor_brochure_download", br_id, exhibitor_id);
 
                 if (filetype.equalsIgnoreCase("pdf")) {
@@ -494,13 +497,13 @@ public class DocumentDetailActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        JZVideoPlayerStandard.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        JZVideoPlayerStandard.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
     }
 
     public void ExhibitorAnalyticsSubmit(String event_id, String token, String analytic_type, String target_id, String exhibitor_id) {

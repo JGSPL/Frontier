@@ -46,10 +46,10 @@ import com.procialize.mrgeApp20.GetterSetter.Comment;
 import com.procialize.mrgeApp20.GetterSetter.Mention;
 import com.procialize.mrgeApp20.GetterSetter.NewsFeedPostMultimedia;
 import com.procialize.mrgeApp20.GetterSetter.SelectedImages;
-import com.procialize.mrgeApp20.R;
-import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.UsersAdapter;
 import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.ViewPagerMultimediaAdapter;
+import com.procialize.mrgeApp20.R;
+import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.MediaLoader;
 import com.yanzhenjie.album.Action;
 import com.yanzhenjie.album.Album;
@@ -100,7 +100,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     ViewPagerMultimediaAdapter viewPagerAdapter;
     ViewPager viewPager;
     LinearLayout sliderDotspanel;
-    TextView postbtn;
+    TextView postbtn, tv_name;
     String postMsg = "";
     TextView textData;
     String is_completed = "0";
@@ -111,6 +111,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     String postUrlmulti;
     SessionManager session;
     String apikey, eventId;
+    LinearLayout linear;
     private ArrayList<AlbumFile> mAlbumFiles = new ArrayList<>();//Array For selected images and videos
     private int dotscount;
     private ImageView[] dots;
@@ -121,7 +122,6 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     private UsersAdapter usersAdapter;
     private DBHelper procializeDB;
     private ArrayList<AttendeeList> customers;
-    LinearLayout linear;
 
     public static HttpResponse transformResponse(Response response) {
 
@@ -192,11 +192,11 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         cd = new ConnectionDetector(this);
-        llUploadMedia = ( LinearLayout ) findViewById(R.id.llUploadMedia);
+        llUploadMedia = (LinearLayout) findViewById(R.id.llUploadMedia);
         llUploadMedia.setOnClickListener(this);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        sliderDotspanel = ( LinearLayout ) findViewById(R.id.SliderDots);
+        sliderDotspanel = (LinearLayout) findViewById(R.id.SliderDots);
 
         postbtn = findViewById(R.id.postbtn);
         postbtn.setOnClickListener(this);
@@ -204,6 +204,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         posttextEt = findViewById(R.id.posttextEt);
         txtcount = findViewById(R.id.txtcount);
         textData = findViewById(R.id.textData);
+        tv_name = findViewById(R.id.tv_name);
 
         final TextWatcher txwatcher = new TextWatcher() {
             @Override
@@ -220,7 +221,13 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
             public void afterTextChanged(Editable s) {
                 // TODO Auto-generated method stub
                 txtcount.setText(String.valueOf(500 - s.length()) + "/");
-
+                if (s.length() > 0) {
+                    postbtn.setTextColor(getResources().getColor(R.color.colorwhite));
+                    postbtn.setBackgroundColor(getResources().getColor(R.color.orange));
+                } else {
+                    postbtn.setTextColor(getResources().getColor(R.color.orange));
+                    postbtn.setBackgroundColor(getResources().getColor(R.color.colorwhite));
+                }
             }
 
             @Override
@@ -251,6 +258,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         String profilepic = user.get(SessionManager.KEY_PIC);
         apikey = user.get(SessionManager.KEY_TOKEN);
 
+        tv_name.setText(user.get(SessionManager.KEY_NAME));
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventId = prefs.getString("eventid", "1");
 
@@ -334,6 +342,13 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                     public void onAction(@NonNull ArrayList<AlbumFile> result) {
                         try {
                             mAlbumFiles = result;
+                            if (result.size() > 0) {
+                                postbtn.setTextColor(getResources().getColor(R.color.colorwhite));
+                                postbtn.setBackgroundColor(getResources().getColor(R.color.orange));
+                            } else {
+                                postbtn.setTextColor(getResources().getColor(R.color.orange));
+                                postbtn.setBackgroundColor(getResources().getColor(R.color.colorwhite));
+                            }
                             //Get Original paths from selected arraylist
                             List selectedFileList = new ArrayList();
                             for (int i = 0; i < resultList.size(); i++) {
@@ -376,14 +391,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                             }
 
                             try {
-                            /*if (videoPositionArray.size() > 0) {
-                                if (mAlbumFiles.get(videoPositionArray.get(0)).getMediaType() == AlbumFile.TYPE_VIDEO) {
-                                    String strPath = mAlbumFiles.get(videoPositionArray.get(0)).getPath();
-                                    executeCutVideoCommand(startMsForVideoCutting, endMsForVideoCutting, Uri.parse(strPath), videoPositionArray.get(0));
-                                }
-                            } else {*/
                                 setPagerAdapter(resultList);
-                                //}
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -563,7 +571,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         mentionsList.setLayoutManager(new LinearLayoutManager(this));
         usersAdapter = new UsersAdapter(this);
         mentionsList.setAdapter(usersAdapter);
-        InputMethodManager inputManager = ( InputMethodManager ) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(posttextEt.getWindowToken(), 0);
         // set on item click listener
         mentionsList.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {

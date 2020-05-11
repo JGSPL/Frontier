@@ -459,8 +459,6 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
                         });
 
             }*/
-
-
         } else {
             Toast.makeText(EventChooserActivity.this, "No Intrnet Connection", Toast.LENGTH_SHORT).show();
         }

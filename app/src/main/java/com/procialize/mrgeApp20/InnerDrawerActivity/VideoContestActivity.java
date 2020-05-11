@@ -50,7 +50,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.io.File;
 import java.util.HashMap;
 
-import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JzvdStd;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -673,7 +673,7 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
     public void onPause() {
         super.onPause();
 
-        JZVideoPlayer.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
 
     }
 

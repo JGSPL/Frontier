@@ -6,7 +6,7 @@ package com.procialize.mrgeApp20.ApiConstant;
 
 public class ApiConstant {
 
-    public static String folderName = "EventApp";
+    public static String folderName = "MrgeApp2020";
 
     public static final String BROADCAST_ACTION = "com.procialize.eventsapp.BROADCAST";
     public static final String BROADCAST_ACTION_BUZZ_FEED = "com.procialize.eventsapp.BROADCAST.BUZZ_FEED";

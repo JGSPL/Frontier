@@ -26,7 +26,10 @@ import com.procialize.mrgeApp20.GetterSetter.NewsFeedPostMultimedia;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.entity.InputStreamEntity;
+import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,14 +49,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
-import static com.procialize.mrgeApp20.Activity.PostActivity.transformResponse;
 import static com.procialize.mrgeApp20.UnsafeOkHttpClient.getUnsafeOkHttpClient;
+import static org.apache.http.HttpVersion.HTTP_1_1;
 
 
 public class BackgroundService extends IntentService {
@@ -263,8 +269,6 @@ public class BackgroundService extends IntentService {
                                     media_file = arrayListNewsFeedMultiMedia.get(0).getCompressedPath();
                                 else
                                     media_file = arrayListNewsFeedMultiMedia.get(0).getMedia_file();
-
-
 
                                 media_file_thumb = arrayListNewsFeedMultiMedia.get(0).getMedia_file_thumb();
                             }
@@ -623,5 +627,44 @@ public class BackgroundService extends IntentService {
             // Sending the broadcast
             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
         }
+    }
+
+
+    public static HttpResponse transformResponse(Response response) {
+
+        BasicHttpResponse httpResponse = null;
+        try {
+            int code = 0;
+            if (response != null)
+                code = response.code();
+
+
+            try {
+                String message = response.message();
+                httpResponse = new BasicHttpResponse(HTTP_1_1, code, message);
+
+                ResponseBody body = response.body();
+                InputStreamEntity entity = new InputStreamEntity(body.byteStream(), body.contentLength());
+                httpResponse.setEntity(entity);
+
+                Headers headers = response.headers();
+                for (int i = 0, size = headers.size(); i < size; i++) {
+                    String name = headers.name(i);
+                    String value = headers.value(i);
+                    httpResponse.addHeader(name, value);
+                    if ("Content-Type".equalsIgnoreCase(name)) {
+                        entity.setContentType(value);
+                    } else if ("Content-Encoding".equalsIgnoreCase(name)) {
+                        entity.setContentEncoding(value);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return httpResponse;
     }
 }

@@ -38,7 +38,6 @@ public class Util {
     }
 
     public static void logomethod(final Context context, final ImageView headerlogoIv)
-
     {
         String logoHeader = HomeActivity.logoImg;
         if ((logoHeader.equalsIgnoreCase("")) || logoHeader == null) {

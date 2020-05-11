@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.procialize.mrgeApp20.R;
 
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.JzvdStd;
 
 public abstract class EndlessRecyclerOnScrollListener extends
         RecyclerView.OnScrollListener {
@@ -52,16 +52,16 @@ public abstract class EndlessRecyclerOnScrollListener extends
 
             loading = true;
 
-            JZVideoPlayerStandard videoView = recyclerView.findViewById(R.id.videoplayer);
+            JzvdStd videoView = recyclerView.findViewById(R.id.videoplayer);
             try {
                 if (mScrollState == RecyclerView.SCROLL_STATE_SETTLING) {
-                    if (videoView != null) {
+                    /*if (videoView != null) {
                         if (videoView.isCurrentPlay()) {
                             videoView.onStatePause();
                         }
                         videoView.release();
                         videoView = null;
-                    }
+                    }*/
                 }
                 // videoView.release();
 

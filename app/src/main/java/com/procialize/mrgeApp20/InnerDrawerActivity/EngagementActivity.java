@@ -28,7 +28,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JzvdStd;
 
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -169,7 +169,7 @@ public class EngagementActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
 
-        JZVideoPlayer.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
 
     }
 

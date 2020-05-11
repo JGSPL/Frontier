@@ -37,12 +37,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.procialize.mrgeApp20.Adapter.SwipeMultimediaDetailsAdapter;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
+import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.SwipeMultimediaDetailsAdapter;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Utility.Util;
 import com.squareup.picasso.Picasso;
@@ -62,8 +62,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import cn.jzvd.JZVideoPlayer;
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.Jzvd;
+import cn.jzvd.JzvdStd;
 
 public class ImageMultipleActivity extends AppCompatActivity {
     public ProgressDialog progressDialog;
@@ -160,7 +160,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
 //                Intent intent = new Intent(CommentMultiActivity.this, HomeActivity.class);
 //                startActivity(intent);
                 finish();
-                JZVideoPlayer.releaseAllVideos();
+                Jzvd.releaseAllVideos();
             }
         });
 
@@ -341,7 +341,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
             rvp_slide.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    JZVideoPlayerStandard.releaseAllVideos();
+                    JzvdStd.releaseAllVideos();
                     /*NewsfeedAdapter.ViewHolder viewHolder = new NewsfeedAdapter.ViewHolder();
                     if (viewHolder.VideoView != null) {
                         viewHolder.VideoView.pause();
@@ -355,7 +355,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
                 @Override
                 public void onPageSelected(int position1) {
                     shareOrSaveImagePosition = position1;
-                    JZVideoPlayerStandard.releaseAllVideos();
+                    JzvdStd.releaseAllVideos();
                     setupPagerIndidcatorDots(position1, ll_dots, imagesSelectednew.size());
                    /* NewsfeedAdapter.ViewHolder viewHolder = new NewsfeedAdapter.ViewHolder();
                     if (viewHolder.VideoView != null) {
@@ -367,7 +367,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
-                    JZVideoPlayerStandard.releaseAllVideos();
+                    JzvdStd.releaseAllVideos();
                     MediaPlayer mediaPlayer = new MediaPlayer();
                     mediaPlayer.pause();
                 }

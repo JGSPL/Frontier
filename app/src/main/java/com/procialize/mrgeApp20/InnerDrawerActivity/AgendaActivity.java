@@ -33,7 +33,7 @@ import com.procialize.mrgeApp20.Utility.Util;
 
 import java.util.HashMap;
 
-import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JzvdStd;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -208,7 +208,7 @@ public class AgendaActivity extends AppCompatActivity implements AgendaAdapter.A
     public void onPause() {
         super.onPause();
 
-        JZVideoPlayer.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
 
     }
 

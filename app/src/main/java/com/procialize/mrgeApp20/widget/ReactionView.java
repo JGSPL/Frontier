@@ -19,9 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
-import com.procialize.mrgeApp20.Fragments.WallFragment_POST;
 import com.procialize.mrgeApp20.GetterSetter.LikePost;
 import com.procialize.mrgeApp20.GetterSetter.NewsFeedList;
+import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.util.Constants;
@@ -355,7 +355,7 @@ public class ReactionView extends View {
             feed.setTotalLikes(String.valueOf(count));
 
             // String likeFlag = String.valueOf(response.body().getLikeFlag());
-            WallFragment_POST.newsfeedList.set(position, feed);
+            FragmentNewsFeed.newsfeedList.set(position, feed);
             Log.e("post", "success");
 /*
             if (device.equalsIgnoreCase("vivo V3")) {

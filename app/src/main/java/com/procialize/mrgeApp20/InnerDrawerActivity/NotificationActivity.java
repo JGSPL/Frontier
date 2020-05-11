@@ -40,9 +40,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
-import com.procialize.mrgeApp20.Activity.CommentActivity;
 import com.procialize.mrgeApp20.Activity.HomeActivity;
-import com.procialize.mrgeApp20.Activity.LikeDetailActivity;
+import com.procialize.mrgeApp20.NewsFeed.Views.Activity.CommentActivity;
+import com.procialize.mrgeApp20.NewsFeed.Views.Activity.LikeDetailActivity;
 
 import com.procialize.mrgeApp20.Adapter.NotificationAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
@@ -73,7 +73,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JzvdStd;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -574,7 +574,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
     public void onPause() {
         super.onPause();
 
-        JZVideoPlayer.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
 
     }
 

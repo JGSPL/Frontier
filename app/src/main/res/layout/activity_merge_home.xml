@@ -156,8 +156,8 @@
             <FrameLayout
                 android:id="@+id/content_frame"
                 android:layout_width="match_parent"
-                android:visibility="gone"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="gone" />
 
             <com.procialize.mrgeApp20.CustomTools.CustomViewPager
                 android:id="@+id/viewpager"
@@ -170,8 +170,8 @@
                 android:id="@+id/Subviewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 android:layout_below="@+id/linear_layout"
+                android:visibility="gone"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <com.google.android.material.appbar.AppBarLayout
@@ -327,16 +327,16 @@
                         android:id="@+id/tabsSecond"
                         android:layout_width="fill_parent"
                         android:layout_height="55dp"
+                        android:layout_marginBottom="10dp"
                         android:clickable="true"
+                        android:elevation="50dp"
+                        android:visibility="visible"
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="0dp"
                         app:tabMode="fixed"
-                        android:elevation="50dp"
-                        android:visibility="visible"
-                        android:layout_marginBottom="10dp"
                         app:tabSelectedTextColor="@color/colorwhite"
                         app:tabTextAppearance="@style/MyCustomTabText"
-                        app:tabTextColor="@color/colorwhite"/>
+                        app:tabTextColor="@color/colorwhite" />
 
                 </LinearLayout>
 
@@ -355,9 +355,9 @@
                         android:layout_width="fill_parent"
                         android:layout_height="match_parent"
                         android:clickable="true"
+                        android:elevation="50dp"
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="0dp"
-                        android:elevation="50dp"
                         app:tabMode="fixed"
                         app:tabSelectedTextColor="@color/colorwhite"
                         app:tabTextAppearance="@style/MyCustomTabText"
@@ -489,14 +489,12 @@
     </LinearLayout>
 
 
-
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/trans"
+        android:background="@color/background"
         android:fitsSystemWindows="false">
 
         <!--app:itemIconTint="@color/colorwhite"-->
@@ -506,48 +504,226 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:scrollbars="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:scrollbars="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-
                 <include
                     android:id="@+id/my"
-                    layout="@layout/header" />
+                    layout="@layout/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <com.procialize.mrgeApp20.Fonts.RobotoTextview
                     android:id="@+id/home"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/my"
+                    android:background="@color/colorwhite"
                     android:drawableLeft="@drawable/home"
+                    android:drawableRight="@drawable/ic_rightarrow"
                     android:drawablePadding="10dp"
+                    android:drawableTint="@color/textcolorLight"
                     android:gravity="left|center"
                     android:paddingLeft="25dp"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="10dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
                     android:text="Home"
-                    android:textColor="@color/colorwhite"
+                    android:textColor="@color/textcolorLight"
                     android:textSize="@dimen/textsizesmall" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/home"
+                    android:layout_marginLeft="@dimen/album_dp_10"
+                    android:layout_marginRight="@dimen/album_dp_10"
+                    android:background="@color/textcolorLight" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/editProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/home"
+                    android:background="@color/background"
+                    android:drawableLeft="@drawable/home"
+                    android:drawableRight="@drawable/ic_rightarrow"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/textcolorLight"
+                    android:gravity="left|center"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="Edit Profile"
+                    android:textColor="@color/textcolorLight"
+                    android:textSize="@dimen/textsizesmall" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/home"
+                    android:layout_marginLeft="@dimen/album_dp_10"
+                    android:layout_marginRight="@dimen/album_dp_10"
+                    android:background="@color/textcolorLight" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/buddyList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/editProfile"
+                    android:background="@color/colorwhite"
+                    android:drawableLeft="@drawable/home"
+                    android:drawableRight="@drawable/ic_rightarrow"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/textcolorLight"
+                    android:gravity="left|center"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="Buddy List"
+                    android:textColor="@color/textcolorLight"
+                    android:textSize="@dimen/textsizesmall" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/home"
+                    android:layout_marginLeft="@dimen/album_dp_10"
+                    android:layout_marginRight="@dimen/album_dp_10"
+                    android:background="@color/textcolorLight" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/eula"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/buddyList"
+                    android:background="@color/background"
+                    android:drawableLeft="@drawable/eula"
+                    android:drawableRight="@drawable/ic_rightarrow"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/textcolorLight"
+                    android:gravity="left|center"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/eula"
+                    android:textColor="@color/textcolorLight"
+                    android:textSize="@dimen/textsizesmall" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/home"
+                    android:layout_marginLeft="@dimen/album_dp_10"
+                    android:layout_marginRight="@dimen/album_dp_10"
+                    android:background="@color/textcolorLight" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/privacy_policy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/eula"
+                    android:background="@color/colorwhite"
+                    android:drawableLeft="@drawable/privacy_policy"
+                    android:drawableRight="@drawable/ic_rightarrow"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/textcolorLight"
+                    android:gravity="left|center"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/privacy_policy"
+                    android:textColor="@color/textcolorLight"
+                    android:textSize="@dimen/textsizesmall" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/home"
+                    android:layout_marginLeft="@dimen/album_dp_10"
+                    android:layout_marginRight="@dimen/album_dp_10"
+                    android:background="@color/textcolorLight" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/contactus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/privacy_policy"
+                    android:background="@color/background"
+                    android:drawableLeft="@drawable/contact_us"
+                    android:drawableRight="@drawable/ic_rightarrow"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/textcolorLight"
+                    android:gravity="left|center"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/contactus"
+                    android:textColor="@color/textcolorLight"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="visible" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/home"
+                    android:layout_marginLeft="@dimen/album_dp_10"
+                    android:layout_marginRight="@dimen/album_dp_10"
+                    android:background="@color/textcolorLight" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/switchbt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/contactus"
+                    android:background="@color/colorwhite"
+                    android:drawableLeft="@drawable/ic_switch"
+                    android:drawableRight="@drawable/ic_rightarrow"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/textcolorLight"
+                    android:gravity="left|center"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/swit"
+                    android:textColor="@color/textcolorLight"
+                    android:textSize="@dimen/textsizesmall" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/home"
+                    android:layout_marginLeft="@dimen/album_dp_10"
+                    android:layout_marginRight="@dimen/album_dp_10"
+                    android:background="@color/textcolorLight" />
 
                 <com.procialize.mrgeApp20.Fonts.RobotoTextview
                     android:id="@+id/eventInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/home"
+                    android:layout_below="@+id/buddyList"
                     android:drawableLeft="@drawable/ic_info"
+                    android:drawableRight="@drawable/ic_rightarrow"
                     android:drawablePadding="10dp"
                     android:gravity="left|center"
                     android:paddingLeft="23dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
                     android:text="Event Info"
-                    android:textColor="@color/colorwhite"
-                    android:textSize="@dimen/textsizesmall" />
+                    android:textColor="@color/textcolorLight"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="gone" />
 
                 <com.procialize.mrgeApp20.Fonts.RobotoTextview
                     android:id="@+id/notification"
@@ -555,14 +731,17 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/eventInfo"
                     android:drawableLeft="@drawable/notification_icon"
+                    android:drawableRight="@drawable/ic_rightarrow"
                     android:drawablePadding="10dp"
                     android:gravity="left|center"
                     android:paddingLeft="23dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
                     android:text="Notifications"
-                    android:textColor="@color/colorwhite"
-                    android:textSize="@dimen/textsizesmall" />
+                    android:textColor="@color/textcolorLight"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="gone" />
 
                 <com.procialize.mrgeApp20.Fonts.RobotoTextview
                     android:id="@+id/exh_analytics"
@@ -570,14 +749,17 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/notification"
                     android:drawableLeft="@drawable/exhibitor_analytics"
+                    android:drawableRight="@drawable/ic_rightarrow"
                     android:drawablePadding="8dp"
                     android:gravity="left|center"
                     android:paddingLeft="23dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
                     android:text="Exhibitor Analytics"
-                    android:textColor="@color/colorwhite"
-                    android:textSize="@dimen/textsizesmall" />
+                    android:textColor="@color/textcolorLight"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="gone" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -585,69 +767,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/exh_analytics"
-                    android:scrollbars="none" />
-
-
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                    android:id="@+id/contactus"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/menurecycler"
-                    android:drawableLeft="@drawable/contact_us"
-                    android:drawablePadding="10dp"
-                    android:gravity="left|center"
-                    android:paddingLeft="23dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="@string/contactus"
-                    android:textColor="@color/colorwhite"
-                    android:textSize="@dimen/textsizesmall"
+                    android:scrollbars="none"
                     android:visibility="visible" />
-
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                    android:id="@+id/privacy_policy"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/contactus"
-                    android:drawableLeft="@drawable/privacy_policy"
-                    android:drawablePadding="10dp"
-                    android:gravity="left|center"
-                    android:paddingLeft="25dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="@string/privacy_policy"
-                    android:textColor="@color/colorwhite"
-                    android:textSize="@dimen/textsizesmall" />
-
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                    android:id="@+id/eula"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/privacy_policy"
-                    android:drawableLeft="@drawable/eula"
-                    android:drawablePadding="10dp"
-                    android:gravity="left|center"
-                    android:paddingLeft="25dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="@string/eula"
-                    android:textColor="@color/colorwhite"
-                    android:textSize="@dimen/textsizesmall" />
-
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                    android:id="@+id/switchbt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/eula"
-                    android:drawableLeft="@drawable/ic_switch"
-                    android:drawablePadding="10dp"
-                    android:gravity="left"
-                    android:paddingLeft="25dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="@string/swit"
-                    android:textColor="@color/colorwhite"
-                    android:textSize="@dimen/textsizesmall" />
 
 
                 <com.procialize.mrgeApp20.Fonts.RobotoTextview
@@ -656,13 +777,15 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/switchbt"
                     android:drawableLeft="@drawable/ic_question"
+                    android:drawableRight="@drawable/ic_rightarrow"
                     android:drawablePadding="10dp"
                     android:gravity="left"
                     android:paddingLeft="25dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
                     android:text="@string/expert"
-                    android:textColor="@color/colorwhite"
+                    android:textColor="@color/textcolorLight"
                     android:textSize="@dimen/textsizesmall"
                     android:visibility="gone" />
 
@@ -672,31 +795,43 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/chatbt"
+                    android:background="@color/background"
                     android:drawableLeft="@drawable/log_out"
+                    android:drawableRight="@drawable/ic_rightarrow"
                     android:drawablePadding="10dp"
-                    android:gravity="left"
+                    android:drawableTint="@color/textcolorLight"
+                    android:gravity="left|center"
                     android:paddingLeft="25dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
                     android:text="Logout"
-                    android:textColor="@color/colorwhite"
+                    android:textColor="@color/textcolorLight"
                     android:textSize="@dimen/textsizesmall" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/home"
+                    android:layout_marginLeft="@dimen/album_dp_10"
+                    android:layout_marginRight="@dimen/album_dp_10"
+                    android:background="@color/textcolorLight" />
 
                 <com.procialize.mrgeApp20.Fonts.RobotoTextview
                     android:id="@+id/txt_version"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/logout"
+                    android:background="@color/background"
                     android:drawablePadding="10dp"
-                    android:gravity="center"
-                    android:paddingLeft="25dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:textColor="@color/colorwhite"
+                    android:gravity="right"
+                    android:paddingTop="15dp"
+                    android:paddingRight="25dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="@color/textcolorLight"
                     android:textSize="@dimen/textsizesmall" />
 
-
-            </RelativeLayout>
+            </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 

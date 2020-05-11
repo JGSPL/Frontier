@@ -27,7 +27,7 @@ import com.procialize.mrgeApp20.Utility.Util;
 import java.io.File;
 import java.util.HashMap;
 
-import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JzvdStd;
 
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -245,7 +245,7 @@ public class QRGeneratorActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
 
-        JZVideoPlayer.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
 
     }
 }

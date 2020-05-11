@@ -7,14 +7,14 @@ import android.view.View;
 
 import com.procialize.mrgeApp20.R;
 
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.JzvdStd;
 
 /**
  * 这里可以监听到视频播放的生命周期和播放状态
  * 所有关于视频的逻辑都应该写在这里
  * Created by Nathen on 2017/7/2.
  */
-public class MyJZVideoPlayerStandard extends JZVideoPlayerStandard {
+public class MyJZVideoPlayerStandard extends JzvdStd {
 
 
     public MyJZVideoPlayerStandard(Context context) {
@@ -37,11 +37,7 @@ public class MyJZVideoPlayerStandard extends JZVideoPlayerStandard {
             super.onClick(v);
             int i = v.getId();
             if (i == R.id.fullscreen) {
-                if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
-//click quit fullscreen
-                } else {
-//click goto fullscreen
-                }
+
             } else if (i == R.id.back) {
                 MyJZVideoPlayerStandard.goOnPlayOnPause();
             } else if (i == R.id.back_tiny) {
@@ -108,14 +104,5 @@ public class MyJZVideoPlayerStandard extends JZVideoPlayerStandard {
         super.onError(what, extra);
     }
 
-    @Override
-    public void startWindowFullscreen() {
-        super.startWindowFullscreen();
-    }
-
-    @Override
-    public void startWindowTiny() {
-        super.startWindowTiny();
-    }
 
 }

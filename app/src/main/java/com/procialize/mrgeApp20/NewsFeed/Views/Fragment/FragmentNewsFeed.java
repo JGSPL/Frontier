@@ -17,6 +17,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -32,6 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -49,6 +51,7 @@ import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.Background.BackgroundService;
 import com.procialize.mrgeApp20.BuildConfig;
+import com.procialize.mrgeApp20.CustomTools.MyJzvdStd;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.Analytic;
@@ -64,12 +67,14 @@ import com.procialize.mrgeApp20.GetterSetter.ReportPostHide;
 import com.procialize.mrgeApp20.GetterSetter.ReportUser;
 import com.procialize.mrgeApp20.GetterSetter.ReportUserHide;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
-import com.procialize.mrgeApp20.R;
-import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.CommentActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.ImageViewActivity;
+import com.procialize.mrgeApp20.NewsFeed.Views.Activity.LikeDetailActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.PostNewActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.NewsFeedAdapterRecycler;
+import com.procialize.mrgeApp20.NewsFeed.Views.RecyclerItemTouchHelper;
+import com.procialize.mrgeApp20.R;
+import com.procialize.mrgeApp20.Session.SessionManager;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -90,19 +95,22 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jzvd.JzvdStd;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.procialize.mrgeApp20.Session.SessionManager.MY_PREFS_NAME;
 import static com.procialize.mrgeApp20.NewsFeed.Views.Adapter.NewsFeedAdapterRecycler.swipableAdapterPosition;
+import static com.procialize.mrgeApp20.Session.SessionManager.MY_PREFS_NAME;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentNewsFeed extends Fragment implements View.OnClickListener , NewsFeedAdapterRecycler.FeedAdapterListner{
+public class FragmentNewsFeed extends Fragment implements View.OnClickListener, NewsFeedAdapterRecycler.FeedAdapterListner, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
+    public static SwipeRefreshLayout newsfeedrefresh;
+    public static List<NewsFeedList> newsfeedList;
     HashMap<String, String> user;
     BottomSheetDialog dialog;
     //ProgressBar progressbar;
@@ -113,28 +121,63 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
     SessionManager session;
     String token, eventid;
     TextView tv_uploading;
-    private DBHelper procializeDB;
-    private List<NewsFeedList> newsfeedsDBList;
     NewsFeedAdapterRecycler feedAdapter;
-    public static SwipeRefreshLayout newsfeedrefresh;
     RecyclerView feedrecycler;
     String reaction_type;
     RelativeLayout relative;
-    private APIService mAPIService;
-    public static List<NewsFeedList> newsfeedList;
-    private ConnectionDetector cd;
     SessionManager sessionManager;
     List<news_feed_media> news_feed_mediaDB = new ArrayList<news_feed_media>();
-    private List<news_feed_media> news_feed_media;
     String strPath;
-    private List<AttendeeList> attendeeList;
     BackgroundReceiver mReceiver;
     IntentFilter mFilter;
+    private DBHelper procializeDB;
+    private List<NewsFeedList> newsfeedsDBList;
+    private APIService mAPIService;
+    private ConnectionDetector cd;
+    private List<news_feed_media> news_feed_media;
+    private List<AttendeeList> attendeeList;
 
     public FragmentNewsFeed() {
         // Required empty public constructor
     }
 
+    static public void shareImage(final String data, String url, final Context context) {
+        Picasso.with(context).load(url).into(new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("image/*");
+                i.putExtra(Intent.EXTRA_SUBJECT, data);
+                i.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(bitmap, context));
+
+                context.startActivity(Intent.createChooser(i, "Share Image"));
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+            }
+        });
+    }
+
+    static public Uri getLocalBitmapUri(Bitmap bmp, Context context) {
+        Uri bmpUri = null;
+        try {
+            File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.close();
+//            bmpUri = Uri.fromFile(file);
+            bmpUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".android.fileprovider", file);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -170,6 +213,8 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
         eventid = prefs.getString("eventid", "1");
         ll_mind = rootView.findViewById(R.id.ll_mind);
         ll_mind.setOnClickListener(this);
+        String colorActive = prefs.getString("colorActive", "");
+
         newsfeedrefresh = rootView.findViewById(R.id.newsfeedrefresh);
         feedrecycler = rootView.findViewById(R.id.recycler_view);
         relative = rootView.findViewById(R.id.relative);
@@ -181,7 +226,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
         } catch (Exception e) {
             e.printStackTrace();
         }
-         getDataFromLocalDB();
+        getDataFromLocalDB();
 
         newsFeedPostMultimediaList = procializeDB.getNotUploadedMultiMedia();
         // insertMediaToLocalDb();
@@ -283,7 +328,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
         });
     }
 
-
     public void showResponseAttendee(Response<FetchAttendee> response) {
 
         // specify an adapter (see also next example)
@@ -295,7 +339,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
 
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -305,7 +348,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
                 break;
         }
     }
-
 
     public void getDataFromLocalDB() {
         db = procializeDB.getReadableDatabase();
@@ -336,7 +378,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
         }
     }
 
-
     public void setAdapter(List<NewsFeedList> newsfeedsList) {
         //Parcelable state = feedrecycler.onSaveInstanceState();
 
@@ -349,8 +390,16 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
         //feedrecycler.onRestoreInstanceState(state);
 //        feedrecycler.scheduleLayoutAnimation();
 
+        // adding item touch helper
+        // only ItemTouchHelper.LEFT added to detect Right to Left swipe
+        // if you want both Right -> Left and Left -> Right
+        // add pass ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT as param
 
+/*
+            ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this, newsfeedsList);
+            new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(feedrecycler);*/
     }
+
 
     @Override
     public void onContactSelected(NewsFeedList feed, ImageView imageView, int position) {
@@ -371,9 +420,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
         int count = Integer.parseInt(feed.getTotalLikes());
 
         Drawable drawables = likeimage.getDrawable();
-        Bitmap bitmap = (( BitmapDrawable ) drawables).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) drawables).getBitmap();
 
-        Bitmap bitmap2 = (( BitmapDrawable ) getResources().getDrawable(R.drawable.ic_like)).getBitmap();
+        Bitmap bitmap2 = ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_like)).getBitmap();
 
 
 //        if(!drawables[2].equals(R.drawable.ic_like)){
@@ -407,7 +456,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
 
         } else {
             feed.setLikeFlag("1");
-            likeimage.setImageDrawable(getResources().getDrawable(R.drawable.like_0));
+            likeimage.setImageDrawable(getResources().getDrawable(R.drawable.ic_afterlike));
             //setTextViewDrawableColor(likeimage, colorActive);
             reaction_type = "0";
 //            likeimage.setBackgroundResource(R.drawable.ic_afterlike);
@@ -430,7 +479,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
 
         }
 
-       // newsfeedList.set(position, feed);
+        // newsfeedList.set(position, feed);
 
 
     }
@@ -443,7 +492,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
         float height = Float.parseFloat(feed.getHeight());
 
         float p1 = height / width;
-       int feed_pos = position;
+        int feed_pos = position;
 
         //feedrecycler.setSelection(feed_pos);
         feedrecycler.smoothScrollToPosition(feed_pos);
@@ -468,7 +517,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
 
         news_feed_media = feed.getNews_feed_media();
         if (news_feed_media.size() >= 1) {
-            comment.putExtra("media_list", ( Serializable ) news_feed_media);
+            comment.putExtra("media_list", (Serializable) news_feed_media);
         } else if (news_feed_media.size() > 0) {
             comment.putExtra("type", news_feed_media.get(0).getMedia_type());
 
@@ -495,6 +544,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
             if (cd.isConnectingToInternet()) {
                 if (newsFeedMedia.size() > 0) {
 
+                    if (newsFeedMedia.size() < swipableAdapterPosition) {
+                        swipableAdapterPosition = 0;
+                    }
                     if (newsFeedMedia.get(swipableAdapterPosition).getMedia_type().equals("Video")) {
                         boolean isPresentFile = false;
                         File dir = new File(Environment.getExternalStorageDirectory().toString() + "/" + ApiConstant.folderName);
@@ -544,7 +596,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
                                             ContentResolver resolver = getActivity().getContentResolver();
                                             Uri uri =strPath; resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, content);*/
                             Uri contentUri = FileProvider.getUriForFile(getActivity(),
-                                    BuildConfig.APPLICATION_ID+".android.fileprovider", new File(strPath));
+                                    BuildConfig.APPLICATION_ID + ".android.fileprovider", new File(strPath));
 
                             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                             sharingIntent.setType("video/*");
@@ -563,45 +615,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
         }
     }
 
-    static public void shareImage(final String data, String url, final Context context) {
-        Picasso.with(context).load(url).into(new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("image/*");
-                i.putExtra(Intent.EXTRA_SUBJECT, data);
-                i.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(bitmap, context));
-
-                context.startActivity(Intent.createChooser(i, "Share Image"));
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-            }
-        });
-    }
-
-    static public Uri getLocalBitmapUri(Bitmap bmp, Context context) {
-        Uri bmpUri = null;
-        try {
-            File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
-            FileOutputStream out = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-            out.close();
-//            bmpUri = Uri.fromFile(file);
-            bmpUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID+".android.fileprovider", file);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bmpUri;
-    }
-
-
     private void shareTextUrl(String data, String url) {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
@@ -616,8 +629,8 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
     }
 
     @Override
-    public void moreTvFollowOnClick(View v,final NewsFeedList feed,final int position) {
-         dialog = new BottomSheetDialog(getActivity());
+    public void moreTvFollowOnClick(View v, final NewsFeedList feed, final int position) {
+        dialog = new BottomSheetDialog(getActivity());
 
         dialog.setContentView(R.layout.botomfeeddialouge);
 
@@ -692,7 +705,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
         });
 
 
-
         hideTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -738,6 +750,44 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
 
     @Override
     public void moreLikeListOnClick(View v, NewsFeedList feed, int position) {
+        float width = Float.parseFloat(feed.getWidth());
+        float height = Float.parseFloat(feed.getHeight());
+
+        float p1 = height / width;
+
+        Intent intent = new Intent(getActivity(), LikeDetailActivity.class);
+        intent.putExtra("fname", feed.getFirstName());
+        intent.putExtra("lname", feed.getLastName());
+        intent.putExtra("company", feed.getCompanyName());
+        intent.putExtra("designation", feed.getDesignation());
+
+        intent.putExtra("heading", feed.getPostStatus());
+        intent.putExtra("date", feed.getPostDate());
+        intent.putExtra("Likes", feed.getTotalLikes());
+        intent.putExtra("Likeflag", feed.getLikeFlag());
+        intent.putExtra("Comments", feed.getTotalComments());
+        intent.putExtra("profilepic", ApiConstant.profilepic + feed.getProfilePic());
+//        intent.putExtra("type", feed.getType());
+        intent.putExtra("feedid", feed.getNewsFeedId());
+        intent.putExtra("AspectRatio", p1);
+        intent.putExtra("noti_type", "Wall_Post");
+
+        news_feed_media = feed.getNews_feed_media();
+        if (news_feed_media.size() >= 1) {
+            intent.putExtra("media_list", (Serializable) news_feed_media);
+        } else if (news_feed_media.size() > 0) {
+            intent.putExtra("type", news_feed_media.get(0).getMedia_type());
+            if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Image")) {
+                intent.putExtra("url", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
+            } else if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Video")) {
+                intent.putExtra("videourl", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
+                intent.putExtra("thumbImg", ApiConstant.newsfeedwall + news_feed_media.get(0).getThumb_image());
+            }
+        } else {
+            intent.putExtra("type", "status");
+        }
+        intent.putExtra("flag", "noti");
+        startActivity(intent);
 
     }
 
@@ -783,7 +833,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
 
     public void fetchFeed(String token, String eventid) {
 
-       /// showProgress();
+        /// showProgress();
 
         mAPIService.FeedFetchPost(token, eventid).enqueue(new Callback<FetchFeed>() {
             @Override
@@ -839,6 +889,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void showResponse(Response<FetchFeed> response) {
 
         try {
@@ -859,26 +910,20 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
                 setAdapter(newsfeedList);
             }
 
-          /*  feedrecycler.setOnScrollListener(new AbsListView.OnScrollListener() {
+            feedrecycler.setOnScrollChangeListener(new View.OnScrollChangeListener() {
                 @Override
-                public void onScrollStateChanged(AbsListView view, int scrollState) {
-                    JZVideoPlayer.goOnPlayOnPause();
-                    NewsfeedAdapter.ViewHolder viewHolder = new NewsFeedAdapterRecycler.ViewHolder();
-                    if (viewHolder.VideoView != null) {
-                        viewHolder.VideoView.release();
-                    }
+                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+
+                    JzvdStd.goOnPlayOnPause();
                     try {
-                        MyJZVideoPlayerStandard.releaseAllVideos();
-                        JZVideoPlayer.releaseAllVideos();
+                        MyJzvdStd.releaseAllVideos();
+                        JzvdStd.releaseAllVideos();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
+            });
 
-                @Override
-                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                }
-            });*/
             saveFeedToDb(response);
 
             SubmitAnalytics(token, eventid, "", "", "newsfeed");
@@ -936,155 +981,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
     }
 
 
-    private class DownloadFile extends AsyncTask<String, String, String> {
-
-        private ProgressDialog progressDialog;
-        private String fileName;
-
-        /**
-         * Before starting background thread
-         * Show Progress Bar Dialog
-         */
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            this.progressDialog = new ProgressDialog(getActivity());
-            this.progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            this.progressDialog.setCancelable(false);
-            this.progressDialog.show();
-        }
-
-        /**
-         * Downloading file in background thread
-         */
-        @Override
-        protected String doInBackground(String... f_url) {
-            int count;
-            try {
-                URL url = new URL(f_url[0]);
-                URLConnection connection = url.openConnection();
-                connection.connect();
-                // getting file length
-                int lengthOfFile = connection.getContentLength();
-
-                // input stream to read file - with 8k buffer
-                InputStream input = new BufferedInputStream(url.openStream(), 8192);
-                String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-                //Extract file name from URL
-                fileName = f_url[0].substring(f_url[0].lastIndexOf('/') + 1, f_url[0].length());
-                //Append timestamp to file name
-                //fileName = timestamp + "_" + fileName;
-                //External directory path to save file
-                //folder = Environment.getExternalStorageDirectory() + File.separator + "androiddeft/";
-                String folder = Environment.getExternalStorageDirectory().toString() + "/" + ApiConstant.folderName + "/";
-
-
-                //Create androiddeft folder if it does not exist
-                File directory = new File(folder);
-
-                if (!directory.exists()) {
-                    directory.mkdirs();
-                }
-
-                strPath = folder + fileName;
-                // Output stream to write file
-                OutputStream output = new FileOutputStream(folder + fileName);
-
-                byte data[] = new byte[1024];
-
-                long total = 0;
-
-                while ((count = input.read(data)) != -1) {
-                    total += count;
-                    // publishing the progress....
-                    // After this onProgressUpdate will be called
-                    publishProgress("" + ( int ) ((total * 100) / lengthOfFile));
-                    Log.d("ImageMultipleActivity", "Progress: " + ( int ) ((total * 100) / lengthOfFile));
-
-                    // writing data to file
-                    output.write(data, 0, count);
-                }
-
-                // flushing output
-                output.flush();
-
-                // closing streams
-                output.close();
-                input.close();
-                return "Download completed- check folder " + ApiConstant.folderName;
-
-            } catch (Exception e) {
-                Log.e("Error: ", e.getMessage());
-            }
-
-            return "Something went wrong";
-        }
-
-        /**
-         * Updating progress bar
-         */
-        protected void onProgressUpdate(String... progress) {
-            // setting progress percentage
-            progressDialog.setProgress(Integer.parseInt(progress[0]));
-        }
-
-
-        @Override
-        protected void onPostExecute(String message) {
-            // dismiss the dialog after the file was downloaded
-            this.progressDialog.dismiss();
-
-            // Display File path after downloading
-          /*  Toast.makeText(getActivity(),
-                    message, Toast.LENGTH_LONG).show();*/
-
-            Uri contentUri = FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID+".android.fileprovider", new File(strPath));
-/*
-            Intent share = new Intent(Intent.ACTION_SEND);
-            share.setType("video/*");
-            share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-            share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            // Add data to the intent, the receiving app will decide
-            // what to do with it.
-            share.putExtra(Intent.EXTRA_SUBJECT,"");
-            // share.putExtra(Intent.EXTRA_TEXT, ApiConstant.newsfeedwall + newsFeedMedia.get(swipableAdapterPosition).getMediaFile());
-            share.putExtra(Intent.EXTRA_STREAM, contentUri);
-            startActivity(Intent.createChooser(share, "Share link!"));*/
-
-            ContentValues content = new ContentValues(4);
-            content.put(MediaStore.Video.VideoColumns.DATE_ADDED,
-                    System.currentTimeMillis() / 1000);
-            content.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
-            content.put(MediaStore.Video.Media.DATA, strPath);
-
-            ContentResolver resolver = getActivity().getContentResolver();
-            Uri uri = resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, content);
-
-            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-            sharingIntent.setType("video/*");
-            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Video Share");
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
-            sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
-            startActivity(Intent.createChooser(sharingIntent, "Share Video"));
-
-        }
-    }
-
-
-    private class BackgroundReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // progressbarForSubmit.setVisibility(View.GONE);
-            Log.d("service end", "service end");
-            fetchFeed(token, eventid);
-            tv_uploading.clearAnimation();
-            tv_uploading.setVisibility(View.GONE);
-            // progressbarForSubmit.setProgress(Integer.parseInt(String.valueOf(progress)));
-            /* mTvCapital.setText("Capital : " + capital);*/
-        }
-    }
-
-
     public void PostDelete(String eventid, String feedid, String token, final int position) {
 //        showProgress();
         mAPIService.DeletePost(token, eventid, feedid).enqueue(new Callback<DeletePost>() {
@@ -1120,10 +1016,13 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
             Log.e("post", "success");
 
             feedAdapter.feedLists.remove(position);
-//            feedAdapter.notifyItemRemoved(position);
-            feedAdapter.notifyDataSetChanged();
-            dialog.dismiss();
-
+            // remove the item from recycler view
+            // feedAdapter.removeItem(viewHolder.getAdapterPosition());
+            feedAdapter.notifyItemRemoved(position);
+            //  feedAdapter.notifyDataSetChanged();
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
         } else {
             Log.e("post", "fail");
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
@@ -1211,12 +1110,12 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
 
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
-           /// myDialog.dismiss();
+            /// myDialog.dismiss();
 
         } else {
             Log.e("post", "fail");
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-         //   myDialog.dismiss();
+            //   myDialog.dismiss();
         }
     }
 
@@ -1259,7 +1158,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
         } else {
             Log.e("post", "fail");
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-           // myDialog.dismiss();
+            // myDialog.dismiss();
         }
     }
 
@@ -1303,6 +1202,167 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener ,
             Log.e("post", "fail");
             dialog.dismiss();
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position, List<NewsFeedList> newsfeedsList) {
+        if (user.get(SessionManager.ATTENDEE_STATUS).equalsIgnoreCase("1")) {
+            if (viewHolder instanceof NewsFeedAdapterRecycler.MyViewHolder) {
+                int pos = viewHolder.getAdapterPosition();
+
+                String newsfeedId = newsfeedsList.get(pos).getNewsFeedId();
+                String newsfeedId1 = newsfeedId;
+                //Log.e("newsfeedId==>", newsfeedId);
+                PostDelete(eventid, newsfeedId, token, position);
+            }
+        }
+    }
+
+    private class DownloadFile extends AsyncTask<String, String, String> {
+
+        private ProgressDialog progressDialog;
+        private String fileName;
+
+        /**
+         * Before starting background thread
+         * Show Progress Bar Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            this.progressDialog = new ProgressDialog(getActivity());
+            this.progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            this.progressDialog.setCancelable(false);
+            this.progressDialog.show();
+        }
+
+        /**
+         * Downloading file in background thread
+         */
+        @Override
+        protected String doInBackground(String... f_url) {
+            int count;
+            try {
+                URL url = new URL(f_url[0]);
+                URLConnection connection = url.openConnection();
+                connection.connect();
+                // getting file length
+                int lengthOfFile = connection.getContentLength();
+
+                // input stream to read file - with 8k buffer
+                InputStream input = new BufferedInputStream(url.openStream(), 8192);
+                String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                //Extract file name from URL
+                fileName = f_url[0].substring(f_url[0].lastIndexOf('/') + 1, f_url[0].length());
+                //Append timestamp to file name
+                //fileName = timestamp + "_" + fileName;
+                //External directory path to save file
+                //folder = Environment.getExternalStorageDirectory() + File.separator + "androiddeft/";
+                String folder = Environment.getExternalStorageDirectory().toString() + "/" + ApiConstant.folderName + "/";
+
+
+                //Create androiddeft folder if it does not exist
+                File directory = new File(folder);
+
+                if (!directory.exists()) {
+                    directory.mkdirs();
+                }
+
+                strPath = folder + fileName;
+                // Output stream to write file
+                OutputStream output = new FileOutputStream(folder + fileName);
+
+                byte data[] = new byte[1024];
+
+                long total = 0;
+
+                while ((count = input.read(data)) != -1) {
+                    total += count;
+                    // publishing the progress....
+                    // After this onProgressUpdate will be called
+                    publishProgress("" + (int) ((total * 100) / lengthOfFile));
+                    Log.d("ImageMultipleActivity", "Progress: " + (int) ((total * 100) / lengthOfFile));
+
+                    // writing data to file
+                    output.write(data, 0, count);
+                }
+
+                // flushing output
+                output.flush();
+
+                // closing streams
+                output.close();
+                input.close();
+                return "Download completed- check folder " + ApiConstant.folderName;
+
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
+            }
+
+            return "Something went wrong";
+        }
+
+        /**
+         * Updating progress bar
+         */
+        protected void onProgressUpdate(String... progress) {
+            // setting progress percentage
+            progressDialog.setProgress(Integer.parseInt(progress[0]));
+        }
+
+
+        @Override
+        protected void onPostExecute(String message) {
+            // dismiss the dialog after the file was downloaded
+            this.progressDialog.dismiss();
+
+            // Display File path after downloading
+          /*  Toast.makeText(getActivity(),
+                    message, Toast.LENGTH_LONG).show();*/
+
+            Uri contentUri = FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".android.fileprovider", new File(strPath));
+/*
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("video/*");
+            share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+            share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            // Add data to the intent, the receiving app will decide
+            // what to do with it.
+            share.putExtra(Intent.EXTRA_SUBJECT,"");
+            // share.putExtra(Intent.EXTRA_TEXT, ApiConstant.newsfeedwall + newsFeedMedia.get(swipableAdapterPosition).getMediaFile());
+            share.putExtra(Intent.EXTRA_STREAM, contentUri);
+            startActivity(Intent.createChooser(share, "Share link!"));*/
+
+            ContentValues content = new ContentValues(4);
+            content.put(MediaStore.Video.VideoColumns.DATE_ADDED,
+                    System.currentTimeMillis() / 1000);
+            content.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+            content.put(MediaStore.Video.Media.DATA, strPath);
+
+            ContentResolver resolver = getActivity().getContentResolver();
+            Uri uri = resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, content);
+
+            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+            sharingIntent.setType("video/*");
+            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Video Share");
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
+            sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            startActivity(Intent.createChooser(sharingIntent, "Share Video"));
+
+        }
+    }
+
+    private class BackgroundReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // progressbarForSubmit.setVisibility(View.GONE);
+            Log.d("service end", "service end");
+            fetchFeed(token, eventid);
+            tv_uploading.clearAnimation();
+            tv_uploading.setVisibility(View.GONE);
+            // progressbarForSubmit.setProgress(Integer.parseInt(String.valueOf(progress)));
+            /* mTvCapital.setText("Capital : " + capital);*/
         }
     }
 

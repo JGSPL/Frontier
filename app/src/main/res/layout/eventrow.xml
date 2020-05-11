@@ -95,7 +95,9 @@
                     android:paddingLeft="5dp"
                     android:text=""
                     android:textColor="@color/textcolorLight"
-                    android:textSize="@dimen/textsizesmall" />
+                    android:textSize="@dimen/textsizesmall"
+                    android:paddingTop="@dimen/album_dp_4"
+                    android:paddingBottom="@dimen/album_dp_6"/>
 
             </LinearLayout>
 

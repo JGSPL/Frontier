@@ -17,8 +17,8 @@ import com.procialize.mrgeApp20.R;
 
 import java.util.List;
 
-import cn.jzvd.JZVideoPlayer;
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.JzvdStd;
+import cn.jzvd.JzvdStd;
 
 public class ViewPagerMultimediaAdapter  extends PagerAdapter {
 
@@ -56,7 +56,7 @@ public class ViewPagerMultimediaAdapter  extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
 
-        JZVideoPlayerStandard videoview;
+        JzvdStd videoview;
         TextView name;
         ImageView imgplay;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -79,7 +79,7 @@ public class ViewPagerMultimediaAdapter  extends PagerAdapter {
 
             imgplay.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
-            JZVideoPlayer.goOnPlayOnPause();
+            JzvdStd.goOnPlayOnPause();
             //imageView.setImageURI(Uri.parse(images.get(position)));
             Glide.with(videoview).load(imagePathList.get(position).getmPath()).into(imageView);
 
@@ -90,13 +90,14 @@ public class ViewPagerMultimediaAdapter  extends PagerAdapter {
             imgplay.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
             String videoPath = imagePathList.get(position).getmPath();
-            videoview.setUp(videoPath
-                    , JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");
-
-
+         /*   videoview.setUp(videoPath
+                    , JzvdStd.SCREEN_WINDOW_NORMAL, "");
+*/
+            videoview.setUp(videoPath,""
+                    , JzvdStd.SCREEN_NORMAL);
             /*HttpProxyCacheServer proxy = getProxy(context);
             String proxyUrl = proxy.getProxyUrl(videoPath);
-            videoview.setUp(proxyUrl , JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");*/
+            videoview.setUp(proxyUrl , JzvdStd.SCREEN_WINDOW_NORMAL, "");*/
 
             Glide.with(videoview).load(videoPath).into(videoview.thumbImageView);
 
@@ -113,8 +114,8 @@ public class ViewPagerMultimediaAdapter  extends PagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         ViewPager vp = (ViewPager) container;
         View view = (View) object;
-        JZVideoPlayer.releaseAllVideos();
-        JZVideoPlayerStandard.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
         vp.removeView(view);
     }
 

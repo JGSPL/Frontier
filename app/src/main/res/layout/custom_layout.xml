@@ -15,7 +15,7 @@
         android:scaleType="centerCrop" />
 
 
-    <com.procialize.mrgeApp20.CustomTools.MyJZVideoPlayerStandard
+    <cn.jzvd.JzvdStd
         android:id="@+id/videoview"
         android:layout_width="match_parent"
         android:layout_height="600dp"

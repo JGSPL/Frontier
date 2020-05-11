@@ -5,269 +5,292 @@
     android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background"
+    android:orientation="vertical"
     tools:context="com.procialize.mrgeApp20.Activity.ProfileActivity">
 
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:elevation="0dp">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colortoolbar"
+            android:contentInsetStart="0dp"
+            android:contentInsetLeft="0dp"
+            android:contentInsetEnd="0dp"
+            android:contentInsetRight="0dp"
             android:elevation="0dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:elevation="0dp">
+            android:minHeight="?attr/actionBarSize"
+            app:contentInsetEnd="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetStart="0dp">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/title"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colortoolbar"
-                android:contentInsetEnd="0dp"
-                android:contentInsetLeft="0dp"
-                android:contentInsetRight="0dp"
-                android:contentInsetStart="0dp"
-                android:elevation="0dp"
-                android:minHeight="?attr/actionBarSize"
-                app:contentInsetEnd="0dp"
-                app:contentInsetLeft="0dp"
-                app:contentInsetRight="0dp"
-                app:contentInsetStart="0dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin"
+                android:gravity="left"
+                android:text="Edit Profile"
+                android:textColor="@color/activetab"
+                android:textSize="@dimen/textsizesmall" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin"
-                    android:gravity="left"
-                    android:text="Edit Profile"
-                    android:textColor="@color/activetab"
-                    android:textSize="@dimen/textsizesmall" />
+            <ImageView
+                android:id="@+id/headerlogoIv"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="-10dp"
+                android:contentDescription=" "
+                android:visibility="gone" />
 
+        </androidx.appcompat.widget.Toolbar>
 
-                <ImageView
-                    android:id="@+id/headerlogoIv"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone"
-                    android:layout_marginLeft="-10dp"
-                    android:contentDescription=" " />
-
-            </androidx.appcompat.widget.Toolbar>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/linecolor" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.core.widget.NestedScrollView
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0.5dp"
+            android:background="@color/linecolor" />
 
-            <LinearLayout
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:id="@+id/relative"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/attendeetitle"
+                android:layout_margin="50dp"
+                android:visibility="visible">
 
 
                 <RelativeLayout
-                    android:id="@+id/relative"
+                    android:id="@+id/linear_upload"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/attendeetitle"
-                    android:layout_marginTop="10dp"
-                    android:visibility="visible">
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:adjustViewBounds="true">
 
-                    <RelativeLayout
-                        android:id="@+id/layoutTop"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:background="@color/background">
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/layoutBottom"
-                        android:layout_width="402dp"
-                        android:layout_height="48dp"
-                        android:layout_below="@id/layoutTop"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/agendabg">
-
-                    </RelativeLayout>
-
-
-                    <RelativeLayout
-                        android:id="@+id/linear_upload"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_above="@id/layoutBottom"
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/myCardView"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="-40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:adjustViewBounds="true">
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/image_border"
+                        app:cardCornerRadius="50dp"
+                        app:cardElevation="@dimen/album_dp_0">
 
-                        <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        <ImageView
                             android:id="@+id/profileIV"
                             android:layout_width="90dp"
                             android:layout_height="90dp"
                             android:layout_centerInParent="true"
                             android:adjustViewBounds="true"
-                            android:background="@drawable/image_border"
                             android:contentDescription="TODO"
-                            android:scaleType="fitXY"></ImageView>
+                            android:scaleType="centerCrop"></ImageView>
 
-                        <ProgressBar
-                            android:id="@+id/progressView"
-                            android:layout_width="18dp"
-                            android:layout_height="17dp"
-                            android:layout_centerInParent="true"
-                            android:layout_gravity="center"
-                            android:visibility="visible" />
+                    </androidx.cardview.widget.CardView>
 
-                    </RelativeLayout>
+                    <ProgressBar
+                        android:id="@+id/progressView"
+                        android:layout_width="18dp"
+                        android:layout_height="17dp"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:visibility="visible" />
+
                 </RelativeLayout>
+            </RelativeLayout>
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                    android:id="@+id/txt_upload"
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/txt_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/agendabg"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Upload Photo"
+                android:textColor="@color/trans"
+                android:textSize="@dimen/textsizesmall" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/edit_white"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+
+                <!--            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/input_layout_firstname"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:backgroundTint="@color/linecolor"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:textColorHint="@color/trans"
+                                android:visibility="gone">
+        -->
+                <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                    android:id="@+id/Etfirstname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/agendabg"
-                    android:gravity="center"
-                    android:text="Upload Photo"
-                    android:textColor="@color/trans"
-                    android:textSize="@dimen/textsizesmall" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="25dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/edit_white"
-                    android:focusableInTouchMode="true"
-                    android:orientation="vertical">
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/edit_background"
+                    android:drawableLeft="@drawable/mobile_icon"
+                    android:drawablePadding="@dimen/album_dp_10"
+                    android:hint="@string/firstname"
+                    android:inputType="textEmailAddress"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+                <!--    </com.google.android.material.textfield.TextInputLayout>-->
 
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_layout_firstname"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:backgroundTint="@color/linecolor"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColorHint="@color/trans"
-                        android:visibility="gone">
+                <!--       <com.google.android.material.textfield.TextInputLayout
+                           android:id="@+id/input_layout_lastname"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_marginTop="5dp"
+                           android:backgroundTint="@color/linecolor"
+                           android:paddingLeft="10dp"
+                           android:paddingRight="10dp"
+                           android:textColorHint="@color/trans"
+                           android:visibility="visible">-->
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
-                            android:id="@+id/Etfirstname"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/firstname"
-                            android:background="@drawable/edit_background"
-                            android:inputType="textEmailAddress"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/textsizesmall" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                    android:id="@+id/Etlastname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/edit_background"
+                    android:drawableLeft="@drawable/mobile_icon"
+                    android:drawablePadding="@dimen/album_dp_10"
+                    android:hint="@string/lastname"
+                    android:inputType="textEmailAddress"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+                <!--    </com.google.android.material.textfield.TextInputLayout>-->
 
+                <!--
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:id="@+id/input_layout_designation"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="5dp"
+                                        android:backgroundTint="@color/linecolor"
+                                        android:paddingLeft="10dp"
+                                        android:paddingRight="10dp"
+                                        android:textColorHint="@color/trans"
+                                        android:visibility="visible">-->
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_layout_lastname"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:backgroundTint="@color/linecolor"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColorHint="@color/trans"
-                        android:visibility="visible">
-
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
-                            android:id="@+id/Etlastname"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/lastname"
-                            android:inputType="textEmailAddress"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/textsizesmall" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_layout_designation"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:backgroundTint="@color/linecolor"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColorHint="@color/trans"
-                        android:visibility="visible">
-
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
-                            android:id="@+id/Etdesignation"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/designation"
-                            android:inputType="textEmailAddress"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/textsizesmall" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                    android:id="@+id/Etdesignation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/edit_background"
+                    android:drawableLeft="@drawable/mobile_icon"
+                    android:drawablePadding="@dimen/album_dp_10"
+                    android:hint="@string/designation"
+                    android:inputType="textEmailAddress"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+                <!--  </com.google.android.material.textfield.TextInputLayout>-->
 
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_layout_company"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:backgroundTint="@color/linecolor"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColorHint="@color/trans"
-                        android:visibility="visible">
+                <!--<com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_company"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/linecolor"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColorHint="@color/trans"
+                    android:visibility="visible">-->
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
-                            android:id="@+id/Etcompany"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/company"
-                            android:inputType="textEmailAddress"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/textsizesmall" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                    android:id="@+id/Etcompany"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/edit_background"
+                    android:drawableLeft="@drawable/mobile_icon"
+                    android:drawablePadding="@dimen/album_dp_10"
+                    android:hint="@string/company"
+                    android:inputType="textEmailAddress"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+                <!--</com.google.android.material.textfield.TextInputLayout>-->
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_layout_mobile"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:backgroundTint="@color/linecolor"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColorHint="@color/trans"
-                        android:visibility="visible">
+                <!--  <com.google.android.material.textfield.TextInputLayout
+                      android:id="@+id/input_layout_mobile"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="5dp"
+                      android:backgroundTint="@color/linecolor"
+                      android:paddingLeft="10dp"
+                      android:paddingRight="10dp"
+                      android:textColorHint="@color/trans"
+                      android:visibility="visible">-->
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
-                            android:id="@+id/Etmobile"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/mobile"
-                            android:inputType="number"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/textsizesmall" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                    android:id="@+id/Etmobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/edit_background"
+                    android:drawableLeft="@drawable/mobile_icon"
+                    android:drawablePadding="@dimen/album_dp_10"
+                    android:hint="@string/mobile"
+                    android:inputType="number"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+                <!--  </com.google.android.material.textfield.TextInputLayout>-->
 
 
-                    <com.google.android.material.textfield.TextInputLayout
+                <!--    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/input_layout_desc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -276,103 +299,135 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:textColorHint="@color/trans"
-                        android:visibility="visible">
+                        android:visibility="visible">-->
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
-                            android:id="@+id/Etdescription"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/description"
-                            android:inputType="textEmailAddress"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/textsizesmall" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_layout_city"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:backgroundTint="@color/linecolor"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColorHint="@color/trans"
-                        android:visibility="gone">
-
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
-                            android:id="@+id/Etcity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/city"
-                            android:inputType="textEmailAddress"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/textsizesmall" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_layout_emailid"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:backgroundTint="@color/linecolor"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColorHint="@color/trans"
-                        android:visibility="gone">
-
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
-                            android:id="@+id/Etemail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/hint_email"
-                            android:inputType="textEmailAddress"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/textsizesmall" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/input_layout_country"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:backgroundTint="@color/linecolor"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:textColorHint="@color/trans"
-                        android:visibility="gone">
-
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
-                            android:id="@+id/Etcountry"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/country"
-                            android:inputType="textEmailAddress"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/textsizesmall" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                    android:id="@+id/Etdescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/edit_background"
+                    android:drawableLeft="@drawable/mobile_icon"
+                    android:drawablePadding="@dimen/album_dp_10"
+                    android:hint="@string/description"
+                    android:inputType="textEmailAddress"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+                <!-- </com.google.android.material.textfield.TextInputLayout>-->
 
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoButton
-                        android:id="@+id/savebtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/linearLayout"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="30dp"
-                        android:background="@drawable/loginbutton"
-                        android:stateListAnimator="@null"
-                        android:text="@string/save"
-                        android:textAllCaps="false"
-                        android:textColor="@color/colorwhite"
-                        android:textSize="@dimen/textsizesmall"
-                        android:textStyle="bold" />
+                <!-- <com.google.android.material.textfield.TextInputLayout
+                     android:id="@+id/input_layout_city"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="5dp"
+                     android:backgroundTint="@color/linecolor"
+                     android:paddingLeft="10dp"
+                     android:paddingRight="10dp"
+                     android:textColorHint="@color/trans"
+                     android:visibility="gone">-->
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                    android:id="@+id/Etcity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/edit_background"
+                    android:drawableLeft="@drawable/mobile_icon"
+                    android:drawablePadding="@dimen/album_dp_10"
+                    android:hint="@string/city"
+                    android:inputType="textEmailAddress"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+                <!--   </com.google.android.material.textfield.TextInputLayout>
+-->
+                <!--             <com.google.android.material.textfield.TextInputLayout
+                                 android:id="@+id/input_layout_emailid"
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 android:layout_marginTop="5dp"
+                                 android:backgroundTint="@color/linecolor"
+                                 android:paddingLeft="10dp"
+                                 android:paddingRight="10dp"
+                                 android:textColorHint="@color/trans"
+                                 android:visibility="gone">-->
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                    android:id="@+id/Etemail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/edit_background"
+                    android:drawableLeft="@drawable/mobile_icon"
+                    android:drawablePadding="@dimen/album_dp_10"
+                    android:hint="@string/hint_email"
+                    android:inputType="textEmailAddress"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+                <!--     </com.google.android.material.textfield.TextInputLayout>-->
+
+                <!--      <com.google.android.material.textfield.TextInputLayout
+                          android:id="@+id/input_layout_country"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="5dp"
+                          android:backgroundTint="@color/linecolor"
+                          android:paddingLeft="10dp"
+                          android:paddingRight="10dp"
+                          android:textColorHint="@color/trans"
+                          android:visibility="gone">-->
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                    android:id="@+id/Etcountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/edit_background"
+                    android:drawableLeft="@drawable/mobile_icon"
+                    android:drawablePadding="@dimen/album_dp_10"
+                    android:hint="@string/country"
+                    android:inputType="textEmailAddress"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+                <!--   </com.google.android.material.textfield.TextInputLayout>-->
 
 
-                </LinearLayout>
+                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                    android:id="@+id/savebtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linearLayout"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="@dimen/album_dp_10"
+                    android:background="@drawable/loginbutton"
+                    android:gravity="center"
+                    android:minHeight="0dp"
+                    android:padding="@dimen/album_dp_10"
+                    android:stateListAnimator="@null"
+                    android:text="@string/save"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmall"
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

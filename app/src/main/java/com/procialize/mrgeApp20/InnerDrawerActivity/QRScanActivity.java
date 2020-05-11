@@ -43,7 +43,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JzvdStd;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -383,7 +383,7 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
     @Override
     protected void onPause() {
         super.onPause();
-        JZVideoPlayer.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
         qrCodeReaderView.stopCamera();
     }
 

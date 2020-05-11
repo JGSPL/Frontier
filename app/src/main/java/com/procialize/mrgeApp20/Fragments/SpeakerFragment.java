@@ -46,7 +46,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JzvdStd;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -351,7 +351,7 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
     @Override
     public void onPause() {
         super.onPause();
-        JZVideoPlayer.releaseAllVideos();
+        JzvdStd.releaseAllVideos();
     }
 
     public void SubmitAnalytics(String token, String eventid, String target_attendee_id, String target_attendee_type, String analytic_type) {

@@ -70,16 +70,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin"
                     android:background="@color/colorwhite"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:baselineAligned="false"
-                        android:orientation="horizontal">
-
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -87,15 +85,25 @@
                             android:layout_weight="1"
                             android:gravity="center">
 
-                            <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                                android:id="@+id/profileIV"
-                                android:layout_width="60dp"
-                                android:layout_height="60dp"
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/myCardView"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
                                 android:layout_centerInParent="true"
-                                android:adjustViewBounds="true"
-                                android:contentDescription="TODO"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/profilepic_placeholder" />
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                app:cardCornerRadius="50dp"
+                                app:cardElevation="@dimen/album_dp_0">
+
+                                <ImageView
+                                    android:id="@+id/profileIV"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:adjustViewBounds="true"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/profilepic_placeholder" />
+
+                            </androidx.cardview.widget.CardView>
 
                             <ProgressBar
                                 android:id="@+id/progressView"
@@ -179,16 +187,6 @@
 
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/headingTv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autoLink="web"
-                        android:paddingLeft="15dp"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textColorLink="@android:color/holo_blue_dark"
-                        android:textSize="@dimen/textsizesmall" />
 
                     <TextView
                         android:id="@+id/testdata"
@@ -234,7 +232,7 @@
                             android:transitionName="feedimage"
                             android:visibility="gone" />
 
-                        <com.procialize.mrgeApp20.CustomTools.MyJZVideoPlayerStandard
+                        <cn.jzvd.JzvdStd
                             android:id="@+id/videoplayer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -245,12 +243,25 @@
 
                     </FrameLayout>
 
-                    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    <TextView
+                        android:id="@+id/headingTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoLink="web"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textColorLink="@android:color/holo_blue_dark"
+                        android:textSize="@dimen/textsizesmall" />
+
+                    <androidx.cardview.widget.CardView
                         android:id="@+id/card_view"
                         android:layout_width="match_parent"
-                        android:layout_height="230dp"
+                        android:layout_height="280dp"
                         android:layout_centerInParent="true"
-                        android:visibility="gone">
+                        android:visibility="visible"
+                        app:cardElevation="@dimen/album_dp_0">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -259,8 +270,7 @@
                             <androidx.viewpager.widget.ViewPager
                                 android:id="@+id/vp_slider"
                                 android:layout_width="match_parent"
-                                android:layout_height="200dp"
-                                android:layout_centerInParent="true" />
+                                android:layout_height="250dp" />
 
                             <LinearLayout
                                 android:id="@+id/ll_dots"
@@ -276,7 +286,42 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin"
+                        android:layout_margin="5dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="2dp"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/likeTv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="4dp"
+                            android:text="0 Like"
+                            android:textColor="@color/inactivetab"
+                            android:textSize="@dimen/textsizesmall" />
+
+                        <TextView
+                            android:id="@+id/commentTv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:paddingRight="15dp"
+                            android:text="0 Comments"
+                            android:textColor="@color/inactivetab"
+                            android:textSize="@dimen/textsizesmall" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -287,16 +332,13 @@
                             android:gravity="center"
                             android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/likeTv"
+                            <ImageView
+                                android:id="@+id/iv_like"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:drawableRight="@drawable/ic_like"
                                 android:drawablePadding="5dp"
                                 android:gravity="center"
-                                android:text="0 Like"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/textsizesmall" />
+                                android:src="@drawable/ic_like" />
 
                         </LinearLayout>
 
@@ -313,16 +355,13 @@
                             android:gravity="center"
                             android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/commentTv"
+                            <ImageView
+                                android:id="@+id/iv_comment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:drawableRight="@drawable/ic_comment"
                                 android:drawablePadding="5dp"
                                 android:gravity="center"
-                                android:text="0 Comments"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/textsizesmall" />
+                                android:src="@drawable/ic_comment" />
 
                         </LinearLayout>
 
@@ -345,10 +384,7 @@
                                 android:layout_height="wrap_content"
                                 android:drawableRight="@drawable/ic_share"
                                 android:drawablePadding="5dp"
-                                android:gravity="center"
-                                android:text="Share"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/textsizesmall" />
+                                android:gravity="center" />
 
                         </LinearLayout>
 

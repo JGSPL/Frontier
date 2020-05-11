@@ -76,7 +76,7 @@
             android:textSize="20sp"
             android:visibility="gone" />
 
-        <cn.jzvd.JZVideoPlayerStandard
+        <cn.jzvd.JzvdStd
             android:id="@+id/video_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

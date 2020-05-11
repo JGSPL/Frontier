@@ -20,20 +20,23 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.github.chrisbanes.photoview.PhotoView;
-import com.procialize.mrgeApp20.CustomTools.MyJZVideoPlayerStandard;
+
+import com.procialize.mrgeApp20.CustomTools.MyJzvdStd;
 import com.procialize.mrgeApp20.R;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import cn.jzvd.JZVideoPlayer;
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.JzvdStd;
+import cn.jzvd.JzvdStd;
+import cn.jzvd.Jzvd;
+import cn.jzvd.JzvdStd;
 
 public class SwipeMultimediaDetailsAdapter extends PagerAdapter {
 
     public PhotoView myImage;
     public ImageView imgplay, thumbimg;
-    public MyJZVideoPlayerStandard videoview;
+    public MyJzvdStd videoview;
     public TextView name;
     String MY_PREFS_NAME = "ProcializeInfo";
     private List<String> images;
@@ -81,7 +84,7 @@ public class SwipeMultimediaDetailsAdapter extends PagerAdapter {
 //            card_video.setVisibility(View.GONE);
             imgplay.setVisibility(View.GONE);
 //            thumbimg.setVisibility(View.GONE);
-            JZVideoPlayer.goOnPlayOnPause();
+            JzvdStd.goOnPlayOnPause();
             if (firstLevelFilter.contains("gif")) {
                 progressBar.setVisibility(View.GONE);
                 Glide.with(videoview).load(firstLevelFilter).into(myImage);
@@ -112,31 +115,15 @@ public class SwipeMultimediaDetailsAdapter extends PagerAdapter {
 
             LinkedHashMap map = new LinkedHashMap();
 
-            videoview.setUp(firstLevelFilter
-                    , JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");
+          /*  videoview.setUp(firstLevelFilter
+                    , JzvdStd.SCREEN_NORMAL, "");*/
+            videoview.setUp(firstLevelFilter,""
+                    , JzvdStd.SCREEN_NORMAL);
 
+            MyJzvdStd.setVideoImageDisplayType(Jzvd.VIDEO_IMAGE_DISPLAY_TYPE_ADAPTER);
 
             Glide.with(videoview).load(thumbImage).into(videoview.thumbImageView);
-//            videoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-//                @Override
-//                public void onPrepared(MediaPlayer mp) {
-//
-//                    mp.setLooping(true);
-//                    videoview.start();
-//                }
-//            });
-////            Glide.with(videoview.getContext()).load(ApiConstant.newsfeedwall + firstLevelFilter).into(thumbimg);
-//            imgplay.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-////                    videoview.setVisibility(View.VISIBLE);
-////                    card_video.setVisibility(View.VISIBLE);
-////                    thumbimg.setVisibility(View.GONE);
-//
-//                }
-//            });
-
-        }
+         }
 
 
         name.setText(firstLevelFilter);

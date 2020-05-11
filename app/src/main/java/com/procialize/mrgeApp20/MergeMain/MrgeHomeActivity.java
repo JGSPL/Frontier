@@ -17,11 +17,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -78,17 +77,15 @@ import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.Background.WallPostService;
 import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.CustomTools.CustomViewPager;
-import com.procialize.mrgeApp20.CustomTools.MyJZVideoPlayerStandard;
+
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.EmptyViewActivity;
-import com.procialize.mrgeApp20.Fragments.AgendaFolderFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFragment;
 import com.procialize.mrgeApp20.Fragments.AttendeeFragment;
 import com.procialize.mrgeApp20.Fragments.GeneralInfo;
 import com.procialize.mrgeApp20.Fragments.SpeakerFragment;
-import com.procialize.mrgeApp20.Fragments.WallFragment_POST;
 import com.procialize.mrgeApp20.GetterSetter.AgendaList;
 import com.procialize.mrgeApp20.GetterSetter.EventMenuSettingList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
@@ -119,6 +116,7 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.QRScanActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SpeakerActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SponsorActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.VideoActivity;
+import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.PlayerConfig;
@@ -135,8 +133,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import cn.jzvd.JZVideoPlayerStandard;
-import github.chenupt.springindicator.SpringIndicator;
+import cn.jzvd.JzvdStd;
 import io.fabric.sdk.android.Fabric;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -177,7 +174,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     String eventid, token;
     String email, password, exhibitorstatus, exhibitorid;
     CustomMenuAdapter customMenuAdapter;
-    TextView logout, home, contactus, eventname, switchbt, chatbt, eula, privacy_policy, eventInfo, notification, exh_analytics, txt_version;
+    TextView logout, editProfile,home, contactus, eventname, switchbt, chatbt, eula, privacy_policy, eventInfo, notification, exh_analytics, txt_version;
     String eventnamestr;
     LinearLayout linear;
     String imgname, accesstoken;
@@ -315,13 +312,12 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         img_zoom = findViewById(R.id.img_zoom);
 
 
-
-        if (cd.isConnectingToInternet()) {
+        /*if (cd.isConnectingToInternet()) {
             fetchFeed(token, eventid);
         } else {
 
         }
-
+*/
         linear_livestream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -508,7 +504,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        JZVideoPlayerStandard.releaseAllVideos();
+                        JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
@@ -523,15 +519,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             sub2tabLayout.setVisibility(View.GONE);
                             Subviewpager.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-
-
                         }
-
                     }
 
                     @Override
                     public void onTabUnselected(TabLayout.Tab tab) {
-
                         String string1 = "#4D4D4D";
                         int color1 = Color.parseColor(string1);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -555,7 +547,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        JZVideoPlayerStandard.releaseAllVideos();
+                        JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
@@ -601,7 +593,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        JZVideoPlayerStandard.releaseAllVideos();
+                        JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -651,7 +643,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        JZVideoPlayerStandard.releaseAllVideos();
+                        JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -699,7 +691,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     public void onTabSelected(TabLayout.Tab tab) {
 
 
-                        JZVideoPlayerStandard.releaseAllVideos();
+                        JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -739,9 +731,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         //Initializing NavigationView
         navigationView = findViewById(R.id.navigation_view);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) navigationView.getLayoutParams();
+        params.width = metrics.widthPixels;
+        navigationView.setLayoutParams(params);
         menurecycler = navigationView.findViewById(R.id.menurecycler);
         logout = navigationView.findViewById(R.id.logout);
         home = navigationView.findViewById(R.id.home);
+        editProfile = navigationView.findViewById(R.id.editProfile);
         contactus = navigationView.findViewById(R.id.contactus);
         switchbt = navigationView.findViewById(R.id.switchbt);
         chatbt = navigationView.findViewById(R.id.chatbt);
@@ -816,6 +814,17 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             public void onClick(View v) {
 
                 Intent main = new Intent(getApplicationContext(), MrgeHomeActivity.class);
+                startActivity(main);
+                finish();
+            }
+        });
+
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent main = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(main);
                 finish();
             }
@@ -1034,7 +1043,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     private void Sub2setupViewPager(ViewPager viewPager) {
 
         ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
-        adapter.addFragment(new WallFragment_POST(), "Event Info");
+        adapter.addFragment(new FragmentNewsFeed(), "Event Info");
         adapter.addFragment(new AgendaFragment(), "Participant");
         adapter.addFragment(new AttendeeFragment(), "Schedule");
         adapter.addFragment(new GeneralInfo(), "Emergency");
@@ -1319,40 +1328,40 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         MrgeHomeActivity.ViewPagerAdapter adapter = new MrgeHomeActivity.ViewPagerAdapter(getSupportFragmentManager());
         if (news_feed.equalsIgnoreCase("1")) {
-            adapter.addFragment(new WallFragment_POST(), "News Feed");
+            adapter.addFragment(new FragmentNewsFeed(), "News Feed");
         }
         if (agenda.equalsIgnoreCase("1")) {
             if (agenda_conference.equalsIgnoreCase("1")) {
-                adapter.addFragment(new WallFragment_POST(), "Agenda");
+                adapter.addFragment(new FragmentNewsFeed(), "Agenda");
             } else if (agenda_vacation.equalsIgnoreCase("1")) {
-                adapter.addFragment(new WallFragment_POST(), "Agenda");
+                adapter.addFragment(new FragmentNewsFeed(), "Agenda");
             }
 
         }
         if (attendee.equalsIgnoreCase("1")) {
-            adapter.addFragment(new WallFragment_POST(), "Attendee");
+            adapter.addFragment(new FragmentNewsFeed(), "Attendee");
         }
 
         if (main_tab_exhibitor.equalsIgnoreCase("1")) {
             try {
                 if (Integer.parseInt(catcnt) <= 3) {
-                    adapter.addFragment(new WallFragment_POST(), "Exhibitors");
+                    adapter.addFragment(new FragmentNewsFeed(), "Exhibitors");
                 } else {
-                    adapter.addFragment(new WallFragment_POST(), "Exhibitors");
+                    adapter.addFragment(new FragmentNewsFeed(), "Exhibitors");
                 }
             } catch (Exception e) {
-                adapter.addFragment(new WallFragment_POST(), "Exhibitors");
+                adapter.addFragment(new FragmentNewsFeed(), "Exhibitors");
             }
 
         }
 
         if (speaker.equalsIgnoreCase("1")) {
-            adapter.addFragment(new WallFragment_POST(), "Speaker");
+            adapter.addFragment(new FragmentNewsFeed(), "Speaker");
         }
 
 
         if (general_ifo.equalsIgnoreCase("1")) {
-            adapter.addFragment(new WallFragment_POST(), "General Info");
+            adapter.addFragment(new FragmentNewsFeed(), "General Info");
         }
 
 
@@ -1510,11 +1519,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     @Override
     public void onBackPressed() {
 
-        boolean check = MyJZVideoPlayerStandard.backPress();
+        boolean check = JzvdStd.backPress();
 
         if (check == true) {
-            MyJZVideoPlayerStandard.goOnPlayOnPause();
-            MyJZVideoPlayerStandard.quitFullscreenOrTinyWindow();
+            JzvdStd.goOnPlayOnPause();
+
         } else {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MrgeHomeActivity.this);

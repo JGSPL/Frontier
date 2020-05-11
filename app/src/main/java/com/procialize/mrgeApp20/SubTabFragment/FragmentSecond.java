@@ -18,9 +18,9 @@ import com.procialize.mrgeApp20.CustomTools.CustomViewPager;
 import com.procialize.mrgeApp20.Fragments.AgendaFragment;
 import com.procialize.mrgeApp20.Fragments.AttendeeFragment;
 import com.procialize.mrgeApp20.Fragments.GeneralInfo;
-import com.procialize.mrgeApp20.Fragments.WallFragment_POST;
 import com.procialize.mrgeApp20.GetterSetter.EventMenuSettingList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
+import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 
@@ -104,7 +104,7 @@ public class FragmentSecond extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFragment(new WallFragment_POST(), "Event Info");
+        adapter.addFragment(new FragmentNewsFeed(), "Event Info");
         adapter.addFragment(new AgendaFragment(), "Participant");
         adapter.addFragment(new AttendeeFragment(), "Schedule");
         adapter.addFragment(new GeneralInfo(), "Emergency");

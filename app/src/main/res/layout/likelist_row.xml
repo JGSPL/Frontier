@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorwhite"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/mainLL"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="@dimen/margin"
-        android:layout_marginBottom="2dp"
-        android:background="@color/colorwhite"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="5dp">
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/myCardView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="@dimen/album_dp_0">
 
             <ImageView
                 android:id="@+id/imageIv"
@@ -29,44 +33,48 @@
                 android:layout_height="50dp"
                 android:contentDescription="TODO" />
 
-            <TextView
-                android:id="@+id/nameTv"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_alignStart="@+id/designationTv"
-                android:layout_alignTop="@+id/imageView"
-                android:layout_weight="5"
-                android:drawablePadding="5dp"
-                android:padding="5dp"
-                android:text=""
-                android:textAlignment="textStart"
-                android:textColor="@color/activetab"
-                android:textSize="@dimen/textsizesmall" />
+        </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/dateTv"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_alignStart="@+id/designationTv"
-                android:layout_alignTop="@+id/imageView"
-                android:layout_weight="5"
-                android:drawablePadding="5dp"
-                android:padding="5dp"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorwhite"
-                android:textSize="@dimen/textsizesmaller"
-                android:visibility="gone" />
+        <TextView
+            android:id="@+id/nameTv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:gravity="center|left"
+            android:padding="5dp"
+            android:text="asasdas"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsizesmall"/>
 
-            <ImageView
-                android:id="@+id/iv_reaction"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:src="@drawable/like_0" />
+        <TextView
+            android:id="@+id/dateTv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/designationTv"
+            android:layout_alignTop="@+id/imageView"
+            android:layout_weight="5"
+            android:drawablePadding="5dp"
+            android:padding="5dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorwhite"
+            android:textSize="@dimen/textsizesmaller"
+            android:visibility="gone" />
 
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_reaction"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:src="@drawable/like_0"
+            android:visibility="gone" />
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="@dimen/album_dp_10"
+        android:background="@color/background" />
 </LinearLayout>

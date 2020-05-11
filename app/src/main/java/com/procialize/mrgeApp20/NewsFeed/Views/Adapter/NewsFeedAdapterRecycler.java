@@ -29,6 +29,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -43,7 +46,7 @@ import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.CustomTools.ClickableViewPager;
-import com.procialize.mrgeApp20.CustomTools.MyJZVideoPlayerStandard;
+
 import com.procialize.mrgeApp20.CustomTools.ScaledImageView;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
@@ -51,12 +54,13 @@ import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.NewsFeedList;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
-import com.procialize.mrgeApp20.R;
-import com.procialize.mrgeApp20.Session.SessionManager;
-import com.procialize.mrgeApp20.Utility.Utility;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.PostNewActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
+import com.procialize.mrgeApp20.NewsFeed.Views.RecyclerItemTouchHelper;
+import com.procialize.mrgeApp20.R;
+import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.Utility.Utility;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -69,26 +73,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import cn.jzvd.JZVideoPlayer;
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.JzvdStd;
+import cn.jzvd.JzvdStd;
 
 import static android.content.Context.MODE_PRIVATE;
 
 //import com.procialize.mrgeApp20.widget.ReactionView;
 
-public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapterRecycler.MyViewHolder>  {
+public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapterRecycler.MyViewHolder> {
 
-    private List<AttendeeList> attendeeDBList;
-    int  width;
-    float  height;
+    public static int swipableAdapterPosition = 0;
+    public List<NewsFeedList> feedLists;
+    int width;
+    float height;
     String profilepic = "";
     String attendee_status = "";
-    public List<NewsFeedList> feedLists;
     APIService mAPIService;
     SessionManager sessionManager;
     float p1;
-    String news_feed_like="", news_feed_comment="", news_feed_share="";
-   // List<EventSettingList> eventSettingLists;
+    String news_feed_like = "", news_feed_comment = "", news_feed_share = "";
+    // List<EventSettingList> eventSettingLists;
     HashMap<String, String> user;
     String news_feed_post = "1", news_feed_images = "1", news_feed_video = "1", designatio = "1", company = "1";
     String topMgmtFlag;
@@ -96,19 +100,19 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
     String colorActive;
-    private Context context;
-    private FeedAdapterListner listener;
-    private LayoutInflater inflater;
     ConnectionDetector cd;
-  //  private List<AttendeeList> attendeeDBList;
-    private DBHelper procializeDB;
-    private SQLiteDatabase db;
-    private DBHelper dbHelper;
     String substring;
     String device = Build.MODEL;
     RelativeLayout relative;
     List<news_feed_media> news_feed_media1;
-    public static int swipableAdapterPosition =0;
+    private List<AttendeeList> attendeeDBList;
+    private Context context;
+    private FeedAdapterListner listener;
+    private LayoutInflater inflater;
+    //  private List<AttendeeList> attendeeDBList;
+    private DBHelper procializeDB;
+    private SQLiteDatabase db;
+    private DBHelper dbHelper;
     private List<EventSettingList> eventSettingLists;
 
     public NewsFeedAdapterRecycler(Context con, List<NewsFeedList> feedLists, FeedAdapterListner listener, Boolean value, RelativeLayout _relative) {
@@ -135,11 +139,20 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
     }
 
 
+    public void removeItem(int position) {
+        // notify the item removed by position
+        // to perform recycler view delete animations
+        // NOTE: don't call notifyDataSetChanged()
+        notifyItemRemoved(position);
+    }
+
+
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.newsfeedlistingrow, parent, false);
+                .inflate(R.layout.newsfeedlistingrow, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -148,7 +161,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
         NewsFeedList feed;
-        
+
         if (position == 0) {
 
             if (value == true) {
@@ -164,7 +177,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                 });
 
 
-                 holder.imagefeedRv.setOnClickListener(new View.OnClickListener() {
+                holder.imagefeedRv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -175,7 +188,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                     }
                 });
 
-                 holder.videofeedRv.setOnClickListener(new View.OnClickListener() {
+                holder.videofeedRv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -192,7 +205,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                 });
             } else {
 
-                 holder.txtfeedRv.setOnClickListener(new View.OnClickListener() {
+                holder.txtfeedRv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -203,7 +216,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                 });
 
 
-                 holder.imagefeedRv.setOnClickListener(new View.OnClickListener() {
+                holder.imagefeedRv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -214,7 +227,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                     }
                 });
 
-                 holder.videofeedRv.setOnClickListener(new View.OnClickListener() {
+                holder.videofeedRv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -233,7 +246,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
         } else {
             if (value == true) {
 
-                 holder.txtfeedRv.setOnClickListener(new View.OnClickListener() {
+                holder.txtfeedRv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -244,7 +257,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                 });
 
 
-                 holder.imagefeedRv.setOnClickListener(new View.OnClickListener() {
+                holder.imagefeedRv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -255,7 +268,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                     }
                 });
 
-                 holder.videofeedRv.setOnClickListener(new View.OnClickListener() {
+                holder.videofeedRv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -271,7 +284,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                     }
                 });
             } else {
-                 holder.txtfeedRv.setOnClickListener(new View.OnClickListener() {
+                holder.txtfeedRv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -282,7 +295,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                 });
 
 
-                 holder.imagefeedRv.setOnClickListener(new View.OnClickListener() {
+                holder.imagefeedRv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -292,7 +305,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                     }
                 });
 
-                 holder.videofeedRv.setOnClickListener(new View.OnClickListener() {
+                holder.videofeedRv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -310,26 +323,29 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             }
         }
 
-         //holder.nameTv.setTextColor(Color.parseColor(colorActive));
+        //holder.nameTv.setTextColor(Color.parseColor(colorActive));
         feed = feedLists.get(position);
         if (feed.getLastName() == null) {
             holder.nameTv.setText(feed.getFirstName());
         } else {
-             holder.nameTv.setText(feed.getFirstName() + " " + feed.getLastName());
+            holder.nameTv.setText(feed.getFirstName() + " " + feed.getLastName());
         }
 
         if (designatio.equalsIgnoreCase("0")) {
             holder.designationTv.setVisibility(View.GONE);
         } else {
             holder.designationTv.setText(feed.getDesignation());
-           holder.designationTv.setVisibility(View.VISIBLE);
+            holder.designationTv.setVisibility(View.VISIBLE);
         }
 
         if (company.equalsIgnoreCase("0")) {
+
+            holder.tv_concat.setVisibility(View.GONE);
             holder.companyTv.setVisibility(View.GONE);
         } else {
             holder.companyTv.setText(feed.getCompanyName());
             holder.companyTv.setVisibility(View.VISIBLE);
+            holder.tv_concat.setVisibility(View.VISIBLE);
         }
 
         holder.testdata.setText(StringEscapeUtils.unescapeJava(feed.getPostStatus()));
@@ -337,7 +353,10 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
         final SpannableStringBuilder stringBuilder = new SpannableStringBuilder(holder.testdata.getText());
         if (feed.getPostStatus() != null) {
 
-            holder.headingTv.setVisibility(View.VISIBLE);
+            if (!feed.getPostStatus().isEmpty())
+                holder.headingTv.setVisibility(View.VISIBLE);
+            else
+                holder.headingTv.setVisibility(View.GONE);
 //                    holder.wallNotificationText.setText(getEmojiFromString(notificationImageStatus));
             int flag = 0;
             for (int i = 0; i < stringBuilder.length(); i++) {
@@ -479,28 +498,29 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
         if (attendee_status.equalsIgnoreCase("1")) {
             if (user.get(SessionManager.KEY_ID).equalsIgnoreCase(feedLists.get(position).getAttendeeId())) {
-               holder.editIV.setVisibility(View.GONE);
-               holder.moreIV.setVisibility(View.VISIBLE);
+                holder.editIV.setVisibility(View.GONE);
+                //holder.moreIV.setVisibility(View.VISIBLE);
             } else {
-               holder.editIV.setVisibility(View.GONE);
-               holder.moreIV.setVisibility(View.VISIBLE);
+                holder.editIV.setVisibility(View.GONE);
+               // holder.moreIV.setVisibility(View.VISIBLE);
             }
         } else {
             if (user.get(SessionManager.KEY_ID).equalsIgnoreCase(feedLists.get(position).getAttendeeId())) {
                 holder.editIV.setVisibility(View.GONE);
-                holder.moreIV.setVisibility(View.VISIBLE);
+              //  holder.moreIV.setVisibility(View.VISIBLE);
             } else {
                 holder.editIV.setVisibility(View.GONE);
-                holder.moreIV.setVisibility(View.GONE);
+              //  holder.moreIV.setVisibility(View.GONE);
             }
         }
         if (feed.getLike_type() == null) {
-            holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.like_icon));
+            holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_like));
         } else if (feed.getLike_type().equals("")) {
-            holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.like_icon));
+            holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_like));
         } else if (feed.getLike_type().equals("0")) {
-            holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.like_0));
-        } else if (feed.getLike_type().equals("1")) {
+            //holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.like_0));
+            holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_afterlike));
+        }/* else if (feed.getLike_type().equals("1")) {
             holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.love_1));
         } else if (feed.getLike_type().equals("2")) {
             holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.smile_2));
@@ -513,11 +533,11 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
         } else if (feed.getLike_type().equals("6")) {
             holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.angry_6));
         }
-
+*/
         holder.img_like.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                width  = holder.root.getMeasuredWidth();
+                width = holder.root.getMeasuredWidth();
                 height = holder.root.getMeasuredHeight();
                 /*if (cd.isConnectingToInternet()) {
                     ReactionView rvl = new ReactionView(context, feedLists.get(position), position, holder.img_like, holder.liketext, holder.root, relative,height);
@@ -561,7 +581,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
         if (feed.getProfilePic() != null) {
             Glide.with(context).load((ApiConstant.profilepic + feed.getProfilePic()))
                     .placeholder(R.drawable.profilepic_placeholder)
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).fitCenter()
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -578,7 +598,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
         } else {
             holder.progressView.setVisibility(View.GONE);
-           holder.profileIv.setImageResource(R.drawable.profilepic_placeholder);
+            holder.profileIv.setImageResource(R.drawable.profilepic_placeholder);
         }
 
         if (feed.getNews_feed_media() != null) {
@@ -587,12 +607,13 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                 news_feed_media1 = feed.getNews_feed_media();
 
                 if (news_feed_media1.size() >= 1) {
-                   holder.feedimageIv.setVisibility(View.GONE);
-                   holder.playicon.setVisibility(View.GONE);
-                   holder.VideoView.setVisibility(View.GONE);
-                   holder.viewPager.setVisibility(View.VISIBLE);
-                   holder.pager_dots.setVisibility(View.VISIBLE);
-                   holder.card_view.setVisibility(View.VISIBLE);
+                    holder.feedimageIv.setVisibility(View.GONE);
+                    holder.playicon.setVisibility(View.GONE);
+                    holder.VideoView.setVisibility(View.GONE);
+                    holder.viewPager.setVisibility(View.VISIBLE);
+                    holder.recycler_slider.setVisibility(View.VISIBLE);
+                    holder.pager_dots.setVisibility(View.VISIBLE);
+                    holder.card_view.setVisibility(View.VISIBLE);
 
                     final ArrayList<String> imagesSelectednew = new ArrayList<>();
                     final ArrayList<String> imagesSelectednew1 = new ArrayList<>();
@@ -605,33 +626,45 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                             imagesSelectednew1.add("");
                         }
                     }
-                    final SwipeMultimediaAdapter swipepagerAdapter = new SwipeMultimediaAdapter(context, imagesSelectednew, imagesSelectednew1,news_feed_media1);
+                    final SwipeMultimediaAdapter swipepagerAdapter = new SwipeMultimediaAdapter(context, imagesSelectednew, imagesSelectednew1, news_feed_media1);
                     holder.viewPager.setAdapter(swipepagerAdapter);
                     swipepagerAdapter.notifyDataSetChanged();
+
+                   /* SwipeableRecyclerAdapter    swipeableRecyclerAdapter = new SwipeableRecyclerAdapter(context, imagesSelectednew, imagesSelectednew1, news_feed_media1);
+                  //  RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
+                    LinearLayoutManager  HorizontalLayout
+                            = new LinearLayoutManager(
+                            context,
+                            LinearLayoutManager.HORIZONTAL,
+                            false);
+                    holder.recycler_slider.setLayoutManager(HorizontalLayout);
+                  //  holder.recycler_slider.setLayoutManager(mLayoutManager);
+                    holder.recycler_slider.setItemAnimator(new DefaultItemAnimator());
+                    holder.recycler_slider.setAdapter(swipeableRecyclerAdapter);*/
 
                     if (imagesSelectednew.size() > 1) {
                         ivArrayDotsPager = new ImageView[imagesSelectednew.size()];
                         setupPagerIndidcatorDots(0, holder.pager_dots, imagesSelectednew.size());
                         holder.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                            @Override
-                            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                                JZVideoPlayer.goOnPlayOnPause();
-                                MyJZVideoPlayerStandard.releaseAllVideos();
+                                @Override
+                                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                                    JzvdStd.goOnPlayOnPause();
+                                    JzvdStd.releaseAllVideos();
 //                                WallFragment_POST.newsfeedrefresh.setEnabled(false);
 
-                            }
+                                }
 
-                            @Override
-                            public void onPageSelected(int position1) {
-                                JZVideoPlayer.goOnPlayOnPause();
-                               swipableAdapterPosition = position1;
-                               setupPagerIndidcatorDots(position1, holder.pager_dots, imagesSelectednew.size());
+                                @Override
+                                public void onPageSelected(int position1) {
+                                    JzvdStd.goOnPlayOnPause();
+                                    swipableAdapterPosition = position1;
+                                    setupPagerIndidcatorDots(position1, holder.pager_dots, imagesSelectednew.size());
 //                                WallFragment_POST.newsfeedrefresh.setEnabled(false);
-                            }
+                                }
 
                             @Override
                             public void onPageScrollStateChanged(int state) {
-                                JZVideoPlayer.goOnPlayOnPause();
+                                JzvdStd.goOnPlayOnPause();
 //                                WallFragment_POST.newsfeedrefresh.setEnabled(false);
 
                             }
@@ -663,17 +696,19 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                 holder.feedprogress.setVisibility(View.GONE);
                 holder.VideoView.setVisibility(View.GONE);
                 holder.viewPager.setVisibility(View.GONE);
+                holder.recycler_slider.setVisibility(View.GONE);
                 holder.pager_dots.setVisibility(View.GONE);
                 holder.card_view.setVisibility(View.GONE);
             }
-        }else {
-           holder.feedimageIv.setVisibility(View.GONE);
-           holder.playicon.setVisibility(View.GONE);
-           holder.feedprogress.setVisibility(View.GONE);
-           holder.VideoView.setVisibility(View.GONE);
-           holder.viewPager.setVisibility(View.GONE);
-           holder.pager_dots.setVisibility(View.GONE);
-           holder.card_view.setVisibility(View.GONE);
+        } else {
+            holder.feedimageIv.setVisibility(View.GONE);
+            holder.playicon.setVisibility(View.GONE);
+            holder.feedprogress.setVisibility(View.GONE);
+            holder.VideoView.setVisibility(View.GONE);
+            holder.viewPager.setVisibility(View.GONE);
+            holder.recycler_slider.setVisibility(View.GONE);
+            holder.pager_dots.setVisibility(View.GONE);
+            holder.card_view.setVisibility(View.GONE);
         }
 
         if (eventSettingLists.size() != 0) {
@@ -685,7 +720,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
             holder.view.setVisibility(View.GONE);
         } else {
-             holder.txtfeedRv.setVisibility(View.VISIBLE);
+            holder.txtfeedRv.setVisibility(View.VISIBLE);
 
             holder.view.setVisibility(View.VISIBLE);
         }
@@ -694,16 +729,16 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             holder.imagefeedRv.setVisibility(View.GONE);
             holder.viewteo.setVisibility(View.GONE);
         } else {
-             holder.imagefeedRv.setVisibility(View.VISIBLE);
-             holder.viewteo.setVisibility(View.VISIBLE);
+            holder.imagefeedRv.setVisibility(View.VISIBLE);
+            holder.viewteo.setVisibility(View.VISIBLE);
         }
 
         if (news_feed_video.equalsIgnoreCase("0")) {
             holder.videofeedRv.setVisibility(View.GONE);
             holder.viewteo.setVisibility(View.GONE);
         } else {
-             holder.videofeedRv.setVisibility(View.VISIBLE);
-             holder.viewteo.setVisibility(View.VISIBLE);
+            holder.videofeedRv.setVisibility(View.VISIBLE);
+            holder.viewteo.setVisibility(View.VISIBLE);
         }
 
         if (news_feed_images.equalsIgnoreCase("0") && news_feed_post.equalsIgnoreCase("0") && news_feed_video.equalsIgnoreCase("0")) {
@@ -719,7 +754,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             @Override
             public void onClick(View view) {
                 // send selected contact in callback
-                listener.onContactSelected(feedLists.get(position),  holder.feedimageIv,position);
+                listener.onContactSelected(feedLists.get(position), holder.feedimageIv, position);
             }
         });
 
@@ -728,14 +763,21 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             @Override
             public void onClick(View v) {
                 if (cd.isConnectingToInternet()) {
-                    listener.likeTvViewOnClick(v, feedLists.get(position), position,  holder.img_like,  holder.liketext);
+                    listener.likeTvViewOnClick(v, feedLists.get(position), position, holder.img_like, holder.liketext);
                 } else {
                     Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-         holder.commentTv.setOnClickListener(new View.OnClickListener() {
+        holder.commentTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.commentTvViewOnClick(v, feedLists.get(position), position);
+
+            }
+        });
+        holder.commenttext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.commentTvViewOnClick(v, feedLists.get(position), position);
@@ -744,15 +786,15 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
         });
 
 
-         holder.shareTv.setOnClickListener(new View.OnClickListener() {
+        holder.shareTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //listener.shareTvFollowOnClick(v, feedLists.get(position));
-                listener.shareTvFollowOnClick(v,feedLists.get(position),  holder.feedimageIv, position);
+                listener.shareTvFollowOnClick(v, feedLists.get(position), holder.feedimageIv, position);
             }
         });
 
-         holder.moreIV.setOnClickListener(new View.OnClickListener() {
+        holder.moreIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -764,7 +806,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
         });
 
 
-         holder.liketext.setOnClickListener(new View.OnClickListener() {
+        holder.liketext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -775,7 +817,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
         });
 
 
-         holder.editIV.setOnClickListener(new View.OnClickListener() {
+        holder.editIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -813,27 +855,27 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
 
         if (news_feed_like.equalsIgnoreCase("0")) {
-             holder.likeTv.setVisibility(View.GONE);
+            holder.likeTv.setVisibility(View.GONE);
 //            viewone.setVisibility(View.GONE);
         } else {
-             holder.likeTv.setVisibility(View.VISIBLE);
+            holder.likeTv.setVisibility(View.VISIBLE);
 //            viewone.setVisibility(View.VISIBLE);
         }
 
         if (news_feed_comment.equalsIgnoreCase("0")) {
-             holder.commentTv.setVisibility(View.GONE);
+            holder.commentTv.setVisibility(View.GONE);
 //            viewtwo.setVisibility(View.GONE);
 
         } else {
-             holder.commentTv.setVisibility(View.VISIBLE);
+            holder.commentTv.setVisibility(View.VISIBLE);
 //            viewtwo.setVisibility(View.VISIBLE);
         }
 
         if (news_feed_share.equalsIgnoreCase("0")) {
-             holder.shareTv.setVisibility(View.GONE);
+            holder.shareTv.setVisibility(View.GONE);
 //            viewtwo.setVisibility(View.GONE);
         } else {
-             holder.shareTv.setVisibility(View.VISIBLE);
+            holder.shareTv.setVisibility(View.VISIBLE);
 //            viewtwo.setVisibility(View.VISIBLE);
         }
 
@@ -970,109 +1012,6 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
         }
     }
 
-    public interface FeedAdapterListner {
-        //void onContactSelected(NewsFeedList feed, ImageView imageView);
-        void onContactSelected(NewsFeedList feed, ImageView imageView, int position);
-
-        void likeTvViewOnClick(View v, NewsFeedList feed, int position, ImageView likeimage, TextView liketext);
-
-        void commentTvViewOnClick(View v, NewsFeedList feed, int position);
-
-        // void shareTvFollowOnClick(View v, NewsFeedList feed);
-        void shareTvFollowOnClick(View v, NewsFeedList feedList, ImageView imageView, int position);
-
-        void moreTvFollowOnClick(View v, NewsFeedList feed, int position);
-
-        void moreLikeListOnClick(View v, NewsFeedList feed, int position);
-
-        void FeedEditOnClick(View v, NewsFeedList feed, int position);
-
-    }
-    
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nameTv, designationTv, companyTv, dateTv, headingTv, liketext, commenttext, sharetext,  testdata;
-        public ImageView img_like;
-        public ImageView img_vol, img_playback;
-        public ProgressBar progressView, feedprogress;
-        public ScaledImageView feedimageIv, profileIv, profilestatus;
-        public ImageView playicon, moreIV, editIV;
-        public View viewone, viewtwo, viewteo, view;
-        RelativeLayout txtfeedRv, imagefeedRv, videofeedRv;
-        private LinearLayout likeTv, commentTv, shareTv, mainLLpost, post_layout, feedll,ll_bottom;
-        public JZVideoPlayerStandard VideoView;
-        FrameLayout root;
-        public ClickableViewPager viewPager;
-        LinearLayout pager_dots, linear_video;
-        CardView card_view;
-
-        public MyViewHolder(View convertView) {
-            super(convertView);
-
-           nameTv = convertView.findViewById(R.id.nameTv);
-           companyTv = convertView.findViewById(R.id.companyTv);
-           designationTv = convertView.findViewById(R.id.designationTv);
-           dateTv = convertView.findViewById(R.id.dateTv);
-           headingTv = convertView.findViewById(R.id.headingTv);
-           testdata = convertView.findViewById(R.id.testdata);
-
-           likeTv = convertView.findViewById(R.id.likeTv);
-           commentTv = convertView.findViewById(R.id.commentTv);
-           shareTv = convertView.findViewById(R.id.shareTv);
-           img_like = convertView.findViewById(R.id.img_like);
-
-           liketext = convertView.findViewById(R.id.liketext);
-           commenttext = convertView.findViewById(R.id.commenttext);
-           pager_dots = convertView.findViewById(R.id.ll_dots);
-           card_view = convertView.findViewById(R.id.card_view);
-           viewPager = convertView.findViewById(R.id.vp_slider);
-           feedimageIv = convertView.findViewById(R.id.feedimageIv);
-           VideoView = convertView.findViewById(R.id.videoplayer);
-
-           profileIv = convertView.findViewById(R.id.profileIV);
-
-
-           progressView = convertView.findViewById(R.id.progressView);
-           feedprogress = convertView.findViewById(R.id.feedprogress);
-           root = convertView.findViewById(R.id.root);
-           playicon = convertView.findViewById(R.id.playicon);
-           moreIV = convertView.findViewById(R.id.moreIV);
-           editIV = convertView.findViewById(R.id.editIV);
-
-           viewone = convertView.findViewById(R.id.viewone);
-           viewtwo = convertView.findViewById(R.id.viewtwo);
-
-           txtfeedRv = convertView.findViewById(R.id.txtfeedRv);
-//         r.mindTv = convertView.findViewById(R.id.mindTv);
-           imagefeedRv = convertView.findViewById(R.id.imagefeedRv);
-           videofeedRv = convertView.findViewById(R.id.videofeedRv);
-           post_layout = convertView.findViewById(R.id.post_layout);
-           feedll = convertView.findViewById(R.id.feedll);
-
-           view = convertView.findViewById(R.id.view);
-           viewteo = convertView.findViewById(R.id.viewteo);
-
-
-           mainLLpost = convertView.findViewById(R.id.mainLLpost);
-           ll_bottom = convertView.findViewById(R.id.ll_bottom);
-
-
-           profilestatus = convertView.findViewById(R.id.profilestatus);
-            if (feedLists.size() > 0) {
-                feedll.setVisibility(RelativeLayout.VISIBLE);
-
-
-            } else {
-                feedll.setVisibility(RelativeLayout.GONE);
-
-            }
-
-
-            weightapply(txtfeedRv, imagefeedRv, videofeedRv, viewone, viewteo);
-
-        }
-    }
-
-
     private void setupPagerIndidcatorDots(int currentPage, LinearLayout ll_dots, int size) {
 
         TextView[] dots = new TextView[size];
@@ -1095,5 +1034,114 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
         }
 
+    }
+
+    public interface FeedAdapterListner {
+        //void onContactSelected(NewsFeedList feed, ImageView imageView);
+        void onContactSelected(NewsFeedList feed, ImageView imageView, int position);
+
+        void likeTvViewOnClick(View v, NewsFeedList feed, int position, ImageView likeimage, TextView liketext);
+
+        void commentTvViewOnClick(View v, NewsFeedList feed, int position);
+
+        // void shareTvFollowOnClick(View v, NewsFeedList feed);
+        void shareTvFollowOnClick(View v, NewsFeedList feedList, ImageView imageView, int position);
+
+        void moreTvFollowOnClick(View v, NewsFeedList feed, int position);
+
+        void moreLikeListOnClick(View v, NewsFeedList feed, int position);
+
+        void FeedEditOnClick(View v, NewsFeedList feed, int position);
+
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView nameTv, designationTv, tv_concat, companyTv, dateTv, headingTv, liketext, commenttext, sharetext, testdata;
+        public ImageView img_like;
+        public ImageView img_vol, img_playback;
+        public ProgressBar progressView, feedprogress;
+        public ScaledImageView feedimageIv, profilestatus;
+        public ImageView profileIv;
+        public ImageView playicon, moreIV, editIV;
+        public View viewone, viewtwo, viewteo, view;
+        public JzvdStd VideoView;
+        public ClickableViewPager viewPager;
+        RecyclerView recycler_slider;
+        RelativeLayout txtfeedRv, imagefeedRv, videofeedRv;
+        FrameLayout root;
+        LinearLayout pager_dots;
+        LinearLayout linear_video;
+        public LinearLayout viewForeground;
+        CardView card_view;
+        private LinearLayout likeTv, commentTv, shareTv, mainLLpost, post_layout, feedll, ll_bottom;
+
+        public MyViewHolder(View convertView) {
+            super(convertView);
+
+            viewForeground = convertView.findViewById(R.id.viewForeground);
+            nameTv = convertView.findViewById(R.id.nameTv);
+            companyTv = convertView.findViewById(R.id.companyTv);
+            tv_concat = convertView.findViewById(R.id.tv_concat);
+            designationTv = convertView.findViewById(R.id.designationTv);
+            dateTv = convertView.findViewById(R.id.dateTv);
+            headingTv = convertView.findViewById(R.id.headingTv);
+            testdata = convertView.findViewById(R.id.testdata);
+
+            likeTv = convertView.findViewById(R.id.likeTv);
+            commentTv = convertView.findViewById(R.id.commentTv);
+            shareTv = convertView.findViewById(R.id.shareTv);
+            img_like = convertView.findViewById(R.id.img_like);
+
+            liketext = convertView.findViewById(R.id.liketext);
+            commenttext = convertView.findViewById(R.id.commenttext);
+            pager_dots = convertView.findViewById(R.id.ll_dots);
+            card_view = convertView.findViewById(R.id.card_view);
+            viewPager = convertView.findViewById(R.id.vp_slider);
+            recycler_slider = convertView.findViewById(R.id.recycler_slider);
+            feedimageIv = convertView.findViewById(R.id.feedimageIv);
+            VideoView = convertView.findViewById(R.id.videoplayer);
+
+            profileIv = convertView.findViewById(R.id.profileIV);
+
+
+            progressView = convertView.findViewById(R.id.progressView);
+            feedprogress = convertView.findViewById(R.id.feedprogress);
+            root = convertView.findViewById(R.id.root);
+            playicon = convertView.findViewById(R.id.playicon);
+            moreIV = convertView.findViewById(R.id.moreIV);
+            editIV = convertView.findViewById(R.id.editIV);
+
+            viewone = convertView.findViewById(R.id.viewone);
+            viewtwo = convertView.findViewById(R.id.viewtwo);
+
+            txtfeedRv = convertView.findViewById(R.id.txtfeedRv);
+//         r.mindTv = convertView.findViewById(R.id.mindTv);
+            imagefeedRv = convertView.findViewById(R.id.imagefeedRv);
+            videofeedRv = convertView.findViewById(R.id.videofeedRv);
+            post_layout = convertView.findViewById(R.id.post_layout);
+            feedll = convertView.findViewById(R.id.feedll);
+
+            view = convertView.findViewById(R.id.view);
+            viewteo = convertView.findViewById(R.id.viewteo);
+
+
+            mainLLpost = convertView.findViewById(R.id.mainLLpost);
+            ll_bottom = convertView.findViewById(R.id.ll_bottom);
+
+
+            profilestatus = convertView.findViewById(R.id.profilestatus);
+            if (feedLists.size() > 0) {
+                feedll.setVisibility(RelativeLayout.VISIBLE);
+
+
+            } else {
+                feedll.setVisibility(RelativeLayout.GONE);
+
+            }
+
+
+            weightapply(txtfeedRv, imagefeedRv, videofeedRv, viewone, viewteo);
+
+        }
     }
 }

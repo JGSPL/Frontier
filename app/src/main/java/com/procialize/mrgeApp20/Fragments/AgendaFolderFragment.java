@@ -57,7 +57,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JzvdStd;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -552,7 +552,7 @@ public class AgendaFolderFragment extends Fragment implements SwipeAgendaImageAd
 
             @Override
             public void onTabChanged(String tabId) {
-                JZVideoPlayer.releaseAllVideos();
+                JzvdStd.releaseAllVideos();
                 for (int i = 0; i < tabWidget.getChildCount(); i++) {
 //                    tabWidget.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.activetab));
 
@@ -599,12 +599,12 @@ public class AgendaFolderFragment extends Fragment implements SwipeAgendaImageAd
                 try {
 
                     if (SwipepagerAgendaImage.videoplayer != null) {
-                        if (SwipepagerAgendaImage.videoplayer.isCurrentPlay()) {
+                       /* if (SwipepagerAgendaImage.videoplayer.isCurrentPlay()) {
                             SwipepagerAgendaImage.videoplayer.release();
-                        }
+                        }*/
 
                     }
-                    SwipepagerAgendaImage.videoplayer.release();
+                   // SwipepagerAgendaImage.videoplayer.release();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -651,12 +651,12 @@ public class AgendaFolderFragment extends Fragment implements SwipeAgendaImageAd
                         try {
 
                             if (SwipepagerAgendaImage.videoplayer != null) {
-                                if (SwipepagerAgendaImage.videoplayer.isCurrentPlay()) {
+                               /* if (SwipepagerAgendaImage.videoplayer.isCurrentPlay()) {
                                     SwipepagerAgendaImage.videoplayer.release();
-                                }
+                                }*/
 
                             }
-                            SwipepagerAgendaImage.videoplayer.release();
+                           // SwipepagerAgendaImage.videoplayer.release();
 
                         } catch (Exception e) {
                             e.printStackTrace();

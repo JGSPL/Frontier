@@ -55,7 +55,7 @@
             android:paddingRight="12dp"
             android:paddingBottom="8dp"
             android:progressDrawable="@drawable/jz_bottom_seek_progress"
-            android:thumb="@drawable/jz_bottom_seek_thumb" />
+            android:thumb="@drawable/jz_bottom_seek_progress" />
 
         <TextView
             android:id="@+id/total"
