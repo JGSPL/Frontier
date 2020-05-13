@@ -98,7 +98,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHold
 
             try {
                 SimpleDateFormat originalFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.UK);
-                SimpleDateFormat targetFormat = new SimpleDateFormat(" dd\nMMM");
+                SimpleDateFormat targetFormat = new SimpleDateFormat(" dd MMM, yyyy");
                 Date date = originalFormat.parse(agenda.getSessionDate());
                 String sessiondate = targetFormat.format(date);
                 holder.tvheading.setText(sessiondate);

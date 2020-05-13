@@ -66,22 +66,22 @@ public class AgendaDateWiseAdapter extends RecyclerView.Adapter<AgendaDateWiseAd
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final AgendaList agenda = agendaLists.get(position);
 
-        int colorInt = Color.parseColor(colorActive);
+       /* int colorInt = Color.parseColor(colorActive);
 
         ColorStateList csl = ColorStateList.valueOf(colorInt);
         Drawable drawable = DrawableCompat.wrap(holder.ic_rightarrow.getDrawable());
         DrawableCompat.setTintList(drawable, csl);
-        holder.ic_rightarrow.setImageDrawable(drawable);
+        holder.ic_rightarrow.setImageDrawable(drawable);*/
 
         holder.nameTv.setText(agenda.getSessionName());
-        holder.nameTv.setTextColor(Color.parseColor(colorActive));
+        holder.agdview.setBackgroundColor(Color.parseColor(colorActive));
         holder.descriptionTv.setText(agenda.getSessionDescription());
 
 
         try {
 
             SimpleDateFormat originalFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.UK);
-            SimpleDateFormat targetFormat = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat targetFormat = new SimpleDateFormat("HH:mm a");
 
             Date startdate = originalFormat.parse(agenda.getSessionStartTime());
             Date enddate = originalFormat.parse(agenda.getSessionEndTime());
@@ -91,7 +91,9 @@ public class AgendaDateWiseAdapter extends RecyclerView.Adapter<AgendaDateWiseAd
             String enddatestr = targetFormat.format(enddate);
 
 
-            holder.dateTv.setText(startdatestr + " - " + enddatestr);
+            holder.dateTv.setText(startdatestr  );
+            holder.date2Tv.setText( enddatestr);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,14 +120,19 @@ public class AgendaDateWiseAdapter extends RecyclerView.Adapter<AgendaDateWiseAd
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nameTv, dateTv, descriptionTv, tvheading;
+        public TextView nameTv, dateTv, descriptionTv, tvheading,date2Tv;
         public LinearLayout mainLL;
         public ImageView ic_rightarrow;
+        View agdview;
 
         public MyViewHolder(View view) {
             super(view);
             nameTv = view.findViewById(R.id.nameTv);
             dateTv = view.findViewById(R.id.dateTv);
+            date2Tv = view.findViewById(R.id.date2Tv);
+
+            agdview = view.findViewById(R.id.agdview);
+
             descriptionTv = view.findViewById(R.id.descriptionTv);
             tvheading = view.findViewById(R.id.tvheading);
             ic_rightarrow = view.findViewById(R.id.ic_rightarrow);

@@ -17,46 +17,75 @@
         android:orientation="horizontal"
         android:padding="5dp"
         android:weightSum="10">
-
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="9"
+            android:layout_weight="2"
             android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/nameTv"
+            android:orientation="horizontal">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/designationTv"
-                android:layout_alignTop="@+id/imageView"
-                android:maxLines="1"
-                android:paddingLeft="5dp"
-                android:text=""
-                android:textAlignment="textStart"
-                android:textColor="@color/activetab"
-                android:textSize="15dp"
-                />
-
+                android:orientation="vertical">
             <TextView
                 android:id="@+id/dateTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/nameTv"
-                android:layout_toEndOf="@+id/imageView"
                 android:paddingLeft="5dp"
                 android:text=""
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/black"
                 android:textSize="@dimen/textsizesmall" />
+                <TextView
+                    android:id="@+id/date2Tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameTv"
+                    android:paddingLeft="5dp"
+                    android:text=""
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/textsizesmall" />
 
-            <TextView
+            </LinearLayout>
+            <View
+                android:layout_width="2dp"
+                android:id="@+id/agdview"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_height="match_parent"
+                android:background="@color/activetab">
+
+            </View>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                android:id="@+id/nameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/designationTv"
+                android:maxLines="1"
+                android:paddingLeft="5dp"
+                android:text=""
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                />
+
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
                 android:id="@+id/descriptionTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/designationTv"
-                android:layout_toEndOf="@+id/imageView"
                 android:maxLines="1"
                 android:paddingLeft="5dp"
                 android:text=""
@@ -74,6 +103,7 @@
                 android:id="@+id/ic_rightarrow"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:tint="@color/colorAccent"
                 android:contentDescription="TODO"
                 android:src="@drawable/ic_rightarrow" />
 

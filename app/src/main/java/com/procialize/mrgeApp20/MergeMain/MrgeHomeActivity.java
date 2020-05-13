@@ -89,7 +89,6 @@ import com.procialize.mrgeApp20.Fragments.AgendaFragment;
 import com.procialize.mrgeApp20.Fragments.AttendeeFragment;
 import com.procialize.mrgeApp20.Fragments.GeneralInfo;
 import com.procialize.mrgeApp20.Fragments.SpeakerFragment;
-import com.procialize.mrgeApp20.Fragments.WallFragment_POST;
 import com.procialize.mrgeApp20.GetterSetter.AgendaList;
 import com.procialize.mrgeApp20.GetterSetter.EventMenuSettingList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;

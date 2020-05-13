@@ -65,7 +65,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import cn.jzvd.JZVideoPlayer;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -817,7 +816,6 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     public void onPause() {
         super.onPause();
 
-        JZVideoPlayer.releaseAllVideos();
 
     }
 
