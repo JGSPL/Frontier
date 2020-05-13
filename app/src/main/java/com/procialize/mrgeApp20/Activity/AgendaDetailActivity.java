@@ -55,7 +55,7 @@ import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
 public class AgendaDetailActivity extends AppCompatActivity {
 
     String agendaid, date, name, description, starttime, endtime;
-    TextView tvname, tvdate, tvtime, tvdscription;
+    TextView tvname, tvdate, tvtime, tvdscription,tvtime2;
     Button ratebtn;
     APIService mAPIService;
     SessionManager sessionManager;
@@ -141,6 +141,8 @@ public class AgendaDetailActivity extends AppCompatActivity {
         tvname = findViewById(R.id.tvname);
         tvdate = findViewById(R.id.tvdate);
         tvtime = findViewById(R.id.tvtime);
+        tvtime2  = findViewById(R.id.tvtime2);
+
         tvdscription = findViewById(R.id.tvdscription);
         linear1 = findViewById(R.id.linear1);
         linear2 = findViewById(R.id.linear2);
@@ -153,7 +155,7 @@ public class AgendaDetailActivity extends AppCompatActivity {
         msg = findViewById(R.id.msg);
         relative = findViewById(R.id.relative);
 
-        tvname.setBackgroundColor(Color.parseColor(colorActive));
+        //tvname.setBackgroundColor(Color.parseColor(colorActive));
 
         try {
 
@@ -214,12 +216,14 @@ public class AgendaDetailActivity extends AppCompatActivity {
         if (date != null) {
             try {
                 SimpleDateFormat originalFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.UK);
-                SimpleDateFormat targetFormat = new SimpleDateFormat("dd MMMM");
+                SimpleDateFormat targetFormat = new SimpleDateFormat("dd MMM, yyyy");
 
                 Date ogdate = originalFormat.parse(date);
                 String day = String.valueOf(android.text.format.DateFormat.format("EEEE", ogdate));
                 String sessiondate = targetFormat.format(ogdate);
-                tvdate.setText(sessiondate + " - " + day);
+                tvdate.setText(sessiondate /*+ " - " + day*/);
+                tvdate.setBackgroundColor(Color.parseColor(colorActive));
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -233,7 +237,7 @@ public class AgendaDetailActivity extends AppCompatActivity {
         if (starttime != null && endtime != null) {
             try {
                 SimpleDateFormat originalFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.UK);
-                SimpleDateFormat targetFormat = new SimpleDateFormat("HH:mm ");
+                SimpleDateFormat targetFormat = new SimpleDateFormat("HH:mm aa");
                 SimpleDateFormat datesplit = new SimpleDateFormat("dd-MM-yyyy");
 
                 Date startdate = originalFormat.parse(starttime);
@@ -244,7 +248,9 @@ public class AgendaDetailActivity extends AppCompatActivity {
                 startdatestr = targetFormat.format(startdate);
                 enddatestr = targetFormat.format(enddate);
                 spitdate = datesplit.format(startdate);
-                tvtime.setText(startdatestr + " - " + enddatestr);
+                tvtime.setText(startdatestr );
+                tvtime2.setText(enddatestr);
+
 
             } catch (Exception e) {
                 e.printStackTrace();
