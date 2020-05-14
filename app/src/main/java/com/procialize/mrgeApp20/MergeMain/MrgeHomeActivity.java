@@ -207,35 +207,36 @@ LinearLayout linTab4,linTab3,linTab2;
     private DBHelper procializeDB;
     private int[] tabIcons = {
             R.drawable.ic_newsfeed,
-            R.drawable.ic_agenda,
-            R.drawable.ic_attendee,
-            R.drawable.ic_speaker,
-            R.drawable.active_exhibitor,
-            R.drawable.general_info
+            R.drawable.ic_eventdetail,
+            R.drawable.ic_folder,
+            R.drawable.ic_interact,
+            R.drawable.ic_interact,
+            R.drawable.ic_interact
 
     };
     private int[] sub1tabIcons = {
-            R.drawable.quiz,
-            R.drawable.live_poll,
-            R.drawable.qna_arrow,
-            R.drawable.engagement,
+            R.drawable.ic_eventinfo,
+            R.drawable.ic_attendeee,
+            R.drawable.ic_speakers,
+            R.drawable.ic_schedule,
+            R.drawable.ic_emergency,
 
 
     };
     private int[] sub2tabIcons = {
-            R.drawable.quiz,
-            R.drawable.live_poll,
-            R.drawable.qna_arrow,
+            R.drawable.ic_image,
+            R.drawable.ic_video,
+            R.drawable.ic_download,
             R.drawable.engagement,
 
 
     };
 
     private int[] sub3tabIcons = {
-            R.drawable.quiz,
-            R.drawable.live_poll,
-            R.drawable.qna_arrow,
-            R.drawable.engagement,
+            R.drawable.ic_quiz,
+            R.drawable.ic_livepoll,
+            R.drawable.ic_qna,
+            R.drawable.ic_engagement,
 
 
     };
@@ -498,7 +499,7 @@ LinearLayout linTab4,linTab3,linTab2;
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
-        tabLayout.setTabTextColors(Color.parseColor("#4D4D4D"), Color.parseColor(colorActive));
+        tabLayout.setTabTextColors(Color.parseColor("#ffffff"), Color.parseColor("#ffffff"));
 
         linTab2 = findViewById(R.id.linTab2);
         linTab3 = findViewById(R.id.linTab3);
@@ -849,55 +850,70 @@ LinearLayout linTab4,linTab3,linTab2;
 
     private void Sub2setupTabIcons() {
         if (sub2tabLayout.getTabAt(0) != null) {
-            if (sub2tabLayout.getTabAt(0).getText().equals("Event Info")) {
+            if (sub2tabLayout.getTabAt(0).getText().equals("EVENT INFO")) {
                 sub2tabLayout.getTabAt(0).setIcon(sub1tabIcons[0]);
-            } else if (sub2tabLayout.getTabAt(0).getText().equals("Participant")) {
+            } else if (sub2tabLayout.getTabAt(0).getText().equals("ATTENDEES")) {
                 sub2tabLayout.getTabAt(0).setIcon(sub1tabIcons[1]);
-            } else if (sub2tabLayout.getTabAt(0).getText().equals("Schedule")) {
+            } else if (sub2tabLayout.getTabAt(0).getText().equals("SPEAKERS")) {
                 sub2tabLayout.getTabAt(0).setIcon(sub1tabIcons[2]);
-            } else if (sub2tabLayout.getTabAt(0).getText().equals("Emergency")) {
+            } else if (sub2tabLayout.getTabAt(0).getText().equals("SCHEDULE")) {
                 sub2tabLayout.getTabAt(0).setIcon(sub1tabIcons[3]);
             }
         }
 
 
         if (sub2tabLayout.getTabAt(1) != null) {
-            if (sub2tabLayout.getTabAt(1).getText().equals("Event Info")) {
+            if (sub2tabLayout.getTabAt(1).getText().equals("EVENT INFO")) {
                 sub2tabLayout.getTabAt(1).setIcon(sub1tabIcons[0]);
-            } else if (sub2tabLayout.getTabAt(1).getText().equals("Participant")) {
+            } else if (sub2tabLayout.getTabAt(1).getText().equals("ATTENDEES")) {
                 sub2tabLayout.getTabAt(1).setIcon(sub1tabIcons[1]);
-            } else if (sub2tabLayout.getTabAt(1).getText().equals("Schedule")) {
+            } else if (sub2tabLayout.getTabAt(1).getText().equals("SPEAKERS")) {
                 sub2tabLayout.getTabAt(1).setIcon(sub1tabIcons[2]);
-            } else if (sub2tabLayout.getTabAt(1).getText().equals("Emergency")) {
+            } else if (sub2tabLayout.getTabAt(1).getText().equals("SCHEDULE")) {
                 sub2tabLayout.getTabAt(1).setIcon(sub1tabIcons[3]);
             }
         }
 
 
         if (sub2tabLayout.getTabAt(2) != null) {
-            if (sub2tabLayout.getTabAt(2).getText().equals("Event Info")) {
+            if (sub2tabLayout.getTabAt(2).getText().equals("EVENT INFO")) {
                 sub2tabLayout.getTabAt(2).setIcon(sub1tabIcons[0]);
-            } else if (sub2tabLayout.getTabAt(2).getText().equals("Participant")) {
+            } else if (sub2tabLayout.getTabAt(2).getText().equals("ATTENDEES")) {
                 sub2tabLayout.getTabAt(2).setIcon(sub1tabIcons[1]);
-            } else if (sub2tabLayout.getTabAt(2).getText().equals("Schedule")) {
+            } else if (sub2tabLayout.getTabAt(2).getText().equals("SPEAKERS")) {
                 sub2tabLayout.getTabAt(2).setIcon(sub1tabIcons[2]);
-            } else if (sub2tabLayout.getTabAt(2).getText().equals("Emergency")) {
+            } else if (sub2tabLayout.getTabAt(2).getText().equals("SCHEDULE")) {
                 sub2tabLayout.getTabAt(2).setIcon(sub1tabIcons[3]);
             }
         }
 
 
         if (sub2tabLayout.getTabAt(3) != null) {
-            if (sub2tabLayout.getTabAt(3).getText().equals("Event Info")) {
+            if (sub2tabLayout.getTabAt(3).getText().equals("EVENT INFO")) {
                 sub2tabLayout.getTabAt(3).setIcon(sub1tabIcons[0]);
-            } else if (sub2tabLayout.getTabAt(3).getText().equals("Participant")) {
+            } else if (sub2tabLayout.getTabAt(3).getText().equals("ATTENDEES")) {
                 sub2tabLayout.getTabAt(3).setIcon(sub1tabIcons[1]);
-            } else if (sub2tabLayout.getTabAt(3).getText().equals("Schedule")) {
+            } else if (sub2tabLayout.getTabAt(3).getText().equals("SPEAKERS")) {
                 sub2tabLayout.getTabAt(3).setIcon(sub1tabIcons[2]);
-            } else if (sub2tabLayout.getTabAt(3).getText().equals("Emergency")) {
+            } else if (sub2tabLayout.getTabAt(3).getText().equals("SCHEDULE")) {
                 sub2tabLayout.getTabAt(3).setIcon(sub1tabIcons[3]);
             }
         }
+
+        if (sub2tabLayout.getTabAt(4) != null) {
+            if (sub2tabLayout.getTabAt(4).getText().equals("EVENT INFO")) {
+                sub2tabLayout.getTabAt(4).setIcon(sub1tabIcons[0]);
+            } else if (sub2tabLayout.getTabAt(4).getText().equals("ATTENDEES")) {
+                sub2tabLayout.getTabAt(4).setIcon(sub1tabIcons[1]);
+            } else if (sub2tabLayout.getTabAt(4).getText().equals("SPEAKERS")) {
+                sub2tabLayout.getTabAt(4).setIcon(sub1tabIcons[2]);
+            } else if (sub2tabLayout.getTabAt(4).getText().equals("SCHEDULE")) {
+                sub2tabLayout.getTabAt(4).setIcon(sub1tabIcons[3]);
+            }else if (sub2tabLayout.getTabAt(4).getText().equals("EMERGENCY")) {
+                sub2tabLayout.getTabAt(4).setIcon(sub1tabIcons[4]);
+            }
+        }
+
 
 
 
@@ -905,10 +921,11 @@ LinearLayout linTab4,linTab3,linTab2;
     private void Sub2setupViewPager(ViewPager viewPager) {
 
         ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
-        adapter.addFragment(new EventInfoFragment(), "Event Info");
-        adapter.addFragment(new AttendeeFragment(), "Participant");
-        adapter.addFragment(new AgendaFragment(), "Schedule");
-        adapter.addFragment(new GeneralInfo(), "Emergency");
+        adapter.addFragment(new EventInfoFragment(), "EVENT INFO");
+        adapter.addFragment(new AttendeeFragment(), "ATTENDEES");
+        adapter.addFragment(new SpeakerFragment(), "SPEAKERS");
+        adapter.addFragment(new AgendaFragment(), "SCHEDULE");
+        adapter.addFragment(new GeneralInfo(), "EMERGENCY");
 
        // sub2tabLayout.getTabAt(0).getCustomView().setSelected(false);
 
@@ -917,11 +934,11 @@ LinearLayout linTab4,linTab3,linTab2;
 
     private void Sub3setupTabIcons() {
         if (sub3tabLayout.getTabAt(0) != null) {
-            if (sub3tabLayout.getTabAt(0).getText().equals("Quiz")) {
+            if (sub3tabLayout.getTabAt(0).getText().equals("IMAGE")) {
                 sub3tabLayout.getTabAt(0).setIcon(sub2tabIcons[0]);
-            } else if (sub3tabLayout.getTabAt(0).getText().equals("Live Poll")) {
+            } else if (sub3tabLayout.getTabAt(0).getText().equals("VIDEO")) {
                 sub3tabLayout.getTabAt(0).setIcon(sub2tabIcons[1]);
-            } else if (sub3tabLayout.getTabAt(0).getText().equals("QnA")) {
+            } else if (sub3tabLayout.getTabAt(0).getText().equals("DOWNLOADS")) {
                 sub3tabLayout.getTabAt(0).setIcon(sub2tabIcons[2]);
             } else if (Objects.requireNonNull(sub3tabLayout.getTabAt(0)).getText().equals("Engagement")) {
                 sub3tabLayout.getTabAt(0).setIcon(sub2tabIcons[3]);
@@ -930,11 +947,11 @@ LinearLayout linTab4,linTab3,linTab2;
 
 
         if (sub3tabLayout.getTabAt(1) != null) {
-            if (sub3tabLayout.getTabAt(1).getText().equals("Quiz")) {
+            if (sub3tabLayout.getTabAt(1).getText().equals("IMAGE")) {
                 sub3tabLayout.getTabAt(1).setIcon(sub2tabIcons[0]);
-            } else if (sub3tabLayout.getTabAt(1).getText().equals("Live Poll")) {
+            } else if (sub3tabLayout.getTabAt(1).getText().equals("VIDEO")) {
                 sub3tabLayout.getTabAt(1).setIcon(sub2tabIcons[1]);
-            } else if (sub3tabLayout.getTabAt(1).getText().equals("QnA")) {
+            } else if (sub3tabLayout.getTabAt(1).getText().equals("DOWNLOADS")) {
                 sub3tabLayout.getTabAt(1).setIcon(sub2tabIcons[2]);
             } else if (sub3tabLayout.getTabAt(1).getText().equals("Engagement")) {
                 sub3tabLayout.getTabAt(1).setIcon(sub2tabIcons[3]);
@@ -943,11 +960,11 @@ LinearLayout linTab4,linTab3,linTab2;
 
 
         if (sub3tabLayout.getTabAt(2) != null) {
-            if (sub3tabLayout.getTabAt(2).getText().equals("Quiz")) {
+            if (sub3tabLayout.getTabAt(2).getText().equals("IMAGE")) {
                 sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[0]);
-            } else if (sub3tabLayout.getTabAt(2).getText().equals("Live Poll")) {
+            } else if (sub3tabLayout.getTabAt(2).getText().equals("VIDEO")) {
                 sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[1]);
-            } else if (sub3tabLayout.getTabAt(2).getText().equals("QnA")) {
+            } else if (sub3tabLayout.getTabAt(2).getText().equals("DOWNLOADS")) {
                 sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[2]);
             } else if (sub3tabLayout.getTabAt(2).getText().equals("Engagement")) {
                 sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[3]);
@@ -956,11 +973,11 @@ LinearLayout linTab4,linTab3,linTab2;
 
 
         if (sub3tabLayout.getTabAt(3) != null) {
-            if (sub3tabLayout.getTabAt(3).getText().equals("Quiz")) {
+            if (sub3tabLayout.getTabAt(3).getText().equals("IMAGE")) {
                 sub3tabLayout.getTabAt(3).setIcon(sub2tabIcons[0]);
-            } else if (sub3tabLayout.getTabAt(3).getText().equals("Live Poll")) {
+            } else if (sub3tabLayout.getTabAt(3).getText().equals("VIDEO")) {
                 sub3tabLayout.getTabAt(3).setIcon(sub2tabIcons[1]);
-            } else if (sub3tabLayout.getTabAt(3).getText().equals("QnA")) {
+            } else if (sub3tabLayout.getTabAt(3).getText().equals("DOWNLOADS")) {
                 sub3tabLayout.getTabAt(3).setIcon(sub2tabIcons[2]);
             } else if (sub3tabLayout.getTabAt(3).getText().equals("Engagement")) {
                 sub3tabLayout.getTabAt(3).setIcon(sub2tabIcons[3]);
@@ -973,10 +990,10 @@ LinearLayout linTab4,linTab3,linTab2;
     private void Sub3setupViewPager(ViewPager viewPager) {
 
         ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
-        adapter.addFragment(new FolderQuizFragment(), "Quiz");
-        adapter.addFragment(new FolderQuizFragment(), "Live Poll");
-        adapter.addFragment(new FolderQuizFragment(), "QnA");
-        adapter.addFragment(new FolderQuizFragment(), "Engagement");
+        adapter.addFragment(new FolderQuizFragment(), "IMAGE");
+        adapter.addFragment(new FolderQuizFragment(), "VIDEO");
+        adapter.addFragment(new FolderQuizFragment(), "DOWNLOADS");
+        //adapter.addFragment(new FolderQuizFragment(), "Engagement");
 
         // sub2tabLayout.getTabAt(0).getCustomView().setSelected(false);
 
@@ -1018,34 +1035,52 @@ LinearLayout linTab4,linTab3,linTab2;
 
     private void Sub4setupTabIcons() {
         if (sub4tabLayout.getTabAt(0) != null) {
-            if (sub4tabLayout.getTabAt(0).getText().equals("Image")) {
+            if (sub4tabLayout.getTabAt(0).getText().equals("QUIZ")) {
                 sub4tabLayout.getTabAt(0).setIcon(sub3tabIcons[0]);
-            } else if (sub4tabLayout.getTabAt(0).getText().equals("Video")) {
+            } else if (sub4tabLayout.getTabAt(0).getText().equals("LIVE POLL")) {
                 sub4tabLayout.getTabAt(0).setIcon(sub3tabIcons[1]);
-            } else if (sub4tabLayout.getTabAt(0).getText().equals("Downloads")) {
+            } else if (sub4tabLayout.getTabAt(0).getText().equals("Q&A")) {
                 sub4tabLayout.getTabAt(0).setIcon(sub3tabIcons[2]);
+            } else if (sub4tabLayout.getTabAt(0).getText().equals("ENGAGEMENT")) {
+                sub4tabLayout.getTabAt(0).setIcon(sub3tabIcons[3]);
             }
         }
 
 
         if (sub4tabLayout.getTabAt(1) != null) {
-            if (sub4tabLayout.getTabAt(1).getText().equals("Image")) {
+            if (sub4tabLayout.getTabAt(1).getText().equals("QUIZ")) {
                 sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[0]);
-            } else if (sub4tabLayout.getTabAt(1).getText().equals("Video")) {
+            } else if (sub4tabLayout.getTabAt(1).getText().equals("LIVE POLL")) {
                 sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[1]);
-            } else if (sub4tabLayout.getTabAt(1).getText().equals("Downloads")) {
+            } else if (sub4tabLayout.getTabAt(1).getText().equals("Q&A")) {
                 sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[2]);
+            }else if (sub4tabLayout.getTabAt(1).getText().equals("ENGAGEMENT")) {
+                sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[3]);
             }
         }
 
 
         if (sub4tabLayout.getTabAt(2) != null) {
-            if (sub4tabLayout.getTabAt(2).getText().equals("Image")) {
+            if (sub4tabLayout.getTabAt(2).getText().equals("QUIZ")) {
                 sub4tabLayout.getTabAt(2).setIcon(sub3tabIcons[0]);
-            } else if (sub4tabLayout.getTabAt(2).getText().equals("Video")) {
+            } else if (sub4tabLayout.getTabAt(2).getText().equals("LIVE POLL")) {
                 sub4tabLayout.getTabAt(2).setIcon(sub3tabIcons[1]);
-            } else if (sub4tabLayout.getTabAt(2).getText().equals("Downloads")) {
+            } else if (sub4tabLayout.getTabAt(2).getText().equals("Q&A")) {
                 sub4tabLayout.getTabAt(2).setIcon(sub3tabIcons[2]);
+            }else if (sub4tabLayout.getTabAt(2).getText().equals("ENGAGEMENT")) {
+                sub4tabLayout.getTabAt(2).setIcon(sub3tabIcons[3]);
+            }
+        }
+
+        if (sub4tabLayout.getTabAt(3) != null) {
+            if (sub4tabLayout.getTabAt(3).getText().equals("QUIZ")) {
+                sub4tabLayout.getTabAt(3).setIcon(sub3tabIcons[0]);
+            } else if (sub4tabLayout.getTabAt(3).getText().equals("LIVE POLL")) {
+                sub4tabLayout.getTabAt(3).setIcon(sub3tabIcons[1]);
+            } else if (sub4tabLayout.getTabAt(3).getText().equals("Q&A")) {
+                sub4tabLayout.getTabAt(3).setIcon(sub3tabIcons[2]);
+            }else if (sub4tabLayout.getTabAt(3).getText().equals("ENGAGEMENT")) {
+                sub4tabLayout.getTabAt(3).setIcon(sub3tabIcons[3]);
             }
         }
 
@@ -1053,9 +1088,10 @@ LinearLayout linTab4,linTab3,linTab2;
     private void Sub4setupViewPager(ViewPager viewPager) {
 
         ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
-        adapter.addFragment(new FolderQuizFragment(), "Image");
-        adapter.addFragment(new FolderQuizFragment(), "Video");
-        adapter.addFragment(new FolderQuizFragment(), "Downloads");
+        adapter.addFragment(new FolderQuizFragment(), "QUIZ");
+        adapter.addFragment(new FolderQuizFragment(), "LIVE POLL");
+        adapter.addFragment(new FolderQuizFragment(), "Q&A");
+        adapter.addFragment(new FolderQuizFragment(), "ENGAGEMENT");
 
         Subviewpager3.setAdapter(adapter);
     }
@@ -1179,11 +1215,11 @@ LinearLayout linTab4,linTab3,linTab2;
         if (tabLayout.getTabAt(0) != null) {
             if (tabLayout.getTabAt(0).getText().equals("News Feed")) {
                 tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-            } else if (tabLayout.getTabAt(0).getText().equals("Agenda")) {
+            } else if (tabLayout.getTabAt(0).getText().equals("Event Details")) {
                 tabLayout.getTabAt(0).setIcon(tabIcons[1]);
-            } else if (tabLayout.getTabAt(0).getText().equals("Attendee")) {
+            } else if (tabLayout.getTabAt(0).getText().equals("Folder")) {
                 tabLayout.getTabAt(0).setIcon(tabIcons[2]);
-            } else if (tabLayout.getTabAt(0).getText().equals("Speaker")) {
+            } else if (tabLayout.getTabAt(0).getText().equals("Interact")) {
                 tabLayout.getTabAt(0).setIcon(tabIcons[3]);
             } else if (tabLayout.getTabAt(0).getText().equals("Exhibitors")) {
                 tabLayout.getTabAt(0).setIcon(tabIcons[4]);
@@ -1196,11 +1232,11 @@ LinearLayout linTab4,linTab3,linTab2;
         if (tabLayout.getTabAt(1) != null) {
             if (tabLayout.getTabAt(1).getText().equals("News Feed")) {
                 tabLayout.getTabAt(1).setIcon(tabIcons[0]);
-            } else if (tabLayout.getTabAt(1).getText().equals("Agenda")) {
+            } else if (tabLayout.getTabAt(1).getText().equals("Event Details")) {
                 tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-            } else if (tabLayout.getTabAt(1).getText().equals("Attendee")) {
+            } else if (tabLayout.getTabAt(1).getText().equals("Folder")) {
                 tabLayout.getTabAt(1).setIcon(tabIcons[2]);
-            } else if (tabLayout.getTabAt(1).getText().equals("Speaker")) {
+            } else if (tabLayout.getTabAt(1).getText().equals("Interact")) {
                 tabLayout.getTabAt(1).setIcon(tabIcons[3]);
             } else if (tabLayout.getTabAt(1).getText().equals("Exhibitors")) {
                 tabLayout.getTabAt(1).setIcon(tabIcons[4]);
@@ -1213,11 +1249,11 @@ LinearLayout linTab4,linTab3,linTab2;
         if (tabLayout.getTabAt(2) != null) {
             if (tabLayout.getTabAt(2).getText().equals("News Feed")) {
                 tabLayout.getTabAt(2).setIcon(tabIcons[0]);
-            } else if (tabLayout.getTabAt(2).getText().equals("Agenda")) {
+            } else if (tabLayout.getTabAt(2).getText().equals("Event Details")) {
                 tabLayout.getTabAt(2).setIcon(tabIcons[1]);
-            } else if (tabLayout.getTabAt(2).getText().equals("Attendee")) {
+            } else if (tabLayout.getTabAt(2).getText().equals("Folder")) {
                 tabLayout.getTabAt(2).setIcon(tabIcons[2]);
-            } else if (tabLayout.getTabAt(2).getText().equals("Speaker")) {
+            } else if (tabLayout.getTabAt(2).getText().equals("Interact")) {
                 tabLayout.getTabAt(2).setIcon(tabIcons[3]);
             } else if (tabLayout.getTabAt(2).getText().equals("Exhibitors")) {
                 tabLayout.getTabAt(2).setIcon(tabIcons[4]);
@@ -1230,11 +1266,11 @@ LinearLayout linTab4,linTab3,linTab2;
         if (tabLayout.getTabAt(3) != null) {
             if (tabLayout.getTabAt(3).getText().equals("News Feed")) {
                 tabLayout.getTabAt(3).setIcon(tabIcons[0]);
-            } else if (tabLayout.getTabAt(3).getText().equals("Agenda")) {
+            } else if (tabLayout.getTabAt(3).getText().equals("Event Details")) {
                 tabLayout.getTabAt(3).setIcon(tabIcons[1]);
-            } else if (tabLayout.getTabAt(3).getText().equals("Attendee")) {
+            } else if (tabLayout.getTabAt(3).getText().equals("Folder")) {
                 tabLayout.getTabAt(3).setIcon(tabIcons[2]);
-            } else if (tabLayout.getTabAt(3).getText().equals("Speaker")) {
+            } else if (tabLayout.getTabAt(3).getText().equals("Interact")) {
                 tabLayout.getTabAt(3).setIcon(tabIcons[3]);
             } else if (tabLayout.getTabAt(3).getText().equals("Exhibitors")) {
                 tabLayout.getTabAt(3).setIcon(tabIcons[4]);
@@ -1245,11 +1281,11 @@ LinearLayout linTab4,linTab3,linTab2;
         if (tabLayout.getTabAt(4) != null) {
             if (tabLayout.getTabAt(4).getText().equals("News Feed")) {
                 tabLayout.getTabAt(4).setIcon(tabIcons[0]);
-            } else if (tabLayout.getTabAt(4).getText().equals("Agenda")) {
+            } else if (tabLayout.getTabAt(4).getText().equals("Event Details")) {
                 tabLayout.getTabAt(4).setIcon(tabIcons[1]);
-            } else if (tabLayout.getTabAt(4).getText().equals("Attendee")) {
+            } else if (tabLayout.getTabAt(4).getText().equals("Folder")) {
                 tabLayout.getTabAt(4).setIcon(tabIcons[2]);
-            } else if (tabLayout.getTabAt(4).getText().equals("Speaker")) {
+            } else if (tabLayout.getTabAt(4).getText().equals("Interact")) {
                 tabLayout.getTabAt(4).setIcon(tabIcons[3]);
             } else if (tabLayout.getTabAt(4).getText().equals("Exhibitors")) {
                 tabLayout.getTabAt(4).setIcon(tabIcons[4]);
@@ -1260,11 +1296,11 @@ LinearLayout linTab4,linTab3,linTab2;
         if (tabLayout.getTabAt(5) != null) {
             if (tabLayout.getTabAt(5).getText().equals("News Feed")) {
                 tabLayout.getTabAt(5).setIcon(tabIcons[0]);
-            } else if (tabLayout.getTabAt(5).getText().equals("Agenda")) {
+            } else if (tabLayout.getTabAt(5).getText().equals("Event Details")) {
                 tabLayout.getTabAt(5).setIcon(tabIcons[1]);
-            } else if (tabLayout.getTabAt(5).getText().equals("Attendee")) {
+            } else if (tabLayout.getTabAt(5).getText().equals("Folder")) {
                 tabLayout.getTabAt(5).setIcon(tabIcons[2]);
-            } else if (tabLayout.getTabAt(5).getText().equals("Speaker")) {
+            } else if (tabLayout.getTabAt(5).getText().equals("Interact")) {
                 tabLayout.getTabAt(5).setIcon(tabIcons[3]);
             } else if (tabLayout.getTabAt(5).getText().equals("Exhibitors")) {
                 tabLayout.getTabAt(5).setIcon(tabIcons[4]);
@@ -1284,14 +1320,14 @@ LinearLayout linTab4,linTab3,linTab2;
         }
         if (agenda.equalsIgnoreCase("1")) {
             if (agenda_conference.equalsIgnoreCase("1")) {
-                adapter.addFragment(new FragmentNewsFeed(), "Agenda");
+                adapter.addFragment(new FragmentNewsFeed(), "Event Details");
             } else if (agenda_vacation.equalsIgnoreCase("1")) {
-                adapter.addFragment(new FragmentNewsFeed(), "Agenda");
+                adapter.addFragment(new FragmentNewsFeed(), "Event Details");
             }
 
         }
         if (attendee.equalsIgnoreCase("1")) {
-            adapter.addFragment(new FragmentNewsFeed(), "Attendee");
+            adapter.addFragment(new FragmentNewsFeed(), "Folder");
         }
 
         if (main_tab_exhibitor.equalsIgnoreCase("1")) {
@@ -1308,7 +1344,7 @@ LinearLayout linTab4,linTab3,linTab2;
         }
 
         if (speaker.equalsIgnoreCase("1")) {
-            adapter.addFragment(new FragmentNewsFeed(), "Speaker");
+            adapter.addFragment(new FragmentNewsFeed(), "Interact");
         }
 
 
@@ -2068,7 +2104,7 @@ LinearLayout linTab4,linTab3,linTab2;
                         InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Agenda")){
+                        if(tab.getText().equals("Event Details")){
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2081,7 +2117,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Attendee")){
+                        } else if(tab.getText().equals("Folder")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2095,7 +2131,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linear_livestream.setVisibility(View.GONE);
 
 
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
                                 tab.getText().equals("Exhibitors")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
@@ -2140,7 +2176,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("Agenda")){
+                        if(tab.getText().equals("Event Details")){
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2154,7 +2190,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Attendee")){
+                        } else if(tab.getText().equals("Folder")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2168,7 +2204,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linear_livestream.setVisibility(View.GONE);
 
 
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
                                 tab.getText().equals("Exhibitors")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
@@ -2220,7 +2256,7 @@ LinearLayout linTab4,linTab3,linTab2;
                         InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Agenda")){
+                        if(tab.getText().equals("Event Details")){
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2234,7 +2270,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Attendee")){
+                        } else if(tab.getText().equals("Folder")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2248,7 +2284,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linear_livestream.setVisibility(View.GONE);
 
 
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
                                 tab.getText().equals("Exhibitors")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
@@ -2292,7 +2328,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("Agenda")){
+                        if(tab.getText().equals("Event Details")){
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2306,7 +2342,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Attendee")){
+                        } else if(tab.getText().equals("Folder")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2320,7 +2356,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linear_livestream.setVisibility(View.GONE);
 
 
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
                                 tab.getText().equals("Exhibitors")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
@@ -2368,7 +2404,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
 
-                        if(tab.getText().equals("Agenda")){
+                        if(tab.getText().equals("Event Details")){
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2382,7 +2418,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Attendee")){
+                        } else if(tab.getText().equals("Folder")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2396,7 +2432,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linear_livestream.setVisibility(View.GONE);
 
 
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
                                 tab.getText().equals("Exhibitors")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
@@ -2441,7 +2477,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("Agenda")){
+                        if(tab.getText().equals("Event Details")){
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2455,7 +2491,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Attendee")){
+                        } else if(tab.getText().equals("Folder")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2469,7 +2505,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linear_livestream.setVisibility(View.GONE);
 
 
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
                                 tab.getText().equals("Exhibitors")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
@@ -2518,7 +2554,7 @@ LinearLayout linTab4,linTab3,linTab2;
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Agenda")){
+                        if(tab.getText().equals("Event Details")){
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2532,7 +2568,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Attendee")){
+                        } else if(tab.getText().equals("Folder")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2546,7 +2582,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linear_livestream.setVisibility(View.GONE);
 
 
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
                                 tab.getText().equals("Exhibitors")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
@@ -2590,7 +2626,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("Agenda")){
+                        if(tab.getText().equals("Event Details")){
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2604,7 +2640,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Attendee")){
+                        } else if(tab.getText().equals("Folder")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2619,7 +2655,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linear_livestream.setVisibility(View.GONE);
 
 
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
                                 tab.getText().equals("Exhibitors")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
@@ -2665,7 +2701,7 @@ LinearLayout linTab4,linTab3,linTab2;
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Agenda")){
+                        if(tab.getText().equals("Event Details")){
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2679,7 +2715,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Attendee")){
+                        } else if(tab.getText().equals("Folder")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2693,7 +2729,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             linear_livestream.setVisibility(View.GONE);
 
 
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
                                 tab.getText().equals("Exhibitors")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
@@ -2733,7 +2769,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("Agenda")){
+                        if(tab.getText().equals("Event Details")){
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2746,7 +2782,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Attendee")){
+                        } else if(tab.getText().equals("Folder")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2759,7 +2795,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager3.setVisibility(View.GONE);
 
 
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Speaker") ||
+                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
                                 tab.getText().equals("Exhibitors")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
@@ -2801,6 +2837,46 @@ LinearLayout linTab4,linTab3,linTab2;
         try {
 
             int i = sub2tabLayout.getTabCount();
+            if (i == 5) {
+
+
+                sub2tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
+                sub2tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub2tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub2tabLayout.getTabAt(3).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+                sub2tabLayout.getTabAt(4).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
+
+
+                sub2tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        JzvdStd.releaseAllVideos();
+                        String string = colorActive;
+                        int color = Color.parseColor(string);
+                        InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
+                        tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        sub2tabLayout.setVisibility(View.GONE);
+                        linTab2.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            }
             if (i == 4) {
 
 
