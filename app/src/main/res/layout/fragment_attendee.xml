@@ -16,7 +16,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/edittexthmbg"
+        android:background="@color/colorwhite"
         android:hint="@string/search_attendee_here"
         android:imeOptions="actionDone|actionSend"
         android:padding="10dp"

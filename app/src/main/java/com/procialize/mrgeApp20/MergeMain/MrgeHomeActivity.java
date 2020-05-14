@@ -534,15 +534,27 @@ LinearLayout linTab4,linTab3,linTab2;
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
             viewPager.setBackgroundDrawable(bd);
+            Subviewpager.setBackgroundDrawable(bd);
+            Subviewpager2.setBackgroundDrawable(bd);
+            Subviewpager3.setBackgroundDrawable(bd);
+
 
             Log.e("PATH", String.valueOf(mypath));
         } catch (Exception e) {
             e.printStackTrace();
             viewPager.setBackgroundColor(Color.parseColor("#f1f1f1"));
+            Subviewpager.setBackgroundColor(Color.parseColor("#f1f1f1"));
+            Subviewpager2.setBackgroundColor(Color.parseColor("#f1f1f1"));
+            Subviewpager3.setBackgroundColor(Color.parseColor("#f1f1f1"));
+
         }
 
         if (viewPager.getBackground() == null) {
             viewPager.setBackgroundResource(Integer.parseInt(ApiConstant.eventpic + eventback));
+            Subviewpager.setBackgroundResource(Integer.parseInt(ApiConstant.eventpic + eventback));
+            Subviewpager2.setBackgroundResource(Integer.parseInt(ApiConstant.eventpic + eventback));
+            Subviewpager3.setBackgroundResource(Integer.parseInt(ApiConstant.eventpic + eventback));
+
         }
 
         MainTabMecahnism();
@@ -894,8 +906,8 @@ LinearLayout linTab4,linTab3,linTab2;
 
         ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
         adapter.addFragment(new EventInfoFragment(), "Event Info");
-        adapter.addFragment(new AgendaFragment(), "Participant");
-        adapter.addFragment(new AttendeeFragment(), "Schedule");
+        adapter.addFragment(new AttendeeFragment(), "Participant");
+        adapter.addFragment(new AgendaFragment(), "Schedule");
         adapter.addFragment(new GeneralInfo(), "Emergency");
 
        // sub2tabLayout.getTabAt(0).getCustomView().setSelected(false);

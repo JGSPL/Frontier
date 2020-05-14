@@ -169,11 +169,13 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
 
             Glide.with(context).load(ApiConstant.profilepic + attendee.getProfilePic())
                     .apply(RequestOptions.skipMemoryCacheOf(false))
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
+                    .listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                    holder.progressBar.setVisibility(View.GONE);
                     holder.profileIv.setImageResource(R.drawable.profilepic_placeholder);
+
+                    holder.progressBar.setVisibility(View.GONE);
                     return true;
                 }
 
@@ -186,7 +188,6 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
 
         } else {
             holder.progressBar.setVisibility(View.GONE);
-            holder.profileIv.setImageResource(R.drawable.profilepic_placeholder);
 
         }
 
