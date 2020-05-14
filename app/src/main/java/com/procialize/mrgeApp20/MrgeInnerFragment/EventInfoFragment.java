@@ -172,7 +172,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
 
         RelativeLayout layoutTop = ( RelativeLayout ) view2.findViewById(R.id.layoutTop);
-        layoutTop.setBackgroundColor(Color.parseColor(colorActive));
+       // layoutTop.setBackgroundColor(Color.parseColor(colorActive));
 
 
 
@@ -326,7 +326,8 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
                     Glide.with(getContext()).load(image_final_url)
                             .apply(RequestOptions.skipMemoryCacheOf(true))
-                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).circleCrop()
+                            .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 

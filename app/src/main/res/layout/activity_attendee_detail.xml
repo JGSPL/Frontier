@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/appBarLayout">
 
-            <TextView
+            <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
                 android:id="@+id/attendeetitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                     android:id="@+id/layoutTop"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:background="@color/activetab"></RelativeLayout>
+                    android:background="@android:color/transparent"></RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/layoutBottom"
@@ -97,7 +97,7 @@
                     android:layout_below="@id/layoutTop"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/colorwhite">
+                    android:background="@android:color/transparent">
 
                 </RelativeLayout>
 
@@ -109,6 +109,16 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="-40dp"
                     android:adjustViewBounds="true">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/myCardView"
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/image_border"
+                        app:cardCornerRadius="43dp"
+                        app:cardElevation="@dimen/album_dp_0">
+
 
                     <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/profileIV"
@@ -120,6 +130,7 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/profilepic_placeholder" />
 
+                    </androidx.cardview.widget.CardView>
                     <ProgressBar xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/progressBar"
                         android:layout_width="20dp"
@@ -132,6 +143,7 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/srcAttendee"
                 android:layout_below="@+id/relative">
 
                 <LinearLayout
@@ -140,16 +152,16 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@color/colorwhite"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:orientation="vertical">
 
 
-                    <TextView
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
                         android:id="@+id/tvname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
-                        android:textColor="@color/activetab"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/textsizesmall" />
 
                     <View
@@ -161,7 +173,7 @@
                         android:background="@color/linecolor" />
 
 
-                    <TextView
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
                         android:id="@+id/tvdesignation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -177,7 +189,7 @@
                         android:layout_marginRight="10dp"
                         android:background="@color/linecolor" />
 
-                    <TextView
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
                         android:id="@+id/tvcompany"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -193,7 +205,7 @@
                         android:layout_marginRight="10dp"
                         android:background="@color/linecolor" />
 
-                    <TextView
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
                         android:id="@+id/tvcity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -209,7 +221,7 @@
                         android:layout_marginRight="10dp"
                         android:background="@color/linecolor" />
 
-                    <TextView
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
                         android:id="@+id/tvmob"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -225,7 +237,7 @@
                         android:layout_marginRight="10dp"
                         android:background="@color/linecolor" />
 
-                    <TextView
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
                         android:id="@+id/tv_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -237,6 +249,8 @@
 
                 </LinearLayout>
             </ScrollView>
+
+
         </RelativeLayout>
 
 
@@ -244,6 +258,7 @@
             android:id="@+id/linearsaveandsend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorwhite"
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
