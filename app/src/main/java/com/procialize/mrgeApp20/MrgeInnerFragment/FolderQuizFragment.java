@@ -122,7 +122,7 @@ public class FolderQuizFragment extends Fragment {
         quizrefresher = view.findViewById(R.id.quizrefresher);
 
         RelativeLayout layoutTop = view.findViewById(R.id.layoutTop);
-        layoutTop.setBackgroundColor(Color.parseColor(colorActive));
+      //  layoutTop.setBackgroundColor(Color.parseColor(colorActive));
 
         quizNameList = view.findViewById(R.id.quiz_list);
         quizNameList.setScrollingCacheEnabled(false);

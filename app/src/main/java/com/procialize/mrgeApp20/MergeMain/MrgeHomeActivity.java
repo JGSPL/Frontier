@@ -121,6 +121,7 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.SpeakerActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SponsorActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.VideoActivity;
 import com.procialize.mrgeApp20.MrgeInnerFragment.BlankFragment;
+import com.procialize.mrgeApp20.MrgeInnerFragment.EmergencyFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.EventInfoFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.FolderQuizFragment;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
@@ -962,7 +963,7 @@ LinearLayout linTab4,linTab3,linTab2;
         adapter.addFragment(new AttendeeFragment(), "ATTENDEES");
         adapter.addFragment(new SpeakerFragment(), "SPEAKERS");
         adapter.addFragment(new AgendaFragment(), "SCHEDULE");
-        adapter.addFragment(new GeneralInfo(), "EMERGENCY");
+        adapter.addFragment(new EmergencyFragment(), "EMERGENCY");
 
        // sub2tabLayout.getTabAt(0).getCustomView().setSelected(false);
 
