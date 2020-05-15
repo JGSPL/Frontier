@@ -136,7 +136,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         if (eventSettingLists.size() != 0) {
             applysetting(eventSettingLists);
         }
-        MrgeHomeActivity.headerlogoIv.setVisibility(View.INVISIBLE);
+        MrgeHomeActivity.headerlogoIv.setVisibility(View.GONE);
         MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);
 
         Util.logomethodwithText(getContext(), MrgeHomeActivity.txtMainHeader, "Event Info");
@@ -320,7 +320,10 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                         view.setVisibility(View.GONE);
                     }
 
-                    event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                   // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                    event_desc.setText("\n" + eventDBList.get(0).getEventDescription());
+
+
                     String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));

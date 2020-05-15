@@ -222,13 +222,15 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:gravity="left"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/event_name"
                         android:textColor="@color/activetab"
                         android:textSize="@dimen/textsizesmall" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="30dp"
                         android:layout_marginRight="10dp"
                         android:background="@color/linecolor" />
 
@@ -237,21 +239,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
+                        android:drawablePadding="10dp"
+
                         android:gravity="left"
+                        android:drawableLeft="@drawable/event_date"
+
                         android:textColor="@color/black"
                         android:textSize="@dimen/textsizesmall" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginLeft="30dp"
                         android:layout_marginRight="10dp"
                         android:background="@color/linecolor" />
 
                     <TextView
                         android:id="@+id/cityTv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="10dp"
+                        android:layout_height="16dp"
                         android:layout_margin="5dp"
                         android:gravity="left"
                         android:textColor="@color/black"
@@ -259,14 +266,6 @@
                         android:visibility="gone" />
 
 
-                    <View
-                        android:id="@+id/view"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@color/linecolor"
-                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/linShare"

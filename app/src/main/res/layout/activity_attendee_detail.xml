@@ -161,6 +161,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
+
+                        android:drawablePadding="5dp"
+                        android:drawableLeft="@drawable/att_name"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textsizesmall" />
 
@@ -168,7 +171,7 @@
                         android:id="@+id/viewone"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="40dp"
                         android:layout_marginRight="10dp"
                         android:background="@color/linecolor" />
 
@@ -178,6 +181,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
+                        android:drawableLeft="@drawable/att_designa"
+                        android:drawablePadding="5dp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textsizesmall" />
 
@@ -185,7 +190,7 @@
                         android:id="@+id/viewtwo"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="40dp"
                         android:layout_marginRight="10dp"
                         android:background="@color/linecolor" />
 
@@ -194,6 +199,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
+                        android:drawableLeft="@drawable/att_designa"
+                        android:drawablePadding="5dp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textsizesmall" />
 
@@ -201,7 +208,7 @@
                         android:id="@+id/viewthree"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="40dp"
                         android:layout_marginRight="10dp"
                         android:background="@color/linecolor" />
 
@@ -210,6 +217,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
+                        android:drawableLeft="@drawable/att_place"
+                        android:drawablePadding="5dp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textsizesmall" />
 
@@ -217,7 +226,7 @@
                         android:id="@+id/viewtfour"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="40dp"
                         android:layout_marginRight="10dp"
                         android:background="@color/linecolor" />
 
@@ -226,6 +235,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
+                        android:drawableLeft="@drawable/att_mobile"
+                        android:drawablePadding="5dp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textsizesmall" />
 
@@ -233,7 +244,7 @@
                         android:id="@+id/viewtfive"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="40dp"
                         android:layout_marginRight="10dp"
                         android:background="@color/linecolor" />
 

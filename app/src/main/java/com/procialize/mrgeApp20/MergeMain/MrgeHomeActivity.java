@@ -120,6 +120,7 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.QRScanActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SpeakerActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SponsorActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.VideoActivity;
+import com.procialize.mrgeApp20.MrgeInnerFragment.BlankFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.EventInfoFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.FolderQuizFragment;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
@@ -1355,36 +1356,36 @@ LinearLayout linTab4,linTab3,linTab2;
         }
         if (agenda.equalsIgnoreCase("1")) {
             if (agenda_conference.equalsIgnoreCase("1")) {
-                adapter.addFragment(new FragmentNewsFeed(), "Event Details");
+                adapter.addFragment(new BlankFragment(), "Event Details");
             } else if (agenda_vacation.equalsIgnoreCase("1")) {
-                adapter.addFragment(new FragmentNewsFeed(), "Event Details");
+                adapter.addFragment(new BlankFragment(), "Event Details");
             }
 
         }
         if (attendee.equalsIgnoreCase("1")) {
-            adapter.addFragment(new FragmentNewsFeed(), "Folder");
+            adapter.addFragment(new BlankFragment(), "Folder");
         }
 
         if (main_tab_exhibitor.equalsIgnoreCase("1")) {
             try {
                 if (Integer.parseInt(catcnt) <= 3) {
-                    adapter.addFragment(new FragmentNewsFeed(), "Exhibitors");
+                    adapter.addFragment(new BlankFragment(), "Exhibitors");
                 } else {
-                    adapter.addFragment(new FragmentNewsFeed(), "Exhibitors");
+                    adapter.addFragment(new BlankFragment(), "Exhibitors");
                 }
             } catch (Exception e) {
-                adapter.addFragment(new FragmentNewsFeed(), "Exhibitors");
+                adapter.addFragment(new BlankFragment(), "Exhibitors");
             }
 
         }
 
         if (speaker.equalsIgnoreCase("1")) {
-            adapter.addFragment(new FragmentNewsFeed(), "Interact");
+            adapter.addFragment(new BlankFragment(), "Interact");
         }
 
 
         if (general_ifo.equalsIgnoreCase("1")) {
-            adapter.addFragment(new FragmentNewsFeed(), "General Info");
+            adapter.addFragment(new BlankFragment(), "General Info");
         }
 
 
