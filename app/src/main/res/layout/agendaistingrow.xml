@@ -4,20 +4,21 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
 
     <TextView
         android:id="@+id/tvheading"
-        android:layout_width="50dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_gravity="left"
         android:background="@color/activetab"
-        android:gravity="center"
+        android:gravity="left"
         android:text=""
+        android:padding="8dp"
         android:textColor="@color/colorwhite"
-        android:textSize="20dp"
-        android:layout_marginBottom="3dp"/>
+        android:textSize="16dp"
+        android:layout_marginBottom="10dp"/>
 
 
     <androidx.recyclerview.widget.RecyclerView

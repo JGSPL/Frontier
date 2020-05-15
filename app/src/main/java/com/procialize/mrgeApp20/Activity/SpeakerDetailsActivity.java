@@ -191,7 +191,7 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
 
         ratebtn.setBackground(shape);
 
-        layoutTop.setBackgroundColor(Color.parseColor(colorActive));
+       // layoutTop.setBackgroundColor(Color.parseColor(colorActive));
         LayerDrawable stars = (LayerDrawable) ratingbar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.parseColor(colorActive),
                 PorterDuff.Mode.SRC_ATOP);

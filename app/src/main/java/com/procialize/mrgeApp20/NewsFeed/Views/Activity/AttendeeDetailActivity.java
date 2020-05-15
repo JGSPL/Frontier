@@ -210,8 +210,8 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         tv_description.setMovementMethod(new ScrollingMovementMethod());
 
         attendeetitle.setTextColor(Color.parseColor(colorActive));
-        tvname.setTextColor(Color.parseColor(colorActive));
-        layoutTop.setBackgroundColor(Color.parseColor(colorActive));
+       // tvname.setTextColor(Color.parseColor(colorActive));
+      //  layoutTop.setBackgroundColor(Color.parseColor(colorActive));
 //        saveContact.setBackgroundColor(Color.parseColor(colorActive));
         sendbtn = findViewById(R.id.sendMsg);
 
@@ -458,7 +458,8 @@ public class AttendeeDetailActivity extends AppCompatActivity {
 
 
         if (profile != null) {
-            Glide.with(this).load(ApiConstant.profilepic + profile).listener(new RequestListener<Drawable>() {
+            Glide.with(this).load(ApiConstant.profilepic + profile).circleCrop()
+                    .listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     progressBar.setVisibility(View.GONE);

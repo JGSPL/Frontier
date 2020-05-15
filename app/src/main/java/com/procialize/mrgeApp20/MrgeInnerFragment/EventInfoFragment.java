@@ -137,7 +137,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         if (eventSettingLists.size() != 0) {
             applysetting(eventSettingLists);
         }
-        MrgeHomeActivity.headerlogoIv.setVisibility(View.INVISIBLE);
+        MrgeHomeActivity.headerlogoIv.setVisibility(View.GONE);
         MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);
 
         Util.logomethodwithText(getContext(), MrgeHomeActivity.txtMainHeader, "Event Info");
@@ -173,7 +173,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
 
         RelativeLayout layoutTop = ( RelativeLayout ) view2.findViewById(R.id.layoutTop);
-        layoutTop.setBackgroundColor(Color.parseColor(colorActive));
+       // layoutTop.setBackgroundColor(Color.parseColor(colorActive));
 
 
 
@@ -321,13 +321,17 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                         view.setVisibility(View.GONE);
                     }
 
-                    event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                   // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                    event_desc.setText("\n" + eventDBList.get(0).getEventDescription());
+
+
                     String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
                     Glide.with(getContext()).load(image_final_url)
                             .apply(RequestOptions.skipMemoryCacheOf(true))
-                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).circleCrop()
+                            .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 

@@ -135,7 +135,8 @@ public class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.MyViewHo
 
             Glide.with(context).load(ApiConstant.profilepic + speaker.getProfilePic())
                     .apply(RequestOptions.skipMemoryCacheOf(false))
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
+                    .listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     holder.progressView.setVisibility(View.GONE);

@@ -29,7 +29,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.Activity.LoginActivity;
 import com.procialize.mrgeApp20.Adapter.AttendeeAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
@@ -39,6 +38,7 @@ import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.FetchAttendee;
+import com.procialize.mrgeApp20.NewsFeed.Views.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 

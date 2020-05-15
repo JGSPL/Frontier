@@ -67,6 +67,7 @@ import com.procialize.mrgeApp20.GetterSetter.ReportPostHide;
 import com.procialize.mrgeApp20.GetterSetter.ReportUser;
 import com.procialize.mrgeApp20.GetterSetter.ReportUserHide;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.CommentActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.ImageViewActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.LikeDetailActivity;
@@ -75,6 +76,7 @@ import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.NewsFeedAdapterRecycler;
 import com.procialize.mrgeApp20.NewsFeed.Views.RecyclerItemTouchHelper;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.Utility.Util;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -206,6 +208,10 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         user = sessionManager.getUserDetails();
         //progressbar = rootView.findViewById(R.id.progressbar);
         cd = new ConnectionDetector(getActivity());
+
+        MrgeHomeActivity.headerlogoIv.setVisibility(View.VISIBLE);
+        MrgeHomeActivity.txtMainHeader.setVisibility(View.GONE);
+        Util.logomethod(getContext(), MrgeHomeActivity.headerlogoIv);
 
         mAPIService = ApiUtils.getAPIService();
 
