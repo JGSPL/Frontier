@@ -65,10 +65,16 @@
 
 
     <style name="MyCustomTabText" parent="TextAppearance.AppCompat.Button">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">8sp</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:fontFamily">Rotis-SansSerif-Std-Light_38712</item>
+        <item name="android:fontFamily">DINPro-Regular</item>
+    </style>
+    <style name="MyCustomTabTextMain" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">1sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">DINPro-Regular</item>
     </style>
 
     <!--<item name="android:fontFamily">DINPro-Light_13935</item>-->

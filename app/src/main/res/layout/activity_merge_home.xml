@@ -305,7 +305,7 @@
                         android:elevation="50dp"
                         app:tabMode="fixed"
                         app:tabSelectedTextColor="@color/colorwhite"
-                        app:tabTextAppearance="@style/MyCustomTabText"
+                        app:tabTextAppearance="@style/MyCustomTabTextMain"
                         app:tabTextColor="@color/colorwhite" />
                 </LinearLayout>
 
