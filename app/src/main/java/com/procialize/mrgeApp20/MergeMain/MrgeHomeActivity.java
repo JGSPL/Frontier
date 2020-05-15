@@ -468,6 +468,7 @@ LinearLayout linTab4,linTab3,linTab2;
          txtMainHeader = findViewById(R.id.txtMainHeader);
 
 
+
         Util.logomethod(this, headerlogoIv);
 
         viewPager = findViewById(R.id.viewpager);
