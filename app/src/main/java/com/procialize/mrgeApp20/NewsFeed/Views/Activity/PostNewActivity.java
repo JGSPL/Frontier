@@ -317,7 +317,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                 .selectCount(10)
                 .camera(true)
                 .cameraVideoQuality(1)
-                .cameraVideoLimitDuration(15000)
+                .cameraVideoLimitDuration(15)
                 //.cameraVideoLimitBytes(Integer.MAX_VALUE)
                 /*.filterMimeType(new Filter<String>() { // MimeType of File.
                     @Override

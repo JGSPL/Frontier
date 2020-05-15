@@ -21,8 +21,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -79,17 +77,14 @@ import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.Background.WallPostService;
 import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.CustomTools.CustomViewPager;
-import com.procialize.mrgeApp20.CustomTools.MyJZVideoPlayerStandard;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.EmptyViewActivity;
-import com.procialize.mrgeApp20.Fragments.AgendaFolderFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFragment;
 import com.procialize.mrgeApp20.Fragments.AttendeeFragment;
 import com.procialize.mrgeApp20.Fragments.GeneralInfo;
 import com.procialize.mrgeApp20.Fragments.SpeakerFragment;
-import com.procialize.mrgeApp20.Fragments.WallFragment_POST;
 import com.procialize.mrgeApp20.GetterSetter.AgendaList;
 import com.procialize.mrgeApp20.GetterSetter.EventMenuSettingList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
@@ -100,12 +95,12 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaVacationActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AttendeeActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.DocumentsActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.EngagementActivity;
+import com.procialize.mrgeApp20.InnerDrawerActivity.EngagementFragment;
 import com.procialize.mrgeApp20.InnerDrawerActivity.EventInfoActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.ExhibitorSideMenu;
 import com.procialize.mrgeApp20.InnerDrawerActivity.FeedBackActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.FolderQuizActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.GalleryActivity;
+import com.procialize.mrgeApp20.Gallery.Image.Activity.GalleryFragment;
 import com.procialize.mrgeApp20.InnerDrawerActivity.GeneralInfoActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.LeaderboardActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.LivePollActivity;
@@ -119,7 +114,7 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.QRGeneratorActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.QRScanActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SpeakerActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SponsorActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.VideoActivity;
+import com.procialize.mrgeApp20.Gallery.Video.Activity.VideoFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.EventInfoFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.FolderQuizFragment;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
@@ -965,7 +960,7 @@ LinearLayout linTab4,linTab3,linTab2;
         adapter.addFragment(new FolderQuizFragment(), "Quiz");
         adapter.addFragment(new FolderQuizFragment(), "Live Poll");
         adapter.addFragment(new FolderQuizFragment(), "QnA");
-        adapter.addFragment(new FolderQuizFragment(), "Engagement");
+        adapter.addFragment(new EngagementFragment(), "Engagement");
 
         // sub2tabLayout.getTabAt(0).getCustomView().setSelected(false);
 
@@ -1042,8 +1037,8 @@ LinearLayout linTab4,linTab3,linTab2;
     private void Sub4setupViewPager(ViewPager viewPager) {
 
         ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
-        adapter.addFragment(new FolderQuizFragment(), "Image");
-        adapter.addFragment(new FolderQuizFragment(), "Video");
+        adapter.addFragment(new GalleryFragment(), "Image");
+        adapter.addFragment(new VideoFragment(), "Video");
         adapter.addFragment(new FolderQuizFragment(), "Downloads");
 
         Subviewpager3.setAdapter(adapter);
@@ -1261,8 +1256,6 @@ LinearLayout linTab4,linTab3,linTab2;
                 tabLayout.getTabAt(5).setIcon(tabIcons[5]);
             }
         }
-
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -1277,7 +1270,6 @@ LinearLayout linTab4,linTab3,linTab2;
             } else if (agenda_vacation.equalsIgnoreCase("1")) {
                 adapter.addFragment(new FragmentNewsFeed(), "Agenda");
             }
-
         }
         if (attendee.equalsIgnoreCase("1")) {
             adapter.addFragment(new FragmentNewsFeed(), "Attendee");
@@ -1293,18 +1285,15 @@ LinearLayout linTab4,linTab3,linTab2;
             } catch (Exception e) {
                 adapter.addFragment(new FragmentNewsFeed(), "Exhibitors");
             }
-
         }
 
         if (speaker.equalsIgnoreCase("1")) {
             adapter.addFragment(new FragmentNewsFeed(), "Speaker");
         }
 
-
         if (general_ifo.equalsIgnoreCase("1")) {
             adapter.addFragment(new FragmentNewsFeed(), "General Info");
         }
-
 
 //        if (news_feed.equalsIgnoreCase("1") && agenda.equalsIgnoreCase("0") &&
 //                attendee.equalsIgnoreCase("0") && speaker.equalsIgnoreCase("0") &&
@@ -1322,9 +1311,8 @@ LinearLayout linTab4,linTab3,linTab2;
 //            viewPager.setLayoutParams(param);
 //            appTab.setVisibility(View.VISIBLE);
 //            tabLayout.setVisibility(View.VISIBLE);
-
-
 //        }
+
         viewPager.setAdapter(adapter);
     }
 
@@ -1528,12 +1516,12 @@ LinearLayout linTab4,linTab3,linTab2;
             Toast.makeText(MrgeHomeActivity.this, "Comming Soon...", Toast.LENGTH_SHORT).show();
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_gallery_video")) {
-            Intent video = new Intent(this, VideoActivity.class);
-            startActivity(video);
+         /*   Intent video = new Intent(this, VideoFragment.class);
+            startActivity(video);*/
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_image_gallery")) {
-            Intent gallery = new Intent(this, GalleryActivity.class);
-            startActivity(gallery);
+            /*Intent gallery = new Intent(this, GalleryFragment.class);
+            startActivity(gallery);*/
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_document")) {
 
@@ -1587,7 +1575,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_engagement")) {
-            Intent engagement = new Intent(this, EngagementActivity.class);
+            Intent engagement = new Intent(this, EngagementFragment.class);
             startActivity(engagement);
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_attendee")) {

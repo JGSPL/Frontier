@@ -80,12 +80,12 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaVacationActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AttendeeActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.DocumentsActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.EngagementActivity;
+import com.procialize.mrgeApp20.InnerDrawerActivity.EngagementFragment;
 import com.procialize.mrgeApp20.InnerDrawerActivity.EventInfoActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.ExhibitorSideMenu;
 import com.procialize.mrgeApp20.InnerDrawerActivity.FeedBackActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.FolderQuizActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.GalleryActivity;
+import com.procialize.mrgeApp20.Gallery.Image.Activity.GalleryFragment;
 import com.procialize.mrgeApp20.InnerDrawerActivity.GeneralInfoActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.LeaderboardActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.LivePollActivity;
@@ -99,7 +99,7 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.QRGeneratorActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.QRScanActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SpeakerActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SponsorActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.VideoActivity;
+import com.procialize.mrgeApp20.Gallery.Video.Activity.VideoFragment;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -1517,11 +1517,11 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
             Toast.makeText(HomeActivity.this, "Comming Soon...", Toast.LENGTH_SHORT).show();
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_gallery_video")) {
-            Intent video = new Intent(this, VideoActivity.class);
+            Intent video = new Intent(this, VideoFragment.class);
             startActivity(video);
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_image_gallery")) {
-            Intent gallery = new Intent(this, GalleryActivity.class);
+            Intent gallery = new Intent(this, GalleryFragment.class);
             startActivity(gallery);
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_document")) {
@@ -1576,7 +1576,7 @@ public class HomeActivity extends AppCompatActivity implements CustomMenuAdapter
 
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_engagement")) {
-            Intent engagement = new Intent(this, EngagementActivity.class);
+            Intent engagement = new Intent(this, EngagementFragment.class);
             startActivity(engagement);
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_attendee")) {

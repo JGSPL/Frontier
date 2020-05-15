@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context="com.procialize.mrgeApp20.InnerDrawerActivity.FeedBackActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+  <!--  <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             android:visibility="gone" />
 
 
-    </com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>-->
 
 
     <TextView
@@ -81,6 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_centerInParent="true"
         android:background="@drawable/loader"
         android:visibility="gone" />
 

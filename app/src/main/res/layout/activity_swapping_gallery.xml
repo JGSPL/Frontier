@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.procialize.mrgeApp20.InnerDrawerActivity.SwappingGalleryActivity"
-    android:id="@+id/linear">
+    android:id="@+id/linear"
+    android:background="@color/black">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -96,16 +97,25 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/listrecycler"
         android:baselineAligned="false"
+        android:gravity="right"
         android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="15dp"
+            android:text=""
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="@dimen/album_dp_15"
+            android:textColor="@color/colorwhite"/>
 
         <LinearLayout
             android:id="@+id/linMsg"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:layout_weight="5"
-            android:background="@drawable/loginbutton"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -115,12 +125,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin"
-                android:background="@color/activetab"
                 android:drawableLeft="@drawable/save_icon"
                 android:drawablePadding="10dp"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Save"
                 android:textAllCaps="false"
                 android:textColor="@color/colorwhite"
                 android:textSize="@dimen/textsizesmall" />
@@ -128,12 +136,9 @@
 
         <LinearLayout
             android:id="@+id/linsave"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:layout_weight="5"
-            android:background="@drawable/loginbutton"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -143,12 +148,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin"
-                android:background="@color/activetab"
                 android:drawableLeft="@drawable/share_icon"
                 android:drawablePadding="10dp"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Share"
                 android:textAllCaps="false"
                 android:textColor="@color/colorwhite"
                 android:textSize="@dimen/textsizesmall" />
@@ -160,7 +163,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp"/>
 
 
 </RelativeLayout>

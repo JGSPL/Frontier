@@ -717,7 +717,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/exh_analytics"
                     android:scrollbars="none"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
 
                 <com.procialize.mrgeApp20.Fonts.RobotoTextview

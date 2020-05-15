@@ -5,44 +5,47 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.procialize.mrgeApp20.Adapter.SwipeImageAdapter;
-import com.procialize.mrgeApp20.Adapter.SwipepagerAdapter;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
+import com.procialize.mrgeApp20.Gallery.Image.Adapter.SwipeImageAdapter;
+import com.procialize.mrgeApp20.Gallery.Image.Adapter.SwipepagerAdapter;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
+import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.FirstLevelFilter;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Utility.Util;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 import cn.jzvd.JzvdStd;
 
 public class SwappingGalleryActivity extends AppCompatActivity implements SwipeImageAdapter.SwipeImageAdapterListner {
@@ -59,16 +62,19 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
     String colorActive;
     String MY_PREFS_NAME = "ProcializeInfo";
     String img = "";
-    private ConnectionDetector cd;
     RelativeLayout linear;
+    TextView tv_title;
+    private ConnectionDetector cd;
 
     static public void shareImage(String url, final Context context) {
-        Picasso.with(context).load(url).into(new com.squareup.picasso.Target() {
+        Picasso.with(context).load(url).into(new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("image/*");
+                i.putExtra(Intent.EXTRA_SUBJECT, "");
                 i.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(bitmap, context));
+
                 context.startActivity(Intent.createChooser(i, "Share Image"));
             }
 
@@ -90,7 +96,7 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
             bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
             out.close();
 //            bmpUri = Uri.fromFile(file);
-            bmpUri = FileProvider.getUriForFile(context, "com.procialize.eventsapp.android.fileprovider", file);
+            bmpUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".android.fileprovider", file);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -132,7 +138,7 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
         left = findViewById(R.id.left);
         backIv = findViewById(R.id.backIv);
         linear = findViewById(R.id.linear);
-
+        tv_title = findViewById(R.id.tv_title);
         headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -145,7 +151,7 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
             }
         });
 
-        try {
+        /*try {
 
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
             Resources res = getResources();
@@ -157,7 +163,7 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
         } catch (Exception e) {
             e.printStackTrace();
             linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
-        }
+        }*/
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -175,11 +181,11 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
         LinearLayout linsave = findViewById(R.id.linsave);
         TextView savebtn = findViewById(R.id.savebtn);
         TextView sharebtn = findViewById(R.id.sharebtn);
-
+/*
         linsave.setBackgroundColor(Color.parseColor(colorActive));
         linMsg.setBackgroundColor(Color.parseColor(colorActive));
         savebtn.setBackgroundColor(Color.parseColor(colorActive));
-        sharebtn.setBackgroundColor(Color.parseColor(colorActive));
+        sharebtn.setBackgroundColor(Color.parseColor(colorActive));*/
 
 
         linMsg.setOnClickListener(new View.OnClickListener() {
@@ -220,13 +226,13 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
                                               public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                                   try {
                                                       String root = Environment.getExternalStorageDirectory().toString();
-                                                      File myDir = new File(root + "/Procialize");
+                                                      File myDir = new File(root + "/" + ApiConstant.folderName + "/" + "Gallery");
 
                                                       if (!myDir.exists()) {
                                                           myDir.mkdirs();
                                                       }
                                                       Toast.makeText(SwappingGalleryActivity.this,
-                                                              "Download completed- check folder Procialize/Image",
+                                                              "Download completed- check folder " + ApiConstant.folderName + "/" + "Gallery",
                                                               Toast.LENGTH_SHORT).show();
                                                       String name = img + ".jpg";
                                                       myDir = new File(myDir, name);
@@ -249,10 +255,7 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
                                               }
                                           }
                                     );
-
                         }
-
-
                     } else {
                         //new myAsyncTask().execute();
                         PicassoTrustAll.getInstance(SwappingGalleryActivity.this)
@@ -262,13 +265,13 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
                                           public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                               try {
                                                   String root = Environment.getExternalStorageDirectory().toString();
-                                                  File myDir = new File(root + "/Procialize");
+                                                  File myDir = new File(root + "/" + ApiConstant.folderName + "/" + "Gallery");
 
                                                   if (!myDir.exists()) {
                                                       myDir.mkdirs();
                                                   }
                                                   Toast.makeText(SwappingGalleryActivity.this,
-                                                          "Download completed- check folder Procialize/Image",
+                                                          "Download completed- check folder " + ApiConstant.folderName + "/" + "Gallery",
                                                           Toast.LENGTH_SHORT).show();
                                                   String name = img + ".jpg";
                                                   myDir = new File(myDir, name);
@@ -375,6 +378,8 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 recyclerView.scrollToPosition(position);
+                String title = firstLevelFilters.get(position).getTitle();
+                tv_title.setText(title);
 //                recyclerView.getItemDecorationAt(position);
                 rvposition = position;
 
