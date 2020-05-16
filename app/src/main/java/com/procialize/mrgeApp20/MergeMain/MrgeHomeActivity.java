@@ -124,6 +124,7 @@ import com.procialize.mrgeApp20.MrgeInnerFragment.BlankFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.EmergencyFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.EventInfoFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.FolderQuizFragment;
+import com.procialize.mrgeApp20.MrgeInnerFragment.LivePollListFragment;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -1127,7 +1128,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
         ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
         adapter.addFragment(new FolderQuizFragment(), "QUIZ");
-        adapter.addFragment(new FolderQuizFragment(), "LIVE POLL");
+        adapter.addFragment(new LivePollListFragment(), "LIVE POLL");
         adapter.addFragment(new FolderQuizFragment(), "Q&A");
         adapter.addFragment(new FolderQuizFragment(), "ENGAGEMENT");
 

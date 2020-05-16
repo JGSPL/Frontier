@@ -12,6 +12,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
 
@@ -65,6 +66,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/padding"
+        android:visibility="gone"
         android:text="@string/livepol"
         android:textColor="@color/activetab"
         android:textSize="17dp" />
@@ -74,24 +76,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/speakertitle"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <RelativeLayout
             android:id="@+id/layoutTop"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@color/colorPrimary"></RelativeLayout>
+            android:background="@android:color/transparent"></RelativeLayout>
 
         <ImageView
             android:id="@+id/layoutBottom"
             android:layout_width="wrap_content"
-            android:layout_height="155dp"
+            android:layout_height="80dp"
             android:layout_below="@id/layoutTop"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:background="@color/colorgrey"
             android:contentDescription="TODO"
-            android:src="@drawable/live_poll_header">
+            >
 
         </ImageView>
 
