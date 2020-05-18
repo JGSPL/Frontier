@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorgrey"
     android:orientation="vertical"
-    tools:context=".Activity.PDFDocumentDownloadActivity">
+    tools:context="com.procialize.mrgeApp20.Activity.PdfViewerActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.4"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:elevation="0dp">
 
 
         <androidx.appcompat.widget.Toolbar
@@ -21,10 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colortoolbar"
-            android:contentInsetStart="0dp"
-            android:contentInsetLeft="0dp"
             android:contentInsetEnd="0dp"
+            android:contentInsetLeft="0dp"
             android:contentInsetRight="0dp"
+            android:contentInsetStart="0dp"
             android:minHeight="?attr/actionBarSize"
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
@@ -39,35 +39,64 @@
                 android:layout_marginLeft="-10dp"
                 android:contentDescription=" " />
 
+            <ImageView
+                android:id="@+id/backIv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="13dp"
+                android:contentDescription="TODO"
+                android:padding="@dimen/padding"
+                android:src="@drawable/ic_back" />
+
         </androidx.appcompat.widget.Toolbar>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/linecolor"
-            android:visibility="gone" />
+            android:background="@color/linecolor" />
 
 
     </com.google.android.material.appbar.AppBarLayout>
 
+
     <WebView
+        android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"></WebView>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appBarLayout"
+        android:padding="10dp">
 
-    <com.procialize.mrgeApp20.Fonts.RobotoButton
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:layout_weight="0.4"
-        android:background="@color/activetab"
-        android:drawableLeft="@drawable/download"
-        android:gravity="center"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="Download"
-        android:textAllCaps="false"
-        android:textColor="@color/colorwhite" />
+    </WebView>
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimary"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Download"
+            android:textAllCaps="false"
+            android:background="@color/orange"
+            android:padding="10dp"
+            android:drawableLeft="@drawable/ic_download_doc"
+            android:textColor="@color/colorwhite"
+            android:drawablePadding="@dimen/album_dp_10"/>
+    </LinearLayout>
+</RelativeLayout>

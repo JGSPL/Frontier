@@ -1,4 +1,4 @@
-package com.procialize.mrgeApp20.Adapter;
+package com.procialize.mrgeApp20.Downloads.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,7 +23,7 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by Naushad on 10/31/2017.
  */
 
-public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.MyViewHolder> {
+public class DocumentsGridAdapter extends RecyclerView.Adapter<DocumentsGridAdapter.MyViewHolder> {
 
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
@@ -32,7 +32,7 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.MyVi
     private Context context;
     private DocumentsAdapterListner listener;
 
-    public DocumentsAdapter(Context context, List<DocumentList> docList, DocumentsAdapterListner listener) {
+    public DocumentsGridAdapter(Context context, List<DocumentList> docList, DocumentsAdapterListner listener) {
         this.docLists = docList;
         this.listener = listener;
         this.context = context;
@@ -43,9 +43,18 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.MyVi
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.feedbackrow, parent, false);
-        return new MyViewHolder(itemView);
+        View itemViewList = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.downloads_gridview_row, parent, false);
+
+        return new MyViewHolder(itemViewList);
+
+
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        return position;
     }
 
     @Override
@@ -58,7 +67,7 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.MyVi
 //        Drawable drawable = DrawableCompat.wrap(holder.ic_rightarrow.getDrawable());
 //        DrawableCompat.setTintList(drawable, csl);
 //        holder.ic_rightarrow.setImageDrawable(drawable);
-        holder.mainLL.setBackgroundColor(colorInt);
+        //  holder.mainLL.setBackgroundColor(colorInt);
         holder.nameTv.setText(survey.getTitle());
 
     }
@@ -77,7 +86,6 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.MyVi
         ImageView ic_rightarrow;
         LinearLayout mainLL;
 
-
         public MyViewHolder(View view) {
             super(view);
             nameTv = view.findViewById(R.id.nameTv);
@@ -93,4 +101,11 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.MyVi
             });
         }
     }
+
+
+/*    @Override
+    public void onCreateOptionsMenu(Menu menu) {
+        getAgetMenuInflater().inflate(R.menu.navmenu, menu);
+        return true;
+    }*/
 }

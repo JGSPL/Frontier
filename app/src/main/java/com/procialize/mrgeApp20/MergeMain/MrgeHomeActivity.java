@@ -19,6 +19,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -30,6 +32,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -76,15 +79,16 @@ import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.Background.WallPostService;
+import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyList;
 import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.CustomTools.CustomViewPager;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
+import com.procialize.mrgeApp20.Downloads.DownloadsFragment;
 import com.procialize.mrgeApp20.EmptyViewActivity;
 import com.procialize.mrgeApp20.Fragments.AgendaFragment;
 import com.procialize.mrgeApp20.Fragments.AttendeeFragment;
-import com.procialize.mrgeApp20.Fragments.GeneralInfo;
 import com.procialize.mrgeApp20.Fragments.SpeakerFragment;
 import com.procialize.mrgeApp20.GetterSetter.AgendaList;
 import com.procialize.mrgeApp20.GetterSetter.EventMenuSettingList;
@@ -95,7 +99,7 @@ import com.procialize.mrgeApp20.GetterSetter.ProfileSave;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaVacationActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AttendeeActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.DocumentsActivity;
+import com.procialize.mrgeApp20.Downloads.DocumentsActivity;
 import com.procialize.mrgeApp20.Engagement.Fragment.EngagementFragment;
 import com.procialize.mrgeApp20.InnerDrawerActivity.EventInfoActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.ExhibitorSideMenu;
@@ -182,7 +186,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     String eventid, token;
     String email, password, exhibitorstatus, exhibitorid;
     CustomMenuAdapter customMenuAdapter;
-    TextView logout, editProfile,home, contactus, eventname, switchbt, chatbt, eula, privacy_policy, eventInfo, notification, exh_analytics, txt_version;
+    TextView logout,buddyList, editProfile,home, contactus, eventname, switchbt, chatbt, eula, privacy_policy, eventInfo, notification, exh_analytics, txt_version;
     String eventnamestr;
     LinearLayout linear;
     String imgname, accesstoken;
@@ -576,6 +580,7 @@ LinearLayout linTab4,linTab3,linTab2;
         logout = navigationView.findViewById(R.id.logout);
         home = navigationView.findViewById(R.id.home);
         editProfile = navigationView.findViewById(R.id.editProfile);
+        buddyList = navigationView.findViewById(R.id.buddyList);
         contactus = navigationView.findViewById(R.id.contactus);
         switchbt = navigationView.findViewById(R.id.switchbt);
         chatbt = navigationView.findViewById(R.id.chatbt);
@@ -661,6 +666,16 @@ LinearLayout linTab4,linTab3,linTab2;
             public void onClick(View v) {
 
                 Intent main = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(main);
+                finish();
+            }
+        });
+
+        buddyList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent main = new Intent(getApplicationContext(), ActivityBuddyList.class);
                 startActivity(main);
                 finish();
             }
@@ -1025,7 +1040,7 @@ LinearLayout linTab4,linTab3,linTab2;
         ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
         adapter.addFragment(new GalleryFragment(), "IMAGE");
         adapter.addFragment(new VideoFragment(), "VIDEO");
-        adapter.addFragment(new FolderQuizFragment(), "DOWNLOADS");
+        adapter.addFragment(new DownloadsFragment(), "DOWNLOADS");
         //adapter.addFragment(new FolderQuizFragment(), "Engagement");
 
         // sub2tabLayout.getTabAt(0).getCustomView().setSelected(false);
@@ -3364,6 +3379,12 @@ LinearLayout linTab4,linTab3,linTab2;
         }
 
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.navmenudownloads, menu);
+        //menu.clear();
+        menu.removeGroup(R.id.downloads);
+        return true;
+    }
 }
 

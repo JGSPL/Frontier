@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/album_dp_10">
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/album_dp_10"
+        android:layout_marginBottom="@dimen/album_dp_10"
+        android:text="Disclaimer"
+        android:textColor="@color/black"
+        android:textSize="@dimen/textsizenormal"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum a placerat mauris. Integer venenatis, tellus non vulputate vestibulum, nulla nibh mattis nibh, ut mattis mauris orci in tortor. Nullam iaculis felis ipsum, at tincidunt tellus tincidunt eu. Integer quis tortor urna. Morbi lacus nunc, elementum quis tincidunt faucibus, congue vitae lacus. Curabitur condimentum efficitur tortor, non pretium enim efficitur sed. Nullam tempor a mi eget luctus. Nunc iaculis mi non ipsum mattis, non rutrum purus vulputate. Donec mi nunc, posuere ut scelerisque in, sollicitudin luctus enim" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/album_dp_20"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I agree to the terms and conditions" />
+
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="START"
+            android:minHeight="0dp"
+            android:paddingRight="40dp"
+            android:paddingLeft="40dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="@dimen/album_dp_20"
+            android:layout_marginBottom="@dimen/album_dp_20"
+            android:gravity="center"
+            android:textColor="@color/activetab"
+            android:background="@drawable/button_background"/>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

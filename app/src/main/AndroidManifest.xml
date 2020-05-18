@@ -128,9 +128,14 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".Activity.PDFDocumentDownloadActivity"
+            android:screenOrientation="portrait" /> <activity
+            android:name=".Downloads.Activity.DownloadPdfActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.ExhibitorDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BuddyList.Activity.ActivityBuddyList"
             android:screenOrientation="portrait" />
         <!--
  <activity
@@ -237,7 +242,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".InnerDrawerActivity.DocumentsActivity"
+            android:name=".Downloads.DocumentsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity

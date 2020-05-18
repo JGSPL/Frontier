@@ -14,6 +14,15 @@ public class DocumentList {
     @SerializedName("title")
     @Expose
     private String title;
+    private String viewType;
+
+    public String getViewType() {
+        return viewType;
+    }
+
+    public void setViewType(String viewType) {
+        this.viewType = viewType;
+    }
 
     public String getFileName() {
         return fileName;

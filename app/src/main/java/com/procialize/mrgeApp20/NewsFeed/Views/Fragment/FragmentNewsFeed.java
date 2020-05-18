@@ -23,6 +23,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -33,6 +35,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
@@ -188,9 +191,15 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_news_feed, container, false);
-
+        setHasOptionsMenu(false);
         initView();
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+       // setHasOptionsMenu(false);
     }
 
     private void initView() {
@@ -1225,6 +1234,12 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.navmenudownloads, menu);
+        menu.removeGroup(R.id.downloads);
+    }
+
     private class DownloadFile extends AsyncTask<String, String, String> {
 
         private ProgressDialog progressDialog;
@@ -1371,6 +1386,4 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             /* mTvCapital.setText("Capital : " + capital);*/
         }
     }
-
-
 }

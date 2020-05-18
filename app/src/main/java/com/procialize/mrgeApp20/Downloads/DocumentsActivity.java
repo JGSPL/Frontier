@@ -1,4 +1,4 @@
-package com.procialize.mrgeApp20.InnerDrawerActivity;
+package com.procialize.mrgeApp20.Downloads;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,7 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.procialize.mrgeApp20.Activity.PdfViewerActivity;
-import com.procialize.mrgeApp20.Adapter.DocumentsAdapter;
+import com.procialize.mrgeApp20.Downloads.Adapter.DocumentsListAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
@@ -47,7 +47,7 @@ import retrofit2.Response;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
-public class DocumentsActivity extends AppCompatActivity implements DocumentsAdapter.DocumentsAdapterListner {
+public class DocumentsActivity extends AppCompatActivity implements DocumentsListAdapter.DocumentsAdapterListner {
 
 
     SwipeRefreshLayout docRvrefresh;
@@ -189,7 +189,7 @@ public class DocumentsActivity extends AppCompatActivity implements DocumentsAda
         // specify an adapter (see also next example)
         if (response.body().getStatus().equalsIgnoreCase("success")) {
             if (!(response.body().getDocumentList().isEmpty())) {
-                DocumentsAdapter docAdapter = new DocumentsAdapter(DocumentsActivity.this, response.body().getDocumentList(), this);
+                DocumentsListAdapter docAdapter = new DocumentsListAdapter(DocumentsActivity.this, response.body().getDocumentList(), this);
                 docAdapter.notifyDataSetChanged();
                 docRv.setAdapter(docAdapter);
                 docRv.setVisibility(View.VISIBLE);
