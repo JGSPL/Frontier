@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.MrgeInnerFragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -137,10 +138,11 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         if (eventSettingLists.size() != 0) {
             applysetting(eventSettingLists);
         }
-        MrgeHomeActivity.headerlogoIv.setVisibility(View.GONE);
-        MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);
+/*        MrgeHomeActivity.headerlogoIv.setVisibility(View.GONE);
+        MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);*/
 
-        Util.logomethodwithText(getContext(), MrgeHomeActivity.txtMainHeader, "Event Info");
+
+      //  Util.logomethodwithText( getContext(), true,"Event Info", MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);
 
 
         cd = new ConnectionDetector(getContext());

@@ -59,6 +59,8 @@
     <string name="createcontact">Create Contact</string>
     <string name="submit">Submit</string>
     <string name="upload">Upload</string>
+    <string name="upload_selfie">Upload Selfie</string>
+    <string name="upload_video">Upload Video</string>
     <string name="preview">Preview</string>
     <string name="caption">Enter Caption</string>
     <string name="uploadphoto">Upload Photo</string>

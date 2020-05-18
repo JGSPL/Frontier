@@ -80,7 +80,7 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaVacationActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AttendeeActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.DocumentsActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.EngagementFragment;
+import com.procialize.mrgeApp20.Engagement.Fragment.EngagementFragment;
 import com.procialize.mrgeApp20.InnerDrawerActivity.EventInfoActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.ExhibitorSideMenu;
 import com.procialize.mrgeApp20.InnerDrawerActivity.FeedBackActivity;

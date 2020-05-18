@@ -39,6 +39,7 @@ import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.CustomTools.CircleDisplay;
 import com.procialize.mrgeApp20.CustomTools.ProgressRequestBodyImage;
 import com.procialize.mrgeApp20.CustomTools.ProgressRequestBodyVideo;
+import com.procialize.mrgeApp20.Engagement.Activity.VideoContestActivity;
 import com.procialize.mrgeApp20.GetterSetter.PostVideoSelfie;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;

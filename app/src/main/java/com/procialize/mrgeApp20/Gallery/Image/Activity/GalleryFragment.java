@@ -39,6 +39,7 @@ import com.procialize.mrgeApp20.GetterSetter.FolderList;
 import com.procialize.mrgeApp20.GetterSetter.GalleryList;
 import com.procialize.mrgeApp20.GetterSetter.GalleryListFetch;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SwappingGalleryActivity;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;

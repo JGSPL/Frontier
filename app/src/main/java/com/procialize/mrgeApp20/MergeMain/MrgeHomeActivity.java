@@ -21,8 +21,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -98,7 +96,7 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaVacationActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AttendeeActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.DocumentsActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.EngagementFragment;
+import com.procialize.mrgeApp20.Engagement.Fragment.EngagementFragment;
 import com.procialize.mrgeApp20.InnerDrawerActivity.EventInfoActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.ExhibitorSideMenu;
 import com.procialize.mrgeApp20.InnerDrawerActivity.FeedBackActivity;
@@ -118,7 +116,6 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.QRScanActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SpeakerActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SponsorActivity;
 import com.procialize.mrgeApp20.Gallery.Video.Activity.VideoFragment;
-import com.procialize.mrgeApp20.InnerDrawerActivity.VideoActivity;
 import com.procialize.mrgeApp20.MrgeInnerFragment.BlankFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.EventInfoFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.FolderQuizFragment;
@@ -981,7 +978,6 @@ LinearLayout linTab4,linTab3,linTab2;
             }
         }
 
-
         if (sub3tabLayout.getTabAt(1) != null) {
             if (sub3tabLayout.getTabAt(1).getText().equals("IMAGE")) {
                 sub3tabLayout.getTabAt(1).setIcon(sub2tabIcons[0]);
@@ -994,14 +990,13 @@ LinearLayout linTab4,linTab3,linTab2;
             }
         }
 
-
         if (sub3tabLayout.getTabAt(2) != null) {
             if (sub3tabLayout.getTabAt(2).getText().equals("IMAGE")) {
                 sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[0]);
             } else if (sub3tabLayout.getTabAt(2).getText().equals("VIDEO")) {
                 sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[1]);
             } else if (sub3tabLayout.getTabAt(2).getText().equals("DOWNLOADS")) {
-                sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[2]);
+               sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[2]);
             } else if (sub3tabLayout.getTabAt(2).getText().equals("Engagement")) {
                 sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[3]);
             }
@@ -1026,8 +1021,8 @@ LinearLayout linTab4,linTab3,linTab2;
     private void Sub3setupViewPager(ViewPager viewPager) {
 
         ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
-        adapter.addFragment(new FolderQuizFragment(), "IMAGE");
-        adapter.addFragment(new FolderQuizFragment(), "VIDEO");
+        adapter.addFragment(new GalleryFragment(), "IMAGE");
+        adapter.addFragment(new VideoFragment(), "VIDEO");
         adapter.addFragment(new FolderQuizFragment(), "DOWNLOADS");
         //adapter.addFragment(new FolderQuizFragment(), "Engagement");
 
@@ -1127,11 +1122,9 @@ LinearLayout linTab4,linTab3,linTab2;
         adapter.addFragment(new FolderQuizFragment(), "QUIZ");
         adapter.addFragment(new FolderQuizFragment(), "LIVE POLL");
         adapter.addFragment(new FolderQuizFragment(), "Q&A");
-        adapter.addFragment(new FolderQuizFragment(), "ENGAGEMENT");
-
+        adapter.addFragment(new EngagementFragment(), "ENGAGEMENT");
         Subviewpager3.setAdapter(adapter);
     }
-
 
     public void profiledetails() {
 
@@ -3075,6 +3068,8 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub3tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+                        Util.logomethodwithText( MrgeHomeActivity.this, true,"Engagement", MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);
+
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3103,6 +3098,7 @@ LinearLayout linTab4,linTab3,linTab2;
                 });
             } else if (i == 3) {
 
+
                 sub3tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
                 sub3tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
                 sub3tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
@@ -3114,7 +3110,7 @@ LinearLayout linTab4,linTab3,linTab2;
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
+                        Util.logomethodwithText( MrgeHomeActivity.this, true,"IMAGE", MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         linTab3.setVisibility(View.GONE);
 
@@ -3139,6 +3135,7 @@ LinearLayout linTab4,linTab3,linTab2;
                 });
             } else if (i == 2) {
 
+
                 sub3tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
                 sub3tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
 
@@ -3151,7 +3148,7 @@ LinearLayout linTab4,linTab3,linTab2;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-
+                        Util.logomethodwithText( MrgeHomeActivity.this, true,"VIDEO", MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);
 // int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub3tabLayout.setVisibility(View.GONE);
@@ -3176,6 +3173,7 @@ LinearLayout linTab4,linTab3,linTab2;
                     }
                 });
             } else if (i == 1) {
+                Util.logomethodwithText( this, true,"DOWNLOADS", MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);
 
                 sub3tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
 

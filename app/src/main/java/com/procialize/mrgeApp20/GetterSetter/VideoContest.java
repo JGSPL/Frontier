@@ -3,11 +3,13 @@ package com.procialize.mrgeApp20.GetterSetter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Naushad on 1/2/2018.
  */
 
-public class VideoContest {
+public class VideoContest implements Serializable {
 
     @SerializedName("id")
     @Expose

@@ -44,6 +44,7 @@ import com.procialize.mrgeApp20.CustomTools.CircleDisplay;
 import com.procialize.mrgeApp20.CustomTools.ProgressRequestBodyImage;
 import com.procialize.mrgeApp20.CustomTools.ProgressRequestBodyVideo;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
+import com.procialize.mrgeApp20.Engagement.Activity.SelfieContestActivity;
 import com.procialize.mrgeApp20.GetterSetter.PostSelfie;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;

@@ -4,7 +4,7 @@
         android:width="0dp"
         android:color="@color/activetab" />
 
-    <corners android:radius="10dp" />
+    <corners android:radius="0dp" />
 
     <gradient
         android:angle="270"

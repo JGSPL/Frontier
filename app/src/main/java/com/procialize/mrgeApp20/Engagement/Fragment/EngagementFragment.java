@@ -1,4 +1,4 @@
-package com.procialize.mrgeApp20.InnerDrawerActivity;
+package com.procialize.mrgeApp20.Engagement.Fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -6,16 +6,13 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -27,9 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
+import com.procialize.mrgeApp20.Engagement.Activity.SelfieContestActivity;
+import com.procialize.mrgeApp20.Engagement.Activity.VideoContestActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
-import com.procialize.mrgeApp20.Utility.Util;
 
 import java.io.File;
 import java.util.HashMap;
@@ -76,9 +74,9 @@ public class EngagementFragment extends Fragment {
         TextView header = rootView.findViewById(R.id.title);
         header.setTextColor(Color.parseColor(colorActive));
         TextView selfieTv = rootView.findViewById(R.id.selfieTv);
-        selfieTv.setBackgroundColor(Color.parseColor(colorActive));
+        //selfieTv.setBackgroundColor(Color.parseColor(colorActive));
         TextView videoTv = rootView.findViewById(R.id.videoTv);
-        videoTv.setBackgroundColor(Color.parseColor(colorActive));
+        //videoTv.setBackgroundColor(Color.parseColor(colorActive));
 
         try {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.getActivity());

@@ -26,6 +26,7 @@ import com.procialize.mrgeApp20.GetterSetter.FirstLevelFilter;
 import com.procialize.mrgeApp20.GetterSetter.FolderList;
 import com.procialize.mrgeApp20.GetterSetter.GalleryList;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SwappingGalleryActivity;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Utility.Util;
 
@@ -83,6 +84,8 @@ public class GalleryFirstLevelActivity extends AppCompatActivity implements Gall
         foldername = getIntent().getExtras().getString("foldername");
         galleryLists = (List<GalleryList>) getIntent().getExtras().getSerializable("gallerylist");
         folderLists = (List<FolderList>) getIntent().getExtras().getSerializable("folderlist");
+
+        /*Util.logomethodwithText( this, true,foldername, MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);*/
 
         try {
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");

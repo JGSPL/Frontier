@@ -8,6 +8,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.os.Build;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.Activity.HomeActivity;
 import com.procialize.mrgeApp20.Activity.ProfileActivity;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 
 import java.util.HashMap;
@@ -60,9 +62,37 @@ public class Util {
         }
     }
 
-    public static void logomethodwithText(final Context context, TextView txtHeader, String HeaderText)
-
+    public static void logomethodwithText(final Context context, boolean isTextHeader,String hearderText,TextView tv_header,ImageView header_logo)
     {
+        if(isTextHeader)
+        {
+            tv_header.setVisibility(View.VISIBLE);
+            header_logo.setVisibility(View.GONE);
+            tv_header.setText(hearderText);
+        }
+        else
+        {
+            tv_header.setVisibility(View.GONE);
+            header_logo.setVisibility(View.VISIBLE);
+            Glide.with(context).load(ApiConstant.imgURL + "uploads/app_logo/" + MrgeHomeActivity.logoImg).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                    headerlogoIv.setImageResource(R.drawable.header_logo);
+                    return true;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    return false;
+                }
+            }).into(header_logo);
+        }
+    }
+
+    public static void logomethodwithText_bk(final Context context, TextView txtHeader, String HeaderText)
+    {
+        MrgeHomeActivity.headerlogoIv.setVisibility(View.GONE);
+        MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);
         String logoHeader = HomeActivity.logoImg;
         txtHeader.setText(HeaderText);
     }

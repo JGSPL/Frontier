@@ -34,6 +34,7 @@ import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.FirstLevelFilter;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Utility.Util;
 import com.squareup.picasso.Picasso;
@@ -144,12 +145,16 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
 
+       /* Util.logomethodwithText( this, true,"Image", MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);*/
+
         backIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
+
 
         /*try {
 

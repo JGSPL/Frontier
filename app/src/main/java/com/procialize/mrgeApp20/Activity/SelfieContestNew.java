@@ -20,7 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.procialize.mrgeApp20.Adapter.SelfieAdapter;
+import com.procialize.mrgeApp20.Engagement.Adapter.SelfieAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.GetterSetter.ReportSelfie;
@@ -29,7 +29,7 @@ import com.procialize.mrgeApp20.GetterSetter.SelfieLike;
 import com.procialize.mrgeApp20.GetterSetter.SelfieList;
 import com.procialize.mrgeApp20.GetterSetter.SelfieListFetch;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SelfieUploadActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.SwappingSelfieActivity;
+import com.procialize.mrgeApp20.Engagement.Activity.SwappingSelfieActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;

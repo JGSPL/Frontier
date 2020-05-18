@@ -289,7 +289,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".InnerDrawerActivity.EngagementFragment"
+            android:name=".Engagement.Fragment.EngagementFragment"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -301,11 +301,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".InnerDrawerActivity.SelfieContestActivity"
+            android:name=".Engagement.Activity.SelfieContestActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".InnerDrawerActivity.VideoContestActivity"
+            android:name=".Engagement.Activity.VideoContestActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -321,7 +321,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".InnerDrawerActivity.SwappingSelfieActivity"
+            android:name=".Engagement.Activity.SwappingSelfieActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".Engagement.Activity.SwappingVideoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -364,7 +368,7 @@
                 android:resource="@xml/file_paths"
                 tools:replace="android:resource" />
         </provider>-->
- <provider
+        <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider,com.procialize.mrgeApp20.app.file.provider"
             android:exported="false"

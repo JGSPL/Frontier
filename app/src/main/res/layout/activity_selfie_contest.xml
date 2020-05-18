@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   android:id="@+id/linear"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.InnerDrawerActivity.SelfieContestActivity">
+    tools:context="com.procialize.mrgeApp20.Engagement.Activity.SelfieContestActivity">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -22,10 +22,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colortoolbar"
-            android:contentInsetEnd="0dp"
-            android:contentInsetLeft="0dp"
-            android:contentInsetRight="0dp"
             android:contentInsetStart="0dp"
+            android:contentInsetLeft="0dp"
+            android:contentInsetEnd="0dp"
+            android:contentInsetRight="0dp"
             android:minHeight="?attr/actionBarSize"
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
@@ -38,8 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="-10dp"
-                android:contentDescription=" "
-                 />
+                android:contentDescription=" " />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -66,7 +65,8 @@
             android:layout_margin="5dp"
             android:gravity="center"
             android:textColor="@color/activetab"
-            android:textSize="@dimen/textsizesmall" />
+            android:textSize="@dimen/textsizesmall"
+            android:visibility="gone" />
 
         <com.procialize.mrgeApp20.Fonts.RobotoTextview
             android:id="@+id/seldescription"
@@ -76,8 +76,8 @@
             android:gravity="center"
             android:text=""
             android:textColor="@color/black"
-            android:textSize="@dimen/textsizesmall" />
-
+            android:textSize="@dimen/textsizesmall"
+            android:visibility="gone" />
 
 
         <com.procialize.mrgeApp20.Fonts.RobotoButton
@@ -85,15 +85,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="3dp"
+            android:layout_marginTop="7dp"
             android:background="@drawable/selfiebutton"
-            android:padding="2dp"
-            android:text="@string/upload"
+            android:drawableLeft="@drawable/upload"
+            android:drawablePadding="15dp"
+            android:minHeight="0dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp"
+            android:text="@string/upload_selfie"
             android:textAllCaps="false"
             android:textColor="@color/colorwhite"
             android:textSize="@dimen/textsizesmall"
-            android:textStyle="bold"
-            android:drawableLeft="@drawable/upload"/>
+            android:textStyle="bold" />
+
         <com.procialize.mrgeApp20.Fonts.RobotoTextview
             android:id="@+id/pullrefresh"
             android:layout_width="match_parent"
@@ -113,7 +119,6 @@
             android:layout_gravity="center"
             android:visibility="gone" />
 
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/selfiefeedrefresh"
             android:layout_width="match_parent"
@@ -124,7 +129,9 @@
                 android:id="@+id/selfierecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="horizontal" />
+                android:paddingLeft="3dp"
+                android:paddingTop="3dp"
+                android:paddingRight="3dp" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

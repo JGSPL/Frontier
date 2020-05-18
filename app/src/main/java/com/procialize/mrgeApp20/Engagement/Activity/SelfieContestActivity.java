@@ -1,4 +1,4 @@
-package com.procialize.mrgeApp20.InnerDrawerActivity;
+package com.procialize.mrgeApp20.Engagement.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -31,16 +31,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.procialize.mrgeApp20.Adapter.VideoContestAdapter;
+import com.procialize.mrgeApp20.Engagement.Adapter.SelfieAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
-import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
-import com.procialize.mrgeApp20.GetterSetter.Analytic;
-import com.procialize.mrgeApp20.GetterSetter.ReportVideoContest;
-import com.procialize.mrgeApp20.GetterSetter.ReportVideoContestHide;
-import com.procialize.mrgeApp20.GetterSetter.VideoContest;
-import com.procialize.mrgeApp20.GetterSetter.VideoContestLikes;
-import com.procialize.mrgeApp20.GetterSetter.VideoContestListFetch;
+import com.procialize.mrgeApp20.GetterSetter.DeleteSelfie;
+import com.procialize.mrgeApp20.GetterSetter.ReportSelfie;
+import com.procialize.mrgeApp20.GetterSetter.ReportSelfieHide;
+import com.procialize.mrgeApp20.GetterSetter.SelfieLike;
+import com.procialize.mrgeApp20.GetterSetter.SelfieList;
+import com.procialize.mrgeApp20.GetterSetter.SelfieListFetch;
+import com.procialize.mrgeApp20.InnerDrawerActivity.SelfieUploadActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -48,7 +48,10 @@ import com.procialize.mrgeApp20.Utility.Util;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.File;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import cn.jzvd.JzvdStd;
 import retrofit2.Call;
@@ -58,40 +61,40 @@ import retrofit2.Response;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
-public class VideoContestActivity extends AppCompatActivity implements VideoContestAdapter.VideoContestAdapterListner {
-
+public class SelfieContestActivity extends AppCompatActivity implements SelfieAdapter.SelfieAdapterListner {
 
     Button uploadbtn;
-    SwipeRefreshLayout videofeedrefresh;
+    SwipeRefreshLayout selfiefeedrefresh;
     ProgressBar progressBar;
-    RecyclerView videorecycler;
+    RecyclerView selfierecycler;
     String token;
-    VideoContestAdapter videoAdapter;
+    SelfieAdapter selfieAdapter;
     BottomSheetDialog dialog;
     Dialog myDialog;
+    List<SelfieList> selfieLists;
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid;
     String user_id, colorActive;
     ImageView headerlogoIv;
     TextView header, seldescription;
     private APIService mAPIService;
-    LinearLayout liner;
+    LinearLayout linear;
     TextView pullrefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video_contest);
-
+        setContentView(R.layout.activity_selfie_contest);
         // overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        eventid = prefs.getString("eventid", "");
+        eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -100,32 +103,52 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+//                onBackPressed();
+//                Intent intent = new Intent(SelfieContestActivity.this, EngagementActivity.class);
+//                startActivity(intent);
+                finish();
             }
         });
+
         headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);
-
         uploadbtn = findViewById(R.id.uploadbtn);
-        videofeedrefresh = findViewById(R.id.videofeedrefresh);
-        videorecycler = findViewById(R.id.videorecycler);
+        linear = findViewById(R.id.linear);
+        selfiefeedrefresh = findViewById(R.id.selfiefeedrefresh);
+        selfierecycler = findViewById(R.id.selfierecycler);
         header = findViewById(R.id.title);
-        header.setTextColor(Color.parseColor(colorActive));
-        seldescription = findViewById(R.id.seldescription);
-        liner = findViewById(R.id.liner);
         pullrefresh = findViewById(R.id.pullrefresh);
+        seldescription = findViewById(R.id.seldescription);
+        header.setTextColor(Color.parseColor(colorActive));
         pullrefresh.setTextColor(Color.parseColor(colorActive));
+        uploadbtn.setBackgroundColor(Color.parseColor(colorActive));
+
+        try {
+//            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
+            //path to /data/data/yourapp/app_data/dirName
+//            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+            Resources res = getResources();
+            Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
+            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
+            linear.setBackgroundDrawable(bd);
+
+            Log.e("PATH", String.valueOf(mypath));
+        } catch (Exception e) {
+            e.printStackTrace();
+            linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
+        }
+        selfieLists = new ArrayList<>();
 
         int columns = 2;
-        videorecycler.setLayoutManager(new GridLayoutManager(this, columns));
+        selfierecycler.setLayoutManager(new GridLayoutManager(this, columns));
 
         int resId = R.anim.layout_animation_slide_right;
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(this, resId);
-        videorecycler.setLayoutAnimation(animation);
+        selfierecycler.setLayoutAnimation(animation);
 
 
         progressBar = findViewById(R.id.progressBar);
-
 
         mAPIService = ApiUtils.getAPIService();
 
@@ -136,23 +159,18 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
 
         user_id = user.get(SessionManager.KEY_ID);
         // token
-        // token
         token = user.get(SessionManager.KEY_TOKEN);
-        crashlytics("Video Contest",user.get(SessionManager.KEY_TOKEN));
-        firbaseAnalytics(this, "Video Contest",token);
-        uploadbtn.setBackgroundColor(Color.parseColor(colorActive));
-
+        crashlytics("Selfie Contest",user.get(SessionManager.KEY_TOKEN));
+        firbaseAnalytics(this, "Selfie Contest", token);
         uploadbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent videoupload = new Intent(VideoContestActivity.this, VideoContestUploadActivity.class);
-                startActivity(videoupload);
+                Intent selfie = new Intent(SelfieContestActivity.this, SelfieUploadActivity.class);
+                startActivity(selfie);
                 finish();
             }
         });
-
-        videofeedrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        selfiefeedrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
@@ -160,78 +178,69 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
             }
         });
 
-        SelfieListFetch(token, eventid);
+            SelfieListFetch(token, eventid);
 
-
-        try {
-//            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
-            //path to /data/data/yourapp/app_data/dirName
-//            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
-            Resources res = getResources();
-            Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
-            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-            liner.setBackgroundDrawable(bd);
-
-            Log.e("PATH", String.valueOf(mypath));
-        } catch (Exception e) {
-            e.printStackTrace();
-            liner.setBackgroundColor(Color.parseColor("#f1f1f1"));
-        }
     }
 
     public void SelfieListFetch(String token, String eventid) {
         showProgress();
-        mAPIService.VideoContestListFetch(token, eventid).enqueue(new Callback<VideoContestListFetch>() {
+        mAPIService.SelfieListFetch(token, eventid).enqueue(new Callback<SelfieListFetch>() {
             @Override
-            public void onResponse(Call<VideoContestListFetch> call, Response<VideoContestListFetch> response) {
+            public void onResponse(Call<SelfieListFetch> call, Response<SelfieListFetch> response) {
 
                 if (response.isSuccessful()) {
                     Log.i("hit", "post submitted to API." + response.body().toString());
 
-                    if (videofeedrefresh.isRefreshing()) {
-                        videofeedrefresh.setRefreshing(false);
+                    if (selfiefeedrefresh.isRefreshing()) {
+                        selfiefeedrefresh.setRefreshing(false);
                     }
                     dismissProgress();
                     showResponse(response);
                 } else {
-                    if (videofeedrefresh.isRefreshing()) {
-                        videofeedrefresh.setRefreshing(false);
+                    if (selfiefeedrefresh.isRefreshing()) {
+                        selfiefeedrefresh.setRefreshing(false);
                     }
                     dismissProgress();
-                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<VideoContestListFetch> call, Throwable t) {
-                //  Toast.makeText(getApplicationContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<SelfieListFetch> call, Throwable t) {
+                // Toast.makeText(getApplicationContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
 
                 dismissProgress();
-                if (videofeedrefresh.isRefreshing()) {
-                    videofeedrefresh.setRefreshing(false);
+                if (selfiefeedrefresh.isRefreshing()) {
+                    selfiefeedrefresh.setRefreshing(false);
                 }
             }
         });
     }
 
-    public void showResponse(Response<VideoContestListFetch> response) {
+    public void showResponse(Response<SelfieListFetch> response) {
 
         // specify an adapter (see also next example)
         if (response.body().getStatus().equalsIgnoreCase("success")) {
 
+            selfieLists = response.body().getSelfieList();
+
+            selfieAdapter = new SelfieAdapter(this, response.body().getSelfieList(), this);
+            selfieAdapter.notifyDataSetChanged();
+            selfierecycler.setAdapter(selfieAdapter);
+            selfierecycler.scheduleLayoutAnimation();
+
             try {
-                if (!(response.body().getVideo_title().equalsIgnoreCase(null))) {
-                    header.setText(response.body().getVideo_title());
+                if (!(response.body().getSelfie_title().equalsIgnoreCase(null))) {
+                    header.setText(response.body().getSelfie_title());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             try {
-                if (!(response.body().getVideo_description().equalsIgnoreCase(null))) {
-                    seldescription.setText(response.body().getVideo_description());
-                    seldescription.setVisibility(View.VISIBLE);
+                if (!(response.body().getSelfie_description().equalsIgnoreCase(null))) {
+                    seldescription.setText(response.body().getSelfie_description());
+                    //seldescription.setVisibility(View.VISIBLE);
 
                 } else {
                     seldescription.setVisibility(View.GONE);
@@ -240,10 +249,6 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            videoAdapter = new VideoContestAdapter(this, response.body().getVideoContest(), this);
-            videoAdapter.notifyDataSetChanged();
-            videorecycler.setAdapter(videoAdapter);
-            videorecycler.scheduleLayoutAnimation();
 
 
         } else {
@@ -265,53 +270,34 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
     }
 
     @Override
-    public void onContactSelected(VideoContest videoContest) {
-
-        SubmitAnalytics(token, eventid, "", "", "videocontest", videoContest.getTitle());
-
-        Intent intent = new Intent(VideoContestActivity.this, ExoVideoActivity.class);
-        intent.putExtra("videoUrl", videoContest.getFileName());
-        intent.putExtra("title", videoContest.getTitle());
-        intent.putExtra("page", "contest");
-        startActivity(intent);
-    }
+    public void onContactSelected(SelfieList selfieList, ImageView ivProfile) {
 
 
-    public void SubmitAnalytics(String token, String eventid, String target_attendee_id, String target_attendee_type, String analytic_type, String id) {
+        Intent imageview = new Intent(this, SwappingSelfieActivity.class);
+        imageview.putExtra("url", selfieList.getFileName());
+        imageview.putExtra("gallerylist", (Serializable) selfieLists);
+        startActivity(imageview);
 
-        mAPIService.Analytic(token, eventid, target_attendee_id, target_attendee_type, analytic_type, id).enqueue(new Callback<Analytic>() {
-            @Override
-            public void onResponse(Call<Analytic> call, Response<Analytic> response) {
 
-                if (response.isSuccessful()) {
-                    Log.i("hit", "Analytics Sumbitted" + response.body().toString());
-
-                } else {
-
-                    // Toast.makeText(GeneralInfoActivity.this, "Unable to process", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Analytic> call, Throwable t) {
-                // Toast.makeText(GeneralInfoActivity.this, "Unable to process", Toast.LENGTH_SHORT).show();
-
-            }
-        });
+//        imageview.putExtra("url", ApiConstant.selfievideo + selfieList.getFileName());
+//        ActivityOptionsCompat options = ActivityOptionsCompat.
+//                makeSceneTransitionAnimation(this, (View)ivProfile, "profile");
+//        startActivity(imageview,options.toBundle());
     }
 
     @Override
-    public void onLikeListener(View v, VideoContest videoContest, int position, TextView countTv, ImageView likeIv) {
+    public void onLikeListener(View v, SelfieList selfieList, int position, TextView countTv, ImageView likeIv) {
 
-
-        if (videoContest.getLikeFlag().equals("1")) {
+        if (selfieList.getLikeFlag().equals("1")) {
             likeIv.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_like));
             likeIv.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
-            VideoContestLike(token, eventid, videoContest.getId());
+
+
+            SelfieLike(token, eventid, selfieList.getId());
 
             try {
 
-                int count = Integer.parseInt(videoContest.getTotalLikes());
+                int count = Integer.parseInt(selfieList.getTotalLikes());
 
                 if (count > 0) {
                     count = count - 1;
@@ -320,21 +306,21 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
                 } else {
                     countTv.setText("0");
                 }
-
+//                SelfieLike(token,"1",selfieList.getId());/**/
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
         } else {
 
-            likeIv.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_afterlike));
+            likeIv.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_active_like));
             likeIv.setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_ATOP);
-            VideoContestLike(token, eventid, videoContest.getId());
+            SelfieLike(token, eventid, selfieList.getId());
 
 
             try {
 
-                int count = Integer.parseInt(videoContest.getTotalLikes());
+                int count = Integer.parseInt(selfieList.getTotalLikes());
 
 
                 count = count + 1;
@@ -348,7 +334,8 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
     }
 
     @Override
-    public void onMoreListner(View v, final VideoContest videoContest, final int position) {
+    public void onMoreListner(View v, final SelfieList selfieList, final int position) {
+
         dialog = new BottomSheetDialog(this);
 
         dialog.setContentView(R.layout.botomcontestdialouge);
@@ -359,13 +346,11 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
         TextView deleteTv = dialog.findViewById(R.id.deleteTv);
         TextView cancelTv = dialog.findViewById(R.id.cancelTv);
 
-        deleteTv.setVisibility(View.GONE);
+        reportTv.setText("Report Selfie");
+        deleteTv.setText("Delete this Selfie");
+        hideTv.setText("Hide Selfie");
 
-        reportTv.setText("Report Video");
-        hideTv.setText("Hide Video");
-        deleteTv.setText("Detete this Video");
-
-        if (videoContest.getAttendeeId().equalsIgnoreCase(user_id)) {
+        if (selfieList.getAttendee_id().equalsIgnoreCase(user_id)) {
             deleteTv.setVisibility(View.VISIBLE);
             hideTv.setVisibility(View.GONE);
             reportTv.setVisibility(View.GONE);
@@ -374,17 +359,18 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
             hideTv.setVisibility(View.VISIBLE);
             reportTv.setVisibility(View.VISIBLE);
         }
+
+
         hideTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ReportVideoContestHide(eventid, videoContest.getId(), token, position);
+                ReportSelfieHide(eventid, selfieList.getId(), token, position);
             }
         });
-
         deleteTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DeleteVideo(eventid, videoContest.getId(), token, position);
+                DeleteSelfie(eventid, selfieList.getId(), token, position);
             }
         });
 
@@ -392,7 +378,8 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
         reportTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showratedialouge(videoContest.getId(), videoContest.getFirstName());
+                showratedialouge(selfieList.getId());
+                dialog.dismiss();
             }
         });
 
@@ -403,50 +390,45 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
             }
         });
 
-
         dialog.show();
 
     }
 
-    @Override
-    public void onShareListner(View v, VideoContest videoContest, int position) {
-        shareTextUrl(videoContest.getTitle(), ApiConstant.selfievideo + videoContest.getFileName());
-    }
 
-
-    public void VideoContestLike(String token, String eventid, String id) {
-        mAPIService.VideoContestLikes(token, eventid, id).enqueue(new Callback<VideoContestLikes>() {
+    public void SelfieLike(String token, String eventid, String id) {
+        mAPIService.SelfieLike(token, eventid, id).enqueue(new Callback<SelfieLike>() {
             @Override
-            public void onResponse(Call<VideoContestLikes> call, Response<VideoContestLikes> response) {
+            public void onResponse(Call<SelfieLike> call, Response<SelfieLike> response) {
 
-                if (response.body().getStatus().equalsIgnoreCase("Success")) {
+                if (response.isSuccessful()) {
                     Log.i("hit", "post submitted to API." + response.body().toString());
 
 
                     showLikeResponse(response);
                 } else {
 
-//                    Toast.makeText(VideoContestActivity.this, "Unable to process", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelfieContestActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
 
             @Override
-            public void onFailure(Call<VideoContestLikes> call, Throwable t) {
-                Toast.makeText(VideoContestActivity.this, "Low network or no network", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<SelfieLike> call, Throwable t) {
+                Toast.makeText(SelfieContestActivity.this, "Low network or no network", Toast.LENGTH_SHORT).show();
 
             }
         });
     }
 
-    private void showLikeResponse(Response<VideoContestLikes> response) {
 
-        if (response.body().getStatus().equalsIgnoreCase("Success")) {
+    private void showLikeResponse(Response<SelfieLike> response) {
+
+        if (response.body().getStatus().equalsIgnoreCase("success")) {
             SelfieListFetch(token, eventid);
-//            Toast.makeText(VideoContestActivity.this,response.message(),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(SelfieContestActivity.this,response.message(),Toast.LENGTH_SHORT).show();
 
         } else {
-//            Toast.makeText(VideoContestActivity.this,response.message(),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(SelfieContestActivity.this,response.message(),Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -454,15 +436,15 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
     protected void onResume() {
         //  overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         SelfieListFetch(token, eventid);
-
         super.onResume();
     }
 
-    public void ReportVideoContestHide(String eventid, String selfieid, String token, final int position) {
+
+    public void ReportSelfieHide(String eventid, String selfieid, String token, final int position) {
 //        showProgress();
-        mAPIService.ReportVideoContestHide(token, eventid, selfieid).enqueue(new Callback<ReportVideoContestHide>() {
+        mAPIService.ReportSelfieHide(token, eventid, selfieid).enqueue(new Callback<ReportSelfieHide>() {
             @Override
-            public void onResponse(Call<ReportVideoContestHide> call, Response<ReportVideoContestHide> response) {
+            public void onResponse(Call<ReportSelfieHide> call, Response<ReportSelfieHide> response) {
 
                 if (response.isSuccessful()) {
                     Log.i("hit", "post submitted to API." + response.body().toString());
@@ -471,70 +453,87 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
                 } else {
 //                    dismissProgress();
 
-                    Toast.makeText(VideoContestActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelfieContestActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ReportVideoContestHide> call, Throwable t) {
+            public void onFailure(Call<ReportSelfieHide> call, Throwable t) {
                 Log.e("hit", "Unable to submit post to API.");
-                Toast.makeText(VideoContestActivity.this, "Low network or no network", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SelfieContestActivity.this, "Low network or no network", Toast.LENGTH_SHORT).show();
 
 //                dismissProgress();
             }
         });
     }
 
-    public void DeleteVideo(String eventid, String selfieid, String token, final int position) {
+    public void DeleteSelfie(String eventid, String selfieid, String token, final int position) {
 //        showProgress();
-        mAPIService.DeleteVideoContest(token, eventid, selfieid).enqueue(new Callback<ReportVideoContestHide>() {
+        mAPIService.DeleteSelfie(token, eventid, selfieid).enqueue(new Callback<DeleteSelfie>() {
             @Override
-            public void onResponse(Call<ReportVideoContestHide> call, Response<ReportVideoContestHide> response) {
+            public void onResponse(Call<DeleteSelfie> call, Response<DeleteSelfie> response) {
 
                 if (response.isSuccessful()) {
                     Log.i("hit", "post submitted to API." + response.body().toString());
 //                    dismissProgress();
-                    ReportPostHideresponse(response, position);
+                    DeleteSelfieResponse(response, position);
                 } else {
 //                    dismissProgress();
 
-                    Toast.makeText(VideoContestActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelfieContestActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ReportVideoContestHide> call, Throwable t) {
+            public void onFailure(Call<DeleteSelfie> call, Throwable t) {
                 Log.e("hit", "Unable to submit post to API.");
-                Toast.makeText(VideoContestActivity.this, "Low network or no network", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SelfieContestActivity.this, "Low network or no network", Toast.LENGTH_SHORT).show();
 
 //                dismissProgress();
             }
         });
     }
 
-    private void ReportPostHideresponse(Response<ReportVideoContestHide> response, int position) {
+
+    private void ReportPostHideresponse(Response<ReportSelfieHide> response, int position) {
 
         if (response.body().getStatus().equalsIgnoreCase("Success")) {
 
             Log.e("post", "success");
 
-            videoAdapter.videoContestList.remove(position);
-            videoAdapter.notifyItemRemoved(position);
+            selfieAdapter.selfieList.remove(position);
+            selfieAdapter.notifyItemRemoved(position);
             dialog.dismiss();
 
         } else {
             Log.e("post", "fail");
-            Toast.makeText(VideoContestActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(SelfieContestActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         }
     }
 
+    private void DeleteSelfieResponse(Response<DeleteSelfie> response, int position) {
 
-    public void ReportVideoContest(String eventid, String feedid, String token, String text) {
+        if (response.body().getStatus().equalsIgnoreCase("Success")) {
+
+            Log.e("post", "success");
+
+            selfieAdapter.selfieList.remove(position);
+            selfieAdapter.notifyItemRemoved(position);
+            dialog.dismiss();
+
+        } else {
+            Log.e("post", "fail");
+            Toast.makeText(SelfieContestActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        }
+    }
+
+    public void ReportSelfie(String eventid, String feedid, String token, String text) {
 //        showProgress();
-        mAPIService.ReportVideoContest(token, eventid, feedid, text).enqueue(new Callback<ReportVideoContest>() {
+        mAPIService.ReportSelfie(token, eventid, feedid, text).enqueue(new Callback<ReportSelfie>() {
             @Override
-            public void onResponse(Call<ReportVideoContest> call, Response<ReportVideoContest> response) {
+            public void onResponse(Call<ReportSelfie> call, Response<ReportSelfie> response) {
 
                 if (response.isSuccessful()) {
                     Log.i("hit", "post submitted to API." + response.body().toString());
@@ -543,36 +542,37 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
                 } else {
 //                    dismissProgress();
 
-                    Toast.makeText(VideoContestActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelfieContestActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ReportVideoContest> call, Throwable t) {
+            public void onFailure(Call<ReportSelfie> call, Throwable t) {
                 Log.e("hit", "Unable to submit post to API.");
-                Toast.makeText(VideoContestActivity.this, "Low network or no network", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SelfieContestActivity.this, "Low network or no network", Toast.LENGTH_SHORT).show();
 
 //                dismissProgress();
             }
         });
     }
 
-    private void ReportPostresponse(Response<ReportVideoContest> response) {
+    private void ReportPostresponse(Response<ReportSelfie> response) {
 
         if (response.body().getStatus().equalsIgnoreCase("Success")) {
 
-            Toast.makeText(VideoContestActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(SelfieContestActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
             myDialog.dismiss();
 
         } else {
             Log.e("post", "fail");
-            Toast.makeText(VideoContestActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(SelfieContestActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
             myDialog.dismiss();
         }
     }
 
-    private void showratedialouge(final String id, String name) {
+
+    private void showratedialouge(final String id) {
 
         myDialog = new Dialog(this);
         myDialog.setContentView(R.layout.dialouge_msg_layout);
@@ -580,16 +580,10 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
 
         myDialog.show();
 
-        LinearLayout diatitle = myDialog.findViewById(R.id.diatitle);
-
-        diatitle.setBackgroundColor(Color.parseColor(colorActive));
-
 
         Button cancelbtn = myDialog.findViewById(R.id.canclebtn);
         Button ratebtn = myDialog.findViewById(R.id.ratebtn);
-        ratebtn.setText("Send");
-
-        ratebtn.setBackgroundColor(Color.parseColor(colorActive));
+        ratebtn.setText("Report User");
 
         final EditText etmsg = myDialog.findViewById(R.id.etmsg);
 
@@ -597,11 +591,9 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
         final TextView nametv = myDialog.findViewById(R.id.nametv);
         final TextView title = myDialog.findViewById(R.id.title);
         final ImageView imgCancel = myDialog.findViewById(R.id.imgCancel);
+        title.setText("Report USer");
 
-        title.setText("Report Video");
-
-        nametv.setText("To " + name);
-        nametv.setTextColor(Color.parseColor(colorActive));
+        nametv.setText("To " + "Admin");
 
         etmsg.addTextChangedListener(new TextWatcher() {
             @Override
@@ -629,14 +621,12 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
                 myDialog.dismiss();
             }
         });
-
         imgCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myDialog.dismiss();
             }
         });
-
 
         ratebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -646,28 +636,13 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
 
                     String msg = StringEscapeUtils.escapeJava(etmsg.getText().toString());
                     dialog.dismiss();
-                    ReportVideoContest(eventid, id, token, msg);
+                    ReportSelfie(eventid, id, token, msg);
                 } else {
-
-                    Toast.makeText(VideoContestActivity.this, "Enter Something", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelfieContestActivity.this, "Enter Something", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-
-    private void shareTextUrl(String data, String url) {
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("text/plain");
-        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-
-        // Add data to the intent, the receiving app will decide
-        // what to do with it.
-        share.putExtra(Intent.EXTRA_SUBJECT, data);
-        share.putExtra(Intent.EXTRA_TEXT, url);
-
-        startActivity(Intent.createChooser(share, "Share link!"));
-    }
-
 
     @Override
     public void onPause() {
@@ -676,5 +651,4 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
         JzvdStd.releaseAllVideos();
 
     }
-
 }

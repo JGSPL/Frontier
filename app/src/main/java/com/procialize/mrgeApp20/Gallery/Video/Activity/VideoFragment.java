@@ -43,6 +43,7 @@ import com.procialize.mrgeApp20.GetterSetter.VideoFetchListFetch;
 import com.procialize.mrgeApp20.GetterSetter.VideoFolderList;
 import com.procialize.mrgeApp20.GetterSetter.VideoList;
 import com.procialize.mrgeApp20.InnerDrawerActivity.ExoVideoActivity;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -119,6 +120,8 @@ View rootView;
         header.setTextColor(Color.parseColor(colorActive));
         msg_txt.setTextColor(Color.parseColor(colorActive));
         pullrefresh.setTextColor(Color.parseColor(colorActive));
+
+      // Util.logomethodwithText( getActivity(), true,"Video", MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);
 
         try {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);

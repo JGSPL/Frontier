@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.InnerDrawerActivity.SelfieContestActivity">
+    tools:context="com.procialize.mrgeApp20.Engagement.Activity.SelfieContestActivity">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -67,7 +67,8 @@
             android:gravity="center"
             android:text=""
             android:textColor="@color/activetab"
-            android:textSize="@dimen/textsizesmall" />
+            android:textSize="@dimen/textsizesmall"
+            android:visibility="gone"/>
 
 
         <com.procialize.mrgeApp20.Fonts.RobotoTextview
@@ -79,22 +80,29 @@
             android:gravity="center"
             android:text=""
             android:textColor="@color/black"
-            android:textSize="@dimen/textsizesmall" />
+            android:textSize="@dimen/textsizesmall"
+            android:visibility="gone"/>
 
 
         <com.procialize.mrgeApp20.Fonts.RobotoButton
             android:id="@+id/uploadbtn"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="3dp"
+            android:layout_marginTop="7dp"
             android:background="@drawable/selfiebutton"
             android:drawableLeft="@drawable/upload"
-            android:padding="2dp"
-            android:text="@string/upload"
+            android:drawablePadding="15dp"
+            android:minHeight="0dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp"
+            android:text="@string/upload_video"
             android:textAllCaps="false"
             android:textColor="@color/colorwhite"
-            android:textSize="@dimen/textsizesmall" />
+            android:textSize="@dimen/textsizesmall"
+            android:textStyle="bold"  />
 
         <com.procialize.mrgeApp20.Fonts.RobotoTextview
             android:id="@+id/pullrefresh"
@@ -126,7 +134,10 @@
                 android:id="@+id/videorecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical" />
+                android:scrollbars="vertical"
+                android:paddingLeft="3dp"
+                android:paddingTop="3dp"
+                android:paddingRight="3dp"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <cn.jzvd.JzvdStd
+        android:id="@+id/video_view"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnlayout"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/name"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="true" />
+
+    <RelativeLayout
+        android:id="@+id/rl_image"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnlayout"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/name"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_thumb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/iv_video_play"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:contentDescription="TODO"
+            android:src="@drawable/video_play" />
+
+
+    </RelativeLayout>
+
+
+    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/colorwhite"
+        android:textSize="@dimen/textsizenormal" />
+
+</RelativeLayout>

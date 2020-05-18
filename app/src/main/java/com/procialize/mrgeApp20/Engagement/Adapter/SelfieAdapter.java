@@ -1,4 +1,4 @@
-package com.procialize.mrgeApp20.Adapter;
+package com.procialize.mrgeApp20.Engagement.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -103,11 +103,11 @@ public class SelfieAdapter extends RecyclerView.Adapter<SelfieAdapter.MyViewHold
         if (galleryList.getLikeFlag().equals("1")) {
 
 
-            holder.likeIv.setImageResource(R.drawable.ic_afterlike);
-            holder.likeIv.setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_ATOP);
+            holder.likeIv.setImageResource(R.drawable.ic_active_like);
+            //holder.likeIv.setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_ATOP);
         } else {
             holder.likeIv.setImageResource(R.drawable.ic_like);
-            holder.likeIv.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
+            //holder.likeIv.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
 
         }
 

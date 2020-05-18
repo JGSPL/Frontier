@@ -36,19 +36,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/colortoolbar"
-                    android:contentInsetStart="0dp"
-                    android:contentInsetLeft="0dp"
-                    android:contentInsetEnd="0dp"
-                    android:contentInsetRight="0dp"
-                    android:minHeight="?attr/actionBarSize"
-                    app:contentInsetEnd="0dp"
-                    app:contentInsetLeft="0dp"
-                    app:contentInsetRight="0dp"
-                    app:contentInsetStart="0dp"
-                    app:layout_collapseMode="pin">
+                   >
                     <com.procialize.mrgeApp20.Fonts.RobotoTextview
                         android:id="@+id/txtMainHeader"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="left"
                         android:text=""
