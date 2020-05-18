@@ -163,7 +163,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     List<EventSettingList> eventSettingLists;
     List<EventMenuSettingList> eventMenuSettingLists;
     HashMap<String, String> eventlist;
-    public static ImageView headerlogoIv;
+    public static ImageView headerlogoIv,notificationlogoIv;
     public static TextView txtMainHeader;
 
     String side_menu = "0", side_menu_my_travel = "0", side_menu_notification = "0", side_menu_display_qr = "0", side_menu_qr_scanner = "0",
@@ -465,11 +465,21 @@ LinearLayout linTab4,linTab3,linTab2;
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
          txtMainHeader = findViewById(R.id.txtMainHeader);
+        notificationlogoIv = findViewById(R.id.notificationlogoIv);
 
         Util.logomethodwithText(MrgeHomeActivity.this,false,"",txtMainHeader,headerlogoIv);
 
 
        // Util.logomethod(this, headerlogoIv);
+
+        notificationlogoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(main);
+
+            }
+        });
 
         viewPager = findViewById(R.id.viewpager);
         Subviewpager= findViewById(R.id.Subviewpager);
@@ -1142,6 +1152,7 @@ LinearLayout linTab4,linTab3,linTab2;
         TextView designationTv = outer.findViewById(R.id.designationTv);
         TextView compantyTv = outer.findViewById(R.id.compantyTv);
         final ImageView profileIV = outer.findViewById(R.id.profileIV);
+        final ImageView iv_close= outer.findViewById(R.id.iv_close);
         final ProgressBar progressView = outer.findViewById(R.id.progressView);
 
         eventname = outer.findViewById(R.id.eventname);
@@ -1219,9 +1230,17 @@ LinearLayout linTab4,linTab3,linTab2;
         nameTv.setText(name + " " + lname);
 //        lastNameTv.setText(lname);
 
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.closeDrawers();
+            }
+        });
+
 
         if (profilepic != null) {
-            Glide.with(this).load(ApiConstant.profilepic + profilepic).listener(new RequestListener<Drawable>() {
+            Glide.with(this).load(ApiConstant.profilepic + profilepic).circleCrop()
+                    .listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     progressView.setVisibility(View.GONE);

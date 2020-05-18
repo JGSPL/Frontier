@@ -91,8 +91,8 @@ public class Util {
 
     public static void logomethodwithText_bk(final Context context, TextView txtHeader, String HeaderText)
     {
-        MrgeHomeActivity.headerlogoIv.setVisibility(View.GONE);
-        MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);
+        //MrgeHomeActivity.headerlogoIv.setVisibility(View.GONE);
+        //MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);
         String logoHeader = HomeActivity.logoImg;
         txtHeader.setText(HeaderText);
     }

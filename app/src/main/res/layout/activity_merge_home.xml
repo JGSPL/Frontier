@@ -55,6 +55,14 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="-10dp"
                         android:contentDescription=" " />
+                    <ImageView
+                        android:id="@+id/notificationlogoIv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_notification"
+                        android:contentDescription=" " />
 
                 </androidx.appcompat.widget.Toolbar>
 
@@ -474,6 +482,7 @@
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
                     android:text="Home"
+                    android:visibility="gone"
                     android:textColor="@color/textcolorLight"
                     android:textSize="@dimen/textsizesmall" />
 
@@ -481,6 +490,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/home"
+                    android:visibility="gone"
                     android:layout_marginLeft="@dimen/album_dp_10"
                     android:layout_marginRight="@dimen/album_dp_10"
                     android:background="@color/textcolorLight" />

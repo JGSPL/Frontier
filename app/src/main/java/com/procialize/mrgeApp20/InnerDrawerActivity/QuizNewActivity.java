@@ -116,8 +116,8 @@ public class QuizNewActivity extends AppCompatActivity implements View.OnClickLi
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuizNewActivity.this, FolderQuizActivity.class);
-                startActivity(intent);
+               /* Intent intent = new Intent(QuizNewActivity.this, FolderQuizActivity.class);
+                startActivity(intent);*/
                 finish();
 
             }

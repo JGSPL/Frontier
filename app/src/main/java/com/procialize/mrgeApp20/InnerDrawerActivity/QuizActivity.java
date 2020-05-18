@@ -94,7 +94,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
     public static String foldername = "null";
     public static Button submit, btnNext;
     ImageView headerlogoIv;
-    TextView questionTv, txt_time;
+    TextView questionTv, txt_time,txtHeaderQ;
     public static TextView txt_count;
     CustomViewPager pager;
     //    QuizPagerAdapter pagerAdapter;
@@ -147,8 +147,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
 //                    adapter.dataIDArray = null;
 //                }
 
-                Intent intent = new Intent(QuizActivity.this, FolderQuizActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(QuizActivity.this, FolderQuizActivity.class);
+                startActivity(intent);*/
                 finish();
 
             }
@@ -189,6 +189,10 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
 
         quizNameList = (RecyclerView) findViewById(R.id.quiz_list);
         questionTv = (TextView) findViewById(R.id.questionTv);
+        txtHeaderQ = (TextView) findViewById(R.id.txtHeaderQ);
+        txtHeaderQ.setTextColor(Color.parseColor(colorActive));
+        txtHeaderQ.setText("Quiz");
+
         txt_count = (TextView) findViewById(R.id.txt_count);
         relative = (RelativeLayout) findViewById(R.id.relative);
         questionTv.setText(foldername);
