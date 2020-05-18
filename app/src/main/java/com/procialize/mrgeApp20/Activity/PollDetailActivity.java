@@ -100,8 +100,8 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PollDetailActivity.this, LivePollActivity.class);
-                startActivity(intent);
+               /* Intent intent = new Intent(PollDetailActivity.this, LivePollActivity.class);
+                startActivity(intent);*/
                 finish();
             }
         });

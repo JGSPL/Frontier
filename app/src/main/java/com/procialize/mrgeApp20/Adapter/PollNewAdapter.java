@@ -83,7 +83,7 @@ public class PollNewAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.mainLL.setBackgroundColor(Color.parseColor(colorActive));
+        //holder.mainLL.setBackgroundColor(Color.parseColor(colorActive));
 
         holder.nameTv.setText(StringEscapeUtils.unescapeJava(pollList.getQuestion()));
         holder.nameTv.setOnClickListener(new View.OnClickListener() {

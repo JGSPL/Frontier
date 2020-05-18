@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="0dp"
+        android:visibility="gone"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
@@ -46,6 +47,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -59,6 +61,7 @@
             android:gravity="center|center_horizontal"
             android:padding="5dp"
             android:text="Quiz"
+            android:visibility="gone"
             android:textColor="@color/activetab"
             android:textSize="17dp" />
 
@@ -72,17 +75,17 @@
             <RelativeLayout
                 android:id="@+id/layoutTop"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:background="@color/colorPrimary"></RelativeLayout>
+                android:layout_height="120dp"
+                android:background="@android:color/transparent"></RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/layoutBottom"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="80dp"
                 android:layout_below="@id/layoutTop"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:background="@drawable/quiz_header">
+                >
 
             </RelativeLayout>
 
@@ -97,8 +100,8 @@
 
                 <ImageView
                     android:id="@+id/profileIV"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_centerInParent="true"
                     android:contentDescription="TODO"
                     android:src="@drawable/quizlogo" />
@@ -121,6 +124,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_marginBottom="60dp"
             android:layout_height="match_parent">
 
             <com.procialize.mrgeApp20.Fonts.RobotoTextview
@@ -136,7 +140,7 @@
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/quizrefresher"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <ListView
                     android:id="@+id/quiz_list"
@@ -154,5 +158,4 @@
 
 
     </LinearLayout>
-
 </LinearLayout>

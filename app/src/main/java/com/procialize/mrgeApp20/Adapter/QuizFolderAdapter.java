@@ -4,14 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.core.graphics.drawable.DrawableCompat;
+
+import com.procialize.mrgeApp20.CustomTools.CircleDisplay;
 import com.procialize.mrgeApp20.GetterSetter.QuizFolder;
 import com.procialize.mrgeApp20.R;
 
@@ -74,13 +83,20 @@ public class QuizFolderAdapter extends BaseAdapter {
 
             holder.quiz_title_txt = (TextView) convertView
                     .findViewById(R.id.video_title_txt);
+            holder.video_status = (TextView) convertView
+                    .findViewById(R.id.video_status);
+            holder.progressbar = (CircleDisplay) convertView
+                    .findViewById(R.id.progressbar);
+
 
             holder.linQuiz = (LinearLayout)convertView.findViewById(R.id.linQuiz);
-            holder.linQuiz.setBackgroundColor(Color.parseColor(colorActive));
+           // holder.linQuiz.setBackgroundColor(Color.parseColor(colorActive));
 
             Typeface typeFace = Typeface.createFromAsset(activity.getAssets(),
                     "DINPro-Light_13935.ttf");
             holder.quiz_title_txt.setTypeface(typeFace);
+
+
 
             convertView.setTag(holder);
 
@@ -89,12 +105,25 @@ public class QuizFolderAdapter extends BaseAdapter {
         }
 
         holder.quiz_title_txt.setText(quizList.get(position).getFolder_name());
+        holder.progressbar.setVisibility(View.VISIBLE);
+
+        holder.progressbar.setVisibility(View.VISIBLE);
+        holder.progressbar.setProgress(0);
+        holder.progressbar.setMaxValue(100);
+        holder.progressbar.setProgressColor(Color.parseColor(colorActive));
+        holder.progressbar.setText(String.valueOf(0));
+        holder.progressbar.setTextColor(Color.parseColor(colorActive));
+        holder.progressbar.setSuffix("%");
+        holder.progressbar.setPrefix("");
+
         return convertView;
     }
 
     static class ViewHolder {
-        TextView quiz_title_txt;
+        TextView quiz_title_txt,video_status;
         LinearLayout linQuiz;
+        CircleDisplay progressbar;
     }
+
 
 }
