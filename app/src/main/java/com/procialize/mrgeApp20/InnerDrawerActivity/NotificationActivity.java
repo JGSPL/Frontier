@@ -41,6 +41,7 @@ import android.widget.Toast;
 
 import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.Activity.HomeActivity;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.CommentActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.LikeDetailActivity;
 
@@ -523,7 +524,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                 startActivity(intent);
 
             } else if (notification.getNotificationType().equalsIgnoreCase("Post") && news_feed_like != null) {
-                Intent intent = new Intent(NotificationActivity.this, HomeActivity.class);
+                Intent intent = new Intent(NotificationActivity.this, MrgeHomeActivity.class);
                 intent.putExtra("notification_post_id", notification.getNotificationPostId());
                 startActivity(intent);
 

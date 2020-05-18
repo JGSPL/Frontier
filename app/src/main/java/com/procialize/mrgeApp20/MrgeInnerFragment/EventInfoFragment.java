@@ -138,11 +138,6 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         if (eventSettingLists.size() != 0) {
             applysetting(eventSettingLists);
         }
-/*        MrgeHomeActivity.headerlogoIv.setVisibility(View.GONE);
-        MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);*/
-
-
-      //  Util.logomethodwithText( getContext(), true,"Event Info", MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);
 
 
         cd = new ConnectionDetector(getContext());

@@ -81,10 +81,7 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
 
         rootView = inflater.inflate(R.layout.activity_live_poll, container, false);
 
-        MrgeHomeActivity.headerlogoIv.setVisibility(View.GONE);
-        MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);
 
-        //Util.logomethodwithText(getActivity(), MrgeHomeActivity.txtMainHeader, "Live Poll");
         cd = new ConnectionDetector(getContext());
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");

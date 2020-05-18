@@ -37,11 +37,22 @@
                 app:contentInsetRight="0dp"
                 app:contentInsetStart="0dp">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:id="@+id/txtHeaderQ"
+                    android:text=""
+                    android:gravity="left">
+
+                </TextView>
+
                 <ImageView
                     android:id="@+id/headerlogoIv"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:visibility="gone"
                     android:layout_marginLeft="-20dp"
                     android:contentDescription=" " />
 

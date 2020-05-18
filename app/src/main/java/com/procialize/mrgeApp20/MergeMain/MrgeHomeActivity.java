@@ -125,6 +125,7 @@ import com.procialize.mrgeApp20.MrgeInnerFragment.EmergencyFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.EventInfoFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.FolderQuizFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.LivePollListFragment;
+import com.procialize.mrgeApp20.MrgeInnerFragment.QnASpeakerFragment;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -166,7 +167,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     List<EventSettingList> eventSettingLists;
     List<EventMenuSettingList> eventMenuSettingLists;
     HashMap<String, String> eventlist;
-    public static ImageView headerlogoIv;
+    public static ImageView headerlogoIv,notificationlogoIv;
     public static TextView txtMainHeader;
 
     String side_menu = "0", side_menu_my_travel = "0", side_menu_notification = "0", side_menu_display_qr = "0", side_menu_qr_scanner = "0",
@@ -468,10 +469,21 @@ LinearLayout linTab4,linTab3,linTab2;
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
          txtMainHeader = findViewById(R.id.txtMainHeader);
+        notificationlogoIv = findViewById(R.id.notificationlogoIv);
+
+        Util.logomethodwithText(MrgeHomeActivity.this,false,"",txtMainHeader,headerlogoIv);
 
 
+       // Util.logomethod(this, headerlogoIv);
 
-        Util.logomethod(this, headerlogoIv);
+        notificationlogoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(main);
+
+            }
+        });
 
         viewPager = findViewById(R.id.viewpager);
         Subviewpager= findViewById(R.id.Subviewpager);
@@ -506,6 +518,7 @@ LinearLayout linTab4,linTab3,linTab2;
         setupTabIcons();
         tabLayout.setTabTextColors(Color.parseColor("#ffffff"), Color.parseColor("#ffffff"));
 
+        txtMainHeader.setTextColor(Color.parseColor(colorActive));
         linTab2 = findViewById(R.id.linTab2);
         linTab3 = findViewById(R.id.linTab3);
         linTab4 = findViewById(R.id.linTab4);
@@ -1138,7 +1151,7 @@ LinearLayout linTab4,linTab3,linTab2;
         ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
         adapter.addFragment(new FolderQuizFragment(), "QUIZ");
         adapter.addFragment(new LivePollListFragment(), "LIVE POLL");
-        adapter.addFragment(new FolderQuizFragment(), "Q&A");
+        adapter.addFragment(new QnASpeakerFragment(), "Q&A");
         adapter.addFragment(new EngagementFragment(), "ENGAGEMENT");
         Subviewpager3.setAdapter(adapter);
     }
@@ -1154,6 +1167,7 @@ LinearLayout linTab4,linTab3,linTab2;
         TextView designationTv = outer.findViewById(R.id.designationTv);
         TextView compantyTv = outer.findViewById(R.id.compantyTv);
         final ImageView profileIV = outer.findViewById(R.id.profileIV);
+        final ImageView iv_close= outer.findViewById(R.id.iv_close);
         final ProgressBar progressView = outer.findViewById(R.id.progressView);
 
         eventname = outer.findViewById(R.id.eventname);
@@ -1231,9 +1245,17 @@ LinearLayout linTab4,linTab3,linTab2;
         nameTv.setText(name + " " + lname);
 //        lastNameTv.setText(lname);
 
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.closeDrawers();
+            }
+        });
+
 
         if (profilepic != null) {
-            Glide.with(this).load(ApiConstant.profilepic + profilepic).listener(new RequestListener<Drawable>() {
+            Glide.with(this).load(ApiConstant.profilepic + profilepic).circleCrop()
+                    .listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     progressView.setVisibility(View.GONE);
@@ -2314,6 +2336,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
+
                         } else if(tab.getText().equals("Folder")){
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
@@ -2344,6 +2367,22 @@ LinearLayout linTab4,linTab3,linTab2;
                             linear_livestream.setVisibility(View.GONE);
 
 
+                        }
+                        else if(tab.getText().equals("News Feed")) {
+                          /* headerlogoIv.setVisibility(View.GONE);
+                           txtMainHeader.setVisibility(View.VISIBLE);*/
+                            linTab2.setVisibility(View.GONE);
+                            linTab3.setVisibility(View.GONE);
+                            linTab4.setVisibility(View.GONE);
+                            sub2tabLayout.setVisibility(View.GONE);
+                            sub3tabLayout.setVisibility(View.GONE);
+                            Subviewpager.setVisibility(View.GONE);
+                            Subviewpager2.setVisibility(View.GONE);
+                            Subviewpager3.setVisibility(View.GONE);
+                            viewPager.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.VISIBLE);
+
+                          Util.logomethodwithText(MrgeHomeActivity.this,false,"",txtMainHeader,headerlogoIv);
                         }else{
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
@@ -2416,6 +2455,10 @@ LinearLayout linTab4,linTab3,linTab2;
                             linear_livestream.setVisibility(View.GONE);
 
 
+                        } else if(tab.getText().equals("News Feed")) {
+                          /* headerlogoIv.setVisibility(View.GONE);
+                           txtMainHeader.setVisibility(View.VISIBLE);*/
+                            Util.logomethodwithText(MrgeHomeActivity.this,false,"",txtMainHeader,headerlogoIv);
                         }else{
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
@@ -2902,6 +2945,22 @@ LinearLayout linTab4,linTab3,linTab2;
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub2tabLayout.setVisibility(View.GONE);
                         linTab2.setVisibility(View.GONE);
+                       if(tab.getText().equals("EVENT INFO")) {
+
+                           Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
+                       }else if(tab.getText().equals("ATTENDEES")) {
+
+                           Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
+                       }else if(tab.getText().equals("SPEAKERS")) {
+
+                           Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
+                       }else if(tab.getText().equals("SCHEDULE")) {
+
+                           Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
+                       }else if(tab.getText().equals("EMERGENCY")) {
+
+                           Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                       }
                     }
 
                     @Override
@@ -2917,7 +2976,22 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("EVENT INFO")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ATTENDEES")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SPEAKERS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SCHEDULE")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("EMERGENCY")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                        }
                     }
                 });
             }
@@ -2941,6 +3015,22 @@ LinearLayout linTab4,linTab3,linTab2;
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub2tabLayout.setVisibility(View.GONE);
                         linTab2.setVisibility(View.GONE);
+                        if(tab.getText().equals("EVENT INFO")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ATTENDEES")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SPEAKERS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SCHEDULE")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("EMERGENCY")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                        }
                     }
 
                     @Override
@@ -2956,7 +3046,22 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("EVENT INFO")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ATTENDEES")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SPEAKERS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SCHEDULE")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("EMERGENCY")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                        }
                     }
                 });
             } else if (i == 3) {
@@ -3132,6 +3237,17 @@ LinearLayout linTab4,linTab3,linTab2;
                         linTab3.setVisibility(View.GONE);
 
                         sub3tabLayout.setVisibility(View.GONE);
+
+                        if(tab.getText().equals("IMAGE")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Image",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("VIDEO")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Video",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("DOWNLOADS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Downloads",txtMainHeader,headerlogoIv);
+                        }
                     }
 
                     @Override
@@ -3147,7 +3263,16 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("IMAGE")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Image",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("VIDEO")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Video",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("DOWNLOADS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Downloads",txtMainHeader,headerlogoIv);
+                        }
                     }
                 });
             } else if (i == 2) {
@@ -3251,6 +3376,20 @@ LinearLayout linTab4,linTab3,linTab2;
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub4tabLayout.setVisibility(View.GONE);
                         linTab4.setVisibility(View.GONE);
+
+                        if(tab.getText().equals("QUIZ")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("LIVE POLL")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("Q&A")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ENGAGEMENT")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                        }
                     }
 
                     @Override
@@ -3266,7 +3405,19 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("QUIZ")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("LIVE POLL")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("Q&A")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ENGAGEMENT")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                        }
                     }
                 });
             } else if (i == 3) {

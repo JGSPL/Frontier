@@ -218,9 +218,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         //progressbar = rootView.findViewById(R.id.progressbar);
         cd = new ConnectionDetector(getActivity());
 
-        MrgeHomeActivity.headerlogoIv.setVisibility(View.VISIBLE);
-        MrgeHomeActivity.txtMainHeader.setVisibility(View.GONE);
-        Util.logomethod(getContext(), MrgeHomeActivity.headerlogoIv);
+
 
         mAPIService = ApiUtils.getAPIService();
 

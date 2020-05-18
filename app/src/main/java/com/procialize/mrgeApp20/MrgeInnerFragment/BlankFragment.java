@@ -36,11 +36,6 @@ public class BlankFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_second, container, false);
 
-        MrgeHomeActivity.headerlogoIv.setVisibility(View.GONE);
-        MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);
-
-        //Util.logomethodwithText(getContext(), MrgeHomeActivity.txtMainHeader, "Event Info");
-
 
         return rootView;
     }

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -62,6 +63,27 @@ public class QuizFolderAdapter extends BaseAdapter {
     public QuizFolder getQuestionIdFromList(int position) {
         return quizList.get(position);
     }
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+
+   /* @Override
+    public int getViewTypeCount() {
+        return getCount();
+    }*/
+
+    @Override
+    public int getViewTypeCount() {
+        if (getCount() > 0) {
+            return getCount();
+        } else {
+            return super.getViewTypeCount();
+        }
+    }
+
+
 
     @SuppressWarnings("deprecation")
     @Override
@@ -88,6 +110,8 @@ public class QuizFolderAdapter extends BaseAdapter {
             holder.progressbar = (CircleDisplay) convertView
                     .findViewById(R.id.progressbar);
 
+            holder.relative = (RelativeLayout) convertView
+                    .findViewById(R.id.relative);
 
             holder.linQuiz = (LinearLayout)convertView.findViewById(R.id.linQuiz);
            // holder.linQuiz.setBackgroundColor(Color.parseColor(colorActive));
@@ -95,6 +119,12 @@ public class QuizFolderAdapter extends BaseAdapter {
             Typeface typeFace = Typeface.createFromAsset(activity.getAssets(),
                     "DINPro-Light_13935.ttf");
             holder.quiz_title_txt.setTypeface(typeFace);
+            if(position==0){
+                holder.relative.setVisibility(View.VISIBLE);
+            }else{
+                holder.relative.setVisibility(View.GONE);
+
+            }
 
 
 
@@ -122,6 +152,7 @@ public class QuizFolderAdapter extends BaseAdapter {
     static class ViewHolder {
         TextView quiz_title_txt,video_status;
         LinearLayout linQuiz;
+        RelativeLayout relative;
         CircleDisplay progressbar;
     }
 

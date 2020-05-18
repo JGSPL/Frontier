@@ -13,6 +13,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
 
@@ -56,6 +57,7 @@
         android:layout_marginTop="3dp"
         android:gravity="center"
         android:padding="4sp"
+        android:visibility="gone"
         android:text="@string/qaspeaker"
         android:textColor="@color/activetab"
         android:textSize="17dp" />
@@ -87,7 +89,7 @@
         android:id="@+id/postbtn"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:text="@string/postquestion"
@@ -103,15 +105,16 @@
         android:background="@drawable/loader"
         android:visibility="gone" />
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
         android:id="@+id/pullrefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:gravity="center"
-        android:text="Pull Down to Refresh"
+        android:gravity="left"
+        android:layout_marginLeft="10dp"
+        android:text="Asked Questions"
         android:textColor="@color/inactivetab"
-        android:textSize="10sp"
+        android:textSize="14sp"
         android:visibility="visible" />
 
     <RelativeLayout
