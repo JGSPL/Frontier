@@ -2,16 +2,16 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <solid android:color="@color/black" />
-            <corners android:radius="0.5dp" />
+            <solid android:color="@color/colorwhite" />
+            <corners android:radius="3dp" />
             <gradient
                 android:angle="180"
-                android:centerColor="@android:color/transparent"
-                android:endColor="@android:color/transparent"
-                android:startColor="@android:color/transparent" />
+                android:centerColor="@color/colorwhite"
+                android:endColor="@color/colorwhite"
+                android:startColor="@color/colorwhite" />
             <stroke
                 android:width="0.5dp"
-                android:color="@color/black" />
+                android:color="@color/colorwhite" />
             <padding
                 android:bottom="10dp"
                 android:left="2dp"
