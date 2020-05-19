@@ -34,12 +34,23 @@
                 app:contentInsetLeft="0dp"
                 app:contentInsetRight="0dp"
                 app:contentInsetStart="0dp">
+                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                    android:id="@+id/attendeetitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin"
+                    android:gravity="left"
+                    android:text="@string/attenddedetail"
+                    android:textColor="@color/activetab"
+                    android:textSize="@dimen/textsizenormal"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/headerlogoIv"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:visibility="gone"
                     android:layout_marginLeft="-10dp"
                     android:contentDescription=" "
                      />
@@ -52,24 +63,15 @@
                 android:background="@color/linecolor" />
 
         </com.google.android.material.appbar.AppBarLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_below="@id/appBarLayout"
+            android:layout_height="match_parent">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/appBarLayout">
-
-            <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
-                android:id="@+id/attendeetitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin"
-                android:gravity="center"
-                android:text="@string/attenddedetail"
-                android:textColor="@color/activetab"
-                android:textSize="@dimen/textsizesmall"
-                android:textStyle="bold" />
-
+            android:layout_height="wrap_content">
 
             <ProgressBar
                 android:id="@+id/progressBarmain"
@@ -81,19 +83,18 @@
             <RelativeLayout
                 android:id="@+id/relative"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/attendeetitle">
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
                     android:id="@+id/layoutTop"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="90dp"
                     android:background="@android:color/transparent"></RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/layoutBottom"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="70dp"
                     android:layout_below="@id/layoutTop"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -116,7 +117,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/image_border"
-                        app:cardCornerRadius="43dp"
+                        app:cardCornerRadius="48dp"
                         app:cardElevation="@dimen/album_dp_0">
 
 
@@ -140,17 +141,14 @@
                 </RelativeLayout>
             </RelativeLayout>
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/srcAttendee"
-                android:layout_below="@+id/relative">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:id="@+id/lintextUpper"
                     android:layout_marginRight="10dp"
+                    android:layout_below="@+id/relative"
                     android:background="@color/colorwhite"
                     android:gravity="left"
                     android:orientation="vertical">
@@ -258,105 +256,139 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/textsizesmall" />
 
+
+
                 </LinearLayout>
-            </ScrollView>
-
-
-        </RelativeLayout>
-
-
-        <LinearLayout
-            android:id="@+id/linearsaveandsend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorwhite"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <EditText
-                    android:id="@+id/posttextEt"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/edittextborder"
-                    android:gravity="left|top"
-                    android:hint="Type your message..."
-                    android:imeOptions="actionDone"
-                    android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
-                    android:maxLength="500"
-                    android:maxLines="5"
-                    android:padding="2dp"
-                    android:scrollHorizontally="false"
-                    android:textSize="@dimen/textsizesmall" />
-
-            </RelativeLayout>
-
             <LinearLayout
+                android:id="@+id/linearsaveandsend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/lintextUpper"
+                android:background="@color/colorwhite"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/posttextEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/edittextborder"
+                        android:gravity="left|top"
+                        android:hint="Type your message..."
+                        android:imeOptions="actionDone"
+                        android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
+                        android:maxLength="150"
+                        android:maxLines="5"
+                        android:padding="2dp"
+                        android:scrollHorizontally="false"
+                        android:textSize="@dimen/textsizesmall" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_below="@+id/posttextEt"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+
+
+                        <TextView
+                            android:id="@+id/txtcount1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:text="0"
+                            android:textColor="@color/black"
+                            android:textSize="10sp" />
+                        <TextView
+                            android:id="@+id/txtcount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="12dp"
+                            android:text="/150 "
+                            android:textColor="@color/black"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                </RelativeLayout>
 
                 <LinearLayout
-                    android:id="@+id/linMsg"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:layout_weight="5"
-                    android:background="#4D4D4D"
-                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/sendMsg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/linMsg"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/margin"
+                        android:layout_margin="10dp"
+                        android:layout_weight="5"
                         android:background="#4D4D4D"
-                        android:drawableLeft="@drawable/messega"
-                        android:drawablePadding="10dp"
                         android:gravity="center"
-                        android:padding="5dp"
-                        android:text="Send Message"
-                        android:textAllCaps="false"
-                        android:textColor="@color/colorwhite"
-                        android:textSize="@dimen/textsizesmall" />
-                </LinearLayout>
+                        android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/linsave"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:layout_weight="5"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/sendMsg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/margin"
+                            android:background="#4D4D4D"
+                            android:drawableLeft="@drawable/messega"
+                            android:drawablePadding="10dp"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="Send Message"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorwhite"
+                            android:textSize="@dimen/textsizesmall" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/saveContact"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/linsave"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/margin"
-                        android:drawableLeft="@drawable/save"
-                        android:drawablePadding="10dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="5"
                         android:gravity="center"
-                        android:padding="5dp"
-                        android:text="Save Contact"
-                        android:textAllCaps="false"
-                        android:textColor="@color/colorwhite"
-                        android:textSize="@dimen/textsizesmall" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/saveContact"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/margin"
+                            android:drawableLeft="@drawable/ic_buddy"
+                            android:drawablePadding="10dp"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="Add to buddy list"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorwhite"
+                            android:textSize="@dimen/textsizesmall" />
+                    </LinearLayout>
                 </LinearLayout>
+
+
             </LinearLayout>
 
 
-        </LinearLayout>
+        </RelativeLayout>
+        </ScrollView>
+
+
 
     </RelativeLayout>
 </RelativeLayout>

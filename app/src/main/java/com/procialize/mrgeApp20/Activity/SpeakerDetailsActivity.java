@@ -107,6 +107,9 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
             }
         });
 
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+
+
         headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);
 
