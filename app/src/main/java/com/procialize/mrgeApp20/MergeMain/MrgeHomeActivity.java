@@ -2335,6 +2335,8 @@ LinearLayout linTab4,linTab3,linTab2;
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"",txtMainHeader,headerlogoIv);
+
 
 
                         } else if(tab.getText().equals("Folder")){
@@ -2349,6 +2351,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             linear_livestream.setVisibility(View.GONE);
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"",txtMainHeader,headerlogoIv);
 
 
                         }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
@@ -2366,6 +2369,7 @@ LinearLayout linTab4,linTab3,linTab2;
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"",txtMainHeader,headerlogoIv);
 
                         }
                         else if(tab.getText().equals("News Feed")) {
@@ -3082,6 +3086,22 @@ LinearLayout linTab4,linTab3,linTab2;
                         linTab2.setVisibility(View.GONE);
 
                         sub2tabLayout.setVisibility(View.GONE);
+                        if(tab.getText().equals("EVENT INFO")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ATTENDEES")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SPEAKERS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SCHEDULE")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("EMERGENCY")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                        }
                     }
 
                     @Override
@@ -3097,7 +3117,22 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("EVENT INFO")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ATTENDEES")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SPEAKERS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SCHEDULE")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("EMERGENCY")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                        }
                     }
                 });
             } else if (i == 2) {
@@ -3119,7 +3154,22 @@ LinearLayout linTab4,linTab3,linTab2;
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub2tabLayout.setVisibility(View.GONE);
                         linTab2.setVisibility(View.GONE);
+                        if(tab.getText().equals("EVENT INFO")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ATTENDEES")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SPEAKERS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SCHEDULE")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("EMERGENCY")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                        }
                     }
 
                     @Override
@@ -3135,7 +3185,22 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("EVENT INFO")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ATTENDEES")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SPEAKERS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SCHEDULE")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("EMERGENCY")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                        }
                     }
                 });
             } else if (i == 1) {
@@ -3154,6 +3219,22 @@ LinearLayout linTab4,linTab3,linTab2;
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         // sub2tabLayout.setVisibility(View.GONE);
+                        if(tab.getText().equals("EVENT INFO")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ATTENDEES")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SPEAKERS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SCHEDULE")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("EMERGENCY")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                        }
                     }
 
                     @Override
@@ -3165,7 +3246,22 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("EVENT INFO")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ATTENDEES")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SPEAKERS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("SCHEDULE")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("EMERGENCY")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                        }
                     }
                 });
             }
@@ -3295,7 +3391,16 @@ LinearLayout linTab4,linTab3,linTab2;
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub3tabLayout.setVisibility(View.GONE);
                         linTab3.setVisibility(View.GONE);
+                        if(tab.getText().equals("IMAGE")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Image",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("VIDEO")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Video",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("DOWNLOADS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Downloads",txtMainHeader,headerlogoIv);
+                        }
                     }
 
                     @Override
@@ -3311,7 +3416,16 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("IMAGE")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Image",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("VIDEO")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Video",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("DOWNLOADS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Downloads",txtMainHeader,headerlogoIv);
+                        }
                     }
                 });
             } else if (i == 1) {
@@ -3331,6 +3445,16 @@ LinearLayout linTab4,linTab3,linTab2;
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         // sub3tabLayout.setVisibility(View.GONE);
+                        if(tab.getText().equals("IMAGE")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Image",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("VIDEO")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Video",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("DOWNLOADS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Downloads",txtMainHeader,headerlogoIv);
+                        }
                     }
 
                     @Override
@@ -3342,7 +3466,16 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("IMAGE")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Image",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("VIDEO")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Video",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("DOWNLOADS")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Downloads",txtMainHeader,headerlogoIv);
+                        }
                     }
                 });
             }
@@ -3438,6 +3571,19 @@ LinearLayout linTab4,linTab3,linTab2;
                         linTab4.setVisibility(View.GONE);
 
                         sub4tabLayout.setVisibility(View.GONE);
+                        if(tab.getText().equals("QUIZ")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("LIVE POLL")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("Q&A")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ENGAGEMENT")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                        }
                     }
 
                     @Override
@@ -3453,7 +3599,19 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("QUIZ")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("LIVE POLL")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("Q&A")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ENGAGEMENT")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                        }
                     }
                 });
             } else if (i == 2) {
@@ -3475,7 +3633,19 @@ LinearLayout linTab4,linTab3,linTab2;
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub4tabLayout.setVisibility(View.GONE);
                         linTab4.setVisibility(View.GONE);
+                        if(tab.getText().equals("QUIZ")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("LIVE POLL")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("Q&A")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ENGAGEMENT")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                        }
                     }
 
                     @Override
@@ -3486,7 +3656,19 @@ LinearLayout linTab4,linTab3,linTab2;
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
                         tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+                        if(tab.getText().equals("QUIZ")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("LIVE POLL")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("Q&A")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ENGAGEMENT")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                        }
                     }
 
                     @Override
@@ -3510,6 +3692,19 @@ LinearLayout linTab4,linTab3,linTab2;
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         // sub3tabLayout.setVisibility(View.GONE);
+                        if(tab.getText().equals("QUIZ")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("LIVE POLL")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("Q&A")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ENGAGEMENT")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                        }
                     }
 
                     @Override
@@ -3521,7 +3716,19 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        if(tab.getText().equals("QUIZ")) {
 
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("LIVE POLL")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("Q&A")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
+                        }else if(tab.getText().equals("ENGAGEMENT")) {
+
+                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                        }
                     }
                 });
             }

@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.procialize.mrgeApp20.GetterSetter.LivePollList;
@@ -59,6 +60,15 @@ public class PollNewAdapter extends BaseAdapter {
     }
 
     @Override
+    public int getViewTypeCount() {
+        if (getCount() > 0) {
+            return getCount();
+        } else {
+            return super.getViewTypeCount();
+        }
+    }
+
+    @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         final LivePollList pollList = pollLists.get(position);
@@ -78,6 +88,8 @@ public class PollNewAdapter extends BaseAdapter {
             holder.nameTv = convertView.findViewById(R.id.nameTv);
             holder.imageIv = convertView.findViewById(R.id.imageIv);
             holder.mainLL = convertView.findViewById(R.id.mainLL);
+            holder.relative = (RelativeLayout) convertView
+                    .findViewById(R.id.relative);
 
             convertView.setTag(holder);
         } else {
@@ -93,6 +105,15 @@ public class PollNewAdapter extends BaseAdapter {
             }
         });
 
+        if(position==0){
+            holder.relative.setVisibility(View.VISIBLE);
+        }else{
+            holder.relative.setVisibility(View.GONE);
+
+        }
+
+
+
         return convertView;
     }
 
@@ -104,5 +125,6 @@ public class PollNewAdapter extends BaseAdapter {
         public TextView nameTv;
         public ImageView imageIv;
         public LinearLayout mainLL;
+        RelativeLayout relative;
     }
 }
