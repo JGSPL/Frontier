@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.MergeMain;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +18,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -125,6 +127,7 @@ import com.procialize.mrgeApp20.MrgeInnerFragment.EmergencyFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.EventInfoFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.FolderQuizFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.LivePollListFragment;
+import com.procialize.mrgeApp20.MrgeInnerFragment.QnADirectFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.QnASpeakerFragment;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
@@ -270,6 +273,9 @@ LinearLayout linTab4,linTab3,linTab2;
         }
         return res;
     }
+
+
+    Dialog myDialog;
 
 
     @Override
@@ -1151,6 +1157,14 @@ LinearLayout linTab4,linTab3,linTab2;
         ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
         adapter.addFragment(new FolderQuizFragment(), "QUIZ");
         adapter.addFragment(new LivePollListFragment(), "LIVE POLL");
+
+       /* if(agenda.equalsIgnoreCase("1")) {
+            adapter.addFragment(new FragmentNewsFeed(), "LIVE POLL");
+
+        }else{
+            adapter.addFragment(new LivePollListFragment(), "LIVE POLL");
+
+        }*/
         adapter.addFragment(new QnASpeakerFragment(), "Q&A");
         adapter.addFragment(new EngagementFragment(), "ENGAGEMENT");
         Subviewpager3.setAdapter(adapter);
@@ -3514,6 +3528,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
                             Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
                         }else if(tab.getText().equals("LIVE POLL")) {
+                           // showQuizDialouge();
 
                             Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
                         }else if(tab.getText().equals("Q&A")) {
@@ -3744,5 +3759,16 @@ LinearLayout linTab4,linTab3,linTab2;
         menu.removeGroup(R.id.downloads);
         return true;
     }
+
+    private void showQuizDialouge() {
+
+        myDialog = new Dialog(MrgeHomeActivity.this);
+        myDialog.setContentView(R.layout.dialog_rate_layout);
+        myDialog.setCancelable(false);
+        myDialog.show();
+
+
+    }
+
 }
 

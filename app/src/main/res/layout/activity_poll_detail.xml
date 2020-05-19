@@ -32,12 +32,21 @@
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
             app:contentInsetStart="0dp">
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Live Poll"
+                android:textSize="@dimen/textsizenormal"
+                android:textColor="@color/activetab">
+
+            </com.procialize.mrgeApp20.Fonts.RobotoTextview>
 
             <ImageView
                 android:id="@+id/headerlogoIv"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:visibility="gone"
                 android:layout_marginLeft="-10dp"
                 android:contentDescription=" " />
 
@@ -64,6 +73,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorwhite"
         android:layout_below="@+id/progressBar"
         android:layout_marginBottom="50dp">
 
@@ -92,7 +105,6 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/qnarow"
                 android:padding="10dp"
                 android:textColor="@color/black"
                 android:textSize="15dp" />

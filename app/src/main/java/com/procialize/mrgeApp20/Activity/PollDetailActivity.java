@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
@@ -105,6 +106,7 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
                 finish();
             }
         });
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);
@@ -300,8 +302,8 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
                     }*/
 
                     } else {
-                        Intent intent = new Intent(PollDetailActivity.this, LivePollActivity.class);
-                        startActivity(intent);
+                        /*Intent intent = new Intent(PollDetailActivity.this, LivePollActivity.class);
+                        startActivity(intent);*/
                         finish();
 
                     }
@@ -382,8 +384,8 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
                 pollGraph.setAdapter(pollAdapter);
                 pollGraph.scheduleLayoutAnimation();
             } else {
-                Intent intent = new Intent(PollDetailActivity.this, LivePollActivity.class);
-                startActivity(intent);
+               /* Intent intent = new Intent(PollDetailActivity.this, LivePollActivity.class);
+                startActivity(intent);*/
                 finish();
             }
 
@@ -659,8 +661,8 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(PollDetailActivity.this, LivePollActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(PollDetailActivity.this, LivePollActivity.class);
+        startActivity(intent);*/
         finish();
     }
 }

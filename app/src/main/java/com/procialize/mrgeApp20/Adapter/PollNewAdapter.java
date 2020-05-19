@@ -88,6 +88,9 @@ public class PollNewAdapter extends BaseAdapter {
             holder.nameTv = convertView.findViewById(R.id.nameTv);
             holder.imageIv = convertView.findViewById(R.id.imageIv);
             holder.mainLL = convertView.findViewById(R.id.mainLL);
+            holder.linMain = convertView.findViewById(R.id.linMain);
+
+
             holder.relative = (RelativeLayout) convertView
                     .findViewById(R.id.relative);
 
@@ -98,7 +101,7 @@ public class PollNewAdapter extends BaseAdapter {
         //holder.mainLL.setBackgroundColor(Color.parseColor(colorActive));
 
         holder.nameTv.setText(StringEscapeUtils.unescapeJava(pollList.getQuestion()));
-        holder.nameTv.setOnClickListener(new View.OnClickListener() {
+        holder.linMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onContactSelected(pollLists.get(position));
@@ -124,7 +127,7 @@ public class PollNewAdapter extends BaseAdapter {
     static class ViewHolder {
         public TextView nameTv;
         public ImageView imageIv;
-        public LinearLayout mainLL;
+        public LinearLayout mainLL,linMain;
         RelativeLayout relative;
     }
 }
