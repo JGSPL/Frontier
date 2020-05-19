@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/linear"
+    android:background="@drawable/background"
     tools:context=".Activity.WebViewActivity">
 
 
@@ -12,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/appBarLayout"
+        android:background="@android:color/transparent"
         app:elevation="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -20,7 +23,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colortoolbar"
+            android:background="@android:color/transparent"
             android:contentInsetLeft="0dp"
             android:contentInsetStart="0dp"
             app:contentInsetLeft="0dp"
@@ -31,19 +34,45 @@
             app:contentInsetEnd="0dp"
             android:minHeight="?attr/actionBarSize">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:gravity="left"
+                android:text="Privacy Policy"
+                android:layout_margin="10dp"
+                android:textSize="@dimen/textsizenormal"
+                android:id="@+id/headertxt"
+                android:visibility="visible"/>
+
             <ImageView
                 android:id="@+id/headerlogoIv"
-                android:layout_marginLeft="-10dp"
                 android:layout_width="150dp"
-                android:contentDescription=" "
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_marginLeft="-10dp"
+                android:contentDescription=" "
+                />
+
+            <ImageView
+                android:id="@+id/notificationlogoIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:tint="@color/colorAccent"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_notification"
+                android:contentDescription=" " />
+
+
 
         </androidx.appcompat.widget.Toolbar>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:visibility="gone"
             android:background="@color/linecolor"/>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -52,6 +81,8 @@
     <WebView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:padding="10dp"
         android:id="@+id/webView"
         />
 

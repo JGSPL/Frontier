@@ -5,6 +5,7 @@
     android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     android:orientation="vertical"
     tools:context=".Activity.WebViewActivity">
 
@@ -12,6 +13,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:visibility="gone"
+        android:background="@android:color/transparent"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -22,8 +25,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colortoolbar"
             android:contentInsetEnd="0dp"
+            android:background="@android:color/transparent"
             android:contentInsetLeft="0dp"
             android:contentInsetRight="0dp"
             android:contentInsetStart="0dp"
@@ -32,38 +35,53 @@
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
             app:contentInsetStart="0dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:gravity="left"
+                android:text="Contact Helpdesk"
+                android:layout_margin="10dp"
+                android:textSize="@dimen/textsizenormal"
+                android:id="@+id/headertxt"
+                android:visibility="visible"/>
 
             <ImageView
                 android:id="@+id/headerlogoIv"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:visibility="gone"
                 android:layout_marginLeft="-10dp"
                 android:contentDescription=" "
                  />
+
+            <ImageView
+                android:id="@+id/notificationlogoIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_notification"
+                android:contentDescription=" " />
+
 
         </androidx.appcompat.widget.Toolbar>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:visibility="gone"
             android:background="@color/linecolor" />
 
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="Contact Us"
-        android:layout_margin="10dp"
-        android:id="@+id/headertxt"
-        android:visibility="gone"/>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/webrefresher"
+        android:layout_margin="10dp"
+        android:background="@color/colorwhite"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

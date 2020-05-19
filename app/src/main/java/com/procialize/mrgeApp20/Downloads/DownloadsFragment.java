@@ -2,11 +2,13 @@ package com.procialize.mrgeApp20.Downloads;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -242,10 +245,15 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
         getActivity().getMenuInflater().inflate(R.menu.navmenudownloads, menu);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_grid:
+               /* int colorInt = Color.parseColor(colorActive);
+                ColorStateList csl = ColorStateList.valueOf(colorInt);
+                item.setIconTintList(csl);*/
+
                 DocumentsGridAdapter docAdapterGrid = new DocumentsGridAdapter(getActivity(),documentsList, this);
                 docRv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
                 docAdapterGrid.notifyDataSetChanged();
@@ -255,6 +263,12 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
 
                 break;
             case R.id.action_list:
+               /* int colorInt2 = Color.parseColor(colorActive);
+                ColorStateList csl2 = ColorStateList.valueOf(colorInt2);
+                item.setIconTintList(csl2);*/
+
+
+
                 DocumentsListAdapter docAdapter = new DocumentsListAdapter(getActivity(),documentsList, this);
                 LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
                 docRv.setLayoutManager(mLayoutManager);
@@ -263,6 +277,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
                 docRv.setVisibility(View.VISIBLE);
                 msg.setVisibility(View.GONE);
                 break;
+
         }
         return super.onOptionsItemSelected(item);
     }
