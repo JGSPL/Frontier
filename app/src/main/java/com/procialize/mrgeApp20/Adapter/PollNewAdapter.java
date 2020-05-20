@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.procialize.mrgeApp20.GetterSetter.LivePollList;
@@ -59,6 +60,15 @@ public class PollNewAdapter extends BaseAdapter {
     }
 
     @Override
+    public int getViewTypeCount() {
+        if (getCount() > 0) {
+            return getCount();
+        } else {
+            return super.getViewTypeCount();
+        }
+    }
+
+    @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         final LivePollList pollList = pollLists.get(position);
@@ -78,6 +88,11 @@ public class PollNewAdapter extends BaseAdapter {
             holder.nameTv = convertView.findViewById(R.id.nameTv);
             holder.imageIv = convertView.findViewById(R.id.imageIv);
             holder.mainLL = convertView.findViewById(R.id.mainLL);
+            holder.linMain = convertView.findViewById(R.id.linMain);
+
+
+            holder.relative = (RelativeLayout) convertView
+                    .findViewById(R.id.relative);
 
             convertView.setTag(holder);
         } else {
@@ -86,12 +101,21 @@ public class PollNewAdapter extends BaseAdapter {
         //holder.mainLL.setBackgroundColor(Color.parseColor(colorActive));
 
         holder.nameTv.setText(StringEscapeUtils.unescapeJava(pollList.getQuestion()));
-        holder.nameTv.setOnClickListener(new View.OnClickListener() {
+        holder.linMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onContactSelected(pollLists.get(position));
             }
         });
+
+        if(position==0){
+            holder.relative.setVisibility(View.VISIBLE);
+        }else{
+            holder.relative.setVisibility(View.GONE);
+
+        }
+
+
 
         return convertView;
     }
@@ -103,6 +127,7 @@ public class PollNewAdapter extends BaseAdapter {
     static class ViewHolder {
         public TextView nameTv;
         public ImageView imageIv;
-        public LinearLayout mainLL;
+        public LinearLayout mainLL,linMain;
+        RelativeLayout relative;
     }
 }

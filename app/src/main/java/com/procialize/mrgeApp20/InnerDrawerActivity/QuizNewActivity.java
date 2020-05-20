@@ -724,8 +724,8 @@ public class QuizNewActivity extends AppCompatActivity implements View.OnClickLi
     public void onBackPressed() {
         super.onBackPressed();
 
-        Intent intent = new Intent(QuizNewActivity.this, FolderQuizActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(QuizNewActivity.this, FolderQuizActivity.class);
+        startActivity(intent);*/
         finish();
     }
 }

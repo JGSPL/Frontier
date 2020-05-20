@@ -4,7 +4,7 @@
     <string name="hint_password">* Enter Password</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="eventInfo">Event Info</string>
+    <string name="eventInfo" translatable="false">Event Info</string>
     <string name="qrbadge">QR Badge</string>
     <string name="notification">Notifications</string>
     <string name="qa"><![CDATA[Q & A]]> Session</string>

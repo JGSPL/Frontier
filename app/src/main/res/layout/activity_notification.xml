@@ -31,11 +31,21 @@
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
             app:contentInsetStart="0dp">
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/notyHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="@dimen/padding"
+                android:text="@string/notification"
+                android:textColor="@color/activetab"
+                android:textSize="17dp" />
 
             <ImageView
                 android:id="@+id/headerlogoIv"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
+                android:visibility="gone"
                 android:layout_gravity="center"
                 android:layout_marginLeft="-10dp"
                 android:contentDescription=" " />
@@ -60,22 +70,12 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
-        android:id="@+id/notyHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/appBarLayout"
-        android:gravity="center"
-        android:padding="@dimen/padding"
-        android:text="@string/notification"
-        android:textColor="@color/activetab"
-        android:textSize="17dp" />
 
     <TextView
         android:id="@+id/pullrefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/notyHeader"
+        android:layout_below="@+id/appBarLayout"
         android:layout_marginTop="2dp"
         android:alpha="0.8"
         android:gravity="center"
@@ -104,7 +104,7 @@
             android:id="@+id/notificationRv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp">
+            android:paddingTop="10dp">
 
         </androidx.recyclerview.widget.RecyclerView>
 

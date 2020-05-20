@@ -125,7 +125,6 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +132,9 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+
+
         headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -260,15 +262,25 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         linMsg.setEnabled(false);
         linsave.setEnabled(false);
 
+       TextView txtcount = findViewById(R.id.txtcount);
+
+
         posttextEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                    int tick = start + after;
+                    if (tick < 150) {
+                        int remaining = 150 - tick;
+                        // txtcount1.setText(String.valueOf(remaining));
+                    }
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                txtcount.setText(String.valueOf(s.length()));
+
                 if (count >= 1) {
+
                     linMsg.setEnabled(true);
                     linMsg.setBackground(shapelayout);
                     sendbtn.setBackground(shape);

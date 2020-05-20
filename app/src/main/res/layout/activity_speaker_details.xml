@@ -31,9 +31,21 @@
             app:contentInsetRight="0dp"
             app:contentInsetStart="0dp">
 
+            <TextView
+                android:id="@+id/speakertitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin"
+                android:gravity="left"
+                android:text="@string/speakerdetial"
+                android:textColor="@color/activetab"
+                android:textSize="@dimen/textsizenormal" />
+
+
             <ImageView
                 android:id="@+id/headerlogoIv"
                 android:layout_width="150dp"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="-10dp"
@@ -47,23 +59,21 @@
             android:background="@color/linecolor" />
 
     </com.google.android.material.appbar.AppBarLayout>
-
-    <TextView
-        android:id="@+id/speakertitle"
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/appBarLayout"
+    >
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/appBarLayout"
-        android:layout_margin="@dimen/margin"
-        android:gravity="center"
-        android:text="@string/speakerdetial"
-        android:textColor="@color/activetab"
-        android:textSize="@dimen/textsizesmall" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/speakertitle">
+        >
 
         <RelativeLayout
             android:id="@+id/layoutTop"
@@ -220,23 +230,11 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginLeft="40dp"
+            android:visibility="gone"
             android:layout_marginRight="10dp"
             android:background="@color/linecolor" />
 
 
-        <TextView
-            android:id="@+id/tvdesc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="@dimen/margin"
-            android:layout_marginTop="@dimen/margin"
-            android:fadeScrollbars="false"
-            android:maxLines="9"
-            android:scrollbars="vertical"
-            android:textColor="@color/black"
-            android:textSize="@dimen/textsizesmall" />
 
     </LinearLayout>
 
@@ -283,7 +281,7 @@
             <Button
                 android:id="@+id/ratebtn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:background="@color/activetab"
                 android:text="@string/rate"
                 android:gravity="center"
@@ -305,5 +303,28 @@
             android:textColor="@color/inactivetab"
             android:visibility="gone" />
     </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/colorwhite"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvdesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginRight="@dimen/margin"
+                android:layout_marginTop="@dimen/margin"
+                android:fadeScrollbars="false"
+                android:maxLines="9"
+                android:scrollbars="vertical"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textsizesmall" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
 
 </RelativeLayout>

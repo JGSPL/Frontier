@@ -1,8 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/speakertitle"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/layoutTop"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@android:color/transparent"></RelativeLayout>
+
+        <ImageView
+            android:id="@+id/layoutBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_below="@id/layoutTop"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/colorgrey"
+            android:contentDescription="TODO"
+            >
+
+        </ImageView>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/layoutBottom"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-40dp"
+            android:adjustViewBounds="true">
+
+            <ImageView
+                android:id="@+id/profileIV"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_centerInParent="true"
+                android:contentDescription="TODO"
+                android:src="@drawable/live_poll_logo" />
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
 
     <LinearLayout
         android:id="@+id/mainLL"
@@ -19,6 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
+            android:id="@+id/linMain"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="0dp"

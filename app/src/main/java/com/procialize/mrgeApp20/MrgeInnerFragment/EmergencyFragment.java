@@ -2,10 +2,15 @@ package com.procialize.mrgeApp20.MrgeInnerFragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +37,7 @@ import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -99,6 +105,21 @@ public class EmergencyFragment extends Fragment {
         headertxt = rootView.findViewById(R.id.headertxt);
         mywebview.setBackgroundColor(Color.TRANSPARENT);
         headertxt.setTextColor(Color.parseColor(colorActive));
+
+        try {
+
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+            Resources res = getResources();
+            Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
+            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
+            linear.setBackgroundDrawable(bd);
+
+            Log.e("PATH", String.valueOf(mypath));
+        } catch (Exception e) {
+            e.printStackTrace();
+            linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
+
+        }
 
         WebSettings settings = mywebview.getSettings();
         settings.setJavaScriptEnabled(true);

@@ -6,16 +6,17 @@
     <group android:id="@+id/downloads">
     <item
         android:id="@+id/action_grid"
-        android:icon="@drawable/inactive_grid_view"
+        android:icon="@drawable/grid_selection"
         android:title="Grid"
-        android:enabled="true"
+        android:checked="true"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_list"
-        android:icon="@drawable/inactive_list_view"
+        android:icon="@drawable/list_selection"
         android:title="List"
-        android:enabled="true"
+        android:checked="false"
+
         app:showAsAction="ifRoom" />
 
     </group>
