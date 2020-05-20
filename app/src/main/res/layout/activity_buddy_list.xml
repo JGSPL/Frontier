@@ -39,8 +39,9 @@
                 android:layout_marginTop="@dimen/margin"
                 android:gravity="left"
                 android:text="Buddy List"
-                android:textColor="@color/colorwhite"
-                android:textSize="@dimen/textsizesmall" />
+                android:textColor="#ffffffff"
+                android:textSize="@dimen/textsizenormal"
+                android:textStyle="bold"/>
 
             <ImageView
                 android:id="@+id/headerlogoIv"
@@ -73,6 +74,37 @@
             android:textColor="@color/inactivetab"
             android:textSize="@dimen/textsizesmall" />
 
+        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            android:id="@+id/pullrefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/padding"
+            android:text="@string/refresh"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsizesmaller" />
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/attendeefeedrefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/attendeerecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <LinearLayout
             android:id="@+id/ll_empty_view"
@@ -82,7 +114,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:layout_marginTop="-50dp">
+            android:layout_marginTop="-50dp"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"

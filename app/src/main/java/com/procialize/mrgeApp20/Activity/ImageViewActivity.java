@@ -40,6 +40,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.CustomTools.ClickableViewPager;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
@@ -101,7 +102,7 @@ public class ImageViewActivity extends AppCompatActivity {
             bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
             out.close();
 //            bmpUri = Uri.fromFile(file);
-            bmpUri = FileProvider.getUriForFile(context, "com.procialize.eventsapp.android.fileprovider", file);
+            bmpUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID+".android.fileprovider", file);
 
         } catch (IOException e) {
             e.printStackTrace();

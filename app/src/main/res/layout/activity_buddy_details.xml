@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_login"
+    android:orientation="vertical"
+    tools:context=".BuddyList.Activity.ActivityBuddyDetails">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:elevation="0dp"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:contentInsetStart="0dp"
+            android:contentInsetLeft="0dp"
+            android:contentInsetEnd="0dp"
+            android:contentInsetRight="0dp"
+            android:elevation="0dp"
+            android:minHeight="?attr/actionBarSize"
+            app:contentInsetEnd="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetStart="0dp">
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin"
+                android:gravity="left"
+                android:text="Buddy Details"
+                android:textColor="#ffffffff"
+                android:textSize="@dimen/textsizenormal"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/headerlogoIv"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="-10dp"
+                android:contentDescription=" "
+                android:visibility="gone" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <ScrollView
+        android:id="@+id/srcAttendee"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relative">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/myCardView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="25dp"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/image_border"
+                app:cardCornerRadius="50dp"
+                android:padding="5dp"
+                app:cardElevation="@dimen/album_dp_0">
+
+                <ImageView
+                    android:id="@+id/profileIV"
+                    android:layout_width="95dp"
+                    android:layout_height="95dp"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:layout_gravity="center"
+                    android:src="@drawable/profilepic_placeholder" />
+            </androidx.cardview.widget.CardView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/colorwhite"
+                android:gravity="left"
+                android:orientation="vertical">
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                    android:id="@+id/tvname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin"
+
+                    android:drawableLeft="@drawable/att_name"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+
+                <View
+                    android:id="@+id/viewone"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/linecolor" />
+
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/tvdesignation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin"
+                    android:drawableLeft="@drawable/att_designa"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+
+                <View
+                    android:id="@+id/viewtwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/linecolor" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/tvcompany"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin"
+                    android:drawableLeft="@drawable/att_designa"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+
+                <View
+                    android:id="@+id/viewthree"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/linecolor" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/tvcity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin"
+                    android:drawableLeft="@drawable/att_place"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+
+                <View
+                    android:id="@+id/viewtfour"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/linecolor" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/tvmob"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin"
+                    android:drawableLeft="@drawable/att_mobile"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+
+                <View
+                    android:id="@+id/viewtfive"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/linecolor" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/tv_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin"
+                    android:maxLines="7"
+                    android:scrollbars="vertical"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/colorwhite"
+                android:text="Added to buddy list"
+                android:textAllCaps="false"
+                android:textColor="@color/activetab"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/remove_from_buddy_list"
+                android:textColor="@color/colorwhite"
+                android:textSize="15dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

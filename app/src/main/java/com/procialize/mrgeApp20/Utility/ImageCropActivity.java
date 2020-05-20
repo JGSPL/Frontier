@@ -39,6 +39,7 @@ import com.albinmathew.photocrop.cropoverlay.edge.Edge;
 import com.albinmathew.photocrop.cropoverlay.utils.ImageViewUtil;
 import com.albinmathew.photocrop.photoview.PhotoView;
 import com.albinmathew.photocrop.photoview.PhotoViewAttacher;
+import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.R;
 
 import java.io.Closeable;
@@ -316,7 +317,7 @@ public class ImageCropActivity extends AppCompatActivity {
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.procialize.bayer_fame.android.fileprovider",
+                        BuildConfig.APPLICATION_ID+".android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra("return-data", true);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);

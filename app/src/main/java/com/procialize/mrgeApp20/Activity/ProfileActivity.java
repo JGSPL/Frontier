@@ -52,6 +52,7 @@ import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
+import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.Analytic;
@@ -1033,7 +1034,7 @@ public class ProfileActivity extends AppCompatActivity {
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.procialize.eventsapp.android.fileprovider",
+                        BuildConfig.APPLICATION_ID+".android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_CAMERA);

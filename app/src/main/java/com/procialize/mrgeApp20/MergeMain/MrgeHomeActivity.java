@@ -355,7 +355,6 @@ LinearLayout linTab4,linTab3,linTab2;
         if (cd.isConnectingToInternet()) {
             fetchFeed(token, eventid);
         } else {
-
         }
 
         linear_livestream.setOnClickListener(new View.OnClickListener() {
@@ -380,7 +379,6 @@ LinearLayout linTab4,linTab3,linTab2;
         SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_LOGIN, MODE_PRIVATE).edit();
         editor.putString("loginfirst", "1");
         editor.apply();
-
 
         SharedPreferences prefs8 = getSharedPreferences(MY_PREFS_CATEGORY, MODE_PRIVATE);
         catcnt = prefs8.getString("categorycnt", "");
@@ -450,13 +448,11 @@ LinearLayout linTab4,linTab3,linTab2;
         email = user.get(SessionManager.KEY_EMAIL);
         password = user.get(SessionManager.KEY_PASSWORD);
 
-
         if (session != null) {
             eventSettingLists = SessionManager.loadEventList();
             eventMenuSettingLists = SessionManager.loadMenuEventList();
             Setting(eventSettingLists);
         }
-
     }
 
     private void afterSettingView() {
@@ -472,7 +468,6 @@ LinearLayout linTab4,linTab3,linTab2;
         notificationlogoIv = findViewById(R.id.notificationlogoIv);
 
         Util.logomethodwithText(MrgeHomeActivity.this,false,"",txtMainHeader,headerlogoIv);
-
 
        // Util.logomethod(this, headerlogoIv);
 
@@ -501,7 +496,6 @@ LinearLayout linTab4,linTab3,linTab2;
         Sub2setupViewPager(Subviewpager);
         Sub3setupViewPager(Subviewpager2);
         Sub4setupViewPager(Subviewpager3);
-
 
         if (flag == 0) {
             viewPager.setCurrentItem(0);

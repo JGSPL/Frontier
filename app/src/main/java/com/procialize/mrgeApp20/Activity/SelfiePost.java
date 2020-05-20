@@ -41,6 +41,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
+import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -489,7 +490,7 @@ public class SelfiePost extends Activity {
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.procialize.eventsapp.android.fileprovider", photoFile);
+                        BuildConfig.APPLICATION_ID+".android.fileprovider", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
