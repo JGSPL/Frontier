@@ -12,7 +12,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/background"
         android:baselineAligned="false"
         android:elevation="0dp"
         android:orientation="horizontal"
@@ -31,7 +30,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
-                android:tint="@color/black"
+                android:tint="@color/colorwhite"
                 android:contentDescription="TODO"
                 android:padding="2dp"
                 android:src="@drawable/ic_logout" />
@@ -49,9 +48,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_margin="2dp"
+                android:layout_margin="4dp"
                 android:contentDescription="TODO"
-                android:src="@drawable/mergelogo"
+                android:src="@drawable/splashlogo"
                 android:visibility="visible" />
         </LinearLayout>
 

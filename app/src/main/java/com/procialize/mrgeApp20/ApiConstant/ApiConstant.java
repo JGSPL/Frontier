@@ -11,11 +11,11 @@ public class ApiConstant {
     public static final String BROADCAST_ACTION = "com.procialize.eventsapp.BROADCAST";
     public static final String BROADCAST_ACTION_BUZZ_FEED = "com.procialize.eventsapp.BROADCAST.BUZZ_FEED";
     //Production URL
-////     public static String baseUrl = "https://www.procialize.info/API/event_api_call/";
+    // public static String baseUrl = "https://www.procialize.live/stage/mrge/API/event_api_call/";
    public static String baseUrl = "https://www.procialize.live/stage/baseapp/API/event_api_call/";
 
     //imag&Video prod
-//     public static String imgURL = "https://www.procialize.info/";
+   // public static String imgURL = "https://www.procialize.live/stage/mrge/";
    public static String imgURL = "https://www.procialize.live/stage/baseapp/";
 
 

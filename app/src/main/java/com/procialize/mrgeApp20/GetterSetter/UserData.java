@@ -47,6 +47,16 @@ public class UserData {
     @Expose
     private String exhibitor_id;
 
+    @SerializedName("password_key")
+    @Expose
+    private String password_key;
+
+    @SerializedName("attendee_status")
+    @Expose
+    private String attendee_status;
+
+
+
     public String getExhibitor_id() {
         return exhibitor_id;
     }
@@ -75,9 +85,13 @@ public class UserData {
         this.attendee_status = attendee_status;
     }
 
-    @SerializedName("attendee_status")
-    @Expose
-    private String attendee_status;
+    public String getPassword_key() {
+        return password_key;
+    }
+
+    public void setPassword_key(String password_key) {
+        this.password_key = password_key;
+    }
 
     public String getAttendeeId() {
         return attendeeId;

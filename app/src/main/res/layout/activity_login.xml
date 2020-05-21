@@ -17,8 +17,8 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:contentDescription="TODO"
             app:srcCompat="@drawable/splashlogo" />
@@ -29,12 +29,12 @@
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="60dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
             android:visibility="visible"
+            android:layout_marginTop="60dp"
             android:layout_below="@+id/linTopLogin"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="30dp"
             android:orientation="vertical">
 
             <com.procialize.mrgeApp20.Fonts.RobotoTextview
@@ -43,7 +43,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="LOGIN"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="20dp"
 
                 android:textColor="@color/colorwhite"
                 android:textSize="@dimen/textsizenormal"
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:gravity="center"
-                android:background="@drawable/edit_background"
+                android:background="@drawable/edt_login"
 
                 android:orientation="horizontal">
                 <ImageView
@@ -74,8 +74,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_email"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress|textNoSuggestions"
+                android:imeOptions="actionDone"
+                android:inputType="number"
                 android:maxLines="1"
                 android:background="@android:color/transparent"
                 android:layout_margin="5dp"
@@ -100,8 +100,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:visibility="gone"
                 android:background="@drawable/edit_background"
                 android:hint="@string/hint_password"
+
                 android:imeOptions="actionDone"
                 android:inputType="textPassword|textNoSuggestions"
                 android:maxLines="1"
@@ -114,14 +116,14 @@
             <com.procialize.mrgeApp20.Fonts.RobotoButton
                 android:id="@+id/loginbtn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/edit_white"
+                android:background="@drawable/btn_white"
                 android:stateListAnimator="@null"
                 android:text="@string/login"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textSize="@dimen/textsizenormal" />
+                android:textSize="@dimen/textsizesmall" />
 
             <com.procialize.mrgeApp20.Fonts.RobotoTextview
                 android:id="@+id/text_forgotPswd"
@@ -148,12 +150,14 @@
             android:gravity="center">
 
             <LinearLayout
-                android:layout_width="match_parent"
                 android:id="@+id/linheader"
-                android:weightSum="10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
                 android:orientation="horizontal"
-                android:layout_height="wrap_content">
+                android:weightSum="10">
+
                 <ImageView
                     android:id="@+id/imgBack"
                     android:layout_width="wrap_content"
@@ -167,12 +171,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:textColor="@color/colorwhite"
-                    android:gravity="center|top"
-                    android:textSize="16sp"
                     android:layout_marginBottom="5dp"
+                    android:gravity="center|top"
                     android:text="OTP"
-                    >
+                    android:textColor="@color/colorwhite"
+                    android:textSize="16sp">
 
                 </TextView>
             </LinearLayout>
@@ -197,21 +200,21 @@
             <EditText
                 android:id="@+id/login_otp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_below="@+id/txtEmailAdd"
                 android:focusable="true"
-                android:background="@drawable/edit_background"
-                android:inputType="textEmailAddress"
+                android:background="@drawable/edt_login"
+                android:inputType="number"
                 android:minEms="20"
                 android:hint="*OTP"
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/black"
-                android:textSize="@dimen/textsizenormal"
+                android:textSize="@dimen/textsizesmall"
                 android:visibility="visible" />
 
 
@@ -232,8 +235,8 @@
                     android:id="@+id/otp_submit_btn"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/loginbutton"
+                    android:layout_height="40dp"
+                    android:background="@drawable/btn_white"
                     android:elevation="4dp"
                     android:gravity="center"
                     android:minHeight="40dp"
@@ -241,7 +244,7 @@
                     android:text="Submit"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/textsizenormal"
+                    android:textSize="@dimen/textsizesmall"
                     android:textStyle="normal" />
 
                 <Button
@@ -249,15 +252,15 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_marginLeft="5dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edittextborder"
+                    android:layout_height="40dp"
+                    android:background="@drawable/resend_otp"
                     android:elevation="4dp"
                     android:gravity="center"
                     android:minHeight="40dp"
                     android:text="Resend OTP"
                     android:textAllCaps="false"
                     android:textColor="@color/colorwhite"
-                    android:textSize="@dimen/textsizenormal"
+                    android:textSize="@dimen/textsizesmall"
                     android:textStyle="normal" />
 
             </LinearLayout>

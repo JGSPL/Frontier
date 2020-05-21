@@ -1,4 +1,4 @@
-package com.procialize.mrgeApp20.Adapter;
+package com.procialize.mrgeApp20.DialogQuiz.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -22,9 +23,9 @@ import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
+import com.procialize.mrgeApp20.DialogQuiz.DialogQuiz;
 import com.procialize.mrgeApp20.GetterSetter.Quiz;
 import com.procialize.mrgeApp20.GetterSetter.QuizOptionList;
-import com.procialize.mrgeApp20.InnerDrawerActivity.QuizActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.MyApplication;
@@ -34,7 +35,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuizPagerAdapter extends PagerAdapter {
+public class QuizPagerDialogAdapter extends PagerAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<Quiz> quizList;
@@ -62,25 +63,7 @@ public class QuizPagerAdapter extends PagerAdapter {
     Typeface typeFace;
     private RadioGroup lastCheckedRadioGroup = null;
 
-    public QuizPagerAdapter(Activity activity, List<Quiz> quizList) {
-        this.activity = activity;
-        this.quizList = quizList;
-        dataArray = new String[quizList.size()];
-        dataIDArray = new String[quizList.size()];
-        checkArray = new String[quizList.size()];
-        ansArray = new String[quizList.size()];
-        session = new SessionManager(activity.getApplicationContext());
-        accessToken = session.getUserDetails().get(SessionManager.KEY_TOKEN);
-        SharedPreferences prefs = activity.getSharedPreferences(MY_PREFS_NAME, activity.MODE_PRIVATE);
-        event_id = prefs.getString("eventid", "1");
-        colorActive = prefs.getString("colorActive", "");
-        colorActive = prefs.getString("colorActive", "");
-
-        quizQuestionUrl = constant.baseUrl + constant.quizsubmit;
-        inflater = LayoutInflater.from(activity);
-
-    }
-    public QuizPagerAdapter(Context context, List<Quiz> quizList) {
+    public QuizPagerDialogAdapter(Context context, List<Quiz> quizList) {
         this.context = context;
         this.quizList = quizList;
         dataArray = new String[quizList.size()];
@@ -126,7 +109,7 @@ public class QuizPagerAdapter extends PagerAdapter {
             }
 
             quiz_title_txt.setText(StringEscapeUtils.unescapeJava(quizList.get(position).getQuestion()));
-            quizOptionList = QuizActivity.appDelegate.getQuizOptionList();
+            quizOptionList = DialogQuiz.appDelegate.getQuizOptionList();
             if (quizSpecificOptionListnew.size() > 0) {
                 quizSpecificOptionListnew.clear();
             }
@@ -153,10 +136,14 @@ public class QuizPagerAdapter extends PagerAdapter {
             correctAnswer = quizList.get(position).getCorrect_answer();
             int number = quizSpecificOptionListnew.size() + 1;
 
-            Display display = activity.getWindowManager().getDefaultDisplay();
+            //Display  display= ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+
+            /*Display display = activity.getWindowManager().getDefaultDisplay();
             int width = display.getWidth() - 40;
             double ratio = ((float) (width)) / 300.0;
-            int height = (int) (ratio * 50);
+            int height = (int) (ratio * 50);*/
+
+
 
 
             for (int row = 0; row < 1; row++) {
@@ -164,7 +151,7 @@ public class QuizPagerAdapter extends PagerAdapter {
 
                 for (int i = 1; i < number; i++) {
 
-                    AppCompatRadioButton rdbtn = new AppCompatRadioButton(activity);
+                    AppCompatRadioButton rdbtn = new AppCompatRadioButton(context);
                     rdbtn.setId((row * 2) + i);
                     rdbtn.setTypeface(typeFace);
                     rdbtn.setText(StringEscapeUtils.unescapeJava(quizSpecificOptionListnew.get(i - 1).getOption()));
@@ -191,10 +178,10 @@ public class QuizPagerAdapter extends PagerAdapter {
                         rdbtn.setButtonTintList(colorStateList);//set the color tint list
                         rdbtn.invalidate(); //could not be necessary
                     }
-                    RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(
+                    /*RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(
                             width,
                             height
-                    );
+                    );*/
 
                     LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.FILL_PARENT,
@@ -268,7 +255,7 @@ public class QuizPagerAdapter extends PagerAdapter {
             }
 
             quiz_title_txt.setText(quizList.get(position).getQuestion());
-            quizOptionList = QuizActivity.appDelegate.getQuizOptionList();
+            quizOptionList = DialogQuiz.appDelegate.getQuizOptionList();
             if (quizSpecificOptionListnew.size() > 0) {
                 quizSpecificOptionListnew.clear();
             }

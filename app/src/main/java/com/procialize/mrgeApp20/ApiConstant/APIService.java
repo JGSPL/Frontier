@@ -91,8 +91,9 @@ public interface APIService {
 
     @POST("SpecificEventLogin")
     @FormUrlEncoded
-    Call<Login> LoginPost(@Field("email") String email,
+    Call<Login> LoginPost(/*@Field("email") String email,
                           @Field("password") String password,
+                          @Field("api_access_token") String api_access_token,*/
                           @Field("event_id") String eventId,
                           @Field("registration_id") String registration_id,
                           @Field("platform") String platform,
@@ -105,6 +106,25 @@ public interface APIService {
     @FormUrlEncoded
     Call<EventListing> EventListPost(@Field("email") String email,
                                      @Field("password") String password);
+
+    @POST("EventListFetch")
+    @FormUrlEncoded
+    Call<EventListing> EventListMPost(@Field("api_access_token") String api_access_token);
+
+    /*@POST("Login")
+    @FormUrlEncoded
+    Call<EventListing> EventListPost(@Field("mobile") String email,
+                                     @Field("password") String password);*/
+
+
+    @POST("LoginMobile")
+    @FormUrlEncoded
+    Call<EventListing> EventListPost(@Field("mobile") String mobile);
+
+    @POST("ResendOtp")
+    @FormUrlEncoded
+    Call<EventListing> ResendOtp(@Field("mobile") String mobile);
+
 
     @POST("ExhibitorFetch")
     @FormUrlEncoded
