@@ -15,7 +15,9 @@
         android:layout_marginRight="10dp"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp">
 
 
         <RelativeLayout
@@ -79,8 +81,9 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="5dp"
                         android:text="Abheejit Saxena"
-                        android:textColor="@color/activetab"
-                        android:textSize="15sp" />
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/designationTv"
@@ -88,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="5dp"
                         android:text="Simens LTD"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textcolorLight"
                         android:textSize="@dimen/textsizesmall" />
 
 
@@ -99,7 +102,7 @@
                         android:layout_marginBottom="5dp"
                         android:paddingLeft="5dp"
                         android:text="Delhi"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textcolorLight"
                         android:textSize="@dimen/textsizesmall" />
 
 
@@ -137,7 +140,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.5dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorAccent">
 

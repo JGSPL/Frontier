@@ -48,6 +48,7 @@ import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
+import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.CustomTools.ImagePath_MarshMallow;
 import com.procialize.mrgeApp20.CustomTools.ProgressRequestBodyImage;
 import com.procialize.mrgeApp20.CustomTools.ProgressRequestBodyVideo;
@@ -543,7 +544,7 @@ public class PostEditActivityOld extends AppCompatActivity implements ProgressRe
             // Continue only if the File was successfully created
             if (file != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.procialize.eventsapp.android.fileprovider",
+                        BuildConfig.APPLICATION_ID+".android.fileprovider",
                         file);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);

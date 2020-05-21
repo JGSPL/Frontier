@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
+import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.GetterSetter.Analytic;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -253,7 +254,7 @@ public class PdfViewerActivity extends AppCompatActivity {
         Uri pdfUri;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            pdfUri = FileProvider.getUriForFile(context, "com.procialize.eventsapp.android.fileprovider", pdfFile);
+            pdfUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID+".android.fileprovider", pdfFile);
         } else {
             pdfUri = Uri.fromFile(pdfFile);
         }

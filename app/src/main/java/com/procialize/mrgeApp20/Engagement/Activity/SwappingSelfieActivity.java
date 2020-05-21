@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.Engagement.Adapter.SwipeImageSelfieAdapter;
 import com.procialize.mrgeApp20.Engagement.Adapter.SwipepagerSelfieAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
@@ -47,6 +48,7 @@ import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -83,11 +85,12 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
     private APIService mAPIService;
 
     static public void shareImage(String url, final Context context) {
-        Picasso.with(context).load(url).into(new com.squareup.picasso.Target() {
+        Picasso.with(context).load(url).into(new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("image/*");
+                // i.putExtra(Intent.EXTRA_SUBJECT, data);
                 i.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(bitmap, context));
                 context.startActivity(Intent.createChooser(i, "Share Image"));
             }
@@ -110,7 +113,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
             bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
             out.close();
 //            bmpUri = Uri.fromFile(file);
-            bmpUri = FileProvider.getUriForFile(context, "com.procialize.eventsapp.android.fileprovider", file);
+            bmpUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID+".android.fileprovider", file);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -195,8 +198,8 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
         pager.scheduleLayoutAnimation();
 
 
-        LinearLayout linMsg = findViewById(R.id.linMsg);
-        LinearLayout linsave = findViewById(R.id.linsave);
+        LinearLayout linShare = findViewById(R.id.linShare);
+        LinearLayout linSave = findViewById(R.id.linSave);
         LinearLayout linLike = findViewById(R.id.lin_like);
         TextView savebtn = findViewById(R.id.savebtn);
         TextView sharebtn = findViewById(R.id.sharebtn);
@@ -254,7 +257,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
         });
 
 
-        linMsg.setOnClickListener(new View.OnClickListener() {
+        linSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (cd.isConnectingToInternet()) {
@@ -369,7 +372,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
             }
         });
 
-        linsave.setOnClickListener(new View.OnClickListener() {
+        linShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 shareImage(ApiConstant.selfieimage + firstLevelFilters.get(rvposition).getFileName(), SwappingSelfieActivity.this);

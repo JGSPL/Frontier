@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -81,7 +82,7 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
     TextView tv_title;
     String strPath = "";
     boolean isShare;
-    TrustManager[] trustAllCerts = new TrustManager[]{
+    /*TrustManager[] trustAllCerts = new TrustManager[]{
             new X509TrustManager() {
 
                 public java.security.cert.X509Certificate[] getAcceptedIssuers() {
@@ -96,7 +97,7 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
                     //No need to implement.
                 }
             }
-    };
+    };*/
     private ConnectionDetector cd;
 
     static public void shareImage(String url, final Context context) {
@@ -162,14 +163,17 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
         setContentView(R.layout.activity_video_view_gallery);
         cd = new ConnectionDetector(this);
 
-        try {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        /*try {
             SSLContext sc = SSLContext.getInstance("SSL");
             sc.init(null, trustAllCerts, new java.security.SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
         } catch (Exception e) {
             System.out.println(e);
         }
-
+*/
         try {
             name = getIntent().getExtras().getString("videoUrl");
             firstLevelFilters = (List<FirstLevelFilter>) getIntent().getExtras().getSerializable("gallerylist");
@@ -578,5 +582,4 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
             }
         }
     }
-
 }

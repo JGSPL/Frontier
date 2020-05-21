@@ -20,6 +20,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -40,6 +41,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.Engagement.Adapter.SwipePagerVideoAdapter;
 import com.procialize.mrgeApp20.Engagement.Adapter.SwipeEngagmentVideoAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
@@ -107,7 +109,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
             bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
             out.close();
 //            bmpUri = Uri.fromFile(file);
-            bmpUri = FileProvider.getUriForFile(context, "com.procialize.eventsapp.android.fileprovider", file);
+            bmpUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID+".android.fileprovider", file);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -124,6 +126,10 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swapping_selfiegallery);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         cd = new ConnectionDetector(this);
         name = getIntent().getExtras().getString("url");
         firstLevelFilters = (List<VideoContest>) getIntent().getExtras().getSerializable("gallerylist");
@@ -297,7 +303,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
                                         public void onClick(DialogInterface dialog,
                                                             int which) {
 
-                                            new DownloadFile().execute(ApiConstant.folderimage + UrlfileName);
+                                            new DownloadFile().execute(ApiConstant.selfievideo + UrlfileName);
                                         }
                                     });
                             builder.show();
@@ -317,7 +323,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
                                                             int which) {
-                                            new DownloadFile().execute(ApiConstant.folderimage + UrlfileName);
+                                            new DownloadFile().execute(ApiConstant.selfievideo + UrlfileName);
                                         }
                                     });
                             builder.show();
@@ -337,7 +343,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
                 String UrlfileName = firstLevelFilters.get(rvposition).getFileName();
                 if (UrlfileName.contains("youtu")) {
                 } else {
-                    new DownloadFile().execute(ApiConstant.folderimage + UrlfileName);
+                    new DownloadFile().execute(ApiConstant.selfievideo + UrlfileName);
                 }
             }
         });
