@@ -176,7 +176,7 @@ public class DialogQuiz {
         btnQuizStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new getQuizList().execute();
+               // new getQuizList().execute();
                 dialog.dismiss();
 
             }

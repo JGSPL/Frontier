@@ -47,7 +47,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.procialize.mrgeApp20.Activity.HomeActivity;
 import com.procialize.mrgeApp20.Activity.LoginActivity;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
@@ -79,7 +78,6 @@ import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.NewsFeedAdapterRecycler;
 import com.procialize.mrgeApp20.NewsFeed.Views.RecyclerItemTouchHelper;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
-import com.procialize.mrgeApp20.Utility.Util;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -100,7 +98,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -863,7 +860,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                     dismissProgress();
                     if (response.body().getMsg().equalsIgnoreCase("Invalid Token!")) {
                         sessionManager.logoutUser();
-                        Intent main = new Intent(getContext(), HomeActivity.class);
+                        Intent main = new Intent(getContext(), MrgeHomeActivity.class);
                         startActivity(main);
                         getActivity().finish();
 

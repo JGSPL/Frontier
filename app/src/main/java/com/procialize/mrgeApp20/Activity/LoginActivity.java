@@ -133,8 +133,6 @@ public class LoginActivity extends AppCompatActivity {
         text_forgotPswd = findViewById(R.id.text_forgotPswd);
         chk_box = findViewById(R.id.chk_box);
         text_forgotPswd.getPaint().setUnderlineText(true);
-        ImageView imgBack;
-        EditText login_otp;
         linearLayout2 = findViewById(R.id.linearLayout2);
         rel2 = findViewById(R.id.rel2);
         imgBack = findViewById(R.id.imgBack);

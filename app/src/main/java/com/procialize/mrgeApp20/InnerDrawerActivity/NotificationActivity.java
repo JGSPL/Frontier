@@ -40,7 +40,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
-import com.procialize.mrgeApp20.Activity.HomeActivity;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.CommentActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.LikeDetailActivity;

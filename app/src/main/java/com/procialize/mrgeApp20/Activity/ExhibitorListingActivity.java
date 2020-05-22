@@ -36,6 +36,7 @@ import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.ExhibitorDataList;
 import com.procialize.mrgeApp20.GetterSetter.ExhibitorList;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -98,7 +99,7 @@ public class ExhibitorListingActivity extends AppCompatActivity implements Exhib
             @Override
             public void onClick(View v) {
                 onBackPressed();
-                HomeActivity.flag = 1;
+                MrgeHomeActivity.flag = 1;
             }
         });
         exhibitorrecycler = findViewById(R.id.exhibitorrecycler);
@@ -332,7 +333,7 @@ public class ExhibitorListingActivity extends AppCompatActivity implements Exhib
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        HomeActivity.flag = 1;
+        MrgeHomeActivity.flag = 1;
     }
 }
 

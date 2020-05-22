@@ -92,7 +92,7 @@
                                 android:layout_centerInParent="true"
                                 android:layout_centerHorizontal="true"
                                 android:layout_centerVertical="true"
-                                app:cardCornerRadius="50dp"
+                                app:cardCornerRadius="25dp"
                                 app:cardElevation="@dimen/album_dp_0">
 
                                 <ImageView

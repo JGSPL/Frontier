@@ -13,6 +13,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
 
@@ -21,7 +22,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colortoolbar"
             android:contentInsetEnd="0dp"
             android:contentInsetLeft="0dp"
             android:contentInsetRight="0dp"
@@ -31,6 +31,16 @@
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
             app:contentInsetStart="0dp">
+            <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                android:id="@+id/agendatitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin"
+                android:gravity="left"
+                android:text="Schedule Detail"
+                android:textColor="@color/activetab"
+                android:textSize="@dimen/textsizenormal"
+                />
 
 
             <ImageView
@@ -185,13 +195,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="10"
                 android:orientation="horizontal">
 
             <RatingBar
                 android:id="@+id/ratingbar"
-                android:layout_width="0dp"
-                android:layout_weight="7.5"
+                android:layout_width="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -199,12 +207,13 @@
                 android:stepSize="1" />
                 <Button
                     android:id="@+id/ratebtn"
-                    android:layout_width="0dp"
-                    android:layout_weight="2.5"
+                    android:layout_width="100dp"
                     android:layout_margin="10dp"
                     android:layout_height="35dp"
                     android:background="@color/activetab"
                     android:text="@string/rate"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:textAllCaps="false"
                     android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall" />

@@ -99,6 +99,12 @@
             android:name=".NewsFeed.Views.Activity.AttendeeDetailActivity"
             android:screenOrientation="fullSensor"
             tools:ignore="LockedOrientationActivity" />
+
+        <activity
+            android:name=".Activity.AttendeeDetailActivity"
+            android:screenOrientation="fullSensor"
+            tools:ignore="LockedOrientationActivity" />
+
         <activity
             android:name=".Activity.AnalyticUserListingActivity"
             android:screenOrientation="fullSensor"
@@ -168,10 +174,6 @@
             android:name=".Activity.ExhibitorCatListActivity"
             android:label="@string/title_activity_exhibitor_listing"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activity.HomeActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustNothing" />
         <activity
             android:name=".MergeMain.MrgeHomeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

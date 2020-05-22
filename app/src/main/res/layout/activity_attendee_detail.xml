@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/background"
     tools:context="com.procialize.mrgeApp20.Activity.SpeakerDetailsActivity">
 
     <RelativeLayout
@@ -15,6 +16,7 @@
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:elevation="0dp">
 
@@ -23,7 +25,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/colortoolbar"
                 android:contentInsetEnd="0dp"
                 android:contentInsetLeft="0dp"
                 android:contentInsetRight="0dp"
@@ -59,7 +60,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                android:layout_height="0dp"
                 android:background="@color/linecolor" />
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -302,19 +303,19 @@
 
 
                         <TextView
-                            android:id="@+id/txtcount1"
+                            android:id="@+id/txtcount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
                             android:text="0"
                             android:textColor="@color/black"
                             android:textSize="10sp" />
                         <TextView
-                            android:id="@+id/txtcount"
+                            android:id="@+id/txtcount1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="12dp"
+                            android:paddingLeft="0dp"
                             android:text="/150 "
+                            android:layout_marginRight="10dp"
                             android:textColor="@color/black"
                             android:textSize="10sp" />
                     </LinearLayout>
@@ -362,6 +363,7 @@
                         android:layout_margin="10dp"
                         android:layout_weight="5"
                         android:gravity="center"
+                        android:background="@drawable/button_background"
                         android:orientation="horizontal">
 
                         <TextView
@@ -376,7 +378,7 @@
                             android:padding="5dp"
                             android:text="Add to buddy list"
                             android:textAllCaps="false"
-                            android:textColor="@color/colorwhite"
+                            android:textColor="@color/activetab"
                             android:textSize="@dimen/textsizesmall" />
                     </LinearLayout>
                 </LinearLayout>

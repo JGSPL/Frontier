@@ -55,6 +55,7 @@ import com.procialize.mrgeApp20.CustomTools.ImagePath_MarshMallow;
 import com.procialize.mrgeApp20.CustomTools.ProgressRequestBodyImage;
 import com.procialize.mrgeApp20.CustomTools.ProgressRequestBodyVideo;
 import com.procialize.mrgeApp20.GetterSetter.PostTextFeed;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.MyApplication;
@@ -203,7 +204,7 @@ public class PostActivityVideo extends AppCompatActivity implements ProgressRequ
         final String profilepic = user.get(SessionManager.KEY_PIC);
 
         try {
-//            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
+//            ContextWrapper cw = new ContextWrapper(MrgeHomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
@@ -543,7 +544,7 @@ public class PostActivityVideo extends AppCompatActivity implements ProgressRequ
 
         if (response.body().getStatus().equals("success")) {
 
-            Intent i = new Intent(this, HomeActivity.class);
+            Intent i = new Intent(this, MrgeHomeActivity.class);
             startActivity(i);
             finish();
         } else {
@@ -624,7 +625,7 @@ public class PostActivityVideo extends AppCompatActivity implements ProgressRequ
 
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
-//                    Intent intent = new Intent(PostActivityVideo.this, HomeActivity.class);
+//                    Intent intent = new Intent(PostActivityVideo.this, MrgeHomeActivity.class);
 //                    startActivity(intent);
                     finish();
                 }
@@ -744,7 +745,7 @@ public class PostActivityVideo extends AppCompatActivity implements ProgressRequ
                     }
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
-                    Intent intent = new Intent(PostActivityVideo.this, HomeActivity.class);
+                    Intent intent = new Intent(PostActivityVideo.this, MrgeHomeActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -1279,7 +1280,7 @@ public class PostActivityVideo extends AppCompatActivity implements ProgressRequ
                         if ((duration / 1000) > 15) {
                             // Show Your Messages
                             Toast.makeText(PostActivityVideo.this, "Please select video length less than 15 sec", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(PostActivityVideo.this, HomeActivity.class);
+                            Intent intent = new Intent(PostActivityVideo.this, MrgeHomeActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
@@ -1357,7 +1358,7 @@ public class PostActivityVideo extends AppCompatActivity implements ProgressRequ
                                         if ((duration / 1000) > 15) {
                                             // Show Your Messages
                                             Toast.makeText(PostActivityVideo.this, "Please select video length less than 15 sec", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(PostActivityVideo.this, HomeActivity.class);
+                                            Intent intent = new Intent(PostActivityVideo.this, MrgeHomeActivity.class);
                                             startActivity(intent);
                                             finish();
                                         } else {
@@ -1592,7 +1593,7 @@ public class PostActivityVideo extends AppCompatActivity implements ProgressRequ
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, HomeActivity.class);
+        Intent i = new Intent(this, MrgeHomeActivity.class);
         startActivity(i);
         finish();
         super.onBackPressed();
