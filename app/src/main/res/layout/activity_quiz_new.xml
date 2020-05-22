@@ -18,9 +18,8 @@
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colortoolbar"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:elevation="0dp">
+            android:background="@android:color/transparent"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
             <androidx.appcompat.widget.Toolbar
@@ -37,9 +36,22 @@
                 app:contentInsetRight="0dp"
                 app:contentInsetStart="0dp">
 
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/QuizHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:padding="@dimen/padding"
+                    android:text="Quiz"
+                    android:textColor="@color/activetab"
+                    android:textSize="@dimen/textsizenormal"
+                    android:visibility="visible"/>
+
+
                 <ImageView
                     android:id="@+id/headerlogoIv"
                     android:layout_width="150dp"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center" />
@@ -48,7 +60,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                android:layout_height="0dp"
                 android:background="@color/linecolor" />
 
 

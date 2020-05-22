@@ -116,7 +116,7 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
         final String token = user.get(SessionManager.KEY_TOKEN);
         crashlytics("Live Poll",token);
         firbaseAnalytics(getContext(), "Live Poll", token);
-        try {
+        /*try {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.getContext());
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
@@ -130,7 +130,7 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
         } catch (Exception e) {
             e.printStackTrace();
             linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
-        }
+        }*/
         // use a linear layout manager
         // use a linear layout manager
 //        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());

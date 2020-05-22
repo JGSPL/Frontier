@@ -141,19 +141,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getActivity(), resId);
         //galleryRv.setLayoutAnimation(animation);
 
-        try {
 
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
-            Resources res = getResources();
-            Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
-            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-            linear.setBackgroundDrawable(bd);
-
-            Log.e("PATH", String.valueOf(mypath));
-        } catch (Exception e) {
-            e.printStackTrace();
-            linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
-        }
 
         fetchGallery(token, eventid);
 

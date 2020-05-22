@@ -537,10 +537,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-            viewPager.setBackgroundDrawable(bd);
-            Subviewpager.setBackgroundDrawable(bd);
-            Subviewpager2.setBackgroundDrawable(bd);
-            Subviewpager3.setBackgroundDrawable(bd);
+           // viewPager.setBackgroundDrawable(bd);
+          //  Subviewpager.setBackgroundDrawable(bd);
+            //Subviewpager2.setBackgroundDrawable(bd);
+            //Subviewpager3.setBackgroundDrawable(bd);
+            drawerLayout.setBackgroundDrawable(bd);
 
 
             Log.e("PATH", String.valueOf(mypath));
@@ -553,13 +554,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         }
 
-        if (viewPager.getBackground() == null) {
+       /* if (viewPager.getBackground() == null) {
             viewPager.setBackgroundResource(Integer.parseInt(ApiConstant.eventpic + eventback));
             Subviewpager.setBackgroundResource(Integer.parseInt(ApiConstant.eventpic + eventback));
             Subviewpager2.setBackgroundResource(Integer.parseInt(ApiConstant.eventpic + eventback));
             Subviewpager3.setBackgroundResource(Integer.parseInt(ApiConstant.eventpic + eventback));
 
-        }
+        }*/
 
         MainTabMecahnism();
         SubTab2Mechanism();

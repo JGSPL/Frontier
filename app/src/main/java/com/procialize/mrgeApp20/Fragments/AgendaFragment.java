@@ -146,7 +146,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.AgendaAdap
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
         pullrefresh.setTextColor(Color.parseColor(colorActive));
-        try {
+       /* try {
 
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
             Resources res = getResources();
@@ -158,7 +158,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.AgendaAdap
         } catch (Exception e) {
             e.printStackTrace();
             linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
-        }
+        }*/
 
         mAPIService = ApiUtils.getAPIService();
 

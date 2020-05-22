@@ -106,7 +106,7 @@ public class EmergencyFragment extends Fragment {
         mywebview.setBackgroundColor(Color.TRANSPARENT);
         headertxt.setTextColor(Color.parseColor(colorActive));
 
-        try {
+       /* try {
 
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
             Resources res = getResources();
@@ -119,7 +119,7 @@ public class EmergencyFragment extends Fragment {
             e.printStackTrace();
             linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
 
-        }
+        }*/
 
         WebSettings settings = mywebview.getSettings();
         settings.setJavaScriptEnabled(true);

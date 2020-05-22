@@ -127,7 +127,7 @@ public class FolderQuizFragment extends Fragment {
         quizNameList.setScrollingCacheEnabled(false);
         quizNameList.setAnimationCacheEnabled(false);
 
-        try {
+       /* try {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
@@ -141,7 +141,7 @@ public class FolderQuizFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
             linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
-        }
+        }*/
 
         if (cd.isConnectingToInternet()) {
             new getQuizList().execute();

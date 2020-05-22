@@ -12,6 +12,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
 
@@ -20,7 +21,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colortoolbar"
             android:contentInsetEnd="0dp"
             android:contentInsetLeft="0dp"
             android:contentInsetRight="0dp"
@@ -55,7 +55,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="0dp"
             android:background="@color/linecolor" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -250,11 +250,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:gravity="center|left"
             android:background="@color/colorwhite"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="280dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginLeft="10dp"
@@ -277,19 +278,24 @@
                     android:numStars="5"
                     android:stepSize="0.5" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
             <Button
                 android:id="@+id/ratebtn"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@color/activetab"
-                android:text="@string/rate"
-                android:gravity="center"
-                android:layout_margin="10dp"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@color/activetab"
+                android:gravity="center"
+                android:text="@string/rate"
                 android:textAllCaps="false"
                 android:textColor="@color/colorwhite"
                 android:textSize="@dimen/textsizesmall" />
+            </LinearLayout>
 
         </LinearLayout>
 
