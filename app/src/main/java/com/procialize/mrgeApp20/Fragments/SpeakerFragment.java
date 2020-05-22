@@ -145,7 +145,7 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
         }
 
 
-        try {
+       /* try {
 
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
             Resources res = getResources();
@@ -158,7 +158,7 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
             e.printStackTrace();
             linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
 
-        }
+        }*/
 //        speakerrecycler.setHasFixedSize(true);
 
 

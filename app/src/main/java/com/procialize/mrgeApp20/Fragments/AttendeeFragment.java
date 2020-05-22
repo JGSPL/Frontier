@@ -165,7 +165,7 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
         SessionManager sessionManager = new SessionManager(getContext());
 
         HashMap<String, String> user = sessionManager.getUserDetails();
-        try {
+        /*try {
 
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
             Resources res = getResources();
@@ -178,7 +178,7 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
             e.printStackTrace();
             linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
 
-        }
+        }*/
 
         // token
         final String token = user.get(SessionManager.KEY_TOKEN);

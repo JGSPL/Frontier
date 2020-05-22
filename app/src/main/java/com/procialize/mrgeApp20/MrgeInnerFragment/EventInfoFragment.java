@@ -111,7 +111,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         // get user data from session
         HashMap<String, String> user = sessionManager.getUserDetails();
 
-        try {
+       /* try {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
@@ -125,7 +125,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         } catch (Exception e) {
             e.printStackTrace();
             relative_head.setBackgroundColor(Color.parseColor("#f1f1f1"));
-        }
+        }*/
         token = user.get(SessionManager.KEY_TOKEN);
         crashlytics("Event Info", token);
         eventSettingLists = sessionManager.loadEventList();

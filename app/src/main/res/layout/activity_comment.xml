@@ -517,7 +517,7 @@
                 android:maxLines="20"
                 android:padding="5dp"
                 android:textColor="@color/black"
-                android:textSize="@dimen/textsizesmall" />
+                android:textSize="@dimen/textsizesmall" />-->
 
 
             <TextView
@@ -528,20 +528,20 @@
                 android:textSize="10sp"
                 android:visibility="gone" />
 
-            <Button
-                android:id="@+id/commentBt"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="7"
-                android:background="@drawable/loginbutton"
-                android:text="@string/comment"
-                android:textAllCaps="false"
-                android:textColor="@color/colorwhite"
-                android:textSize="@dimen/textsizesmall" />
+        <!--   <Button
+               android:id="@+id/commentBt"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_margin="5dp"
+               android:layout_weight="7"
+               android:background="@drawable/loginbutton"
+               android:text="@string/comment"
+               android:textAllCaps="false"
+               android:textColor="@color/colorwhite"
+               android:textSize="@dimen/textsizesmall" />
 
 
-        </LinearLayout>-->
+       </LinearLayout>-->
 
         <LinearLayout
             android:id="@+id/container2"

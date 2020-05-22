@@ -136,7 +136,7 @@ public class QnASpeakerFragment extends Fragment implements QASpeakerAdapter.QAS
         token = user.get(SessionManager.KEY_TOKEN);
         crashlytics("QA Speaker",token);
         firbaseAnalytics(getContext(), "QA Speaker",token);
-        try {
+       /* try {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.getContext());
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
@@ -150,7 +150,7 @@ public class QnASpeakerFragment extends Fragment implements QASpeakerAdapter.QAS
         } catch (Exception e) {
             e.printStackTrace();
             linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
-        }
+        }*/
         QAFetch(token, eventid);
 
         // use a linear layout manager

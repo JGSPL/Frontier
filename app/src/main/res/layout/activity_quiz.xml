@@ -120,13 +120,13 @@
 
                 <TextView
                     android:id="@+id/txt_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:background="@drawable/quiz_score_counter"
                     android:gravity="center"
-                    android:text=""
+                    android:text="gj"
                     android:textColor="@color/activetab"
                     android:textSize="8sp"
                     android:textStyle="bold" />
