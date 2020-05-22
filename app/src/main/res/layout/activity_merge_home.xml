@@ -35,17 +35,26 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/colortoolbar"
-                   >
+                    android:background="@color/colortoolbar">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        >
+
                     <com.procialize.mrgeApp20.Fonts.RobotoTextview
                         android:id="@+id/txtMainHeader"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:text=""
                         android:padding="@dimen/padding"
+                        android:text=""
+                        android:layout_weight="1"
                         android:textColor="@color/activetab"
-                        android:textSize="@dimen/textsizenormal" />
+                        android:textSize="@dimen/textsizenormal"
+                        android:visibility="visible"/>
 
 
                     <ImageView
@@ -53,17 +62,37 @@
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_weight="1"
                         android:layout_marginLeft="-10dp"
                         android:contentDescription=" " />
+
                     <ImageView
                         android:id="@+id/notificationlogoIv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="right|center"
                         android:layout_marginRight="10dp"
-                        android:src="@drawable/ic_notification"
-                        android:contentDescription=" " />
+                        android:contentDescription=" "
+                        android:src="@drawable/ic_notification" />
 
+                    <ImageView
+                        android:id="@+id/grid_image_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center"
+                        android:layout_marginRight="10dp"
+                        android:contentDescription=" "
+                        android:src="@drawable/active_grid_view" />
+
+                    <ImageView
+                        android:id="@+id/list_image_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center"
+                        android:layout_marginRight="10dp"
+                        android:contentDescription=" "
+                        android:src="@drawable/active_list_view" />
+                    </LinearLayout>
                 </androidx.appcompat.widget.Toolbar>
 
             </LinearLayout>
@@ -114,10 +143,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linear_livestream"
                 android:layout_margin="5dp"
-                android:visibility="gone"
                 android:background="#686868"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/txt_zoom"
@@ -166,8 +195,8 @@
             <FrameLayout
                 android:id="@+id/content_frame"
                 android:layout_width="match_parent"
-                android:visibility="gone"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="gone" />
 
             <com.procialize.mrgeApp20.CustomTools.CustomViewPager
                 android:id="@+id/viewpager"
@@ -180,24 +209,25 @@
                 android:id="@+id/Subviewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 android:layout_below="@+id/linear_layout"
+                android:visibility="gone"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
             <com.procialize.mrgeApp20.CustomTools.CustomViewPager
                 android:id="@+id/Subviewpager2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 android:layout_below="@+id/linear_layout"
+                android:visibility="gone"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
             <com.procialize.mrgeApp20.CustomTools.CustomViewPager
                 android:id="@+id/Subviewpager3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 android:layout_below="@+id/linear_layout"
+                android:visibility="gone"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
 
 
             <com.google.android.material.appbar.AppBarLayout
@@ -207,12 +237,13 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@android:color/transparent">
+
                 <LinearLayout
+                    android:id="@+id/linTab2"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginBottom="5dp"
                     android:alpha="0.9"
-                    android:id="@+id/linTab2"
                     android:background="@drawable/tab_bg_selected"
                     android:orientation="vertical">
 
@@ -220,22 +251,23 @@
                         android:id="@+id/tabsSecond"
                         android:layout_width="fill_parent"
                         android:layout_height="50dp"
+                        android:layout_marginBottom="10dp"
                         android:clickable="true"
+                        android:elevation="50dp"
+                        android:visibility="gone"
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="0dp"
                         app:tabMode="fixed"
-                        android:elevation="50dp"
-                        android:visibility="gone"
-                        android:layout_marginBottom="10dp"
                         app:tabSelectedTextColor="@color/colorwhite"
                         app:tabTextAppearance="@style/MyCustomTabText"
-                        app:tabTextColor="@color/colorwhite"/>
+                        app:tabTextColor="@color/colorwhite" />
 
                 </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/linTab3"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:id="@+id/linTab3"
 
                     android:layout_marginBottom="5dp"
                     android:alpha="0.9"
@@ -246,22 +278,23 @@
                         android:id="@+id/tabsThird"
                         android:layout_width="fill_parent"
                         android:layout_height="50dp"
+                        android:layout_marginBottom="10dp"
                         android:clickable="true"
+                        android:elevation="50dp"
+                        android:visibility="gone"
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="0dp"
                         app:tabMode="fixed"
-                        android:elevation="50dp"
-                        android:visibility="gone"
-                        android:layout_marginBottom="10dp"
                         app:tabSelectedTextColor="@color/colorwhite"
                         app:tabTextAppearance="@style/MyCustomTabText"
-                        app:tabTextColor="@color/colorwhite"/>
+                        app:tabTextColor="@color/colorwhite" />
 
                 </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/linTab4"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:id="@+id/linTab4"
 
                     android:layout_marginBottom="5dp"
                     android:alpha="0.9"
@@ -272,16 +305,16 @@
                         android:id="@+id/tabsForth"
                         android:layout_width="fill_parent"
                         android:layout_height="50dp"
+                        android:layout_marginBottom="10dp"
                         android:clickable="true"
+                        android:elevation="50dp"
+                        android:visibility="gone"
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="0dp"
                         app:tabMode="fixed"
-                        android:elevation="50dp"
-                        android:visibility="gone"
-                        android:layout_marginBottom="10dp"
                         app:tabSelectedTextColor="@color/colorwhite"
                         app:tabTextAppearance="@style/MyCustomTabText"
-                        app:tabTextColor="@color/colorwhite"/>
+                        app:tabTextColor="@color/colorwhite" />
 
                 </LinearLayout>
 
@@ -300,15 +333,14 @@
                         android:layout_width="fill_parent"
                         android:layout_height="match_parent"
                         android:clickable="true"
+                        android:elevation="50dp"
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="0dp"
-                        android:elevation="50dp"
                         app:tabMode="fixed"
                         app:tabSelectedTextColor="@color/colorwhite"
                         app:tabTextAppearance="@style/MyCustomTabTextMain"
                         app:tabTextColor="@color/colorwhite" />
                 </LinearLayout>
-
 
 
             </com.google.android.material.appbar.AppBarLayout>
@@ -436,14 +468,12 @@
     </LinearLayout>
 
 
-
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/trans"
+        android:background="@drawable/side_menu_bg_bk"
         android:fitsSystemWindows="false">
 
         <!--app:itemIconTint="@color/colorwhite"-->
@@ -458,13 +488,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical" >
 
                 <include
                     android:id="@+id/my"
                     layout="@layout/header"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <com.procialize.mrgeApp20.Fonts.RobotoTextview
                     android:id="@+id/home"
@@ -482,18 +512,18 @@
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
                     android:text="Home"
-                    android:visibility="gone"
                     android:textColor="@color/textcolorLight"
-                    android:textSize="@dimen/textsizesmall" />
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/home"
-                    android:visibility="gone"
                     android:layout_marginLeft="@dimen/album_dp_10"
                     android:layout_marginRight="@dimen/album_dp_10"
-                    android:background="@color/textcolorLight" />
+                    android:background="@color/textcolorLight"
+                    android:visibility="gone" />
 
                 <com.procialize.mrgeApp20.Fonts.RobotoTextview
                     android:id="@+id/editProfile"

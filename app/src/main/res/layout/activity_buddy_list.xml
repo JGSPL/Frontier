@@ -32,12 +32,17 @@
             app:contentInsetRight="0dp"
             app:contentInsetStart="0dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
             <com.procialize.mrgeApp20.Fonts.RobotoTextview
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin"
                 android:gravity="left"
+                android:layout_weight="1"
                 android:text="Buddy List"
                 android:textColor="#ffffffff"
                 android:textSize="@dimen/textsizenormal"
@@ -52,6 +57,16 @@
                 android:contentDescription=" "
                 android:visibility="gone" />
 
+            <ImageView
+                android:id="@+id/notificationlogoIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:layout_marginRight="10dp"
+                android:tint="@color/colorwhite"
+                android:src="@drawable/ic_notification" />
+
+            </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
 

@@ -78,7 +78,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
         }).into(holder.imageIv).onLoadStarted(context.getDrawable(R.drawable.gallery_placeholder));
 
         int color = Color.parseColor(colorActive);
-        holder.img.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+      //  holder.img.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         holder.progressBar.setVisibility(View.GONE);
 

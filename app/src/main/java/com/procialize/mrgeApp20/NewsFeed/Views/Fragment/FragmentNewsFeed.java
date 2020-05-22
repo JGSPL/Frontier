@@ -100,6 +100,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -938,7 +939,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             });
 
             saveFeedToDb(response);
-
             SubmitAnalytics(token, eventid, "", "", "newsfeed");
 
         } catch (Exception e) {
@@ -1384,4 +1384,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             /* mTvCapital.setText("Capital : " + capital);*/
         }
     }
+
+
+
 }

@@ -12,6 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="@android:color/transparent"
         android:baselineAligned="false"
         android:elevation="0dp"
         android:orientation="horizontal"
@@ -51,7 +52,8 @@
                 android:layout_margin="4dp"
                 android:contentDescription="TODO"
                 android:src="@drawable/splashlogo"
-                android:visibility="visible" />
+                android:visibility="visible"
+                android:tint="@color/colorwhite" />
         </LinearLayout>
 
         <LinearLayout

@@ -44,6 +44,7 @@ import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.GetterSetter.DocumentList;
 import com.procialize.mrgeApp20.GetterSetter.DocumentsListFetch;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 
@@ -60,7 +61,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
-public class DownloadsFragment extends Fragment implements DocumentsListAdapter.DocumentsAdapterListner,DocumentsGridAdapter.DocumentsAdapterListner {
+public class DownloadsFragment extends Fragment implements DocumentsListAdapter.DocumentsAdapterListner,DocumentsGridAdapter.DocumentsAdapterListner,View.OnClickListener{
 
 
     SwipeRefreshLayout docRvrefresh;
@@ -79,10 +80,14 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_documents, container, false);
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
+        MrgeHomeActivity.grid_image_view.setImageDrawable(getResources().getDrawable(R.drawable.active_grid_view));
+        MrgeHomeActivity.list_image_view.setImageDrawable(getResources().getDrawable(R.drawable.inactive_list_view));
+
         initView(rootView);
         return rootView;
     }
+
 
     public void initView(View rootView) {
 
@@ -90,7 +95,6 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
         eventid = prefs.getString("eventid", "1");
         logoImg = prefs.getString("logoImg", "");
         colorActive = prefs.getString("colorActive", "");
-
 
         docRv = rootView.findViewById(R.id.docRv);
 
@@ -102,11 +106,11 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
         linear = rootView.findViewById(R.id.linear);
         msg = rootView.findViewById(R.id.msg);
 
+        MrgeHomeActivity.grid_image_view.setOnClickListener(this);
+        MrgeHomeActivity.list_image_view.setOnClickListener(this);
 
         mAPIService = ApiUtils.getAPIService();
-
         SessionManager sessionManager = new SessionManager(getActivity());
-
         HashMap<String, String> user = sessionManager.getUserDetails();
 
         // token
@@ -117,8 +121,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
 
         int resId = R.anim.layout_animation_slide_right;
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getActivity(), resId);
-        //   docRv.setLayoutAnimation(animation);
-
+        //docRv.setLayoutAnimation(animation);
 
         fetchDocuments(token, eventid);
 
@@ -138,15 +141,12 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
             linear.setBackgroundDrawable(bd);
-
             Log.e("PATH", String.valueOf(mypath));
         } catch (Exception e) {
             e.printStackTrace();
             linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
         }
-
     }
-
 
     public void fetchDocuments(String token, String eventid) {
         showProgress();
@@ -201,12 +201,9 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
 
                 docRv.setVisibility(View.GONE);
                 msg.setVisibility(View.VISIBLE);
-
-
 //                Intent intent = new Intent(DocumentsActivity.this, EmptyViewActivity.class);
 //                startActivity(intent);
 //                finish();
-
             }
         } else {
             Toast.makeText(getActivity(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
@@ -241,34 +238,22 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.navmenudownloads, menu);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_grid:
-               /* int colorInt = Color.parseColor(colorActive);
-                ColorStateList csl = ColorStateList.valueOf(colorInt);
-                item.setIconTintList(csl);*/
-
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.grid_image_view:
+                MrgeHomeActivity.grid_image_view.setImageDrawable(getResources().getDrawable(R.drawable.active_grid_view));
+                MrgeHomeActivity.list_image_view.setImageDrawable(getResources().getDrawable(R.drawable.inactive_list_view));
                 DocumentsGridAdapter docAdapterGrid = new DocumentsGridAdapter(getActivity(),documentsList, this);
                 docRv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
                 docAdapterGrid.notifyDataSetChanged();
                 docRv.setAdapter(docAdapterGrid);
                 docRv.setVisibility(View.VISIBLE);
                 msg.setVisibility(View.GONE);
-
                 break;
-            case R.id.action_list:
-               /* int colorInt2 = Color.parseColor(colorActive);
-                ColorStateList csl2 = ColorStateList.valueOf(colorInt2);
-                item.setIconTintList(csl2);*/
-
-
-
+            case R.id.list_image_view:
+                MrgeHomeActivity.grid_image_view.setImageDrawable(getResources().getDrawable(R.drawable.inactive_grid_view));
+                MrgeHomeActivity.list_image_view.setImageDrawable(getResources().getDrawable(R.drawable.active_list_view));
                 DocumentsListAdapter docAdapter = new DocumentsListAdapter(getActivity(),documentsList, this);
                 LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
                 docRv.setLayoutManager(mLayoutManager);
@@ -277,8 +262,6 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
                 docRv.setVisibility(View.VISIBLE);
                 msg.setVisibility(View.GONE);
                 break;
-
         }
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -31,6 +31,7 @@ import com.procialize.mrgeApp20.Adapter.PollNewAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
+import com.procialize.mrgeApp20.DialogLivePoll.DialogLivePoll;
 import com.procialize.mrgeApp20.GetterSetter.LivePollFetch;
 import com.procialize.mrgeApp20.GetterSetter.LivePollList;
 import com.procialize.mrgeApp20.GetterSetter.LivePollOptionList;
@@ -81,6 +82,8 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
 
         rootView = inflater.inflate(R.layout.activity_live_poll, container, false);
 
+        DialogLivePoll dialogLivePoll = new DialogLivePoll();
+        dialogLivePoll.welcomeLivePollDialog(getActivity());
 
         cd = new ConnectionDetector(getContext());
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
