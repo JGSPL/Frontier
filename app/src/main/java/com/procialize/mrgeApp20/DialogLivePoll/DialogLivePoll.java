@@ -71,7 +71,7 @@ public class DialogLivePoll {
     public static int count1 = 1;
     public static boolean submitflag = false;
     public static int countpage = 1;
-    static BottomSheetDialog dialog, Detaildialog,dialogThankYou,dialogResult;
+    static BottomSheetDialog dialog, Detaildialog, dialogThankYou, dialogResult;
     private static LinearLayout layoutHolder;
     public String Jsontr;
     public int time = 10;
@@ -79,7 +79,7 @@ public class DialogLivePoll {
     String eventid, colorActive;
     APIService mAPIService;
     SessionManager sessionManager;
-
+    int Count;
     //QuizDetail
     Context context2;
     List<LivePollOptionList> totalOptionLists;
@@ -94,12 +94,11 @@ public class DialogLivePoll {
     boolean[] timerStarts = {false};
     RelativeLayout relative;
     ImageView headerlogoIv;
-    TextView questionTv, txt_time, txtHeaderQ,test;
+    TextView questionTv, txt_time, txtHeaderQ, test;
     CustomViewPager pager;
-//    private QuizNewAdapter adapter;
+    //    private QuizNewAdapter adapter;
     QuizPagerDialogAdapter pagerAdapter;
     LinearLayoutManager recyclerLayoutManager;
-    int count;
     boolean flag = true;
     boolean flag1 = true;
     boolean flag2 = true;
@@ -219,9 +218,8 @@ public class DialogLivePoll {
         replyFlag = pollListsNew.getReplied();
         if (totalOptionLists.size() != 0) {
             for (int i = 0; i < totalOptionLists.size(); i++) {
-
                 if (totalOptionLists.get(i).getLivePollId().equalsIgnoreCase(pollListsNew.getId())) {
-                    //Count = Count + Integer.parseInt(pollListsNew.getTotalUser());
+                    Count = Count + Integer.parseInt(totalOptionLists.get(i).getTotalUser());
                     optionLists.add(totalOptionLists.get(i));
                 }
             }
@@ -244,27 +242,21 @@ public class DialogLivePoll {
             }
         }
 
-        //recyclerView.setLayoutFrozen(true);
-      /*  questionTv.setBackgroundColor(Color.parseColor(colorActive));
-        btnNext.setBackgroundColor(Color.parseColor(colorActive));
-        submit.setBackgroundColor(Color.parseColor(colorActive));*/
-
-//        quizNameList.setNestedScrollingEnabled(false);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        // llm = (LinearLayoutManager) recyclerView.getLayoutManager();
-
+        // token
+        accessToken = user.get(SessionManager.KEY_TOKEN);
+        eventid = prefs.getString("eventid", "1");
+        questionId = pollListsNew.getId();
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (replyFlag.equalsIgnoreCase("1")) {
                     Toast.makeText(context2, "You Already Submited This Poll", Toast.LENGTH_SHORT).show();
-
                 } else {
-                    Detaildialog.dismiss();
                     if (quiz_options_id != null) {
-                        thankYouDialog(context2,pollListsNew.getQuestion(),questionId, optionLists);
-                        //LivePollSubmitFetch(accessToken, eventid, questionId, quiz_options_id);
+                        Detaildialog.dismiss();
+                        // thankYouDialog(context2, pollListsNew.getQuestion(), questionId, optionLists);
+                        LivePollSubmitFetch(accessToken, eventid, questionId, quiz_options_id);
                     } else {
                         Toast.makeText(context2, "Please select something", Toast.LENGTH_SHORT).show();
                     }
@@ -323,7 +315,6 @@ public class DialogLivePoll {
 
                 LinearLayout ll2 = new LinearLayout(context2);
                 ll2.setOrientation(LinearLayout.HORIZONTAL);
-
 
                 LinearLayout.LayoutParams rprms, rprmsRdBtn, rpms2;
 
@@ -491,41 +482,35 @@ public class DialogLivePoll {
             optionLists.clear();
 
             //   fetchPoll(token, eventid);
-            if (response.body().getLivePollList().size() != 0) {/*
+            if (response.body().getLivePollList().size() != 0) {
+
+
+                /*
                 pollGraph.setVisibility(View.VISIBLE);
                 AlloptionLists.clear();
                 AlloptionLists = response.body().getLivePollOptionList();*/
-               /* if (AlloptionLists.size() != 0) {
-                    for (int i = 0; i < AlloptionLists.size(); i++) {
+                if (totalOptionLists.size() != 0) {
+                    for (int i = 0; i < totalOptionLists.size(); i++) {
 
-                        if (AlloptionLists.get(i).getLivePollId().equalsIgnoreCase(questionId)) {
-                            Count = Count + Integer.parseInt(AlloptionLists.get(i).getTotalUser());
-                            optionLists.add(AlloptionLists.get(i));
+                        if (totalOptionLists.get(i).getLivePollId().equalsIgnoreCase(questionId)) {
+                            Count = Count + Integer.parseInt(totalOptionLists.get(i).getTotalUser());
+                            optionLists.add(totalOptionLists.get(i));
                         }
                     }
 
                     replyFlag = "1";
-                    subBtn.setVisibility(View.GONE);
-
-                    if (show_result.equalsIgnoreCase("0")) {
-                        if (optionLists.size() != 0) {
-                            viewGroup.setVisibility(View.GONE);
-                            PollGraphAdapter pollAdapter = new PollGraphAdapter(this, optionLists, questionId);
-                            pollAdapter.notifyDataSetChanged();
-                            pollGraph.setAdapter(pollAdapter);
-                            pollGraph.scheduleLayoutAnimation();
-                        }
-                    } else {
-
+                    if (optionLists.size() != 0) {
+                        viewGroup.setVisibility(View.GONE);
+                        thankYouDialog(context2, pollListsNew.getQuestion(), questionId, optionLists);
                     }
-                }*/
+                }
             }
         } else {
             Toast.makeText(context2, response.message(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void thankYouDialog(Context context,String question,String questionId, List<LivePollOptionList> optionLists) {
+    public void thankYouDialog(Context context, String question, String questionId, List<LivePollOptionList> optionLists) {
         // dialog = new BottomSheetDialog(context);
         dialogThankYou = new BottomSheetDialog(context, R.style.SheetDialog);
         dialogThankYou.setContentView(R.layout.bottom_live_poll_thank_you_dialog);
@@ -552,7 +537,7 @@ public class DialogLivePoll {
             @Override
             public void onClick(View v) {
                 dialogThankYou.dismiss();
-                resultDialog(context2,question,
+                resultDialog(context2, question,
                         questionId,
                         optionLists);
             }
@@ -579,8 +564,7 @@ public class DialogLivePoll {
         dialogThankYou.show();
     }
 
-    public void resultDialog(Context context,String question,String questionId, List<LivePollOptionList> optionLists)
-    {
+    public void resultDialog(Context context, String question, String questionId, List<LivePollOptionList> optionLists) {
         dialogResult = new BottomSheetDialog(context, R.style.SheetDialog);
         dialogResult.setContentView(R.layout.bottom_live_poll_result_dialog);
         dialogResult.getWindow().setBackgroundDrawableResource(android.R.color.transparent);

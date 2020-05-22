@@ -68,12 +68,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_weight="1"
                 android:layout_marginLeft="5dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="7"
+                    android:layout_weight="1"
                     android:gravity="top"
                     android:orientation="vertical">
 
@@ -111,17 +112,47 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1"
                     android:gravity="center">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:minHeight="0dp"
+                        android:text="Accept"
+                        android:background="@color/activetab"
+                        android:textColor="@color/colorwhite"
+                        android:paddingRight="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:minHeight="0dp"
+                        android:text="Reject"
+                        android:layout_marginLeft="10dp"
+                        android:visibility="visible"
+                        android:paddingRight="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"/>
+
 
                     <ImageView
                         android:id="@+id/ic_rightarrow"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:contentDescription="TODO"
-                        android:src="@drawable/ic_rightarrow" />
+                        android:src="@drawable/ic_rightarrow"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/tv_count"
