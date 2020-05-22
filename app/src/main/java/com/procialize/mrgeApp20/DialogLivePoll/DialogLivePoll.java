@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -14,7 +13,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,22 +28,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.procialize.mrgeApp20.Activity.PollDetailActivity;
 import com.procialize.mrgeApp20.Adapter.PollGraphAdapter;
-import com.procialize.mrgeApp20.Adapter.PollNewAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.CustomTools.CustomViewPager;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
-import com.procialize.mrgeApp20.DialogLivePoll.adapter.LivePollDialogAdapter;
 import com.procialize.mrgeApp20.DialogQuiz.adapter.QuizPagerDialogAdapter;
 import com.procialize.mrgeApp20.GetterSetter.LivePollFetch;
 import com.procialize.mrgeApp20.GetterSetter.LivePollList;
 import com.procialize.mrgeApp20.GetterSetter.LivePollOptionList;
 import com.procialize.mrgeApp20.GetterSetter.LivePollSubmitFetch;
-import com.procialize.mrgeApp20.GetterSetter.Quiz;
 import com.procialize.mrgeApp20.GetterSetter.QuizFolder;
 import com.procialize.mrgeApp20.GetterSetter.QuizOptionList;
 import com.procialize.mrgeApp20.Parser.QuizFolderParser;
@@ -54,12 +48,8 @@ import com.procialize.mrgeApp20.Parser.QuizParser;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.MyApplication;
-import com.procialize.mrgeApp20.Utility.ServiceHandler;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,77 +63,72 @@ import retrofit2.Response;
 import static android.content.Context.MODE_PRIVATE;
 
 public class DialogLivePoll {
-    static BottomSheetDialog dialog, Detaildialog;
-    private ProgressDialog pDialog;
+    public static MyApplication appDelegate;
+    public static String quiz_question_id;
+    public static ListView recyclerView;
+    public static Button submit, btnNext;
+    public static LinearLayoutManager llm;
+    public static int count1 = 1;
+    public static boolean submitflag = false;
+    public static int countpage = 1;
+    static BottomSheetDialog dialog, Detaildialog,dialogThankYou,dialogResult;
+    private static LinearLayout layoutHolder;
+    public String Jsontr;
+    public int time = 10;
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid, colorActive;
     APIService mAPIService;
     SessionManager sessionManager;
+
+    //QuizDetail
     Context context2;
-    private QuizFolderParser quizFolderParser;
-    private ArrayList<QuizOptionList> quizOptionList = new ArrayList<QuizOptionList>();
-    public String Jsontr;
-    private ArrayList<QuizFolder> quizFolders = new ArrayList<QuizFolder>();
-    public static MyApplication appDelegate;
     List<LivePollOptionList> totalOptionLists;
     List<LivePollOptionList> optionLists = new ArrayList<>();
     List<LivePollList> pollLists;
     LivePollList pollListsNew;
-
-    //QuizDetail
-
-    // Session Manager Class
-    private SessionManager session;
-
-    // Access Token Variable
-    private String accessToken, event_id;
-
-    public static String quiz_question_id;
-    private String quiz_options_id;
-
-    private String quizQuestionUrl = "";
     CountDownTimer timercountdown;
-    private ConnectionDetector cd;
-    private long startTime = 0L;
     long timeInMilliseconds = 0L;
     long timeSwapBuff = 0L;
     long updatedTime = 0L;
     boolean[] timerProcessing = {false};
     boolean[] timerStarts = {false};
-    private ApiConstant constant = new ApiConstant();
-
-    public static ListView recyclerView;
-//    private QuizNewAdapter adapter;
-
-    private QuizParser quizParser;
     RelativeLayout relative;
-    private QuizOptionParser quizOptionParser;
-    public static Button submit, btnNext;
     ImageView headerlogoIv;
-    TextView questionTv, txt_time,txtHeaderQ;
+    TextView questionTv, txt_time, txtHeaderQ,test;
     CustomViewPager pager;
+//    private QuizNewAdapter adapter;
     QuizPagerDialogAdapter pagerAdapter;
     LinearLayoutManager recyclerLayoutManager;
-    private static LinearLayout layoutHolder;
-    public static LinearLayoutManager llm;
-    public static int count1 = 1;
-    private DBHelper procializeDB;
-    private SQLiteDatabase db;
     int count;
     boolean flag = true;
     boolean flag1 = true;
     boolean flag2 = true;
-    public static boolean submitflag = false;
     Timer timer;
-    public int time = 10;
-    public static int countpage = 1;
     ViewGroup viewGroup;
-    String questionId,replyFlag;
+    String questionId, replyFlag;
     List<RadioButton> radios;
-    public void welcomeLivePollDialog (Context context){
+    private ProgressDialog pDialog;
+    private QuizFolderParser quizFolderParser;
+    private ArrayList<QuizOptionList> quizOptionList = new ArrayList<QuizOptionList>();
+    private ArrayList<QuizFolder> quizFolders = new ArrayList<QuizFolder>();
+    // Session Manager Class
+    private SessionManager session;
+    // Access Token Variable
+    private String accessToken, event_id;
+    private String quiz_options_id;
+    private String quizQuestionUrl = "";
+    private ConnectionDetector cd;
+    private long startTime = 0L;
+    private ApiConstant constant = new ApiConstant();
+    private QuizParser quizParser;
+    private QuizOptionParser quizOptionParser;
+    private DBHelper procializeDB;
+    private SQLiteDatabase db;
 
-       // dialog = new BottomSheetDialog(context);
-        dialog =new BottomSheetDialog(context,R.style.SheetDialog);
+    public void welcomeLivePollDialog(Context context) {
+
+        // dialog = new BottomSheetDialog(context);
+        dialog = new BottomSheetDialog(context, R.style.SheetDialog);
         dialog.setContentView(R.layout.bottom_live_poll_welcome);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.getWindow().setDimAmount(0);
@@ -164,7 +149,7 @@ public class DialogLivePoll {
 
         ImageView imgClose = dialog.findViewById(R.id.imgClose);
         Button btnQuizStart = dialog.findViewById(R.id.btnQuizStart);
-        CardView Quizcard  = dialog.findViewById(R.id.Quizcard);
+        CardView Quizcard = dialog.findViewById(R.id.Quizcard);
         Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
         Quizcard.setAlpha(0.8f);
 
@@ -177,16 +162,15 @@ public class DialogLivePoll {
         btnQuizStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fetchPoll(accessToken,eventid);
+                fetchPoll(accessToken, eventid);
                 dialog.dismiss();
-
             }
         });
 
         dialog.show();
     }
 
-    public void livePollDetailDialog (Context context ){
+    public void livePollDetailDialog(Context context) {
 
         // dialog = new BottomSheetDialog(context);
         /*Detaildialog =new BottomSheetDialog(context,R.style.SheetDialog);
@@ -194,11 +178,13 @@ public class DialogLivePoll {
         Detaildialog.setContentView(R.layout.botom_live_poll_detail);
         //Detaildialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         Detaildialog.getWindow().setDimAmount(0);*/
-
-        Detaildialog =new BottomSheetDialog(context,R.style.SheetDialog);
+        Detaildialog = new BottomSheetDialog(context, R.style.SheetDialog);
         Detaildialog.setContentView(R.layout.botom_live_poll_detail);
         Detaildialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         Detaildialog.getWindow().setDimAmount(0);
+        LinearLayout Quizcard = Detaildialog.findViewById(R.id.Quizcard);
+        Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
+        Quizcard.setAlpha(0.8f);
 
         context2 = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -216,18 +202,12 @@ public class DialogLivePoll {
         procializeDB = new DBHelper(context);
         db = procializeDB.getWritableDatabase();
 
-        db = procializeDB.getReadableDatabase();
-
-
         // Session Manager
-
         cd = new ConnectionDetector(context);
-
-
-
         submit = (Button) Detaildialog.findViewById(R.id.submit);
         btnNext = (Button) Detaildialog.findViewById(R.id.btnNext);
         txt_time = (TextView) Detaildialog.findViewById(R.id.txt_time);
+        test = (TextView) Detaildialog.findViewById(R.id.test);
 
 //        btnNext.setOnClickListener(this);
 
@@ -250,6 +230,18 @@ public class DialogLivePoll {
         if (optionLists.size() != 0) {
             viewGroup = (RadioGroup) Detaildialog.findViewById(R.id.radiogroup);
             addRadioButtons(optionLists.size() + 1);
+
+            if (viewGroup.isSelected()) {
+                for (int i = 0; i < optionLists.size(); i++) {
+                    test.setText(StringEscapeUtils.unescapeJava(optionLists.get(i).getOption()));
+                    if (optionLists.get(i).getOption().equalsIgnoreCase(test.getText().toString())) {
+
+                        quiz_options_id = optionLists.get(i)
+                                .getOptionId();
+
+                    }
+                }
+            }
         }
 
         //recyclerView.setLayoutFrozen(true);
@@ -259,24 +251,26 @@ public class DialogLivePoll {
 
 //        quizNameList.setNestedScrollingEnabled(false);
         //recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-       // llm = (LinearLayoutManager) recyclerView.getLayoutManager();
+        // llm = (LinearLayoutManager) recyclerView.getLayoutManager();
 
 
-submit.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        if (replyFlag.equalsIgnoreCase("1")) {
-            Toast.makeText(context2, "You Already Submited This Poll", Toast.LENGTH_SHORT).show();
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (replyFlag.equalsIgnoreCase("1")) {
+                    Toast.makeText(context2, "You Already Submited This Poll", Toast.LENGTH_SHORT).show();
 
-        } else {
-            if (quiz_options_id != null) {
-                LivePollSubmitFetch(accessToken, eventid, questionId, quiz_options_id);
-            } else {
-                Toast.makeText(context2, "Please select something", Toast.LENGTH_SHORT).show();
+                } else {
+                    Detaildialog.dismiss();
+                    if (quiz_options_id != null) {
+                        thankYouDialog(context2,pollListsNew.getQuestion(),questionId, optionLists);
+                        //LivePollSubmitFetch(accessToken, eventid, questionId, quiz_options_id);
+                    } else {
+                        Toast.makeText(context2, "Please select something", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
-        }
-    }
-});
+        });
 
 
         pager = Detaildialog.findViewById(R.id.pager);
@@ -312,109 +306,109 @@ submit.setOnClickListener(new View.OnClickListener() {
 
         }
 
-            //pollGraph.setVisibility(View.GONE);
-            viewGroup.setVisibility(View.VISIBLE);
+        //pollGraph.setVisibility(View.GONE);
+        viewGroup.setVisibility(View.VISIBLE);
 
-            for (int row = 0; row < 1; row++) {
+        for (int row = 0; row < 1; row++) {
 
-                for (int i = 1; i < number; i++) {
+            for (int i = 1; i < number; i++) {
 
-                    LinearLayout ll = new LinearLayout(context2);
+                LinearLayout ll = new LinearLayout(context2);
 
-                    LinearLayout l3 = new LinearLayout(context2);
-                    FrameLayout fl = new FrameLayout(context2);
+                LinearLayout l3 = new LinearLayout(context2);
+                FrameLayout fl = new FrameLayout(context2);
 
-                    ll.setOrientation(LinearLayout.HORIZONTAL);
-                    ll.setPadding(5, 10, 5, 10);
+                ll.setOrientation(LinearLayout.HORIZONTAL);
+                ll.setPadding(5, 10, 5, 10);
 
-                    LinearLayout ll2 = new LinearLayout(context2);
-                    ll2.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout ll2 = new LinearLayout(context2);
+                ll2.setOrientation(LinearLayout.HORIZONTAL);
 
 
-                    LinearLayout.LayoutParams rprms, rprmsRdBtn, rpms2;
+                LinearLayout.LayoutParams rprms, rprmsRdBtn, rpms2;
 
-                    RadioButton rdbtn = new RadioButton(context2);
-                    rdbtn.setId((row * 2) + i);
-                    rdbtn.setText(StringEscapeUtils.unescapeJava(optionLists.get(i - 1).getOption()));
-                    rdbtn.setTextColor(Color.BLACK);
+                RadioButton rdbtn = new RadioButton(context2);
+                rdbtn.setId((row * 2) + i);
+                rdbtn.setText(StringEscapeUtils.unescapeJava(optionLists.get(i - 1).getOption()));
+                rdbtn.setTextColor(Color.BLACK);
 //                rdbtn.setTypeface(typeFace);
-                   // rdbtn.setOnClickListener(context2);
+                // rdbtn.setOnClickListener(context2);
 
-                    radios.add(rdbtn);
+                radios.add(rdbtn);
 
-                    rprms = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    rprms.setMargins(5, 5, 5, 5);
+                rprms = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                rprms.setMargins(5, 5, 5, 5);
 
-                    Float weight = 1.0f;
+                Float weight = 1.0f;
 
-                    if (replyFlag.equalsIgnoreCase("1")) {
-                        ll2.setBackgroundColor(Color.parseColor(color[i]));
+                if (replyFlag.equalsIgnoreCase("1")) {
+                    ll2.setBackgroundColor(Color.parseColor(color[i]));
 
-                        weight = ((Float.parseFloat(optionLists.get(i - 1)
-                                .getTotalUser()) / totalUser) * 100);
-                    } else {
-                        weight = 100.0f;
-                    }
-
-                    rpms2 = new LinearLayout.LayoutParams(0,
-                            ViewGroup.LayoutParams.MATCH_PARENT, weight);
-                    rpms2.setMargins(5, 5, 5, 5);
-
-                    ll.setWeightSum(weight);
-                    ll.setLayoutParams(rprms);
-
-                    l3.setLayoutParams(rprms);
-                    ll.setPadding(5, 10, 5, 10);
-                    l3.setWeightSum(weight);
-
-                    ll2.setLayoutParams(rpms2);
-
-
-                    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-                    params.gravity = Gravity.CENTER;
-                    rprmsRdBtn = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    rprms.setMargins(5, 5, 5, 5);
-
-                    rdbtn.setLayoutParams(rprmsRdBtn);
-                    if (Build.VERSION.SDK_INT >= 21) {
-
-                        ColorStateList colorStateList = new ColorStateList(
-                                new int[][]{
-
-                                        new int[]{-android.R.attr.state_checked}, //disabled
-                                        new int[]{android.R.attr.state_checked} //enabled
-                                },
-                                new int[]{
-
-                                        Color.parseColor("#4d4d4d")//disabled
-                                        , Color.parseColor(colorActive)//enabled
-
-                                }
-                        );
-
-
-                        rdbtn.setButtonTintList(colorStateList);//set the color tint list
-                        rdbtn.invalidate(); //could not be necessary
-                    }
-//                    rdbtn.setButtonDrawable(R.drawable.radio_buttontoggle_first);
-                    rdbtn.setBackgroundResource(R.drawable.livepollback);
-                    l3.addView(ll2, rpms2);
-
-
-                    fl.addView(l3, rprms);
-                    fl.addView(rdbtn, rprmsRdBtn);
-
-                    // ll2.addView(rdbtn, rprmsRdBtn);
-                    ll.addView(fl, params);
-
-                    viewGroup.addView(ll, rprms);
-                    viewGroup.invalidate();
+                    weight = ((Float.parseFloat(optionLists.get(i - 1)
+                            .getTotalUser()) / totalUser) * 100);
+                } else {
+                    weight = 100.0f;
                 }
+
+                rpms2 = new LinearLayout.LayoutParams(0,
+                        ViewGroup.LayoutParams.MATCH_PARENT, weight);
+                rpms2.setMargins(5, 5, 5, 5);
+
+                ll.setWeightSum(weight);
+                ll.setLayoutParams(rprms);
+
+                l3.setLayoutParams(rprms);
+                ll.setPadding(5, 10, 5, 10);
+                l3.setWeightSum(weight);
+
+                ll2.setLayoutParams(rpms2);
+
+
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+                params.gravity = Gravity.CENTER;
+                rprmsRdBtn = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                rprms.setMargins(5, 5, 5, 5);
+
+                rdbtn.setLayoutParams(rprmsRdBtn);
+                if (Build.VERSION.SDK_INT >= 21) {
+
+                    ColorStateList colorStateList = new ColorStateList(
+                            new int[][]{
+
+                                    new int[]{-android.R.attr.state_checked}, //disabled
+                                    new int[]{android.R.attr.state_checked} //enabled
+                            },
+                            new int[]{
+
+                                    Color.parseColor("#4d4d4d")//disabled
+                                    , Color.parseColor(colorActive)//enabled
+
+                            }
+                    );
+
+
+                    rdbtn.setButtonTintList(colorStateList);//set the color tint list
+                    rdbtn.invalidate(); //could not be necessary
+                }
+//                    rdbtn.setButtonDrawable(R.drawable.radio_buttontoggle_first);
+                rdbtn.setBackgroundResource(R.drawable.livepollback);
+                l3.addView(ll2, rpms2);
+
+
+                fl.addView(l3, rprms);
+                fl.addView(rdbtn, rprmsRdBtn);
+
+                // ll2.addView(rdbtn, rprmsRdBtn);
+                ll.addView(fl, params);
+
+                viewGroup.addView(ll, rprms);
+                viewGroup.invalidate();
             }
+        }
     }
 
     public void fetchPoll(String token, String eventid) {
@@ -448,16 +442,16 @@ submit.setOnClickListener(new View.OnClickListener() {
         //empty.setTextColor(Color.parseColor(colorActive));
         if (response.body().getLivePollOptionList().size() != 0) {
             //empty.setVisibility(View.GONE);
-            for(int i=0;i<pollLists.size();i++) {
+            for (int i = 0; i < pollLists.size(); i++) {
                 if (pollLists.get(i).getReplied().equalsIgnoreCase("0")) {
                     //if (pollLists.get(i).getShow_result().equalsIgnoreCase("0")) {
-                        String id = pollLists.get(i).getId();
-                        String question = pollLists.get(i).getQuestion();
-                        String replied = pollLists.get(i).getReplied();
-                        String show_result = pollLists.get(i).getShow_result();
-                        pollListsNew = pollLists.get(i);
-                        livePollDetailDialog(context2);
-                        return;
+                    String id = pollLists.get(i).getId();
+                    String question = pollLists.get(i).getQuestion();
+                    String replied = pollLists.get(i).getReplied();
+                    String show_result = pollLists.get(i).getShow_result();
+                    pollListsNew = pollLists.get(i);
+                    livePollDetailDialog(context2);
+                    return;
                     //}
                 }
             }
@@ -465,7 +459,7 @@ submit.setOnClickListener(new View.OnClickListener() {
             pollAdapter.notifyDataSetChanged();
             recyclerView.setAdapter(pollAdapter);*/
         } else {
-           // empty.setVisibility(View.VISIBLE);
+            // empty.setVisibility(View.VISIBLE);
         }
     }
 
@@ -531,13 +525,12 @@ submit.setOnClickListener(new View.OnClickListener() {
         }
     }
 
-    public void thankYouDialog (Context context){
-
+    public void thankYouDialog(Context context,String question,String questionId, List<LivePollOptionList> optionLists) {
         // dialog = new BottomSheetDialog(context);
-        dialog =new BottomSheetDialog(context,R.style.SheetDialog);
-        dialog.setContentView(R.layout.bottom_live_poll_welcome);
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.getWindow().setDimAmount(0);
+        dialogThankYou = new BottomSheetDialog(context, R.style.SheetDialog);
+        dialogThankYou.setContentView(R.layout.bottom_live_poll_thank_you_dialog);
+        dialogThankYou.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialogThankYou.getWindow().setDimAmount(0);
 
         context2 = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -553,27 +546,69 @@ submit.setOnClickListener(new View.OnClickListener() {
         // token
         accessToken = user.get(SessionManager.KEY_TOKEN);
 
-        ImageView imgClose = dialog.findViewById(R.id.imgClose);
-        Button btnQuizStart = dialog.findViewById(R.id.btnQuizStart);
-        CardView Quizcard  = dialog.findViewById(R.id.Quizcard);
+        ImageView imgClose = dialogThankYou.findViewById(R.id.imgClose);
+        TextView tv_view_result = dialogThankYou.findViewById(R.id.tv_view_result);
+        tv_view_result.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogThankYou.dismiss();
+                resultDialog(context2,question,
+                        questionId,
+                        optionLists);
+            }
+        });
+        //Button btnQuizStart = dialog.findViewById(R.id.btnQuizStart);
+        LinearLayout Quizcard = dialogThankYou.findViewById(R.id.Quizcard);
         Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
         Quizcard.setAlpha(0.8f);
 
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                dialogThankYou.dismiss();
             }
         });
-        btnQuizStart.setOnClickListener(new View.OnClickListener() {
+       /* btnQuizStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fetchPoll(accessToken,eventid);
+                fetchPoll(accessToken, eventid);
                 dialog.dismiss();
 
             }
+        });*/
+        dialogThankYou.show();
+    }
+
+    public void resultDialog(Context context,String question,String questionId, List<LivePollOptionList> optionLists)
+    {
+        dialogResult = new BottomSheetDialog(context, R.style.SheetDialog);
+        dialogResult.setContentView(R.layout.bottom_live_poll_result_dialog);
+        dialogResult.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialogResult.getWindow().setDimAmount(0);
+
+        LinearLayout Quizcard = dialogResult.findViewById(R.id.Quizcard);
+        Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
+        Quizcard.setAlpha(0.8f);
+
+        TextView tvQuestion = dialogResult.findViewById(R.id.tvQuestion);
+        ImageView imgClose = dialogResult.findViewById(R.id.imgClose);
+        RecyclerView pollGraph = dialogResult.findViewById(R.id.pollGraph);
+
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogResult.dismiss();
+            }
         });
 
-        dialog.show();
+        tvQuestion.setText(question);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
+        pollGraph.setLayoutManager(mLayoutManager);
+        PollGraphAdapter pollAdapter = new PollGraphAdapter(context, optionLists, questionId);
+        pollAdapter.notifyDataSetChanged();
+        pollGraph.setAdapter(pollAdapter);
+        pollGraph.scheduleLayoutAnimation();
+
+        dialogResult.show();
     }
 }

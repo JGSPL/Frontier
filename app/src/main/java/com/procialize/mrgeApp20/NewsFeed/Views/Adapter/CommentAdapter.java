@@ -30,13 +30,13 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
 import com.procialize.mrgeApp20.GetterSetter.CommentDataList;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Utility.Utility;
-import com.procialize.mrgeApp20.NewsFeed.Views.Activity.AttendeeDetailActivity;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -253,6 +253,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
                                                 intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
                                                 intent.putExtra("description", attendeeDBList.get(0).getDescription());
                                                 intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
+                                                intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
                                                 context.startActivity(intent);
                                             }
                                         }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
