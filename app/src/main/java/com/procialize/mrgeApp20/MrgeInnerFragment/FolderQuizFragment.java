@@ -153,7 +153,7 @@ public class FolderQuizFragment extends Fragment {
         }
 
         DialogQuiz dQuiz = new DialogQuiz();
-        dQuiz.welcomeQuizDialog(getContext());
+        dQuiz.ThankYouQuizDialog(getContext());
 
         quizrefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

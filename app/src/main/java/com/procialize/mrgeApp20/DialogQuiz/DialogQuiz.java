@@ -28,8 +28,10 @@ import android.widget.Toast;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.procialize.mrgeApp20.Adapter.QuizAdapter;
 import com.procialize.mrgeApp20.Adapter.QuizFolderAdapter;
 import com.procialize.mrgeApp20.Adapter.QuizPagerAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
@@ -42,6 +44,7 @@ import com.procialize.mrgeApp20.DialogQuiz.adapter.QuizPagerDialogAdapter;
 import com.procialize.mrgeApp20.GetterSetter.Quiz;
 import com.procialize.mrgeApp20.GetterSetter.QuizFolder;
 import com.procialize.mrgeApp20.GetterSetter.QuizOptionList;
+import com.procialize.mrgeApp20.InnerDrawerActivity.YourScoreActivity;
 import com.procialize.mrgeApp20.MrgeInnerFragment.FolderQuizFragment;
 import com.procialize.mrgeApp20.Parser.QuizFolderParser;
 import com.procialize.mrgeApp20.Parser.QuizOptionParser;
@@ -64,7 +67,7 @@ import java.util.Timer;
 import static android.content.Context.MODE_PRIVATE;
 
 public class DialogQuiz {
-    static BottomSheetDialog dialog, Detaildialog;
+    static BottomSheetDialog dialog, Detaildialog, ThankyouDialog, ResultDialog;
     private ProgressDialog pDialog;
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid, colorActive;
@@ -103,6 +106,7 @@ public class DialogQuiz {
 
     public static RecyclerView quizNameList;
 //    private QuizNewAdapter adapter;
+    private QuizAdapter adapter;
 
     private QuizParser quizParser;
     RelativeLayout relative;
@@ -110,9 +114,11 @@ public class DialogQuiz {
     public static String foldername = "null";
     public static Button submit, btnNext;
     ImageView headerlogoIv;
-    TextView questionTv, txt_time,txtHeaderQ;
+    TextView questionTv, txt_time, txtHeaderQ;
     public static TextView txt_count;
     CustomViewPager pager;
+    ViewPager pager2;
+
     QuizPagerDialogAdapter pagerAdapter;
     LinearLayoutManager recyclerLayoutManager;
     private static LinearLayout layoutHolder;
@@ -129,10 +135,10 @@ public class DialogQuiz {
     public int time = 10;
     public static int countpage = 1;
 
-    public void welcomeQuizDialog (Context context){
+    public void welcomeQuizDialog(Context context) {
 
-       // dialog = new BottomSheetDialog(context);
-        dialog =new BottomSheetDialog(context,R.style.SheetDialog);
+        // dialog = new BottomSheetDialog(context);
+        dialog = new BottomSheetDialog(context, R.style.SheetDialog);
 
         dialog.setContentView(R.layout.bottom_quiz_welcome);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -156,7 +162,7 @@ public class DialogQuiz {
 
         ImageView imgClose = dialog.findViewById(R.id.imgClose);
         Button btnQuizStart = dialog.findViewById(R.id.btnQuizStart);
-        CardView Quizcard  = dialog.findViewById(R.id.Quizcard);
+        CardView Quizcard = dialog.findViewById(R.id.Quizcard);
         Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
         Quizcard.setAlpha(0.8f);
 
@@ -179,10 +185,10 @@ public class DialogQuiz {
         dialog.show();
     }
 
-    public void QuizDetailDialog (Context context, String folder ){
+    public void QuizDetailDialog(Context context, String folder) {
 
         // dialog = new BottomSheetDialog(context);
-        Detaildialog =new BottomSheetDialog(context,R.style.SheetDialog);
+        Detaildialog = new BottomSheetDialog(context, R.style.SheetDialog);
 
         Detaildialog.setContentView(R.layout.botom_quiz_questiondetail);
         Detaildialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -280,7 +286,7 @@ public class DialogQuiz {
         quizNameList.hasFixedSize();
 
 
-      if (cd.isConnectingToInternet()) {
+        if (cd.isConnectingToInternet()) {
             new getQuizListDetail().execute();
         } else {
 
@@ -484,7 +490,7 @@ public class DialogQuiz {
                                 quiz_question_id = question_id[0];
                                 quiz_options_id = question_ans[0];
                                 int answers = pagerAdapter.getCorrectOption();
-                              ///  new postQuizQuestion().execute();
+                                ///  new postQuizQuestion().execute();
 
                             } else {
                                 Toast.makeText(context, "Please answer all questions", Toast.LENGTH_SHORT).show();
@@ -587,10 +593,10 @@ public class DialogQuiz {
 
                             if (quizList.get(0).getReplied().equals("1")) {
 
-                               QuizDetailDialog(context2,quiz);
+                                QuizDetailDialog(context2, quiz);
 
                             } else {
-                                QuizDetailDialog(context2,quiz);
+                                QuizDetailDialog(context2, quiz);
 
                                 count1 = 1;
                                 submitflag = false;
@@ -615,6 +621,7 @@ public class DialogQuiz {
 
         }
     }
+
     public String checkdigit(int number) {
         return number <= 9 ? "0" + number : String.valueOf(number);
     }
@@ -717,26 +724,61 @@ public class DialogQuiz {
             }
 
 
-//            pagerAdapter.notifyDataSetChanged();
-
-//            adapter = new QuizNewAdapter(QuizActivity.this, quizList);
-//            quizNameList.setAdapter(adapter);
-//            int itemcount = adapter.getItemCount();
-//            txt_count.setText(1 + "/" + itemcount);
-//            if (quizList.size() > 1) {
-//                btnNext.setVisibility(View.VISIBLE);
-//                submit.setVisibility(View.GONE);
-//
-//            } else {
-//                btnNext.setVisibility(View.GONE);
-//                submit.setVisibility(View.VISIBLE);
-//            }
-
-
-//			Parcelable state = quizNameList.onSaveInstanceState();
-//			quizNameList.onRestoreInstanceState(state);
-//			quizNameList.setEmptyView(findViewById(android.R.id.empty));
-
         }
     }
+
+    public void ThankYouQuizDialog(Context context) {
+
+        // dialog = new BottomSheetDialog(context);
+        ThankyouDialog = new BottomSheetDialog(context, R.style.SheetDialog);
+
+        ThankyouDialog.setContentView(R.layout.bottom_quiz_thankyou);
+        ThankyouDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        ThankyouDialog.getWindow().setDimAmount(0);
+
+        context2 = context;
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        eventid = prefs.getString("eventid", "1");
+        colorActive = prefs.getString("colorActive", "");
+        getQuizUrl = ApiConstant.baseUrl + ApiConstant.quizlist;
+
+        appDelegate = (MyApplication) context.getApplicationContext();
+
+        mAPIService = ApiUtils.getAPIService();
+        sessionManager = new SessionManager(context);
+
+        HashMap<String, String> user = sessionManager.getUserDetails();
+
+        // apikey
+        apikey = user.get(SessionManager.KEY_TOKEN);
+
+        ImageView imgClose = ThankyouDialog.findViewById(R.id.imgClose);
+        TextView txtViewResult = ThankyouDialog.findViewById(R.id.txtViewResult);
+        CardView Quizcard = ThankyouDialog.findViewById(R.id.Quizcard);
+        Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
+        Quizcard.setAlpha(0.8f);
+
+
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ThankyouDialog.dismiss();
+            }
+        });
+        txtViewResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //new getQuizList().execute();
+                DialogQuizREsult dQR = new DialogQuizREsult();
+                dQR.resultQuizDialog(context, foldername);
+                ThankyouDialog.dismiss();
+
+            }
+        });
+
+        ThankyouDialog.show();
+    }
+
+
+
 }
