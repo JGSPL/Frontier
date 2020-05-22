@@ -561,7 +561,7 @@ public class LikeDetailActivity extends AppCompatActivity {
             }
         });
 
-        tv_header.setText(attendeeLists.size() +" Likes");
+
     }
 
     private void showPostLikeListresponse(Response<LikeListing> response) {
@@ -577,6 +577,8 @@ public class LikeDetailActivity extends AppCompatActivity {
             like_list.setLayoutManager(layoutManager);
             likeAdapter.notifyDataSetChanged();
             like_list.setAdapter(likeAdapter);
+
+            tv_header.setText(attendeeLists.size() +" Likes");
 //            like_list.scheduleLayoutAnimation();
 
         } else {

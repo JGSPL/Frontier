@@ -29,9 +29,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -42,6 +39,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
@@ -54,10 +52,8 @@ import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.NewsFeedList;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
-import com.procialize.mrgeApp20.NewsFeed.Views.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.PostNewActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
-import com.procialize.mrgeApp20.NewsFeed.Views.RecyclerItemTouchHelper;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Utility;
@@ -73,7 +69,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import cn.jzvd.JzvdStd;
 import cn.jzvd.JzvdStd;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -406,6 +401,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                                             intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
                                             intent.putExtra("description", attendeeDBList.get(0).getDescription());
                                             intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
+                                            intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
                                             context.startActivity(intent);
                                         }
                                     }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

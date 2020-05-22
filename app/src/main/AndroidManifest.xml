@@ -95,10 +95,6 @@
             android:name=".NewsFeed.Views.Activity.PostNewActivity"
             android:screenOrientation="fullSensor"
             tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".NewsFeed.Views.Activity.AttendeeDetailActivity"
-            android:screenOrientation="fullSensor"
-            tools:ignore="LockedOrientationActivity" />
 
         <activity
             android:name=".Activity.AttendeeDetailActivity"

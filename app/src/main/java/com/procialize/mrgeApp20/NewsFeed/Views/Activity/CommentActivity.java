@@ -63,6 +63,7 @@ import com.percolate.mentions.Mentionable;
 import com.percolate.mentions.Mentions;
 import com.percolate.mentions.QueryListener;
 import com.percolate.mentions.SuggestionsListener;
+import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
@@ -387,7 +388,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         testdata = findViewById(R.id.testdata);
 
 
-         commentbtn.setBackgroundColor(Color.parseColor(colorActive));
+     //    commentbtn.setBackgroundColor(Color.parseColor(colorActive));
 
         feedimageIv = findViewById(R.id.feedimageIv);
 //        feedimageIv.setAspectRatio(p1);
@@ -489,6 +490,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                                             intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
                                             intent.putExtra("description", attendeeDBList.get(0).getDescription());
                                             intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
+                                            intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
                                             startActivity(intent);
                                         }
                                     }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

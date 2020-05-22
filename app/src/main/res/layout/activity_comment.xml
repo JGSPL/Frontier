@@ -84,7 +84,7 @@
                             android:layout_weight="1"
                             android:gravity="center">
 
-                            <androidx.cardview.widget.CardView
+                          <!--  <androidx.cardview.widget.CardView
                                 android:id="@+id/myCardView"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
@@ -102,8 +102,27 @@
                                     android:scaleType="centerCrop"
                                     android:src="@drawable/profilepic_placeholder" />
 
-                            </androidx.cardview.widget.CardView>
+                            </androidx.cardview.widget.CardView>-->
 
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/myCardView"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                app:cardCornerRadius="25dp"
+                                app:cardElevation="@dimen/album_dp_0">
+
+                                <ImageView
+                                    android:id="@+id/profileIV"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_centerInParent="true"
+                                    android:adjustViewBounds="true"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/profilepic_placeholder" />
+
+                            </androidx.cardview.widget.CardView>
                             <ProgressBar
                                 android:id="@+id/progressView"
                                 android:layout_width="80dp"

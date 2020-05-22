@@ -29,13 +29,11 @@
                 android:layout_gravity="left"
                 android:src="@drawable/foldertop" />
 
-
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:orientation="vertical">
-
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -44,7 +42,7 @@
                     <ImageView
                         android:id="@+id/imageIv"
                         android:layout_width="match_parent"
-                        android:layout_height="130dp"
+                        android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:scaleType="centerCrop"
                         android:src="@drawable/gallery_folder" />
@@ -72,7 +70,7 @@
                     android:maxLines="1"
                     android:padding="5dp"
                     android:text="test"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorwhite"
                     android:textSize="15dp" />
             </RelativeLayout>
         </LinearLayout>
