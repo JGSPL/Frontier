@@ -90,8 +90,8 @@ public class YourScoreActivity extends AppCompatActivity {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(YourScoreActivity.this, FolderQuizActivity.class);
-                startActivity(intent1);
+                /*Intent intent1 = new Intent(YourScoreActivity.this, FolderQuizActivity.class);
+                startActivity(intent1);*/
                 finish();
             }
         });

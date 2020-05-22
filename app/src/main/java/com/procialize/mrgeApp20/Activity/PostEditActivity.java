@@ -64,6 +64,7 @@ import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.CustomTools.ScaledImageView;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.MyApplication;
@@ -301,7 +302,7 @@ public class PostEditActivity extends AppCompatActivity implements OnClickListen
         // mixpanel.track("Agenda Detail Page");
 
         try {
-//            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
+//            ContextWrapper cw = new ContextWrapper(MrgeHomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
@@ -496,7 +497,7 @@ public class PostEditActivity extends AppCompatActivity implements OnClickListen
                     }
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
-                    Intent intent = new Intent(PostEditActivity.this, HomeActivity.class);
+                    Intent intent = new Intent(PostEditActivity.this, MrgeHomeActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -859,7 +860,7 @@ public class PostEditActivity extends AppCompatActivity implements OnClickListen
                     if ((duration / 1000) > 15) {
                         // Show Your Messages
                         Toast.makeText(PostEditActivity.this, "Please select video length less than 15 sec", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(PostEditActivity.this, HomeActivity.class);
+                        Intent intent = new Intent(PostEditActivity.this, MrgeHomeActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
@@ -911,7 +912,7 @@ public class PostEditActivity extends AppCompatActivity implements OnClickListen
                         if ((duration / 1000) > 15) {
                             // Show Your Messages
                             Toast.makeText(PostEditActivity.this, "Please select video length less than 15 sec", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(PostEditActivity.this, HomeActivity.class);
+                            Intent intent = new Intent(PostEditActivity.this, MrgeHomeActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
@@ -1521,7 +1522,7 @@ public class PostEditActivity extends AppCompatActivity implements OnClickListen
                 Toast.makeText(PostEditActivity.this, message, Toast.LENGTH_SHORT)
                         .show();
 
-                Intent MainIntent = new Intent(PostEditActivity.this, HomeActivity.class);
+                Intent MainIntent = new Intent(PostEditActivity.this, MrgeHomeActivity.class);
                 startActivity(MainIntent);
 
             } else {
@@ -1850,7 +1851,7 @@ public class PostEditActivity extends AppCompatActivity implements OnClickListen
                 Toast.makeText(PostEditActivity.this, message, Toast.LENGTH_SHORT)
                         .show();
 
-                Intent MainIntent = new Intent(PostEditActivity.this, HomeActivity.class);
+                Intent MainIntent = new Intent(PostEditActivity.this, MrgeHomeActivity.class);
                 startActivity(MainIntent);
             } else {
                 Toast.makeText(PostEditActivity.this, message, Toast.LENGTH_SHORT)

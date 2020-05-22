@@ -52,6 +52,7 @@ import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
+import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyList;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
@@ -214,8 +215,6 @@ public class AttendeeDetailActivity extends AppCompatActivity {
 
         attendeetitle.setTextColor(Color.parseColor(colorActive));
         tvname.setTextColor(Color.parseColor(colorActive));
-        layoutTop.setBackgroundColor(Color.parseColor(colorActive));
-//        saveContact.setBackgroundColor(Color.parseColor(colorActive));
         sendbtn = findViewById(R.id.sendMsg);
 
         try {
@@ -239,10 +238,10 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         final GradientDrawable shapeunactive = setgradientDrawable(5, "#4D4D4D");
         final GradientDrawable shapeunactivelayout = setgradientDrawable(10, "#4D4D4D");
 //
-        linsave.setBackground(shapelayout);
+       // linsave.setBackground(shapelayout);
 //        linMsg.setBackground(shapelayout);
 //        sendbtn.setBackground(shape);
-        saveContact.setBackground(shape);
+      //  saveContact.setBackground(shape);
 //        posttextEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 //            @Override
 //            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -263,45 +262,45 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         linsave.setEnabled(false);
 
        TextView txtcount = findViewById(R.id.txtcount);
-
-
-        posttextEt.addTextChangedListener(new TextWatcher() {
+        final TextWatcher txwatcher = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    int tick = start + after;
-                    if (tick < 150) {
-                        int remaining = 150 - tick;
-                        // txtcount1.setText(String.valueOf(remaining));
-                    }
+            public void beforeTextChanged(CharSequence charSequence, int start,
+                                          int count, int after) {
+                int tick = start + after;
+                if (tick < 128) {
+                    int remaining = 500 - tick;
+                    // txtcount1.setText(String.valueOf(remaining));
+                }
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                txtcount.setText(String.valueOf(s.length()));
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+                //txtcount.setText(String.valueOf(150 - s.length()) + "/");
+                txtcount.setText(String.valueOf(s.length()) );
 
-                if (count >= 1) {
-
+                if (s.length() > 0) {
                     linMsg.setEnabled(true);
                     linMsg.setBackground(shapelayout);
                     sendbtn.setBackground(shape);
-//                    linsave.setBackground(shapelayout);
-//                    sendbtn.setBackground(shape);
-//                    linsave.setEnabled(true);
-                } else if (count <= 0) {
+                } else {
                     linMsg.setEnabled(false);
 //                    linsave.setEnabled(false);
                     linMsg.setBackground(shapeunactivelayout);
 //                    linsave.setBackground(shapeunactivelayout);
                     sendbtn.setBackground(shapeunactive);
                 }
-
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                // TODO Auto-generated method stub
+                System.out.print("Hello");
             }
-        });
+        };
+
+        posttextEt.addTextChangedListener(txwatcher);
 
 
         linMsg.setVisibility(View.GONE);
@@ -515,7 +514,10 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (mobile.isEmpty()) {
+                Intent main = new Intent(getApplicationContext(), ActivityBuddyList.class);
+                startActivity(main);
+
+               /* if (mobile.isEmpty()) {
                     Intent addContactIntent = new Intent(Contacts.Intents.Insert.ACTION, Contacts.People.CONTENT_URI);
                     addContactIntent.putExtra(Contacts.Intents.Insert.NAME, name);
                     addContactIntent.putExtra(Contacts.Intents.Insert.COMPANY, company);
@@ -540,7 +542,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
+                }*/
             }
         });
 

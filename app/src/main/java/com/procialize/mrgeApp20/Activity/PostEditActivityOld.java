@@ -53,6 +53,7 @@ import com.procialize.mrgeApp20.CustomTools.ImagePath_MarshMallow;
 import com.procialize.mrgeApp20.CustomTools.ProgressRequestBodyImage;
 import com.procialize.mrgeApp20.CustomTools.ProgressRequestBodyVideo;
 import com.procialize.mrgeApp20.GetterSetter.EditNewsFeed;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -411,7 +412,7 @@ public class PostEditActivityOld extends AppCompatActivity implements ProgressRe
 
         if (response.body().getStatus().equals("success")) {
 
-            Intent i = new Intent(this, HomeActivity.class);
+            Intent i = new Intent(this, MrgeHomeActivity.class);
             startActivity(i);
             finish();
         } else {
@@ -1050,7 +1051,7 @@ public class PostEditActivityOld extends AppCompatActivity implements ProgressRe
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, HomeActivity.class);
+        Intent i = new Intent(this, MrgeHomeActivity.class);
         startActivity(i);
         finish();
         super.onBackPressed();

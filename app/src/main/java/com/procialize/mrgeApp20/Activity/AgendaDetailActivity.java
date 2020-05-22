@@ -123,6 +123,9 @@ public class AgendaDetailActivity extends AppCompatActivity {
             applysetting(eventSettingLists);
         }
 
+        TextView agendatitle = findViewById(R.id.agendatitle);
+        agendatitle.setTextColor(Color.parseColor(colorActive));
+
         SubmitAnalytics(apikey, eventid, "", "", "agendaDetail");
 
         try {

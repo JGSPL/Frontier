@@ -36,7 +36,6 @@ import com.percolate.mentions.Mentionable;
 import com.percolate.mentions.Mentions;
 import com.percolate.mentions.QueryListener;
 import com.percolate.mentions.SuggestionsListener;
-import com.procialize.mrgeApp20.Activity.HomeActivity;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.CustomTools.RecyclerItemClickListener;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
@@ -46,6 +45,7 @@ import com.procialize.mrgeApp20.GetterSetter.Comment;
 import com.procialize.mrgeApp20.GetterSetter.Mention;
 import com.procialize.mrgeApp20.GetterSetter.NewsFeedPostMultimedia;
 import com.procialize.mrgeApp20.GetterSetter.SelectedImages;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.UsersAdapter;
 import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.ViewPagerMultimediaAdapter;
 import com.procialize.mrgeApp20.R;
@@ -714,7 +714,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                     SQLiteDatabase db = procializeDB.getWritableDatabase();
                     procializeDB.updateNewsFeedId(news_feed_id1, folderUniqueId, db);
 
-                    Intent MainIntent = new Intent(PostNewActivity.this, HomeActivity.class);
+                    Intent MainIntent = new Intent(PostNewActivity.this, MrgeHomeActivity.class);
                     startActivity(MainIntent);
                     finish();
                     /*if (arrayListNewsFeedMultiMedia.size() > 0) {
@@ -733,7 +733,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                     SQLiteDatabase db = procializeDB.getWritableDatabase();
                     procializeDB.updateNewsFeedId(news_feed_id1, folderUniqueId, db);
 
-                    Intent MainIntent = new Intent(PostNewActivity.this, HomeActivity.class);
+                    Intent MainIntent = new Intent(PostNewActivity.this, MrgeHomeActivity.class);
                     startActivity(MainIntent);
                     finish();
                 }

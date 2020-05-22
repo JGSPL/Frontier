@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/relative"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -33,6 +34,15 @@
         android:layout_marginBottom="10dp"
         android:gravity="center"
         android:orientation="horizontal">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/myCardView"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:cardCornerRadius="50px"
+            app:cardElevation="@dimen/album_dp_0">
 
         <com.procialize.mrgeApp20.CustomTools.ScaledImageView
             android:id="@+id/profilestatus"
@@ -42,6 +52,7 @@
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/profilepic_placeholder" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:layout_width="match_parent"

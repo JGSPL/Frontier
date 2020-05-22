@@ -58,6 +58,7 @@
         android:layout_below="@+id/appBarLayout"
         android:gravity="center"
         android:padding="4sp"
+        android:visibility="gone"
         android:text="@string/gallery"
         android:textColor="@color/activetab"
         android:textSize="17dp" />

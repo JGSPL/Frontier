@@ -665,7 +665,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                 Intent main = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(main);
-                finish();
+               // finish();
             }
         });
 
@@ -675,7 +675,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                 Intent main = new Intent(getApplicationContext(), ActivityBuddyList.class);
                 startActivity(main);
-                finish();
+                //finish();
             }
         });
 

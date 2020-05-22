@@ -3,22 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relative"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="60dp"
     android:layout_width="match_parent"
-    android:layout_height="400dp">
-
+    android:layout_height="380dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rel1"
-        android:weightSum="10">
+        android:id="@+id/rel1">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/linTop"
+            android:layout_width="match_parent"
+            android:weightSum="10"
+            android:layout_height="wrap_content">
 
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:layout_width="0dp"
+                android:layout_weight="8"
+                android:layout_height="wrap_content"
+                android:text="Live Quiz"
+                android:layout_marginRight="70dp"
+                android:textSize="@dimen/textsizenormal"
+                android:padding="8dp"
+                android:layout_marginLeft="20dp">
+            </com.procialize.mrgeApp20.Fonts.RobotoTextview>
 
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_close"
+            android:layout_gravity="right"
+            android:id="@+id/imgClose"
+            android:padding="10dp">
+        </ImageView>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
+            android:layout_below="@+id/linTop"
+
+            android:id="@+id/linQuizQues"
             android:layout_marginBottom="80dp"
             android:gravity="top"
             android:orientation="vertical">
@@ -96,39 +126,45 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:visibility="gone" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/linQuizQues"
+                android:orientation="vertical">
+
+                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                    android:id="@+id/btnNext"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/loginbutton"
+                    android:gravity="center"
+                    android:text="Next"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorwhite"
+                    android:visibility="invisible" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                    android:id="@+id/submit"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/loginbutton"
+                    android:gravity="center"
+                    android:text="Submit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorwhite"
+                    android:visibility="gone" />
+            </LinearLayout>
+
         </LinearLayout>
-        <com.procialize.mrgeApp20.Fonts.RobotoButton
-            android:id="@+id/btnNext"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/loginbutton"
-            android:gravity="center"
-            android:text="Next"
-            android:textAllCaps="false"
-            android:textColor="@color/colorwhite"
-            android:visibility="gone" />
 
-        <com.procialize.mrgeApp20.Fonts.RobotoButton
-            android:id="@+id/submit"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/loginbutton"
-            android:gravity="center"
-            android:text="Submit"
-            android:textAllCaps="false"
-            android:textColor="@color/colorwhite"
-            android:visibility="gone" />
     </RelativeLayout>
-
 
 </LinearLayout>

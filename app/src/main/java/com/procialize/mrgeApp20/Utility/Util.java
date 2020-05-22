@@ -19,7 +19,6 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.procialize.mrgeApp20.Activity.HomeActivity;
 import com.procialize.mrgeApp20.Activity.ProfileActivity;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
@@ -41,13 +40,13 @@ public class Util {
 
     public static void logomethod(final Context context, final ImageView headerlogoIv)
     {
-        String logoHeader = HomeActivity.logoImg;
+        String logoHeader = MrgeHomeActivity.logoImg;
         if ((logoHeader.equalsIgnoreCase("")) || logoHeader == null) {
             headerlogoIv.setImageResource(R.drawable.header_logo);
 
         } else {
 
-            Glide.with(context).load(ApiConstant.imgURL + "uploads/app_logo/" + HomeActivity.logoImg).listener(new RequestListener<Drawable>() {
+            Glide.with(context).load(ApiConstant.imgURL + "uploads/app_logo/" + MrgeHomeActivity.logoImg).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 //                    headerlogoIv.setImageResource(R.drawable.header_logo);
@@ -93,7 +92,7 @@ public class Util {
     {
         //MrgeHomeActivity.headerlogoIv.setVisibility(View.GONE);
         //MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);
-        String logoHeader = HomeActivity.logoImg;
+        String logoHeader = MrgeHomeActivity.logoImg;
         txtHeader.setText(HeaderText);
     }
 

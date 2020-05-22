@@ -82,8 +82,8 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
 
         rootView = inflater.inflate(R.layout.activity_live_poll, container, false);
 
-        DialogLivePoll dialogLivePoll = new DialogLivePoll();
-        dialogLivePoll.welcomeLivePollDialog(getActivity());
+       /* DialogLivePoll dialogLivePoll = new DialogLivePoll();
+        dialogLivePoll.welcomeLivePollDialog(getActivity());*/
 
         cd = new ConnectionDetector(getContext());
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
