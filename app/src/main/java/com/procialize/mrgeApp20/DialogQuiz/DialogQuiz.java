@@ -133,9 +133,11 @@ public class DialogQuiz {
 
        // dialog = new BottomSheetDialog(context);
         dialog =new BottomSheetDialog(context,R.style.SheetDialog);
+
         dialog.setContentView(R.layout.bottom_quiz_welcome);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.getWindow().setDimAmount(0);
+
         context2 = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
@@ -185,6 +187,7 @@ public class DialogQuiz {
         Detaildialog.setContentView(R.layout.botom_quiz_questiondetail);
         Detaildialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         Detaildialog.getWindow().setDimAmount(0);
+
         context2 = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
@@ -549,6 +552,7 @@ public class DialogQuiz {
             }
 
             if (status.equalsIgnoreCase("success")) {
+
 
                 //Get Folder Parser
                 quizFolderParser = new QuizFolderParser();

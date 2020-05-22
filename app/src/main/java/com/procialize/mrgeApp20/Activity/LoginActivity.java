@@ -21,7 +21,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +62,12 @@ public class LoginActivity extends AppCompatActivity {
     Dialog myDialog;
     private APIService mAPIService;
     CheckBox chk_box;
+    LinearLayout linearLayout2;
+    RelativeLayout rel2;
+    ImageView imgBack;
+    EditText login_otp;
+    Button otp_submit_btn, otp_resubmit_btn;
+    String passwordOtp,mobilenumber, accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +133,25 @@ public class LoginActivity extends AppCompatActivity {
         text_forgotPswd = findViewById(R.id.text_forgotPswd);
         chk_box = findViewById(R.id.chk_box);
         text_forgotPswd.getPaint().setUnderlineText(true);
+        ImageView imgBack;
+        EditText login_otp;
+        linearLayout2 = findViewById(R.id.linearLayout2);
+        rel2 = findViewById(R.id.rel2);
+        imgBack = findViewById(R.id.imgBack);
+        login_otp = findViewById(R.id.login_otp);
+        otp_submit_btn = findViewById(R.id.otp_submit_btn);
+        otp_resubmit_btn = findViewById(R.id.otp_resubmit_btn);
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rel2.setVisibility(View.GONE);
+                linearLayout2.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+
 //        inputLayoutemail = findViewById(R.id.input_layout_email);
 //        inputLayoutemail.setErrorEnabled(true);
 //        inputLayoutpassword = findViewById(R.id.input_layout_password);
@@ -191,18 +218,18 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (Etemail.getText().toString().isEmpty()) {
-                    Toast.makeText(LoginActivity.this, "Enter Email Id", Toast.LENGTH_SHORT).show();
-                } else if (Etpassword.getText().toString().isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Enter Mobile Number", Toast.LENGTH_SHORT).show();
+                }/* else if (Etpassword.getText().toString().isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Enter Password", Toast.LENGTH_SHORT).show();
-                } /*else if (!(chk_box.isChecked())) {
+                } else if (!(chk_box.isChecked())) {
                     Toast.makeText(LoginActivity.this, "Please accept terms & conditions", Toast.LENGTH_SHORT).show();
-                } */else {
+                }*/ else {
 //                    inputLayoutpassword.setError(null);
 //                    inputLayoutemail.setError(null);
 
                     if (Connectivity.isConnected(LoginActivity.this)) {
                         emailid = Etemail.getText().toString();
-                        password = Etpassword.getText().toString();
+                       // password = Etpassword.getText().toString();
                         showProgress();
                         sendEventList(Etemail.getText().toString(), Etpassword.getText().toString());
                     } else {
@@ -212,6 +239,36 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+        otp_submit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String localOtp = login_otp.getText().toString();
+                if(localOtp.equalsIgnoreCase(passwordOtp)){
+                    Intent event = new Intent(getApplicationContext(), EventChooserActivity.class);
+                    event.putExtra("email", emailid);
+                    event.putExtra("mobile", mobilenumber);
+
+                    event.putExtra("password", passwordOtp);
+                    event.putExtra("accesstiken", accessToken);
+                    startActivity(event);
+                    finish();
+                }else{
+                    login_otp.setText("");
+                    Toast.makeText(LoginActivity.this, "Wrong OTP! Please try again", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
+        otp_resubmit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendResendOTP(mobilenumber);
+            }
+        });
+
+
 
         crashlytics("Login","");
         firbaseAnalytics(this,"Login","");
@@ -231,7 +288,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void sendEventList(String email, String password) {
-        mAPIService.EventListPost(email, password).enqueue(new Callback<EventListing>() {
+        mAPIService.EventListPost(email/*,password*/).enqueue(new Callback<EventListing>() {
             @Override
             public void onResponse(Call<EventListing> call, Response<EventListing> response) {
 
@@ -258,17 +315,96 @@ public class LoginActivity extends AppCompatActivity {
 
         if (response.body().getStatus().equals("success")) {
 
-            Intent event = new Intent(getApplicationContext(), EventChooserActivity.class);
+           /* Intent event = new Intent(getApplicationContext(), EventChooserActivity.class);
             event.putExtra("email", emailid);
             event.putExtra("password", password);
             event.putExtra("accesstiken", response.body().getUserData().getApiAccessToken());
             startActivity(event);
-            finish();
+            finish();*/
+
+            if (!(response.body().getUserData().equals(null))) {
+
+                try {
+
+                    passwordOtp = response.body().getUserData().getPassword_key();
+                    mobilenumber = response.body().getUserData().getMobile();
+                    emailid = response.body().getUserData().getEmail();
+                    accessToken = response.body().getUserData().getApiAccessToken();
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            linearLayout2.setVisibility(View.GONE);
+            rel2.setVisibility(View.VISIBLE);
+
 
         } else {
             Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void sendResendOTP(String mobile) {
+        mAPIService.ResendOtp(mobile).enqueue(new Callback<EventListing>() {
+            @Override
+            public void onResponse(Call<EventListing> call, Response<EventListing> response) {
+
+                if (response.isSuccessful()) {
+                    Log.i("hit", "post submitted to API." + response.body().toString());
+                    dismissProgress();
+                    showResponseOTP(response);
+                } else {
+                    dismissProgress();
+                    Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                    Log.i("hit", "post submitted to API Wrong.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EventListing> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
+                dismissProgress();
+            }
+        });
+    }
+
+    public void showResponseOTP(Response<EventListing> response) {
+
+        if (response.body().getStatus().equals("success")) {
+
+
+            if (!(response.body().getUserData().equals(null))) {
+
+                try {
+
+                    passwordOtp = response.body().getUserData().getPassword_key();
+                    mobilenumber = response.body().getUserData().getMobile();
+                    emailid = response.body().getUserData().getEmail();
+                    accessToken = response.body().getUserData().getApiAccessToken();
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+            login_otp.setText("");
+
+
+            linearLayout2.setVisibility(View.GONE);
+            rel2.setVisibility(View.VISIBLE);
+
+
+        } else {
+            Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     public void showProgress() {
         progressBar2.setVisibility(View.VISIBLE);
@@ -347,6 +483,16 @@ public class LoginActivity extends AppCompatActivity {
 
                 break;
         }
+    }
+    public void otpLoginProcess(){
+        login_otp.setVisibility(View.GONE);
+        otp_submit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String OTP = otp_submit_btn.getText().toString();
+            }
+        });
+
     }
 
     public void forgetPasswordDialog() {

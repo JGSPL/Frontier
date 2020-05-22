@@ -1,6 +1,7 @@
 package com.procialize.mrgeApp20.Adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -57,7 +58,7 @@ public class QuizPagerAdapter extends PagerAdapter {
     String MY_PREFS_NAME = "ProcializeInfo";
     private SparseIntArray mSpCheckedState = new SparseIntArray();
     String accessToken, event_id, colorActive;
-
+    Context context;
     Typeface typeFace;
     private RadioGroup lastCheckedRadioGroup = null;
 
@@ -77,6 +78,24 @@ public class QuizPagerAdapter extends PagerAdapter {
 
         quizQuestionUrl = constant.baseUrl + constant.quizsubmit;
         inflater = LayoutInflater.from(activity);
+
+    }
+    public QuizPagerAdapter(Context context, List<Quiz> quizList) {
+        this.context = context;
+        this.quizList = quizList;
+        dataArray = new String[quizList.size()];
+        dataIDArray = new String[quizList.size()];
+        checkArray = new String[quizList.size()];
+        ansArray = new String[quizList.size()];
+        session = new SessionManager(context.getApplicationContext());
+        accessToken = session.getUserDetails().get(SessionManager.KEY_TOKEN);
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, context.MODE_PRIVATE);
+        event_id = prefs.getString("eventid", "1");
+        colorActive = prefs.getString("colorActive", "");
+        colorActive = prefs.getString("colorActive", "");
+
+        quizQuestionUrl = constant.baseUrl + constant.quizsubmit;
+        inflater = LayoutInflater.from(context);
 
     }
 

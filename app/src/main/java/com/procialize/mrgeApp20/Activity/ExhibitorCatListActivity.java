@@ -411,7 +411,7 @@ public class ExhibitorCatListActivity extends AppCompatActivity {
 
 
     public void sendLogin(String email, String password, final String eventid, String registration_id, String platform, String device, String os_version, String app_version) {
-        mAPIService.LoginPost(email, password, eventid, registration_id, platform, device, os_version, accesstiken,app_version).enqueue(new Callback<Login>() {
+        mAPIService.LoginPost(/*email, password,*/ eventid, registration_id, platform, device, os_version, accesstiken,app_version).enqueue(new Callback<Login>() {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
 

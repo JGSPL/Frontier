@@ -91,7 +91,7 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
     String MY_PREFS_CATEGORY = "categorycnt";
-    String emailid, password;
+    String emailid, password,mobilenumber;
     String eventnamestr;
     EditText searchEt;
     ImageView img_logout, imageview;
@@ -119,6 +119,8 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
         emailid = getIntent().getExtras().getString("email");
         password = getIntent().getExtras().getString("password");
         accesstiken = getIntent().getExtras().getString("accesstiken");
+        mobilenumber = getIntent().getExtras().getString("mobile");
+
         session = new SessionManager(getApplicationContext());
 
         crashlytics("Event Chooser", accesstiken);
@@ -223,7 +225,7 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
 
 
     public void sendEventList(String email, String password) {
-        mAPIService.EventListPost(email, password).enqueue(new Callback<EventListing>() {
+        mAPIService.EventListMPost(accesstiken).enqueue(new Callback<EventListing>() {
             @Override
             public void onResponse(Call<EventListing> call, Response<EventListing> response) {
 
@@ -467,7 +469,7 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
 
 
     public void sendLogin(String email, String password, final String eventid, String registration_id, String platform, String device, String os_version, String app_version) {
-        mAPIService.LoginPost(email, password, eventid, registration_id, platform, device, os_version, accesstiken, app_version).enqueue(new Callback<Login>() {
+        mAPIService.LoginPost(/*email, password,*/ eventid, registration_id, platform, device, os_version, accesstiken, app_version).enqueue(new Callback<Login>() {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
 
