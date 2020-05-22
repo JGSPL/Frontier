@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -32,6 +33,7 @@ import com.procialize.mrgeApp20.Adapter.QuizFolderAdapter;
 import com.procialize.mrgeApp20.Adapter.QuizNewAdapter;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
+import com.procialize.mrgeApp20.DialogQuiz.DialogQuiz;
 import com.procialize.mrgeApp20.GetterSetter.Quiz;
 import com.procialize.mrgeApp20.GetterSetter.QuizFolder;
 import com.procialize.mrgeApp20.GetterSetter.QuizOptionList;
@@ -94,6 +96,9 @@ public class FolderQuizFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_folder_quiz, container, false);
+/*
+        DialogQuiz dialogQuiz = new DialogQuiz();
+        dialogQuiz.welcomeQuizDialog(getActivity());*/
 
         constant = new ApiConstant();
         appDelegate = (MyApplication) getActivity().getApplicationContext();
@@ -194,7 +199,7 @@ public class FolderQuizFragment extends Fragment {
                             quizList = quizParser.Quiz_Parser(Jsontr, quiz.getFolder_name());
 
 
-                            if (/*quizList != null ||*/ quizList.size() > 0) {
+                            if (quizList != null || quizList.size() > 0) {
 
                                 if (quizList.get(0).getReplied().equals("1")) {
 
@@ -235,6 +240,8 @@ public class FolderQuizFragment extends Fragment {
         });
         return view;
     }
+
+
     @Override
     public void onResume() {
         super.onResume();
@@ -242,6 +249,7 @@ public class FolderQuizFragment extends Fragment {
         if (cd.isConnectingToInternet()) {
             new getQuizList().execute();
         }
+
 
     }
 

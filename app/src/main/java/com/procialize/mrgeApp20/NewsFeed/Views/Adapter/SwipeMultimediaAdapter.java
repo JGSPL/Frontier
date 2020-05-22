@@ -179,7 +179,7 @@ public class SwipeMultimediaAdapter extends PagerAdapter {
             }
         });
 
-        videoview.thumbImageView.setOnClickListener(new View.OnClickListener() {
+       /* videoview.thumbImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (cd.isConnectingToInternet()) {
@@ -193,7 +193,7 @@ public class SwipeMultimediaAdapter extends PagerAdapter {
                 }
             }
         });
-
+*/
         view.addView(myImageLayout, 0);
 
         return myImageLayout;

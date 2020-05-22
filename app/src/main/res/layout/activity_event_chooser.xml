@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/background"
+        android:background="@android:color/transparent"
         android:baselineAligned="false"
         android:elevation="0dp"
         android:orientation="horizontal"
@@ -31,7 +31,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
-                android:tint="@color/black"
+                android:tint="@color/colorwhite"
                 android:contentDescription="TODO"
                 android:padding="2dp"
                 android:src="@drawable/ic_logout" />
@@ -52,7 +52,8 @@
                 android:layout_margin="2dp"
                 android:contentDescription="TODO"
                 android:src="@drawable/mergelogo"
-                android:visibility="visible" />
+                android:visibility="visible"
+                android:tint="@color/colorwhite"/>
         </LinearLayout>
 
         <LinearLayout

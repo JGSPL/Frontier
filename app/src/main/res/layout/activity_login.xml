@@ -8,273 +8,275 @@
 
 
     <LinearLayout
+        android:id="@+id/linTopLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|top"
-        android:layout_marginTop="50dp"
-        android:id="@+id/linTopLogin"
+        android:layout_marginTop="80dp"
         android:gravity="center|top"
         android:orientation="vertical">
 
-        <ImageView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:contentDescription="TODO"
-            app:srcCompat="@drawable/splashlogo" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="297dp"
+                android:layout_height="111dp"
+                android:layout_gravity="center"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/splashlogo" />
+        </FrameLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linTopLogin"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical"
+        android:visibility="visible">
 
-
-        <LinearLayout
-            android:id="@+id/linearLayout2"
+        <com.procialize.mrgeApp20.Fonts.RobotoTextview
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="60dp"
-            android:visibility="visible"
-            android:layout_below="@+id/linTopLogin"
-            android:layout_marginRight="20dp"
-            android:orientation="vertical">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            android:text="LOGIN"
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                android:layout_width="match_parent"
+            android:textColor="@color/colorwhite"
+            android:textSize="@dimen/textsizenormal"
+            android:visibility="visible" />
+
+
+        <!--<com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black">-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/edit_background"
+            android:gravity="center"
+
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="LOGIN"
-                android:layout_marginBottom="15dp"
-
-                android:textColor="@color/colorwhite"
-                android:textSize="@dimen/textsizenormal"
-                android:visibility="visible" />
-
-
-            <!--<com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black">-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:background="@drawable/edit_background"
-
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/mobile_icon"></ImageView>
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/mobile_icon"></ImageView>
 
             <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
                 android:hint="@string/hint_email"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress|textNoSuggestions"
                 android:maxLines="1"
-                android:background="@android:color/transparent"
-                android:layout_margin="5dp"
                 android:padding="0dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:textCursorDrawable="@drawable/color_cursor"
                 android:textSize="@dimen/textsizesmall" />
-            </LinearLayout>
-            <!-- </com.google.android.material.textfield.TextInputLayout>-->
-
-            <!--<com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_password"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@color/colorwhite"
-                android:textColorHint="@color/black"
-                app:passwordToggleEnabled="true">-->
-
-            <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
-                android:id="@+id/input_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/edit_background"
-                android:hint="@string/hint_password"
-                android:imeOptions="actionDone"
-                android:inputType="textPassword|textNoSuggestions"
-                android:maxLines="1"
-                android:padding="15dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:textSize="@dimen/textsizesmall" />
-            <!--</com.google.android.material.textfield.TextInputLayout>-->
-            <com.procialize.mrgeApp20.Fonts.RobotoButton
-                android:id="@+id/loginbtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/edit_white"
-                android:stateListAnimator="@null"
-                android:text="@string/login"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="@dimen/textsizenormal" />
-
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                android:id="@+id/text_forgotPswd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:visibility="gone"
-                android:text="Forgot Password"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:textSize="@dimen/textsizesmall" />
-
         </LinearLayout>
+        <!-- </com.google.android.material.textfield.TextInputLayout>-->
 
-        <RelativeLayout
+        <!--<com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/colorwhite"
+            android:textColorHint="@color/black"
+            app:passwordToggleEnabled="true">-->
+
+        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+            android:id="@+id/input_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rel2"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="30dp"
-            android:visibility="gone"
-            android:gravity="center">
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit_background"
+            android:hint="@string/hint_password"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword|textNoSuggestions"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="@dimen/textsizesmall" />
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
+        <com.procialize.mrgeApp20.Fonts.RobotoButton
+            android:id="@+id/loginbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit_white"
+            android:stateListAnimator="@null"
+            android:text="@string/login"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsizenormal" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:id="@+id/linheader"
-                android:weightSum="10"
-                android:layout_marginLeft="30dp"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/imgBack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_back">
+        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            android:id="@+id/text_forgotPswd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:maxLines="1"
+            android:padding="5dp"
+            android:text="Forgot Password"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="@dimen/textsizesmall"
+            android:visibility="gone" />
 
-                </ImageView>
+    </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:textColor="@color/colorwhite"
-                    android:gravity="center|top"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="5dp"
-                    android:text="OTP"
-                    >
+    <RelativeLayout
+        android:id="@+id/rel2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:visibility="gone">
 
-                </TextView>
-            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linheader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:orientation="horizontal"
+            android:weightSum="10">
 
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_back">
+
+            </ImageView>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="30dp"
-                android:textColor="@color/black"
-                android:visibility="invisible"
-                android:layout_below="@+id/linheader"
                 android:layout_marginBottom="5dp"
-                android:text="Enter Your Email ID*"
-                android:id="@+id/txtEmailAdd">
+                android:gravity="center|top"
+                android:text="OTP"
+                android:textColor="@color/colorwhite"
+                android:textSize="16sp">
 
             </TextView>
+        </LinearLayout>
 
-            <EditText
-                android:id="@+id/login_otp"
-                android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/txtEmailAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@+id/linheader"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:text="Enter Your Email ID*"
+            android:textColor="@color/black"
+            android:visibility="invisible">
+
+        </TextView>
+
+        <EditText
+            android:id="@+id/login_otp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtEmailAdd"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/edit_background"
+            android:focusable="true"
+            android:hint="*OTP"
+            android:inputType="textEmailAddress"
+            android:minEms="20"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/black"
+            android:textSize="@dimen/textsizenormal"
+            android:visibility="visible" />
+
+
+        <LinearLayout
+            android:id="@+id/email_btn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_otp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center"
+            android:minHeight="60dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/otp_submit_btn"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_below="@+id/txtEmailAdd"
-                android:focusable="true"
-                android:background="@drawable/edit_background"
-                android:inputType="textEmailAddress"
-                android:minEms="20"
-                android:hint="*OTP"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/black"
-                android:textSize="@dimen/textsizenormal"
-                android:visibility="visible" />
-
-
-            <LinearLayout
-                android:id="@+id/email_btn_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/login_otp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/loginbutton"
+                android:elevation="4dp"
                 android:gravity="center"
-                android:minHeight="60dp"
-                android:weightSum="2"
-                android:orientation="horizontal">
+                android:minHeight="40dp"
+                android:text="Submit"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textsizenormal"
+                android:textStyle="normal" />
 
-                <Button
-                    android:id="@+id/otp_submit_btn"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/loginbutton"
-                    android:elevation="4dp"
-                    android:gravity="center"
-                    android:minHeight="40dp"
-                    android:layout_marginRight="5dp"
-                    android:text="Submit"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textsizenormal"
-                    android:textStyle="normal" />
+            <Button
+                android:id="@+id/otp_resubmit_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edittextborder"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:minHeight="40dp"
+                android:text="Resend OTP"
+                android:textAllCaps="false"
+                android:textColor="@color/colorwhite"
+                android:textSize="@dimen/textsizenormal"
+                android:textStyle="normal" />
 
-                <Button
-                    android:id="@+id/otp_resubmit_btn"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="5dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edittextborder"
-                    android:elevation="4dp"
-                    android:gravity="center"
-                    android:minHeight="40dp"
-                    android:text="Resend OTP"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorwhite"
-                    android:textSize="@dimen/textsizenormal"
-                    android:textStyle="normal" />
-
-            </LinearLayout>
+        </LinearLayout>
 
 
+    </RelativeLayout>
 
 
-        </RelativeLayout>
-
-
-        <ProgressBar
-            android:id="@+id/progressBar2"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:visibility="gone" />
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -287,28 +289,26 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:visibility="invisible"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="invisible">
 
             <CheckBox
+                android:id="@+id/chk_box"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:buttonTint="@color/colorwhite"
                 android:gravity="center"
-                android:id="@+id/chk_box"
                 android:text="I Agree to the  "
                 android:textColor="@color/colorwhite"
-                android:textColorLink="@color/colorwhite"
-                />
+                android:textColorLink="@color/colorwhite" />
 
             <TextView
                 android:id="@+id/txt_termslink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Terms &amp; Conditions"
-                android:textColor="@color/colorwhite"
-                />
+                android:textColor="@color/colorwhite" />
         </LinearLayout>
 
 

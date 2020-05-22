@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/trans"
+        app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp">
 
@@ -25,37 +26,34 @@
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:adjustViewBounds="true"
-                android:contentDescription="TODO"
-                android:scaleType="fitXY"
                 android:src="@drawable/foldertop" />
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:orientation="vertical">
 
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="@drawable/frame">
 
                     <ImageView
                         android:id="@+id/imageIv"
                         android:layout_width="match_parent"
-                        android:layout_height="130dp"
+                        android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/gallery_folder" />
+                        android:src="@drawable/gallery_folder"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:background="@drawable/jz_bottom_bg" />
                 </FrameLayout>
 

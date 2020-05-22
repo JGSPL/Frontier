@@ -649,7 +649,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                                 @Override
                                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                                     JzvdStd.goOnPlayOnPause();
-                                    JzvdStd.releaseAllVideos();
+                                   // JzvdStd.releaseAllVideos();
 //                                WallFragment_POST.newsfeedrefresh.setEnabled(false);
 
                                 }

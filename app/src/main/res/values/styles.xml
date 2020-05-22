@@ -141,4 +141,5 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:windowBackground">@drawable/trans</item>
     </style>
+
 </resources>

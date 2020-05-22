@@ -18,11 +18,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -34,7 +32,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -87,11 +84,15 @@ import com.procialize.mrgeApp20.CustomTools.CustomViewPager;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
+import com.procialize.mrgeApp20.Downloads.DocumentsActivity;
 import com.procialize.mrgeApp20.Downloads.DownloadsFragment;
 import com.procialize.mrgeApp20.EmptyViewActivity;
+import com.procialize.mrgeApp20.Engagement.Fragment.EngagementFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFragment;
 import com.procialize.mrgeApp20.Fragments.AttendeeFragment;
 import com.procialize.mrgeApp20.Fragments.SpeakerFragment;
+import com.procialize.mrgeApp20.Gallery.Image.Activity.GalleryFragment;
+import com.procialize.mrgeApp20.Gallery.Video.Activity.VideoFragment;
 import com.procialize.mrgeApp20.GetterSetter.AgendaList;
 import com.procialize.mrgeApp20.GetterSetter.EventMenuSettingList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
@@ -101,13 +102,10 @@ import com.procialize.mrgeApp20.GetterSetter.ProfileSave;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaVacationActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AttendeeActivity;
-import com.procialize.mrgeApp20.Downloads.DocumentsActivity;
-import com.procialize.mrgeApp20.Engagement.Fragment.EngagementFragment;
 import com.procialize.mrgeApp20.InnerDrawerActivity.EventInfoActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.ExhibitorSideMenu;
 import com.procialize.mrgeApp20.InnerDrawerActivity.FeedBackActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.FolderQuizActivity;
-import com.procialize.mrgeApp20.Gallery.Image.Activity.GalleryFragment;
 import com.procialize.mrgeApp20.InnerDrawerActivity.GeneralInfoActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.LeaderboardActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.LivePollActivity;
@@ -121,13 +119,11 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.QRGeneratorActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.QRScanActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SpeakerActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SponsorActivity;
-import com.procialize.mrgeApp20.Gallery.Video.Activity.VideoFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.BlankFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.EmergencyFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.EventInfoFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.FolderQuizFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.LivePollListFragment;
-import com.procialize.mrgeApp20.MrgeInnerFragment.QnADirectFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.QnASpeakerFragment;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
@@ -147,6 +143,7 @@ import java.util.Objects;
 
 import javax.annotation.Nullable;
 
+import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 import io.fabric.sdk.android.Fabric;
 import okhttp3.MediaType;
@@ -165,14 +162,17 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     public static String logoImg = "", colorActive = "", eventback = "";
     public static int activetab;
     public static int flag = 0;
+    public static ImageView headerlogoIv, notificationlogoIv, grid_image_view, list_image_view;
+    public static TextView txtMainHeader;
+    public static LinearLayout linear_livestream, linear_zoom, linear_layout;
+    public static boolean flagshown = false;
+    public static TextView txt_zoom, txt_streaming;
+    public static ImageView img_zoom, img_stream;
     RecyclerView menurecycler;
     SessionManager session;
     List<EventSettingList> eventSettingLists;
     List<EventMenuSettingList> eventMenuSettingLists;
     HashMap<String, String> eventlist;
-    public static ImageView headerlogoIv,notificationlogoIv;
-    public static TextView txtMainHeader;
-
     String side_menu = "0", side_menu_my_travel = "0", side_menu_notification = "0", side_menu_display_qr = "0", side_menu_qr_scanner = "0",
             side_menu_quiz = "0", side_menu_live_poll = "0", side_menu_survey = "0",
             side_menu_feedback = "0", side_menu_gallery_video = "0", gallery_video_native = "0", gallery_video_youtube = "0",
@@ -190,7 +190,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     String eventid, token;
     String email, password, exhibitorstatus, exhibitorid;
     CustomMenuAdapter customMenuAdapter;
-    TextView logout,buddyList, editProfile,home, contactus, eventname, switchbt, chatbt, eula, privacy_policy, eventInfo, notification, exh_analytics, txt_version;
+    TextView logout, buddyList, editProfile, home, contactus, eventname, switchbt, chatbt, eula, privacy_policy, eventInfo, notification, exh_analytics, txt_version;
     String eventnamestr;
     LinearLayout linear;
     String imgname, accesstoken;
@@ -199,11 +199,17 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     MrgeHomeActivity.WallPostReciever mReceiver;
     IntentFilter mFilter;
     String catcnt;
+    LinearLayout linTab4, linTab3, linTab2;
+    String zoom_meeting_id, zoom_password, zoom_status, youtube_stream_url, stream_status, zoom_time, stream_time;
+    ImageView float_icon;
+    String YouvideoId;
+    YouTubePlayerTracker mTracker = null;
+    YouTubePlayer youTubePlayer;
+    Fragment fragment = null;
+    Dialog myDialog;
     private Toolbar toolbar;
     private TabLayout tabLayout;
-LinearLayout linTab4,linTab3,linTab2;
-
-    private CustomViewPager viewPager,Subviewpager,Subviewpager2,Subviewpager3;
+    private CustomViewPager viewPager, Subviewpager, Subviewpager2, Subviewpager3;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private APIService mAPIService;
@@ -220,7 +226,6 @@ LinearLayout linTab4,linTab3,linTab2;
             R.drawable.ic_interact,
             R.drawable.ic_interact,
             R.drawable.ic_interact
-
     };
     private int[] sub1tabIcons = {
             R.drawable.ic_eventinfo,
@@ -228,44 +233,27 @@ LinearLayout linTab4,linTab3,linTab2;
             R.drawable.ic_speakers,
             R.drawable.ic_schedule,
             R.drawable.ic_emergency,
-
-
     };
     private int[] sub2tabIcons = {
             R.drawable.ic_image,
             R.drawable.ic_video,
             R.drawable.ic_download,
             R.drawable.engagement,
-
-
     };
-
     private int[] sub3tabIcons = {
             R.drawable.ic_quiz,
             R.drawable.ic_livepoll,
             R.drawable.ic_qna,
             R.drawable.ic_engagement,
-
-
     };
     private Res res;
     private DBHelper dbHelper;
-
     private YouTubePlayerSupportFragment youTubePlayerFragment;
-    public static LinearLayout linear_livestream, linear_zoom, linear_layout;
-    String zoom_meeting_id, zoom_password, zoom_status, youtube_stream_url, stream_status, zoom_time, stream_time;
-    ImageView float_icon;
-    String YouvideoId;
-    public static boolean flagshown = false;
-    YouTubePlayerTracker mTracker = null;
-    YouTubePlayer youTubePlayer;
-    public static TextView txt_zoom, txt_streaming;
-    public static ImageView img_zoom, img_stream;
-
     private TabFlashyAnimatorWithTitle tabFlashyAnimator;
     private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
-    Fragment fragment = null;
-
+    ViewPagerAdapterSub viewPagerAdapterSub3;
+    ViewPagerAdapterSub viewPagerAdapterSub2;
+    ViewPagerAdapterSub viewPagerAdapterSub4;
     @Override
     public Resources getResources() {
         if (res == null) {
@@ -273,10 +261,6 @@ LinearLayout linTab4,linTab3,linTab2;
         }
         return res;
     }
-
-
-    Dialog myDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -355,7 +339,6 @@ LinearLayout linTab4,linTab3,linTab2;
         txt_zoom = findViewById(R.id.txt_zoom);
         img_stream = findViewById(R.id.img_stream);
         img_zoom = findViewById(R.id.img_zoom);
-
 
 
         if (cd.isConnectingToInternet()) {
@@ -470,12 +453,14 @@ LinearLayout linTab4,linTab3,linTab2;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
-         txtMainHeader = findViewById(R.id.txtMainHeader);
+        txtMainHeader = findViewById(R.id.txtMainHeader);
         notificationlogoIv = findViewById(R.id.notificationlogoIv);
+        grid_image_view = findViewById(R.id.grid_image_view);
+        list_image_view = findViewById(R.id.list_image_view);
 
-        Util.logomethodwithText(MrgeHomeActivity.this,false,"",txtMainHeader,headerlogoIv);
+        Util.logomethodwithText(MrgeHomeActivity.this, false, "", txtMainHeader, headerlogoIv);
 
-       // Util.logomethod(this, headerlogoIv);
+        // Util.logomethod(this, headerlogoIv);
 
         notificationlogoIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -487,7 +472,7 @@ LinearLayout linTab4,linTab3,linTab2;
         });
 
         viewPager = findViewById(R.id.viewpager);
-        Subviewpager= findViewById(R.id.Subviewpager);
+        Subviewpager = findViewById(R.id.Subviewpager);
         Subviewpager2 = findViewById(R.id.Subviewpager2);
         Subviewpager3 = findViewById(R.id.Subviewpager3);
 
@@ -722,7 +707,7 @@ LinearLayout linTab4,linTab3,linTab2;
                 FrameLayout f = findViewById(R.id.content_frame);
                 f.setVisibility(View.VISIBLE);
 
-               if (fragment != null) {
+                if (fragment != null) {
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager
                             .beginTransaction();
@@ -972,27 +957,26 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub2tabLayout.getTabAt(4).setIcon(sub1tabIcons[2]);
             } else if (sub2tabLayout.getTabAt(4).getText().equals("SCHEDULE")) {
                 sub2tabLayout.getTabAt(4).setIcon(sub1tabIcons[3]);
-            }else if (sub2tabLayout.getTabAt(4).getText().equals("EMERGENCY")) {
+            } else if (sub2tabLayout.getTabAt(4).getText().equals("EMERGENCY")) {
                 sub2tabLayout.getTabAt(4).setIcon(sub1tabIcons[4]);
             }
         }
 
 
-
-
     }
+
     private void Sub2setupViewPager(ViewPager viewPager) {
 
-        ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
-        adapter.addFragment(new EventInfoFragment(), "EVENT INFO");
-        adapter.addFragment(new AttendeeFragment(), "ATTENDEES");
-        adapter.addFragment(new SpeakerFragment(), "SPEAKERS");
-        adapter.addFragment(new AgendaFragment(), "SCHEDULE");
-        adapter.addFragment(new EmergencyFragment(), "EMERGENCY");
+        viewPagerAdapterSub2 = new ViewPagerAdapterSub(getSupportFragmentManager());
+        viewPagerAdapterSub2.addFragment(new EventInfoFragment(), "EVENT INFO");
+        viewPagerAdapterSub2.addFragment(new AttendeeFragment(), "ATTENDEES");
+        viewPagerAdapterSub2.addFragment(new SpeakerFragment(), "SPEAKERS");
+        viewPagerAdapterSub2.addFragment(new AgendaFragment(), "SCHEDULE");
+        viewPagerAdapterSub2.addFragment(new EmergencyFragment(), "EMERGENCY");
 
-       // sub2tabLayout.getTabAt(0).getCustomView().setSelected(false);
+        // sub2tabLayout.getTabAt(0).getCustomView().setSelected(false);
 
-        Subviewpager.setAdapter(adapter);
+        Subviewpager.setAdapter(viewPagerAdapterSub2);
     }
 
     private void Sub3setupTabIcons() {
@@ -1026,12 +1010,11 @@ LinearLayout linTab4,linTab3,linTab2;
             } else if (sub3tabLayout.getTabAt(2).getText().equals("VIDEO")) {
                 sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[1]);
             } else if (sub3tabLayout.getTabAt(2).getText().equals("DOWNLOADS")) {
-               sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[2]);
+                sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[2]);
             } else if (sub3tabLayout.getTabAt(2).getText().equals("Engagement")) {
                 sub3tabLayout.getTabAt(2).setIcon(sub2tabIcons[3]);
             }
         }
-
 
         if (sub3tabLayout.getTabAt(3) != null) {
             if (sub3tabLayout.getTabAt(3).getText().equals("IMAGE")) {
@@ -1044,54 +1027,18 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub3tabLayout.getTabAt(3).setIcon(sub2tabIcons[3]);
             }
         }
-
-
     }
 
     private void Sub3setupViewPager(ViewPager viewPager) {
 
-        ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
-        adapter.addFragment(new GalleryFragment(), "IMAGE");
-        adapter.addFragment(new VideoFragment(), "VIDEO");
-        adapter.addFragment(new DownloadsFragment(), "DOWNLOADS");
+        viewPagerAdapterSub3 = new ViewPagerAdapterSub(getSupportFragmentManager());
+        viewPagerAdapterSub3.addFragment(new GalleryFragment(), "IMAGE");
+        viewPagerAdapterSub3.addFragment(new VideoFragment(), "VIDEO");
+        viewPagerAdapterSub3.addFragment(new DownloadsFragment(), "DOWNLOADS");
         //adapter.addFragment(new FolderQuizFragment(), "Engagement");
 
         // sub2tabLayout.getTabAt(0).getCustomView().setSelected(false);
-
-        Subviewpager2.setAdapter(adapter);
-    }
-
-    class ViewPagerAdapterSub extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapterSub(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        public void addFragment(Fragment fragment) {
-            mFragmentList.add(fragment);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
+        Subviewpager2.setAdapter(viewPagerAdapterSub3);
     }
 
     private void Sub4setupTabIcons() {
@@ -1115,7 +1062,7 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[1]);
             } else if (sub4tabLayout.getTabAt(1).getText().equals("Q&A")) {
                 sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[2]);
-            }else if (sub4tabLayout.getTabAt(1).getText().equals("ENGAGEMENT")) {
+            } else if (sub4tabLayout.getTabAt(1).getText().equals("ENGAGEMENT")) {
                 sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[3]);
             }
         }
@@ -1128,7 +1075,7 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub4tabLayout.getTabAt(2).setIcon(sub3tabIcons[1]);
             } else if (sub4tabLayout.getTabAt(2).getText().equals("Q&A")) {
                 sub4tabLayout.getTabAt(2).setIcon(sub3tabIcons[2]);
-            }else if (sub4tabLayout.getTabAt(2).getText().equals("ENGAGEMENT")) {
+            } else if (sub4tabLayout.getTabAt(2).getText().equals("ENGAGEMENT")) {
                 sub4tabLayout.getTabAt(2).setIcon(sub3tabIcons[3]);
             }
         }
@@ -1140,17 +1087,18 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub4tabLayout.getTabAt(3).setIcon(sub3tabIcons[1]);
             } else if (sub4tabLayout.getTabAt(3).getText().equals("Q&A")) {
                 sub4tabLayout.getTabAt(3).setIcon(sub3tabIcons[2]);
-            }else if (sub4tabLayout.getTabAt(3).getText().equals("ENGAGEMENT")) {
+            } else if (sub4tabLayout.getTabAt(3).getText().equals("ENGAGEMENT")) {
                 sub4tabLayout.getTabAt(3).setIcon(sub3tabIcons[3]);
             }
         }
 
     }
+
     private void Sub4setupViewPager(ViewPager viewPager) {
 
-        ViewPagerAdapterSub adapter = new ViewPagerAdapterSub(getSupportFragmentManager());
-        adapter.addFragment(new FolderQuizFragment(), "QUIZ");
-        adapter.addFragment(new LivePollListFragment(), "LIVE POLL");
+        viewPagerAdapterSub4 = new ViewPagerAdapterSub(getSupportFragmentManager());
+        viewPagerAdapterSub4.addFragment(new FolderQuizFragment(), "QUIZ");
+        viewPagerAdapterSub4.addFragment(new LivePollListFragment(), "LIVE POLL");
 
        /* if(agenda.equalsIgnoreCase("1")) {
             adapter.addFragment(new FragmentNewsFeed(), "LIVE POLL");
@@ -1159,9 +1107,9 @@ LinearLayout linTab4,linTab3,linTab2;
             adapter.addFragment(new LivePollListFragment(), "LIVE POLL");
 
         }*/
-        adapter.addFragment(new QnASpeakerFragment(), "Q&A");
-        adapter.addFragment(new EngagementFragment(), "ENGAGEMENT");
-        Subviewpager3.setAdapter(adapter);
+        viewPagerAdapterSub4.addFragment(new QnASpeakerFragment(), "Q&A");
+        viewPagerAdapterSub4.addFragment(new EngagementFragment(), "ENGAGEMENT");
+        Subviewpager3.setAdapter(viewPagerAdapterSub4);
     }
 
     public void profiledetails() {
@@ -1175,13 +1123,14 @@ LinearLayout linTab4,linTab3,linTab2;
         TextView designationTv = outer.findViewById(R.id.designationTv);
         TextView compantyTv = outer.findViewById(R.id.compantyTv);
         final ImageView profileIV = outer.findViewById(R.id.profileIV);
-        final ImageView iv_close= outer.findViewById(R.id.iv_close);
+        final ImageView iv_close = outer.findViewById(R.id.iv_close);
         final ProgressBar progressView = outer.findViewById(R.id.progressView);
 
         eventname = outer.findViewById(R.id.eventname);
         eventname.setTextColor(Color.parseColor(colorActive));
-        headerRel.setBackgroundColor(Color.parseColor(colorActive));
-        outer.setBackgroundColor(Color.parseColor(colorActive));
+       // headerRel.setBackgroundColor(Color.parseColor(colorActive));
+        //outer.setBackgroundColor(Color.parseColor(colorActive));
+
 
         eventname.setText(eventnamestr);
 
@@ -1264,20 +1213,20 @@ LinearLayout linTab4,linTab3,linTab2;
         if (profilepic != null) {
             Glide.with(this).load(ApiConstant.profilepic + profilepic).circleCrop()
                     .listener(new RequestListener<Drawable>() {
-                @Override
-                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                    progressView.setVisibility(View.GONE);
-                    profileIV.setImageResource(R.drawable.profilepic_placeholder);
-                    return true;
-                }
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            progressView.setVisibility(View.GONE);
+                            profileIV.setImageResource(R.drawable.profilepic_placeholder);
+                            return true;
+                        }
 
-                @Override
-                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                    progressView.setVisibility(View.GONE);
-                    profileIV.setImageResource(R.drawable.profilepic_placeholder);
-                    return false;
-                }
-            }).into(profileIV);
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            progressView.setVisibility(View.GONE);
+                            profileIV.setImageResource(R.drawable.profilepic_placeholder);
+                            return false;
+                        }
+                    }).into(profileIV);
         } else {
             profileIV.setImageResource(R.drawable.profilepic_placeholder);
             progressView.setVisibility(View.GONE);
@@ -1580,10 +1529,14 @@ LinearLayout linTab4,linTab3,linTab2;
 
     @Override
     public void onBackPressed() {
-
+        if (Jzvd.backPress()) {
+            return;
+        }
         boolean check = JzvdStd.backPress();
 
+
         if (check == true) {
+
             JzvdStd.goOnPlayOnPause();
 
         } else {
@@ -1957,47 +1910,6 @@ LinearLayout linTab4,linTab3,linTab2;
         }
     }
 
-
-    private class WallPostReciever extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // progressbarForSubmit.setVisibility(View.GONE);
-            Log.d("service end", "service end");
-        }
-    }
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-        public void addFragment(Fragment fragment) {
-            mFragmentList.add(fragment);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
-
     public void firbaseAnalytics() {
         FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle bundle = new Bundle();
@@ -2155,12 +2067,11 @@ LinearLayout linTab4,linTab3,linTab2;
         });
     }
 
-    void MainTabMecahnism(){
+    void MainTabMecahnism() {
         try {
 
             int i = tabLayout.getTabCount();
             if (i == 5) {
-
 
                 tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
                 tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
@@ -2168,17 +2079,19 @@ LinearLayout linTab4,linTab3,linTab2;
                 tabLayout.getTabAt(3).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
                 tabLayout.getTabAt(4).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
 
-
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Event Details")){
+                        if (tab.getText().equals("Event Details")) {
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2191,7 +2104,14 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Folder")){
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("Folder")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2204,9 +2124,23 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager3.setVisibility(View.GONE);
                             linear_livestream.setVisibility(View.GONE);
 
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager2.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
+                            if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
+                                grid_image_view.setVisibility(View.VISIBLE);
+                                list_image_view.setVisibility(View.VISIBLE);
+                            } else {
+                                grid_image_view.setVisibility(View.GONE);
+                                list_image_view.setVisibility(View.GONE);
+                            }
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
 
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
-                                tab.getText().equals("Exhibitors")){
+                        } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
+                                tab.getText().equals("Exhibitors")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.VISIBLE);
@@ -2220,8 +2154,15 @@ LinearLayout linTab4,linTab3,linTab2;
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
 
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager3.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
 
-                        }else{
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
@@ -2250,7 +2191,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("Event Details")){
+                        if (tab.getText().equals("Event Details")) {
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2263,8 +2204,14 @@ LinearLayout linTab4,linTab3,linTab2;
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
-
-                        } else if(tab.getText().equals("Folder")){
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("Folder")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2277,9 +2224,23 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager3.setVisibility(View.GONE);
                             linear_livestream.setVisibility(View.GONE);
 
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager2.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
+                            if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
+                                grid_image_view.setVisibility(View.VISIBLE);
+                                list_image_view.setVisibility(View.VISIBLE);
+                            } else {
+                                grid_image_view.setVisibility(View.GONE);
+                                list_image_view.setVisibility(View.GONE);
+                            }
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
 
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
-                                tab.getText().equals("Exhibitors")){
+                        } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
+                                tab.getText().equals("Exhibitors")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.VISIBLE);
@@ -2292,9 +2253,15 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
+//-------------------------------------------------------------------------------
+                            int pos =  Subviewpager3.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
 
-
-                        }else{
+                        } else {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
@@ -2313,7 +2280,8 @@ LinearLayout linTab4,linTab3,linTab2;
                     }
                 });
             } else if (i == 4) {
-
+                grid_image_view.setVisibility(View.GONE);
+                list_image_view.setVisibility(View.GONE);
 
                 tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
                 tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
@@ -2324,13 +2292,15 @@ LinearLayout linTab4,linTab3,linTab2;
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Event Details")){
+                        if (tab.getText().equals("Event Details")) {
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2343,11 +2313,16 @@ LinearLayout linTab4,linTab3,linTab2;
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "", txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
 
-
-
-                        } else if(tab.getText().equals("Folder")){
+                        } else if (tab.getText().equals("Folder")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2359,11 +2334,25 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             linear_livestream.setVisibility(View.GONE);
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"",txtMainHeader,headerlogoIv);
 
+                            //--------------------------------------------------------------------------------------
+                            int pos =  Subviewpager2.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
 
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
-                                tab.getText().equals("Exhibitors")){
+                            if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
+                                grid_image_view.setVisibility(View.VISIBLE);
+                                list_image_view.setVisibility(View.VISIBLE);
+                            } else {
+                                grid_image_view.setVisibility(View.GONE);
+                                list_image_view.setVisibility(View.GONE);
+                            }
+
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-----------------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
+                                tab.getText().equals("Exhibitors")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.VISIBLE);
@@ -2376,11 +2365,15 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager3.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"",txtMainHeader,headerlogoIv);
-
-                        }
-                        else if(tab.getText().equals("News Feed")) {
+                        } else if (tab.getText().equals("News Feed")) {
                           /* headerlogoIv.setVisibility(View.GONE);
                            txtMainHeader.setVisibility(View.VISIBLE);*/
                             linTab2.setVisibility(View.GONE);
@@ -2394,8 +2387,9 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.VISIBLE);
 
-                          Util.logomethodwithText(MrgeHomeActivity.this,false,"",txtMainHeader,headerlogoIv);
-                        }else{
+
+                            Util.logomethodwithText(MrgeHomeActivity.this, false, "", txtMainHeader, headerlogoIv);
+                        } else {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
@@ -2419,11 +2413,12 @@ LinearLayout linTab4,linTab3,linTab2;
 
                         tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
 
+
                     }
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("Event Details")){
+                        if (tab.getText().equals("Event Details")) {
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2436,8 +2431,14 @@ LinearLayout linTab4,linTab3,linTab2;
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
-
-                        } else if(tab.getText().equals("Folder")){
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("Folder")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2449,10 +2450,22 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             linear_livestream.setVisibility(View.GONE);
-
-
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
-                                tab.getText().equals("Exhibitors")){
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager2.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
+                            if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
+                                grid_image_view.setVisibility(View.VISIBLE);
+                                list_image_view.setVisibility(View.VISIBLE);
+                            } else {
+                                grid_image_view.setVisibility(View.GONE);
+                                list_image_view.setVisibility(View.GONE);
+                            }
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
+                                tab.getText().equals("Exhibitors")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.VISIBLE);
@@ -2465,13 +2478,19 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager3.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
 
-
-                        } else if(tab.getText().equals("News Feed")) {
+                        } else if (tab.getText().equals("News Feed")) {
                           /* headerlogoIv.setVisibility(View.GONE);
                            txtMainHeader.setVisibility(View.VISIBLE);*/
-                            Util.logomethodwithText(MrgeHomeActivity.this,false,"",txtMainHeader,headerlogoIv);
-                        }else{
+                            Util.logomethodwithText(MrgeHomeActivity.this, false, "", txtMainHeader, headerlogoIv);
+                        } else {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
@@ -2488,6 +2507,8 @@ LinearLayout linTab4,linTab3,linTab2;
                     }
                 });
             } else if (i == 3) {
+                grid_image_view.setVisibility(View.GONE);
+                list_image_view.setVisibility(View.GONE);
 
                 tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
                 tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
@@ -2496,6 +2517,8 @@ LinearLayout linTab4,linTab3,linTab2;
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -2503,7 +2526,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
 
-                        if(tab.getText().equals("Event Details")){
+                        if (tab.getText().equals("Event Details")) {
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2517,7 +2540,14 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Folder")){
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("Folder")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2530,9 +2560,22 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager3.setVisibility(View.GONE);
                             linear_livestream.setVisibility(View.GONE);
 
-
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
-                                tab.getText().equals("Exhibitors")){
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager2.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
+                            if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
+                                grid_image_view.setVisibility(View.VISIBLE);
+                                list_image_view.setVisibility(View.VISIBLE);
+                            } else {
+                                grid_image_view.setVisibility(View.GONE);
+                                list_image_view.setVisibility(View.GONE);
+                            }
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
+                                tab.getText().equals("Exhibitors")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.VISIBLE);
@@ -2545,9 +2588,15 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager3.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
 
-
-                        }else{
+                        } else {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
@@ -2576,7 +2625,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("Event Details")){
+                        if (tab.getText().equals("Event Details")) {
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2590,7 +2639,14 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Folder")){
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("Folder")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2603,9 +2659,22 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager3.setVisibility(View.GONE);
                             linear_livestream.setVisibility(View.GONE);
 
-
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
-                                tab.getText().equals("Exhibitors")){
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager2.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
+                            if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
+                                grid_image_view.setVisibility(View.VISIBLE);
+                                list_image_view.setVisibility(View.VISIBLE);
+                            } else {
+                                grid_image_view.setVisibility(View.GONE);
+                                list_image_view.setVisibility(View.GONE);
+                            }
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
+                                tab.getText().equals("Exhibitors")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.VISIBLE);
@@ -2618,9 +2687,15 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager3.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
 
-
-                        }else{
+                        } else {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
@@ -2639,6 +2714,8 @@ LinearLayout linTab4,linTab3,linTab2;
 //               tabLayout.getTabAt(0).setIcon(tabIcons[0]);
 //               tabLayout.getTabAt(1).setIcon(tabIcons[1]);
 
+                grid_image_view.setVisibility(View.GONE);
+                list_image_view.setVisibility(View.GONE);
 
                 tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
                 tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
@@ -2647,13 +2724,15 @@ LinearLayout linTab4,linTab3,linTab2;
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Event Details")){
+                        if (tab.getText().equals("Event Details")) {
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2667,7 +2746,14 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Folder")){
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("Folder")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2680,9 +2766,23 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager3.setVisibility(View.GONE);
                             linear_livestream.setVisibility(View.GONE);
 
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager2.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
+                            if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
+                                grid_image_view.setVisibility(View.VISIBLE);
+                                list_image_view.setVisibility(View.VISIBLE);
+                            } else {
+                                grid_image_view.setVisibility(View.GONE);
+                                list_image_view.setVisibility(View.GONE);
+                            }
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
 
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
-                                tab.getText().equals("Exhibitors")){
+                        } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
+                                tab.getText().equals("Exhibitors")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.VISIBLE);
@@ -2696,8 +2796,15 @@ LinearLayout linTab4,linTab3,linTab2;
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
 
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager3.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
 
-                        }else{
+                        } else {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
@@ -2725,7 +2832,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("Event Details")){
+                        if (tab.getText().equals("Event Details")) {
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2738,8 +2845,14 @@ LinearLayout linTab4,linTab3,linTab2;
                             sub3tabLayout.setVisibility(View.GONE);
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
-
-                        } else if(tab.getText().equals("Folder")){
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("Folder")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2753,9 +2866,22 @@ LinearLayout linTab4,linTab3,linTab2;
                             sub4tabLayout.setVisibility(View.GONE);
                             linear_livestream.setVisibility(View.GONE);
 
-
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
-                                tab.getText().equals("Exhibitors")){
+//-------------------------------------------------------------------------------
+                            int pos =  Subviewpager2.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
+                            if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
+                                grid_image_view.setVisibility(View.VISIBLE);
+                                list_image_view.setVisibility(View.VISIBLE);
+                            } else {
+                                grid_image_view.setVisibility(View.GONE);
+                                list_image_view.setVisibility(View.GONE);
+                            }
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
+                                tab.getText().equals("Exhibitors")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.VISIBLE);
@@ -2768,9 +2894,15 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager3.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
 
-
-                        }else{
+                        } else {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
@@ -2786,6 +2918,8 @@ LinearLayout linTab4,linTab3,linTab2;
                     }
                 });
             } else if (i == 1) {
+                grid_image_view.setVisibility(View.GONE);
+                list_image_view.setVisibility(View.GONE);
 
                 tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
 
@@ -2793,14 +2927,15 @@ LinearLayout linTab4,linTab3,linTab2;
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
 
-
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("Event Details")){
+                        if (tab.getText().equals("Event Details")) {
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2814,7 +2949,14 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Folder")){
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("Folder")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2826,10 +2968,23 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             linear_livestream.setVisibility(View.GONE);
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager2.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
+                            if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
+                                grid_image_view.setVisibility(View.VISIBLE);
+                                list_image_view.setVisibility(View.VISIBLE);
+                            } else {
+                                grid_image_view.setVisibility(View.GONE);
+                                list_image_view.setVisibility(View.GONE);
+                            }
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
 
-
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
-                                tab.getText().equals("Exhibitors")){
+                        } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
+                                tab.getText().equals("Exhibitors")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.VISIBLE);
@@ -2843,8 +2998,14 @@ LinearLayout linTab4,linTab3,linTab2;
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
 
-
-                        }else{
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager3.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
@@ -2868,7 +3029,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("Event Details")){
+                        if (tab.getText().equals("Event Details")) {
                             Subviewpager.setPagingEnabled(false);
                             linTab2.setVisibility(View.VISIBLE);
                             linTab3.setVisibility(View.GONE);
@@ -2881,7 +3042,14 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-                        } else if(tab.getText().equals("Folder")){
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("Folder")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.VISIBLE);
                             linTab4.setVisibility(View.GONE);
@@ -2893,9 +3061,22 @@ LinearLayout linTab4,linTab3,linTab2;
                             viewPager.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
 
-
-                        }else if(tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
-                                tab.getText().equals("Exhibitors")){
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager2.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
+                            if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
+                                grid_image_view.setVisibility(View.VISIBLE);
+                                list_image_view.setVisibility(View.VISIBLE);
+                            } else {
+                                grid_image_view.setVisibility(View.GONE);
+                                list_image_view.setVisibility(View.GONE);
+                            }
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
+                        } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
+                                tab.getText().equals("Exhibitors")) {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.VISIBLE);
@@ -2908,8 +3089,15 @@ LinearLayout linTab4,linTab3,linTab2;
                             Subviewpager3.setVisibility(View.VISIBLE);
                             sub4tabLayout.setVisibility(View.VISIBLE);
 
+                            //-------------------------------------------------------------------------------
+                            int pos =  Subviewpager3.getCurrentItem();
+                            String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
+                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle",pageTitle1);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
+                            //-------------------------------------------------------------------------------
 
-                        }else{
+                        } else {
                             linTab2.setVisibility(View.GONE);
                             linTab3.setVisibility(View.GONE);
                             linTab4.setVisibility(View.GONE);
@@ -2922,7 +3110,6 @@ LinearLayout linTab4,linTab3,linTab2;
 
 
                         }
-
                     }
                 });
             }
@@ -2932,7 +3119,7 @@ LinearLayout linTab4,linTab3,linTab2;
 
     }
 
-    void SubTab2Mechanism(){
+    void SubTab2Mechanism() {
         try {
 
             int i = sub2tabLayout.getTabCount();
@@ -2949,6 +3136,8 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub2tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -2957,22 +3146,22 @@ LinearLayout linTab4,linTab3,linTab2;
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub2tabLayout.setVisibility(View.GONE);
                         linTab2.setVisibility(View.GONE);
-                       if(tab.getText().equals("EVENT INFO")) {
+                        if (tab.getText().equals("EVENT INFO")) {
 
-                           Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
-                       }else if(tab.getText().equals("ATTENDEES")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ATTENDEES")) {
 
-                           Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
-                       }else if(tab.getText().equals("SPEAKERS")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SPEAKERS")) {
 
-                           Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
-                       }else if(tab.getText().equals("SCHEDULE")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SCHEDULE")) {
 
-                           Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
-                       }else if(tab.getText().equals("EMERGENCY")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("EMERGENCY")) {
 
-                           Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
-                       }
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
+                        }
                     }
 
                     @Override
@@ -2988,21 +3177,21 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("EVENT INFO")) {
+                        if (tab.getText().equals("EVENT INFO")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ATTENDEES")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ATTENDEES")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SPEAKERS")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SPEAKERS")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SCHEDULE")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SCHEDULE")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("EMERGENCY")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
@@ -3019,6 +3208,8 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub2tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3027,21 +3218,21 @@ LinearLayout linTab4,linTab3,linTab2;
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub2tabLayout.setVisibility(View.GONE);
                         linTab2.setVisibility(View.GONE);
-                        if(tab.getText().equals("EVENT INFO")) {
+                        if (tab.getText().equals("EVENT INFO")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ATTENDEES")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ATTENDEES")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SPEAKERS")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SPEAKERS")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SCHEDULE")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SCHEDULE")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("EMERGENCY")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3058,21 +3249,21 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("EVENT INFO")) {
+                        if (tab.getText().equals("EVENT INFO")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ATTENDEES")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ATTENDEES")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SPEAKERS")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SPEAKERS")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SCHEDULE")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SCHEDULE")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("EMERGENCY")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
@@ -3085,6 +3276,8 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub2tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3094,21 +3287,21 @@ LinearLayout linTab4,linTab3,linTab2;
                         linTab2.setVisibility(View.GONE);
 
                         sub2tabLayout.setVisibility(View.GONE);
-                        if(tab.getText().equals("EVENT INFO")) {
+                        if (tab.getText().equals("EVENT INFO")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ATTENDEES")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ATTENDEES")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SPEAKERS")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SPEAKERS")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SCHEDULE")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SCHEDULE")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("EMERGENCY")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3125,21 +3318,21 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("EVENT INFO")) {
+                        if (tab.getText().equals("EVENT INFO")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ATTENDEES")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ATTENDEES")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SPEAKERS")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SPEAKERS")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SCHEDULE")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SCHEDULE")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("EMERGENCY")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
@@ -3152,6 +3345,8 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub2tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3162,21 +3357,21 @@ LinearLayout linTab4,linTab3,linTab2;
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub2tabLayout.setVisibility(View.GONE);
                         linTab2.setVisibility(View.GONE);
-                        if(tab.getText().equals("EVENT INFO")) {
+                        if (tab.getText().equals("EVENT INFO")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ATTENDEES")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ATTENDEES")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SPEAKERS")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SPEAKERS")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SCHEDULE")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SCHEDULE")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("EMERGENCY")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3193,21 +3388,21 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("EVENT INFO")) {
+                        if (tab.getText().equals("EVENT INFO")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ATTENDEES")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ATTENDEES")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SPEAKERS")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SPEAKERS")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SCHEDULE")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SCHEDULE")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("EMERGENCY")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
@@ -3219,7 +3414,8 @@ LinearLayout linTab4,linTab3,linTab2;
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
 
-
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3227,21 +3423,21 @@ LinearLayout linTab4,linTab3,linTab2;
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         // sub2tabLayout.setVisibility(View.GONE);
-                        if(tab.getText().equals("EVENT INFO")) {
+                        if (tab.getText().equals("EVENT INFO")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ATTENDEES")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ATTENDEES")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SPEAKERS")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SPEAKERS")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SCHEDULE")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SCHEDULE")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("EMERGENCY")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3254,21 +3450,21 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("EVENT INFO")) {
+                        if (tab.getText().equals("EVENT INFO")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Event Info",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ATTENDEES")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ATTENDEES")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Attendees",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SPEAKERS")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SPEAKERS")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Speakers",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("SCHEDULE")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("SCHEDULE")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Schedule",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("EMERGENCY")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Emergency",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
@@ -3278,7 +3474,8 @@ LinearLayout linTab4,linTab3,linTab2;
         }
 
     }
-    void SubTab3Mechanism(){
+
+    void SubTab3Mechanism() {
         try {
 
             int i = sub3tabLayout.getTabCount();
@@ -3294,8 +3491,9 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub3tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        Util.logomethodwithText( MrgeHomeActivity.this, true,"Engagement", MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);
-
+                        Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", MrgeHomeActivity.txtMainHeader, MrgeHomeActivity.headerlogoIv);
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3319,7 +3517,19 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-
+                        if (tab.getText().equals("IMAGE")) {
+                            grid_image_view.setVisibility(View.GONE);
+                            list_image_view.setVisibility(View.GONE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("VIDEO")) {
+                            grid_image_view.setVisibility(View.GONE);
+                            list_image_view.setVisibility(View.GONE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("DOWNLOADS")) {
+                            grid_image_view.setVisibility(View.VISIBLE);
+                            list_image_view.setVisibility(View.VISIBLE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
+                        }
                     }
                 });
             } else if (i == 3) {
@@ -3329,28 +3539,34 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub3tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
                 sub3tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
 
+
                 sub3tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                        Util.logomethodwithText( MrgeHomeActivity.this, true,"IMAGE", MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);
+                        Util.logomethodwithText(MrgeHomeActivity.this, true, "IMAGE", MrgeHomeActivity.txtMainHeader, MrgeHomeActivity.headerlogoIv);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         linTab3.setVisibility(View.GONE);
 
                         sub3tabLayout.setVisibility(View.GONE);
 
-                        if(tab.getText().equals("IMAGE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Image",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("VIDEO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Video",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("DOWNLOADS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Downloads",txtMainHeader,headerlogoIv);
+                        if (tab.getText().equals("IMAGE")) {
+                            grid_image_view.setVisibility(View.GONE);
+                            list_image_view.setVisibility(View.GONE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("VIDEO")) {
+                            grid_image_view.setVisibility(View.GONE);
+                            list_image_view.setVisibility(View.GONE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("DOWNLOADS")) {
+                            grid_image_view.setVisibility(View.VISIBLE);
+                            list_image_view.setVisibility(View.VISIBLE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3367,47 +3583,51 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("IMAGE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Image",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("VIDEO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Video",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("DOWNLOADS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Downloads",txtMainHeader,headerlogoIv);
+                        if (tab.getText().equals("IMAGE")) {
+                            grid_image_view.setVisibility(View.GONE);
+                            list_image_view.setVisibility(View.GONE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("VIDEO")) {
+                            grid_image_view.setVisibility(View.GONE);
+                            list_image_view.setVisibility(View.GONE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("DOWNLOADS")) {
+                            grid_image_view.setVisibility(View.VISIBLE);
+                            list_image_view.setVisibility(View.VISIBLE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
             } else if (i == 2) {
-
-
                 sub3tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
                 sub3tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
-
 
                 sub3tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-                        Util.logomethodwithText( MrgeHomeActivity.this, true,"VIDEO", MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);
+                        Util.logomethodwithText(MrgeHomeActivity.this, true, "VIDEO", MrgeHomeActivity.txtMainHeader, MrgeHomeActivity.headerlogoIv);
 // int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub3tabLayout.setVisibility(View.GONE);
                         linTab3.setVisibility(View.GONE);
-                        if(tab.getText().equals("IMAGE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Image",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("VIDEO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Video",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("DOWNLOADS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Downloads",txtMainHeader,headerlogoIv);
+                        if (tab.getText().equals("IMAGE")) {
+                            grid_image_view.setVisibility(View.GONE);
+                            list_image_view.setVisibility(View.GONE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("VIDEO")) {
+                            grid_image_view.setVisibility(View.GONE);
+                            list_image_view.setVisibility(View.GONE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("DOWNLOADS")) {
+                            grid_image_view.setVisibility(View.VISIBLE);
+                            list_image_view.setVisibility(View.VISIBLE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3424,20 +3644,23 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("IMAGE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Image",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("VIDEO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Video",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("DOWNLOADS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Downloads",txtMainHeader,headerlogoIv);
+                        if (tab.getText().equals("IMAGE")) {
+                            grid_image_view.setVisibility(View.GONE);
+                            list_image_view.setVisibility(View.GONE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("VIDEO")) {
+                            grid_image_view.setVisibility(View.GONE);
+                            list_image_view.setVisibility(View.GONE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("DOWNLOADS")) {
+                            grid_image_view.setVisibility(View.VISIBLE);
+                            list_image_view.setVisibility(View.VISIBLE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
             } else if (i == 1) {
-                Util.logomethodwithText( this, true,"DOWNLOADS", MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);
+                Util.logomethodwithText(this, true, "DOWNLOADS", MrgeHomeActivity.txtMainHeader, MrgeHomeActivity.headerlogoIv);
 
                 sub3tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
 
@@ -3445,7 +3668,8 @@ LinearLayout linTab4,linTab3,linTab2;
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
 
-
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3453,15 +3677,15 @@ LinearLayout linTab4,linTab3,linTab2;
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         // sub3tabLayout.setVisibility(View.GONE);
-                        if(tab.getText().equals("IMAGE")) {
+                        if (tab.getText().equals("IMAGE")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Image",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("VIDEO")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("VIDEO")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Video",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("DOWNLOADS")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("DOWNLOADS")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Downloads",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3474,15 +3698,18 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("IMAGE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Image",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("VIDEO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Video",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("DOWNLOADS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Downloads",txtMainHeader,headerlogoIv);
+                        if (tab.getText().equals("IMAGE")) {
+                            grid_image_view.setVisibility(View.GONE);
+                            list_image_view.setVisibility(View.GONE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("VIDEO")) {
+                            grid_image_view.setVisibility(View.GONE);
+                            list_image_view.setVisibility(View.GONE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("DOWNLOADS")) {
+                            grid_image_view.setVisibility(View.VISIBLE);
+                            list_image_view.setVisibility(View.VISIBLE);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
@@ -3490,10 +3717,9 @@ LinearLayout linTab4,linTab3,linTab2;
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    void SubTab4Mechanism(){
+    void SubTab4Mechanism() {
         try {
 
             int i = sub4tabLayout.getTabCount();
@@ -3509,6 +3735,8 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3518,19 +3746,19 @@ LinearLayout linTab4,linTab3,linTab2;
                         sub4tabLayout.setVisibility(View.GONE);
                         linTab4.setVisibility(View.GONE);
 
-                        if(tab.getText().equals("QUIZ")) {
+                        if (tab.getText().equals("QUIZ")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("LIVE POLL")) {
-                           // showQuizDialouge();
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("LIVE POLL")) {
+                            // showQuizDialouge();
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("Q&A")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("Q&A")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ENGAGEMENT")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ENGAGEMENT")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3547,18 +3775,18 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("QUIZ")) {
+                        if (tab.getText().equals("QUIZ")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("LIVE POLL")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("LIVE POLL")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("Q&A")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("Q&A")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ENGAGEMENT")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ENGAGEMENT")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
@@ -3571,6 +3799,8 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3580,18 +3810,18 @@ LinearLayout linTab4,linTab3,linTab2;
                         linTab4.setVisibility(View.GONE);
 
                         sub4tabLayout.setVisibility(View.GONE);
-                        if(tab.getText().equals("QUIZ")) {
+                        if (tab.getText().equals("QUIZ")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("LIVE POLL")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("LIVE POLL")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("Q&A")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("Q&A")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ENGAGEMENT")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ENGAGEMENT")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3608,18 +3838,18 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("QUIZ")) {
+                        if (tab.getText().equals("QUIZ")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("LIVE POLL")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("LIVE POLL")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("Q&A")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("Q&A")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ENGAGEMENT")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ENGAGEMENT")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
@@ -3632,6 +3862,8 @@ LinearLayout linTab4,linTab3,linTab2;
                 sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3642,18 +3874,18 @@ LinearLayout linTab4,linTab3,linTab2;
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub4tabLayout.setVisibility(View.GONE);
                         linTab4.setVisibility(View.GONE);
-                        if(tab.getText().equals("QUIZ")) {
+                        if (tab.getText().equals("QUIZ")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("LIVE POLL")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("LIVE POLL")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("Q&A")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("Q&A")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ENGAGEMENT")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ENGAGEMENT")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3665,18 +3897,18 @@ LinearLayout linTab4,linTab3,linTab2;
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
                         tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
-                        if(tab.getText().equals("QUIZ")) {
+                        if (tab.getText().equals("QUIZ")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("LIVE POLL")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("LIVE POLL")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("Q&A")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("Q&A")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ENGAGEMENT")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ENGAGEMENT")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3693,7 +3925,8 @@ LinearLayout linTab4,linTab3,linTab2;
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
 
-
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3701,18 +3934,18 @@ LinearLayout linTab4,linTab3,linTab2;
 
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         // sub3tabLayout.setVisibility(View.GONE);
-                        if(tab.getText().equals("QUIZ")) {
+                        if (tab.getText().equals("QUIZ")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("LIVE POLL")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("LIVE POLL")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("Q&A")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("Q&A")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ENGAGEMENT")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ENGAGEMENT")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3725,18 +3958,18 @@ LinearLayout linTab4,linTab3,linTab2;
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        if(tab.getText().equals("QUIZ")) {
+                        if (tab.getText().equals("QUIZ")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Quiz",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("LIVE POLL")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("LIVE POLL")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Live Poll",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("Q&A")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("Q&A")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Q&A",txtMainHeader,headerlogoIv);
-                        }else if(tab.getText().equals("ENGAGEMENT")) {
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                        } else if (tab.getText().equals("ENGAGEMENT")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this,true,"Engagement",txtMainHeader,headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
@@ -3746,6 +3979,7 @@ LinearLayout linTab4,linTab3,linTab2;
         }
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.navmenudownloads, menu);
@@ -3762,6 +3996,80 @@ LinearLayout linTab4,linTab3,linTab2;
         myDialog.show();
 
 
+    }
+
+    class ViewPagerAdapterSub extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapterSub(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        public void addFragment(Fragment fragment) {
+            mFragmentList.add(fragment);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+
+    private class WallPostReciever extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // progressbarForSubmit.setVisibility(View.GONE);
+            Log.d("service end", "service end");
+        }
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        public void addFragment(Fragment fragment) {
+            mFragmentList.add(fragment);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 
 }
