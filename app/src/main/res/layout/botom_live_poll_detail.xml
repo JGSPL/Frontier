@@ -1,116 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relative"
+    android:id="@+id/Quizcard"
+
     android:layout_width="match_parent"
     android:layout_height="400dp">
 
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rel1"
-        android:weightSum="10">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp">
 
 
-
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/rel1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:weightSum="10">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                android:id="@+id/txtTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/padding"
-                android:text="@string/livepol"
-                android:textColor="@color/activetab"
-                android:textSize="@dimen/textsizenormal"
-                android:visibility="gone" />
-
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                android:id="@+id/questionTv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtTitle"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="10dp"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:textSize="15dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/questionTv"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/test"
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/txtTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/padding"
+                    android:text="@string/livepol"
+                    android:textColor="@color/activetab"
+                    android:textSize="@dimen/textsizenormal"
                     android:visibility="gone" />
 
-                <RadioGroup
-                    android:id="@+id/radiogroup"
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/questionTv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="vertical" />
+                    android:layout_below="@+id/txtTitle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
 
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/pollGraph"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"></androidx.recyclerview.widget.RecyclerView>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/questionTv"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/test"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+
+                    <RadioGroup
+                        android:id="@+id/radiogroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical" />
 
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/pollGraph"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"></androidx.recyclerview.widget.RecyclerView>
+
+
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-        <com.procialize.mrgeApp20.Fonts.RobotoButton
-            android:id="@+id/btnNext"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/loginbutton"
-            android:gravity="center"
-            android:text="Next"
-            android:textAllCaps="false"
-            android:textColor="@color/colorwhite"
-            android:visibility="gone" />
+
+            <com.procialize.mrgeApp20.Fonts.RobotoButton
+                android:id="@+id/btnNext"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/loginbutton"
+                android:gravity="center"
+                android:text="Next"
+                android:textAllCaps="false"
+                android:textColor="@color/colorwhite"
+                android:visibility="gone" />
 
 
-        <com.procialize.mrgeApp20.Fonts.RobotoButton
-            android:id="@+id/submit"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/activetab"
-            android:gravity="center"
-            android:text="Submit"
-            android:textAllCaps="false"
-            android:textColor="@color/colorwhite"
-            android:textSize="@dimen/textsizesmall"
-            android:visibility="visible" />
-    </RelativeLayout>
+            <com.procialize.mrgeApp20.Fonts.RobotoButton
+                android:id="@+id/submit"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/activetab"
+                android:gravity="center"
+                android:text="Submit"
+                android:textAllCaps="false"
+                android:textColor="@color/colorwhite"
+                android:textSize="@dimen/textsizesmall"
+                android:visibility="visible" />
+        </RelativeLayout>
 
-
+    </LinearLayout>
 </LinearLayout>

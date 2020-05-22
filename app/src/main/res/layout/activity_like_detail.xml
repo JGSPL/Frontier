@@ -32,13 +32,13 @@
             app:contentInsetRight="0dp"
             app:contentInsetStart="0dp">
 
-            <ImageView
-                android:id="@+id/headerlogoIv"
+            <TextView
+                android:id="@+id/tv_header"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="-10dp"
-                android:contentDescription=" " />
+                android:layout_gravity="left"
+                android:text="Comment"
+                android:textColor="@color/activetab"/>
 
         </androidx.appcompat.widget.Toolbar>
 

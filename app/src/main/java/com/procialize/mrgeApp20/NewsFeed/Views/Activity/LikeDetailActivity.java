@@ -78,7 +78,7 @@ public class LikeDetailActivity extends AppCompatActivity {
     LikeAdapter likeAdapter;
     List<AttendeeList> attendeeLists;
     RecyclerView like_list;
-    ImageView headerlogoIv, profileIV, feedimageIv, playicon;
+    ImageView  profileIV, feedimageIv, playicon;
     ProgressBar progressView, feedprogress;
     TextView nameTv, designationTv, dateTv, companyTv, headingTv;
     JzvdStd videoplayer;
@@ -97,6 +97,7 @@ public class LikeDetailActivity extends AppCompatActivity {
     ViewPager vp_slider;
     LinearLayout ll_dots;
     ArrayList<news_feed_media> myList;
+    TextView tv_header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,11 +125,13 @@ public class LikeDetailActivity extends AppCompatActivity {
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
 
-        headerlogoIv = findViewById(R.id.headerlogoIv);
+       // headerlogoIv = findViewById(R.id.headerlogoIv);
         profileIV = findViewById(R.id.profileIV);
         feedimageIv = findViewById(R.id.feedimageIv);
         playicon = findViewById(R.id.playicon);
-        Util.logomethod(this, headerlogoIv);
+        tv_header = findViewById(R.id.tv_header);
+
+      /*  Util.logomethod(this, headerlogoIv);*/
 
         progressView = findViewById(R.id.progressView);
         feedprogress = findViewById(R.id.feedprogress);
@@ -553,6 +556,8 @@ public class LikeDetailActivity extends AppCompatActivity {
 
             }
         });
+
+        tv_header.setText(attendeeLists.size() +" Likes");
     }
 
     private void showPostLikeListresponse(Response<LikeListing> response) {

@@ -140,7 +140,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
     ProgressBar progressBar, emojibar;
     SessionManager sessionManager;
     EditText commentEt, searchEt;
-    Button commentbtn;
+    ImageView commentbtn;
     float p1 = 0;
     BottomSheetDialog dialog;
     CommentAdapter commentAdapter;
@@ -234,8 +234,8 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         });
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        headerlogoIv = findViewById(R.id.headerlogoIv);
-        Util.logomethod(this, headerlogoIv);
+       /* headerlogoIv = findViewById(R.id.headerlogoIv);
+        Util.logomethod(this, headerlogoIv);*/
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
