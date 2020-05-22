@@ -154,7 +154,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
             }
         });
 
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
 
 
         quizQuestionUrl = constant.baseUrl + constant.quizsubmit;
@@ -1037,8 +1037,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
             e.printStackTrace();
         }
 
-        Intent intent = new Intent(QuizActivity.this, FolderQuizActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(QuizActivity.this, FolderQuizActivity.class);
+        startActivity(intent);*/
         finish();
 
 

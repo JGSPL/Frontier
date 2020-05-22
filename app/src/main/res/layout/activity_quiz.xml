@@ -17,6 +17,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
+            android:background="@android:color/transparent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -25,12 +26,11 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/colortoolbar"
                 android:contentInsetStart="0dp"
                 android:contentInsetLeft="0dp"
                 android:contentInsetEnd="0dp"
                 android:contentInsetRight="0dp"
-                android:elevation="@dimen/elevation"
+                android:elevation="0dp"
                 android:minHeight="?attr/actionBarSize"
                 app:contentInsetEnd="0dp"
                 app:contentInsetLeft="0dp"
@@ -103,20 +103,33 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_gravity="right"
+                    android:visibility="gone"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                    />
-                <TextView
+               <!-- <TextView
                     android:id="@+id/txt_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:gravity="end"
                     android:text=""
+                    android:background="@drawable/quiz_score_counter"
                     android:visibility="visible"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black" />-->
 
-
+                <TextView
+                    android:id="@+id/txt_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/quiz_score_counter"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/activetab"
+                    android:textSize="8sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
