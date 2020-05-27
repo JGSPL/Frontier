@@ -54,6 +54,7 @@ import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Utility;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -133,6 +134,13 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         if (eventSettingLists.size() != 0) {
             applysetting(eventSettingLists);
         }
+
+
+       /* int sec = 1590469689 - 1590466089 ;
+        int minutes = sec/60;
+        Log.e("Date conversion", String.valueOf(minutes));*/
+
+
 
 
         cd = new ConnectionDetector(getContext());
@@ -321,13 +329,13 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
                     Glide.with(getContext()).load(image_final_url)
-                            .apply(RequestOptions.skipMemoryCacheOf(true))
+                            .apply(RequestOptions.skipMemoryCacheOf(true)).circleCrop()
                             .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).circleCrop()
                             .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 
-                            logoIv.setImageResource(R.drawable.profilepic_placeholder);
+                            logoIv.setImageResource(R.drawable.app_icon);
                             return true;
                         }
 

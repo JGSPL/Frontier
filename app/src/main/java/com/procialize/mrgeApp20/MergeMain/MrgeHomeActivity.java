@@ -1178,17 +1178,17 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         String designation = user.get(SessionManager.KEY_DESIGNATION);
 
         // company
-        String company = user.get(SessionManager.KEY_COMPANY);
+        String company = user.get(SessionManager.KEY_CITY);
 
         //profilepic
         String profilepic = user.get(SessionManager.KEY_PIC);
 
         if (edit_profile_company.equalsIgnoreCase("0")) {
 //            compantyTv.setVisibility(View.GONE);
-            compantyTv.setText("");
+           // compantyTv.setText("");
         } else {
             compantyTv.setVisibility(View.VISIBLE);
-            compantyTv.setText(company);
+            //compantyTv.setText(company);
         }
 
         if (edit_profile_designation.equalsIgnoreCase("0")) {
@@ -1196,7 +1196,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             designationTv.setText("");
         } else {
             designationTv.setVisibility(View.VISIBLE);
-            designationTv.setText(designation);
+            designationTv.setText(designation +" - " + company);
         }
 
 
@@ -3161,7 +3161,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
                         } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3178,6 +3178,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        sub2tabLayout.setVisibility(View.GONE);
+                        linTab2.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
 
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
@@ -3192,7 +3197,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
                         } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
@@ -3233,7 +3238,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
                         } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3250,6 +3255,12 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+
+                        sub2tabLayout.setVisibility(View.GONE);
+                        linTab2.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
 
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
@@ -3264,7 +3275,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
                         } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
@@ -3302,7 +3313,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
                         } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3319,6 +3330,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        sub2tabLayout.setVisibility(View.GONE);
+                        linTab2.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
 
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
@@ -3333,7 +3349,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
                         } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
@@ -3372,7 +3388,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
                         } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3389,6 +3405,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        sub2tabLayout.setVisibility(View.GONE);
+                        linTab2.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
 
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
@@ -3403,7 +3424,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
                         } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact Contact", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
@@ -3438,7 +3459,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
                         } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact Contact Contact", txtMainHeader, headerlogoIv);
                         }
                     }
 
@@ -3451,6 +3472,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        sub2tabLayout.setVisibility(View.GONE);
+                        linTab2.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
 
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
@@ -3465,7 +3491,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
                         } else if (tab.getText().equals("EMERGENCY")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency", txtMainHeader, headerlogoIv);
+                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
                         }
                     }
                 });
@@ -3493,14 +3519,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", MrgeHomeActivity.txtMainHeader, MrgeHomeActivity.headerlogoIv);
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
-                        JzvdStd.releaseAllVideos();
+
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
                         sub3tabLayout.setVisibility(View.GONE);
                         linTab3.setVisibility(View.GONE);
                     }
@@ -3518,6 +3545,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
+                        sub3tabLayout.setVisibility(View.GONE);
+                        linTab3.setVisibility(View.GONE);
                         if (tab.getText().equals("IMAGE")) {
                             grid_image_view.setVisibility(View.GONE);
                             list_image_view.setVisibility(View.GONE);
@@ -3584,6 +3616,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
+                        sub3tabLayout.setVisibility(View.GONE);
+                        linTab3.setVisibility(View.GONE);
                         if (tab.getText().equals("IMAGE")) {
                             grid_image_view.setVisibility(View.GONE);
                             list_image_view.setVisibility(View.GONE);
@@ -3645,6 +3682,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
+                        sub3tabLayout.setVisibility(View.GONE);
+                        linTab3.setVisibility(View.GONE);
                         if (tab.getText().equals("IMAGE")) {
                             grid_image_view.setVisibility(View.GONE);
                             list_image_view.setVisibility(View.GONE);
@@ -3699,6 +3741,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
+                        sub3tabLayout.setVisibility(View.GONE);
+                        linTab3.setVisibility(View.GONE);
                         if (tab.getText().equals("IMAGE")) {
                             grid_image_view.setVisibility(View.GONE);
                             list_image_view.setVisibility(View.GONE);
@@ -3736,14 +3783,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
-                        JzvdStd.releaseAllVideos();
+
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
                         sub4tabLayout.setVisibility(View.GONE);
                         linTab4.setVisibility(View.GONE);
 
@@ -3776,6 +3824,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
+                        sub4tabLayout.setVisibility(View.GONE);
+                        linTab4.setVisibility(View.GONE);
                         if (tab.getText().equals("QUIZ")) {
 
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
@@ -3839,6 +3892,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
+                        sub4tabLayout.setVisibility(View.GONE);
+                        linTab4.setVisibility(View.GONE);
                         if (tab.getText().equals("QUIZ")) {
 
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
@@ -3915,7 +3973,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
+                        sub4tabLayout.setVisibility(View.GONE);
+                        linTab4.setVisibility(View.GONE);
                     }
                 });
             } else if (i == 1) {
@@ -3959,6 +4021,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
+                        grid_image_view.setVisibility(View.GONE);
+                        list_image_view.setVisibility(View.GONE);
+                        JzvdStd.releaseAllVideos();
+                        sub4tabLayout.setVisibility(View.GONE);
+                        linTab4.setVisibility(View.GONE);
                         if (tab.getText().equals("QUIZ")) {
 
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);

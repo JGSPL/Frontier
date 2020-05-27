@@ -2,6 +2,7 @@ package com.procialize.mrgeApp20.Activity;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -42,6 +43,7 @@ import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.GetterSetter.Analytic;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.RatingSpeakerPost;
+import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -169,6 +171,16 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
 
+        ImageView notificationlogoIv = findViewById(R.id.notificationlogoIv);
+        notificationlogoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(main);
+                finish();
+            }
+        });
+
         ratebtn = findViewById(R.id.ratebtn);
 
         try {
@@ -192,11 +204,11 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
 
         GradientDrawable shape = setgradientDrawable(5, colorActive);
 
-        ratebtn.setBackground(shape);
+       // ratebtn.setBackground(shape);
 
        // layoutTop.setBackgroundColor(Color.parseColor(colorActive));
         LayerDrawable stars = (LayerDrawable) ratingbar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.parseColor(colorActive),
+        stars.getDrawable(2).setColorFilter(Color.parseColor("#fbc375"),
                 PorterDuff.Mode.SRC_ATOP);
 
 

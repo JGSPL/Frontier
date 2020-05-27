@@ -73,7 +73,7 @@ public class EmergencyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.activity_web_view, container, false);
+        rootView = inflater.inflate(R.layout.fragment_emergemcy, container, false);
 
         MrgeHomeActivity.headerlogoIv.setVisibility(View.GONE);
         MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);

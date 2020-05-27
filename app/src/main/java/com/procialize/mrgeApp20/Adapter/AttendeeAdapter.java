@@ -82,12 +82,12 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
         applySetting(eventSettingLists);
 
 
-        int colorInt = Color.parseColor(colorActive);
+        /*int colorInt = Color.parseColor(colorActive);
 
         ColorStateList csl = ColorStateList.valueOf(colorInt);
         Drawable drawable = DrawableCompat.wrap(holder.ic_rightarrow.getDrawable());
         DrawableCompat.setTintList(drawable, csl);
-        holder.ic_rightarrow.setImageDrawable(drawable);
+        holder.ic_rightarrow.setImageDrawable(drawable);*/
 
 
         try {
@@ -147,7 +147,7 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
             holder.nameTv.setText("");
         } else {
             holder.nameTv.setText(attendee.getFirstName() + " " + attendee.getLastName());
-            holder.nameTv.setTextColor(Color.parseColor(colorActive));
+           // holder.nameTv.setTextColor(Color.parseColor(colorActive));
         }
 //        try {
 //

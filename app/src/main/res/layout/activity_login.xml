@@ -209,6 +209,8 @@
                 android:background="@drawable/edt_login"
                 android:inputType="number"
                 android:minEms="20"
+                android:maxLength="6"
+
                 android:hint="*OTP"
                 android:padding="10dp"
                 android:singleLine="true"

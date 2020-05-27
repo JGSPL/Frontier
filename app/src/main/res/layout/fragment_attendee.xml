@@ -22,7 +22,7 @@
         android:background="@color/colorwhite"
         android:hint="@string/search_attendee_here"
         android:imeOptions="actionDone|actionSend"
-        android:padding="10dp"
+        android:padding="8dp"
         android:textColor="@color/black"
         android:textSize="@dimen/textsizesmall" />
 
@@ -36,7 +36,7 @@
         android:text="Pull Down to Refresh"
         android:textColor="@color/inactivetab"
         android:textSize="10sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 
     <ProgressBar
@@ -50,6 +50,7 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/attendeefeedrefresh"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

@@ -37,7 +37,7 @@
                 app:contentInsetStart="0dp">
                 <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
                     android:id="@+id/attendeetitle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin"
                     android:gravity="left"
@@ -55,6 +55,16 @@
                     android:layout_marginLeft="-10dp"
                     android:contentDescription=" "
                      />
+                <ImageView
+                    android:id="@+id/notificationlogoIv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:tint="@color/colorAccent"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_notification"
+                    android:contentDescription=" " />
+
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -111,26 +121,34 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="-40dp"
                     android:adjustViewBounds="true">
+                    <ImageView
+                        android:layout_width="95dp"
+                        android:layout_height="95dp"
+                        android:layout_centerInParent="true"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/image_border"
+                        android:scaleType="fitXY"
+                        />
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/myCardView"
-                        android:layout_width="96dp"
-                        android:layout_height="96dp"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/image_border"
-                        app:cardCornerRadius="48dp"
+                        app:cardCornerRadius="45dp"
                         app:cardElevation="@dimen/album_dp_0">
 
 
                     <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/profileIV"
-                        android:layout_width="96dp"
-                        android:layout_height="96dp"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
                         android:layout_centerInParent="true"
                         android:adjustViewBounds="true"
-                        android:background="@color/colorwhite"
+                        android:src="@drawable/profilepic_placeholder"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/profilepic_placeholder" />
+                         />
 
                     </androidx.cardview.widget.CardView>
                     <ProgressBar xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -160,7 +178,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
-
+                        android:drawableTint="@color/linecolor"
                         android:drawablePadding="5dp"
                         android:drawableLeft="@drawable/att_name"
                         android:textColor="@color/black"
@@ -180,6 +198,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
+                        android:drawableTint="@color/linecolor"
+
                         android:drawableLeft="@drawable/att_designa"
                         android:drawablePadding="5dp"
                         android:textColor="@color/black"
@@ -198,6 +218,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
+                        android:drawableTint="@color/linecolor"
+
                         android:drawableLeft="@drawable/att_designa"
                         android:drawablePadding="5dp"
                         android:textColor="@color/black"
@@ -216,6 +238,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
+                        android:drawableTint="@color/linecolor"
+
                         android:drawableLeft="@drawable/att_place"
                         android:drawablePadding="5dp"
                         android:textColor="@color/black"
@@ -234,6 +258,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
+                        android:drawableTint="@color/linecolor"
+
                         android:drawableLeft="@drawable/att_mobile"
                         android:drawablePadding="5dp"
                         android:textColor="@color/black"
@@ -330,9 +356,13 @@
                     <LinearLayout
                         android:id="@+id/linMsg"
                         android:layout_width="0dp"
-                        android:layout_height="50dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:layout_margin="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_weight="5"
                         android:background="#4D4D4D"
                         android:gravity="center"
@@ -343,12 +373,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin"
+                            android:layout_margin="8dp"
                             android:background="#4D4D4D"
                             android:drawableLeft="@drawable/messega"
                             android:drawablePadding="10dp"
                             android:gravity="center"
-                            android:padding="5dp"
+                            android:padding="0dp"
                             android:text="Send Message"
                             android:textAllCaps="false"
                             android:textColor="@color/colorwhite"
@@ -358,10 +388,13 @@
                     <LinearLayout
                         android:id="@+id/linsave"
                         android:layout_width="0dp"
-                        android:layout_height="50dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:layout_margin="10dp"
                         android:layout_weight="5"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+
+                        android:layout_marginBottom="10dp"
                         android:gravity="center"
                         android:background="@drawable/button_background"
                         android:orientation="horizontal">
@@ -371,11 +404,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin"
+                            android:layout_margin="8dp"
                             android:drawableLeft="@drawable/ic_buddy"
                             android:drawablePadding="10dp"
                             android:gravity="center"
-                            android:padding="5dp"
+                            android:padding="0dp"
                             android:text="Add to buddy list"
                             android:textAllCaps="false"
                             android:textColor="@color/activetab"

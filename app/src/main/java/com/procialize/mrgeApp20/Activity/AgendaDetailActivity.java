@@ -1,6 +1,7 @@
 package com.procialize.mrgeApp20.Activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -33,6 +34,7 @@ import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.GetterSetter.Analytic;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.RatingSessionPost;
+import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -159,6 +161,16 @@ public class AgendaDetailActivity extends AppCompatActivity {
         msg = findViewById(R.id.msg);
         relative = findViewById(R.id.relative);
 
+        ImageView notificationlogoIv = findViewById(R.id.notificationlogoIv);
+        notificationlogoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(main);
+                finish();
+            }
+        });
+
         //tvname.setBackgroundColor(Color.parseColor(colorActive));
 
         try {
@@ -178,13 +190,13 @@ public class AgendaDetailActivity extends AppCompatActivity {
 
 
         GradientDrawable shape = setgradientDrawable(5, colorActive);
-        ratebtn.setBackground(shape);
+      //  ratebtn.setBackground(shape);
 
         tvdscription.setTypeface(typeFace);
         tvdscription.setMovementMethod(new ScrollingMovementMethod());
 
         LayerDrawable stars = (LayerDrawable) ratingbar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.parseColor(colorActive),
+        stars.getDrawable(2).setColorFilter(Color.parseColor("#fbc375"),
                 PorterDuff.Mode.SRC_ATOP);
 
         ratingbar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
