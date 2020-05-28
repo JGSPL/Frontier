@@ -59,6 +59,7 @@ import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.SendMessagePost;
 import com.procialize.mrgeApp20.GetterSetter.UserData;
+import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -213,8 +214,8 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         linsave = findViewById(R.id.linsave);
         tv_description.setMovementMethod(new ScrollingMovementMethod());
 
-        attendeetitle.setTextColor(Color.parseColor(colorActive));
-        tvname.setTextColor(Color.parseColor(colorActive));
+       // attendeetitle.setTextColor(Color.parseColor(colorActive));
+       // tvname.setTextColor(Color.parseColor(colorActive));
         sendbtn = findViewById(R.id.sendMsg);
 
         try {
@@ -233,6 +234,16 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
 
         }
+        ImageView notificationlogoIv = findViewById(R.id.notificationlogoIv);
+        notificationlogoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(main);
+                finish();
+            }
+        });
+
         final GradientDrawable shape = setgradientDrawable(5, colorActive);
         final GradientDrawable shapelayout = setgradientDrawable(10, colorActive);
         final GradientDrawable shapeunactive = setgradientDrawable(5, "#4D4D4D");

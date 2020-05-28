@@ -65,9 +65,9 @@
 
 
     <style name="MyCustomTabText" parent="TextAppearance.AppCompat.Button">
-        <item name="android:textSize">8sp</item>
+        <item name="android:textSize">7sp</item>
         <item name="android:textColor">@android:color/black</item>
-        <item name="android:textAllCaps">false</item>
+        <item name="android:textAllCaps">true</item>
         <item name="android:fontFamily">DINPro-Regular</item>
     </style>
     <style name="MyCustomTabTextMain" parent="TextAppearance.AppCompat.Button">

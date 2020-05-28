@@ -26,5 +26,6 @@
     <color name="grey_light">#f3f3f3</color>
     <color name="background">#e6e6e6</color>
     <color name="textcolorLight">#898989</color>
+    <color name="star_color">#fbc375</color>
 
 </resources>

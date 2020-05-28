@@ -82,10 +82,10 @@ public class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.MyViewHo
 
         int colorInt = Color.parseColor(colorActive);
 
-        ColorStateList csl = ColorStateList.valueOf(colorInt);
+        /*ColorStateList csl = ColorStateList.valueOf(colorInt);
         Drawable drawable = DrawableCompat.wrap(holder.ic_rightarrow.getDrawable());
         DrawableCompat.setTintList(drawable, csl);
-        holder.ic_rightarrow.setImageDrawable(drawable);
+        holder.ic_rightarrow.setImageDrawable(drawable);*/
 
 
         if (speaker_designation.equalsIgnoreCase("0")) {
@@ -99,7 +99,7 @@ public class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.MyViewHo
             holder.locationTv.setVisibility(View.VISIBLE);
         }
 
-        holder.nameTv.setTextColor(Color.parseColor(colorActive));
+        //holder.nameTv.setTextColor(Color.parseColor(colorActive));
 
 //        if (speaker.getFirstName().equalsIgnoreCase("N A")) {
 //            holder.nameTv.setText("");

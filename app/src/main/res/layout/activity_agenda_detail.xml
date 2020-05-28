@@ -53,6 +53,16 @@
                 android:layout_marginLeft="-10dp"
                 android:contentDescription=" "
                 />
+            <ImageView
+                android:id="@+id/notificationlogoIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:tint="@color/colorAccent"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_notification"
+                android:contentDescription=" " />
+
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -125,7 +135,7 @@
 
             android:layout_gravity="center_vertical"
             android:textColor="@color/black"
-            android:textSize="@dimen/textsizesmall" />
+            android:textSize="20sp" />
 
         <View
             android:layout_width="0dp"
@@ -146,8 +156,8 @@
             android:layout_weight="4.5"
             android:gravity="center"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/black"
-            android:textSize="@dimen/textsizesmall" />
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -215,12 +225,12 @@
                     android:layout_width="80dp"
                     android:layout_margin="10dp"
                     android:layout_height="35dp"
-                    android:background="@color/activetab"
+                    android:background="@drawable/button_background"
                     android:text="@string/rate"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textAllCaps="false"
-                    android:textColor="@color/colorwhite"
+                    android:textColor="@color/activetab"
                     android:textSize="@dimen/textsizesmall" />
                 </LinearLayout>
 
