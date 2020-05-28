@@ -11,6 +11,18 @@ import java.util.List;
 
 public class FetchFeed {
 
+    @SerializedName("youtube_info")
+    @Expose
+    private List<YouTubeApiList> youtube_info = null;
+
+    public List<YouTubeApiList> getYoutube_info() {
+        return youtube_info;
+    }
+
+    public void setYoutube_info(List<YouTubeApiList> youtube_info) {
+        this.youtube_info = youtube_info;
+    }
+
     @SerializedName("news_feed_list")
     @Expose
     private List<NewsFeedList> newsFeedList = null;

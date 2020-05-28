@@ -101,6 +101,7 @@ import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.FetchAgenda;
 import com.procialize.mrgeApp20.GetterSetter.FetchFeed;
 import com.procialize.mrgeApp20.GetterSetter.ProfileSave;
+import com.procialize.mrgeApp20.GetterSetter.YouTubeApiList;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaVacationActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.AttendeeActivity;
@@ -166,7 +167,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     public static int flag = 0;
     public static ImageView headerlogoIv, notificationlogoIv, grid_image_view, list_image_view;
     public static TextView txtMainHeader;
-    public static LinearLayout linear_livestream, linear_zoom, linear_layout;
+    public static LinearLayout linear_livestream, linear_zoom, linear_layout,linear_changeView;
     public static boolean flagshown = false;
     public static TextView txt_zoom, txt_streaming;
     public static ImageView img_zoom, img_stream;
@@ -198,7 +199,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     String imgname, accesstoken;
     HashMap<String, String> user;
     String MY_PREFS_CATEGORY = "categorycnt";
-    MrgeHomeActivity.WallPostReciever mReceiver;
+    WallPostReciever mReceiver;
     NotificationCountReciever notificationCountReciever;
     IntentFilter mFilter;
     IntentFilter notificationCountFilter;
@@ -211,6 +212,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     YouTubePlayer youTubePlayer;
     Fragment fragment = null;
     Dialog myDialog;
+    ViewPagerAdapterSub viewPagerAdapterSub3;
+    ViewPagerAdapterSub viewPagerAdapterSub2;
+    ViewPagerAdapterSub viewPagerAdapterSub4;
+    LinearLayout linChange, linzoom, linStream;
+    ImageView img_view;
+    TextView txt_change;
+    List<YouTubeApiList> youTubeApiLists = new ArrayList<>();
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private CustomViewPager viewPager, Subviewpager, Subviewpager2, Subviewpager3;
@@ -255,12 +263,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     private YouTubePlayerSupportFragment youTubePlayerFragment;
     private TabFlashyAnimatorWithTitle tabFlashyAnimator;
     private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
-    ViewPagerAdapterSub viewPagerAdapterSub3;
-    ViewPagerAdapterSub viewPagerAdapterSub2;
-    ViewPagerAdapterSub viewPagerAdapterSub4;
-    LinearLayout linChange, linzoom , linStream;
-    ImageView img_view;
-    TextView txt_change;
+    int youTubeLinkPosition=-1;
 
     @Override
     public Resources getResources() {
@@ -350,6 +353,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         float_icon = findViewById(R.id.float_icon);
         linear_zoom = findViewById(R.id.linear_zoom);
         linear_livestream = findViewById(R.id.linear_livestream);
+        linear_changeView = findViewById(R.id.linear_changeView);
         float_icon = findViewById(R.id.float_icon);
         txt_streaming = findViewById(R.id.txt_streaming);
         txt_zoom = findViewById(R.id.txt_zoom);
@@ -371,7 +375,21 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         linear_livestream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initializeYoutubePlayer();
+                /*if(youTubeLinkPosition <= youTubeApiLists.size()) {
+                    initializeYoutubePlayer(youTubeLinkPosition);
+                }*/
+                FlyingVideo.get(MrgeHomeActivity.this).close();
+                linear_layout.setVisibility(View.VISIBLE);
+                linear_livestream.setVisibility(View.GONE);
+            }
+        });
+        linear_changeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(youTubeLinkPosition < youTubeApiLists.size()-1) {
+                    youTubeLinkPosition = youTubeLinkPosition+1;
+                    initializeYoutubePlayer(youTubeLinkPosition);
+                }
             }
         });
 
@@ -414,7 +432,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                           public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                               try {
                                   String root = Environment.getExternalStorageDirectory().toString();
-                                  File myDir = new File(root + "/"+ApiConstant.folderName);
+                                  File myDir = new File(root + "/" + ApiConstant.folderName);
 
                                   if (!myDir.exists()) {
                                       myDir.mkdirs();
@@ -555,12 +573,12 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         try {
 
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/" + ApiConstant.folderName + "/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-           // viewPager.setBackgroundDrawable(bd);
-          //  Subviewpager.setBackgroundDrawable(bd);
+            // viewPager.setBackgroundDrawable(bd);
+            //  Subviewpager.setBackgroundDrawable(bd);
             //Subviewpager2.setBackgroundDrawable(bd);
             //Subviewpager3.setBackgroundDrawable(bd);
             drawerLayout.setBackgroundDrawable(bd);
@@ -618,7 +636,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         eula = navigationView.findViewById(R.id.eula);
 
         if (ApiConstant.baseUrl.contains("stage")) {
-            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME +"(2)");
+            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(2)");
         } else {
             txt_version.setText("Version : " + BuildConfig.VERSION_NAME);
         }
@@ -653,7 +671,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 pref.clear();
 
                 try {
-                    File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"/"+ApiConstant.folderName+"/" + "background.jpg");
+                    File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/" + ApiConstant.folderName + "/" + "background.jpg");
                     mypath.delete();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -688,7 +706,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                 Intent main = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(main);
-               // finish();
+                // finish();
             }
         });
 
@@ -809,7 +827,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 // pref.clear();
 
                 try {
-                    File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/"+ "background.jpg");
+                    File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/" + ApiConstant.folderName + "/" + "background.jpg");
                     mypath.delete();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -1151,7 +1169,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         eventname = outer.findViewById(R.id.eventname);
         eventname.setTextColor(Color.parseColor(colorActive));
-       // headerRel.setBackgroundColor(Color.parseColor(colorActive));
+        // headerRel.setBackgroundColor(Color.parseColor(colorActive));
         //outer.setBackgroundColor(Color.parseColor(colorActive));
 
 
@@ -1207,7 +1225,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         if (edit_profile_company.equalsIgnoreCase("0")) {
 //            compantyTv.setVisibility(View.GONE);
-           // compantyTv.setText("");
+            // compantyTv.setText("");
         } else {
             compantyTv.setVisibility(View.VISIBLE);
             //compantyTv.setText(company);
@@ -1218,7 +1236,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             designationTv.setText("");
         } else {
             designationTv.setVisibility(View.VISIBLE);
-            designationTv.setText(designation +" - " + company);
+            designationTv.setText(designation + " - " + company);
         }
 
 
@@ -1360,7 +1378,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
     private void setupViewPager(ViewPager viewPager) {
 
-        MrgeHomeActivity.ViewPagerAdapter adapter = new MrgeHomeActivity.ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         if (news_feed.equalsIgnoreCase("1")) {
             adapter.addFragment(new FragmentNewsFeed(), "News Feed");
         }
@@ -1958,16 +1976,31 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                 if (response.isSuccessful()) {
                     Log.i("hit", "post submitted to API." + response.body().toString());
+                    // for (int i = 0; i < response.body().getLive_steaming_info().size(); i++) {
+                    zoom_meeting_id = response.body().getLive_steaming_info().getZoom_meeting_id();
+                    zoom_password = response.body().getLive_steaming_info().getZoom_password();
+                    zoom_status = response.body().getLive_steaming_info().getZoom_status();
 
-                   // for (int i = 0; i < response.body().getLive_steaming_info().size(); i++) {
+                    zoom_time = response.body().getLive_steaming_info().getZoom_datetime();
 
-                        zoom_meeting_id = response.body().getLive_steaming_info().getZoom_meeting_id();
-                        zoom_password = response.body().getLive_steaming_info().getZoom_password();
-                        zoom_status = response.body().getLive_steaming_info().getZoom_status();
-                       // youtube_stream_url = response.body().getLive_steaming_info().getYoutube_stream_url();
-                        //stream_status = response.body().getLive_steaming_info().getStream_status();
-                        //stream_time = response.body().getLive_steaming_info().getStream_datetime();
-                        zoom_time = response.body().getLive_steaming_info().getZoom_datetime();
+                    if (response.body().getYoutube_info().size() > 0) {
+                        youTubeApiLists = response.body().getYoutube_info();
+
+                        if(youTubeApiLists.get(0).getStream_status().equalsIgnoreCase("1"))
+                        {
+                            linStream.setBackgroundColor(Color.parseColor(colorActive));
+                            txt_streaming.setBackgroundColor(Color.parseColor(colorActive));
+                            img_stream.setBackgroundColor(Color.parseColor(colorActive));
+
+                            txt_streaming.setText("Live Streaming! Tap to view ");
+                            Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                            anim.setDuration(500); //You can manage the blinking time with this parameter
+                            anim.setStartOffset(20);
+                            anim.setRepeatMode(Animation.REVERSE);
+                            anim.setRepeatCount(Animation.INFINITE);
+                            img_stream.startAnimation(anim);
+                        }
+                    }
 
                       /*  if (stream_status.equalsIgnoreCase("1")) {
 //                            countDownlivestream();
@@ -1991,46 +2024,40 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             //linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
                             txt_streaming.setText("Nothing Streaming currently");
                         }*/
-
-                        if (zoom_status.equalsIgnoreCase("1")) {
+                    //}
+                    if (zoom_status.equalsIgnoreCase("1")) {
 //                            countDownzoom();
 
-                            linChange.setBackgroundColor(Color.parseColor(colorActive));
-                            img_view.setBackgroundColor(Color.parseColor(colorActive));
-                            txt_change.setBackgroundColor(Color.parseColor(colorActive));
+                        linChange.setBackgroundColor(Color.parseColor(colorActive));
+                        img_view.setBackgroundColor(Color.parseColor(colorActive));
+                        txt_change.setBackgroundColor(Color.parseColor(colorActive));
 
-                            linzoom.setBackgroundColor(Color.parseColor(colorActive));
-                            txt_zoom.setBackgroundColor(Color.parseColor(colorActive));
-                            img_zoom.setBackgroundColor(Color.parseColor(colorActive));
+                        linzoom.setBackgroundColor(Color.parseColor(colorActive));
+                        txt_zoom.setBackgroundColor(Color.parseColor(colorActive));
+                        img_zoom.setBackgroundColor(Color.parseColor(colorActive));
 
-                            txt_zoom.setText("Participates");
-                            Animation anim = new AlphaAnimation(0.0f, 1.0f);
-                            anim.setDuration(500); //You can manage the blinking time with this parameter
-                            anim.setStartOffset(20);
-                            anim.setRepeatMode(Animation.REVERSE);
-                            anim.setRepeatCount(Animation.INFINITE);
-                            img_zoom.startAnimation(anim);
-                        } else {
-                            linChange.setBackgroundColor(Color.parseColor("#686868"));
-                            img_view.setBackgroundColor(Color.parseColor("#686868"));
-                            txt_change.setBackgroundColor(Color.parseColor("#686868"));
+                        txt_zoom.setText("Participates");
+                        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                        anim.setDuration(500); //You can manage the blinking time with this parameter
+                        anim.setStartOffset(20);
+                        anim.setRepeatMode(Animation.REVERSE);
+                        anim.setRepeatCount(Animation.INFINITE);
+                        img_zoom.startAnimation(anim);
+                    } else {
+                        linChange.setBackgroundColor(Color.parseColor("#686868"));
+                        img_view.setBackgroundColor(Color.parseColor("#686868"));
+                        txt_change.setBackgroundColor(Color.parseColor("#686868"));
 
-                            linzoom.setBackgroundColor(Color.parseColor("#686868"));
-                            txt_zoom.setBackgroundColor(Color.parseColor("#686868"));
-                            img_zoom.setBackgroundColor(Color.parseColor("#686868"));
-                           // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
-                            txt_zoom.setText("Participates");
-                        }
-
+                        linzoom.setBackgroundColor(Color.parseColor("#686868"));
+                        txt_zoom.setBackgroundColor(Color.parseColor("#686868"));
+                        img_zoom.setBackgroundColor(Color.parseColor("#686868"));
+                        // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
+                        txt_zoom.setText("Participates");
                     }
-
-                    //}
-
-
                 } else {
-
                 }
             }
+
 
             @Override
             public void onFailure(Call<FetchFeed> call, Throwable t) {
@@ -2042,15 +2069,18 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         });
     }
 
-    private void initializeYoutubePlayer() {
+    private void initializeYoutubePlayer(int pos) {
 
         flagshown = false;
         FlyingVideo.get(MrgeHomeActivity.this).close();
         linear_layout.setVisibility(View.VISIBLE);
         linear_livestream.setVisibility(View.GONE);
 
+
         if (youTubePlayerFragment == null)
             return;
+
+        youTubePlayerFragment.onDestroy();
 
         youTubePlayerFragment.initialize(PlayerConfig.API_KEY, new YouTubePlayer.OnInitializedListener() {
 
@@ -2059,7 +2089,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                                                 boolean wasRestored) {
                 if (!wasRestored) {
 
-                    /*YouvideoId = youtube_stream_url.substring(youtube_stream_url.lastIndexOf("=") + 1);
+                    String youtube_stream_url = youTubeApiLists.get(pos).getYoutube_stream_url();
+                    YouvideoId = youtube_stream_url.substring(youtube_stream_url.lastIndexOf("=") + 1);
 
                     String[] parts = youtube_stream_url.split("=");
                     String part1 = parts[0]; // 004
@@ -2076,6 +2107,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     String url2 = parts2[0];
 
 
+
                     Log.e("videoid", YouvideoId);
                     youTubePlayer = player;
 
@@ -2083,7 +2115,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
 
                     //cue the 1st video by default
-                    youTubePlayer.cueVideo(YouvideoId);*/
+                    youTubePlayer.cueVideo(YouvideoId);
                 }
             }
 
@@ -2151,10 +2183,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager.getCurrentItem();
+                            int pos = Subviewpager.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else if (tab.getText().equals("Folder")) {
@@ -2171,7 +2203,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             linear_livestream.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager2.getCurrentItem();
+                            int pos = Subviewpager2.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
                             if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
                                 grid_image_view.setVisibility(View.VISIBLE);
@@ -2180,8 +2212,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                                 grid_image_view.setVisibility(View.GONE);
                                 list_image_view.setVisibility(View.GONE);
                             }
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
 
@@ -2201,10 +2233,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             linear_livestream.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager3.getCurrentItem();
+                            int pos = Subviewpager3.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
 
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
@@ -2251,10 +2283,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager.getCurrentItem();
+                            int pos = Subviewpager.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else if (tab.getText().equals("Folder")) {
@@ -2271,7 +2303,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             linear_livestream.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager2.getCurrentItem();
+                            int pos = Subviewpager2.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
                             if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
                                 grid_image_view.setVisibility(View.VISIBLE);
@@ -2280,8 +2312,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                                 grid_image_view.setVisibility(View.GONE);
                                 list_image_view.setVisibility(View.GONE);
                             }
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
 
@@ -2300,10 +2332,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
 //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager3.getCurrentItem();
+                            int pos = Subviewpager3.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
 
@@ -2361,10 +2393,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, "", txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager.getCurrentItem();
+                            int pos = Subviewpager.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
 
@@ -2382,7 +2414,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             linear_livestream.setVisibility(View.GONE);
 
                             //--------------------------------------------------------------------------------------
-                            int pos =  Subviewpager2.getCurrentItem();
+                            int pos = Subviewpager2.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
 
                             if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
@@ -2393,8 +2425,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                                 list_image_view.setVisibility(View.GONE);
                             }
 
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-----------------------------------------------------------------------------------------
                         } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
@@ -2412,10 +2444,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager3.getCurrentItem();
+                            int pos = Subviewpager3.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
 
@@ -2478,10 +2510,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager.getCurrentItem();
+                            int pos = Subviewpager.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else if (tab.getText().equals("Folder")) {
@@ -2497,7 +2529,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
                             linear_livestream.setVisibility(View.GONE);
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager2.getCurrentItem();
+                            int pos = Subviewpager2.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
                             if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
                                 grid_image_view.setVisibility(View.VISIBLE);
@@ -2506,8 +2538,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                                 grid_image_view.setVisibility(View.GONE);
                                 list_image_view.setVisibility(View.GONE);
                             }
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
@@ -2525,10 +2557,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager3.getCurrentItem();
+                            int pos = Subviewpager3.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
 
@@ -2587,10 +2619,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager.getCurrentItem();
+                            int pos = Subviewpager.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else if (tab.getText().equals("Folder")) {
@@ -2607,7 +2639,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             linear_livestream.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager2.getCurrentItem();
+                            int pos = Subviewpager2.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
                             if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
                                 grid_image_view.setVisibility(View.VISIBLE);
@@ -2616,8 +2648,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                                 grid_image_view.setVisibility(View.GONE);
                                 list_image_view.setVisibility(View.GONE);
                             }
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
@@ -2635,10 +2667,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager3.getCurrentItem();
+                            int pos = Subviewpager3.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
 
@@ -2686,10 +2718,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager.getCurrentItem();
+                            int pos = Subviewpager.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else if (tab.getText().equals("Folder")) {
@@ -2706,7 +2738,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             linear_livestream.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager2.getCurrentItem();
+                            int pos = Subviewpager2.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
                             if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
                                 grid_image_view.setVisibility(View.VISIBLE);
@@ -2715,8 +2747,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                                 grid_image_view.setVisibility(View.GONE);
                                 list_image_view.setVisibility(View.GONE);
                             }
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
@@ -2734,10 +2766,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager3.getCurrentItem();
+                            int pos = Subviewpager3.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
 
@@ -2793,10 +2825,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager.getCurrentItem();
+                            int pos = Subviewpager.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else if (tab.getText().equals("Folder")) {
@@ -2813,7 +2845,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             linear_livestream.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager2.getCurrentItem();
+                            int pos = Subviewpager2.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
                             if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
                                 grid_image_view.setVisibility(View.VISIBLE);
@@ -2822,8 +2854,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                                 grid_image_view.setVisibility(View.GONE);
                                 list_image_view.setVisibility(View.GONE);
                             }
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
 
@@ -2843,10 +2875,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             linear_livestream.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager3.getCurrentItem();
+                            int pos = Subviewpager3.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
 
@@ -2892,10 +2924,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager.getCurrentItem();
+                            int pos = Subviewpager.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else if (tab.getText().equals("Folder")) {
@@ -2913,7 +2945,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             linear_livestream.setVisibility(View.GONE);
 
 //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager2.getCurrentItem();
+                            int pos = Subviewpager2.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
                             if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
                                 grid_image_view.setVisibility(View.VISIBLE);
@@ -2922,8 +2954,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                                 grid_image_view.setVisibility(View.GONE);
                                 list_image_view.setVisibility(View.GONE);
                             }
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
@@ -2941,10 +2973,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             sub4tabLayout.setVisibility(View.VISIBLE);
                             linear_livestream.setVisibility(View.GONE);
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager3.getCurrentItem();
+                            int pos = Subviewpager3.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
 
@@ -2996,10 +3028,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager.getCurrentItem();
+                            int pos = Subviewpager.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else if (tab.getText().equals("Folder")) {
@@ -3015,7 +3047,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
                             linear_livestream.setVisibility(View.GONE);
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager2.getCurrentItem();
+                            int pos = Subviewpager2.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
                             if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
                                 grid_image_view.setVisibility(View.VISIBLE);
@@ -3024,8 +3056,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                                 grid_image_view.setVisibility(View.GONE);
                                 list_image_view.setVisibility(View.GONE);
                             }
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
 
@@ -3045,10 +3077,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             linear_livestream.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager3.getCurrentItem();
+                            int pos = Subviewpager3.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else {
@@ -3089,10 +3121,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager.getCurrentItem();
+                            int pos = Subviewpager.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub2.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else if (tab.getText().equals("Folder")) {
@@ -3108,7 +3140,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             Subviewpager3.setVisibility(View.GONE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager2.getCurrentItem();
+                            int pos = Subviewpager2.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub3.getPageTitle(pos);
                             if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
                                 grid_image_view.setVisibility(View.VISIBLE);
@@ -3117,8 +3149,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                                 grid_image_view.setVisibility(View.GONE);
                                 list_image_view.setVisibility(View.GONE);
                             }
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
                         } else if (tab.getText().equals("General Info") || tab.getText().equals("Interact") ||
@@ -3136,10 +3168,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             sub4tabLayout.setVisibility(View.VISIBLE);
 
                             //-------------------------------------------------------------------------------
-                            int pos =  Subviewpager3.getCurrentItem();
+                            int pos = Subviewpager3.getCurrentItem();
                             String pageTitle = (String) viewPagerAdapterSub4.getPageTitle(pos);
-                            String pageTitle1 = pageTitle.substring(0,1).toUpperCase() + pageTitle.substring(1).toLowerCase();
-                            Log.e("PageTitle",pageTitle1);
+                            String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
+                            Log.e("PageTitle", pageTitle1);
                             Util.logomethodwithText(MrgeHomeActivity.this, true, pageTitle1, txtMainHeader, headerlogoIv);
                             //-------------------------------------------------------------------------------
 
