@@ -23,7 +23,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -197,10 +200,12 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     HashMap<String, String> user;
     String MY_PREFS_CATEGORY = "categorycnt";
     MrgeHomeActivity.WallPostReciever mReceiver;
+    NotificationCountReciever notificationCountReciever;
     IntentFilter mFilter;
+    IntentFilter notificationCountFilter;
     String catcnt;
     LinearLayout linTab4, linTab3, linTab2;
-    String zoom_meeting_id, zoom_password, zoom_status, youtube_stream_url, stream_status, zoom_time, stream_time;
+    String zoom_meeting_id, zoom_password, zoom_status, zoom_time;//,youtube_stream_url,  stream_status, stream_time
     ImageView float_icon;
     String YouvideoId;
     YouTubePlayerTracker mTracker = null;
@@ -300,12 +305,21 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         initializeView();
 
         try {
-            mReceiver = new MrgeHomeActivity.WallPostReciever();
+            mReceiver = new WallPostReciever();
             mFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_BUZZ_FEED);
             // Registering BroadcastReceiver with this activity for the intent filter
             LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, mFilter);
             Intent intent = new Intent(this, WallPostService.class);
             this.startService(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            notificationCountReciever = new NotificationCountReciever();
+            notificationCountFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_NOTIFICATION_COUNT);
+            LocalBroadcastManager.getInstance(this).registerReceiver(notificationCountReciever, notificationCountFilter);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -383,6 +397,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 //        editor.putString("loginfirst", "1");
 //        editor.apply();
 
+
         imgname = "background";//url.substring(58, 60);
 
         PicassoTrustAll.getInstance(MrgeHomeActivity.this)
@@ -392,7 +407,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                           public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                               try {
                                   String root = Environment.getExternalStorageDirectory().toString();
-                                  File myDir = new File(root + "/Procialize");
+                                  File myDir = new File(root + "/"+ApiConstant.folderName);
 
                                   if (!myDir.exists()) {
                                       myDir.mkdirs();
@@ -533,7 +548,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         try {
 
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -631,7 +646,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 pref.clear();
 
                 try {
-                    File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+                    File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"/"+ApiConstant.folderName+"/" + "background.jpg");
                     mypath.delete();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -787,7 +802,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 // pref.clear();
 
                 try {
-                    File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+                    File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/"+ "background.jpg");
                     mypath.delete();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -1937,18 +1952,17 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 if (response.isSuccessful()) {
                     Log.i("hit", "post submitted to API." + response.body().toString());
 
-/*
-                    for (int i = 0; i < response.body().getLive_steaming_info().size(); i++) {
+                   // for (int i = 0; i < response.body().getLive_steaming_info().size(); i++) {
 
-                        zoom_meeting_id = response.body().getLive_steaming_info().get(i).getZoom_meeting_id();
-                        zoom_password = response.body().getLive_steaming_info().get(i).getZoom_password();
-                        zoom_status = response.body().getLive_steaming_info().get(i).getZoom_status();
-                        youtube_stream_url = response.body().getLive_steaming_info().get(i).getYoutube_stream_url();
-                        stream_status = response.body().getLive_steaming_info().get(i).getStream_status();
-                        stream_time = response.body().getLive_steaming_info().get(i).getStream_datetime();
-                        zoom_time = response.body().getLive_steaming_info().get(i).getZoom_datetime();
+                        zoom_meeting_id = response.body().getLive_steaming_info().getZoom_meeting_id();
+                        zoom_password = response.body().getLive_steaming_info().getZoom_password();
+                        zoom_status = response.body().getLive_steaming_info().getZoom_status();
+                       // youtube_stream_url = response.body().getLive_steaming_info().getYoutube_stream_url();
+                        //stream_status = response.body().getLive_steaming_info().getStream_status();
+                        //stream_time = response.body().getLive_steaming_info().getStream_datetime();
+                        zoom_time = response.body().getLive_steaming_info().getZoom_datetime();
 
-                        if (stream_status.equalsIgnoreCase("1")) {
+                      /*  if (stream_status.equalsIgnoreCase("1")) {
 //                            countDownlivestream();
                             linear_livestream.setBackgroundColor(Color.parseColor("#Ff0000"));
                             txt_streaming.setText("Live Streaming! Tap to view ");
@@ -1961,7 +1975,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         } else {
                             linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
                             txt_streaming.setText("Nothing Streaming currently");
-                        }
+                        }*/
 
                         if (zoom_status.equalsIgnoreCase("1")) {
 //                            countDownzoom();
@@ -1978,8 +1992,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             txt_zoom.setText("No Meeting active currently");
                         }
 
-                    }
-*/
+                    //}
 
 
                 } else {
@@ -2014,7 +2027,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                                                 boolean wasRestored) {
                 if (!wasRestored) {
 
-                    YouvideoId = youtube_stream_url.substring(youtube_stream_url.lastIndexOf("=") + 1);
+                    /*YouvideoId = youtube_stream_url.substring(youtube_stream_url.lastIndexOf("=") + 1);
 
                     String[] parts = youtube_stream_url.split("=");
                     String part1 = parts[0]; // 004
@@ -2038,7 +2051,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
 
                     //cue the 1st video by default
-                    youTubePlayer.cueVideo(YouvideoId);
+                    youTubePlayer.cueVideo(YouvideoId);*/
                 }
             }
 
@@ -4104,6 +4117,20 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         public void onReceive(Context context, Intent intent) {
             // progressbarForSubmit.setVisibility(View.GONE);
             Log.d("service end", "service end");
+        }
+    }
+
+    private class NotificationCountReciever extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // progressbarForSubmit.setVisibility(View.GONE);
+            //Log.d("service end", "service end");
+
+            SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String notificationCount = prefs1.getString("notificationCount", "");
+
+         /*   tv_notification = (TextView) findViewById(R.id.tv_notification);
+            tv_notification.setText(notificationCount);*/
         }
     }
 

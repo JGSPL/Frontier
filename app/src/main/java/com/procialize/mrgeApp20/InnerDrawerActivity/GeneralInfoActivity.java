@@ -28,6 +28,7 @@ import com.procialize.mrgeApp20.Activity.CurrencyConverter;
 import com.procialize.mrgeApp20.Activity.InitGeneralInfoActivity;
 import com.procialize.mrgeApp20.Adapter.GeneralInfoListAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.GetterSetter.Analytic;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
@@ -101,7 +102,7 @@ public class GeneralInfoActivity extends AppCompatActivity implements GeneralInf
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"/"+ ApiConstant.folderName+"/"+ "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);

@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.procialize.mrgeApp20.Adapter.WeatherAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.Forecast;
@@ -144,7 +145,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherAdapter
 
         try {
 
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ ApiConstant.folderName+"/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);

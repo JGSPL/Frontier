@@ -151,7 +151,7 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
             public void onClick(View v) {
                 session.logoutUser();
                 try {
-                    File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+                    File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/"+ "background.jpg");
                     mypath.delete();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -272,7 +272,7 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
                             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                 try {
                                     String root = Environment.getExternalStorageDirectory().toString();
-                                    File myDir = new File(root + "/Procialize");
+                                    File myDir = new File(root + "/"+ApiConstant.folderName);
 //                                    Toast.makeText(EventChooserActivity.this,
 //                                            "Download completed- check folder Procialize/Image",
 //                                            Toast.LENGTH_SHORT).show();
@@ -335,7 +335,7 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
     public void onContactSelected(UserEventList eventList) {
 
         try {
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
             mypath.delete();
         } catch (Exception e) {
             e.printStackTrace();
@@ -392,7 +392,7 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                     try {
                                         String root = Environment.getExternalStorageDirectory().toString();
-                                        File myDir = new File(root + "/Procialize");
+                                        File myDir = new File(root + "/"+ApiConstant.folderName);
 //                                            Toast.makeText(EventChooserActivity.this,
 //                                                    "Download completed- check folder Procialize/Image",
 //                                                    Toast.LENGTH_SHORT).show();

@@ -9,7 +9,7 @@ public class live_steaming_info {
     @Expose
     private String zoom_meeting_id;
 
-    public String getStream_datetime() {
+  /*  public String getStream_datetime() {
         return stream_datetime;
     }
 
@@ -19,7 +19,7 @@ public class live_steaming_info {
 
     @SerializedName("stream_datetime")
     @Expose
-    private String stream_datetime;
+    private String stream_datetime;*/
 
     public String getZoom_datetime() {
         return zoom_datetime;
@@ -41,10 +41,10 @@ public class live_steaming_info {
     @Expose
     private String zoom_status;
 
-    @SerializedName("youtube_stream_url")
+  /*  @SerializedName("youtube_stream_url")
     @Expose
     private String youtube_stream_url;
-
+*/
     public String getZoom_meeting_id() {
         return zoom_meeting_id;
     }
@@ -69,23 +69,23 @@ public class live_steaming_info {
         this.zoom_status = zoom_status;
     }
 
-    public String getYoutube_stream_url() {
+   /* public String getYoutube_stream_url() {
         return youtube_stream_url;
     }
 
     public void setYoutube_stream_url(String youtube_stream_url) {
         this.youtube_stream_url = youtube_stream_url;
     }
-
-    public String getStream_status() {
+*/
+  /*  public String getStream_status() {
         return stream_status;
     }
 
     public void setStream_status(String stream_status) {
         this.stream_status = stream_status;
-    }
+    }*/
 
-    @SerializedName("stream_status")
+    /*@SerializedName("stream_status")
     @Expose
-    private String stream_status;
+    private String stream_status;*/
 }

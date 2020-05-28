@@ -6,26 +6,28 @@ package com.procialize.mrgeApp20.ApiConstant;
 
 public class ApiConstant {
 
-    public static String folderName = "MrgeApp2020";
-
+    public static final String BROADCAST_ACTION_FOR_NOTIFICATION_COUNT = "com.procialize.eventsapp.BROADCAST.notification_count";
     public static final String BROADCAST_ACTION = "com.procialize.eventsapp.BROADCAST";
     public static final String BROADCAST_ACTION_BUZZ_FEED = "com.procialize.eventsapp.BROADCAST.BUZZ_FEED";
+    public static String folderName = "MrgeApp2020";
     //Production URL
     // public static String baseUrl = "https://www.procialize.live/stage/mrge/API/event_api_call/";
-   public static String baseUrl = "https://www.procialize.live/stage/baseapp/API/event_api_call/";
+    //public static String baseUrl = "https://www.procialize.live/stage/baseapp/API/event_api_call/";
+    public static String webUrl = "https://www.procialize.live/stage/mrge/";
+    public static String baseUrl = webUrl + "API/event_api_call/";
 
     //imag&Video prod
-   // public static String imgURL = "https://www.procialize.live/stage/mrge/";
-   public static String imgURL = "https://www.procialize.live/stage/baseapp/";
+    // public static String imgURL = "https://www.procialize.live/stage/mrge/";
+    public static String imgURL = webUrl;//"https://www.procialize.live/stage/baseapp/";
 
 
     public static String tenorUrl = "https://api.tenor.com/v1/";
     public static String quizlist = "QuizFetch";
     public static String quizsubmit = "QuizSubmit";
-    public static String exhiilogo = imgURL  + "uploads/exhibitor_image/";
+    public static String exhiilogo = imgURL + "uploads/exhibitor_image/";
     //    public static String exhiilogo = "https://www.procialize.info/" + "uploads/exhibitor_image/";
     public static String doc = "https://www.procialize.info/";
-//    public static String doc = "https://www.procialize.live/stage/baseapp/";
+    //    public static String doc = "https://www.procialize.live/stage/baseapp/";
     public static String Leaderboard_IMAGE = imgURL + "uploads/attendee/";
     public static String profilepic = imgURL + "uploads/attendee/";
     public static String eventpic = imgURL + "uploads/app_logo/";

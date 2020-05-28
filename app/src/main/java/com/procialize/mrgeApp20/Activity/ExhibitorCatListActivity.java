@@ -35,6 +35,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.procialize.mrgeApp20.Adapter.EventAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
@@ -125,7 +126,7 @@ public class ExhibitorCatListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 session.logoutUser();
                 try {
-                    File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+                    File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ ApiConstant.folderName+"/" + "background.jpg");
                     mypath.delete();
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -21,6 +21,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import com.procialize.mrgeApp20.Activity.SplashActivity;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 
@@ -45,6 +46,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     String MY_PREFS_NAME = "ProcializeInfo";
     String event_id;
     Bitmap bitmap;
+    int notificationCount = 0;
 
     public static String getEmojiFromString(String emojiString) {
 
@@ -81,6 +83,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         event_id = prefs.getString("eventid", "1");
 
         if (remoteMessage.getData().get("event_id").equalsIgnoreCase(event_id)) {
+
+            notificationCount++;
             notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 setupChannels();
@@ -111,7 +115,30 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 notificationBuilder.setSmallIcon(R.drawable.app_icon);
 //            notificationBuilder.setColor(getResources().getColor(R.color.activetab));
             }
-            notificationBuilder.setContentTitle("The Event App")
+            //-----------For notification count----------------------
+            SharedPreferences prefs2 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String strNotificationCount = prefs2.getString("notificationCount","");
+
+            if(strNotificationCount.isEmpty())
+            {
+                strNotificationCount = "0";
+            }
+
+            notificationCount = Integer.parseInt(strNotificationCount);
+
+            notificationCount = notificationCount+1;
+
+            SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs1.edit();
+            editor.putString("notificationCount", String.valueOf(notificationCount));
+            editor.commit();
+
+            Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_NOTIFICATION_COUNT);
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+            //----------------------------------------------------------------------
+
+
+            notificationBuilder.setContentTitle("Mrge App")
                     .setColorized(true)
                     .setWhen(when)
                     .setAutoCancel(true)
@@ -121,6 +148,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                   /* .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
+                    .setNumber(notificationCount)*/
                     //.setContentTitle(remoteMessage.getData().get("Fames bond"))
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(getEmojiFromString(remoteMessage.getData().get("message"))))
                     .setContentText(getEmojiFromString(remoteMessage.getData().get("message")))

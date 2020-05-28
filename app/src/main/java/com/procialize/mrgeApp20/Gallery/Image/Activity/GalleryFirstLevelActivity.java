@@ -88,7 +88,7 @@ public class GalleryFirstLevelActivity extends AppCompatActivity implements Gall
         /*Util.logomethodwithText( this, true,foldername, MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);*/
 
         try {
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/"+ "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);

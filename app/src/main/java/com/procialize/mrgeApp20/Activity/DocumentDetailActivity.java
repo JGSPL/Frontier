@@ -125,7 +125,7 @@ public class DocumentDetailActivity extends AppCompatActivity {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -274,7 +274,7 @@ public class DocumentDetailActivity extends AppCompatActivity {
                                       public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                           try {
                                               String root = Environment.getExternalStorageDirectory().toString();
-                                              File myDir = new File(root + "/Procialize");
+                                              File myDir = new File(root + "/"+ApiConstant.folderName);
 
                                               if (!myDir.exists()) {
                                                   myDir.mkdirs();

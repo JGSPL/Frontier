@@ -22,17 +22,17 @@ public class FetchFeed {
     private String msg;
 
 
-    public List<com.procialize.mrgeApp20.GetterSetter.live_steaming_info> getLive_steaming_info() {
+    public com.procialize.mrgeApp20.GetterSetter.live_steaming_info getLive_steaming_info() {
         return live_steaming_info;
     }
 
-    public void setLive_steaming_info(List<com.procialize.mrgeApp20.GetterSetter.live_steaming_info> live_steaming_info) {
+    public void setLive_steaming_info(com.procialize.mrgeApp20.GetterSetter.live_steaming_info live_steaming_info) {
         this.live_steaming_info = live_steaming_info;
     }
 
     @SerializedName("live_streaming_info")
     @Expose
-    private List<com.procialize.mrgeApp20.GetterSetter.live_steaming_info> live_steaming_info = null;
+    private com.procialize.mrgeApp20.GetterSetter.live_steaming_info live_steaming_info;
 
     public List<NewsFeedList> getNewsFeedList() {
         return newsFeedList;

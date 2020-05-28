@@ -40,6 +40,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.procialize.mrgeApp20.Adapter.QAAttendeeAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.GetterSetter.AgendaLisQA;
 import com.procialize.mrgeApp20.GetterSetter.AgendaQuestion;
@@ -122,7 +123,7 @@ public class QnASessionFragment extends Fragment implements QAAttendeeAdapter.QA
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ ApiConstant.folderName+"/"+ "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);

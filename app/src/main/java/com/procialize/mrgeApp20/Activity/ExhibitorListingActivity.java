@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.procialize.mrgeApp20.Adapter.ExhibitorAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
@@ -107,7 +108,7 @@ public class ExhibitorListingActivity extends AppCompatActivity implements Exhib
         linearmain = findViewById(R.id.linearmain);
 
         try {
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ ApiConstant.folderName+"/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);

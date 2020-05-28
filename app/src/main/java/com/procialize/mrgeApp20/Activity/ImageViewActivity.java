@@ -40,6 +40,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.CustomTools.ClickableViewPager;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
@@ -145,7 +146,7 @@ public class ImageViewActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         try {
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ ApiConstant.folderName+"/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -223,7 +224,7 @@ public class ImageViewActivity extends AppCompatActivity {
                                               public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                                   try {
                                                       String root = Environment.getExternalStorageDirectory().toString();
-                                                      File myDir = new File(root + "/Procialize");
+                                                      File myDir = new File(root + "/"+ApiConstant.folderName);
 
                                                       if (!myDir.exists()) {
                                                           myDir.mkdirs();
@@ -265,7 +266,7 @@ public class ImageViewActivity extends AppCompatActivity {
                                           public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                               try {
                                                   String root = Environment.getExternalStorageDirectory().toString();
-                                                  File myDir = new File(root + "/Procialize");
+                                                  File myDir = new File(root + "/"+ApiConstant.folderName);
 
                                                   if (!myDir.exists()) {
                                                       myDir.mkdirs();

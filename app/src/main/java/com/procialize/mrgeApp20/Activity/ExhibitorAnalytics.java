@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.procialize.mrgeApp20.Adapter.DocumentAnalyticAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.GetterSetter.Brochure_Anlytics_Result;
 import com.procialize.mrgeApp20.GetterSetter.ExhibitorDashboard;
@@ -105,7 +106,7 @@ public class ExhibitorAnalytics extends AppCompatActivity implements DocumentAna
 
         try {
 
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ ApiConstant.folderName+"/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);

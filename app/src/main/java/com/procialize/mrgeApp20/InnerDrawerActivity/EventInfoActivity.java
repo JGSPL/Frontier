@@ -123,7 +123,7 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -800,7 +800,7 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
 
             try {
                 LinearLayout linear_head = findViewById(R.id.linear_head);
-                File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+                File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
                 Resources res = getResources();
                 Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
                 BitmapDrawable bd = new BitmapDrawable(res, bitmap);
