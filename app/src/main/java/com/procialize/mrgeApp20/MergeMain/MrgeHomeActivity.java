@@ -26,7 +26,6 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -259,6 +258,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     ViewPagerAdapterSub viewPagerAdapterSub3;
     ViewPagerAdapterSub viewPagerAdapterSub2;
     ViewPagerAdapterSub viewPagerAdapterSub4;
+    LinearLayout linChange, linzoom , linStream;
+    ImageView img_view;
+    TextView txt_change;
+
     @Override
     public Resources getResources() {
         if (res == null) {
@@ -271,7 +274,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merge_home);
-        //  overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -353,6 +355,12 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         txt_zoom = findViewById(R.id.txt_zoom);
         img_stream = findViewById(R.id.img_stream);
         img_zoom = findViewById(R.id.img_zoom);
+        linChange = findViewById(R.id.linChange);
+        linzoom = findViewById(R.id.linzoom);
+
+        linStream = findViewById(R.id.linStream);
+        img_view = findViewById(R.id.img_view);
+        txt_change = findViewById(R.id.txt_change);
 
 
         if (cd.isConnectingToInternet()) {
@@ -396,7 +404,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 //        editor.putString("eventnamestr", eventnamestr);
 //        editor.putString("loginfirst", "1");
 //        editor.apply();
-
 
         imgname = "background";//url.substring(58, 60);
 
@@ -611,7 +618,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         eula = navigationView.findViewById(R.id.eula);
 
         if (ApiConstant.baseUrl.contains("stage")) {
-            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME);
+            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME +"(2)");
         } else {
             txt_version.setText("Version : " + BuildConfig.VERSION_NAME);
         }
@@ -1964,7 +1971,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                       /*  if (stream_status.equalsIgnoreCase("1")) {
 //                            countDownlivestream();
-                            linear_livestream.setBackgroundColor(Color.parseColor("#Ff0000"));
+                           // linear_livestream.setBackgroundColor(Color.parseColor("#Ff0000"));
+                            linStream.setBackgroundColor(Color.parseColor(colorActive));
+                            txt_streaming.setBackgroundColor(Color.parseColor(colorActive));
+                            img_stream.setBackgroundColor(Color.parseColor(colorActive));
+
                             txt_streaming.setText("Live Streaming! Tap to view ");
                             Animation anim = new AlphaAnimation(0.0f, 1.0f);
                             anim.setDuration(500); //You can manage the blinking time with this parameter
@@ -1973,14 +1984,26 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             anim.setRepeatCount(Animation.INFINITE);
                             img_stream.startAnimation(anim);
                         } else {
-                            linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
+
+                            linStream.setBackgroundColor(Color.parseColor("#686868"));
+                            txt_streaming.setBackgroundColor(Color.parseColor("#686868"));
+                            img_stream.setBackgroundColor(Color.parseColor("#686868"));
+                            //linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
                             txt_streaming.setText("Nothing Streaming currently");
                         }*/
 
                         if (zoom_status.equalsIgnoreCase("1")) {
 //                            countDownzoom();
-                            linear_zoom.setBackgroundColor(Color.parseColor("#2d8cff"));
-                            txt_zoom.setText("Join Meeting via Zoom ");
+
+                            linChange.setBackgroundColor(Color.parseColor(colorActive));
+                            img_view.setBackgroundColor(Color.parseColor(colorActive));
+                            txt_change.setBackgroundColor(Color.parseColor(colorActive));
+
+                            linzoom.setBackgroundColor(Color.parseColor(colorActive));
+                            txt_zoom.setBackgroundColor(Color.parseColor(colorActive));
+                            img_zoom.setBackgroundColor(Color.parseColor(colorActive));
+
+                            txt_zoom.setText("Participates");
                             Animation anim = new AlphaAnimation(0.0f, 1.0f);
                             anim.setDuration(500); //You can manage the blinking time with this parameter
                             anim.setStartOffset(20);
@@ -1988,9 +2011,18 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             anim.setRepeatCount(Animation.INFINITE);
                             img_zoom.startAnimation(anim);
                         } else {
-                            linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
-                            txt_zoom.setText("No Meeting active currently");
+                            linChange.setBackgroundColor(Color.parseColor("#686868"));
+                            img_view.setBackgroundColor(Color.parseColor("#686868"));
+                            txt_change.setBackgroundColor(Color.parseColor("#686868"));
+
+                            linzoom.setBackgroundColor(Color.parseColor("#686868"));
+                            txt_zoom.setBackgroundColor(Color.parseColor("#686868"));
+                            img_zoom.setBackgroundColor(Color.parseColor("#686868"));
+                           // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
+                            txt_zoom.setText("Participates");
                         }
+
+                    }
 
                     //}
 

@@ -82,8 +82,8 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
 
         rootView = inflater.inflate(R.layout.activity_live_poll, container, false);
 
-        DialogLivePoll dialogLivePoll = new DialogLivePoll();
-        dialogLivePoll.welcomeLivePollDialog(getActivity());
+        /*DialogLivePoll dialogLivePoll = new DialogLivePoll();
+        dialogLivePoll.welcomeLivePollDialog(getActivity());*/
 
         cd = new ConnectionDetector(getContext());
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -116,25 +116,6 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
         final String token = user.get(SessionManager.KEY_TOKEN);
         crashlytics("Live Poll",token);
         firbaseAnalytics(getContext(), "Live Poll", token);
-        /*try {
-//            ContextWrapper cw = new ContextWrapper(HomeActivity.getContext());
-            //path to /data/data/yourapp/app_data/dirName
-//            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
-            Resources res = getResources();
-            Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
-            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-            linear.setBackgroundDrawable(bd);
-
-            Log.e("PATH", String.valueOf(mypath));
-        } catch (Exception e) {
-            e.printStackTrace();
-            linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
-        }*/
-        // use a linear layout manager
-        // use a linear layout manager
-//        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-//        pollRv.setLayoutManager(mLayoutManager);
 
         int resId = R.anim.layout_animation_slide_right;
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(), resId);

@@ -153,11 +153,7 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
             }
         });
 
-        if (eventId.equalsIgnoreCase("154")) {
-            toolbar.setBackgroundColor(Color.parseColor(colorActive));
-        } else {
-            toolbar.setBackgroundColor(Color.parseColor(colorActive));
-        }
+
         headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);
 

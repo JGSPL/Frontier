@@ -154,4 +154,10 @@
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
     </style>
+
+    <style name="customRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/custom_rating_star</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:minHeight">20dip</item>
+    </style>
 </resources>

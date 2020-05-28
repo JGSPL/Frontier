@@ -299,7 +299,8 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                             Toast.makeText(PostNewActivity.this, "Please Enter your Post", Toast.LENGTH_SHORT).show();
                         } else {
                             is_completed = "1";
-
+                            postbtn.setEnabled(false);
+                            postbtn.setClickable(false);
                             new SubmitPostTask().execute("", "");
                         }
                     }

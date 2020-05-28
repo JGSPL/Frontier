@@ -268,6 +268,8 @@
             android:id="@+id/linear_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_margin="8dp"
             android:gravity="center|left"
             android:background="@color/colorwhite"
@@ -287,7 +289,6 @@
                     android:padding="10dp"
                     android:text="Rate this speaker"
                     android:textColor="@color/linecolor" />
-
                 <RatingBar
                     android:id="@+id/ratingbar"
                     android:layout_width="wrap_content"
@@ -296,6 +297,18 @@
                     android:layout_margin="2dp"
                     android:numStars="5"
                     android:stepSize="0.5" />
+
+<!--
+                <RatingBar
+                    android:id="@+id/ratingbar"
+                    style="@style/customRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_margin="2dp"
+                    android:numStars="5"
+                    android:stepSize="0.5" />
+-->
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
