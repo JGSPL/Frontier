@@ -44,7 +44,7 @@
                 android:gravity="left"
                 android:layout_weight="1"
                 android:text="Buddy List"
-                android:textColor="#ffffffff"
+                android:textColor="@color/colorwhite"
                 android:textSize="@dimen/textsizenormal"
                 android:textStyle="bold"/>
 

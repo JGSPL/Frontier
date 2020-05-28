@@ -117,14 +117,20 @@
                 android:layout_margin="5dp"
                 android:gravity="center"
                 android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="35dp"
+                    android:background="#686868"
+                    android:gravity="center"
+                    android:id="@+id/linStream"
+                    android:layout_margin="5dp"
+                    android:layout_height="35dp">
                 <ImageView
                     android:id="@+id/img_stream"
                     android:layout_width="30dp"
-                    android:layout_height="35dp"
-                    android:layout_margin="5dp"
-                    android:background="#686868"
-
+                    android:padding="5dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/livestream" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/txt_streaming"
@@ -139,46 +145,17 @@
                     android:text="Nothing Streaming Currently"
                     android:textAllCaps="false"
                     android:textColor="@color/colorwhite"
-                    android:textSize="@dimen/textsizesmall" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linear_zoom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/linear_livestream"
-                android:layout_margin="5dp"
-                android:background="#686868"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/txt_zoom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="No Meeting active currently"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorwhite"
-                    android:textSize="@dimen/textsizesmall" />
-
-                <ImageView
-                    android:id="@+id/img_zoom"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="5dp"
-                    android:src="@drawable/zoommeeting" />
-            </LinearLayout>
 
 
             <LinearLayout
                 android:id="@+id/linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linear_zoom"
+                android:layout_below="@+id/linear_livestream"
                 android:orientation="vertical"
                 android:visibility="gone">
 
@@ -195,6 +172,93 @@
                     android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+                    <LinearLayout
+                        android:id="@+id/linear_changeView"
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linear_livestream"
+                        android:layout_margin="5dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+                        <LinearLayout
+                            android:layout_width="35dp"
+                            android:background="#686868"
+                            android:gravity="center"
+                            android:id="@+id/linChange"
+                            android:layout_margin="5dp"
+                            android:layout_height="35dp">
+                            <ImageView
+                                android:id="@+id/img_view"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="5dp"
+                                android:src="@drawable/ic_changeview" />
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/txt_change"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:background="#686868"
+                            android:text="Change View"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorwhite"
+                            android:textSize="@dimen/textsizesmall" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                    android:id="@+id/linear_zoom"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linear_livestream"
+                    android:layout_margin="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+                    <LinearLayout
+                        android:layout_width="35dp"
+                        android:background="#686868"
+                        android:gravity="center"
+                        android:id="@+id/linzoom"
+
+                        android:layout_margin="5dp"
+                        android:layout_height="35dp">
+                        <ImageView
+                            android:id="@+id/img_zoom"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_margin="5dp"
+                            android:src="@drawable/zoommeeting" />
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/txt_zoom"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="#686868"
+                        android:text="Participate"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorwhite"
+                        android:textSize="@dimen/textsizesmall" />
+
+                </LinearLayout>
+                </LinearLayout>
+
 
             </LinearLayout>
 

@@ -127,7 +127,7 @@ public class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.MyViewHo
 //        if (speaker.getCompany().equalsIgnoreCase("N A")) {
 //            holder.designtionTv.setText("");
 //        } else {
-        holder.designtionTv.setText(speaker.getCompany());
+      //  holder.designtionTv.setText(speaker.getCompany());
 //        }
 
         if (speaker.getProfilePic() != null) {

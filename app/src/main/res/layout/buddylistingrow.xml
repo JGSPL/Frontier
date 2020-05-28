@@ -118,32 +118,37 @@
                     android:gravity="center">
 
                     <Button
-                        android:layout_width="wrap_content"
+                        android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:minHeight="0dp"
+                        android:minHeight="25dp"
                         android:text="Accept"
                         android:background="@color/activetab"
                         android:textColor="@color/colorwhite"
-                        android:paddingRight="10dp"
+                        android:paddingRight="5dp"
                         android:paddingTop="5dp"
+                        android:textSize="8dp"
                         android:paddingBottom="5dp"
-                        android:paddingLeft="10dp"/>
+                        android:paddingLeft="5dp"/>
 
                     <Button
-                        android:layout_width="wrap_content"
+                        android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:minHeight="0dp"
+                        android:minHeight="25dp"
+                        android:background="@drawable/button_reject_backgroud"
+                        android:textColor="@color/colorAccent"
                         android:text="Reject"
+                        android:textSize="8dp"
+
                         android:layout_marginLeft="10dp"
                         android:visibility="visible"
-                        android:paddingRight="10dp"
+                        android:paddingRight="5dp"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-                        android:paddingLeft="10dp"/>
+                        android:paddingLeft="5dp"/>
 
 
                     <ImageView

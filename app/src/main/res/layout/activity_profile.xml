@@ -131,6 +131,7 @@
                 android:background="@drawable/agendabg"
                 android:gravity="center"
                 android:padding="10dp"
+                android:visibility="gone"
                 android:text="Upload Photo"
                 android:textColor="@color/trans"
                 android:textSize="@dimen/textsizesmall" />
