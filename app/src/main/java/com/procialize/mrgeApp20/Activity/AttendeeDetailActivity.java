@@ -630,8 +630,26 @@ public class AttendeeDetailActivity extends AppCompatActivity {
     private void applysetting(List<EventSettingList> eventSettingLists) {
 
         for (int i = 0; i < eventSettingLists.size(); i++) {
+            if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                    if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_company")) {
+                        attendee_company = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                    }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_location")) {
+                        attendee_location = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                    }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_mobile")) {
+                        attendee_mobile = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                    }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_save_contact")) {
+                        attendee_savecontact = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                    }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_designation")) {
+                        attendee_design = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                    }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_message")) {
+                        attendeemsg = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                    }
 
-            if (eventSettingLists.get(i).getFieldName().equals("attendee_company")) {
+                }
+            }
+
+           /* if (eventSettingLists.get(i).getFieldName().equals("attendee_company")) {
                 attendee_company = eventSettingLists.get(i).getFieldValue();
             } else if (eventSettingLists.get(i).getFieldName().equals("attendee_location")) {
                 attendee_location = eventSettingLists.get(i).getFieldValue();
@@ -645,7 +663,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                 attendeemsg = eventSettingLists.get(i).getFieldValue();
             } else if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("attendee_save_contact")) {
                 attendee_savecontact = eventSettingLists.get(i).getFieldValue();
-            }
+            }*/
         }
     }
 

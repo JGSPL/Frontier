@@ -154,10 +154,24 @@ public class QAAttendeeAdapter extends RecyclerView.Adapter<QAAttendeeAdapter.My
 
         for (int i = 0; i < eventSettingLists.size(); i++) {
 
-            if (eventSettingLists.get(i).getFieldName().equals("Q&A_like_question")) {
+            /*if (eventSettingLists.get(i).getFieldName().equals("Q&A_like_question")) {
                 QA_like_question = eventSettingLists.get(i).getFieldValue();
             } else if (eventSettingLists.get(i).getFieldName().equals("Q&A_reply_question")) {
                 QA_reply_question = eventSettingLists.get(i).getFieldValue();
+            }*/
+            if (eventSettingLists.get(i).getFieldName().equals("interact")) {
+
+                if(eventSettingLists.get(i).getSub_menuList()!=null) {
+                    if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                        for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                             if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_like_question")) {
+                                 QA_like_question = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_reply_question")) {
+                                 QA_reply_question = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }
+                        }
+                    }
+                }
             }
         }
     }

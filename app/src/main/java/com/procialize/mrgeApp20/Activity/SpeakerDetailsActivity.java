@@ -352,7 +352,7 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
     private void applysetting(List<EventSettingList> eventSettingLists) {
         for (int i = 0; i < eventSettingLists.size(); i++) {
 
-            if (eventSettingLists.get(i).getFieldName().equals("speaker_rating")) {
+           /* if (eventSettingLists.get(i).getFieldName().equals("speaker_rating")) {
                 speaker_rating = eventSettingLists.get(i).getFieldValue();
             } else if (eventSettingLists.get(i).getFieldName().equals("speaker_designation")) {
                 speaker_designation = eventSettingLists.get(i).getFieldValue();
@@ -362,7 +362,26 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
                 speaker_location = eventSettingLists.get(i).getFieldValue();
             } else if (eventSettingLists.get(i).getFieldName().equals("speaker_mobile")) {
                 speaker_mobile = eventSettingLists.get(i).getFieldValue();
+            }*/
+            if(eventSettingLists.get(i).getSub_menuList()!=null) {
+                if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                    for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                        if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_rating")) {
+                            speaker_rating = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                        }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_designation")) {
+                            speaker_designation = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                        }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_company")) {
+                            speaker_company = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                        }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_location")) {
+                            speaker_location = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                        }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_mobile")) {
+                            speaker_mobile = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                        }
+
+                    }
+                }
             }
+
 
         }
     }

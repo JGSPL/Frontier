@@ -126,10 +126,24 @@ public class EngagementFragment extends Fragment {
 
         for (int i = 0; i < eventSettingLists.size(); i++) {
 
-            if (eventSettingLists.get(i).getFieldName().equals("engagement_selfie_contest")) {
+           /* if (eventSettingLists.get(i).getFieldName().equals("engagement_selfie_contest")) {
                 engagement_selfie_contest = eventSettingLists.get(i).getFieldValue();
             } else if (eventSettingLists.get(i).getFieldName().equals("engagement_video_contest")) {
                 engagement_video_contest = eventSettingLists.get(i).getFieldValue();
+            }*/
+            if (eventSettingLists.get(i).getFieldName().equals("interact")) {
+
+                if(eventSettingLists.get(i).getSub_menuList()!=null) {
+                    if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                        for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                            if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("engagement_selfie_contest")) {
+                                engagement_selfie_contest = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("engagement_video_contest")) {
+                                engagement_video_contest = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }
+                        }
+                    }
+                }
             }
 
         }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
@@ -21,6 +22,9 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         //  overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+      //  Crashlytics.getInstance().crash();
+
         new Handler().postDelayed(new Runnable() {
 
             /*

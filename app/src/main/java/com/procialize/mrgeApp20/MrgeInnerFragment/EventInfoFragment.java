@@ -79,7 +79,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     SessionManager sessionManager;
     String token;
     ProgressBar progressbar;
-    String event_info_display_map, event_info_description;
+    String event_info_display_map ="0", event_info_description ="0";
     List<EventSettingList> eventSettingLists;
     SupportMapFragment fm;
     ImageView back;
@@ -91,7 +91,6 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     private APIService mAPIService;
     private GoogleMap map;
     private Date d2, d1;
-    private DBHelper procializeDB;
     private SQLiteDatabase db;
     private ConnectionDetector cd;
     private DBHelper dbHelper;
@@ -112,21 +111,6 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         // get user data from session
         HashMap<String, String> user = sessionManager.getUserDetails();
 
-       /* try {
-//            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
-            //path to /data/data/yourapp/app_data/dirName
-//            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
-            Resources res = getResources();
-            Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
-            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-            relative_head.setBackgroundDrawable(bd);
-
-            Log.e("PATH", String.valueOf(mypath));
-        } catch (Exception e) {
-            e.printStackTrace();
-            relative_head.setBackgroundColor(Color.parseColor("#f1f1f1"));
-        }*/
         token = user.get(SessionManager.KEY_TOKEN);
         crashlytics("Event Info", token);
         eventSettingLists = sessionManager.loadEventList();
@@ -134,12 +118,6 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         if (eventSettingLists.size() != 0) {
             applysetting(eventSettingLists);
         }
-
-
-       /* int sec = 1590469689 - 1590466089 ;
-        int minutes = sec/60;
-        Log.e("Date conversion", String.valueOf(minutes));*/
-
 
 
 
@@ -157,8 +135,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         progressbar = view2.findViewById(R.id.progressbar);
         back = view2.findViewById(R.id.back);
         linMap = view2.findViewById(R.id.linMap);
-        procializeDB = new DBHelper(getContext());
-        db = procializeDB.getWritableDatabase();
+        db = dbHelper.getWritableDatabase();
        // fm = ( SupportMapFragment ) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
         fm = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
 
@@ -169,7 +146,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
        TextView header = ( TextView ) view2.findViewById(R.id.event_info_heading);
         header.setTextColor(Color.parseColor(colorActive));
-        nameTv.setTextColor(Color.parseColor(colorActive));
+      //  nameTv.setTextColor(Color.parseColor(colorActive));
 
 
         RelativeLayout layoutTop = ( RelativeLayout ) view2.findViewById(R.id.layoutTop);
@@ -178,15 +155,17 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-        if (event_info_display_map.equalsIgnoreCase("1")) {
+       //if (event_info_display_map.equalsIgnoreCase("1")) {
             event_desc.setMovementMethod(new ScrollingMovementMethod());
             event_desc.setMaxLines(20);
             event_desc.setVerticalScrollBarEnabled(true);
-        } else {
+       /* } else {
 
+        }*/
+
+        if (cd.isConnectingToInternet()) {
+            fetchEventInfo(token, eventid);
         }
-
-
         return view2;
     }
 
@@ -194,12 +173,26 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
         for (int i = 0; i < eventSettingLists.size(); i++) {
 
-            if (eventSettingLists.get(i).getFieldName().equals("event_info_display_map")) {
+           /* if (eventSettingLists.get(i).getFieldName().equals("event_info_display_map")) {
                 event_info_display_map = eventSettingLists.get(i).getFieldValue();
             } else if (eventSettingLists.get(i).getFieldName().equals("event_info_description")) {
                 event_info_description = eventSettingLists.get(i).getFieldValue();
             }
+*/
+            if (eventSettingLists.get(i).getFieldName().equals("event_details")) {
+                if(eventSettingLists.get(i).getSub_menuList()!=null) {
+                    if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                        for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                            if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_display_map")) {
+                                event_info_display_map = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_description")) {
+                                event_info_description = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }
 
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -234,7 +227,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         // specify an adapter (see also next example)
 
         if (response.body().getEventList().isEmpty()) {
-            db = procializeDB.getReadableDatabase();
+            db = dbHelper.getReadableDatabase();
 
             eventDBList = dbHelper.getEventListDetail();
 
@@ -309,25 +302,12 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
 
                 try {
-                    if (event_info_description.equalsIgnoreCase("1") && eventDBList.get(0).getEventDescription() != null) {
 
-                        event_desc.setVisibility(View.VISIBLE);
-//                        eventvenu.setVisibility(View.VISIBLE);
-                        view.setVisibility(View.VISIBLE);
-
-                    } else {
-                        event_desc.setVisibility(View.GONE);
-//                        eventvenu.setVisibility(View.GONE);
-                        view.setVisibility(View.GONE);
-                    }
-
-                   // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
-                    event_desc.setText("\n" + eventDBList.get(0).getEventDescription());
+                    event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                    //event_desc.setText("\n" + eventDBList.get(0).getEventDescription());
 
 
                     String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
-
-//                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
                     Glide.with(getContext()).load(image_final_url)
                             .apply(RequestOptions.skipMemoryCacheOf(true)).circleCrop()
                             .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).circleCrop()
@@ -374,6 +354,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                 });
 
 
+/*
                 try {
                     if (map != null && event_info_display_map.equalsIgnoreCase("1")) {
 
@@ -407,6 +388,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                     }
                 } catch (Exception e) {
                 }
+*/
 
 
             } else {
@@ -427,8 +409,8 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         } else {
             if (response.body().getStatus().equalsIgnoreCase("success")) {
                 eventList = response.body().getEventList();
-                procializeDB.clearEventListTable();
-                procializeDB.insertEventInfo(eventList, db);
+                dbHelper.clearEventListTable();
+                dbHelper.insertEventInfo(eventList, db);
 
                 String startTime = "", endTime = "";
                 SimpleDateFormat sdf = new SimpleDateFormat(ApiConstant.dateformat + " HH:mm");
@@ -516,12 +498,12 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
                     Glide.with(getContext()).load(image_final_url)
-                            .apply(RequestOptions.skipMemoryCacheOf(true))
-                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                            .apply(RequestOptions.skipMemoryCacheOf(true)).circleCrop()
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 
-                            logoIv.setImageResource(R.drawable.profilepic_placeholder);
+                           // logoIv.setImageResource(R.drawable.profilepic_placeholder);
                             return true;
                         }
 
@@ -530,7 +512,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
                             return false;
                         }
-                    }).into(logoIv).onLoadStarted(getContext().getDrawable(R.drawable.profilepic_placeholder));
+                    }).into(logoIv);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -608,7 +590,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         if (cd.isConnectingToInternet()) {
             fetchEventInfo(token, eventid);
         } else {
-            db = procializeDB.getReadableDatabase();
+            db = dbHelper.getReadableDatabase();
 
             eventDBList = dbHelper.getEventListDetail();
 

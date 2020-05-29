@@ -90,6 +90,7 @@ import com.procialize.mrgeApp20.Downloads.DocumentsActivity;
 import com.procialize.mrgeApp20.Downloads.DownloadsFragment;
 import com.procialize.mrgeApp20.EmptyViewActivity;
 import com.procialize.mrgeApp20.Engagement.Fragment.EngagementFragment;
+import com.procialize.mrgeApp20.Fragments.AgendaFolderFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFragment;
 import com.procialize.mrgeApp20.Fragments.AttendeeFragment;
 import com.procialize.mrgeApp20.Fragments.SpeakerFragment;
@@ -127,6 +128,8 @@ import com.procialize.mrgeApp20.MrgeInnerFragment.EmergencyFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.EventInfoFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.FolderQuizFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.LivePollListFragment;
+import com.procialize.mrgeApp20.MrgeInnerFragment.QnADirectFragment;
+import com.procialize.mrgeApp20.MrgeInnerFragment.QnASessionFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.QnASpeakerFragment;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
@@ -176,17 +179,29 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     List<EventSettingList> eventSettingLists;
     List<EventMenuSettingList> eventMenuSettingLists;
     HashMap<String, String> eventlist;
+    private String event_details  = "0", attendee = "0",attendee_designation = "0",attendee_company = "0",
+            attendee_location = "0",attendee_mobile = "0",attendee_save_contact = "0",speaker = "0",
+            speaker_rating = "0",speaker_designation = "0",speaker_company = "0", speaker_location = "0",
+            speaker_mobile = "0", speaker_save_contact = "0", agenda, agenda_conference = "0",
+            agenda_vacation = "0", event_info = "0",event_info_display_map = "0", event_info_description = "0",
+            event_info_email = "0", event_info_contact = "0", attendee_message = "0",
+            speaker_message = "0", emergency_contact = "0";
+
+    private String interact  = "0",QnA  = "0" , QnA_speaker = "0",QnA_session = "0",QnA_like_question = "0",
+            QnA_reply_question = "0",QnA_direct_question = "0", engagement_selfie_contest = "0",
+            engagement_video_contest = "0",quiz = "0", live_poll = "0", engagement = "0";
+    private String folder = "0",image_gallery = "0",document_download = "0",video_gallery = "0";
+
     String side_menu = "0", side_menu_my_travel = "0", side_menu_notification = "0", side_menu_display_qr = "0", side_menu_qr_scanner = "0",
             side_menu_quiz = "0", side_menu_live_poll = "0", side_menu_survey = "0",
             side_menu_feedback = "0", side_menu_gallery_video = "0", gallery_video_native = "0", gallery_video_youtube = "0",
             side_menu_image_gallery = "0", selfie_contest = "0", video_contest = "0",
             side_menu_event_info = "0", side_menu_document = "0", side_menu_engagement = "0",
-            engagement_selfie_contest = "0", engagement_video_contest = "0",
             news_feed_video = "0", QA_speaker = "0", QA_direct = "0", QA_session = "0", side_menu_attendee = "0", side_menu_speaker = "0", side_menu_agenda = "0",
-            side_menu_general_info = "0", edit_profile_company = "0", edit_profile_designation = "0", agenda_conference = "0", agenda_vacation = "0",
+            side_menu_general_info = "0", edit_profile_company = "0", edit_profile_designation = "0",
             side_menu_contact = "0", side_menu_email = "0", side_menu_leaderboard = "0", side_menu_exhibitor = "0",
             side_menu_sponsor = "0";
-    String news_feed = "0", attendee = "0", speaker = "0", agenda = "0", edit_profile = "0", general_ifo = "0", main_tab_exhibitor = "0";
+    String news_feed = "0", edit_profile = "0", general_ifo = "0", main_tab_exhibitor = "0";
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
     String MY_EVENT = "EventId";
@@ -264,6 +279,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     private TabFlashyAnimatorWithTitle tabFlashyAnimator;
     private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
     int youTubeLinkPosition=-1;
+
+
 
     @Override
     public Resources getResources() {
@@ -908,26 +925,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
 
-       /* ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-//                profiledetails();
-                super.onDrawerOpened(drawerView);
-            }
-        };
-
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-
-        //calling sync state is necessay or else your hamburger icon wont show up
-        actionBarDrawerToggle.syncState();*/
 
         if (side_menu.equalsIgnoreCase("0")) {
             navigationView.setVisibility(View.GONE);
@@ -947,6 +944,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 sub2tabLayout.getTabAt(0).setIcon(sub1tabIcons[2]);
             } else if (sub2tabLayout.getTabAt(0).getText().equals("SCHEDULE")) {
                 sub2tabLayout.getTabAt(0).setIcon(sub1tabIcons[3]);
+            }else if (sub2tabLayout.getTabAt(0).getText().equals("EMERGENCY")) {
+                sub2tabLayout.getTabAt(0).setIcon(sub1tabIcons[4]);
             }
         }
 
@@ -960,6 +959,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 sub2tabLayout.getTabAt(1).setIcon(sub1tabIcons[2]);
             } else if (sub2tabLayout.getTabAt(1).getText().equals("SCHEDULE")) {
                 sub2tabLayout.getTabAt(1).setIcon(sub1tabIcons[3]);
+            }else if (sub2tabLayout.getTabAt(1).getText().equals("EMERGENCY")) {
+                sub2tabLayout.getTabAt(1).setIcon(sub1tabIcons[4]);
             }
         }
 
@@ -973,6 +974,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 sub2tabLayout.getTabAt(2).setIcon(sub1tabIcons[2]);
             } else if (sub2tabLayout.getTabAt(2).getText().equals("SCHEDULE")) {
                 sub2tabLayout.getTabAt(2).setIcon(sub1tabIcons[3]);
+            }else if (sub2tabLayout.getTabAt(2).getText().equals("EMERGENCY")) {
+                sub2tabLayout.getTabAt(2).setIcon(sub1tabIcons[4]);
             }
         }
 
@@ -986,6 +989,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 sub2tabLayout.getTabAt(3).setIcon(sub1tabIcons[2]);
             } else if (sub2tabLayout.getTabAt(3).getText().equals("SCHEDULE")) {
                 sub2tabLayout.getTabAt(3).setIcon(sub1tabIcons[3]);
+            }else if (sub2tabLayout.getTabAt(3).getText().equals("EMERGENCY")) {
+                sub2tabLayout.getTabAt(3).setIcon(sub1tabIcons[4]);
             }
         }
 
@@ -1009,13 +1014,27 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     private void Sub2setupViewPager(ViewPager viewPager) {
 
         viewPagerAdapterSub2 = new ViewPagerAdapterSub(getSupportFragmentManager());
-        viewPagerAdapterSub2.addFragment(new EventInfoFragment(), "EVENT INFO");
-        viewPagerAdapterSub2.addFragment(new AttendeeFragment(), "ATTENDEES");
-        viewPagerAdapterSub2.addFragment(new SpeakerFragment(), "SPEAKERS");
-        viewPagerAdapterSub2.addFragment(new AgendaFragment(), "SCHEDULE");
-        viewPagerAdapterSub2.addFragment(new EmergencyFragment(), "EMERGENCY");
+        if(event_info.equalsIgnoreCase("1")){
+            viewPagerAdapterSub2.addFragment(new EventInfoFragment(), "EVENT INFO");
+        }
+        if(attendee.equalsIgnoreCase("1")){
+            viewPagerAdapterSub2.addFragment(new AttendeeFragment(), "ATTENDEES");
+        }
+        if(speaker.equalsIgnoreCase("1")){
+            viewPagerAdapterSub2.addFragment(new SpeakerFragment(), "SPEAKERS");
+        }
+        if(agenda.equalsIgnoreCase("1")){
+            if(agenda_conference.equalsIgnoreCase("1")){
+                viewPagerAdapterSub2.addFragment(new AgendaFragment(), "SCHEDULE");
 
-        // sub2tabLayout.getTabAt(0).getCustomView().setSelected(false);
+            }else {
+                viewPagerAdapterSub2.addFragment(new AgendaFolderFragment(), "SCHEDULE");
+            }
+        }
+        if(emergency_contact.equalsIgnoreCase("1")){
+            viewPagerAdapterSub2.addFragment(new EmergencyFragment(), "EMERGENCY");
+        }
+
 
         Subviewpager.setAdapter(viewPagerAdapterSub2);
     }
@@ -1073,12 +1092,19 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     private void Sub3setupViewPager(ViewPager viewPager) {
 
         viewPagerAdapterSub3 = new ViewPagerAdapterSub(getSupportFragmentManager());
-        viewPagerAdapterSub3.addFragment(new GalleryFragment(), "IMAGE");
-        viewPagerAdapterSub3.addFragment(new VideoFragment(), "VIDEO");
-        viewPagerAdapterSub3.addFragment(new DownloadsFragment(), "DOWNLOADS");
-        //adapter.addFragment(new FolderQuizFragment(), "Engagement");
+        if(image_gallery.equalsIgnoreCase("1")){
+            viewPagerAdapterSub3.addFragment(new GalleryFragment(), "IMAGE");
 
-        // sub2tabLayout.getTabAt(0).getCustomView().setSelected(false);
+        }
+        if(video_gallery.equalsIgnoreCase("1")){
+            viewPagerAdapterSub3.addFragment(new VideoFragment(), "VIDEO");
+
+        }
+        if(document_download.equalsIgnoreCase("1")){
+            viewPagerAdapterSub3.addFragment(new DownloadsFragment(), "DOWNLOADS");
+
+        }
+
         Subviewpager2.setAdapter(viewPagerAdapterSub3);
     }
 
@@ -1136,20 +1162,37 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     }
 
     private void Sub4setupViewPager(ViewPager viewPager) {
-
+       /*private String interact  = "0",QnA  = "0" , QnA_speaker = "0",QnA_session = "0",QnA_like_question = "0",
+                            QnA_reply_question = "0",QnA_direct_question = "0", engagement_selfie_contest = "0",
+                            engagement_video_contest = "0",quiz = "0", live_poll = "0", engagement = "0";*/
         viewPagerAdapterSub4 = new ViewPagerAdapterSub(getSupportFragmentManager());
-        viewPagerAdapterSub4.addFragment(new FolderQuizFragment(), "QUIZ");
-        viewPagerAdapterSub4.addFragment(new LivePollListFragment(), "LIVE POLL");
+        if(quiz.equalsIgnoreCase("1")){
+            viewPagerAdapterSub4.addFragment(new FolderQuizFragment(), "QUIZ");
 
-       /* if(agenda.equalsIgnoreCase("1")) {
-            adapter.addFragment(new FragmentNewsFeed(), "LIVE POLL");
+        }
+        if(live_poll.equalsIgnoreCase("1")){
+            viewPagerAdapterSub4.addFragment(new LivePollListFragment(), "LIVE POLL");
 
-        }else{
-            adapter.addFragment(new LivePollListFragment(), "LIVE POLL");
+        }
+        if(QnA.equalsIgnoreCase("1")){
+            if(QnA_session.equalsIgnoreCase("1")){
+                viewPagerAdapterSub4.addFragment(new QnASessionFragment(), "Q&A");
 
-        }*/
-        viewPagerAdapterSub4.addFragment(new QnASpeakerFragment(), "Q&A");
-        viewPagerAdapterSub4.addFragment(new EngagementFragment(), "ENGAGEMENT");
+            }else if(QnA_speaker.equalsIgnoreCase("1")){
+                viewPagerAdapterSub4.addFragment(new QnASpeakerFragment(), "Q&A");
+
+            }else{
+                viewPagerAdapterSub4.addFragment(new QnADirectFragment(), "Q&A");
+
+            }
+
+        }
+
+        if(engagement.equalsIgnoreCase("1")){
+            viewPagerAdapterSub4.addFragment(new EngagementFragment(), "ENGAGEMENT");
+
+        }
+
         Subviewpager3.setAdapter(viewPagerAdapterSub4);
     }
 
@@ -1382,60 +1425,23 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         if (news_feed.equalsIgnoreCase("1")) {
             adapter.addFragment(new FragmentNewsFeed(), "News Feed");
         }
-        if (agenda.equalsIgnoreCase("1")) {
-            if (agenda_conference.equalsIgnoreCase("1")) {
+        if (event_details.equalsIgnoreCase("1")) {
+            //if (agenda_conference.equalsIgnoreCase("1")) {
                 adapter.addFragment(new BlankFragment(), "Event Details");
-            } else if (agenda_vacation.equalsIgnoreCase("1")) {
+            /*} else if (agenda_vacation.equalsIgnoreCase("1")) {
                 adapter.addFragment(new BlankFragment(), "Event Details");
-            }
+            }*/
 
         }
-        if (attendee.equalsIgnoreCase("1")) {
+        if (folder.equalsIgnoreCase("1")) {
             adapter.addFragment(new BlankFragment(), "Folder");
         }
 
-        if (main_tab_exhibitor.equalsIgnoreCase("1")) {
-            try {
-                if (Integer.parseInt(catcnt) <= 3) {
-                    adapter.addFragment(new BlankFragment(), "Exhibitors");
-                } else {
-                    adapter.addFragment(new BlankFragment(), "Exhibitors");
-                }
-            } catch (Exception e) {
-                adapter.addFragment(new BlankFragment(), "Exhibitors");
-            }
 
-        }
-
-        if (speaker.equalsIgnoreCase("1")) {
+        if (interact.equalsIgnoreCase("1")) {
             adapter.addFragment(new BlankFragment(), "Interact");
         }
 
-
-        if (general_ifo.equalsIgnoreCase("1")) {
-            adapter.addFragment(new BlankFragment(), "General Info");
-        }
-
-
-//        if (news_feed.equalsIgnoreCase("1") && agenda.equalsIgnoreCase("0") &&
-//                attendee.equalsIgnoreCase("0") && speaker.equalsIgnoreCase("0") &&
-//                general_ifo.equalsIgnoreCase("0")) {
-//            adapter.addFragment(new WallFragment_POST(), "News Feed");
-//            tabLayout = findViewById(R.id.tabs);
-//            AppBarLayout appTab = findViewById(R.id.appTab);
-////            appTab.setElevation(0);
-//            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
-//                    LinearLayout.LayoutParams.MATCH_PARENT,
-//                    LinearLayout.LayoutParams.MATCH_PARENT,
-//                    10.0f
-//            );
-//
-//            viewPager.setLayoutParams(param);
-//            appTab.setVisibility(View.VISIBLE);
-//            tabLayout.setVisibility(View.VISIBLE);
-
-
-//        }
         viewPager.setAdapter(adapter);
     }
 
@@ -1560,6 +1566,120 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 } else if (eventSettingLists.get(i).getFieldName().equals("side_menu_sponsor")) {
 
                     side_menu_sponsor = eventSettingLists.get(i).getFieldValue();
+                }else if (eventSettingLists.get(i).getFieldName().equals("event_details")) {
+
+                    event_details = eventSettingLists.get(i).getFieldValue();
+                    if(eventSettingLists.get(i).getSub_menuList()!=null) {
+                        if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                            for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                                if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee")) {
+
+                                    attendee = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_designation")) {
+                                    attendee_designation = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_company")) {
+                                    attendee_company = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_location")) {
+                                    attendee_location = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_mobile")) {
+                                    attendee_mobile = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_save_contact")) {
+                                    attendee_save_contact = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("agenda")) {
+                                    agenda = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("agenda_conference")) {
+                                    agenda_conference = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("agenda_vacation")) {
+                                    agenda_vacation = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info")) {
+                                    event_info = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_display_map")) {
+                                    event_info_display_map = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_description")) {
+                                    event_info_description = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_email")) {
+                                    event_info_email = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_contact")) {
+                                    event_info_contact = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_message")) {
+                                    attendee_message = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_message")) {
+                                    speaker_message = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("emergency_contact")) {
+                                    emergency_contact = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker")) {
+                                    speaker = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_rating")) {
+                                    speaker_rating = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_designation")) {
+                                    speaker_designation = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_company")) {
+                                    speaker_company = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_location")) {
+                                    speaker_location = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_mobile")) {
+                                    speaker_mobile = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_save_contact")) {
+                                    speaker_save_contact = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }
+
+                            }
+                        }
+                    }
+                }else if (eventSettingLists.get(i).getFieldName().equals("interact")) {
+
+                    interact = eventSettingLists.get(i).getFieldValue();
+                    if(eventSettingLists.get(i).getSub_menuList()!=null) {
+                        if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                            for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                                if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A")) {
+                                    QnA = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_speaker")) {
+                                    QnA_speaker = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_session")) {
+                                    QnA_session = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_like_question")) {
+                                    QnA_like_question = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_reply_question")) {
+                                    QnA_reply_question = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_direct_question")) {
+                                    QnA_direct_question = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("engagement_selfie_contest")) {
+                                    engagement_selfie_contest = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("engagement_video_contest")) {
+                                    engagement_video_contest = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("quiz")) {
+                                    quiz = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("live_poll")) {
+                                    live_poll = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("engagement")) {
+                                    engagement = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }
+                        }
+                        }
+                    }
+                }else if (eventSettingLists.get(i).getFieldName().equals("folder")) {
+
+
+                    /*
+                    private String folder = "0",image_gallery = "0",document_download = "0",video_gallery = "0";*/
+                    folder = eventSettingLists.get(i).getFieldValue();
+                    if(eventSettingLists.get(i).getSub_menuList()!=null) {
+                        if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                            for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                                if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("image_gallery")) {
+
+                                    image_gallery = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("document_download")) {
+
+                                    document_download = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("video_gallery")) {
+
+                                    video_gallery = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }
+                            }
+                        }
+                    }
                 }
 
             }
@@ -1673,31 +1793,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                 Intent intent = new Intent(MrgeHomeActivity.this, EmptyViewActivity.class);
                 startActivity(intent);
-//                setContentView(R.layout.activity_empty_view);
-//                ImageView imageView = findViewById(R.id.back);
-//                TextView text_empty = findViewById(R.id.text_empty);
-//
-//                final ImageView headerlogoIv1 = findViewById(R.id.headerlogoIv);
-//                Glide.with(this).load("http://www.procialize.info/uploads/app_logo/" + logoImg).listener(new RequestListener<Drawable>() {
-//                    @Override
-//                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//                        headerlogoIv1.setImageResource(R.drawable.splashlogo);
-//                        return true;
-//                    }
-//
-//                    @Override
-//                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                        return false;
-//                    }
-//                }).into(headerlogoIv1);
-//                text_empty.setText("No Data Found");
-//                imageView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Intent intent = new Intent(MrgeHomeActivity.this, MrgeHomeActivity.class);
-//                        startActivity(intent);
-//                    }
-//                });
+
             }
 
 
@@ -1713,18 +1809,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             Intent speaker = new Intent(this, SpeakerActivity.class);
             startActivity(speaker);
 
-        } /*else if (menuSettingList.getFieldName().equalsIgnoreCase("agenda_conference") ||menuSettingList.getFieldName().equalsIgnoreCase("agenda_vacation")) {
-
-            if (agenda_conference.equalsIgnoreCase("1")) {
-                Intent agenda = new Intent(this, AgendaActivity.class);
-                startActivity(agenda);
-            } else if (agenda_vacation.equalsIgnoreCase("1")) {
-                Intent agenda = new Intent(this, AgendaVacationActivity.class);
-                startActivity(agenda);
-            }
-
-
-        }*/ else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_agenda")) {
+        }  else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_agenda")) {
 
             if (agenda_conference.equalsIgnoreCase("1")) {
                 Intent agenda = new Intent(this, AgendaActivity.class);
