@@ -94,12 +94,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String imageUri = remoteMessage.getData().get("image");
             long when = System.currentTimeMillis();
             bitmap = getBitmapfromUrl(imageUri);
-        /*NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentTitle(remoteMessage.getData().get("Fames bond"))
-                .setContentText(getEmojiFromString(remoteMessage.getData().get("message"))).setAutoCancel(true).setSound(defaultSoundUri);
-        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(notificationId *//* ID of notification *//*, notificationBuilder.build());*/
+
             Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID);
 //        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
@@ -148,9 +143,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                   /* .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
-                    .setNumber(notificationCount)*/
-                    //.setContentTitle(remoteMessage.getData().get("Fames bond"))
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(getEmojiFromString(remoteMessage.getData().get("message"))))
                     .setContentText(getEmojiFromString(remoteMessage.getData().get("message")))
                     .setStyle(new NotificationCompat.BigPictureStyle()
@@ -160,27 +152,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             // Session Manager
             session = new SessionManager(getApplicationContext());
             if (session.isLoggedIn()) {
-
-                // Post notification of received message.
-            /*String tempString = msg.substring(0, 4);
-
-            Toast.makeText(getBaseContext(), tempString,
-                    Toast.LENGTH_SHORT).show();
-
-            System.out.println(tempString);
-
-            if (tempString.equalsIgnoreCase("poll")) {
-                sendPollNotification(msg);
-            } else {
-
-                sendOrgNotification(remoteMessage.getData().get("message"));
-
-            }*/
                 bitmap = getBitmapfromUrl(imageUri);
-
                 sendNotification(remoteMessage.getData().get("message"), bitmap);
-
-
             }
         }
     }

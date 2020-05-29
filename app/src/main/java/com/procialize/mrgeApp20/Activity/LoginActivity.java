@@ -6,13 +6,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
-
-import com.crashlytics.android.Crashlytics;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -27,6 +20,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.crashlytics.android.Crashlytics;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
@@ -60,14 +60,14 @@ public class LoginActivity extends AppCompatActivity {
     String emailid, password;
     ImageView headerlogoIv;
     Dialog myDialog;
-    private APIService mAPIService;
     CheckBox chk_box;
     LinearLayout linearLayout2;
     RelativeLayout rel2;
     ImageView imgBack;
     EditText login_otp;
     Button otp_submit_btn, otp_resubmit_btn;
-    String passwordOtp,mobilenumber, accessToken;
+    String passwordOtp, mobilenumber, accessToken;
+    private APIService mAPIService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,7 +227,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (Connectivity.isConnected(LoginActivity.this)) {
                         emailid = Etemail.getText().toString();
-                       // password = Etpassword.getText().toString();
+                        // password = Etpassword.getText().toString();
                         showProgress();
                         sendEventList(Etemail.getText().toString(), Etpassword.getText().toString());
                     } else {
@@ -242,7 +242,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String localOtp = login_otp.getText().toString();
-                if(localOtp.equalsIgnoreCase(passwordOtp)){
+                if (localOtp.equalsIgnoreCase(passwordOtp)) {
                     Intent event = new Intent(getApplicationContext(), EventChooserActivity.class);
                     event.putExtra("email", emailid);
                     event.putExtra("mobile", mobilenumber);
@@ -251,7 +251,7 @@ public class LoginActivity extends AppCompatActivity {
                     event.putExtra("accesstiken", accessToken);
                     startActivity(event);
                     finish();
-                }else{
+                } else {
                     login_otp.setText("");
                     Toast.makeText(LoginActivity.this, "Wrong OTP! Please try again", Toast.LENGTH_SHORT).show();
 
@@ -267,9 +267,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-
-        crashlytics("Login","");
-        firbaseAnalytics(this,"Login","");
+        crashlytics("Login", "");
+        firbaseAnalytics(this, "Login", "");
         /*if (CheckingPermissionIsEnabledOrNot()) {
 //            Toast.makeText(MainActivity.this, "All Permissions Granted Successfully", Toast.LENGTH_LONG).show();
         }
@@ -328,7 +327,7 @@ public class LoginActivity extends AppCompatActivity {
                     mobilenumber = response.body().getUserData().getMobile();
                     emailid = response.body().getUserData().getEmail();
                     accessToken = response.body().getUserData().getApiAccessToken();
-
+                    Log.d("Password Key==>", passwordOtp);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -482,7 +481,8 @@ public class LoginActivity extends AppCompatActivity {
                 break;
         }
     }
-    public void otpLoginProcess(){
+
+    public void otpLoginProcess() {
         login_otp.setVisibility(View.GONE);
         otp_submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override

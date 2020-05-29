@@ -15,11 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,11 +22,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.procialize.mrgeApp20.Adapter.QuizPagerAdapter;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
@@ -56,64 +59,62 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 public class QuizActivity extends AppCompatActivity implements OnClickListener {
 
-    private ProgressDialog pDialog;
-    // Session Manager Class
-    private SessionManager session;
-
-    // Access Token Variable
-    private String accessToken, event_id, colorActive;
-
     public static String quiz_question_id;
-    private String quiz_options_id;
-
-    private String quizQuestionUrl = "";
-    private String getQuizUrl = "";
+    public static RecyclerView quizNameList;
+    public static MyApplication appDelegate;
+    public static String foldername = "null";
+    public static Button submit, btnNext;
+    public static TextView txt_count;
+    public static LinearLayoutManager llm;
+    public static int count1 = 1;
+    public static boolean submitflag = false;
+    public static int countpage = 1;
+    private static LinearLayout layoutHolder;
+    public int time = 10,timerForQuiz;
     CountDownTimer timercountdown;
-    private ConnectionDetector cd;
-    private long startTime = 0L;
     long timeInMilliseconds = 0L;
     long timeSwapBuff = 0L;
     long updatedTime = 0L;
     boolean[] timerProcessing = {false};
-    boolean[] timerStarts = {false};
-    private ApiConstant constant = new ApiConstant();
-
-    public static RecyclerView quizNameList;
 //    private QuizNewAdapter adapter;
-
-    private QuizParser quizParser;
-    private ArrayList<Quiz> quizList = new ArrayList<Quiz>();
+    boolean[] timerStarts = {false};
     RelativeLayout relative;
-    private QuizOptionParser quizOptionParser;
-    private ArrayList<QuizOptionList> quizOptionList = new ArrayList<QuizOptionList>();
     QuizPagerAdapter pagerAdapter;
-    public static MyApplication appDelegate;
-    public static String foldername = "null";
-    public static Button submit, btnNext;
     ImageView headerlogoIv;
-    TextView questionTv, txt_time,txtHeaderQ;
-    public static TextView txt_count;
+    TextView questionTv, txt_time, txtHeaderQ;
     CustomViewPager pager;
     //    QuizPagerAdapter pagerAdapter;
     LinearLayoutManager recyclerLayoutManager;
     String MY_PREFS_NAME = "ProcializeInfo";
-    private static LinearLayout layoutHolder;
-    public static LinearLayoutManager llm;
-    public static int count1 = 1;
-    private DBHelper procializeDB;
-    private SQLiteDatabase db;
     int count;
     boolean flag = true;
     boolean flag1 = true;
     boolean flag2 = true;
-    public static boolean submitflag = false;
     Timer timer;
-    public int time = 10;
-    public static int countpage = 1;
-
+    ProgressBar progressBarCircle;
+    TextView textViewTime;
+    private ProgressDialog pDialog;
+    // Session Manager Class
+    private SessionManager session;
+    // Access Token Variable
+    private String accessToken, event_id, colorActive;
+    private String quiz_options_id;
+    private String quizQuestionUrl = "";
+    private String getQuizUrl = "";
+    private ConnectionDetector cd;
+    private long startTime = 0L;
+    private ApiConstant constant = new ApiConstant();
+    private QuizParser quizParser;
+    private ArrayList<Quiz> quizList = new ArrayList<Quiz>();
+    private QuizOptionParser quizOptionParser;
+    private ArrayList<QuizOptionList> quizOptionList = new ArrayList<QuizOptionList>();
+    private DBHelper procializeDB;
+    private SQLiteDatabase db;
+  //  private CountDownTimer countDownTimer;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -167,7 +168,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         appDelegate = (MyApplication) getApplicationContext();
 
         foldername = getIntent().getExtras().getString("folder");
-
+        timerForQuiz = Integer.parseInt(getIntent().getExtras().getString("timer"));
+        time = timerForQuiz;
         // Session Manager
         session = new SessionManager(getApplicationContext());
         accessToken = session.getUserDetails().get(SessionManager.KEY_TOKEN);
@@ -184,6 +186,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         btnNext = (Button) findViewById(R.id.btnNext);
         txt_time = (TextView) findViewById(R.id.txt_time);
 
+        progressBarCircle = (ProgressBar) findViewById(R.id.progressBarCircle);
+        textViewTime = (TextView) findViewById(R.id.textViewTime);
         submit.setOnClickListener(this);
 //        btnNext.setOnClickListener(this);
 
@@ -206,7 +210,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"/"+ApiConstant.folderName+"/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/" + ApiConstant.folderName + "/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -236,6 +240,10 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 if (quizList.size() == pager.getCurrentItem() + 1) {
                     btnNext.setVisibility(View.GONE);
                     submit.setVisibility(View.VISIBLE);
+                    //time = 0;
+                    time = timerForQuiz;
+                    timercountdown.cancel();
+                    timercountdown.start();
 
                     //                    txt_time.setText(String.format(Locale.getDefault(), "%d", time));
 //                    if (time > 0)
@@ -243,7 +251,11 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 } else if (quizList.size() >= pager.getCurrentItem() + 1) {
                     btnNext.setVisibility(View.VISIBLE);
                     submit.setVisibility(View.GONE);
-                    time = 0;
+                 // time = 0;
+                    time = timerForQuiz;
+                    //countDownTimer.cancel();
+                    //countDownTimer.start();
+                    //startCountDownTimer(time * 1000);
                     timercountdown.cancel();
                     timercountdown.start();
                     txt_time.setText("" + ":" + checkdigit(time));
@@ -312,7 +324,6 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
 //        timer.scheduleAtFixedRate(new SliderTimer(), 4000, 6000);
 
 
-
 /*
         quizNameList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -331,6 +342,27 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
 //        quizNameList.setLayoutManager(recyclerLayoutManager);
 
         pager = findViewById(R.id.pager);
+        txt_count.setText("Questions 1/" + quizList.size());
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                time = timerForQuiz;
+                txt_count.setText("Questions " + (position+1) + "/" + quizList.size());
+               /* timercountdown.cancel();
+                timercountdown.start();*/
+                //startCountDownTimer(time * 1000);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         quizNameList.setAnimationCacheEnabled(true);
         quizNameList.setDrawingCacheEnabled(true);
@@ -345,21 +377,509 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                     Toast.LENGTH_SHORT).show();
         }
 
-        timercountdown = new CountDownTimer(10000, 1000) {
+        //startCountDownTimer(time * 1000);
+        progressBarCircle.setMax(time);
+        progressBarCircle.setProgress(time);
+
+        timercountdown = new CountDownTimer(time*1000, 1000) {
             public void onTick(long millisUntilFinished) {
                 if (time == 0) {
-
-                    time = 10;
+                    //time = 10;
+                    time = timerForQuiz;
                 }
-
                 txt_time.setText("" + ":" + checkdigit(time));
+
+                //long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
+                textViewTime.setText(String.valueOf(time));
+                progressBarCircle.setProgress(time);
+
                 time--;
             }
 
             public void onFinish() {
-                time = 0;
+                //time = 0;
+
+                Log.e("On Finish===>",time+"");
                 timercountdown.cancel();
+                time = timerForQuiz;
                 timercountdown.start();
+                txt_time.setText("" + ":" + checkdigit(time));
+                try {
+                    if (pager.getCurrentItem() < quizList.size() - 1) {
+                        countpage = pager.getCurrentItem();
+                        pager.setCurrentItem(pager.getCurrentItem() + 1);
+                        int opt = 1;
+                        if (pagerAdapter.quizSpecificOptionListnew.size() > 1) {
+                            pagerAdapter.selectedOption = pagerAdapter.quizSpecificOptionListnew.get(1).getOptionId();
+                        } else {
+                            pagerAdapter.selectedOption = pagerAdapter.quizSpecificOptionListnew.get(0).getOptionId();
+                        }
+
+
+                        if (pagerAdapter.quizSpecificOptionListnew.size() > 1) {
+                            if (pagerAdapter.selectedOption.equalsIgnoreCase(pagerAdapter.correctAnswer)) {
+                                pagerAdapter.selectopt = pagerAdapter.selectopt + 1;
+                                opt = 0;
+                            } else {
+                                pagerAdapter.selectopt = pagerAdapter.selectopt + 1;
+                                opt = 1;
+                            }
+                        } else {
+                            pagerAdapter.selectopt = 0;
+                            opt = 0;
+                        }
+
+
+                        pagerAdapter.dataArray[pager.getCurrentItem()] = pagerAdapter.quizSpecificOptionListnew.get(opt).getOption();
+                        pagerAdapter.checkArray[pager.getCurrentItem()] = pagerAdapter.quizSpecificOptionListnew.get(opt).getOption();
+
+                        if (quizList.size() == pager.getCurrentItem() + 1) {
+                            btnNext.setVisibility(View.GONE);
+                            submit.setVisibility(View.VISIBLE);
+                        } else if (quizList.size() >= pager.getCurrentItem() + 1) {
+                            btnNext.setVisibility(View.VISIBLE);
+                            submit.setVisibility(View.GONE);
+                        }
+
+
+                    } else {
+                        if (submitflag != true) {
+//                        customHandler.removeCallbacks(updateTimerThread);
+                            btnNext.setVisibility(View.VISIBLE);
+                            submit.setVisibility(View.GONE);
+
+                            int opt = 1;
+                            if (pagerAdapter.quizSpecificOptionListnew.size() > 1) {
+                                pagerAdapter.selectedOption = pagerAdapter.quizSpecificOptionListnew.get(1).getOptionId();
+                            } else {
+                                pagerAdapter.selectedOption = pagerAdapter.quizSpecificOptionListnew.get(0).getOptionId();
+                            }
+
+
+                            if (pagerAdapter.quizSpecificOptionListnew.size() > 1) {
+                                if (pagerAdapter.selectedOption.equalsIgnoreCase(pagerAdapter.correctAnswer)) {
+                                    pagerAdapter.selectopt = pagerAdapter.selectopt + 1;
+                                    opt = 0;
+                                } else {
+                                    pagerAdapter.selectopt = pagerAdapter.selectopt + 1;
+                                    opt = 1;
+                                }
+                            } else {
+                                pagerAdapter.selectopt = 0;
+                                opt = 0;
+                            }
+
+
+                            pagerAdapter.dataArray[pager.getCurrentItem()] = pagerAdapter.quizSpecificOptionListnew.get(opt).getOption();
+                            pagerAdapter.checkArray[pager.getCurrentItem()] = pagerAdapter.quizSpecificOptionListnew.get(opt).getOption();
+
+                            submitflag = true;
+                            Boolean valid = true;
+                            final int[] check = {0};
+                            int sum = 0;
+                            final String[] question_id = {""};
+                            final String[] question_ans = {""};
+                            final String[] value = {""};
+                            final RadioGroup[] radioGroup = new RadioGroup[1];
+                            final EditText[] ans_edit = new EditText[1];
+                            final RadioButton[] radioButton = new RadioButton[1];
+
+
+                            String[] data = pagerAdapter.getselectedData();
+                            String[] question = pagerAdapter.getselectedquestion();
+
+                            if (data != null) {
+                                for (int i = 0; i < data.length; i++) {
+                                    if (i != 0) {
+                                        question_id[0] = question_id[0] + "$#";
+                                        question_ans[0] = question_ans[0] + "$#";
+                                    }
+
+                                    String id = quizList.get(i).getId();
+                                    question_id[0] = question_id[0] + id;
+
+                                    flag = true;
+                                    flag1 = true;
+                                    flag2 = true;
+                                    if (data[i] != null) {
+                                        if (quizList.get(i).getQuiz_type() != null) {
+                                            if (quizList.get(i).getQuiz_type().equalsIgnoreCase("2")) {
+                                                if (!data[i].equalsIgnoreCase("")) {
+                                                    question_ans[0] = question_ans[0] + data[i];
+                                                } else {
+                                                    valid = false;
+                                                }
+                                            } else {
+
+                                                if (!data[i].equalsIgnoreCase("")) {
+
+                                                    String idno = quizList.get(i).getId();
+
+                                                    for (int j = 0; j < quizOptionList.size(); j++) {
+                                                        if (quizOptionList.get(j).getOption().equals(data[i]) && quizOptionList.get(j).getQuizId().equals(idno)) {
+                                                            question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                                        }
+                                                    }
+                                                } else {
+                                                    String idno = quizList.get(i).getId();
+
+
+                                                    for (int j = 0; j < quizOptionList.size(); j++) {
+                                                        if (quizOptionList.get(j).getQuizId().equals(idno)) {
+                                                            if (flag1 == true) {
+                                                                question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                                                flag1 = false;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else {
+
+                                            if (!data[i].equalsIgnoreCase("")) {
+
+                                                String idno = quizList.get(i).getId();
+
+                                                for (int j = 0; j < quizOptionList.size(); j++) {
+                                                    if (quizOptionList.get(j).getOption().equals(data[i]) && quizOptionList.get(j).getQuizId().equals(idno)) {
+                                                        question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                                    }
+                                                }
+                                            } else {
+                                                String idno = quizList.get(i).getId();
+
+
+                                                for (int j = 0; j < quizOptionList.size(); j++) {
+                                                    if (quizOptionList.get(j).getQuizId().equals(idno)) {
+                                                        if (flag2 == true) {
+                                                            question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                                            flag2 = false;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        String idno = quizList.get(i).getId();
+
+
+                                        for (int j = 0; j < quizOptionList.size(); j++) {
+                                            if (quizOptionList.get(j).getQuizId().equals(idno)) {
+                                                if (flag == true) {
+                                                    question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                                    flag = false;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                }
+
+
+                                Log.e("valid", question_ans.toString());
+                                Log.e("valid", question_id.toString());
+                                Log.e("valid", valid.toString());
+
+
+                                if (valid == true) {
+                                    quiz_question_id = question_id[0];
+                                    quiz_options_id = question_ans[0];
+                                    int answers = pagerAdapter.getCorrectOption();
+                                     new postQuizQuestion().execute();
+
+
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            }
+                        }
+                    }
+                }catch (Exception e)
+                {e.printStackTrace();}
+            }
+        }.start();
+
+
+//        time = 0;
+//        startTime = SystemClock.uptimeMillis();
+//        txt_time.setText(String.format(String.format("%02d", startTime-updatedTime)));
+//
+        // LinearLayout mLinearLayout = (LinearLayout)
+        // findViewById(R.id.linear1);
+        // for (int k = 1; k <= 20; k++) {
+        // // create text button
+        // TextView title = new TextView(this);
+        // title.setText("Question Number:" + k);
+        // title.setTextColor(Color.BLUE);
+        // mLinearLayout.addView(title);
+        // // create radio button
+        // final RadioButton[] rb = new RadioButton[5];
+        // RadioGroup rg = new RadioGroup(this);
+        // rg.setOrientation(RadioGroup.VERTICAL);
+        // for (int i = 0; i < 5; i++) {
+        // rb[i] = new RadioButton(this);
+        // rg.addView(rb[i]);
+        // rb[i].setText(countryName[i]);
+        //
+        // }
+        // mLinearLayout.addView(rg);
+        // }
+
+//		quizNameList.setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view,
+//					int position, long id) {
+//
+//				Quiz quiz = adapter.getQuestionIdFromList(position);
+//
+//				// QuizOptionList quizTempOptionList;
+//				//
+//				// for (int i = 0; i < quizOptionList.size(); i++) {
+//				//
+//				// if (quizOptionList.get(i).getQuiz_id()
+//				// .equalsIgnoreCase(quiz.getId())) {
+//				//
+//				// quizTempOptionList.set
+//				//
+//				//
+//				// }
+//				//
+//				// }
+//
+//				// QuizOptionList quizOptionList = adapter
+//				// .getQuestionIdFromList(position);
+//				//
+//				// Bundle bundleObject = new Bundle();
+//				// bundleObject.putSerializable("quizOptionList",
+//				// quizOptionList);
+//
+//				if (quiz.getReplied().equalsIgnoreCase("0")) {
+//
+//					Intent quizOptionIntent = new Intent(QuizActivity.this,
+//							QuizDetailActivity.class);
+//					quizOptionIntent.putExtra("questionId", quiz.getId());
+//					quizOptionIntent.putExtra("question", quiz.getQuestion());
+//
+//					startActivity(quizOptionIntent);
+//
+//					/*
+//					 * Apply our splash exit (fade out) and main entry (fade in)
+//					 * animation transitions.
+//					 */
+//					overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+//				} else {
+//
+//					Toast.makeText(QuizActivity.this,
+//							"You already submitted the quiz.",
+//							Toast.LENGTH_SHORT).show();
+//				}
+//
+//				// .putExtra("quizOptionList", quizOptionList);
+//
+//				// quizOptionIntent.putExtras(bundleObject);
+//
+//			}
+//		});
+
+
+    }
+
+    public String checkdigit(int number) {
+        return number <= 9 ? "0" + number : String.valueOf(number);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == submit) {
+//            if (adapter.timer != null) {
+//                adapter.timer.cancel();
+//                adapter.timer = null;
+//                adapter.dataIDArray = null;
+//            }
+            submitflag = true;
+            Boolean valid = true;
+            final int[] check = {0};
+            int sum = 0;
+            final String[] question_id = {""};
+            final String[] question_ans = {""};
+            final String[] value = {""};
+            final RadioGroup[] radioGroup = new RadioGroup[1];
+            final EditText[] ans_edit = new EditText[1];
+            final RadioButton[] radioButton = new RadioButton[1];
+//            Log.e("size", adapter.getItemCount() + "");
+
+
+            String[] data = pagerAdapter.getselectedData();
+            String[] question = pagerAdapter.getselectedquestion();
+
+            if (data != null) {
+                for (int i = 0; i < data.length; i++) {
+                    if (i != 0) {
+                        question_id[0] = question_id[0] + "$#";
+                        question_ans[0] = question_ans[0] + "$#";
+                    }
+
+                    String id = quizList.get(i).getId();
+                    question_id[0] = question_id[0] + id;
+
+                    flag = true;
+                    flag1 = true;
+                    flag2 = true;
+                    if (data[i] != null) {
+                        if (quizList.get(i).getQuiz_type() != null) {
+                            if (quizList.get(i).getQuiz_type().equalsIgnoreCase("2")) {
+                                if (!data[i].equalsIgnoreCase("")) {
+                                    question_ans[0] = question_ans[0] + data[i];
+                                } else {
+                                    valid = false;
+                                }
+                            } else {
+
+                                if (!data[i].equalsIgnoreCase("")) {
+
+                                    String idno = quizList.get(i).getId();
+
+                                    for (int j = 0; j < quizOptionList.size(); j++) {
+                                        if (quizOptionList.get(j).getOption().equals(data[i]) && quizOptionList.get(j).getQuizId().equals(idno)) {
+                                            question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                        }
+                                    }
+                                } else {
+                                    String idno = quizList.get(i).getId();
+
+
+                                    for (int j = 0; j < quizOptionList.size(); j++) {
+                                        if (quizOptionList.get(j).getQuizId().equals(idno)) {
+                                            if (flag1 == true) {
+                                                question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                                flag1 = false;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+
+                            if (!data[i].equalsIgnoreCase("")) {
+
+                                String idno = quizList.get(i).getId();
+
+                                for (int j = 0; j < quizOptionList.size(); j++) {
+                                    if (quizOptionList.get(j).getOption().equals(data[i]) && quizOptionList.get(j).getQuizId().equals(idno)) {
+                                        question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                    }
+                                }
+                            } else {
+                                String idno = quizList.get(i).getId();
+
+
+                                for (int j = 0; j < quizOptionList.size(); j++) {
+                                    if (quizOptionList.get(j).getQuizId().equals(idno)) {
+                                        if (flag2 == true) {
+                                            question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                            flag2 = false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        String idno = quizList.get(i).getId();
+
+
+                        for (int j = 0; j < quizOptionList.size(); j++) {
+                            if (quizOptionList.get(j).getQuizId().equals(idno)) {
+                                if (flag == true) {
+                                    question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                    flag = false;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+
+                Log.e("valid", question_ans.toString());
+                Log.e("valid", question_id.toString());
+                Log.e("valid", valid.toString());
+
+
+                if (valid == true) {
+                    quiz_question_id = question_id[0];
+                    quiz_options_id = question_ans[0];
+                    int answers = pagerAdapter.getCorrectOption();
+                    new postQuizQuestion().execute();
+//                    Intent intent = new Intent(QuizActivity.this, YourScoreActivity.class);
+//                    intent.putExtra("folderName", foldername);
+//                    intent.putExtra("Answers", answers);
+//                    intent.putExtra("TotalQue", adapter.getselectedData().length);
+//                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (cd.isConnectingToInternet()) {
+            new getQuizList().execute();
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        count1 = 1;
+        pagerAdapter.selectopt = 0;
+        submitflag = false;
+        try {
+            timercountdown.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /*Intent intent = new Intent(QuizActivity.this, FolderQuizActivity.class);
+        startActivity(intent);*/
+        finish();
+
+
+    }
+
+   /* private void startCountDownTimer(long timeCountInMilliSeconds) {
+
+        progressBarCircle.setMax(time);
+        progressBarCircle.setProgress(time);
+      *//*  if(countDownTimer!=null) {
+            countDownTimer.cancel();
+        }*//*
+        countDownTimer = new CountDownTimer(timeCountInMilliSeconds, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+                //textViewTime.setText(hmsTimeFormatter(millisUntilFinished));
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
+                textViewTime.setText(String.valueOf(seconds));
+                progressBarCircle.setProgress((int) (millisUntilFinished / 1000));
+
+            }
+
+            @Override
+            public void onFinish() {
+
+                countDownTimer.cancel();
+                countDownTimer.start();
                 txt_time.setText("" + ":" + checkdigit(time));
                 if (pager.getCurrentItem() < quizList.size() - 1) {
                     countpage = pager.getCurrentItem();
@@ -541,12 +1061,9 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                                 quiz_question_id = question_id[0];
                                 quiz_options_id = question_ans[0];
                                 int answers = pagerAdapter.getCorrectOption();
-                                new postQuizQuestion().execute();
-//                    Intent intent = new Intent(QuizActivity.this, YourScoreActivity.class);
-//                    intent.putExtra("folderName", foldername);
-//                    intent.putExtra("Answers", answers);
-//                    intent.putExtra("TotalQue", adapter.getselectedData().length);
-//                    startActivity(intent);
+                                // new postQuizQuestion().execute();
+
+
                             } else {
                                 Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
                             }
@@ -556,98 +1073,11 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                     }
                 }
             }
+
+
         }.start();
-
-
-//        time = 0;
-//        startTime = SystemClock.uptimeMillis();
-//        txt_time.setText(String.format(String.format("%02d", startTime-updatedTime)));
-//
-        // LinearLayout mLinearLayout = (LinearLayout)
-        // findViewById(R.id.linear1);
-        // for (int k = 1; k <= 20; k++) {
-        // // create text button
-        // TextView title = new TextView(this);
-        // title.setText("Question Number:" + k);
-        // title.setTextColor(Color.BLUE);
-        // mLinearLayout.addView(title);
-        // // create radio button
-        // final RadioButton[] rb = new RadioButton[5];
-        // RadioGroup rg = new RadioGroup(this);
-        // rg.setOrientation(RadioGroup.VERTICAL);
-        // for (int i = 0; i < 5; i++) {
-        // rb[i] = new RadioButton(this);
-        // rg.addView(rb[i]);
-        // rb[i].setText(countryName[i]);
-        //
-        // }
-        // mLinearLayout.addView(rg);
-        // }
-
-//		quizNameList.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view,
-//					int position, long id) {
-//
-//				Quiz quiz = adapter.getQuestionIdFromList(position);
-//
-//				// QuizOptionList quizTempOptionList;
-//				//
-//				// for (int i = 0; i < quizOptionList.size(); i++) {
-//				//
-//				// if (quizOptionList.get(i).getQuiz_id()
-//				// .equalsIgnoreCase(quiz.getId())) {
-//				//
-//				// quizTempOptionList.set
-//				//
-//				//
-//				// }
-//				//
-//				// }
-//
-//				// QuizOptionList quizOptionList = adapter
-//				// .getQuestionIdFromList(position);
-//				//
-//				// Bundle bundleObject = new Bundle();
-//				// bundleObject.putSerializable("quizOptionList",
-//				// quizOptionList);
-//
-//				if (quiz.getReplied().equalsIgnoreCase("0")) {
-//
-//					Intent quizOptionIntent = new Intent(QuizActivity.this,
-//							QuizDetailActivity.class);
-//					quizOptionIntent.putExtra("questionId", quiz.getId());
-//					quizOptionIntent.putExtra("question", quiz.getQuestion());
-//
-//					startActivity(quizOptionIntent);
-//
-//					/*
-//					 * Apply our splash exit (fade out) and main entry (fade in)
-//					 * animation transitions.
-//					 */
-//					overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-//				} else {
-//
-//					Toast.makeText(QuizActivity.this,
-//							"You already submitted the quiz.",
-//							Toast.LENGTH_SHORT).show();
-//				}
-//
-//				// .putExtra("quizOptionList", quizOptionList);
-//
-//				// quizOptionIntent.putExtras(bundleObject);
-//
-//			}
-//		});
-
-
     }
-
-    public String checkdigit(int number) {
-        return number <= 9 ? "0" + number : String.valueOf(number);
-    }
-
+*/
     /**
      * Async task class to get json by making HTTP call
      */
@@ -772,155 +1202,6 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v == submit) {
-//            if (adapter.timer != null) {
-//                adapter.timer.cancel();
-//                adapter.timer = null;
-//                adapter.dataIDArray = null;
-//            }
-            submitflag = true;
-            Boolean valid = true;
-            final int[] check = {0};
-            int sum = 0;
-            final String[] question_id = {""};
-            final String[] question_ans = {""};
-            final String[] value = {""};
-            final RadioGroup[] radioGroup = new RadioGroup[1];
-            final EditText[] ans_edit = new EditText[1];
-            final RadioButton[] radioButton = new RadioButton[1];
-//            Log.e("size", adapter.getItemCount() + "");
-
-
-            String[] data = pagerAdapter.getselectedData();
-            String[] question = pagerAdapter.getselectedquestion();
-
-            if (data != null) {
-                for (int i = 0; i < data.length; i++) {
-                    if (i != 0) {
-                        question_id[0] = question_id[0] + "$#";
-                        question_ans[0] = question_ans[0] + "$#";
-                    }
-
-                    String id = quizList.get(i).getId();
-                    question_id[0] = question_id[0] + id;
-
-                    flag = true;
-                    flag1 = true;
-                    flag2 = true;
-                    if (data[i] != null) {
-                        if (quizList.get(i).getQuiz_type() != null) {
-                            if (quizList.get(i).getQuiz_type().equalsIgnoreCase("2")) {
-                                if (!data[i].equalsIgnoreCase("")) {
-                                    question_ans[0] = question_ans[0] + data[i];
-                                } else {
-                                    valid = false;
-                                }
-                            } else {
-
-                                if (!data[i].equalsIgnoreCase("")) {
-
-                                    String idno = quizList.get(i).getId();
-
-                                    for (int j = 0; j < quizOptionList.size(); j++) {
-                                        if (quizOptionList.get(j).getOption().equals(data[i]) && quizOptionList.get(j).getQuizId().equals(idno)) {
-                                            question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
-                                        }
-                                    }
-                                } else {
-                                    String idno = quizList.get(i).getId();
-
-
-                                    for (int j = 0; j < quizOptionList.size(); j++) {
-                                        if (quizOptionList.get(j).getQuizId().equals(idno)) {
-                                            if (flag1 == true) {
-                                                question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
-                                                flag1 = false;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-
-                            if (!data[i].equalsIgnoreCase("")) {
-
-                                String idno = quizList.get(i).getId();
-
-                                for (int j = 0; j < quizOptionList.size(); j++) {
-                                    if (quizOptionList.get(j).getOption().equals(data[i]) && quizOptionList.get(j).getQuizId().equals(idno)) {
-                                        question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
-                                    }
-                                }
-                            } else {
-                                String idno = quizList.get(i).getId();
-
-
-                                for (int j = 0; j < quizOptionList.size(); j++) {
-                                    if (quizOptionList.get(j).getQuizId().equals(idno)) {
-                                        if (flag2 == true) {
-                                            question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
-                                            flag2 = false;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        String idno = quizList.get(i).getId();
-
-
-                        for (int j = 0; j < quizOptionList.size(); j++) {
-                            if (quizOptionList.get(j).getQuizId().equals(idno)) {
-                                if (flag == true) {
-                                    question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
-                                    flag = false;
-                                }
-                            }
-                        }
-                    }
-
-                }
-
-
-                Log.e("valid", question_ans.toString());
-                Log.e("valid", question_id.toString());
-                Log.e("valid", valid.toString());
-
-
-                if (valid == true) {
-                    quiz_question_id = question_id[0];
-                    quiz_options_id = question_ans[0];
-                    int answers = pagerAdapter.getCorrectOption();
-                    new postQuizQuestion().execute();
-//                    Intent intent = new Intent(QuizActivity.this, YourScoreActivity.class);
-//                    intent.putExtra("folderName", foldername);
-//                    intent.putExtra("Answers", answers);
-//                    intent.putExtra("TotalQue", adapter.getselectedData().length);
-//                    startActivity(intent);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
-                }
-
-
-            }
-
-        }
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (cd.isConnectingToInternet()) {
-            new getQuizList().execute();
-        }
-
-    }
-
-
     private class postQuizQuestion extends AsyncTask<Void, Void, Void> {
 
         String error = "";
@@ -986,12 +1267,12 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             timercountdown.cancel();
-            pagerAdapter.checkArray=null;
-            pagerAdapter.correctAnswer="";
-            pagerAdapter.selectedOption="";
-            pagerAdapter.dataArray=null;
-            pagerAdapter.dataIDArray=null;
-            pagerAdapter.ansArray=null;
+            pagerAdapter.checkArray = null;
+            pagerAdapter.correctAnswer = "";
+            pagerAdapter.selectedOption = "";
+            pagerAdapter.dataArray = null;
+            pagerAdapter.dataIDArray = null;
+            pagerAdapter.ansArray = null;
             // Dismiss the progress dialog
             try {
                 if (pDialog != null) {
@@ -1023,28 +1304,6 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
 
         }
     }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        count1 = 1;
-        pagerAdapter.selectopt = 0;
-        submitflag = false;
-        try {
-            timercountdown.cancel();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        /*Intent intent = new Intent(QuizActivity.this, FolderQuizActivity.class);
-        startActivity(intent);*/
-        finish();
-
-
-    }
-
-
 //    @Override
 //    protected void onStart() {
 //        super.onStart();

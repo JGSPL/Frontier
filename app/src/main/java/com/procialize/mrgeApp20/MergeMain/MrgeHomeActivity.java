@@ -217,7 +217,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     ViewPagerAdapterSub viewPagerAdapterSub4;
     LinearLayout linChange, linzoom, linStream;
     ImageView img_view;
-    TextView txt_change;
+    TextView txt_change,tv_notification;
     List<YouTubeApiList> youTubeApiLists = new ArrayList<>();
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -324,11 +324,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             notificationCountReciever = new NotificationCountReciever();
             notificationCountFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_NOTIFICATION_COUNT);
             LocalBroadcastManager.getInstance(this).registerReceiver(notificationCountReciever, notificationCountFilter);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private void initializeView() {
@@ -366,6 +364,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         img_view = findViewById(R.id.img_view);
         txt_change = findViewById(R.id.txt_change);
 
+        tv_notification = (TextView) findViewById(R.id.tv_notification);
+        SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String notificationCount = prefs1.getString("notificationCount","");
+        tv_notification.setText(notificationCount);
 
         if (cd.isConnectingToInternet()) {
             fetchFeed(token, eventid);
@@ -4193,8 +4195,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
             String notificationCount = prefs1.getString("notificationCount", "");
 
-         /*   tv_notification = (TextView) findViewById(R.id.tv_notification);
-            tv_notification.setText(notificationCount);*/
+
+            tv_notification.setText(notificationCount);
         }
     }
 

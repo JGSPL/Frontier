@@ -200,6 +200,7 @@ public class FolderQuizFragment extends Fragment {
 
                                     Intent quizOptionIntent = new Intent(getContext(), QuizNewActivity.class);
                                     quizOptionIntent.putExtra("folder", quiz.getFolder_name());
+                                    quizOptionIntent.putExtra("timer", quiz.getTimer());
                                     startActivity(quizOptionIntent);
 
                                 } else {
@@ -208,6 +209,7 @@ public class FolderQuizFragment extends Fragment {
 
                                     Intent quizOptionIntent = new Intent(getContext(), QuizActivity.class);
                                     quizOptionIntent.putExtra("folder", quiz.getFolder_name());
+                                    quizOptionIntent.putExtra("timer", quiz.getTimer());
                                     startActivity(quizOptionIntent);
 
                                 }

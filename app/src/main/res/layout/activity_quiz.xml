@@ -1,6 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relative"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,8 +16,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:background="@android:color/transparent"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
@@ -38,12 +37,12 @@
                 app:contentInsetStart="0dp">
 
                 <TextView
+                    android:id="@+id/txtHeaderQ"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:id="@+id/txtHeaderQ"
+                    android:gravity="left"
                     android:text=""
-                    android:gravity="left">
+                    android:textSize="16sp">
 
                 </TextView>
 
@@ -52,9 +51,9 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:visibility="gone"
                     android:layout_marginLeft="-20dp"
-                    android:contentDescription=" " />
+                    android:contentDescription=" "
+                    android:visibility="gone" />
 
 
             </androidx.appcompat.widget.Toolbar>
@@ -87,60 +86,88 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:background="@color/colorwhite"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/colorwhite"
                 android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/txt_count"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="end" />
+                    android:text="1/1"
+                    android:gravity="left" />
 
                 <com.procialize.mrgeApp20.CustomTools.CircleDisplay
                     android:id="@+id/progressbar"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:layout_gravity="right"
-                    android:visibility="gone"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                   />
-               <!-- <TextView
-                    android:id="@+id/txt_time"
+                    android:layout_gravity="right"
+                    android:visibility="gone" />
+                <!-- <TextView
+                     android:id="@+id/txt_time"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_margin="5dp"
+                     android:gravity="end"
+                     android:text=""
+                     android:background="@drawable/quiz_score_counter"
+                     android:visibility="visible"
+                     android:textColor="@color/black" />-->
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:gravity="end"
-                    android:text=""
-                    android:background="@drawable/quiz_score_counter"
-                    android:visibility="visible"
-                    android:textColor="@color/black" />-->
+                    android:layout_height="wrap_content">
+
+                    <ProgressBar
+                        android:id="@+id/progressBarCircle"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/drawable_circle_dark_blue"
+                        android:indeterminate="false"
+                        android:progressDrawable="@drawable/drawable_circle_yellow"
+                        android:rotation="-90" />
+
+
+                  <!--  android:max="10"
+                    android:progress="10"-->
+                    <TextView
+                        android:id="@+id/textViewTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="10"
+                        android:textColor="@color/activetab"
+                        android:textSize="12dp" />
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/txt_time"
-                    android:layout_width="35dp"
+                    android:layout_width="20dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:background="@drawable/quiz_score_counter"
                     android:gravity="center"
-                    android:text="gj"
+                    android:text=""
                     android:textColor="@color/activetab"
                     android:textSize="8sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="visible"/>
 
             </LinearLayout>
 
 
             <com.procialize.mrgeApp20.CustomTools.CustomViewPager
                 android:id="@+id/pager"
-                android:background="@color/colorwhite"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/colorwhite" />
 
 
             <com.procialize.mrgeApp20.CustomTools.NoScrollRecycler

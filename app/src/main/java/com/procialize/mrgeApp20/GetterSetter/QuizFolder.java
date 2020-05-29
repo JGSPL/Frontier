@@ -15,4 +15,14 @@ public class QuizFolder {
     }
 
     String folder_name;
+
+    String timer;
+
+    public String getTimer() {
+        return timer;
+    }
+
+    public void setTimer(String timer) {
+        this.timer = timer;
+    }
 }

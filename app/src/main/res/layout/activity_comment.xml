@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.Activity.CommentActivity">
+    tools:context="com.procialize.mrgeApp20.NewsFeed.Views.Activity.CommentActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -279,7 +279,8 @@
                         android:layout_height="280dp"
                         android:layout_centerInParent="true"
                         android:visibility="gone"
-                        app:cardElevation="@dimen/album_dp_0">
+                        app:cardElevation="@dimen/album_dp_0"
+                        android:layout_marginTop="10dp">
 
                         <RelativeLayout
                             android:layout_width="match_parent"

@@ -71,11 +71,12 @@
                             android:layout_weight="1"
                             android:contentDescription=" " />
                     </LinearLayout>
-               <!--         <RelativeLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="3"
-                            android:layout_marginLeft="10dp">-->
+                            android:gravity="center"
+                            android:layout_marginLeft="10dp">
 
                             <ImageView
                                 android:id="@+id/notificationlogoIv"
@@ -83,26 +84,26 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_notification" />
-             <!--               <LinearLayout
+                            <LinearLayout
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:orientation="horizontal"
-                                android:layout_marginTop="10dp"
                                 android:layout_marginLeft="10dp"
+                                android:layout_marginBottom="10dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/count_circle"
-                                android:gravity="center"
-                                android:visibility="gone">
+                                android:background="@drawable/notification_count_circle"
+                                android:gravity="center|top"
+                                android:visibility="visible">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/textView4"
+                                android:id="@+id/tv_notification"
                                 android:text="50"
-                                android:textSize="12dp"
+                                android:textSize="8dp"
                                 android:textColor="@color/black"
                                 android:gravity="top|center"/>
                             </LinearLayout>
-                        </RelativeLayout>-->
+                        </RelativeLayout>
 
                         <ImageView
                             android:id="@+id/grid_image_view"

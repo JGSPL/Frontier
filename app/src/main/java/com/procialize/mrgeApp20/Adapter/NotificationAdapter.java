@@ -341,7 +341,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         if (notificationList.getProfilePic() != null) {
 
             Glide.with(context).load(ApiConstant.profilepic + notificationList.getProfilePic())
-                    .apply(RequestOptions.skipMemoryCacheOf(true))
+                    .apply(RequestOptions.skipMemoryCacheOf(true)).circleCrop().centerCrop()
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {

@@ -90,6 +90,7 @@
                     android:textColor="@color/colorwhite"
                     android:textSize="16dp" />
 
+
                 <TextView
                     android:id="@+id/txt_count"
                     android:layout_width="match_parent"
