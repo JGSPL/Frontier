@@ -3,6 +3,8 @@ package com.procialize.mrgeApp20.GetterSetter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class EventMenuSettingList {
 
     @SerializedName("field_name")
@@ -11,6 +13,7 @@ public class EventMenuSettingList {
     @SerializedName("field_value")
     @Expose
     private String fieldValue;
+
 
     public String getFieldName() {
         return fieldName;

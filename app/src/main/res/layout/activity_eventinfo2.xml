@@ -174,7 +174,7 @@
                             android:adjustViewBounds="true"
                             android:background="@drawable/image_border"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/profilepic_placeholder" />
+                            android:src="@drawable/app_icon" />
                         </androidx.cardview.widget.CardView>
 
                     </RelativeLayout>
@@ -226,7 +226,7 @@
                     android:gravity="left"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
                         android:id="@+id/nameTv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -234,7 +234,7 @@
                         android:gravity="left"
                         android:drawablePadding="10dp"
                         android:drawableLeft="@drawable/event_name"
-                        android:textColor="@color/activetab"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/textsizesmall" />
 
                     <View

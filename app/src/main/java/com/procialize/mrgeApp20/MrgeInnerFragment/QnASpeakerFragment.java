@@ -43,6 +43,7 @@ import com.procialize.mrgeApp20.Adapter.QASpeakerAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
+import com.procialize.mrgeApp20.DialogQnA.DialogQnADirect;
 import com.procialize.mrgeApp20.GetterSetter.QASpeakerFetch;
 import com.procialize.mrgeApp20.GetterSetter.QuestionSpeakerList;
 import com.procialize.mrgeApp20.GetterSetter.SpeakerQuestionList;
@@ -113,6 +114,9 @@ public class QnASpeakerFragment extends Fragment implements QASpeakerAdapter.QAS
         GradientDrawable shape = setgradientDrawable(5, colorActive);
         postbtn.setBackground(shape);
 
+        DialogQnADirect dialogQna = new DialogQnADirect();
+        dialogQna.welcomeQnADialog(getContext());
+
         qaRvrefresh = rootView.findViewById(R.id.qaRvrefresh);
         spinner = rootView.findViewById(R.id.spinner);
         progressBar = rootView.findViewById(R.id.progressBar);
@@ -136,21 +140,6 @@ public class QnASpeakerFragment extends Fragment implements QASpeakerAdapter.QAS
         token = user.get(SessionManager.KEY_TOKEN);
         crashlytics("QA Speaker",token);
         firbaseAnalytics(getContext(), "QA Speaker",token);
-       /* try {
-//            ContextWrapper cw = new ContextWrapper(HomeActivity.getContext());
-            //path to /data/data/yourapp/app_data/dirName
-//            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
-            Resources res = getResources();
-            Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
-            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-            linear.setBackgroundDrawable(bd);
-
-            Log.e("PATH", String.valueOf(mypath));
-        } catch (Exception e) {
-            e.printStackTrace();
-            linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
-        }*/
         QAFetch(token, eventid);
 
         // use a linear layout manager

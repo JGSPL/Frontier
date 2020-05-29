@@ -271,7 +271,7 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
 
     public void applySetting(List<EventSettingList> eventSettingLists) {
         for (int i = 0; i < eventSettingLists.size(); i++) {
-            if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("attendee_designation")) {
+            /*if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("attendee_designation")) {
                 attendee_design = eventSettingLists.get(i).getFieldValue();
             }
             if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("attendee_location")) {
@@ -285,6 +285,26 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
             }
             if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("attendee_save_contact")) {
                 attendee_save_contact = eventSettingLists.get(i).getFieldValue();
+            }*/
+            if (eventSettingLists.get(i).getFieldName().equals("event_details")) {
+                if(eventSettingLists.get(i).getSub_menuList()!=null) {
+                    if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                        for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                             if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_company")) {
+                                attendee_company = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_location")) {
+                                attendee_location = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_mobile")) {
+                                attendee_mobile = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_save_contact")) {
+                                attendee_save_contact = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_designation")) {
+                                 attendee_design = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                             }
+
+                        }
+                    }
+                }
             }
         }
     }
