@@ -101,8 +101,8 @@ public class QnADirectFragment extends Fragment implements QADirectAdapter.QADir
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
         init();
-        DialogQnADirect dialogQna = new DialogQnADirect();
-        dialogQna.welcomeQnADialog(getContext());
+        /*DialogQnADirect dialogQna = new DialogQnADirect();
+        dialogQna.welcomeQnADialog(getContext());*/
         return rootView;
     }
     

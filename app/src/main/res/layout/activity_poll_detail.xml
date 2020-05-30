@@ -50,6 +50,17 @@
                 android:layout_marginLeft="-10dp"
                 android:contentDescription=" " />
 
+            <ImageView
+                android:id="@+id/notificationlogoIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:tint="@color/colorAccent"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_notification"
+                android:contentDescription=" " />
+
+
         </androidx.appcompat.widget.Toolbar>
 
         <View
@@ -153,8 +164,8 @@
 
         <com.procialize.mrgeApp20.Fonts.RobotoButton
             android:id="@+id/subBtn"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
             android:layout_gravity="bottom"
             android:background="@color/activetab"
             android:text="Submit"

@@ -106,14 +106,14 @@
                                 android:src="@drawable/ic_notification" />
                             <LinearLayout
                                 android:id="@+id/ll_notification_count"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
                                 android:orientation="horizontal"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginBottom="20dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/count_circle"
-                                android:gravity="center|top"
+                                android:gravity="center"
                                 android:visibility="visible">
                                 <TextView
                                     android:layout_width="wrap_content"
