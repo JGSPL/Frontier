@@ -78,6 +78,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
+
 public class SwappingVideoActivity extends AppCompatActivity implements SwipeEngagmentVideoAdapter.SwipeImageSelfieAdapterListner {
     public int rvposition = 0;
     String name;
@@ -100,6 +102,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
     private APIService mAPIService;
     public boolean isShare=false;
     String strPath = "";
+    TextView tv_header;
 
     static public Uri getLocalBitmapUri(Bitmap bmp, Context context) {
         Uri bmpUri = null;
@@ -136,6 +139,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
         mAPIService = ApiUtils.getAPIService();
         recyclerView = findViewById(R.id.listrecycler);
         pager = findViewById(R.id.pager);
+        tv_header = findViewById(R.id.tv_header);
         right = findViewById(R.id.right);
         left = findViewById(R.id.left);
         likeIv = findViewById(R.id.likeIv);
@@ -149,6 +153,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
         colorActive = prefs.getString("colorActive", "");
         eventid = prefs.getString("eventid", "1");
 
+        tv_header.setText("Video Engagement");
         SessionManager sessionManager = new SessionManager(this);
         HashMap<String, String> user = sessionManager.getUserDetails();
         user_id = user.get(SessionManager.KEY_ID);
@@ -433,6 +438,17 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+
+        //-----------------------------For Notification count-----------------------------
+        try {
+            LinearLayout ll_notification_count = findViewById(R.id.ll_notification_count);
+            TextView tv_notification = findViewById(R.id.tv_notification);
+            setNotification(this, tv_notification, ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //----------------------------------------------------------------------------------
     }
 
     public void indexset(String name) {

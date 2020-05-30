@@ -2,7 +2,10 @@ package com.procialize.mrgeApp20.Activity;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -19,6 +22,8 @@ import android.os.Environment;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +31,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -57,6 +63,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
 
 public class SpeakerDetailsActivity extends AppCompatActivity {
@@ -347,6 +354,16 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //-----------------------------For Notification count-----------------------------
+        try {
+            LinearLayout ll_notification_count = findViewById(R.id.ll_notification_count);
+            TextView tv_notification = findViewById(R.id.tv_notification);
+            setNotification(this,tv_notification,ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //----------------------------------------------------------------------------------
     }
 
     private void applysetting(List<EventSettingList> eventSettingLists) {
@@ -520,4 +537,6 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
         Picasso.with(SpeakerDetailsActivity.this).load(imageUrl).into(image);
         dialog.show();
     }
+
+
 }

@@ -107,7 +107,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                 holder.raiolayout.setVisibility(View.VISIBLE);
             }
 
-            holder.txt_question.setTextColor(Color.parseColor(colorActive));
+           // holder.txt_question.setTextColor(Color.parseColor(colorActive));
             quizOptionList = QuizNewActivity.appDelegate.getQuizOptionList();
             if (quizSpecificOptionListnew.size() > 0) {
                 quizSpecificOptionListnew.clear();

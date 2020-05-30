@@ -38,6 +38,7 @@ import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AgendaList;
 import com.procialize.mrgeApp20.GetterSetter.Analytic;
 import com.procialize.mrgeApp20.GetterSetter.FetchAgenda;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 
@@ -121,7 +122,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.AgendaAdap
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         try {
-            setNotification(getActivity());
+            setNotification(getActivity(), MrgeHomeActivity.tv_notification,MrgeHomeActivity.ll_notification_count);
         }catch (Exception e)
         {e.printStackTrace();}
 

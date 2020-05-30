@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.jzvd.JzvdStd;
+
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 
 public class GalleryFirstLevelActivity extends AppCompatActivity implements GalleryFirstLevelAdapter.GalleryFirstLevelAdapterListener {
 
@@ -86,7 +89,8 @@ public class GalleryFirstLevelActivity extends AppCompatActivity implements Gall
         folderLists = (List<FolderList>) getIntent().getExtras().getSerializable("folderlist");
 
         /*Util.logomethodwithText( this, true,foldername, MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);*/
-
+        TextView title = findViewById(R.id.title);
+        title.setText(foldername);
         try {
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/"+ "background.jpg");
             Resources res = getResources();
@@ -155,6 +159,16 @@ public class GalleryFirstLevelActivity extends AppCompatActivity implements Gall
             msg_txt.setVisibility(View.VISIBLE);
             galleryRv.setVisibility(View.GONE);
         }
+
+        //-----------------------------For Notification count-----------------------------
+        try {
+            LinearLayout ll_notification_count = findViewById(R.id.ll_notification_count);
+            TextView tv_notification = findViewById(R.id.tv_notification);
+            setNotification(this,tv_notification,ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //----------------------------------------------------------------------------------
     }
 
     @Override

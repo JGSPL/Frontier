@@ -12,6 +12,7 @@ import android.media.MediaMetadataRetriever;
 import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -32,10 +33,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity.ll_notification_count;
+import static com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity.ll_notification_count_drawer;
 import static com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity.notificationCountFilter;
 import static com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity.notificationCountReciever;
-import static com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity.tv_notification;
+import static com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity.tv_notification_drawer;
 
 
 public class Util {
@@ -47,8 +48,7 @@ public class Util {
         }
     }
 
-    public static void logomethod(final Context context, final ImageView headerlogoIv)
-    {
+    public static void logomethod(final Context context, final ImageView headerlogoIv) {
         String logoHeader = MrgeHomeActivity.logoImg;
         if ((logoHeader.equalsIgnoreCase("")) || logoHeader == null) {
             headerlogoIv.setImageResource(R.drawable.header_logo);
@@ -70,16 +70,12 @@ public class Util {
         }
     }
 
-    public static void logomethodwithText(final Context context, boolean isTextHeader,String hearderText,TextView tv_header,ImageView header_logo)
-    {
-        if(isTextHeader)
-        {
+    public static void logomethodwithText(final Context context, boolean isTextHeader, String hearderText, TextView tv_header, ImageView header_logo) {
+        if (isTextHeader) {
             tv_header.setVisibility(View.VISIBLE);
             header_logo.setVisibility(View.GONE);
             tv_header.setText(hearderText);
-        }
-        else
-        {
+        } else {
             tv_header.setVisibility(View.GONE);
             header_logo.setVisibility(View.VISIBLE);
             Glide.with(context).load(ApiConstant.imgURL + "uploads/app_logo/" + MrgeHomeActivity.logoImg).listener(new RequestListener<Drawable>() {
@@ -97,8 +93,7 @@ public class Util {
         }
     }
 
-    public static void setNotification(Context context)
-    {
+    public static void setNotification(Context context, TextView tv_notification, LinearLayout ll_notification_count) {
         try {
             notificationCountReciever = new MrgeHomeActivity.NotificationCountReciever();
             notificationCountFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_NOTIFICATION_COUNT);
@@ -108,23 +103,26 @@ public class Util {
         }
 
         SharedPreferences prefs1 = context.getSharedPreferences("ProcializeInfo", MODE_PRIVATE);
-        String notificationCount = prefs1.getString("notificationCount","");
+        String notificationCount = prefs1.getString("notificationCount", "");
         tv_notification.setText(notificationCount);
+        tv_notification_drawer.setText(notificationCount);
 
-        if(notificationCount.equalsIgnoreCase("0"))
-        {
+        if (notificationCount.equalsIgnoreCase("0")) {
             tv_notification.setVisibility(View.GONE);
             ll_notification_count.setVisibility(View.GONE);
-        }
-        else
-        {
+
+            tv_notification_drawer.setVisibility(View.GONE);
+            ll_notification_count_drawer.setVisibility(View.GONE);
+        } else {
             tv_notification.setVisibility(View.VISIBLE);
             ll_notification_count.setVisibility(View.VISIBLE);
+
+            tv_notification_drawer.setVisibility(View.VISIBLE);
+            ll_notification_count_drawer.setVisibility(View.VISIBLE);
         }
     }
 
-    public static void logomethodwithText_bk(final Context context, TextView txtHeader, String HeaderText)
-    {
+    public static void logomethodwithText_bk(final Context context, TextView txtHeader, String HeaderText) {
         //MrgeHomeActivity.headerlogoIv.setVisibility(View.GONE);
         //MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);
         String logoHeader = MrgeHomeActivity.logoImg;

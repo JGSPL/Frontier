@@ -504,7 +504,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Etfirstname.setText(name);
                 Etlastname.setText(lname);
                 Etfirstname.setVisibility(View.VISIBLE);
-                Etlastname.setVisibility(View.VISIBLE);
+                Etlastname.setVisibility(View.GONE);
           /*      input_layout_firstname.setVisibility(View.VISIBLE);
                 input_layout_lastname.setVisibility(View.VISIBLE);*/
 
@@ -513,7 +513,7 @@ public class ProfileActivity extends AppCompatActivity {
                     Etfirstname.setText(name);
                     Etlastname.setText(lname);
                     Etfirstname.setVisibility(View.VISIBLE);
-                    Etlastname.setVisibility(View.VISIBLE);
+                    Etlastname.setVisibility(View.GONE);
                 /*    input_layout_firstname.setVisibility(View.VISIBLE);
                     input_layout_lastname.setVisibility(View.VISIBLE);*/
                 }
@@ -652,9 +652,9 @@ public class ProfileActivity extends AppCompatActivity {
                     Toast.makeText(ProfileActivity.this, "Enter Email Id", Toast.LENGTH_SHORT).show();
                 } else if (Etfirstname.getVisibility() == View.VISIBLE && Etfirstname.getText().toString().isEmpty()) {
                     Toast.makeText(ProfileActivity.this, "Enter First Name", Toast.LENGTH_SHORT).show();
-                } else if (Etlastname.getVisibility() == View.VISIBLE && Etlastname.getText().toString().isEmpty()) {
+                } /*else if (Etlastname.getVisibility() == View.VISIBLE && Etlastname.getText().toString().isEmpty()) {
                     Toast.makeText(ProfileActivity.this, "Enter Last Name", Toast.LENGTH_SHORT).show();
-                } else if (Etdesignation.getVisibility() == View.VISIBLE && Etdesignation.getText().toString().isEmpty()) {
+                }*/ else if (Etdesignation.getVisibility() == View.VISIBLE && Etdesignation.getText().toString().isEmpty()) {
                     Toast.makeText(ProfileActivity.this, "Enter Designation", Toast.LENGTH_SHORT).show();
                 } else if (Etcompany.getVisibility() == View.VISIBLE && Etcompany.getText().toString().isEmpty()) {
                     Toast.makeText(ProfileActivity.this, "Enter Company Name", Toast.LENGTH_SHORT).show();

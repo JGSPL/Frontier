@@ -284,7 +284,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
     int youTubeLinkPosition=-1;
 
-
+    public static LinearLayout ll_notification_count_drawer;
+    public static TextView tv_notification_drawer;
 
     @Override
     public Resources getResources() {
@@ -1217,7 +1218,22 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         final ImageView profileIV = outer.findViewById(R.id.profileIV);
         final ImageView iv_close = outer.findViewById(R.id.iv_close);
         final ProgressBar progressView = outer.findViewById(R.id.progressView);
+        ll_notification_count_drawer = outer.findViewById(R.id.ll_notification_count_drawer);
+        tv_notification_drawer = outer.findViewById(R.id.tv_notification_drawer);
+        SharedPreferences prefs1 = getSharedPreferences("ProcializeInfo", MODE_PRIVATE);
+        String notificationCount = prefs1.getString("notificationCount","");
+        tv_notification_drawer.setText(notificationCount);
 
+        if(notificationCount.equalsIgnoreCase("0"))
+        {
+            tv_notification_drawer.setVisibility(View.GONE);
+            ll_notification_count_drawer.setVisibility(View.GONE);
+        }
+        else
+        {
+            tv_notification_drawer.setVisibility(View.VISIBLE);
+            ll_notification_count_drawer.setVisibility(View.VISIBLE);
+        }
         eventname = outer.findViewById(R.id.eventname);
         eventname.setTextColor(Color.parseColor(colorActive));
         // headerRel.setBackgroundColor(Color.parseColor(colorActive));
@@ -1463,7 +1479,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         // overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 //        profiledetails();
         super.onResume();
-        setNotification(this);
+        setNotification(this,tv_notification,ll_notification_count);
+
+
     }
 
     private void Setting(List<EventSettingList> eventSettingLists) {
@@ -4288,7 +4306,20 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             tv_notification.setVisibility(View.VISIBLE);
             ll_notification_count.setVisibility(View.VISIBLE);
             tv_notification.setText(notificationCount);*/
-            setNotification(context);
+            setNotification(context,tv_notification,ll_notification_count);
+
+
+
+
+            try {
+                notificationCountReciever = new MrgeHomeActivity.NotificationCountReciever();
+                notificationCountFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_NOTIFICATION_COUNT);
+                LocalBroadcastManager.getInstance(context).registerReceiver(notificationCountReciever, notificationCountFilter);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
         }
     }
 

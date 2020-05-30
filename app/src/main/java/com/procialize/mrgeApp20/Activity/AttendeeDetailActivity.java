@@ -2,10 +2,12 @@ package com.procialize.mrgeApp20.Activity;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -43,6 +45,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -60,6 +63,7 @@ import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.SendMessagePost;
 import com.procialize.mrgeApp20.GetterSetter.UserData;
 import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -77,6 +81,7 @@ import retrofit2.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.WRITE_CONTACTS;
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
 
 
@@ -113,6 +118,9 @@ public class AttendeeDetailActivity extends AppCompatActivity {
     private List<AttendeeList> attendeesDBList;
     private DBHelper dbHelper;
     private RelativeLayout layoutTop;
+
+    LinearLayout ll_notification_count;
+    TextView tv_notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -582,6 +590,17 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //-----------------------------For Notification count-----------------------------
+        try {
+            LinearLayout ll_notification_count = findViewById(R.id.ll_notification_count);
+            TextView tv_notification = findViewById(R.id.tv_notification);
+            setNotification(this,tv_notification,ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //----------------------------------------------------------------------------------
+
     }
 
     public boolean CheckingPermissionIsEnabledOrNot() {
@@ -924,4 +943,8 @@ public class AttendeeDetailActivity extends AppCompatActivity {
 //        super.onBackPressed();
         finish();
     }
+
+
+
+
 }

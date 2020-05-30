@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -53,6 +54,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 
 public class QuizNewActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -163,10 +166,10 @@ public class QuizNewActivity extends AppCompatActivity implements View.OnClickLi
         relative = (RelativeLayout) findViewById(R.id.relative);
         recyclerLayoutManager = new LinearLayoutManager(this);
         quizNameList.setLayoutManager(recyclerLayoutManager);
-        questionTv.setBackgroundColor(Color.parseColor(colorActive));
+        //questionTv.setBackgroundColor(Color.parseColor(colorActive));
         submit.setBackgroundColor(Color.parseColor(colorActive));
         btnNext.setBackgroundColor(Color.parseColor(colorActive));
-        txt_count.setTextColor(Color.parseColor(colorActive));
+       // txt_count.setTextColor(Color.parseColor(colorActive));
 //		quizNameList.setItemViewCacheSize(0);
         quizNameList.setAnimationCacheEnabled(true);
         quizNameList.setDrawingCacheEnabled(true);
@@ -203,7 +206,7 @@ public class QuizNewActivity extends AppCompatActivity implements View.OnClickLi
                 if (i != count) {
 //                    if (option != llm.findLastVisibleItemPosition()) {
                     quizNameList.getLayoutManager().scrollToPosition(llm.findLastVisibleItemPosition() + 1);
-                    txt_count.setText(count + 1 + "/" + i);
+                    txt_count.setText("QUestions "+(count + 1) + "/" + i);
                     count = count + 1;
                     if (quizList.size() == llm.findLastVisibleItemPosition() + 2) {
 
@@ -321,6 +324,15 @@ public class QuizNewActivity extends AppCompatActivity implements View.OnClickLi
 //			}
 //		});
 
+        //-----------------------------For Notification count-----------------------------
+        try {
+            LinearLayout ll_notification_count = findViewById(R.id.ll_notification_count);
+            TextView tv_notification = findViewById(R.id.tv_notification);
+            setNotification(this, tv_notification, ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //----------------------------------------------------------------------------------
     }
 
     /**
@@ -413,7 +425,7 @@ public class QuizNewActivity extends AppCompatActivity implements View.OnClickLi
             adapter = new QuizAdapter(QuizNewActivity.this, quizList);
             quizNameList.setAdapter(adapter);
             int itemcount = adapter.getItemCount();
-            txt_count.setText(1 + "/" + itemcount);
+            txt_count.setText("Questions "+1 + "/" + itemcount);
             if (quizList.size() > 1) {
                 btnNext.setVisibility(View.VISIBLE);
                 submit.setVisibility(View.GONE);

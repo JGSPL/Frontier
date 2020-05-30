@@ -86,7 +86,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
     public void initView(View rootView) {
 
         try {
-            setNotification(getActivity());
+            setNotification(getActivity(),MrgeHomeActivity.tv_notification,MrgeHomeActivity.ll_notification_count);
         }catch (Exception e)
         {e.printStackTrace();}
 

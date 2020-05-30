@@ -42,6 +42,7 @@ import com.procialize.mrgeApp20.GetterSetter.Agenda;
 import com.procialize.mrgeApp20.GetterSetter.AgendaFolder;
 import com.procialize.mrgeApp20.GetterSetter.AgendaMediaList;
 import com.procialize.mrgeApp20.GetterSetter.AgendaVacationList;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Utility;
@@ -147,7 +148,7 @@ public class AgendaFolderFragment extends Fragment implements SwipeAgendaImageAd
         System.out.println("Inside Agenda Fragment");
 
         try {
-            setNotification(getActivity());
+            setNotification(getActivity(), MrgeHomeActivity.tv_notification,MrgeHomeActivity.ll_notification_count);
         }catch (Exception e)
         {e.printStackTrace();}
 

@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.Engagement.Activity.SelfieContestActivity;
 import com.procialize.mrgeApp20.Engagement.Activity.VideoContestActivity;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 
@@ -63,7 +64,7 @@ public class EngagementFragment extends Fragment {
    public void initView(View rootView) {
 
        try {
-           setNotification(getActivity());
+           setNotification(getActivity(),MrgeHomeActivity.tv_notification, MrgeHomeActivity.ll_notification_count);
        }catch (Exception e)
        {e.printStackTrace();}
 

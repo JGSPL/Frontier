@@ -19,6 +19,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,21 +52,68 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
+
 public class DownloadPdfActivity extends AppCompatActivity {
 
     String url = "";
-    String url1 = "";
+    String url1 = "", doc_name = "";
     WebView webview;
     ImageView backIv;
     ImageView headerlogoIv;
-    private ProgressBar progressBar;
-    private APIService mAPIService;
-    Button  btn_save;
+    Button btn_save;
     File file = null;
     SharedPreferences prefs;
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid, colorActive;
     TextView shareTv;
+    private ProgressBar progressBar;
+    private APIService mAPIService;
+
+    static public void sharePdf(String url, final Context context) {
+
+        File pdfFile = new File(url);
+        Uri pdfUri;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            pdfUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".android.fileprovider", pdfFile);
+        } else {
+            pdfUri = Uri.fromFile(pdfFile);
+        }
+        Intent share = new Intent();
+        share.setAction(Intent.ACTION_SEND);
+        share.setType("application/pdf");
+        share.putExtra(Intent.EXTRA_STREAM, pdfUri);
+        context.startActivity(Intent.createChooser(share, "Share"));
+
+//        File f = new File(url);
+//        Uri uri = Uri.fromFile(f);
+//
+//        Intent intent = new Intent();
+//        intent.setAction(Intent.ACTION_SEND);
+//        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
+//        intent.setType("application/pdf");
+//        context.startActivity(intent);
+
+//        String path = url;
+//
+//        ContentValues content = new ContentValues(4);
+//        content.put(MediaStore.Video.VideoColumns.DATE_ADDED,
+//                System.currentTimeMillis() / 1000);
+//        content.put(MediaStore.Video.Media.MIME_TYPE, "application/pdf");
+//        content.put(MediaStore.Video.Media.DATA, path);
+//
+//        ContentResolver resolver = context.getApplicationContext().getContentResolver();
+//        Uri uri = resolver.insert(MediaStore.Video.Media.INTERNAL_CONTENT_URI, content);
+//
+//        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+//        sharingIntent.setType("application/pdf");
+//        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "PDF");
+//        sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
+//        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+//        context.startActivity(Intent.createChooser(sharingIntent, "Share PDF"));
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +127,10 @@ public class DownloadPdfActivity extends AppCompatActivity {
 
         url = getIntent().getStringExtra("url");
         url1 = getIntent().getStringExtra("url1");
+        doc_name = getIntent().getStringExtra("doc_name");
+
+        TextView title = findViewById(R.id.title);
+        title.setText(doc_name);
 
         mAPIService = ApiUtils.getAPIService();
 
@@ -100,10 +152,10 @@ public class DownloadPdfActivity extends AppCompatActivity {
         });
         headerlogoIv = findViewById(R.id.headerlogoIv);
         btn_save = findViewById(R.id.btn_save);
-       // btn_share = findViewById(R.id.btn_share);
+        // btn_share = findViewById(R.id.btn_share);
         Util.logomethod(this, headerlogoIv);
         btn_save.setBackgroundColor(Color.parseColor(colorActive));
-       // btn_share.setBackgroundColor(Color.parseColor(colorActive));
+        // btn_share.setBackgroundColor(Color.parseColor(colorActive));
 
 
         try {
@@ -183,6 +235,16 @@ public class DownloadPdfActivity extends AppCompatActivity {
         });
 
         webview.loadUrl(url);
+
+        //-----------------------------For Notification count-----------------------------
+        try {
+            LinearLayout ll_notification_count = findViewById(R.id.ll_notification_count);
+            TextView tv_notification = findViewById(R.id.tv_notification);
+            setNotification(this, tv_notification, ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //----------------------------------------------------------------------------------
     }
 
     public void SubmitAnalytics(String token, String eventid, String target_attendee_id, String target_attendee_type, String analytic_type) {
@@ -213,6 +275,25 @@ public class DownloadPdfActivity extends AppCompatActivity {
     protected void onResume() {
         // overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         super.onResume();
+    }
+
+    private File createVideoFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "PDF_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOCUMENTS);
+        File video = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".pdf",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        Uri videoUri = Uri.fromFile(video);
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        mediaScanIntent.setData(videoUri);
+        this.sendBroadcast(mediaScanIntent);
+        return video;
     }
 
     private class CustomWebViewClient extends WebViewClient {
@@ -248,71 +329,6 @@ public class DownloadPdfActivity extends AppCompatActivity {
             return true;
         }
     }
-
-    static public void sharePdf(String url, final Context context) {
-
-        File pdfFile = new File(url);
-        Uri pdfUri;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            pdfUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID+".android.fileprovider", pdfFile);
-        } else {
-            pdfUri = Uri.fromFile(pdfFile);
-        }
-        Intent share = new Intent();
-        share.setAction(Intent.ACTION_SEND);
-        share.setType("application/pdf");
-        share.putExtra(Intent.EXTRA_STREAM, pdfUri);
-        context.startActivity(Intent.createChooser(share, "Share"));
-
-//        File f = new File(url);
-//        Uri uri = Uri.fromFile(f);
-//
-//        Intent intent = new Intent();
-//        intent.setAction(Intent.ACTION_SEND);
-//        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
-//        intent.setType("application/pdf");
-//        context.startActivity(intent);
-
-//        String path = url;
-//
-//        ContentValues content = new ContentValues(4);
-//        content.put(MediaStore.Video.VideoColumns.DATE_ADDED,
-//                System.currentTimeMillis() / 1000);
-//        content.put(MediaStore.Video.Media.MIME_TYPE, "application/pdf");
-//        content.put(MediaStore.Video.Media.DATA, path);
-//
-//        ContentResolver resolver = context.getApplicationContext().getContentResolver();
-//        Uri uri = resolver.insert(MediaStore.Video.Media.INTERNAL_CONTENT_URI, content);
-//
-//        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-//        sharingIntent.setType("application/pdf");
-//        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "PDF");
-//        sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
-//        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
-//        context.startActivity(Intent.createChooser(sharingIntent, "Share PDF"));
-
-    }
-
-    private File createVideoFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "PDF_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOCUMENTS);
-        File video = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".pdf",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        Uri videoUri = Uri.fromFile(video);
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        mediaScanIntent.setData(videoUri);
-        this.sendBroadcast(mediaScanIntent);
-        return video;
-    }
-
 
     private class DownloadFile extends AsyncTask<String, String, String> {
 
@@ -360,7 +376,7 @@ public class DownloadPdfActivity extends AppCompatActivity {
                 fileName = timestamp + "_" + fileName;
 
                 //External directory path to save file
-                folder = Environment.getExternalStorageDirectory() + File.separator + ApiConstant.folderName+"/Documents/";//"Procialize/";
+                folder = Environment.getExternalStorageDirectory() + File.separator + ApiConstant.folderName + "/Documents/";//"Procialize/";
 
                 //Create androiddeft folder if it does not exist
                 File directory = new File(folder);
