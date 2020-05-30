@@ -126,6 +126,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String userChoosenTask;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private ConnectionDetector cd;
+    RelativeLayout rl_update_pic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -380,6 +381,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         savebtn = findViewById(R.id.savebtn);
         txt_upload = findViewById(R.id.txt_upload);
+        rl_update_pic = findViewById(R.id.rl_update_pic);
         linear_upload = findViewById(R.id.linear_upload);
 
         TextView header = findViewById(R.id.title);
@@ -448,20 +450,20 @@ public class ProfileActivity extends AppCompatActivity {
            // input_layout_city.setVisibility(View.GONE);
         }
 
-//        if (country != null && edit_profile_location.equalsIgnoreCase("1")) {
-//            Etcountry.setText(country);
-//            Etcountry.setVisibility(View.VISIBLE);
-//            input_layout_country.setVisibility(View.VISIBLE);
-//        } else {
-//            if (country != null) {
-//                Etcountry.setText(country);
-//                Etcountry.setVisibility(View.VISIBLE);
-//                input_layout_country.setVisibility(View.VISIBLE);
-//            }
-//            Etcountry.setVisibility(View.GONE);
-//            input_layout_country.setVisibility(View.GONE);
-//
-//        }
+        if (country != null && edit_profile_location.equalsIgnoreCase("1") && !country.isEmpty()) {
+            Etcountry.setText(country);
+            Etcountry.setVisibility(View.VISIBLE);
+            //input_layout_country.setVisibility(View.VISIBLE);
+        } else {
+            if (country != null) {
+                Etcountry.setText(country);
+                Etcountry.setVisibility(View.VISIBLE);
+                //input_layout_country.setVisibility(View.VISIBLE);
+            }
+            Etcountry.setVisibility(View.GONE);
+            //input_layout_country.setVisibility(View.GONE);
+
+        }
 
         if (mobile != null && edit_profile_mobile.equalsIgnoreCase("1")) {
             Etmobile.setText(mobile);
@@ -544,7 +546,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (edit_profile_pic.equalsIgnoreCase("1")) {
             profileIV.setVisibility(View.VISIBLE);
-            txt_upload.setVisibility(View.VISIBLE);
+            //txt_upload.setVisibility(View.VISIBLE);
+            rl_update_pic.setVisibility(View.VISIBLE);
             relative.setVisibility(View.VISIBLE);
             if (profilepic != null) {
                 Glide.with(this).load(ApiConstant.profilepic + profilepic)
@@ -590,7 +593,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
             relative.setVisibility(View.GONE);
             profileIV.setVisibility(View.GONE);
-            txt_upload.setVisibility(View.GONE);
+            //txt_upload.setVisibility(View.GONE);
+            rl_update_pic.setVisibility(View.GONE);
             progressView.setVisibility(View.GONE);
         }
 
@@ -606,6 +610,18 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         txt_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CheckingPermissionIsEnabledOrNot()) {
+                    selectImage();
+                } else {
+                    RequestMultiplePermission();
+                }
+                // selectImage();
+
+            }
+        });
+        rl_update_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (CheckingPermissionIsEnabledOrNot()) {
@@ -757,6 +773,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void applysetting(List<EventSettingList> eventSettingLists) {
+        //edit_profile_pic,edit_profile_name,edit_profile_designation,edit_profile_location
         for (int i = 0; i < eventSettingLists.size(); i++) {
 
             if (eventSettingLists.get(i).getFieldName().equals("edit_profile")) {
@@ -794,7 +811,6 @@ public class ProfileActivity extends AppCompatActivity {
             if (eventSettingLists.get(i).getFieldName().equals("edit_profile_email")) {
                 edit_profile_email = eventSettingLists.get(i).getFieldValue();
             }
-
         }
     }
 

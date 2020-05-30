@@ -760,39 +760,20 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
             @Override
             public void onClick(View v) {
 
-             /*   Intent intent = new Intent(CommentActivity.this, LikeDetailActivity.class);
-                intent.putExtra("fname", fname);
-                intent.putExtra("lname", lname);
-                intent.putExtra("company", company);
-                intent.putExtra("designation", designation);
-
-                intent.putExtra("heading", heading);
-                intent.putExtra("date", date);
-                intent.putExtra("Likes", Likes);
-                intent.putExtra("Likeflag", Likeflag);
-                intent.putExtra("Comments", Comments);
-                intent.putExtra("profilepic", ApiConstant.profilepic + profileurl);
-                intent.putExtra("type", type);
-                intent.putExtra("feedid", feedid);
-                intent.putExtra("AspectRatio", p1);
-                intent.putExtra("noti_type", "Wall_Post");
-
-                news_feed_media = myList;
-                if (news_feed_media.size() >= 1) {
-                    intent.putExtra("media_list", ( Serializable ) news_feed_media);
-                } else if (news_feed_media.size() > 0) {
-                    intent.putExtra("type", news_feed_media.get(0).getMedia_type());
-                    if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Image")) {
-                        intent.putExtra("url", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
-                    } else if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Video")) {
-                        intent.putExtra("videourl", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
-                        intent.putExtra("thumbImg", ApiConstant.newsfeedwall + news_feed_media.get(0).getThumb_image());
-                    }
+                if (Likeflag.equals("0")) {
+                  //  likeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_afterlike, 0);
+                    iv_like.setImageDrawable(getResources().getDrawable(R.drawable.ic_afterlike));
+                   // setTextViewDrawableColor(likeTv, colorActive);
+                    Likeflag = "1";
+                    PostLike(eventid, feedid, apikey);
+                    Likecount("Like");
                 } else {
-                    intent.putExtra("type", "status");
+                  //  likeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_like, 0);
+                    iv_like.setImageDrawable(getResources().getDrawable(R.drawable.ic_like));
+                    Likeflag = "0";
+                    PostLike(eventid, feedid, apikey);
+                    Likecount("Dislike");
                 }
-                intent.putExtra("flag", "noti");
-                startActivity(intent);*/
             }
         });
 
