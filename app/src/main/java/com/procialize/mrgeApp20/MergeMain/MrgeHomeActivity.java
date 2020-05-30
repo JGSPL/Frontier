@@ -1244,8 +1244,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
 
         ImageView editIv = outer.findViewById(R.id.editIv);
-
-
 //        if (edit_profile.equalsIgnoreCase("1")) {
 //            editIv.setVisibility(View.VISIBLE);
 //
@@ -1254,8 +1252,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 //            editIv.setVisibility(View.GONE);
 //
 //        }
-
-
         editIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1272,11 +1268,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 finish();
             }
         });
-
-
         // get user data from session
         HashMap<String, String> user = session.getUserDetails();
-
         // name
         String name = user.get(SessionManager.KEY_NAME);
         String lname = user.get(SessionManager.KEY_LNAME);

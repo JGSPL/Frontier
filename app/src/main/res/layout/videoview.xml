@@ -44,7 +44,7 @@
                 android:layout_gravity="right"
                 android:layout_marginLeft="-10dp"
                 android:contentDescription=" "
-                android:text="Sahre"
+                android:text="Share"
                 android:textColor="@color/black"
                 android:visibility="visible"/>
 
