@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
@@ -103,7 +104,19 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 //        }
 
 //        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
-        holder.nameTv.setText(comment.getFirstName() + " " + comment.getLastName());
+        //holder.nameTv.setText(comment.getFirstName() + " " + comment.getLastName());
+       /* String styledText = "<font color='red'>"+comment.getFirstName() + " " + comment.getLastName()+"</font>";
+        holder.nameTv.setText(Html.fromHtml(styledText)+" "+StringEscapeUtils.unescapeJava(comment.getComment()), TextView.BufferType.SPANNABLE);*/
+
+
+        String name = "<font color='#f15a2b'>" + comment.getFirstName() + " " + comment.getLastName() + "</font>"; //set Black color of name
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
+            holder.nameTv.setText(Html.fromHtml(name));
+            holder.nameTv.append(" "+StringEscapeUtils.unescapeJava(comment.getComment()));
+        } else {
+            holder.nameTv.setText(Html.fromHtml(name, Html.FROM_HTML_MODE_LEGACY));   //set text
+            holder.nameTv.append(" "+StringEscapeUtils.unescapeJava(comment.getComment()));   //append text into textView
+        }
 
         try {
 //            Date date1 = formatter.parse(comment.getCreated());
@@ -191,7 +204,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
         } else {
             holder.progressViewgif.setVisibility(View.GONE);
-            holder.commentTv.setVisibility(View.VISIBLE);
+          //  holder.commentTv.setVisibility(View.VISIBLE);
             holder.gifIV.setVisibility(View.GONE);
 
 
@@ -203,7 +216,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
             final SpannableStringBuilder stringBuilder = new SpannableStringBuilder(holder.testdata.getText());
             if (comment.getComment() != null) {
 
-                holder.commentTv.setVisibility(View.VISIBLE);
+                holder.nameTv.setVisibility(View.VISIBLE);
+              //  holder.commentTv.setVisibility(View.VISIBLE);
 //                    holder.wallNotificationText.setText(getEmojiFromString(notificationImageStatus));
                 int flag = 0;
                 for (int i = 0; i < stringBuilder.length(); i++) {
@@ -329,13 +343,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
                     }
                 }
 
-                holder.commentTv.setText(stringBuilder);
+              /*  String styledText1 = "<font color='red'>"+comment.getFirstName() + " " + comment.getLastName()+"</font>";
+                holder.nameTv.setText(Html.fromHtml(styledText1)+" "+stringBuilder, TextView.BufferType.SPANNABLE);*/
+               // holder.commentTv.setText(stringBuilder);
+                String name1 = "<font color='#f15a2b'>" + comment.getFirstName() + " " + comment.getLastName() + "</font>"; //set Black color of name
+                if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
+                    holder.nameTv.setText(Html.fromHtml(name1));
+                    holder.nameTv.append(" "+stringBuilder);
+                } else {
+                    holder.nameTv.setText(Html.fromHtml(name1, Html.FROM_HTML_MODE_LEGACY));   //set text
+                    holder.nameTv.append(" "+stringBuilder);   //append text into textView
+                }
             } else {
                 holder.commentTv.setVisibility(View.GONE);
             }
-
-
-
         }
     }
 

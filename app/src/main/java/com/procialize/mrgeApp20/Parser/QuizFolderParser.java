@@ -16,12 +16,10 @@ import java.util.ArrayList;
 
 public class QuizFolderParser {
 
-    JSONObject jsonObj = null;
-    JSONObject userJsonObject = null;
-
     // JSON Node names
     private static final String TAG_QUIZ_LIST = "quiz_folder_list";
-
+    JSONObject jsonObj = null;
+    JSONObject userJsonObject = null;
     // JSONArray
     JSONArray quiz_list = null;
     ArrayList<QuizFolder> quizList;
@@ -45,9 +43,13 @@ public class QuizFolderParser {
                     quiz = new QuizFolder();
 
                     String folder_list = jsonAgenda.getString("folder_name");
-                    if (folder_list!=null && folder_list.length()>0)
-                    {
+                    if (folder_list != null && folder_list.length() > 0) {
                         quiz.setFolder_name(folder_list);
+                    }
+
+                    String timer = jsonAgenda.getString("timer");
+                    if (timer != null && timer.length() > 0) {
+                        quiz.setTimer(timer);
                     }
 
                     quizList.add(quiz);

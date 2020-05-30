@@ -52,6 +52,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
@@ -122,6 +123,12 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_speaker, container, false);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+        try {
+            setNotification(getActivity());
+        }catch (Exception e)
+        {e.printStackTrace();}
 
         speakerrecycler = view.findViewById(R.id.speakerrecycler);
 

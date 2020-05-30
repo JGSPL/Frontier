@@ -46,6 +46,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
@@ -74,6 +75,11 @@ public class EmergencyFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_emergemcy, container, false);
+
+        try {
+            setNotification(getActivity());
+        }catch (Exception e)
+        {e.printStackTrace();}
 
         MrgeHomeActivity.headerlogoIv.setVisibility(View.GONE);
         MrgeHomeActivity.txtMainHeader.setVisibility(View.VISIBLE);

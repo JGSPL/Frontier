@@ -36,6 +36,7 @@ import java.util.List;
 import cn.jzvd.JzvdStd;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
@@ -60,6 +61,12 @@ public class EngagementFragment extends Fragment {
     }
 
    public void initView(View rootView) {
+
+       try {
+           setNotification(getActivity());
+       }catch (Exception e)
+       {e.printStackTrace();}
+
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");

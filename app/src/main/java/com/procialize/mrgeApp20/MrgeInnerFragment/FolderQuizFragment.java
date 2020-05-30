@@ -54,6 +54,7 @@ import java.util.List;
 
 import cn.jzvd.JzvdStd;
 
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 import static android.content.Context.MODE_PRIVATE;
@@ -92,6 +93,11 @@ public class FolderQuizFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_folder_quiz, container, false);
+
+        try {
+            setNotification(getActivity());
+        }catch (Exception e)
+        {e.printStackTrace();}
 
         constant = new ApiConstant();
         appDelegate = (MyApplication) getActivity().getApplicationContext();
@@ -200,6 +206,7 @@ public class FolderQuizFragment extends Fragment {
 
                                     Intent quizOptionIntent = new Intent(getContext(), QuizNewActivity.class);
                                     quizOptionIntent.putExtra("folder", quiz.getFolder_name());
+                                    quizOptionIntent.putExtra("timer", quiz.getTimer());
                                     startActivity(quizOptionIntent);
 
                                 } else {
@@ -208,6 +215,7 @@ public class FolderQuizFragment extends Fragment {
 
                                     Intent quizOptionIntent = new Intent(getContext(), QuizActivity.class);
                                     quizOptionIntent.putExtra("folder", quiz.getFolder_name());
+                                    quizOptionIntent.putExtra("timer", quiz.getTimer());
                                     startActivity(quizOptionIntent);
 
                                 }
