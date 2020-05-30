@@ -8,14 +8,12 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-
     <LinearLayout
         android:id="@+id/LinUpp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="10">
-
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
@@ -25,7 +23,6 @@
             android:background="@android:color/transparent"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:elevation="0dp">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,39 +68,7 @@
                             android:layout_weight="1"
                             android:contentDescription=" " />
                     </LinearLayout>
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="3"
-                            android:gravity="center"
-                            android:layout_marginLeft="10dp">
 
-                            <ImageView
-                                android:id="@+id/notificationlogoIv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_notification" />
-                            <LinearLayout
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:orientation="horizontal"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/notification_count_circle"
-                                android:gravity="center|top"
-                                android:visibility="visible">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/tv_notification"
-                                android:text="50"
-                                android:textSize="8dp"
-                                android:textColor="@color/black"
-                                android:gravity="top|center"/>
-                            </LinearLayout>
-                        </RelativeLayout>
 
                         <ImageView
                             android:id="@+id/grid_image_view"
@@ -124,6 +89,42 @@
                             android:layout_marginRight="10dp"
                             android:contentDescription=" "
                             android:src="@drawable/active_list_view" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:id="@+id/notificationlogoIv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:foregroundGravity="center"
+                                android:src="@drawable/ic_notification" />
+                            <LinearLayout
+                                android:id="@+id/ll_notification_count"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:orientation="horizontal"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginBottom="20dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/count_circle"
+                                android:gravity="center|top"
+                                android:visibility="visible">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/tv_notification"
+                                    android:text="50"
+                                    android:textSize="8dp"
+                                    android:textColor="@color/black"
+                                    android:gravity="top|center"/>
+                            </LinearLayout>
+                        </RelativeLayout>
                     </LinearLayout>
                 </androidx.appcompat.widget.Toolbar>
 

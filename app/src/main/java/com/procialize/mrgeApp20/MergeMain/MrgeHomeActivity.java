@@ -160,6 +160,7 @@ import retrofit2.Response;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 
 public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAdapter.CustomMenuAdapterListner {
@@ -211,13 +212,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     TextView logout, buddyList, editProfile, home, contactus, eventname, switchbt, chatbt, eula, privacy_policy, eventInfo, notification, exh_analytics, txt_version;
     String eventnamestr;
     LinearLayout linear;
+    public static LinearLayout ll_notification_count;
+    public static TextView tv_notification;
     String imgname, accesstoken;
     HashMap<String, String> user;
     String MY_PREFS_CATEGORY = "categorycnt";
     WallPostReciever mReceiver;
-    NotificationCountReciever notificationCountReciever;
+    public static NotificationCountReciever notificationCountReciever;
     IntentFilter mFilter;
-    IntentFilter notificationCountFilter;
+    public static IntentFilter notificationCountFilter;
     String catcnt;
     LinearLayout linTab4, linTab3, linTab2;
     String zoom_meeting_id, zoom_password, zoom_status, zoom_time;//,youtube_stream_url,  stream_status, stream_time
@@ -232,7 +235,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     ViewPagerAdapterSub viewPagerAdapterSub4;
     LinearLayout linChange, linzoom, linStream;
     ImageView img_view;
-    TextView txt_change,tv_notification;
+    TextView txt_change;
+
     List<YouTubeApiList> youTubeApiLists = new ArrayList<>();
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -352,6 +356,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         HashMap<String, String> user1 = sessionManager.getUserDetails();
         linear = findViewById(R.id.linear);
+        ll_notification_count = findViewById(R.id.ll_notification_count);
+
         // token
         token = user1.get(SessionManager.KEY_TOKEN);
 
@@ -1457,6 +1463,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         // overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 //        profiledetails();
         super.onResume();
+        setNotification(this);
     }
 
     private void Setting(List<EventSettingList> eventSettingLists) {
@@ -4271,17 +4278,17 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         }
     }
 
-    private class NotificationCountReciever extends BroadcastReceiver {
+    public static class NotificationCountReciever extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             // progressbarForSubmit.setVisibility(View.GONE);
             //Log.d("service end", "service end");
-
-            SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+           /* SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
             String notificationCount = prefs1.getString("notificationCount", "");
-
-
-            tv_notification.setText(notificationCount);
+            tv_notification.setVisibility(View.VISIBLE);
+            ll_notification_count.setVisibility(View.VISIBLE);
+            tv_notification.setText(notificationCount);*/
+            setNotification(context);
         }
     }
 
@@ -4317,6 +4324,4 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             return mFragmentTitleList.get(position);
         }
     }
-
 }
-

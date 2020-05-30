@@ -49,6 +49,7 @@ import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,6 +59,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
@@ -73,7 +75,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
     RelativeLayout linear;
     TextView msg;
     View rootView;
-    List<DocumentList> documentsList;
+    List<DocumentList> documentsList = new ArrayList<>();
     private APIService mAPIService;
 
     @Nullable
@@ -90,6 +92,11 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
 
 
     public void initView(View rootView) {
+
+        try {
+            setNotification(getActivity());
+        }catch (Exception e)
+        {e.printStackTrace();}
 
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");

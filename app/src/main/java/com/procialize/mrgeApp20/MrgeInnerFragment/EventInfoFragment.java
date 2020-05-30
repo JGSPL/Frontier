@@ -68,6 +68,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 
 public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
@@ -119,7 +120,10 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
             applysetting(eventSettingLists);
         }
 
-
+        try {
+            setNotification(getActivity());
+        }catch (Exception e)
+        {e.printStackTrace();}
 
         cd = new ConnectionDetector(getContext());
         mAPIService = ApiUtils.getAPIService();

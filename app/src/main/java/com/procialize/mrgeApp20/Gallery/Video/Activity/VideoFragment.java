@@ -59,6 +59,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
@@ -86,6 +87,11 @@ View rootView;
 
    public void initView(View rootView){
         //overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+
+       try {
+           setNotification(getActivity());
+       }catch (Exception e)
+       {e.printStackTrace();}
 
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");

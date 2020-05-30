@@ -1,6 +1,8 @@
 package com.procialize.mrgeApp20.Utility;
 
 import android.content.Context;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -27,6 +30,12 @@ import com.procialize.mrgeApp20.R;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity.ll_notification_count;
+import static com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity.notificationCountFilter;
+import static com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity.notificationCountReciever;
+import static com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity.tv_notification;
 
 
 public class Util {
@@ -85,6 +94,32 @@ public class Util {
                     return false;
                 }
             }).into(header_logo);
+        }
+    }
+
+    public static void setNotification(Context context)
+    {
+        try {
+            notificationCountReciever = new MrgeHomeActivity.NotificationCountReciever();
+            notificationCountFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_NOTIFICATION_COUNT);
+            LocalBroadcastManager.getInstance(context).registerReceiver(notificationCountReciever, notificationCountFilter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        SharedPreferences prefs1 = context.getSharedPreferences("ProcializeInfo", MODE_PRIVATE);
+        String notificationCount = prefs1.getString("notificationCount","");
+        tv_notification.setText(notificationCount);
+
+        if(notificationCount.equalsIgnoreCase("0"))
+        {
+            tv_notification.setVisibility(View.GONE);
+            ll_notification_count.setVisibility(View.GONE);
+        }
+        else
+        {
+            tv_notification.setVisibility(View.VISIBLE);
+            ll_notification_count.setVisibility(View.VISIBLE);
         }
     }
 

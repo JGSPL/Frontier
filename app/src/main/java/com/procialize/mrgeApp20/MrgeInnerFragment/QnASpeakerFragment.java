@@ -64,6 +64,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -103,6 +104,10 @@ public class QnASpeakerFragment extends Fragment implements QASpeakerAdapter.QAS
 
         rootView = inflater.inflate(R.layout.activity_qaspeaker, container, false);
 
+        try {
+            setNotification(getActivity());
+        }catch (Exception e)
+        {e.printStackTrace();}
 
         cd = new ConnectionDetector(getContext());
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);

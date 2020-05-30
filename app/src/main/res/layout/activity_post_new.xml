@@ -40,6 +40,7 @@
                 android:layout_margin="10dp"
                 android:contentDescription=" "
                 android:src="@drawable/ic_back"
+                android:tint="@color/black"
                 android:visibility="visible" />
 
             <com.procialize.mrgeApp20.Fonts.RobotoTextview
@@ -62,11 +63,11 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <View
+       <!-- <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/linecolor" />
-
+-->
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -166,7 +167,7 @@
                 android:padding="10dp"
                 android:scrollbars="vertical"
                 android:textColorHint="@color/black"
-                android:textSize="16sp" />
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/textData"

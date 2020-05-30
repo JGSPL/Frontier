@@ -117,6 +117,12 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 
+        SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs1.edit();
+        editor.putString("notificationCount", "0");
+        editor.commit();
+
+
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
         logoImg = prefs.getString("logoImg", "");

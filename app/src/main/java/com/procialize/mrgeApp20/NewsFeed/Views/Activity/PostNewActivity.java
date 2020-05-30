@@ -122,6 +122,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     private UsersAdapter usersAdapter;
     private DBHelper procializeDB;
     private ArrayList<AttendeeList> customers;
+    ImageView headerlogoIv;
 
     public static HttpResponse transformResponse(Response response) {
 
@@ -177,6 +178,13 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     private void init() {
 
         linear = findViewById(R.id.linear);
+        headerlogoIv = findViewById(R.id.headerlogoIv);
+        headerlogoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         try {
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");

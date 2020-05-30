@@ -96,8 +96,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="1/1"
-                    android:gravity="left" />
+                    android:text=""
+                    android:gravity="left"/>
 
                 <com.procialize.mrgeApp20.CustomTools.CircleDisplay
                     android:id="@+id/progressbar"
@@ -156,7 +156,7 @@
                     android:textColor="@color/activetab"
                     android:textSize="8sp"
                     android:textStyle="bold"
-                    android:visibility="visible"/>
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
