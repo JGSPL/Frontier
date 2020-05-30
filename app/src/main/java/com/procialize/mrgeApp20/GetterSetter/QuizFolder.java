@@ -17,6 +17,35 @@ public class QuizFolder {
     String folder_name;
 
     String timer;
+    String answered;
+
+    String total_quiz;
+    String total_correct;
+
+
+    public String getAnswered() {
+        return answered;
+    }
+
+    public void setAnswered(String answered) {
+        this.answered = answered;
+    }
+
+    public String getTotal_quiz() {
+        return total_quiz;
+    }
+
+    public void setTotal_quiz(String total_quiz) {
+        this.total_quiz = total_quiz;
+    }
+
+    public String getTotal_correct() {
+        return total_correct;
+    }
+
+    public void setTotal_correct(String total_correct) {
+        this.total_correct = total_correct;
+    }
 
     public String getTimer() {
         return timer;

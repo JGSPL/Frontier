@@ -3,7 +3,7 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center|top"
-    android:background="@android:color/transparent"
+    android:background="@color/colorwhite"
     android:gravity="top"
     android:orientation="vertical"
     android:layout_marginBottom="10dp">
@@ -19,7 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="top"
-            android:background="@color/activetab"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="5dp">
@@ -31,7 +30,7 @@
                 android:layout_weight="8.5"
                 android:paddingLeft="10dp"
                 android:text="@string/sendmsg"
-                android:textColor="@color/colorwhite"
+                android:textColor="@color/activetab"
                 android:textSize="@dimen/textsizenormal"
                 android:layout_marginLeft="10dp"/>
 
@@ -41,6 +40,7 @@
                 android:layout_height="15dp"
                 android:layout_gravity="right|center"
                 android:layout_weight="1.5"
+                android:tint="@color/colorAccent"
                 android:contentDescription="TODO"
                 android:src="@drawable/cancel_btn" />
         </LinearLayout>
@@ -56,22 +56,26 @@
                 android:id="@+id/nametv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="10dp"
+                android:background="@color/grey_light"
                 android:gravity="center_vertical"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="To anupam"
-                android:textColor="@color/activetab" />
+                android:textColor="@color/black" />
 
 
             <com.procialize.mrgeApp20.Fonts.RobotoEditext
                 android:id="@+id/etmsg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/sendmessage"
+                android:background="@color/grey_light"
                 android:gravity="top|left"
                 android:hint="Type your question..."
                 android:imeOptions="actionSend|flagNoEnterAction"
@@ -83,7 +87,7 @@
                 android:padding="5dp"
                 android:scrollbars="vertical"
                 android:textColor="#000"
-                android:textSize="@dimen/textsizenormal" />
+                android:textSize="@dimen/textsizesmall" />
 
             <com.procialize.mrgeApp20.Fonts.RobotoTextview
                 android:id="@+id/counttv"
@@ -99,15 +103,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="1">
+                android:gravity="center"
+                android:weightSum="0">
 
                 <com.procialize.mrgeApp20.Fonts.RobotoButton
                     android:id="@+id/ratebtn"
-                    android:layout_width="0dp"
+                    android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_weight="1"
                     android:background="@drawable/speakerbtnbg"
                     android:text="@string/sendmsg"
                     android:textAllCaps="false"

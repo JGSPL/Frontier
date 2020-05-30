@@ -107,11 +107,16 @@ public class QuizFolderAdapter extends BaseAdapter {
                     .findViewById(R.id.video_title_txt);
             holder.video_status = (TextView) convertView
                     .findViewById(R.id.video_status);
-            holder.progressbar = (CircleDisplay) convertView
-                    .findViewById(R.id.progressbar);
 
             holder.relative = (RelativeLayout) convertView
                     .findViewById(R.id.relative);
+            holder.textViewTime = (TextView) convertView
+                    .findViewById(R.id.textViewTime);
+
+
+
+            holder.progressBarCircle = (ProgressBar) convertView.findViewById(R.id.progressBarCircle);
+
 
             holder.linQuiz = (LinearLayout)convertView.findViewById(R.id.linQuiz);
            // holder.linQuiz.setBackgroundColor(Color.parseColor(colorActive));
@@ -135,25 +140,35 @@ public class QuizFolderAdapter extends BaseAdapter {
         }
 
         holder.quiz_title_txt.setText(quizList.get(position).getFolder_name());
-        holder.progressbar.setVisibility(View.VISIBLE);
 
-        holder.progressbar.setVisibility(View.VISIBLE);
-        holder.progressbar.setProgress(0);
-        holder.progressbar.setMaxValue(100);
-        holder.progressbar.setProgressColor(Color.parseColor(colorActive));
-        holder.progressbar.setText(String.valueOf(0));
-        holder.progressbar.setTextColor(Color.parseColor(colorActive));
-        holder.progressbar.setSuffix("%");
-        holder.progressbar.setPrefix("");
+        if(quizList.get(position).getAnswered().equalsIgnoreCase("0")){
+            holder.progressBarCircle.setVisibility(View.INVISIBLE);
+            holder.textViewTime.setVisibility(View.GONE);
+        }else {
+            holder.progressBarCircle.setVisibility(View.VISIBLE);
+            holder.textViewTime.setVisibility(View.VISIBLE);
+            holder.textViewTime.setText(Integer.parseInt(quizList.get(position).getTotal_correct())+"/"+
+                    Integer.parseInt(quizList.get(position).getTotal_quiz()));
+
+            holder.progressBarCircle.setMax(Integer.parseInt(quizList.get(position).getTotal_quiz()));
+            if(quizList.get(position).getTotal_correct().equalsIgnoreCase("0")){
+                holder.progressBarCircle.setProgress(0);
+
+            }else {
+
+            holder.progressBarCircle.setProgress(Integer.parseInt(quizList.get(position).getTotal_correct()));
+            }
+        }
 
         return convertView;
     }
 
     static class ViewHolder {
-        TextView quiz_title_txt,video_status;
+        TextView quiz_title_txt,video_status,textViewTime;
         LinearLayout linQuiz;
         RelativeLayout relative;
-        CircleDisplay progressbar;
+        ProgressBar progressBarCircle;
+
     }
 
 

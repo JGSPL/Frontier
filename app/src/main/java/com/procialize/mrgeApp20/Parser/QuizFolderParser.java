@@ -52,6 +52,20 @@ public class QuizFolderParser {
                         quiz.setTimer(timer);
                     }
 
+                    String answered = jsonAgenda.getString("answered");
+                    if (answered != null && answered.length() > 0) {
+                        quiz.setAnswered(answered);
+                    }
+
+                    String total_quiz = jsonAgenda.getString("total_quiz");
+                    if (total_quiz != null && total_quiz.length() > 0) {
+                        quiz.setTotal_quiz(total_quiz);
+                    }
+                    String total_correct = jsonAgenda.getString("total_correct");
+                    if (total_correct != null && total_correct.length() > 0) {
+                        quiz.setTotal_correct(total_correct);
+                    }
+
                     quizList.add(quiz);
                 }
             } catch (JSONException e) {

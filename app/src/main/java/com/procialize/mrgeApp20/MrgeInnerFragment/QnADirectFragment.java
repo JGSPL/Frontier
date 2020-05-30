@@ -254,7 +254,7 @@ public class QnADirectFragment extends Fragment implements QADirectAdapter.QADir
         myDialog.show();
         LinearLayout diatitle = myDialog.findViewById(R.id.diatitle);
 
-        diatitle.setBackgroundColor(Color.parseColor(colorActive));
+       // diatitle.setBackgroundColor(Color.parseColor(colorActive));
 
 
         Button cancelbtn = myDialog.findViewById(R.id.canclebtn);
@@ -271,9 +271,10 @@ public class QnADirectFragment extends Fragment implements QADirectAdapter.QADir
         final TextView nametv = myDialog.findViewById(R.id.nametv);
         final TextView title = myDialog.findViewById(R.id.title);
         nametv.setVisibility(View.GONE);
-        title.setText("Post Question");
+        title.setText("Ask Question");
+        title.setTextColor(Color.parseColor(colorActive));
 
-        nametv.setTextColor(Color.parseColor(colorActive));
+      //  nametv.setTextColor(Color.parseColor(colorActive));
 
 
         etmsg.addTextChangedListener(new TextWatcher() {

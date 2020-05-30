@@ -209,7 +209,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 //        mBuilder.setSmallIcon(R.drawable.app_icon);
 //        mBuilder.setSmallIcon(getNotificationIcon())
-        mBuilder.setContentTitle("The Event App")
+        mBuilder.setContentTitle("MRGE")
                 .setLargeIcon(image)
                 .setColorized(true)
                 .setSound(alarmSound)
@@ -281,7 +281,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     this)
 
                     .setSmallIcon(R.drawable.app_icon)
-                    .setContentTitle("The Event App")
+                    .setContentTitle("MRGE")
                     .setStyle(
                             new NotificationCompat.BigTextStyle().bigText(finalMsg))
                     .setContentText(finalMsg).setSound(alarmSound);
@@ -294,7 +294,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     this)
 
                     .setSmallIcon(R.drawable.app_icon)
-                    .setContentTitle("The Event App")
+                    .setContentTitle("MRGE")
                     .setColor(getResources().getColor(R.color.activetab))
 
                     .setStyle(

@@ -5,6 +5,6 @@
     android:thickness="4dp"
     android:useLevel="false">
 
-    <solid android:color="@color/activetab" />
+    <solid android:color="@color/colorAccent" />
 
 </shape>
