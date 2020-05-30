@@ -94,7 +94,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
     public void initView(View rootView) {
 
         try {
-            setNotification(getActivity());
+            setNotification(getActivity(),MrgeHomeActivity.tv_notification,MrgeHomeActivity.ll_notification_count);
         }catch (Exception e)
         {e.printStackTrace();}
 
@@ -222,6 +222,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
         Intent pdfview = new Intent(getActivity(), DownloadPdfActivity.class);
         pdfview.putExtra("url", "https://docs.google.com/gview?embedded=true&url=" + ApiConstant.imgURL + "uploads/documents/" + document.getFileName());
         pdfview.putExtra("url1", ApiConstant.imgURL + "uploads/documents/" + document.getFileName());
+        pdfview.putExtra("doc_name",  document.getTitle());
         startActivity(pdfview);
     }
 

@@ -25,8 +25,10 @@ import com.procialize.mrgeApp20.Utility.Util;
 
 import java.io.File;
 
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
+
 public class YourScoreActivity extends AppCompatActivity {
-    TextView txt_count, questionTv, txt_title;
+    TextView txt_count, questionTv;Button txt_title;
     Button btn_ok;
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
@@ -85,8 +87,8 @@ public class YourScoreActivity extends AppCompatActivity {
 
         questionTv.setText(folderName);
         txt_count.setText(correnctcount + "/" + totalcount);
-        questionTv.setBackgroundColor(Color.parseColor(colorActive));
-        txt_title.setTextColor(Color.parseColor(colorActive));
+        //questionTv.setBackgroundColor(Color.parseColor(colorActive));
+        txt_title.setBackgroundColor(Color.parseColor(colorActive));
         QuizActivity.submitflag = false;
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +99,14 @@ public class YourScoreActivity extends AppCompatActivity {
             }
         });
 
-
+        //-----------------------------For Notification count-----------------------------
+        try {
+            LinearLayout ll_notification_count = findViewById(R.id.ll_notification_count);
+            TextView tv_notification = findViewById(R.id.tv_notification);
+            setNotification(this, tv_notification, ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //----------------------------------------------------------------------------------
     }
 }

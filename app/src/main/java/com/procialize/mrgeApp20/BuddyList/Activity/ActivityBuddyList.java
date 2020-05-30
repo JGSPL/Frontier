@@ -153,8 +153,8 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
             e.printStackTrace();
             //linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
         }
-        TextView header = findViewById(R.id.title);
-        header.setTextColor(Color.parseColor(colorActive));
+       /* TextView header = findViewById(R.id.title);
+        header.setTextColor(Color.parseColor(colorActive));*/
         //pullrefresh.setTextColor(Color.parseColor(colorActive));
 
         // use a linear layout manager

@@ -31,6 +31,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +47,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.procialize.mrgeApp20.Activity.LoginActivity;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
@@ -98,6 +103,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import cn.jzvd.JzvdStd;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -139,6 +146,8 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     private ConnectionDetector cd;
     private List<news_feed_media> news_feed_media;
     private List<AttendeeList> attendeeList;
+    ImageView profileIV;
+    ProgressBar progressView;
 
     public FragmentNewsFeed() {
         // Required empty public constructor
@@ -205,6 +214,32 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         user = session.getUserDetails();
         token = user.get(SessionManager.KEY_TOKEN);
 
+        profileIV = rootView.findViewById(R.id.profilestatus);
+        progressView = rootView.findViewById(R.id.progressView);
+
+        HashMap<String, String> user = session.getUserDetails();
+        String profilepic = user.get(SessionManager.KEY_PIC);
+        if (profilepic != null) {
+            Glide.with(this).load(ApiConstant.profilepic + profilepic).circleCrop()
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Drawable> target, boolean isFirstResource) {
+                            progressView.setVisibility(View.GONE);
+                            profileIV.setImageResource(R.drawable.profilepic_placeholder);
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, com.bumptech.glide.request.target.Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            progressView.setVisibility(View.GONE);
+                            profileIV.setImageResource(R.drawable.profilepic_placeholder);
+                            return false;
+                        }
+                    }).into(profileIV);
+        } else {
+            profileIV.setImageResource(R.drawable.profilepic_placeholder);
+            progressView.setVisibility(View.GONE);
+        }
         mReceiver = new BackgroundReceiver();
         // Creating an IntentFilter with action
         mFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION);

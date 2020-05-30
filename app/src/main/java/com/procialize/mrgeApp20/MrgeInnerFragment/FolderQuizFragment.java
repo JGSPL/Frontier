@@ -35,6 +35,7 @@ import com.procialize.mrgeApp20.GetterSetter.QuizFolder;
 import com.procialize.mrgeApp20.GetterSetter.QuizOptionList;
 import com.procialize.mrgeApp20.InnerDrawerActivity.QuizActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.QuizNewActivity;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.Parser.QuizFolderParser;
 import com.procialize.mrgeApp20.Parser.QuizOptionParser;
 import com.procialize.mrgeApp20.Parser.QuizParser;
@@ -95,7 +96,7 @@ public class FolderQuizFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_folder_quiz, container, false);
 
         try {
-            setNotification(getActivity());
+            setNotification(getActivity(), MrgeHomeActivity.tv_notification,MrgeHomeActivity.ll_notification_count);
         }catch (Exception e)
         {e.printStackTrace();}
 

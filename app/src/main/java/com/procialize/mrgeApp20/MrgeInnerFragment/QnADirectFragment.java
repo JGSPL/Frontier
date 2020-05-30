@@ -43,6 +43,7 @@ import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.DialogQnA.DialogQnADirect;
 import com.procialize.mrgeApp20.GetterSetter.DirectQuestion;
 import com.procialize.mrgeApp20.GetterSetter.QADirectFetch;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -93,7 +94,7 @@ public class QnADirectFragment extends Fragment implements QADirectAdapter.QADir
         rootView = inflater.inflate(R.layout.activity_qadirect, container, false);
 
         try {
-            setNotification(getActivity());
+            setNotification(getActivity(), MrgeHomeActivity.tv_notification,MrgeHomeActivity.ll_notification_count);
         }catch (Exception e)
         {e.printStackTrace();}
 

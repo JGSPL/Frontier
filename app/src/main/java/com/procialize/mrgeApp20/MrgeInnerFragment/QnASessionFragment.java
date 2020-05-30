@@ -102,7 +102,7 @@ public class QnASessionFragment extends Fragment implements QAAttendeeAdapter.QA
         rootView = inflater.inflate(R.layout.activity_qa, container, false);
 
         try {
-            setNotification(getActivity());
+            setNotification(getActivity(),MrgeHomeActivity.tv_notification,MrgeHomeActivity.ll_notification_count);
         }catch (Exception e)
         {e.printStackTrace();}
 

@@ -84,7 +84,7 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
         rootView = inflater.inflate(R.layout.activity_live_poll, container, false);
 
         try {
-            setNotification(getActivity());
+            setNotification(getActivity(),MrgeHomeActivity.tv_notification,MrgeHomeActivity.ll_notification_count);
         }catch (Exception e)
         {e.printStackTrace();}
 

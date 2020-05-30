@@ -49,6 +49,7 @@ import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.EventInfoFetch;
 import com.procialize.mrgeApp20.GetterSetter.EventList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Utility;
@@ -121,7 +122,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         }
 
         try {
-            setNotification(getActivity());
+            setNotification(getActivity(), MrgeHomeActivity.tv_notification,MrgeHomeActivity.ll_notification_count);
         }catch (Exception e)
         {e.printStackTrace();}
 

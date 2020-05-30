@@ -108,7 +108,21 @@
                             android:adjustViewBounds="true"
                             android:contentDescription="TODO"
                             android:scaleType="centerCrop"></ImageView>
-
+                        <RelativeLayout
+                            android:id="@+id/rl_update_pic"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="bottom"
+                            android:alpha="20"
+                            android:background="#73000000"
+                            android:layout_gravity="bottom">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_gravity="bottom"
+                            android:src="@drawable/camera_image"
+                            android:padding="5dp"/>
+                        </RelativeLayout>
                     </androidx.cardview.widget.CardView>
 
                     <ProgressBar
@@ -224,7 +238,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="25dp"
                     android:background="@drawable/edit_background"
-                    android:drawableLeft="@drawable/mobile_icon"
+                    android:drawableLeft="@drawable/att_designa"
                     android:drawablePadding="@dimen/album_dp_10"
                     android:hint="@string/designation"
                     android:inputType="textEmailAddress"
@@ -401,7 +415,8 @@
                     android:inputType="textEmailAddress"
                     android:padding="5dp"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/textsizesmall" />
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="gone"/>
                 <!--   </com.google.android.material.textfield.TextInputLayout>-->
 
 
@@ -419,7 +434,7 @@
                     android:minHeight="0dp"
                     android:padding="@dimen/album_dp_10"
                     android:stateListAnimator="@null"
-                    android:text="@string/save"
+                    android:text="Submit"
                     android:textAllCaps="false"
                     android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall"

@@ -115,14 +115,15 @@
                                 android:background="@drawable/count_circle"
                                 android:gravity="center"
                                 android:visibility="visible">
+
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
                                     android:id="@+id/tv_notification"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="15dp"
+                                    android:gravity="top|center"
                                     android:text="50"
-                                    android:textSize="8dp"
                                     android:textColor="@color/black"
-                                    android:gravity="top|center"/>
+                                    android:textSize="8dp" />
                             </LinearLayout>
                         </RelativeLayout>
                     </LinearLayout>

@@ -105,7 +105,7 @@ public class QnASpeakerFragment extends Fragment implements QASpeakerAdapter.QAS
         rootView = inflater.inflate(R.layout.activity_qaspeaker, container, false);
 
         try {
-            setNotification(getActivity());
+            setNotification(getActivity(),MrgeHomeActivity.tv_notification,MrgeHomeActivity.ll_notification_count);
         }catch (Exception e)
         {e.printStackTrace();}
 

@@ -77,7 +77,7 @@ public class EmergencyFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_emergemcy, container, false);
 
         try {
-            setNotification(getActivity());
+            setNotification(getActivity(),MrgeHomeActivity.tv_notification,MrgeHomeActivity.ll_notification_count);
         }catch (Exception e)
         {e.printStackTrace();}
 

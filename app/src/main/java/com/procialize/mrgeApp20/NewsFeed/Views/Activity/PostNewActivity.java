@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.percolate.mentions.Mentionable;
 import com.percolate.mentions.Mentions;
 import com.percolate.mentions.QueryListener;
@@ -78,6 +85,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import javax.annotation.Nullable;
+
 import okhttp3.Headers;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -123,6 +132,8 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     private DBHelper procializeDB;
     private ArrayList<AttendeeList> customers;
     ImageView headerlogoIv;
+    ImageView profileIV;
+    ProgressBar progressView;
 
     public static HttpResponse transformResponse(Response response) {
 
@@ -179,6 +190,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
 
         linear = findViewById(R.id.linear);
         headerlogoIv = findViewById(R.id.headerlogoIv);
+        profileIV = findViewById(R.id.profileIV);
         headerlogoIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,6 +225,8 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         txtcount = findViewById(R.id.txtcount);
         textData = findViewById(R.id.textData);
         tv_name = findViewById(R.id.tv_name);
+        progressView = findViewById(R.id.progressView);
+        // get user data from session
 
         final TextWatcher txwatcher = new TextWatcher() {
             @Override
@@ -264,6 +278,28 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         session = new SessionManager(getApplicationContext());
         HashMap<String, String> user = session.getUserDetails();
         String profilepic = user.get(SessionManager.KEY_PIC);
+        if (profilepic != null) {
+            Glide.with(this).load(ApiConstant.profilepic + profilepic).circleCrop()
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            progressView.setVisibility(View.GONE);
+                            profileIV.setImageResource(R.drawable.profilepic_placeholder);
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            progressView.setVisibility(View.GONE);
+                            profileIV.setImageResource(R.drawable.profilepic_placeholder);
+                            return false;
+                        }
+                    }).into(profileIV);
+        } else {
+            profileIV.setImageResource(R.drawable.profilepic_placeholder);
+            progressView.setVisibility(View.GONE);
+        }
+
         apikey = user.get(SessionManager.KEY_TOKEN);
 
         tv_name.setText(user.get(SessionManager.KEY_NAME));

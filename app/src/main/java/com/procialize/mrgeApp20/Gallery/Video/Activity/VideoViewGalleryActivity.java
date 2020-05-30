@@ -64,6 +64,8 @@ import javax.net.ssl.X509TrustManager;
 
 import cn.jzvd.JzvdStd;
 
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
+
 public class VideoViewGalleryActivity extends AppCompatActivity implements SwipeVideoAdapter.SwipeVideoAdapterListner, SwipeVideoPagerAdapter.onItemClick {
 
     public int rvposition = 0;
@@ -421,6 +423,16 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
 
             }
         });
+
+        //-----------------------------For Notification count-----------------------------
+        try {
+            LinearLayout ll_notification_count = findViewById(R.id.ll_notification_count);
+            TextView tv_notification = findViewById(R.id.tv_notification);
+            setNotification(this,tv_notification,ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //----------------------------------------------------------------------------------
 
     }
 
