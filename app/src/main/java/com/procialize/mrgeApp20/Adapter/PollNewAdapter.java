@@ -89,6 +89,8 @@ public class PollNewAdapter extends BaseAdapter {
             holder.imageIv = convertView.findViewById(R.id.imageIv);
             holder.mainLL = convertView.findViewById(R.id.mainLL);
             holder.linMain = convertView.findViewById(R.id.linMain);
+            holder.ivewComplete = convertView.findViewById(R.id.ivewComplete);
+            holder.statusTv = convertView.findViewById(R.id.statusTv);
 
 
             holder.relative = (RelativeLayout) convertView
@@ -99,6 +101,18 @@ public class PollNewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         //holder.mainLL.setBackgroundColor(Color.parseColor(colorActive));
+
+        if(pollList.getStatus().equalsIgnoreCase("Tap To Participate")){
+            holder.statusTv.setVisibility(View.VISIBLE);
+            holder.statusTv.setText("Tap To Participate");
+
+            holder.ivewComplete.setVisibility(View.GONE);
+        }else{
+            holder.statusTv.setVisibility(View.VISIBLE);
+            holder.statusTv.setText("Participated");
+            holder.ivewComplete.setVisibility(View.VISIBLE);
+            holder.ivewComplete.setBackgroundColor(Color.parseColor(colorActive));
+        }
 
         holder.nameTv.setText(StringEscapeUtils.unescapeJava(pollList.getQuestion()));
         holder.linMain.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +131,7 @@ public class PollNewAdapter extends BaseAdapter {
 
 
 
+
         return convertView;
     }
 
@@ -125,9 +140,10 @@ public class PollNewAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        public TextView nameTv;
+        public TextView nameTv,statusTv;
         public ImageView imageIv;
         public LinearLayout mainLL,linMain;
         RelativeLayout relative;
+        View ivewComplete;
     }
 }

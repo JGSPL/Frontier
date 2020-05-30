@@ -45,7 +45,7 @@ public class PollGraphAdapter extends RecyclerView.Adapter<PollGraphAdapter.MyVi
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final LivePollOptionList pollList = optionLists.get(position);
 
-        String[] color = {"#0e73ba", "#00a89c", "#4d4d4d", "#949494", "#0e73ba", "#00a89c", "#4d4d4d", "#949494", "#0e73ba", "#00a89c", "#4d4d4d", "#949494"};
+        String[] color = {"#C4A5C6", "#F99EAF", "#95C4D6", "#CCD883", "#C4A5C6", "#F99EAF", "#95C4D6", "#CCD883", "#C4A5C6", "#F99EAF", "#95C4D6", "#CCD883"};
         Float totalUser = 0.0f;
 
 

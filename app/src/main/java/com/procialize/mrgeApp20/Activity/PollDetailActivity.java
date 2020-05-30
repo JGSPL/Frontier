@@ -42,6 +42,7 @@ import com.procialize.mrgeApp20.GetterSetter.LivePollFetch;
 import com.procialize.mrgeApp20.GetterSetter.LivePollOptionList;
 import com.procialize.mrgeApp20.GetterSetter.LivePollSubmitFetch;
 import com.procialize.mrgeApp20.InnerDrawerActivity.LivePollActivity;
+import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -111,6 +112,16 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);
+
+        ImageView notificationlogoIv = findViewById(R.id.notificationlogoIv);
+        notificationlogoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(main);
+                finish();
+            }
+        });
 
         pollGraph = findViewById(R.id.pollGraph);
         relative = findViewById(R.id.relative);

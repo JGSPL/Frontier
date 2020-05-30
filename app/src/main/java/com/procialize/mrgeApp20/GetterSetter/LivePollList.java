@@ -19,6 +19,30 @@ public class LivePollList {
     @Expose
     private String replied;
 
+    @SerializedName("status")
+    @Expose
+    private String status;
+    @SerializedName("show_progress_bar")
+    @Expose
+    private String show_progress_bar;
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getShow_progress_bar() {
+        return show_progress_bar;
+    }
+
+    public void setShow_progress_bar(String show_progress_bar) {
+        this.show_progress_bar = show_progress_bar;
+    }
+
     public String getShow_result() {
         return show_result;
     }
