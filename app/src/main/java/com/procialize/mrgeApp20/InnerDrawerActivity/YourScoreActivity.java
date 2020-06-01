@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
@@ -35,6 +36,8 @@ public class YourScoreActivity extends AppCompatActivity {
     String colorActive;
     LinearLayout linear;
     ImageView headerlogoIv;
+    ProgressBar progressBarCircle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,7 @@ public class YourScoreActivity extends AppCompatActivity {
         Util.logomethod(this, headerlogoIv);
         btn_ok.setBackgroundColor(Color.parseColor(colorActive));
         txt_count.setTextColor(Color.parseColor(colorActive));
+        progressBarCircle = findViewById(R.id.progressBarCircle);
 
 //        Typeface typeface = Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf");
 //        txt_count.setTypeface(typeface);
@@ -87,6 +91,12 @@ public class YourScoreActivity extends AppCompatActivity {
 
         questionTv.setText(folderName);
         txt_count.setText(correnctcount + "/" + totalcount);
+
+
+        progressBarCircle.setMax(Integer.parseInt(totalcount));
+        progressBarCircle.setProgress(Integer.parseInt(correnctcount));
+
+
         //questionTv.setBackgroundColor(Color.parseColor(colorActive));
         txt_title.setBackgroundColor(Color.parseColor(colorActive));
 

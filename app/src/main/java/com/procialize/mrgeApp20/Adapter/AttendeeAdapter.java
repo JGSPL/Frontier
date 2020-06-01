@@ -91,7 +91,7 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
 
 
         try {
-            if (attendee_company.equalsIgnoreCase("0")) {
+            if (attendee_location.equalsIgnoreCase("0")) {
                 holder.locationTv.setVisibility(View.GONE);
             } else {
                 if (attendee.getCompanyName().equalsIgnoreCase("N A")) {
@@ -104,7 +104,7 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
                     holder.locationTv.setVisibility(View.GONE);
                 } else {
                     holder.locationTv.setVisibility(View.VISIBLE);
-                    holder.locationTv.setText(attendee.getCompanyName());
+                    holder.locationTv.setText(attendee.getCity());
                 }
             }
         } catch (Exception e) {

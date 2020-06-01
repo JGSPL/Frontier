@@ -5,7 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,6 +25,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -171,6 +176,22 @@ public class DownloadPdfActivity extends AppCompatActivity {
 
             }
         });*/
+
+      RelativeLayout linear = findViewById(R.id.linear);
+        try {
+
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ ApiConstant.folderName+"/" + "background.jpg");
+            Resources res = getResources();
+            Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
+            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
+            linear.setBackgroundDrawable(bd);
+
+            Log.e("PATH", String.valueOf(mypath));
+        } catch (Exception e) {
+            e.printStackTrace();
+            linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
+
+        }
 
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
