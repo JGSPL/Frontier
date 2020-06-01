@@ -89,6 +89,13 @@ public class YourScoreActivity extends AppCompatActivity {
         txt_count.setText(correnctcount + "/" + totalcount);
         //questionTv.setBackgroundColor(Color.parseColor(colorActive));
         txt_title.setBackgroundColor(Color.parseColor(colorActive));
+
+        txt_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         QuizActivity.submitflag = false;
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override

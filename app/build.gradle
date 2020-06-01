@@ -13,7 +13,9 @@ android {
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         ndk {
-            abiFilters "armeabi-v7a", 'arm64-v8a', 'x86', 'x86_64'
+            //abiFilters "armeabi-v7a", 'arm64-v8a', 'x86', 'x86_64'
+            abiFilters "armeabi-v7a", 'arm64-v8a', 'x86'
+
         }
         android {
             lintOptions {
@@ -50,7 +52,7 @@ android {
             }
 
         }
-        buildTypes {
+        /*buildTypes {
             release {
                 minifyEnabled false
                 shrinkResources false
@@ -60,6 +62,14 @@ android {
                 minifyEnabled false
                 shrinkResources false
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+        }*/
+        buildTypes {
+            release {
+                minifyEnabled true
+                shrinkResources true
+                resConfigs "en"
+                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             }
         }
 
@@ -170,7 +180,7 @@ dependencies {
     implementation project(path: ':keyframe')
     implementation project(path: ':YouTubeAndroidPlayerApi')
     implementation project(path: ':coffeetubefloatvideo')
-    implementation project(path: ':flashytabbarandroidNew')
+ //   implementation project(path: ':flashytabbarandroidNew')
     implementation project(path: ':jiaozivideoplayer')
 
 

@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.cuberto.flashytabbarandroid.TabFlashyAnimatorWithTitle;
 import com.google.android.material.tabs.TabLayout;
 import com.procialize.mrgeApp20.CustomTools.CustomViewPager;
 import com.procialize.mrgeApp20.GetterSetter.EventMenuSettingList;

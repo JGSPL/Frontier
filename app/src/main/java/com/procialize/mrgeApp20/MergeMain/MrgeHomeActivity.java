@@ -57,7 +57,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.crashlytics.android.Crashlytics;
-import com.cuberto.flashytabbarandroid.TabFlashyAnimatorWithTitle;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -280,7 +279,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     private Res res;
     private DBHelper dbHelper;
     private YouTubePlayerSupportFragment youTubePlayerFragment;
-    private TabFlashyAnimatorWithTitle tabFlashyAnimator;
     private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
     int youTubeLinkPosition=-1;
 
@@ -662,7 +660,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         eula = navigationView.findViewById(R.id.eula);
 
         if (ApiConstant.baseUrl.contains("stage")) {
-            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(2)");
+            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(3)");
         } else {
             txt_version.setText("Version : " + BuildConfig.VERSION_NAME);
         }

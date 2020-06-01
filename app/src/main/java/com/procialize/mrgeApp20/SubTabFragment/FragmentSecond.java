@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.cuberto.flashytabbarandroid.TabFlashyAnimatorWithTitle;
 import com.google.android.material.tabs.TabLayout;
 import com.procialize.mrgeApp20.CustomTools.CustomViewPager;
 import com.procialize.mrgeApp20.Fragments.AgendaFragment;
@@ -43,7 +42,6 @@ public class FragmentSecond extends Fragment {
     List<EventSettingList> eventSettingLists;
     List<EventMenuSettingList> eventMenuSettingLists;
     CustomViewPager viewpagerSecond;
-    private TabFlashyAnimatorWithTitle tabFlashyAnimator;
     private TabLayout tabLayout;
 
     public FragmentSecond() {
@@ -81,7 +79,7 @@ public class FragmentSecond extends Fragment {
 
         //   subtabLayout = findViewById(R.id.Subtabs);
         tabLayout.setupWithViewPager(viewpagerSecond);
-        tabFlashyAnimator = new TabFlashyAnimatorWithTitle(tabLayout);
+       /* tabFlashyAnimator = new TabFlashyAnimatorWithTitle(tabLayout);
         setupTabIcons();
         tabLayout.setTabTextColors(Color.parseColor("#4D4D4D"), Color.parseColor(colorActive));
 
@@ -97,7 +95,7 @@ public class FragmentSecond extends Fragment {
         tabFlashyAnimator.addTabItem("Emergency",
                 R.drawable.general_info);
         tabFlashyAnimator.highLightTab(0);
-        viewpagerSecond.addOnPageChangeListener(tabFlashyAnimator);
+        viewpagerSecond.addOnPageChangeListener(tabFlashyAnimator);*/
     }
 
 
