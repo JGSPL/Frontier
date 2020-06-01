@@ -216,6 +216,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
                             if (!response.body().getFolderList().get(i).getFolderName().contains("/")) {
                                 firstLevelFilter.setFolderName(response.body().getFolderList().get(i).getFolderName());
                                 firstLevelFilter.setTitle(response.body().getFolderList().get(i).getFolderName());
+                                firstLevelFilter.setFolder_id(response.body().getFolderList().get(i).getFolder_id());
                                 firstLevelFilter.setFileName(ApiConstant.galleryimage + response.body().getFolderList().get(i).getFolderImage());
 
                                 filtergallerylists.add(firstLevelFilter);
@@ -231,13 +232,14 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
                         firstLevelFilter.setTitle(response.body().getGalleryList().get(i).getTitle());
                         firstLevelFilter.setFileName(ApiConstant.galleryimage + response.body().getGalleryList().get(i).getFileName());
                         firstLevelFilter.setFolderName(response.body().getGalleryList().get(i).getFolderName());
+                        firstLevelFilter.setFolder_id(response.body().getGalleryList().get(i).getFolder_id());
 
                         filtergallerylists.add(firstLevelFilter);
                     }
                 }
 
                 if (!filtergallerylists.isEmpty()) {
-                    GalleryAdapter galleryAdapter = new GalleryAdapter(getActivity(), filtergallerylists, this);
+                    GalleryAdapter galleryAdapter = new GalleryAdapter(getActivity(), filtergallerylists, this,galleryLists);
                     galleryAdapter.notifyDataSetChanged();
                     galleryRv.setAdapter(galleryAdapter);
                     galleryRv.scheduleLayoutAnimation();

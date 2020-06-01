@@ -24,6 +24,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.GetterSetter.FirstLevelFilter;
+import com.procialize.mrgeApp20.GetterSetter.GalleryList;
 import com.procialize.mrgeApp20.R;
 
 import java.util.List;
@@ -43,10 +44,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     private List<FirstLevelFilter> filtergallerylists;
     private Context context;
     private GalleryAdapterListner listener;
+    List<GalleryList> galleryLists;
 
-    public GalleryAdapter(Context context, List<FirstLevelFilter> filtergallerylists, GalleryAdapterListner listener) {
+    public GalleryAdapter(Context context, List<FirstLevelFilter> filtergallerylists, GalleryAdapterListner listener,List<GalleryList> galleryLists) {
 
         this.filtergallerylists = filtergallerylists;
+        this.galleryLists = galleryLists;
         this.listener = listener;
         this.context = context;
     }
@@ -59,6 +62,16 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
         colorActive = prefs.getString("colorActive", "");
 
         holder.nameTv.setText(galleryList.getTitle());
+
+        int count = 0 ;
+        for (int i=0;i<galleryLists.size();i++)
+        {
+            String fId = galleryList.getFolder_id();
+            if(fId.equalsIgnoreCase(galleryLists.get(i).getFolder_id())){
+                count++;
+            }
+        }
+        holder.tv_count.setText(String.valueOf(count)+" items");
         //holder.nameTv.setTextColor(Color.parseColor(colorActive));
 
         Glide.with(context).load(galleryList.getFileName())
@@ -89,13 +102,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 //                .placeholder(R.drawable.folder_back)
 //                .into(holder.imageIv);
 
-
         if (galleryList.getFolderName() == null) {
 
         } else {
             holder.imageIv.setBackgroundResource(R.drawable.folder_back);
         }
-
 
     }
 
@@ -116,7 +127,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nameTv;
+        public TextView nameTv,tv_count;
         public LinearLayout mainLL;
         public ImageView imageIv, img;
         private ProgressBar progressBar;
@@ -124,6 +135,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
         public MyViewHolder(View view) {
             super(view);
             nameTv = view.findViewById(R.id.nameTv);
+            tv_count = view.findViewById(R.id.tv_count);
             imageIv = view.findViewById(R.id.imageIv);
             img = view.findViewById(R.id.img);
             mainLL = view.findViewById(R.id.mainLL);

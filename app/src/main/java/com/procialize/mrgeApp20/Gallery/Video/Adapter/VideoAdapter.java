@@ -24,6 +24,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.GetterSetter.FirstLevelFilter;
+import com.procialize.mrgeApp20.GetterSetter.VideoList;
 import com.procialize.mrgeApp20.R;
 
 import java.util.List;
@@ -38,19 +39,21 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
     String MY_PREFS_NAME = "ProcializeInfo";
     SharedPreferences prefs;
     String colorActive;
-    private List<FirstLevelFilter> videoLists;
+    private List<FirstLevelFilter> galleryLists;
+    private List<VideoList> videoList;
     private Context context;
     private VideoAdapterListner listener;
 
-    public VideoAdapter(Context context, List<FirstLevelFilter> galleryLists, VideoAdapterListner listener) {
-        this.videoLists = galleryLists;
+    public VideoAdapter(Context context, List<FirstLevelFilter> galleryLists, VideoAdapterListner listener, List<VideoList> videoList) {
+        this.galleryLists = galleryLists;
+        this.videoList = videoList;
         this.listener = listener;
         this.context = context;
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        final FirstLevelFilter videoList = videoLists.get(position);
+        final FirstLevelFilter videoList = galleryLists.get(position);
 
         holder.nameTv.setText(videoList.getTitle());
 
@@ -59,7 +62,18 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
 
         int color = Color.parseColor(colorActive);
         holder.img.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        holder.nameTv.setTextColor(Color.parseColor(colorActive));
+       // holder.nameTv.setTextColor(Color.parseColor(colorActive));
+
+        int count = 0 ;
+        for (int i=0;i<galleryLists.size();i++)
+        {
+            String fId = videoList.getFolder_id();
+            if(fId.equalsIgnoreCase(galleryLists.get(i).getFolder_id())){
+                count++;
+            }
+        }
+        holder.tv_count.setText(String.valueOf(count)+" items");
+
 
         if (videoList.getFolderName() == null) {
             try {
@@ -154,7 +168,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
 
     @Override
     public int getItemCount() {
-        return videoLists.size();
+        return galleryLists.size();
     }
 
     public interface VideoAdapterListner {
@@ -162,7 +176,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nameTv;
+        public TextView nameTv,tv_count;
         public ImageView imageIv, img;
         public LinearLayout mainLL;
         private ProgressBar progressBar;
@@ -171,6 +185,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
         public MyViewHolder(View view) {
             super(view);
             nameTv = view.findViewById(R.id.nameTv);
+            tv_count = view.findViewById(R.id.tv_count);
             imageIv = view.findViewById(R.id.imageIv);
             img = view.findViewById(R.id.img);
             mainLL = view.findViewById(R.id.mainLL);
@@ -180,7 +195,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
                 @Override
                 public void onClick(View view) {
                     // send selected contact in callback
-                    listener.onContactSelected(videoLists.get(getAdapterPosition()));
+                    listener.onContactSelected(galleryLists.get(getAdapterPosition()));
                 }
             });
         }

@@ -92,7 +92,9 @@
             android:id="@+id/videoRv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:clipToPadding="false"
+            android:paddingBottom="70dp">
 
         </androidx.recyclerview.widget.RecyclerView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
