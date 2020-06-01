@@ -12,10 +12,23 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-        ndk {
+       /* ndk {
             //abiFilters "armeabi-v7a", 'arm64-v8a', 'x86', 'x86_64'
             abiFilters "armeabi-v7a", 'arm64-v8a', 'x86'
 
+        }*/
+        splits {
+            density {
+                enable true
+                exclude "ldpi", "tvdpi", "xxxhdpi"
+                compatibleScreens 'small', 'normal', 'large', 'xlarge'
+            }
+            abi {
+                enable true
+                reset()
+                include 'x86', 'armeabi-v7a', 'mips'
+                universalApk true
+            }
         }
 /*
         splits {
@@ -108,85 +121,6 @@ android {
         targetCompatibility = 1.8
     }
 }
-/*android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
-
-    defaultConfig {
-        applicationId "com.procialize.mrgeApp20"
-        minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
-        vectorDrawables.useSupportLibrary = true
-        ndk {
-            abiFilters "armeabi-v7a", 'arm64-v8a', 'x86', 'x86_64'
-        }
-        android {
-            lintOptions {
-                checkReleaseBuilds false // Add this
-                abortOnError false
-            }
-
-            packagingOptions {
-                exclude 'META-INF/DEPENDENCIES'
-                exclude 'AndroidManifest.xml'
-                exclude 'lib/arm64-v8a/libcardioDecider.so'
-                exclude 'lib/arm64-v8a/libcardioRecognizer.so'
-                exclude 'lib/arm64-v8a/libcardioRecognizer_tegra2.so'
-                exclude 'lib/arm64-v8a/libopencv_core.so'
-                exclude 'lib/arm64-v8a/libopencv_imgproc.so'
-                exclude 'lib/armeabi/libcardioDecider.so'
-                exclude 'lib/armeabi-v7a/libcardioDecider.so'
-                exclude 'lib/armeabi-v7a/libcardioRecognizer.so'
-                exclude 'lib/armeabi-v7a/libcardioRecognizer_tegra2.so'
-                exclude 'lib/armeabi-v7a/libopencv_core.so'
-                exclude 'lib/armeabi-v7a/libopencv_imgproc.so'
-                exclude 'lib/mips/libcardioDecider.so'
-                exclude 'lib/x86/libcardioDecider.so'
-                exclude 'lib/x86/libcardioRecognizer.so'
-                exclude 'lib/x86/libcardioRecognizer_tegra2.so'
-                exclude 'lib/x86/libopencv_core.so'
-                exclude 'lib/x86/libopencv_imgproc.so'
-                exclude 'lib/x86_64/libcardioDecider.so'
-                exclude 'lib/x86_64/libcardioRecognizer.so'
-                exclude 'lib/x86_64/libcardioRecognizer_tegra2.so'
-                exclude 'lib/x86_64/libopencv_core.so'
-                exclude 'lib/x86_64/libopencv_imgproc.so'
-                exclude 'META-INF/core_release.kotlin_module'
-            }
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-        compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_8
-            targetCompatibility JavaVersion.VERSION_1_8
-        }
-
-        repositories {
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-            maven { url 'https://jitpack.io' }
-
-        }
-
-}*/
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -205,7 +139,6 @@ dependencies {
     //Zoom
     implementation project(path: ':commonlib')
     implementation project(path: ':mobilertc')
-
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

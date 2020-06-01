@@ -51,7 +51,7 @@ public class EngagementFragment extends Fragment {
     ImageView headerlogoIv;
     private List<EventSettingList> eventSettingLists;
     LinearLayout linear;
-   View rootView;
+    View rootView;
 
     @Nullable
     @Override

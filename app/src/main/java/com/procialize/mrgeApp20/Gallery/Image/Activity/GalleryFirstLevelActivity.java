@@ -146,6 +146,7 @@ public class GalleryFirstLevelActivity extends AppCompatActivity implements Gall
 
                             firstLevelFilter.setTitle(galleryLists.get(i).getTitle());
                             firstLevelFilter.setFolderName(galleryLists.get(i).getFolderName());
+                            firstLevelFilter.setFolder_id(galleryLists.get(i).getFolder_id());
                             firstLevelFilter.setFileName(ApiConstant.galleryimage + galleryLists.get(i).getFileName());
                             filtergallerylists.add(firstLevelFilter);
                         }

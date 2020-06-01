@@ -20,6 +20,13 @@ public class GalleryList implements Serializable {
     @SerializedName("folder_name")
     @Expose
     private String folderName;
+    @SerializedName("folder_id")
+    @Expose
+    private String folder_id;
+
+    public String getFolder_id() {
+        return folder_id;
+    }
 
     public String getTitle() {
         return title;
@@ -27,6 +34,10 @@ public class GalleryList implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setFolder_id(String folder_id) {
+        this.folder_id = folder_id;
     }
 
     public String getFileName() {

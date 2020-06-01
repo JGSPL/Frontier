@@ -15,7 +15,17 @@ public class FolderList implements Serializable {
     private String folderName;
     @SerializedName("folder_image")
     @Expose
-    private String folderImage;
+    private String folderImage;  @SerializedName("id")
+    @Expose
+    private String folder_id;
+
+    public String getFolder_id() {
+        return folder_id;
+    }
+
+    public void setFolder_id(String folder_id) {
+        this.folder_id = folder_id;
+    }
 
     public String getFolderName() {
         return folderName;

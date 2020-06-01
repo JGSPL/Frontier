@@ -222,6 +222,7 @@ View rootView;
                             if (!response.body().getVideoFolderList().get(i).getFolderName().contains("/")) {
                                 firstLevelFilter.setFolderName(response.body().getVideoFolderList().get(i).getFolderName());
                                 firstLevelFilter.setTitle(response.body().getVideoFolderList().get(i).getFolderName());
+                                firstLevelFilter.setFolder_id(response.body().getVideoFolderList().get(i).getFolder_id());
                                 firstLevelFilter.setFileName(ApiConstant.folderimage + response.body().getVideoFolderList().get(i).getFolderImage());
 
                                 filtergallerylists.add(firstLevelFilter);
@@ -236,20 +237,18 @@ View rootView;
 
                         firstLevelFilter.setTitle(response.body().getVideoList().get(i).getTitle());
                         firstLevelFilter.setFileName(response.body().getVideoList().get(i).getVideoUrl());
+                        firstLevelFilter.setFolder_id(response.body().getVideoList().get(i).getFolder_id());
                         firstLevelFilter.setFolderName(response.body().getVideoList().get(i).getFolderName());
 
                         filtergallerylists.add(firstLevelFilter);
                     }
                 }
-
-
-                VideoAdapter videoAdapter = new VideoAdapter(getActivity(), filtergallerylists, this);
+                VideoAdapter videoAdapter = new VideoAdapter(getActivity(), filtergallerylists, this,videoLists);
                 videoAdapter.notifyDataSetChanged();
                 videoRv.setAdapter(videoAdapter);
                 videoRv.scheduleLayoutAnimation();
             } else {
                 Toast.makeText(getActivity(), "No Video Available", Toast.LENGTH_SHORT).show();
-
             }
         } else {
             videoRv.setVisibility(View.GONE);
