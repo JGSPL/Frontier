@@ -110,7 +110,7 @@ public class VideoContestAdapter extends RecyclerView.Adapter<VideoContestAdapte
         if (galleryList.getLikeFlag().equals("1")) {
 
             holder.likeIv.setImageResource(R.drawable.ic_afterlike);
-            holder.likeIv.setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_ATOP);
+            holder.likeIv.setColorFilter(Color.parseColor("#ffffff"), PorterDuff.Mode.SRC_ATOP);
         } else {
             holder.likeIv.setImageResource(R.drawable.ic_like);
             holder.likeIv.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);

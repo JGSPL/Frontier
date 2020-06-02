@@ -46,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:gravity="center"
+        android:visibility="gone"
         android:padding="5dp"
         android:textColor="@color/colorwhite"
         android:textSize="@dimen/textsizenormal" />

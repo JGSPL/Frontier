@@ -323,15 +323,15 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
         });
 
         indexset(name);
-        int colorInt = Color.parseColor(colorActive);
+       /* int colorInt = Color.parseColor(colorActive);
         ColorStateList csl = ColorStateList.valueOf(colorInt);
         Drawable drawable = DrawableCompat.wrap(right.getDrawable());
         DrawableCompat.setTintList(drawable, csl);
-        right.setImageDrawable(drawable);
+      //  right.setImageDrawable(drawable);
 
         Drawable drawable1 = DrawableCompat.wrap(left.getDrawable());
         DrawableCompat.setTintList(drawable1, csl);
-        left.setImageDrawable(drawable1);
+      //  left.setImageDrawable(drawable1);*/
 
         right.setOnClickListener(new View.OnClickListener() {
             @Override

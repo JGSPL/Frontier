@@ -80,7 +80,6 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:visibility="invisible"
                     android:layout_marginRight="10dp"
                     android:gravity="center">
 
@@ -143,8 +142,6 @@
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:background="@drawable/semi_circle"
-            android:tint="@color/colorwhite"
-
             android:padding="10dp"
             android:src="@drawable/ic_galleryleftarrow" />
 
@@ -156,7 +153,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:background="@drawable/semi_circle"
-            android:tint="@color/colorwhite"
             android:padding="10dp"
             android:src="@drawable/ic_galleryrightarrow" />
 

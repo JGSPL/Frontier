@@ -206,7 +206,7 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
             linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
         }
 
-        tvname.setTextColor(Color.parseColor(colorActive));
+      //  tvname.setTextColor(Color.parseColor(colorActive));
         speakertitle.setTextColor(Color.parseColor(colorActive));
 
         GradientDrawable shape = setgradientDrawable(5, colorActive);

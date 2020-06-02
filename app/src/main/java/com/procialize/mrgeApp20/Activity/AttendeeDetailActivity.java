@@ -142,7 +142,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
@@ -565,6 +565,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             }
         });
 
+/*
         linsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -590,6 +591,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                 }
             }
         });
+*/
 
         //-----------------------------For Notification count-----------------------------
         try {
@@ -659,6 +661,8 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                         attendee_mobile = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                     }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_save_contact")) {
                         attendee_savecontact = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                        attendee_savecontact = "1";
+
                     }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_designation")) {
                         attendee_design = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                     }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_message")) {

@@ -185,7 +185,7 @@ public class WebViewActivity extends AppCompatActivity {
 
     public void fetchContact(String eventid, String token) {
         showProgress();
-        mAPIService.ContactListFetch(eventid, token).enqueue(new Callback<ContactListFetch>() {
+        mAPIService.ContactHeplDeskFetch(eventid, token).enqueue(new Callback<ContactListFetch>() {
             @Override
             public void onResponse(Call<ContactListFetch> call, Response<ContactListFetch> response) {
 

@@ -237,7 +237,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
                 } else {
 
                     likeIv.setImageDrawable(getResources().getDrawable(R.drawable.ic_active_like));
-                    likeIv.setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_ATOP);
+                    likeIv.setColorFilter(Color.parseColor("#ffffff"), PorterDuff.Mode.SRC_ATOP);
                     VideoContestLike(token, eventid, firstLevelFilters.get(rvposition).getId());
 
                     try {
@@ -378,7 +378,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
 
 
                             likeIv.setImageResource(R.drawable.ic_active_like);
-                            likeIv.setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_ATOP);
+                            likeIv.setColorFilter(Color.parseColor("#ffffff"), PorterDuff.Mode.SRC_ATOP);
                         } else {
                             likeIv.setImageResource(R.drawable.ic_like);
                             likeIv.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
@@ -412,7 +412,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
                         tv_like.setText(firstLevelFilters.get(position).getTotalLikes() + " Likes");
                         if (firstLevelFilters.get(position).getLikeFlag().equals("1")) {
                             likeIv.setImageResource(R.drawable.ic_active_like);
-                            likeIv.setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_ATOP);
+                            likeIv.setColorFilter(Color.parseColor("#ffffff"), PorterDuff.Mode.SRC_ATOP);
                         } else {
                             likeIv.setImageResource(R.drawable.ic_like);
                             likeIv.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
@@ -438,7 +438,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
                 tv_like.setText(firstLevelFilters.get(position).getTotalLikes() + " Likes");
                 if (firstLevelFilters.get(position).getLikeFlag().equals("1")) {
                     likeIv.setImageResource(R.drawable.ic_active_like);
-                    likeIv.setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_ATOP);
+                    likeIv.setColorFilter(Color.parseColor("#ffffff"), PorterDuff.Mode.SRC_ATOP);
                 } else {
                     likeIv.setImageResource(R.drawable.ic_like);
                     likeIv.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
