@@ -196,14 +196,14 @@
                 android:gravity="left"
                 android:orientation="vertical">
 
-                <TextView
+                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
                     android:id="@+id/tvname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin"
                     android:drawableLeft="@drawable/att_name"
                     android:drawablePadding="10dp"
-                    android:textColor="@color/activetab"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/textsizesmall"
                     android:textStyle="bold" />
 
@@ -324,19 +324,18 @@
                             android:gravity="left"
                             android:padding="10dp"
                             android:text="Rate this speaker"
-                            android:textColor="@color/linecolor" />
+                            android:textColor="@color/black" />
 
-                        <RatingBar
+                      <!--  <RatingBar
                             android:id="@+id/ratingbar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left"
                             android:layout_margin="2dp"
                             android:numStars="5"
-                            android:stepSize="0.5" />
+                            android:stepSize="0.5" />-->
 
-                        <!--
-                                        <RatingBar
+                                 <RatingBar
                                             android:id="@+id/ratingbar"
                                             style="@style/customRatingBar"
                                             android:layout_width="wrap_content"
@@ -345,7 +344,7 @@
                                             android:layout_margin="2dp"
                                             android:numStars="5"
                                             android:stepSize="0.5" />
-                        -->
+
                     </LinearLayout>
 
                     <LinearLayout

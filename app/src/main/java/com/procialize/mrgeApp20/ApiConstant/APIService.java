@@ -731,5 +731,9 @@ public interface APIService {
     @FormUrlEncoded
     Call<ContactListFetch> ContactListFetch(@Field("event_id") String event_id,
                                             @Field("api_access_token") String api_access_token);
+    @POST("ContactHeplDeskFetch")
+    @FormUrlEncoded
+    Call<ContactListFetch> ContactHeplDeskFetch(@Field("event_id") String event_id,
+                                            @Field("api_access_token") String api_access_token);
 
 }

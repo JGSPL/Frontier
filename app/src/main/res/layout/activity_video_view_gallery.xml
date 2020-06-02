@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="0dp"
+        android:background="@android:color/transparent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
@@ -20,7 +21,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colortoolbar"
             android:contentInsetEnd="0dp"
             android:contentInsetLeft="0dp"
             android:contentInsetRight="0dp"
@@ -63,7 +63,7 @@
                     android:layout_weight="1"
                     android:gravity="left"
                     android:text="Video"
-                    android:textColor="@color/activetab"
+                    android:textColor="@color/colorwhite"
                     android:textFontWeight="1"
                     android:textSize="@dimen/textsizenormal"
                     android:textStyle="bold" />
@@ -88,6 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:tint="@color/colorwhite"
                         android:foregroundGravity="center"
                         android:src="@drawable/ic_notification" />
 

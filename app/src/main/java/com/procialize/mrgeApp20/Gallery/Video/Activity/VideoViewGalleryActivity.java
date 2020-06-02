@@ -333,7 +333,7 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
         });
 
         indexset(name);
-        int colorInt = Color.parseColor(colorActive);
+        /*int colorInt = Color.parseColor(colorActive);
         ColorStateList csl = ColorStateList.valueOf(colorInt);
         Drawable drawable = DrawableCompat.wrap(right.getDrawable());
         DrawableCompat.setTintList(drawable, csl);
@@ -341,7 +341,7 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
 
         Drawable drawable1 = DrawableCompat.wrap(left.getDrawable());
         DrawableCompat.setTintList(drawable1, csl);
-        left.setImageDrawable(drawable1);
+        left.setImageDrawable(drawable1);*/
 
         right.setOnClickListener(new View.OnClickListener() {
             @Override

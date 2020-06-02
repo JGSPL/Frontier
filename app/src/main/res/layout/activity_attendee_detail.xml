@@ -211,7 +211,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
                         android:drawableTint="@color/linecolor"
-                        android:drawablePadding="5dp"
+                        android:drawablePadding="10dp"
                         android:drawableLeft="@drawable/att_name"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textsizesmall" />
@@ -233,8 +233,8 @@
                         android:drawableTint="@color/linecolor"
 
                         android:drawableLeft="@drawable/att_designa"
-                        android:drawablePadding="5dp"
-                        android:textColor="@color/black"
+                        android:drawablePadding="10dp"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/textsizesmall" />
 
                     <View
@@ -253,8 +253,8 @@
                         android:drawableTint="@color/linecolor"
 
                         android:drawableLeft="@drawable/att_designa"
-                        android:drawablePadding="5dp"
-                        android:textColor="@color/black"
+                        android:drawablePadding="10dp"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/textsizesmall" />
 
                     <View
@@ -273,8 +273,8 @@
                         android:drawableTint="@color/linecolor"
 
                         android:drawableLeft="@drawable/att_place"
-                        android:drawablePadding="5dp"
-                        android:textColor="@color/black"
+                        android:drawablePadding="10dp"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/textsizesmall" />
 
                     <View
@@ -293,8 +293,8 @@
                         android:drawableTint="@color/linecolor"
 
                         android:drawableLeft="@drawable/att_mobile"
-                        android:drawablePadding="5dp"
-                        android:textColor="@color/black"
+                        android:drawablePadding="10dp"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/textsizesmall" />
 
                     <View
@@ -311,8 +311,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
                         android:maxLines="7"
+                        android:layout_marginLeft="5sp"
                         android:scrollbars="vertical"
-                        android:textColor="@color/black"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/textsizesmall" />
 
 
@@ -346,7 +347,7 @@
                         android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
                         android:maxLength="150"
                         android:maxLines="5"
-                        android:padding="2dp"
+                        android:padding="10dp"
                         android:scrollHorizontally="false"
                         android:textSize="@dimen/textsizesmall" />
                     <LinearLayout
@@ -396,7 +397,7 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="5"
-                        android:background="#4D4D4D"
+                        android:background="@color/activetab"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -406,7 +407,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="8dp"
-                            android:background="#4D4D4D"
+                            android:background="@color/activetab"
                             android:drawableLeft="@drawable/messega"
                             android:drawablePadding="10dp"
                             android:gravity="center"

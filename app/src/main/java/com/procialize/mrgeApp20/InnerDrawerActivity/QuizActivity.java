@@ -114,6 +114,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
     private ArrayList<QuizOptionList> quizOptionList = new ArrayList<QuizOptionList>();
     private DBHelper procializeDB;
     private SQLiteDatabase db;
+    TextView txtSkip;
   //  private CountDownTimer countDownTimer;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -194,6 +195,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         quizNameList = (RecyclerView) findViewById(R.id.quiz_list);
         questionTv = (TextView) findViewById(R.id.questionTv);
         txtHeaderQ = (TextView) findViewById(R.id.txtHeaderQ);
+        txtSkip = findViewById(R.id.txtSkip);
+        txtSkip.setTextColor(Color.parseColor(colorActive));
         txtHeaderQ.setTextColor(Color.parseColor(colorActive));
         txtHeaderQ.setText("Quiz");
 
@@ -224,6 +227,13 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
 //        quizNameList.setNestedScrollingEnabled(false);
         quizNameList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         llm = (LinearLayoutManager) quizNameList.getLayoutManager();
+
+        txtSkip.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
         btnNext.setOnClickListener(new OnClickListener() {
@@ -260,86 +270,11 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                     timercountdown.start();
                     txt_time.setText("" + ":" + checkdigit(time));
 
-//                    txt_time.setText(String.format(Locale.getDefault(), "%d", time));
-//                    if (time > 0)
-//                        time -= 1;
-
                 }
 
-//                if (QuizActivity.count1 == QuizActivity.llm.findLastVisibleItemPosition() + 1) {
-//                    if (option != llm.findLastVisibleItemPosition()) {
-//
-//                        quizNameList.getLayoutManager().scrollToPosition(llm.findLastVisibleItemPosition() + 1);
-//                        txt_count.setText(count1 + 1 + "/" + i);
-//                        count1 = count1 + 1;
-//
-//                        if (quizList.size() == llm.findLastVisibleItemPosition() + 2) {
-//                            btnNext.setVisibility(View.GONE);
-//                            submit.setVisibility(View.VISIBLE);
-////                            if (adapter.timer != null) {
-////                                adapter.timer.cancel();
-////                                adapter.timer = null;
-////                                adapter.dataIDArray = null;
-////                            }
-//                        } else if (quizList.size() >= QuizActivity.llm.findLastVisibleItemPosition() + 2) {
-//                            btnNext.setVisibility(View.VISIBLE);
-//                            submit.setVisibility(View.GONE);
-//
-////                            if (adapter.timer != null) {
-////                                adapter.timer.cancel();
-////                                adapter.timerTask.scheduledExecutionTime();
-////
-////                                adapter.timer = null;
-////                                adapter.dataIDArray = null;
-////                                adapter.time = 10;
-////                                //set a new Timer
-////
-////
-//////                                adapter.timer.start();
-////                            }
-//
-//                        }
-//                    } else {
-////                        if (adapter.timer != null) {
-////                            adapter.timer.cancel();
-////                            adapter.timer = null;
-////                            adapter.dataIDArray = null;
-////                        }
-//                    }
-//                }
-//
-//
-//            }
-//        });
-//
-//        quizNameList.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
-//            @Override
-//            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-//// Stop only scrolling.
-//                return rv.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING;
             }
         });
 
-//        timer = new Timer();
-//        timer.scheduleAtFixedRate(new SliderTimer(), 4000, 6000);
-
-
-/*
-        quizNameList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-//                recyclerView.setLayoutFrozen(true);
-//                if (viewModel.isItemSelected) {
-                if (llm.findLastVisibleItemPosition() >= 0) {
-                    recyclerView.stopScroll();
-                }
-//                }
-            }
-        });
-*/
-//        recyclerLayoutManager = new LinearLayoutManager(this);
-//        quizNameList.setLayoutManager(recyclerLayoutManager);
 
         pager = findViewById(R.id.pager);
         txt_count.setText("Questions 1/" + quizList.size());
@@ -601,88 +536,6 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
             }
         }.start();
 
-
-//        time = 0;
-//        startTime = SystemClock.uptimeMillis();
-//        txt_time.setText(String.format(String.format("%02d", startTime-updatedTime)));
-//
-        // LinearLayout mLinearLayout = (LinearLayout)
-        // findViewById(R.id.linear1);
-        // for (int k = 1; k <= 20; k++) {
-        // // create text button
-        // TextView title = new TextView(this);
-        // title.setText("Question Number:" + k);
-        // title.setTextColor(Color.BLUE);
-        // mLinearLayout.addView(title);
-        // // create radio button
-        // final RadioButton[] rb = new RadioButton[5];
-        // RadioGroup rg = new RadioGroup(this);
-        // rg.setOrientation(RadioGroup.VERTICAL);
-        // for (int i = 0; i < 5; i++) {
-        // rb[i] = new RadioButton(this);
-        // rg.addView(rb[i]);
-        // rb[i].setText(countryName[i]);
-        //
-        // }
-        // mLinearLayout.addView(rg);
-        // }
-
-//		quizNameList.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view,
-//					int position, long id) {
-//
-//				Quiz quiz = adapter.getQuestionIdFromList(position);
-//
-//				// QuizOptionList quizTempOptionList;
-//				//
-//				// for (int i = 0; i < quizOptionList.size(); i++) {
-//				//
-//				// if (quizOptionList.get(i).getQuiz_id()
-//				// .equalsIgnoreCase(quiz.getId())) {
-//				//
-//				// quizTempOptionList.set
-//				//
-//				//
-//				// }
-//				//
-//				// }
-//
-//				// QuizOptionList quizOptionList = adapter
-//				// .getQuestionIdFromList(position);
-//				//
-//				// Bundle bundleObject = new Bundle();
-//				// bundleObject.putSerializable("quizOptionList",
-//				// quizOptionList);
-//
-//				if (quiz.getReplied().equalsIgnoreCase("0")) {
-//
-//					Intent quizOptionIntent = new Intent(QuizActivity.this,
-//							QuizDetailActivity.class);
-//					quizOptionIntent.putExtra("questionId", quiz.getId());
-//					quizOptionIntent.putExtra("question", quiz.getQuestion());
-//
-//					startActivity(quizOptionIntent);
-//
-//					/*
-//					 * Apply our splash exit (fade out) and main entry (fade in)
-//					 * animation transitions.
-//					 */
-//					overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-//				} else {
-//
-//					Toast.makeText(QuizActivity.this,
-//							"You already submitted the quiz.",
-//							Toast.LENGTH_SHORT).show();
-//				}
-//
-//				// .putExtra("quizOptionList", quizOptionList);
-//
-//				// quizOptionIntent.putExtras(bundleObject);
-//
-//			}
-//		});
 
 
     }
