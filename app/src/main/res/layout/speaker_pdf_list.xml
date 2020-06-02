@@ -4,11 +4,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <com.procialize.mrgeApp20.Fonts.RobotoTextview
         android:id="@+id/tv_pdf_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:textColor="@color/black"
         android:text="TextView"
         android:textStyle="bold"
         android:textSize="@dimen/textsizesmall" />

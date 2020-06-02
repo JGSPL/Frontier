@@ -68,7 +68,7 @@
                 android:layout_alignStart="@+id/designationTv"
                 android:layout_alignTop="@+id/imageView"
                 android:paddingLeft="3dp"
-                android:text="Abheejit Saxena"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:text="Delhi"
-                android:textColor="@color/black"
+                android:textColor="@color/colorAccent"
                 android:textSize="@dimen/textsizesmall" />
 
             <com.procialize.mrgeApp20.Fonts.RobotoTextview
@@ -88,7 +88,7 @@
                 android:paddingLeft="5dp"
                 android:visibility="gone"
                 android:text=""
-                android:textColor="@color/black"
+                android:textColor="@color/colorAccent"
                 android:textSize="@dimen/textsizesmall" />
 
             <View

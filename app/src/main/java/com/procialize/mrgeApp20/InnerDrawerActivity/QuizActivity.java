@@ -156,7 +156,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
             }
         });
 
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
 
         quizQuestionUrl = constant.baseUrl + constant.quizsubmit;

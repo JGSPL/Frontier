@@ -88,6 +88,7 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.procialize.mrgeApp20.Session.SessionManager.MY_PREFS_NAME;
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -386,6 +387,16 @@ public class ProfileActivity extends AppCompatActivity {
 
         TextView header = findViewById(R.id.title);
         header.setTextColor(Color.parseColor(colorActive));
+
+        try {
+            LinearLayout ll_notification_count = findViewById(R.id.ll_notification_count);
+            TextView tv_notification = findViewById(R.id.tv_notification);
+            setNotification(this, tv_notification, ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //----------------------------------------------------------------------------------
+
 
         RelativeLayout layoutTop = findViewById(R.id.layoutTop);
       //  layoutTop.setBackgroundColor(Color.parseColor(colorActive));

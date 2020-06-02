@@ -134,7 +134,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
             Date date1 = formatter.parse(comment.getCreated());
 
-            DateFormat originalFormat = new SimpleDateFormat("dd MMM HH:mm", Locale.UK);
+            DateFormat originalFormat = new SimpleDateFormat("dd MMM HH:mm aa", Locale.UK);
 
             String date = originalFormat.format(date1);
 

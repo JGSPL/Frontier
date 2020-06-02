@@ -424,10 +424,33 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         linear_zoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MrgeHomeActivity.this, InitAuthSDKActivity.class);
-                intent.putExtra("meeting_id", zoom_meeting_id);
-                intent.putExtra("meeting_password", zoom_password);
-                startActivity(intent);
+                if(zoom_status.equalsIgnoreCase("1")) {
+                    Intent intent = new Intent(MrgeHomeActivity.this, InitAuthSDKActivity.class);
+                    intent.putExtra("meeting_id", zoom_meeting_id);
+                    intent.putExtra("meeting_password", zoom_password);
+                    startActivity(intent);
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MrgeHomeActivity.this);
+                    builder.setTitle("Exit");
+                    builder.setMessage("No meeting active currently");
+                   /* builder.setNegativeButton("NO",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    dialog.dismiss();
+                                }
+                            });*/
+                    builder.setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+
+                                   dialog.dismiss();
+
+                                }
+                            });
+                    builder.show();
+                }
             }
         });
 
