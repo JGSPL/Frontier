@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.Activity.SpeakerDetailsActivity">
+    tools:context="com.procialize.mrgeApp20.Speaker.Views.SpeakerDetailsActivity">
 
 
     <com.google.android.material.appbar.AppBarLayout

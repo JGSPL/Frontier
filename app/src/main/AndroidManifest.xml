@@ -213,7 +213,7 @@
             android:screenOrientation="sensor"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".Activity.SpeakerDetailsActivity"
+            android:name=".Speaker.Views.SpeakerDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <!--

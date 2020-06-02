@@ -23,7 +23,7 @@ import com.procialize.mrgeApp20.GetterSetter.NewsFeedList;
 import com.procialize.mrgeApp20.GetterSetter.NewsFeedPostMultimedia;
 import com.procialize.mrgeApp20.GetterSetter.NotificationList;
 import com.procialize.mrgeApp20.GetterSetter.Quiz;
-import com.procialize.mrgeApp20.GetterSetter.SpeakerList;
+import com.procialize.mrgeApp20.Speaker.Models.SpeakerList;
 import com.procialize.mrgeApp20.GetterSetter.UserData;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
 

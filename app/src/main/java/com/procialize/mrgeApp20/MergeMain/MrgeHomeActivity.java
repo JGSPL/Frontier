@@ -92,7 +92,7 @@ import com.procialize.mrgeApp20.Engagement.Fragment.EngagementFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFolderFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFragment;
 import com.procialize.mrgeApp20.Fragments.AttendeeFragment;
-import com.procialize.mrgeApp20.Fragments.SpeakerFragment;
+import com.procialize.mrgeApp20.Speaker.Views.SpeakerFragment;
 import com.procialize.mrgeApp20.Gallery.Image.Activity.GalleryFragment;
 import com.procialize.mrgeApp20.Gallery.Video.Activity.VideoFragment;
 import com.procialize.mrgeApp20.GetterSetter.AgendaList;

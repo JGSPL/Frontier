@@ -1,11 +1,8 @@
-package com.procialize.mrgeApp20.Activity;
+package com.procialize.mrgeApp20.Speaker.Views;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -22,7 +19,8 @@ import android.os.Environment;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -46,12 +44,15 @@ import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
+import com.procialize.mrgeApp20.Downloads.Activity.DownloadPdfActivity;
 import com.procialize.mrgeApp20.GetterSetter.Analytic;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
+import com.procialize.mrgeApp20.Speaker.Models.PdfList;
 import com.procialize.mrgeApp20.GetterSetter.RatingSpeakerPost;
 import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.Speaker.Views.Adapter.PdfListAdapter;
 import com.procialize.mrgeApp20.Utility.Util;
 import com.squareup.picasso.Picasso;
 
@@ -66,9 +67,10 @@ import retrofit2.Response;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
 
-public class SpeakerDetailsActivity extends AppCompatActivity {
+public class SpeakerDetailsActivity extends AppCompatActivity implements PdfListAdapter.PdfListAdapterListner {
 
-    String speakerid, city, country, company, designation, description, totalrating, name, profile, mobile;
+    String speakerid, city, country, company, designation, description, totalrating, name, profile, mobile,pdf_file_path;
+    List<PdfList> pdf_list;
     TextView tvdesc, tvname, tvcompany, tvdesignation, tvcity, speakertitle, tvmobile;
     ImageView profileIV;
     Button ratebtn;
@@ -88,6 +90,8 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
     ImageView headerlogoIv;
     Typeface typeface;
     RelativeLayout linear;
+    RecyclerView rv_pdf_list;
+    PdfListAdapter pdfListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,6 +155,8 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
             totalrating = getIntent().getExtras().getString("totalrating");
             profile = getIntent().getExtras().getString("profile");
             mobile = getIntent().getExtras().getString("mobile");
+            pdf_file_path = getIntent().getExtras().getString("pdf_file_path");
+            pdf_list =(List<PdfList>) getIntent().getExtras().getSerializable("pdf_list");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -175,6 +181,7 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
         ratingbar = findViewById(R.id.ratingbar);
         layoutTop = findViewById(R.id.layoutTop);
         linear = findViewById(R.id.linear);
+        rv_pdf_list = findViewById(R.id.rv_pdf_list);
 
         progressBar = findViewById(R.id.progressBar);
 
@@ -189,6 +196,11 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
         });
 
         ratebtn = findViewById(R.id.ratebtn);
+
+        pdfListAdapter = new PdfListAdapter(this,pdf_list,this);
+        rv_pdf_list.setLayoutManager(new GridLayoutManager(this, 2));
+        rv_pdf_list.setAdapter(pdfListAdapter);
+
 
         try {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
@@ -539,4 +551,12 @@ public class SpeakerDetailsActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onContactSelected(PdfList pdfList) {
+        Intent pdfview = new Intent(SpeakerDetailsActivity.this, DownloadPdfActivity.class);
+        pdfview.putExtra("url", "https://docs.google.com/gview?embedded=true&url=" + pdf_file_path + pdfList.getPdf_file());
+        pdfview.putExtra("url1", pdf_file_path + pdfList.getPdf_file());
+        pdfview.putExtra("doc_name",  pdfList.getPdf_name());
+        startActivity(pdfview);
+    }
 }

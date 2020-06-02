@@ -29,7 +29,7 @@ import com.procialize.mrgeApp20.GetterSetter.ExhibitoreBrochureViewUserListing;
 import com.procialize.mrgeApp20.GetterSetter.FetchAgenda;
 import com.procialize.mrgeApp20.GetterSetter.FetchAttendee;
 import com.procialize.mrgeApp20.GetterSetter.FetchFeed;
-import com.procialize.mrgeApp20.GetterSetter.FetchSpeaker;
+import com.procialize.mrgeApp20.Speaker.Models.FetchSpeaker;
 import com.procialize.mrgeApp20.GetterSetter.Forgot;
 import com.procialize.mrgeApp20.GetterSetter.GalleryListFetch;
 import com.procialize.mrgeApp20.GetterSetter.GeneralInfoList;

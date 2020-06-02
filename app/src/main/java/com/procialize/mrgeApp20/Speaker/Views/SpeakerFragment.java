@@ -1,16 +1,12 @@
-package com.procialize.mrgeApp20.Fragments;
+package com.procialize.mrgeApp20.Speaker.Views;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,20 +26,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.procialize.mrgeApp20.Activity.LoginActivity;
-import com.procialize.mrgeApp20.Activity.SpeakerDetailsActivity;
-import com.procialize.mrgeApp20.Adapter.SpeakerAdapter;
+import com.procialize.mrgeApp20.Speaker.Views.Adapter.SpeakerAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.Analytic;
-import com.procialize.mrgeApp20.GetterSetter.FetchSpeaker;
-import com.procialize.mrgeApp20.GetterSetter.SpeakerList;
+import com.procialize.mrgeApp20.Speaker.Models.FetchSpeaker;
+import com.procialize.mrgeApp20.Speaker.Models.PdfList;
+import com.procialize.mrgeApp20.Speaker.Models.SpeakerList;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 
-import java.io.File;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
@@ -82,6 +78,8 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
     private SQLiteDatabase db;
     private ConnectionDetector cd;
     private List<SpeakerList> speakerList;
+    String pdf_file_path;
+    private List<PdfList> pdfList;
     private List<SpeakerList> speakersDBList;
     private DBHelper dbHelper;
     LinearLayout linear;
@@ -307,6 +305,7 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
     public void showResponse(Response<FetchSpeaker> response) {
 
         speakerList = response.body().getSpeakerList();
+        pdf_file_path = response.body().getPdf_file_path();
         procializeDB.clearSpeakersTable();
         procializeDB.insertSpeakersInfo(speakerList, db);
 
@@ -352,6 +351,8 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
         speakeretail.putExtra("totalrate", speaker.getTotalRating());
         speakeretail.putExtra("profile", speaker.getProfilePic());
         speakeretail.putExtra("mobile", speaker.getMobileNumber());
+        speakeretail.putExtra("pdf_list",  (Serializable)speaker.getPdf_list());
+        speakeretail.putExtra("pdf_file_path", pdf_file_path);
         startActivity(speakeretail);
     }
 

@@ -3,6 +3,7 @@ package com.procialize.mrgeApp20.GetterSetter;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.procialize.mrgeApp20.Speaker.Models.SpeakerList;
 
 import java.util.List;
 

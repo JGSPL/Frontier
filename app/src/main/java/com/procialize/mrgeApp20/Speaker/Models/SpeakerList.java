@@ -1,10 +1,11 @@
 
-package com.procialize.mrgeApp20.GetterSetter;
+package com.procialize.mrgeApp20.Speaker.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class SpeakerList implements Serializable {
 
@@ -56,6 +57,17 @@ public class SpeakerList implements Serializable {
     @SerializedName("star")
     @Expose
     private String star;
+    @SerializedName("pdf_list")
+    @Expose
+    private List<PdfList> pdf_list = null;
+
+    public void setPdf_list(List<PdfList> pdf_list) {
+        this.pdf_list = pdf_list;
+    }
+
+    public List<PdfList> getPdf_list() {
+        return pdf_list;
+    }
 
     public String getAttendeeId() {
         return attendeeId;
