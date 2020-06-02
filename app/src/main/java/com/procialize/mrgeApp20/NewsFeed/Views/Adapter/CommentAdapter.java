@@ -109,14 +109,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         holder.nameTv.setText(Html.fromHtml(styledText)+" "+StringEscapeUtils.unescapeJava(comment.getComment()), TextView.BufferType.SPANNABLE);*/
 
 
-        String name = "<font color='#f15a2b'>" + comment.getFirstName() + " " + comment.getLastName() + "</font>"; //set Black color of name
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
-            holder.nameTv.setText(Html.fromHtml(name));
-            holder.nameTv.append(" "+StringEscapeUtils.unescapeJava(comment.getComment()));
-        } else {
-            holder.nameTv.setText(Html.fromHtml(name, Html.FROM_HTML_MODE_LEGACY));   //set text
-            holder.nameTv.append(" "+StringEscapeUtils.unescapeJava(comment.getComment()));   //append text into textView
-        }
+/*       */
 
         try {
 //            Date date1 = formatter.parse(comment.getCreated());
@@ -201,7 +194,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
                         }
                     }).into(holder.gifIV);
 
-
+            String name1 = "<font color='#f15a2b'>" + comment.getFirstName() + " " + comment.getLastName() + "</font>"; //set Black color of name
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
+                holder.nameTv.setText(Html.fromHtml(name1));
+            } else {
+                holder.nameTv.setText(Html.fromHtml(name1, Html.FROM_HTML_MODE_LEGACY));
+            }
         } else {
             holder.progressViewgif.setVisibility(View.GONE);
           //  holder.commentTv.setVisibility(View.VISIBLE);
@@ -275,6 +273,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
                                         holder.testdata.setText(stringBuilder, TextView.BufferType.SPANNABLE);
                                         holder.commentTv.setMovementMethod(LinkMovementMethod.getInstance());
                                         holder.commentTv.setText(stringBuilder);
+
+                                        /*String name1 = "<font color='#f15a2b'>" + comment.getFirstName() + " " + comment.getLastName() + "</font>"; //set Black color of name
+                                        holder.nameTv.setMovementMethod(LinkMovementMethod.getInstance());
+                                        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
+                                            holder.nameTv.setText(Html.fromHtml(name1));
+                                            holder.nameTv.append( stringBuilder);
+                                        } else {
+                                            holder.nameTv.setText(Html.fromHtml(name1, Html.FROM_HTML_MODE_LEGACY));   //set text
+                                            holder.nameTv.append( stringBuilder);   //append text into textView
+                                        }*/
+
                                         flag = 1;
 //                        holder.attendee_comments.setText(attendees.getComment().indexOf(substring, start));
 //                        holder.attendee_comments.setText(attendees.getComment().indexOf(substring, start));
@@ -329,6 +338,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
                                         holder.commentTv.setText(stringBuilder);
 
+                                 /*       String name1 = "<font color='#f15a2b'>" + comment.getFirstName() + " " + comment.getLastName() + "</font>"; //set Black color of name
+                                        holder.nameTv.setMovementMethod(LinkMovementMethod.getInstance());
+                                        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
+                                            holder.nameTv.setText(Html.fromHtml(name1));
+                                            holder.nameTv.append( stringBuilder);
+                                        } else {
+                                            holder.nameTv.setText(Html.fromHtml(name1, Html.FROM_HTML_MODE_LEGACY));   //set text
+                                            holder.nameTv.append( stringBuilder);   //append text into textView
+                                        }*/
 
 //                        holder.attendee_comments.setText(attendees.getComment().indexOf(substring, start));
 //                        holder.attendee_comments.setText(attendees.getComment().indexOf(substring, start));
@@ -339,20 +357,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                     }
                 }
 
-              /*  String styledText1 = "<font color='red'>"+comment.getFirstName() + " " + comment.getLastName()+"</font>";
+              /*  String styledText1 = "<font color='red'>"+comment.getFirstName() + " " + comment.getLastName() +" </font>";
                 holder.nameTv.setText(Html.fromHtml(styledText1)+" "+stringBuilder, TextView.BufferType.SPANNABLE);*/
                // holder.commentTv.setText(stringBuilder);
-                String name1 = "<font color='#f15a2b'>" + comment.getFirstName() + " " + comment.getLastName() + "</font>"; //set Black color of name
+                String name1 = "<font color='#f15a2b'>" + comment.getFirstName() + " " + comment.getLastName()+" " + "</font>"; //set Black color of name
+                holder.nameTv.setMovementMethod(LinkMovementMethod.getInstance());
                 if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
                     holder.nameTv.setText(Html.fromHtml(name1));
-                    holder.nameTv.append(" "+stringBuilder);
+                    holder.nameTv.append(stringBuilder);
                 } else {
                     holder.nameTv.setText(Html.fromHtml(name1, Html.FROM_HTML_MODE_LEGACY));   //set text
-                    holder.nameTv.append(" "+stringBuilder);   //append text into textView
+                    holder.nameTv.append(stringBuilder);   //append text into textView
                 }
             } else {
                 holder.commentTv.setVisibility(View.GONE);

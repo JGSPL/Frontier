@@ -422,6 +422,7 @@
                     android:id="@+id/commentrecycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:clipToPadding="false"
                     android:paddingBottom="50dp"
                     android:layout_marginTop="5dp"
                     android:scrollbars="vertical" />

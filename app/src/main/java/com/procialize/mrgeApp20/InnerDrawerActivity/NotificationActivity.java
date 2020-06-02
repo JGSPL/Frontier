@@ -396,7 +396,8 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
 
                 }
 
-            } else if (notification.getNotificationType().equalsIgnoreCase("Msg")) {
+            }
+            else if (notification.getNotificationType().equalsIgnoreCase("Msg")) {
 
                 attendeeDBList = dbHelper.getAttendeeDetailsId(notification.getAttendeeId());
                 if (attendeeDBList.size() > 0) {
@@ -425,10 +426,12 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                 }
 
 
-            } else if (notification.getNotificationType().equalsIgnoreCase("Like") && news_feed_like != null) {
+            }
+            else if (notification.getNotificationType().equalsIgnoreCase("Like") && news_feed_like != null) {
                 newsfeedsDBList = dbHelper.getNewsFeedLikeandComment(notification.getNotificationPostId());
                 if (!news_feed_like.equalsIgnoreCase("0")) {
-                    Intent likedetail = new Intent(this, LikeDetailActivity.class);
+                    //Intent likedetail = new Intent(this, LikeDetailActivity.class);
+                    Intent likedetail = new Intent(this, CommentActivity.class);
                     likedetail.putExtra("feedid", notification.getNotificationPostId());
                     likedetail.putExtra("type", notification.getNotificationType());
 
@@ -473,7 +476,8 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
 
                     startActivity(likedetail);
                 }
-            } else if (notification.getNotificationType().equalsIgnoreCase("T")) {
+            }
+            else if (notification.getNotificationType().equalsIgnoreCase("T")) {
 
 //                Intent intent = new Intent(NotificationActivity.this, HomeActivity.class);
 //                startActivity(intent);
@@ -524,7 +528,8 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                 startActivity(comment);
 
 
-            } else if (notification.getNotificationType().equalsIgnoreCase("Quiz") && news_feed_like != null) {
+            }
+            else if (notification.getNotificationType().equalsIgnoreCase("Quiz") && news_feed_like != null) {
                 Intent intent = new Intent(NotificationActivity.this, FolderQuizActivity.class);
                 startActivity(intent);
 

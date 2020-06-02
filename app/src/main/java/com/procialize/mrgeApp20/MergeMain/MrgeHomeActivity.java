@@ -414,6 +414,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     youTubeLinkPosition = youTubeLinkPosition+1;
                     initializeYoutubePlayer(youTubeLinkPosition);
                 }
+                else {
+                    youTubeLinkPosition = 0;
+                    initializeYoutubePlayer(youTubeLinkPosition);
+                }
             }
         });
 

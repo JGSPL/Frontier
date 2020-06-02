@@ -109,6 +109,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
@@ -729,7 +730,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                 if (postMsg.equals("") || postMsg.equals(" ")) {
                     Toast.makeText(getApplicationContext(), "Please enter something", Toast.LENGTH_SHORT).show();
                 } else {
-
+                    commentbtn.setEnabled(false);
                     PostComment(eventid, feedid, StringEscapeUtils.escapeJava(postMsg), apikey);
                 }
             }
@@ -755,6 +756,46 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 //                }
 //            }
 //        });
+
+        likeTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(CommentActivity.this, LikeDetailActivity.class);
+                intent.putExtra("fname", fname);
+                intent.putExtra("lname", lname);
+                intent.putExtra("company", company);
+                intent.putExtra("designation", designation);
+
+                intent.putExtra("heading",heading);
+                intent.putExtra("date", date);
+                intent.putExtra("Likes", Likes);
+                intent.putExtra("Likeflag", Likeflag);
+                intent.putExtra("Comments", Comments);
+                intent.putExtra("profilepic",profileurl);
+//        intent.putExtra("type", feed.getType());
+                intent.putExtra("feedid",feedid);
+                intent.putExtra("AspectRatio", p1);
+                intent.putExtra("noti_type", "Wall_Post");
+
+                news_feed_media = myList;
+                if (news_feed_media.size() >= 1) {
+                    intent.putExtra("media_list", (Serializable) news_feed_media);
+                } else if (news_feed_media.size() > 0) {
+                    intent.putExtra("type", news_feed_media.get(0).getMedia_type());
+                    if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Image")) {
+                        intent.putExtra("url", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
+                    } else if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Video")) {
+                        intent.putExtra("videourl", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
+                        intent.putExtra("thumbImg", ApiConstant.newsfeedwall + news_feed_media.get(0).getThumb_image());
+                    }
+                } else {
+                    intent.putExtra("type", "status");
+                }
+                intent.putExtra("flag", "noti");
+                startActivity(intent);
+            }
+        });
 
         linearlike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -992,6 +1033,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                     commentEt.setText(" ");
                     showPostCommentResponse(response);
                 } else {
+                    commentbtn.setEnabled(true);
                     dismissProgress();
                     Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -999,6 +1041,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
             @Override
             public void onFailure(Call<PostComment> call, Throwable t) {
+                commentbtn.setEnabled(true);
                 Toast.makeText(getApplicationContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
                 dismissProgress();
             }
@@ -1008,7 +1051,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
     private void showPostCommentResponse(Response<PostComment> response) {
 
         if (response.body().getStatus().equals("success")) {
-
+            commentbtn.setEnabled(true);
             // specify an adapter (see also next example)
             getComment(eventid, feedid);
 

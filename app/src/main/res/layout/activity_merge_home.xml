@@ -190,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linear_livestream"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/float_icon"
