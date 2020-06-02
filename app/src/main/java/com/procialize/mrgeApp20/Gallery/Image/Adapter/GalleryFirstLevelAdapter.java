@@ -78,8 +78,8 @@ public class GalleryFirstLevelAdapter extends RecyclerView.Adapter<GalleryFirstL
 
 
         Glide.with(context).load(galleryList.getFileName())
-                .apply(RequestOptions.skipMemoryCacheOf(false))
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).listener(new RequestListener<Drawable>() {
+                .apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 holder.progressBar.setVisibility(View.GONE);

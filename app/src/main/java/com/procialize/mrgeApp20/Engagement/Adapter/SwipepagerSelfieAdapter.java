@@ -89,8 +89,12 @@ public class SwipepagerSelfieAdapter extends PagerAdapter {
                 return false;
             }
         }).into(myImage).onLoadStarted(context.getDrawable(R.drawable.gallery_placeholder));
-
+        try{
         name.setText(StringEscapeUtils.unescapeJava(firstLevelFilter.getTitle()));
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+
+        }
         name.setTextColor(Color.parseColor(colorActive));
         view.addView(myImageLayout, 0);
         return myImageLayout;

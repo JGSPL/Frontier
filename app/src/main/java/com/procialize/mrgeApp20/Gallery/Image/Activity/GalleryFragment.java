@@ -298,6 +298,8 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
                 }
             }
             Intent view = new Intent(getActivity(), SwappingGalleryActivity.class);
+            view.putExtra("foldername", filtergallerylists.getFolderName());
+
             view.putExtra("url", filtergallerylists.getFileName());
             view.putExtra("gallerylist", (Serializable) newfilterlist);
             startActivity(view);

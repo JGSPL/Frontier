@@ -197,9 +197,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
 //            holder.commentTv.setText(StringEscapeUtils.unescapeJava(comment.getComment()));
 
-
+            try{
             holder.testdata.setText(StringEscapeUtils.unescapeJava(comment.getComment()));
+            }catch (IllegalArgumentException e){
+                e.printStackTrace();
 
+            }
             final SpannableStringBuilder stringBuilder = new SpannableStringBuilder(holder.testdata.getText());
             if (comment.getComment() != null) {
 

@@ -1289,6 +1289,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 intent.putExtra("folderName", foldername);
                 intent.putExtra("Answers", String.valueOf(total_correct_answer));
                 intent.putExtra("TotalQue", String.valueOf(total_questions));
+                intent.putExtra("Page", "Question");
+
                 startActivity(intent);
                 count1 = 1;
                 pagerAdapter.selectopt = 0;

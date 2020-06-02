@@ -25,6 +25,8 @@ import com.procialize.mrgeApp20.CustomTools.CircleDisplay;
 import com.procialize.mrgeApp20.GetterSetter.QuizFolder;
 import com.procialize.mrgeApp20.R;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -119,11 +121,7 @@ public class QuizFolderAdapter extends BaseAdapter {
 
 
             holder.linQuiz = (LinearLayout)convertView.findViewById(R.id.linQuiz);
-           // holder.linQuiz.setBackgroundColor(Color.parseColor(colorActive));
 
-            Typeface typeFace = Typeface.createFromAsset(activity.getAssets(),
-                    "DINPro-Light_13935.ttf");
-            holder.quiz_title_txt.setTypeface(typeFace);
             if(position==0){
                 holder.relative.setVisibility(View.VISIBLE);
             }else{
@@ -138,15 +136,21 @@ public class QuizFolderAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        try {
+            holder.quiz_title_txt.setText(StringEscapeUtils.unescapeJava(quizList.get(position).getFolder_name()));
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
 
-        holder.quiz_title_txt.setText(quizList.get(position).getFolder_name());
-
+        }
         if(quizList.get(position).getAnswered().equalsIgnoreCase("0")){
             holder.progressBarCircle.setVisibility(View.INVISIBLE);
-            holder.textViewTime.setVisibility(View.GONE);
+            holder.textViewTime.setVisibility(View.INVISIBLE);
+            holder.video_status.setText("Tap to start");
         }else {
             holder.progressBarCircle.setVisibility(View.VISIBLE);
             holder.textViewTime.setVisibility(View.VISIBLE);
+            holder.video_status.setText("Completed");
+
             holder.textViewTime.setText(Integer.parseInt(quizList.get(position).getTotal_correct())+"/"+
                     Integer.parseInt(quizList.get(position).getTotal_quiz()));
 

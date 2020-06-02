@@ -6,8 +6,10 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,16 +26,19 @@ import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Utility.Util;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.io.File;
 
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 
 public class YourScoreActivity extends AppCompatActivity {
-    TextView txt_count, questionTv;Button txt_title;
+    TextView txt_count, questionTv, viewResult;
+    Button txt_title;
     Button btn_ok;
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
-    String colorActive;
+    String colorActive, Page;
     LinearLayout linear;
     ImageView headerlogoIv;
     ProgressBar progressBarCircle;
@@ -62,10 +67,16 @@ public class YourScoreActivity extends AppCompatActivity {
         linear = findViewById(R.id.linear);
         txt_title = findViewById(R.id.txt_title);
         headerlogoIv = findViewById(R.id.headerlogoIv);
+        viewResult= findViewById(R.id.viewResult);
+        viewResult.setPaintFlags(viewResult.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         Util.logomethod(this, headerlogoIv);
         btn_ok.setBackgroundColor(Color.parseColor(colorActive));
         txt_count.setTextColor(Color.parseColor(colorActive));
         progressBarCircle = findViewById(R.id.progressBarCircle);
+
+        viewResult.setTextColor(Color.parseColor(colorActive));
+
 
 //        Typeface typeface = Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf");
 //        txt_count.setTypeface(typeface);
@@ -88,8 +99,30 @@ public class YourScoreActivity extends AppCompatActivity {
         String folderName = intent.getStringExtra("folderName");
         String correnctcount = intent.getStringExtra("Answers");
         String totalcount = intent.getStringExtra("TotalQue");
+        Page = intent.getStringExtra("Page");
+        if(Page.equalsIgnoreCase("Question")){
+            viewResult.setVisibility(View.VISIBLE);
+        }else{
+            viewResult.setVisibility(View.GONE);
 
-        questionTv.setText(folderName);
+        }
+
+        viewResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(YourScoreActivity.this, QuizNewActivity.class);
+                intent1.putExtra("folder", folderName);
+
+                startActivity(intent1);
+
+            }
+        });
+        try{
+        questionTv.setText(StringEscapeUtils.unescapeJava(folderName));
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+
+        }
         txt_count.setText(correnctcount + "/" + totalcount);
 
 

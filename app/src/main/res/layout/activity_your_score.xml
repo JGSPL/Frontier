@@ -100,6 +100,9 @@
 
 
     </com.google.android.material.appbar.AppBarLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -203,9 +206,10 @@
             <com.procialize.mrgeApp20.Fonts.RobotoButton
                 android:id="@+id/txt_title"
                 android:layout_width="150dp"
-                android:layout_height="30dp"
+                android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:layout_marginBottom="10dp"
                 android:paddingLeft="20dp"
                 android:paddingTop="10dp"
                 android:paddingRight="20dp"
@@ -228,5 +232,6 @@
                 android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

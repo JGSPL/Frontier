@@ -80,11 +80,23 @@ public class QAAttendeeAdapter extends RecyclerView.Adapter<QAAttendeeAdapter.My
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final AgendaQuestion question = agendaListsfilter.get(position);
         holder.nameTv.setTextColor(Color.parseColor(colorActive));
+
         holder.nameTv.setText(agendaListsfilter.get(position).getFirst_name() + " " + agendaListsfilter.get(position).getLast_name());
+
+        try{
         holder.QaTv.setText(StringEscapeUtils.unescapeJava(question.getQuestion()));
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+
+        }
         if (question.getAnswer() != null && QA_reply_question.equalsIgnoreCase("1")) {
             if (!question.getAnswer().equalsIgnoreCase("null")) {
-                holder.AnsTv.setText("Ans :- " + StringEscapeUtils.unescapeJava(question.getAnswer()));
+                try{
+                    holder.AnsTv.setText("Ans :- " + StringEscapeUtils.unescapeJava(question.getAnswer()));
+                }catch (IllegalArgumentException e){
+                    e.printStackTrace();
+
+                }
             } else {
                 holder.AnsTv.setVisibility(View.GONE);
             }

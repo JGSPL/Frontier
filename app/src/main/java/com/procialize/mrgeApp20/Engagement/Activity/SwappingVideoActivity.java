@@ -367,7 +367,12 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
 
                     if (position <= firstLevelFilters.size()) {
                         pager.setCurrentItem(position);
+                        try{
                         tv_name.setText(StringEscapeUtils.unescapeJava(firstLevelFilters.get(position).getTitle()));
+                        }catch (IllegalArgumentException e){
+                            e.printStackTrace();
+
+                        }
                         tv_like.setText(firstLevelFilters.get(position).getTotalLikes() + " Likes");
                         if (firstLevelFilters.get(position).getLikeFlag().equals("1")) {
 
@@ -398,7 +403,12 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
 
                     if (position >= 0) {
                         pager.setCurrentItem(position);
+                        try{
                         tv_name.setText(StringEscapeUtils.unescapeJava(firstLevelFilters.get(position).getTitle()));
+                        }catch (IllegalArgumentException e){
+                            e.printStackTrace();
+
+                        }
                         tv_like.setText(firstLevelFilters.get(position).getTotalLikes() + " Likes");
                         if (firstLevelFilters.get(position).getLikeFlag().equals("1")) {
                             likeIv.setImageResource(R.drawable.ic_active_like);
@@ -419,7 +429,12 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 recyclerView.scrollToPosition(position);
                 rvposition = position;
+                try{
                 tv_name.setText(StringEscapeUtils.unescapeJava(firstLevelFilters.get(position).getTitle()));
+                }catch (IllegalArgumentException e){
+                    e.printStackTrace();
+
+                }
                 tv_like.setText(firstLevelFilters.get(position).getTotalLikes() + " Likes");
                 if (firstLevelFilters.get(position).getLikeFlag().equals("1")) {
                     likeIv.setImageResource(R.drawable.ic_active_like);

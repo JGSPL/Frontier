@@ -202,6 +202,8 @@ public class GalleryFirstLevelActivity extends AppCompatActivity implements Gall
             } else {
                 Intent view = new Intent(getApplicationContext(), SwappingGalleryActivity.class);
                 view.putExtra("url", filtergallerylists.getFileName());
+                view.putExtra("foldername", filtergallerylists.getFolderName());
+
                 view.putExtra("gallerylist", (Serializable) newfilterlist);
                 startActivity(view);
             }

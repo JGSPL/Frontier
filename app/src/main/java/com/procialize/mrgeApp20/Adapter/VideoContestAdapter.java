@@ -73,7 +73,12 @@ public class VideoContestAdapter extends RecyclerView.Adapter<VideoContestAdapte
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
 
-        holder.dataTv.setText(StringEscapeUtils.unescapeJava(galleryList.getTitle()));
+        try {
+            holder.dataTv.setText(StringEscapeUtils.unescapeJava(galleryList.getTitle()));
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+
+        }
 //        holder.dataTv.setTextColor(Color.parseColor(colorActive));
         holder.countTv.setText(galleryList.getTotalLikes());
 //        holder.countTv.setTextColor(Color.parseColor(colorActive));

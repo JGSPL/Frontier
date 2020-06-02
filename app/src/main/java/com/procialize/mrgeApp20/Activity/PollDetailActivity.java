@@ -68,7 +68,7 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
     List<LivePollOptionList> AlloptionLists;
     TextView questionTv, test;
     RadioGroup ll;
-    Button subBtn;
+    Button subBtn, PollBtn;
     ProgressBar progressBar;
     String selected;
     int Count;
@@ -109,7 +109,7 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
                 finish();
             }
         });
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);
@@ -157,9 +157,15 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
         subBtn = findViewById(R.id.subBtn);
         subBtn.setOnClickListener(this);
 
+
+
         GradientDrawable shape = setgradientDrawable(5, colorActive);
 
         subBtn.setBackground(shape);
+
+        PollBtn = findViewById(R.id.PollBtn);
+        PollBtn.setBackground(shape);
+
 //        questionTv.setTextColor(Color.parseColor(colorActive));
         progressBar = findViewById(R.id.progressBar);
 
@@ -182,6 +188,13 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
         } catch (Exception e) {
             e.printStackTrace();
         }
+        PollBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         if (replyFlag != null) {
             if (replyFlag.equalsIgnoreCase("1")) {
@@ -300,6 +313,8 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
                             pollAdapter.notifyDataSetChanged();
                             pollGraph.setAdapter(pollAdapter);
                             pollGraph.scheduleLayoutAnimation();
+                            subBtn.setVisibility(View.GONE);
+                            PollBtn.setVisibility(View.VISIBLE);
 
                         }
                        /* viewGroup = (RadioGroup) findViewById(R.id.radiogroup);
@@ -405,6 +420,8 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
                 pollAdapter.notifyDataSetChanged();
                 pollGraph.setAdapter(pollAdapter);
                 pollGraph.scheduleLayoutAnimation();
+                subBtn.setVisibility(View.GONE);
+                PollBtn.setVisibility(View.VISIBLE);
             } else {
                /* Intent intent = new Intent(PollDetailActivity.this, LivePollActivity.class);
                 startActivity(intent);*/

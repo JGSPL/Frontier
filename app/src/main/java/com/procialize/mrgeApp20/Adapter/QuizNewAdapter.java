@@ -134,10 +134,13 @@ public class QuizNewAdapter extends RecyclerView.Adapter<QuizNewAdapter.ViewHold
             if (holder.raiolayout.getVisibility() == View.GONE) {
                 holder.raiolayout.setVisibility(View.VISIBLE);
             }
-
+        try{
             holder.quiz_title_txt.setText(StringEscapeUtils.unescapeJava(quizList.get(position).getQuestion()));
 
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
 
+        }
             quizOptionList = QuizActivity.appDelegate.getQuizOptionList();
             if (quizSpecificOptionListnew.size() > 0) {
                 quizSpecificOptionListnew.clear();

@@ -169,7 +169,7 @@ public class ProfileActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
 
         headerlogoIv = findViewById(R.id.headerlogoIv);

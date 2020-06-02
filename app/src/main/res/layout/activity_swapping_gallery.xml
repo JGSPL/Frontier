@@ -12,6 +12,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/transperent"
         app:elevation="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -20,7 +21,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colortoolbar"
             android:contentInsetEnd="0dp"
             android:contentInsetLeft="0dp"
             android:contentInsetRight="0dp"
@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:contentDescription="TODO"
-                android:src="@drawable/ic_back"
+                android:src="@drawable/back_white"
                 android:padding="@dimen/padding"
                 android:layout_marginLeft="13dp"/>
 
@@ -62,8 +62,8 @@
                     android:layout_margin="@dimen/margin"
                     android:layout_weight="1"
                     android:gravity="left"
-                    android:text="Gallery"
-                    android:textColor="@color/activetab"
+                    android:text=""
+                    android:textColor="@color/colorwhite"
                     android:textFontWeight="1"
                     android:textSize="@dimen/textsizenormal"
                     android:textStyle="bold" />
@@ -80,6 +80,7 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:visibility="invisible"
                     android:layout_marginRight="10dp"
                     android:gravity="center">
 
@@ -118,7 +119,7 @@
         </androidx.appcompat.widget.Toolbar>
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="0dp"
             android:background="@color/linecolor"/>
 
 
@@ -141,6 +142,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
+            android:background="@drawable/semi_circle"
+            android:tint="@color/colorwhite"
+
             android:padding="10dp"
             android:src="@drawable/ic_galleryleftarrow" />
 
@@ -151,6 +155,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
+            android:background="@drawable/semi_circle"
+            android:tint="@color/colorwhite"
             android:padding="10dp"
             android:src="@drawable/ic_galleryrightarrow" />
 

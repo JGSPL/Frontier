@@ -124,8 +124,12 @@ public class QuizPagerAdapter extends PagerAdapter {
             if (raiolayout.getVisibility() == View.GONE) {
                 raiolayout.setVisibility(View.VISIBLE);
             }
-
+            try{
             quiz_title_txt.setText(StringEscapeUtils.unescapeJava(quizList.get(position).getQuestion()));
+            }catch (IllegalArgumentException e){
+                e.printStackTrace();
+
+            }
             quizOptionList = QuizActivity.appDelegate.getQuizOptionList();
             if (quizSpecificOptionListnew.size() > 0) {
                 quizSpecificOptionListnew.clear();

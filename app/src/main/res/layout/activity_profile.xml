@@ -33,25 +33,72 @@
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
             app:contentInsetStart="0dp">
-
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                android:id="@+id/title"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin"
-                android:gravity="left"
-                android:text="Edit Profile"
-                android:textColor="@color/activetab"
-                android:textSize="@dimen/textsizenormal" />
+                android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/headerlogoIv"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="-10dp"
-                android:contentDescription=" "
-                android:visibility="gone" />
+                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="Edit Profile"
+                    android:textColor="@color/activetab"
+                    android:textFontWeight="1"
+                    android:textSize="@dimen/textsizenormal"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/headerlogoIv"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="-10dp"
+                    android:contentDescription=" "
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/notificationlogoIv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:foregroundGravity="center"
+                        android:src="@drawable/ic_notification" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_notification_count"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/count_circle"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/tv_notification"
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dp"
+                            android:gravity="top|center"
+                            android:text="50"
+                            android:textColor="@color/black"
+                            android:textSize="8dp" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+
 
         </androidx.appcompat.widget.Toolbar>
 
