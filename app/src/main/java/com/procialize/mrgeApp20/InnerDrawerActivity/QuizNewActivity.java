@@ -526,6 +526,8 @@ public class QuizNewActivity extends AppCompatActivity implements View.OnClickLi
                 intent.putExtra("folderName", foldername);
                 intent.putExtra("Answers", String.valueOf(adapter.getCorrectOption()));
                 intent.putExtra("TotalQue", String.valueOf(adapter.getselectedData().length));
+                intent.putExtra("Page", "Answer");
+
                 startActivity(intent);
                 finish();
 

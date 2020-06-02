@@ -101,8 +101,13 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.setIsRecyclable(false);
         if (quizList.get(position).getQuiz_type() == null) {
-
+            try{
             holder.txt_question.setText(StringEscapeUtils.unescapeJava(quizList.get(position).getQuestion()));
+            }catch (IllegalArgumentException e){
+                e.printStackTrace();
+
+            }
+
             if (holder.raiolayout.getVisibility() == View.GONE) {
                 holder.raiolayout.setVisibility(View.VISIBLE);
             }
@@ -119,8 +124,12 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                 if (quizOptionList.get(i).getQuizId().equalsIgnoreCase(quizList.get(position).getId())) {
 
                     QuizOptionList quizTempOptionList = new QuizOptionList();
-
+                    try{
                     quizTempOptionList.setOption(StringEscapeUtils.unescapeJava(quizOptionList.get(i).getOption()));
+                    }catch (IllegalArgumentException e){
+                        e.printStackTrace();
+
+                    }
                     quizTempOptionList.setOptionId(quizOptionList.get(i)
                             .getOptionId());
                     quizTempOptionList.setQuizId(quizOptionList.get(i)

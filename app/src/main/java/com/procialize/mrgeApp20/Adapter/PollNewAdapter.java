@@ -113,8 +113,12 @@ public class PollNewAdapter extends BaseAdapter {
             holder.ivewComplete.setVisibility(View.VISIBLE);
             holder.ivewComplete.setBackgroundColor(Color.parseColor(colorActive));
         }
-
+        try{
         holder.nameTv.setText(StringEscapeUtils.unescapeJava(pollList.getQuestion()));
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+
+        }
         holder.linMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -100,7 +100,12 @@ public class SwipePagerVideoAdapter extends PagerAdapter {
             Jzvd.setVideoImageDisplayType(Jzvd.VIDEO_IMAGE_DISPLAY_TYPE_ADAPTER);
         }catch (Exception e)
         {e.printStackTrace();}
+        try{
         name.setText(StringEscapeUtils.unescapeJava(firstLevelFilter.getTitle()));
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+
+        }
         name.setTextColor(Color.parseColor(colorActive));
         view.addView(myImageLayout, 0);
         return myImageLayout;

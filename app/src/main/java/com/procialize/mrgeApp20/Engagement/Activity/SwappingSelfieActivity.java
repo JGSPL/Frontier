@@ -394,7 +394,12 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
 
                     if (position <= firstLevelFilters.size()) {
                         pager.setCurrentItem(position);
-                        tv_name.setText(StringEscapeUtils.unescapeJava(firstLevelFilters.get(position).getTitle()));
+                        try {
+                            tv_name.setText(StringEscapeUtils.unescapeJava(firstLevelFilters.get(position).getTitle()));
+                        }catch (IllegalArgumentException e){
+                            e.printStackTrace();
+
+                        }
                         tv_like.setText(firstLevelFilters.get(position).getTotalLikes() + " Likes");
                         if (firstLevelFilters.get(position).getLikeFlag().equals("1")) {
 
@@ -425,8 +430,13 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
 
                     if (position >= 0) {
                         pager.setCurrentItem(position);
-                        tv_name.setText(StringEscapeUtils.unescapeJava(firstLevelFilters.get(position).getTitle()));
-                        tv_like.setText(firstLevelFilters.get(position).getTotalLikes() + " Likes");
+                        try {
+                            tv_name.setText(StringEscapeUtils.unescapeJava(firstLevelFilters.get(position).getTitle()));
+                        }catch (IllegalArgumentException e){
+                            e.printStackTrace();
+
+                        }
+                         tv_like.setText(firstLevelFilters.get(position).getTotalLikes() + " Likes");
                         if (firstLevelFilters.get(position).getLikeFlag().equals("1")) {
                             likeIv.setImageResource(R.drawable.ic_active_like);
                             likeIv.setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_ATOP);
@@ -446,7 +456,12 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 recyclerView.scrollToPosition(position);
                 rvposition = position;
+                try{
                 tv_name.setText(StringEscapeUtils.unescapeJava(firstLevelFilters.get(position).getTitle()));
+                }catch (IllegalArgumentException e){
+                    e.printStackTrace();
+
+                }
                 tv_like.setText(firstLevelFilters.get(position).getTotalLikes() + " Likes");
                 if (firstLevelFilters.get(position).getLikeFlag().equals("1")) {
                     likeIv.setImageResource(R.drawable.ic_active_like);

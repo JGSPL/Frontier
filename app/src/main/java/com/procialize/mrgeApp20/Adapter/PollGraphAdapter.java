@@ -65,6 +65,8 @@ public class PollGraphAdapter extends RecyclerView.Adapter<PollGraphAdapter.MyVi
         LinearLayout ll2 = new LinearLayout(context);
         ll2.setOrientation(LinearLayout.HORIZONTAL);
         ll2.setPadding(10, 10, 10, 10);
+
+       // ll2.setBackgroundResource(R.drawable.poll_cobg);
         ll2.setBackgroundColor(Color.parseColor(color[position]));
         ll2.setMinimumHeight(40);
         Float weight = 0.0f;

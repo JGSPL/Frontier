@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/linear"
     android:background="@color/colorgrey"
     android:orientation="vertical"
     tools:context="com.procialize.mrgeApp20.Activity.PdfViewerActivity">
@@ -12,6 +13,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
 
@@ -20,7 +22,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colortoolbar"
             android:contentInsetEnd="0dp"
             android:contentInsetLeft="0dp"
             android:contentInsetRight="0dp"
@@ -46,6 +47,7 @@
                 android:layout_marginLeft="13dp"
                 android:contentDescription="TODO"
                 android:padding="@dimen/padding"
+                android:tint="@color/black"
                 android:src="@drawable/ic_back" />
 
             <LinearLayout
@@ -117,7 +119,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="0dp"
             android:background="@color/linecolor" />
 
 
@@ -154,7 +156,7 @@
         <Button
             android:id="@+id/btn_save"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_margin="5dp"
             android:text="Download"
             android:textAllCaps="false"

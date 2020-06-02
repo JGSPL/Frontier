@@ -75,8 +75,12 @@ public class QADirectAdapter extends RecyclerView.Adapter<QADirectAdapter.MyView
         holder.nameTv.setTextColor(Color.parseColor(colorActive));
 
         holder.nameTv.setText(question.getFirst_name());
+        try{
         holder.QaTv.setText(StringEscapeUtils.unescapeJava(question.getQuestion()));
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
 
+        }
         holder.AnsTv.setVisibility(View.GONE);
 
         if (holder.likeLL.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {

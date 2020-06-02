@@ -54,7 +54,7 @@ import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 public class SwappingGalleryActivity extends AppCompatActivity implements SwipeImageAdapter.SwipeImageAdapterListner {
 
     public int rvposition = 0;
-    String name;
+    String name,folderName;
     List<FirstLevelFilter> firstLevelFilters;
     SwipeImageAdapter swipeImageAdapter;
     SwipepagerAdapter swipepagerAdapter;
@@ -66,7 +66,7 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
     String MY_PREFS_NAME = "ProcializeInfo";
     String img = "";
     RelativeLayout linear;
-    TextView tv_title;
+    TextView tv_title,title;
     private ConnectionDetector cd;
 
     static public void shareImage(String url, final Context context) {
@@ -131,6 +131,7 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swapping_gallery);
         cd = new ConnectionDetector(this);
+        folderName = getIntent().getExtras().getString("foldername");
 
         name = getIntent().getExtras().getString("url");
         firstLevelFilters = (List<FirstLevelFilter>) getIntent().getExtras().getSerializable("gallerylist");
@@ -144,11 +145,12 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
         tv_title = findViewById(R.id.tv_title);
         headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);
+        title = findViewById(R.id.title);
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
+        title.setText(folderName);
 
        /* Util.logomethodwithText( this, true,"Image", MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);*/
-
         backIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

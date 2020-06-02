@@ -133,8 +133,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             } else {
                 holder.messageTV.setVisibility(View.VISIBLE);
                 holder.gifiv.setVisibility(View.GONE);
+                try{
                 holder.testdata.setText(StringEscapeUtils.unescapeJava(notificationList.getNotificationContent()));
+                }catch (IllegalArgumentException e){
+                    e.printStackTrace();
 
+                }
                 final SpannableStringBuilder stringBuilder = new SpannableStringBuilder(holder.testdata.getText());
                 if (notificationList.getNotificationContent() != null) {
                     int flag = 0;

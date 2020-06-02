@@ -28,7 +28,7 @@
             android:id="@+id/playicon"
             android:layout_width="30dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/play"/>
+            android:src="@drawable/post_video"/>
 
         <LinearLayout
             android:layout_height="wrap_content"

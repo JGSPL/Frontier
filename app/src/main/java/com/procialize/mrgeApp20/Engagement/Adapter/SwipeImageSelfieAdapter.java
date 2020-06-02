@@ -58,12 +58,17 @@ public class SwipeImageSelfieAdapter extends RecyclerView.Adapter<SwipeImageSelf
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final SelfieList galleryList = filtergallerylists.get(position);
+        try {
+            holder.nameTv.setText(StringEscapeUtils.unescapeJava(galleryList.getTitle()));
 
-        holder.nameTv.setText(StringEscapeUtils.unescapeJava(galleryList.getTitle()));
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+
+        }
 
         Glide.with(context).load(ApiConstant.selfieimage + galleryList.getFileName())
                 .apply(RequestOptions.skipMemoryCacheOf(true))
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 holder.progressBar.setVisibility(View.GONE);
