@@ -18,6 +18,11 @@ public class ApiUtils {
         return RetrofitClient.getClient(ApiConstant.baseUrl).create(APIService.class);
     }
 
+    public static APIService getBuddyAPIService() {
+
+        return RetrofitClient.getClient(ApiConstant.buddybaseUrl).create(APIService.class);
+    }
+
     public static TenorApiService getTenorAPIService() {
 
         return TenorClient.getClient(ApiConstant.tenorUrl).create(TenorApiService.class);

@@ -5,6 +5,8 @@ package com.procialize.mrgeApp20.ApiConstant;
  */
 
 
+import com.procialize.mrgeApp20.BuddyList.DataModel.FetchBuddyList;
+import com.procialize.mrgeApp20.BuddyList.DataModel.FetchSendRequest;
 import com.procialize.mrgeApp20.GetterSetter.AddExhibitorBrochure;
 import com.procialize.mrgeApp20.GetterSetter.Agenda;
 import com.procialize.mrgeApp20.GetterSetter.Analytic;
@@ -735,5 +737,32 @@ public interface APIService {
     @FormUrlEncoded
     Call<ContactListFetch> ContactHeplDeskFetch(@Field("event_id") String event_id,
                                             @Field("api_access_token") String api_access_token);
+
+    //buddy related api
+    @POST("sendFriendRequest")
+    @FormUrlEncoded
+    Call<FetchSendRequest> sendFriendRequest(@Field("api_access_token") String api_access_token,
+                                             @Field("event_id") String event_id,
+                                             @Field("buddy_id") String buddy_id);
+
+    @POST("cancelFriendRequest")
+    @FormUrlEncoded
+    Call<FetchSendRequest> cancelFriendRequest(@Field("event_id") String event_id,
+                                             @Field("api_access_token") String api_access_token,
+                                             @Field("buddy_id") String buddy_id);
+
+    @POST("respondToFriendRequest")
+    @FormUrlEncoded
+    Call<FetchSendRequest> respondToFriendRequest(@Field("event_id") String event_id,
+                                               @Field("api_access_token") String api_access_token,
+                                               @Field("buddy_id") String buddy_id,
+                                                  @Field("accept") String accept);
+
+    @POST("getBuddyList")
+    @FormUrlEncoded
+    Call<FetchBuddyList> getBuddyList(@Field("event_id") String event_id,
+                                      @Field("api_access_token") String api_access_token
+                                                  );
+
 
 }

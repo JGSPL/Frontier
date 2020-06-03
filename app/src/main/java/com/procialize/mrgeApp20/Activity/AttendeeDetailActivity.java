@@ -56,6 +56,7 @@ import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyList;
+import com.procialize.mrgeApp20.BuddyList.DataModel.FetchSendRequest;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
@@ -92,7 +93,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
     TextView tvname, tvcompany, tvdesignation, tvcity, tvmob, attendeetitle, tv_description;
     TextView sendbtn;
     Dialog myDialog;
-    APIService mAPIService;
+    APIService mAPIService, mBuddyAPIService;
     SessionManager sessionManager;
     String apikey;
     ImageView profileIV;
@@ -167,6 +168,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
 
 
         mAPIService = ApiUtils.getAPIService();
+        mBuddyAPIService = ApiUtils.getBuddyAPIService();
         sessionManager = new SessionManager(AttendeeDetailActivity.this);
 
         HashMap<String, String> user = sessionManager.getUserDetails();
@@ -533,8 +535,9 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent main = new Intent(getApplicationContext(), ActivityBuddyList.class);
-                startActivity(main);
+                /*Intent main = new Intent(getApplicationContext(), ActivityBuddyList.class);
+                startActivity(main);*/
+                AddBuddy(eventid,apikey,attendeeid);
 
                /* if (mobile.isEmpty()) {
                     Intent addContactIntent = new Intent(Contacts.Intents.Insert.ACTION, Contacts.People.CONTENT_URI);
@@ -565,30 +568,13 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             }
         });
 
+
 /*
         linsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    if (!CheckingPermissionIsEnabledOrNot()) {
-                        RequestMultiplePermission();
-                    } else {
-                        Intent intent = new Intent(
-                                ContactsContract.Intents.SHOW_OR_CREATE_CONTACT,
-                                Uri.parse("tel:" + mobile));
-                        intent.putExtra(ContactsContract.Intents.Insert.NAME, name);
-                        intent.putExtra(ContactsContract.Intents.Insert.COMPANY, company);
-                        intent.putExtra(ContactsContract.Intents.Insert.PHONE, mobile);
-                        intent.putExtra(ContactsContract.Intents.Insert.JOB_TITLE, designation);
+                AddBuddy(eventid,apikey,attendeeid);
 
-                        intent.putExtra(ContactsContract.Intents.EXTRA_FORCE_CREATE, true);
-
-                        startActivity(intent);
-//                    addToContactList(AttendeeDetailActivity.this, name, mobile);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         });
 */
@@ -752,6 +738,80 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         });
     }
 
+    public void AddBuddy( String token,String eventid,String messId) {
+        showProgress();
+        mBuddyAPIService.sendFriendRequest(token, eventid, messId).enqueue(new Callback<FetchSendRequest>() {
+            @Override
+            public void onResponse(Call<FetchSendRequest> call, Response<FetchSendRequest> response) {
+
+                if (response.isSuccessful()) {
+                    Log.i("hit", "post submitted to API." + response.body().toString());
+
+                    dismissProgress();
+                    Buddyresponse(response);
+                } else {
+
+
+                    dismissProgress();
+                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FetchSendRequest> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
+
+                dismissProgress();
+
+            }
+        });
+    }
+
+/*
+    public void AddBuddy(String eventid,  String token, String attendeeid) {
+        showProgress();
+//        showProgress();
+        mBuddyAPIService.sendFriendRequest(token, eventid, attendeeid).enqueue(new Callback<FetchSendRequest>() {
+            @Override
+            public void onResponse(Call<FetchSendRequest> call, Response<FetchSendRequest> response) {
+
+                if (response.isSuccessful()) {
+                    dismissProgress();
+
+                    Log.i("hit", "post submitted to API." + response.body().toString());
+                    Buddyresponse(response);
+
+                } else {
+                    dismissProgress();
+                    Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FetchSendRequest> call, Throwable t) {
+                dismissProgress();
+                Log.e("hit", "Low network or no network");
+                Toast.makeText(getApplicationContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
+//                dismissProgress();
+            }
+        });
+    }
+*/
+
+    private void Buddyresponse(Response<FetchSendRequest> response) {
+
+        if (response.body().getStatus().equalsIgnoreCase("Success")) {
+            Log.e("post", "success");
+//            myDialog.dismiss();
+            saveContact.setText("Request send");
+            Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+        } else {
+            Log.e("post", "fail");
+//            myDialog.dismiss();
+            Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     public void PostMesssage(String eventid, String msg, String token, String attendeeid) {
         showProgress();
@@ -791,6 +851,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void DeletePostresponse(Response<SendMessagePost> response) {
 
