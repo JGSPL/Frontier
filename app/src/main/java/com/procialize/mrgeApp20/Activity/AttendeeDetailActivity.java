@@ -537,7 +537,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
 
                 /*Intent main = new Intent(getApplicationContext(), ActivityBuddyList.class);
                 startActivity(main);*/
-                AddBuddy(eventid,apikey,attendeeid);
+                AddBuddy(apikey,eventid,attendeeid);
 
                /* if (mobile.isEmpty()) {
                     Intent addContactIntent = new Intent(Contacts.Intents.Insert.ACTION, Contacts.People.CONTENT_URI);

@@ -27,17 +27,17 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/myCardView"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/image_border"
-                    app:cardCornerRadius="25dp"
+                    app:cardCornerRadius="20dp"
                     app:cardElevation="@dimen/album_dp_0">
 
                     <ImageView
                         android:id="@+id/profileIV"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_centerInParent="true"
                         android:adjustViewBounds="true"
                         android:contentDescription="TODO"
@@ -61,6 +61,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
                 android:gravity="center_horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                 <com.procialize.mrgeApp20.Fonts.RobotoTextview
                     android:id="@+id/nameTv"
@@ -68,6 +72,14 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/activetab"
                     android:textSize="@dimen/textsizesmall" />
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/designationTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp" />
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -82,10 +94,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textAlignment="textEnd"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textsizesmall" />
+                    android:textColor="@color/colorAccent"
+                    android:textSize="8sp" />
 
             </LinearLayout>
+
 
         </LinearLayout>
 
@@ -94,6 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
             android:orientation="vertical">
 
             <com.procialize.mrgeApp20.Fonts.RobotoTextview
@@ -108,16 +122,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="false"
-                android:textColor="@color/black"
+                android:textColor="@color/colorAccent"
                 android:textSize="@dimen/textsizesmall" />
 
         </LinearLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/colorAccent"></View>
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/linecolor"></View>
 
         <LinearLayout
             android:id="@+id/likeLL"
@@ -125,6 +141,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:orientation="horizontal"
             android:paddingBottom="5dp">
             <ImageView
@@ -141,7 +159,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
                 android:gravity="right"
-                android:textColor="@color/black"
+                android:textColor="@color/colorAccent"
                 android:textSize="@dimen/textsizesmaller" />
 
 

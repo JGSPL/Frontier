@@ -24,6 +24,18 @@ public class Buddy {
     @Expose
     private String city;
 
+    @SerializedName("profile_pic")
+    @Expose
+    private String profilePic;
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
     public String getFriend_id() {
         return friend_id;
     }

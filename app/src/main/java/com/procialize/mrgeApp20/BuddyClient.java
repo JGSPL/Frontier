@@ -1,9 +1,5 @@
 package com.procialize.mrgeApp20;
 
-/**
- * Created by Naushad on 10/30/2017.
- */
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -14,8 +10,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitClient {
-
+public class BuddyClient {
     static ConnectionPool pool = new ConnectionPool(15, 5, TimeUnit.MINUTES);
     static OkHttpClient client = new OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
@@ -25,9 +20,9 @@ public class RetrofitClient {
             .writeTimeout(5, TimeUnit.MINUTES)
             .build();
     private static Retrofit retrofit = null;
-    
 
-    public static Retrofit getClient(String baseUrl) {
+
+    public static Retrofit getClientbuddy(String baseUrl) {
 
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -41,5 +36,4 @@ public class RetrofitClient {
         }
         return retrofit;
     }
-
 }

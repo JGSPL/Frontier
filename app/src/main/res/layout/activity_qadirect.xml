@@ -76,15 +76,15 @@
         android:textColor="@color/colorwhite"
         android:textSize="@dimen/textsizesmall" />
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
         android:id="@+id/pullrefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:alpha="0.8"
-        android:gravity="center"
-        android:text="Pull Down to Refresh"
+        android:gravity="left"
+        android:paddingLeft="10dp"
+        android:text="Asked Questions"
         android:textColor="@color/inactivetab"
-        android:textSize="10sp"
+        android:textSize="14sp"
         android:visibility="visible" />
 
     <ProgressBar
@@ -100,7 +100,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:clipToPadding="false"
+        android:paddingBottom="70dp">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/qaRvrefresh"
@@ -113,7 +115,7 @@
                 android:id="@+id/qaRv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="5dp"
+                android:padding="0dp"
                 android:clipToPadding="false"
                 android:paddingBottom="70dp">
 
@@ -128,7 +130,7 @@
             android:gravity="center"
             android:text="No Question Posted yet"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="12sp"
             android:visibility="gone" />
 
     </RelativeLayout>

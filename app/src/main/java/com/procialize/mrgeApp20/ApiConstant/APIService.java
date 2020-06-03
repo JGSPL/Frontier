@@ -756,7 +756,7 @@ public interface APIService {
     Call<FetchSendRequest> respondToFriendRequest(@Field("event_id") String event_id,
                                                @Field("api_access_token") String api_access_token,
                                                @Field("buddy_id") String buddy_id,
-                                                  @Field("accept") String accept);
+                                                  @Field("response") String response);
 
     @POST("getBuddyList")
     @FormUrlEncoded
