@@ -277,7 +277,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
 
 
         pager = findViewById(R.id.pager);
-        txt_count.setText("Questions 1/" + quizList.size());
+
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -311,6 +311,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
             Toast.makeText(QuizActivity.this, "No internet connection",
                     Toast.LENGTH_SHORT).show();
         }
+
+
 
         //startCountDownTimer(time * 1000);
         progressBarCircle.setMax(time);
@@ -376,7 +378,6 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                             submit.setVisibility(View.GONE);
                         }
 
-
                     } else {
                         if (submitflag != true) {
 //                        customHandler.removeCallbacks(updateTimerThread);
@@ -389,7 +390,6 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                             } else {
                                 pagerAdapter.selectedOption = pagerAdapter.quizSpecificOptionListnew.get(0).getOptionId();
                             }
-
 
                             if (pagerAdapter.quizSpecificOptionListnew.size() > 1) {
                                 if (pagerAdapter.selectedOption.equalsIgnoreCase(pagerAdapter.correctAnswer)) {
@@ -520,13 +520,11 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                                     quiz_question_id = question_id[0];
                                     quiz_options_id = question_ans[0];
                                     int answers = pagerAdapter.getCorrectOption();
-                                     new postQuizQuestion().execute();
-
+                                     //new postQuizQuestion().execute();
 
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
                                 }
-
 
                             }
                         }
@@ -1018,7 +1016,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 pDialog = null;
             }
 
-
+            txt_count.setText("Questions 1/" + quizList.size());
             pagerAdapter = new QuizPagerAdapter(QuizActivity.this, quizList);
             pager.setAdapter(pagerAdapter);
             pager.setPagingEnabled(false);

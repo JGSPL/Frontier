@@ -2188,13 +2188,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 }
             }
 
-
             @Override
             public void onFailure(Call<FetchFeed> call, Throwable t) {
                 Log.e("hit", "Unable to submit post to API.");
 //                Toast.makeText(getContext(), "Unable to process", Toast.LENGTH_SHORT).show();
-
-
             }
         });
     }
@@ -2205,7 +2202,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         FlyingVideo.get(MrgeHomeActivity.this).close();
         linear_layout.setVisibility(View.VISIBLE);
         linear_livestream.setVisibility(View.GONE);
-
 
         if (youTubePlayerFragment == null)
             return;
