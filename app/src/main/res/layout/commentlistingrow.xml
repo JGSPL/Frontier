@@ -66,12 +66,13 @@
                 <ImageView
                     android:id="@+id/moreIv"
                     android:layout_width="wrap_content"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:contentDescription="TODO"
                     android:src="@drawable/ic_more" />
 
-                <TextView
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
                     android:id="@+id/nameTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -80,10 +81,11 @@
                     android:paddingLeft="5dp"
                     android:text=""
                     android:autoLink="web"
+                    android:textColor="@color/black"
                     android:textColorLink="@android:color/holo_blue_dark"
                     android:textSize="@dimen/textsizesmall" />
 
-                <TextView
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
                     android:id="@+id/commentTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -118,8 +120,8 @@
                     android:layout_toEndOf="@+id/imageView"
                     android:paddingLeft="5dp"
                     android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textsizesmall" />
+                    android:textColor="@color/colorAccent"
+                    android:textSize="8sp" />
 
             </RelativeLayout>
 

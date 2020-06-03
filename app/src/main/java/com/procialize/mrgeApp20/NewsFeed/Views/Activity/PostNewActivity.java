@@ -233,8 +233,8 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
             public void beforeTextChanged(CharSequence charSequence, int start,
                                           int count, int after) {
                 int tick = start + after;
-                if (tick < 128) {
-                    int remaining = 500 - tick;
+                if (tick < 250) {
+                    int remaining = 250 - tick;
                     // txtcount1.setText(String.valueOf(remaining));
                 }
             }
@@ -242,7 +242,9 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void afterTextChanged(Editable s) {
                 // TODO Auto-generated method stub
-                txtcount.setText(String.valueOf(500 - s.length()) + "/");
+               // txtcount.setText(String.valueOf(500 - s.length()) + "/");
+                txtcount.setText(String.valueOf(s.length()));
+
                 if (s.length() > 0) {
                     postbtn.setTextColor(getResources().getColor(R.color.colorwhite));
                     postbtn.setBackgroundColor(getResources().getColor(R.color.orange));
@@ -302,7 +304,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
 
         apikey = user.get(SessionManager.KEY_TOKEN);
 
-        tv_name.setText(user.get(SessionManager.KEY_NAME));
+        tv_name.setText(user.get(SessionManager.KEY_NAME)+ " " + user.get(SessionManager.KEY_LNAME));
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventId = prefs.getString("eventid", "1");
 

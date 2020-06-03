@@ -5,5 +5,5 @@
 
     <size android:height="8dip" android:width="8dip"/>
 
-    <solid android:color="@color/colorunselectedtab"/>
+    <solid android:color="@color/colorwhite"/>
 </shape>
