@@ -16,6 +16,10 @@ public class ApiConstant {
     public static String webUrl = "https://www.procialize.live/stage/mrge/";
     public static String baseUrl = webUrl + "API/event_api_call/";
 
+    //buddy url
+    public static String buddybaseUrl = webUrl + "API/buddy/";
+
+
     //imag&Video prod
     // public static String imgURL = "https://www.procialize.live/stage/mrge/";
     public static String imgURL = webUrl;//"https://www.procialize.live/stage/baseapp/";
