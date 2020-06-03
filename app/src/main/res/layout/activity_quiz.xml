@@ -124,8 +124,8 @@
                     <ProgressBar
                         android:id="@+id/progressBarCircle"
                         style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_centerInParent="true"
                         android:background="@drawable/drawable_circle_dark_blue"
                         android:indeterminate="false"
@@ -200,13 +200,13 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:gravity="center"
         android:text="Skip"
         android:textSize="15sp"
         android:textAllCaps="false"
+        android:layout_marginBottom="60dp"
         android:textColor="@color/activetab"
         android:visibility="visible" />
 
@@ -224,7 +224,7 @@
         android:text="Next"
         android:textAllCaps="false"
         android:textColor="@color/colorwhite"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <com.procialize.mrgeApp20.Fonts.RobotoButton
         android:id="@+id/submit"
