@@ -26,7 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.procialize.mrgeApp20.Adapter.QuizFolderAdapter;
-import com.procialize.mrgeApp20.Adapter.QuizNewAdapter;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.Quiz;
@@ -73,7 +72,6 @@ public class FolderQuizActivity extends AppCompatActivity {
     private ConnectionDetector cd;
     private ListView quizNameList;
     private QuizFolderAdapter adapter;
-    private QuizNewAdapter adapter1;
     private QuizParser quizParser;
     private QuizFolderParser quizFolderParser;
     private ArrayList<Quiz> quizList = new ArrayList<Quiz>();

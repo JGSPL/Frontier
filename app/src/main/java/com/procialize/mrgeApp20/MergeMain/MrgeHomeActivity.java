@@ -2129,10 +2129,33 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             anim.setRepeatMode(Animation.REVERSE);
                             anim.setRepeatCount(Animation.INFINITE);
                             img_stream.startAnimation(anim);
+
+                            //-------------------------------------
+                            linChange.setBackgroundColor(Color.parseColor(colorActive));
+
+                            img_view.setBackgroundColor(Color.parseColor(colorActive));
+                            txt_change.setBackgroundColor(Color.parseColor(colorActive));
+
+                            linStream.setBackgroundColor(Color.parseColor(colorActive));
+
+                            txt_change.setText("Change View");
+                            img_view.startAnimation(anim);
+                            //-----------------------------------
+                        }
+                        else {
+                            linChange.setBackgroundColor(Color.parseColor("#686868"));
+                            img_view.setBackgroundColor(Color.parseColor("#686868"));
+                            txt_change.setBackgroundColor(Color.parseColor("#686868"));
+
+                            linStream.setBackgroundColor(Color.parseColor("#686868"));
+                            txt_change.setBackgroundColor(Color.parseColor("#686868"));
+                            img_view.setBackgroundColor(Color.parseColor("#686868"));
+                            // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
+                            txt_change.setText("Change View");
                         }
                     }
 
-                      /*  if (stream_status.equalsIgnoreCase("1")) {
+                     /*  if (stream_status.equalsIgnoreCase("1")) {
 //                            countDownlivestream();
                            // linear_livestream.setBackgroundColor(Color.parseColor("#Ff0000"));
                             linStream.setBackgroundColor(Color.parseColor(colorActive));
@@ -2158,9 +2181,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     if (zoom_status.equalsIgnoreCase("1")) {
 //                            countDownzoom();
 
-                        linChange.setBackgroundColor(Color.parseColor(colorActive));
-                        img_view.setBackgroundColor(Color.parseColor(colorActive));
-                        txt_change.setBackgroundColor(Color.parseColor(colorActive));
+
 
                         linzoom.setBackgroundColor(Color.parseColor(colorActive));
                         txt_zoom.setBackgroundColor(Color.parseColor(colorActive));
@@ -2174,10 +2195,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         anim.setRepeatCount(Animation.INFINITE);
                         img_zoom.startAnimation(anim);
                     } else {
-                        linChange.setBackgroundColor(Color.parseColor("#686868"));
+                       /* linChange.setBackgroundColor(Color.parseColor("#686868"));
                         img_view.setBackgroundColor(Color.parseColor("#686868"));
                         txt_change.setBackgroundColor(Color.parseColor("#686868"));
-
+*/
                         linzoom.setBackgroundColor(Color.parseColor("#686868"));
                         txt_zoom.setBackgroundColor(Color.parseColor("#686868"));
                         img_zoom.setBackgroundColor(Color.parseColor("#686868"));

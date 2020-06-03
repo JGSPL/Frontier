@@ -27,7 +27,6 @@ import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.procialize.mrgeApp20.Adapter.QuizFolderAdapter;
-import com.procialize.mrgeApp20.Adapter.QuizNewAdapter;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.Quiz;
@@ -78,7 +77,6 @@ public class FolderQuizFragment extends Fragment {
     private ConnectionDetector cd;
     private ListView quizNameList;
     private QuizFolderAdapter adapter;
-    private QuizNewAdapter adapter1;
     private QuizParser quizParser;
     private QuizFolderParser quizFolderParser;
     private ArrayList<Quiz> quizList = new ArrayList<Quiz>();
@@ -205,14 +203,12 @@ public class FolderQuizFragment extends Fragment {
 
                                 }
                             } else {
-
                                 Toast.makeText(getContext(),
                                         "Question not available.",
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
                     } else {
-
                         Toast.makeText(getContext(),
                                 "Question not available.",
                                 Toast.LENGTH_SHORT).show();

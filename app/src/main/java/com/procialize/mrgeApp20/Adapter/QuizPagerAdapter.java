@@ -40,6 +40,7 @@ public class QuizPagerAdapter extends PagerAdapter {
     private List<Quiz> quizList;
     private List<QuizOptionList> quizOptionList = new ArrayList<>();
     public static ArrayList<QuizOptionList> quizSpecificOptionListnew = new ArrayList<QuizOptionList>();
+    ArrayList<QuizOptionList> quizSpecificOptionListnew1 = new ArrayList<QuizOptionList>();
     int count = 0;
     public static String correctAnswer;
     public static  String[] dataArray;
@@ -58,7 +59,7 @@ public class QuizPagerAdapter extends PagerAdapter {
     String MY_PREFS_NAME = "ProcializeInfo";
     private SparseIntArray mSpCheckedState = new SparseIntArray();
     String accessToken, event_id, colorActive;
-    Context context;
+
     Typeface typeFace;
     private RadioGroup lastCheckedRadioGroup = null;
 
@@ -78,24 +79,6 @@ public class QuizPagerAdapter extends PagerAdapter {
 
         quizQuestionUrl = constant.baseUrl + constant.quizsubmit;
         inflater = LayoutInflater.from(activity);
-
-    }
-    public QuizPagerAdapter(Context context, List<Quiz> quizList) {
-        this.context = context;
-        this.quizList = quizList;
-        dataArray = new String[quizList.size()];
-        dataIDArray = new String[quizList.size()];
-        checkArray = new String[quizList.size()];
-        ansArray = new String[quizList.size()];
-        session = new SessionManager(context.getApplicationContext());
-        accessToken = session.getUserDetails().get(SessionManager.KEY_TOKEN);
-        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, context.MODE_PRIVATE);
-        event_id = prefs.getString("eventid", "1");
-        colorActive = prefs.getString("colorActive", "");
-        colorActive = prefs.getString("colorActive", "");
-
-        quizQuestionUrl = constant.baseUrl + constant.quizsubmit;
-        inflater = LayoutInflater.from(context);
 
     }
 
@@ -124,12 +107,8 @@ public class QuizPagerAdapter extends PagerAdapter {
             if (raiolayout.getVisibility() == View.GONE) {
                 raiolayout.setVisibility(View.VISIBLE);
             }
-            try{
-            quiz_title_txt.setText(StringEscapeUtils.unescapeJava(quizList.get(position).getQuestion()));
-            }catch (IllegalArgumentException e){
-                e.printStackTrace();
 
-            }
+            quiz_title_txt.setText(StringEscapeUtils.unescapeJava(quizList.get(position).getQuestion()));
             quizOptionList = QuizActivity.appDelegate.getQuizOptionList();
             if (quizSpecificOptionListnew.size() > 0) {
                 quizSpecificOptionListnew.clear();
@@ -459,6 +438,32 @@ public class QuizPagerAdapter extends PagerAdapter {
 //                if (quizOptionList.size() == 1) {
 //                    selectedOption = quizOptionList.get(i).getOptionId();
 //                } else {
+
+                String quizId = quizList.get(position).getId();
+                quizOptionList = QuizActivity.appDelegate.getQuizOptionList();
+                if (quizSpecificOptionListnew.size() > 0) {
+                    quizSpecificOptionListnew.clear();
+                }
+
+
+                for (int j = 0; j < quizOptionList.size(); j++) {
+
+                    if (quizOptionList.get(j).getQuizId().equalsIgnoreCase(quizId)) {
+
+                        QuizOptionList quizTempOptionList = new QuizOptionList();
+
+                        quizTempOptionList.setOption(quizOptionList.get(j).getOption());
+                        quizTempOptionList.setOptionId(quizOptionList.get(j)
+                                .getOptionId());
+                        quizTempOptionList.setQuizId(quizOptionList.get(j)
+                                .getQuizId());
+
+                        quizSpecificOptionListnew.add(quizTempOptionList);
+
+                    }
+
+                }
+                quizSpecificOptionListnew1 = quizSpecificOptionListnew;
                 selectedOption = quizSpecificOptionListnew.get(i - 1).getOptionId();
                 selectopt = selectopt + 1;
 //                }
