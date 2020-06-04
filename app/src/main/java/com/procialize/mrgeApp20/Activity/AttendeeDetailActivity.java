@@ -224,8 +224,8 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         linsave = findViewById(R.id.linsave);
         tv_description.setMovementMethod(new ScrollingMovementMethod());
 
-        // attendeetitle.setTextColor(Color.parseColor(colorActive));
-        // tvname.setTextColor(Color.parseColor(colorActive));
+       // attendeetitle.setTextColor(Color.parseColor(colorActive));
+       // tvname.setTextColor(Color.parseColor(colorActive));
         sendbtn = findViewById(R.id.sendMsg);
 
         try {
@@ -259,10 +259,10 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         final GradientDrawable shapeunactive = setgradientDrawable(5, "#4D4D4D");
         final GradientDrawable shapeunactivelayout = setgradientDrawable(10, "#4D4D4D");
 //
-        // linsave.setBackground(shapelayout);
+       // linsave.setBackground(shapelayout);
 //        linMsg.setBackground(shapelayout);
 //        sendbtn.setBackground(shape);
-        //  saveContact.setBackground(shape);
+      //  saveContact.setBackground(shape);
 //        posttextEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 //            @Override
 //            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -282,7 +282,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         linMsg.setEnabled(false);
         linsave.setEnabled(false);
 
-        TextView txtcount = findViewById(R.id.txtcount);
+       TextView txtcount = findViewById(R.id.txtcount);
         final TextWatcher txwatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start,
@@ -545,6 +545,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                     addContactIntent.putExtra(Contacts.Intents.Insert.COMPANY, company);
                     addContactIntent.putExtra(Contacts.Intents.Insert.PHONE, mobile);
                     addContactIntent.putExtra(Contacts.Intents.Insert.JOB_TITLE, designation);
+
                     startActivity(addContactIntent);
                 } else {
                     try {
@@ -555,7 +556,9 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                         intent.putExtra(ContactsContract.Intents.Insert.COMPANY, company);
                         intent.putExtra(ContactsContract.Intents.Insert.PHONE, mobile);
                         intent.putExtra(ContactsContract.Intents.Insert.JOB_TITLE, designation);
+
                         intent.putExtra(ContactsContract.Intents.EXTRA_FORCE_CREATE, true);
+
                         startActivity(intent);
 //                    addToContactList(AttendeeDetailActivity.this, name, mobile);
                     } catch (Exception e) {
@@ -571,6 +574,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AddBuddy(eventid,apikey,attendeeid);
+
             }
         });
 */
@@ -763,32 +767,6 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         });
     }
 
-/*
-    public void AddBuddy(String eventid,  String token, String attendeeid) {
-        showProgress();
-//        showProgress();
-        mBuddyAPIService.sendFriendRequest(token, eventid, attendeeid).enqueue(new Callback<FetchSendRequest>() {
-            @Override
-            public void onResponse(Call<FetchSendRequest> call, Response<FetchSendRequest> response) {
-                if (response.isSuccessful()) {
-                    dismissProgress();
-                    Log.i("hit", "post submitted to API." + response.body().toString());
-                    Buddyresponse(response);
-                } else {
-                    dismissProgress();
-                    Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-                }
-            }
-            @Override
-            public void onFailure(Call<FetchSendRequest> call, Throwable t) {
-                dismissProgress();
-                Log.e("hit", "Low network or no network");
-                Toast.makeText(getApplicationContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
-//                dismissProgress();
-            }
-        });
-    }
-*/
 
     private void Buddyresponse(Response<FetchSendRequest> response) {
 

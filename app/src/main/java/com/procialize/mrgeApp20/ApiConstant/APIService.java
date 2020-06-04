@@ -6,6 +6,7 @@ package com.procialize.mrgeApp20.ApiConstant;
 
 
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchBuddyList;
+import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchSendRequest;
 import com.procialize.mrgeApp20.Engagement.Models.FetchEngagementData;
 import com.procialize.mrgeApp20.GetterSetter.AddExhibitorBrochure;
@@ -739,9 +740,9 @@ public interface APIService {
     //buddy related api
     @POST("sendFriendRequest")
     @FormUrlEncoded
-    Call<FetchSendRequest> sendFriendRequest(  @Field("api_access_token") String api_access_token,
-                                               @Field("event_id") String event_id,
-                                               @Field("buddy_id") String buddy_id);
+    Call<FetchSendRequest> sendFriendRequest(@Field("api_access_token") String api_access_token,
+                                             @Field("event_id") String event_id,
+                                             @Field("buddy_id") String buddy_id);
 
     @POST("cancelFriendRequest")
     @FormUrlEncoded
@@ -768,6 +769,12 @@ public interface APIService {
     Call<FetchEngagementData> getEngagementData(@Field("event_id") String event_id,
                                                 @Field("api_access_token") String api_access_token
                                                   );
+    @POST("LiveChatPostUser")
+    @FormUrlEncoded
+    Call<FetchChatList> LiveChatPostUser(@Field("event_id") String event_id,
+                                         @Field("api_access_token") String api_access_token,
+                                         @Field("buddy_id") String buddy_id,
+                                         @Field("message") String message );
 
 
 
@@ -777,4 +784,10 @@ public interface APIService {
                                         @Field("event_id") String event_id);
 
 
+    @POST("getUserChathistory")
+    @FormUrlEncoded
+    Call<FetchChatList> UserChathistory(@Field("event_id") String event_id,
+                                         @Field("api_access_token") String api_access_token,
+                                         @Field("buddy_id") String buddy_id,
+                                         @Field("chat_id") String message );
 }

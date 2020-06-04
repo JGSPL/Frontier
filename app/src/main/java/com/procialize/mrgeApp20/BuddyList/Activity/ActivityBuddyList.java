@@ -211,6 +211,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         });
 
 
+/*
         searchEt.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -229,6 +230,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
                 attendeeAdapter.getFilter().filter(s.toString());
             }
         });
+*/
     }
 
     public void fetchFeed(String token, String eventid) {
