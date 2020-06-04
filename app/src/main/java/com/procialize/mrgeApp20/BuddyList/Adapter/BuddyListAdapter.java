@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -27,7 +28,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
-import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
+import com.procialize.mrgeApp20.BuddyList.DataModel.Buddy;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -49,13 +50,13 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
     String colorActive;
-    private List<AttendeeList> attendeeLists;
+    private List<Buddy> attendeeLists;
     private Context context;
-    private List<AttendeeList> attendeeListFiltered;
+    private List<Buddy> attendeeListFiltered;
     private AttendeeAdapterListner listener;
 
 
-    public BuddyListAdapter(Context context, List<AttendeeList> attendeeLists, AttendeeAdapterListner listener) {
+    public BuddyListAdapter(Context context, List<Buddy> attendeeLists, AttendeeAdapterListner listener) {
         this.attendeeLists = attendeeLists;
         this.attendeeListFiltered = attendeeLists;
         this.listener = listener;
@@ -75,7 +76,7 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        final AttendeeList attendee = attendeeListFiltered.get(position);
+        final Buddy attendee = attendeeListFiltered.get(position);
 
         SessionManager sessionManager = new SessionManager(context);
         eventSettingLists = SessionManager.loadEventList();
@@ -90,27 +91,6 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
         holder.ic_rightarrow.setImageDrawable(drawable);*/
 
 
-        try {
-            if (attendee_company.equalsIgnoreCase("0")) {
-                holder.locationTv.setVisibility(View.INVISIBLE);
-            } else {
-                if (attendee.getCompanyName().equalsIgnoreCase("N A")) {
-                    holder.locationTv.setVisibility(View.INVISIBLE);
-                }
-                if (attendee.getCompanyName().equalsIgnoreCase("")) {
-                    holder.locationTv.setVisibility(View.INVISIBLE);
-                }
-                if (attendee.getCompanyName().equalsIgnoreCase(" ")) {
-                    holder.locationTv.setVisibility(View.INVISIBLE);
-                } else {
-                    holder.locationTv.setVisibility(View.VISIBLE);
-                    holder.locationTv.setText(attendee.getCompanyName());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            holder.locationTv.setVisibility(View.INVISIBLE);
-        }
 
 
         try {
@@ -136,12 +116,6 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
         }
 
 
-//        if(attendee_location.equalsIgnoreCase("0")){
-//            holder.locationTv.setVisibility(View.GONE);
-//        }else {
-//            holder.locationTv.setVisibility(View.VISIBLE);
-//        }
-
 
         if (attendee.getFirstName().equalsIgnoreCase("N A")) {
             holder.nameTv.setText("");
@@ -149,19 +123,7 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
             holder.nameTv.setText(attendee.getFirstName() + " " + attendee.getLastName());
             //holder.nameTv.setTextColor(Color.parseColor(colorActive));
         }
-//        try {
-//
-//
-//            if (attendee.getDesignation().equalsIgnoreCase("N A")) {
-//                holder.designationTv.setText("");
-//            } else {
-//                holder.designationTv.setText(attendee.getDesignation());
-//            }
-//
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+
 
 
         if (attendee.getProfilePic() != null) {
@@ -191,31 +153,22 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
 
         }
 
+        if(attendee.getRequest_type().equalsIgnoreCase("request_sent")){
+                holder.btnCancel.setVisibility(View.VISIBLE);
+            holder.btnAccept.setVisibility(View.GONE);
+            holder.btnReject.setVisibility(View.GONE);
+
+        }else if(attendee.getRequest_type().equalsIgnoreCase("request_received")){
+            holder.btnCancel.setVisibility(View.GONE);
+            holder.btnAccept.setVisibility(View.VISIBLE);
+            holder.btnReject.setVisibility(View.VISIBLE);
+        }else{
+            holder.btnCancel.setVisibility(View.GONE);
+            holder.btnAccept.setVisibility(View.GONE);
+            holder.btnReject.setVisibility(View.GONE);
+        }
 
 
-        /*if (attendee.getProfilePic() != null) {
-
-
-            Glide.with(context).load(ApiConstant.profilepic + attendee.getProfilePic())
-                    .apply(RequestOptions.skipMemoryCacheOf(true))
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
-                @Override
-                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                    holder.progressBar.setVisibility(View.GONE);
-                    holder.profileIv.setImageResource(R.drawable.profilepic_placeholder);
-                    return true;
-                }
-
-                @Override
-                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                    holder.progressBar.setVisibility(View.GONE);
-                    return false;
-                }
-            }).into(holder.profileIv);
-
-        } else {
-            holder.progressBar.setVisibility(View.GONE);
-        }*/
     }
 
     @Override
@@ -235,8 +188,8 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
                     if (attendeeLists.size() == 0) {
 
                     } else {
-                        List<AttendeeList> filteredList = new ArrayList<>();
-                        for (AttendeeList row : attendeeLists) {
+                        List<Buddy> filteredList = new ArrayList<>();
+                        for (Buddy row : attendeeLists) {
 
                             // name match condition. this might differ depending on your requirement
                             // here we are looking for name or phone number match
@@ -258,7 +211,7 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                attendeeListFiltered = (ArrayList<AttendeeList>) filterResults.values;
+                attendeeListFiltered = (ArrayList<Buddy>) filterResults.values;
 
                 if (attendeeListFiltered.size() == 0) {
 //                    Toast.makeText(context, "No Attendee Found", Toast.LENGTH_SHORT).show();
@@ -290,7 +243,11 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
     }
 
     public interface AttendeeAdapterListner {
-        void onContactSelected(AttendeeList attendee);
+        void onContactSelected(Buddy attendee);
+        void onAcceptSelected(Buddy attendee);
+        void onRejectSelected(Buddy attendee);
+        void onCancelSelected(Buddy attendee);
+
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -298,6 +255,7 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
         public ImageView profileIv, ic_rightarrow;
         public LinearLayout mainLL;
         public ProgressBar progressBar;
+        public Button btnAccept, btnReject, btnCancel;
 
         public MyViewHolder(View view) {
             super(view);
@@ -306,6 +264,9 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
             designationTv = view.findViewById(R.id.designationTv);
 
             profileIv = view.findViewById(R.id.profileIV);
+            btnAccept = view.findViewById(R.id.btnAccept);
+            btnReject = view.findViewById(R.id.btnReject);
+            btnCancel = view.findViewById(R.id.btnCancel);
 
             ic_rightarrow = view.findViewById(R.id.ic_rightarrow);
 
@@ -320,6 +281,32 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
                     listener.onContactSelected(attendeeListFiltered.get(getAdapterPosition()));
                 }
             });
+
+            btnAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onAcceptSelected(attendeeListFiltered.get(getAdapterPosition()));
+
+                }
+            });
+
+            btnReject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onRejectSelected(attendeeListFiltered.get(getAdapterPosition()));
+
+                }
+            });
+
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onCancelSelected(attendeeListFiltered.get(getAdapterPosition()));
+
+                }
+            });
+
+
         }
     }
 }

@@ -48,6 +48,20 @@ public class DirectQuestion {
     @Expose
     private String total_likes;
 
+    @SerializedName("reply")
+    @Expose
+    private String reply;
+
+
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
+
     public String getId() {
         return id;
     }

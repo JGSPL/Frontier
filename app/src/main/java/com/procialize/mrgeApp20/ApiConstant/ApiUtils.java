@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.ApiConstant;
 
+import com.procialize.mrgeApp20.BuddyClient;
 import com.procialize.mrgeApp20.RetrofitClient;
 import com.procialize.mrgeApp20.TenorClient;
 
@@ -20,7 +21,7 @@ public class ApiUtils {
 
     public static APIService getBuddyAPIService() {
 
-        return RetrofitClient.getClient(ApiConstant.buddybaseUrl).create(APIService.class);
+        return BuddyClient.getClientbuddy(ApiConstant.buddybaseUrl).create(APIService.class);
     }
 
     public static TenorApiService getTenorAPIService() {

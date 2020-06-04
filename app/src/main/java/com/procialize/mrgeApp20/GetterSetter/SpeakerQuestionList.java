@@ -49,6 +49,18 @@ public class SpeakerQuestionList {
     @Expose
     private String totalLikes;
 
+    @SerializedName("reply")
+    @Expose
+    private String reply;
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
+
     public String getId() {
         return id;
     }

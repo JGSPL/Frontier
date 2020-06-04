@@ -20,7 +20,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Contacts;
@@ -61,7 +60,6 @@ import com.procialize.mrgeApp20.BuddyList.DataModel.FetchSendRequest;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
-import com.procialize.mrgeApp20.GetterSetter.DeleteSelfie;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.SendMessagePost;
 import com.procialize.mrgeApp20.GetterSetter.UserData;
@@ -69,17 +67,12 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
-import com.procialize.mrgeApp20.Utility.ServiceHandler;
 import com.procialize.mrgeApp20.Utility.Util;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -175,7 +168,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
 
 
         mAPIService = ApiUtils.getAPIService();
-       mBuddyAPIService = ApiUtils.getBuddyAPIService();
+        mBuddyAPIService = ApiUtils.getBuddyAPIService();
         sessionManager = new SessionManager(AttendeeDetailActivity.this);
 
         HashMap<String, String> user = sessionManager.getUserDetails();
@@ -544,8 +537,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
 
                 /*Intent main = new Intent(getApplicationContext(), ActivityBuddyList.class);
                 startActivity(main);*/
-                AddBuddy(eventid,apikey,attendeeid);
-                // new postQuizQuestion().execute();
+                AddBuddy(apikey,eventid,attendeeid);
 
                /* if (mobile.isEmpty()) {
                     Intent addContactIntent = new Intent(Contacts.Intents.Insert.ACTION, Contacts.People.CONTENT_URI);
@@ -746,9 +738,9 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void AddBuddy(String eventid,String apikey,String attendeeid) {
+    public void AddBuddy( String token,String eventid,String messId) {
         showProgress();
-        mBuddyAPIService.sendFriendRequest( eventid,apikey, attendeeid).enqueue(new Callback<FetchSendRequest>() {
+        mBuddyAPIService.sendFriendRequest(token, eventid, messId).enqueue(new Callback<FetchSendRequest>() {
             @Override
             public void onResponse(Call<FetchSendRequest> call, Response<FetchSendRequest> response) {
 
@@ -758,6 +750,8 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                     dismissProgress();
                     Buddyresponse(response);
                 } else {
+
+
                     dismissProgress();
                     Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -766,75 +760,11 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<FetchSendRequest> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
+
                 dismissProgress();
+
             }
         });
-    }
-
-    private class postQuizQuestion extends AsyncTask<Void, Void, Void> {
-
-        String error = "";
-        String message = "";
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Showing progress dialog
-            try {
-                showProgress();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            // Creating service handler class instance
-            ServiceHandler sh = new ServiceHandler();
-            List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
-
-            nameValuePair.add(new BasicNameValuePair("api_access_token",
-                    apikey));
-            nameValuePair.add(new BasicNameValuePair("event_id",
-                    eventid  ));
-            nameValuePair.add(new BasicNameValuePair("buddy_id", attendeeid));
-
-
-            // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall("https://www.procialize.live/stage/mrge/API/buddy/sendFriendRequest",
-                    ServiceHandler.POST, nameValuePair);
-            Log.d("Response: ", "> " + jsonStr);
-
-            if (jsonStr != null) {
-                try {
-
-                    JSONObject jsonResult = new JSONObject(jsonStr);
-                    error = jsonResult.getString("status");
-                    message = jsonResult.getString("msg");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-
-            dismissProgress();
-            if (error.equalsIgnoreCase("success")) {
-                saveContact.setText("Request send");
-                Toast.makeText(AttendeeDetailActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
-            } else {
-
-                Toast.makeText(AttendeeDetailActivity.this, message,
-                        Toast.LENGTH_SHORT).show();
-            }
-
-        }
     }
 
 /*

@@ -43,6 +43,29 @@ public class AgendaQuestion {
     @Expose
     private String last_name;
 
+    @SerializedName("profile_pic")
+    @Expose
+    private String profile_pic;
+    @SerializedName("reply")
+    @Expose
+    private String reply;
+
+    public String getProfile_pic() {
+        return profile_pic;
+    }
+
+    public void setProfile_pic(String profile_pic) {
+        this.profile_pic = profile_pic;
+    }
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
+
     public String getFirst_name() {
         return first_name;
     }

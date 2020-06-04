@@ -39,10 +39,12 @@ import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.BuddyList.Adapter.BuddyListAdapter;
+import com.procialize.mrgeApp20.BuddyList.DataModel.Buddy;
+import com.procialize.mrgeApp20.BuddyList.DataModel.FetchBuddyList;
+import com.procialize.mrgeApp20.BuddyList.DataModel.FetchSendRequest;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
-import com.procialize.mrgeApp20.GetterSetter.FetchAttendee;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -80,8 +82,8 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
     private SQLiteDatabase db;
     private List<AttendeeList> attendeeDBList;
     LinearLayout ll_empty_view;
-    //LinearLayout linear;
-    //TextView pullrefresh;
+     String token;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,12 +138,8 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         searchEt = findViewById(R.id.searchEt);
         attendeefeedrefresh = findViewById(R.id.attendeefeedrefresh);
         progressBar = findViewById(R.id.progressBar);
-        //linear = findViewById(R.id.linear);
-       // pullrefresh = findViewById(R.id.pullrefresh);
+
         try {
-//            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
-            //path to /data/data/yourapp/app_data/dirName
-//            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ ApiConstant.folderName+"/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
@@ -166,27 +164,27 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         //attendeerecycler.setLayoutAnimation(animation);
 
 
-        mAPIService = ApiUtils.getAPIService();
+        mAPIService = ApiUtils.getBuddyAPIService();
 
         SessionManager sessionManager = new SessionManager(this);
 
         HashMap<String, String> user = sessionManager.getUserDetails();
 
         // token
-        final String token = user.get(SessionManager.KEY_TOKEN);
+         token = user.get(SessionManager.KEY_TOKEN);
         crashlytics("Attendee",token);
         firbaseAnalytics(this,"Attendee",token);
         if (cd.isConnectingToInternet()) {
             fetchFeed(token, eventid);
         } else {
-            db = procializeDB.getReadableDatabase();
+           /* db = procializeDB.getReadableDatabase();
 
             attendeeDBList = dbHelper.getAttendeeDetails();
 
             attendeeAdapter = new BuddyListAdapter(this, attendeeDBList, this);
             attendeeAdapter.notifyDataSetChanged();
             attendeerecycler.setAdapter(attendeeAdapter);
-            attendeerecycler.scheduleLayoutAnimation();
+            attendeerecycler.scheduleLayoutAnimation();*/
         }
 
         attendeefeedrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -196,7 +194,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
                 if (cd.isConnectingToInternet()) {
                     fetchFeed(token, eventid);
                 } else {
-                    db = procializeDB.getReadableDatabase();
+                    /*db = procializeDB.getReadableDatabase();
 
                     attendeeDBList = dbHelper.getAttendeeDetails();
 
@@ -207,7 +205,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
 
                     if (attendeefeedrefresh.isRefreshing()) {
                         attendeefeedrefresh.setRefreshing(true);
-                    }
+                    }*/
                 }
             }
         });
@@ -235,9 +233,9 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
 
     public void fetchFeed(String token, String eventid) {
         progressBar.setVisibility(View.VISIBLE);
-        mAPIService.AttendeeFetchPost(token, eventid).enqueue(new Callback<FetchAttendee>() {
+        mAPIService.getBuddyList(eventid,token).enqueue(new Callback<FetchBuddyList>() {
             @Override
-            public void onResponse(Call<FetchAttendee> call, Response<FetchAttendee> response) {
+            public void onResponse(Call<FetchBuddyList> call, Response<FetchBuddyList> response) {
 
                 if (response.isSuccessful()) {
                     Log.i("hit", "post submitted to API." + response.body().toString());
@@ -257,7 +255,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
             }
 
             @Override
-            public void onFailure(Call<FetchAttendee> call, Throwable t) {
+            public void onFailure(Call<FetchBuddyList> call, Throwable t) {
                 Log.e("hit", "Unable to submit post to API.");
                 Toast.makeText(ActivityBuddyList.this, "Low network or no network", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
@@ -269,19 +267,19 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         });
     }
 
-    public void showResponse(Response<FetchAttendee> response) {
+    public void showResponse(Response<FetchBuddyList> response) {
 
         // specify an adapter (see also next example)
-        if (!(response.body().getAttendeeList().isEmpty())) {
+        if (!(response.body().getBuddyList().isEmpty())) {
 
             ll_empty_view.setVisibility(View.GONE);
             attendeerecycler.setVisibility(View.VISIBLE);
 
-            dbHelper.clearAttendeesTable();
+           /* dbHelper.clearAttendeesTable();
             dbHelper.insertAttendeesInfo(response.body().getAttendeeList(), db);
+*/
 
-
-            attendeeAdapter = new BuddyListAdapter(ActivityBuddyList.this, response.body().getAttendeeList(), this);
+            attendeeAdapter = new BuddyListAdapter(ActivityBuddyList.this, response.body().getBuddyList(), this);
             attendeeAdapter.notifyDataSetChanged();
             attendeerecycler.setAdapter(attendeeAdapter);
         } else {
@@ -292,21 +290,6 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         }
     }
 
-    @Override
-    public void onContactSelected(AttendeeList attendee) {
-        Intent attendeetail = new Intent(this, ActivityBuddyChat.class);
-        attendeetail.putExtra("id", attendee.getAttendeeId());
-        attendeetail.putExtra("name", attendee.getFirstName() + " " + attendee.getLastName());
-        attendeetail.putExtra("city", attendee.getCity());
-        attendeetail.putExtra("country", attendee.getCountry());
-        attendeetail.putExtra("company", attendee.getCompanyName());
-        attendeetail.putExtra("designation", attendee.getDesignation());
-        attendeetail.putExtra("description", attendee.getDescription());
-        attendeetail.putExtra("profile", attendee.getProfilePic());
-        attendeetail.putExtra("mobile", attendee.getMobile());
-//                speakeretail.putExtra("totalrate",attendee.getTotalRating());
-        startActivity(attendeetail);
-    }
 
     @Override
     public void onPause() {
@@ -331,4 +314,123 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         });
         deleteDialog.show();
     }
+
+    @Override
+    public void onContactSelected(Buddy attendee) {
+        Intent attendeetail = new Intent(this, ActivityBuddyChat.class);
+        attendeetail.putExtra("id", attendee.getFriend_id());
+        attendeetail.putExtra("name", attendee.getFirstName() + " " + attendee.getLastName());
+        attendeetail.putExtra("city", attendee.getCity());
+        attendeetail.putExtra("country", attendee.getDesignation());
+        attendeetail.putExtra("company", attendee.getDesignation());
+        attendeetail.putExtra("designation", attendee.getDesignation());
+        attendeetail.putExtra("description", attendee.getDesignation());
+        attendeetail.putExtra("profile", attendee.getProfilePic());
+        attendeetail.putExtra("mobile", attendee.getDesignation());
+//                speakeretail.putExtra("totalrate",attendee.getTotalRating());
+        startActivity(attendeetail);
+    }
+
+    @Override
+    public void onAcceptSelected(Buddy attendee) {
+        AccectRejectMethod(eventid,token,attendee.getFriend_id(),"1");
+    }
+
+    @Override
+    public void onRejectSelected(Buddy attendee) {
+        AccectRejectMethod(eventid,token,attendee.getFriend_id(),"2");
+
+    }
+
+    @Override
+    public void onCancelSelected(Buddy attendee) {
+        CancelMethod(eventid,token,attendee.getFriend_id());
+    }
+
+    public void CancelMethod(String eventid, String toke, String Buddy_id) {
+        progressBar.setVisibility(View.VISIBLE);
+        mAPIService.cancelFriendRequest(eventid,toke, Buddy_id).enqueue(new Callback<FetchSendRequest>() {
+            @Override
+            public void onResponse(Call<FetchSendRequest> call, Response<FetchSendRequest> response) {
+
+                if (response.isSuccessful()) {
+                    Log.i("hit", "post submitted to API." + response.body().toString());
+                    progressBar.setVisibility(View.GONE);
+                    if (attendeefeedrefresh.isRefreshing()) {
+                        attendeefeedrefresh.setRefreshing(false);
+                    }
+                    showResponseBuddy(response);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+
+                    if (attendeefeedrefresh.isRefreshing()) {
+                        attendeefeedrefresh.setRefreshing(false);
+                    }
+                    Toast.makeText(ActivityBuddyList.this, response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FetchSendRequest> call, Throwable t) {
+                Log.e("hit", "Unable to submit post to API.");
+                Toast.makeText(ActivityBuddyList.this, "Low network or no network", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+
+                if (attendeefeedrefresh.isRefreshing()) {
+                    attendeefeedrefresh.setRefreshing(false);
+                }
+            }
+        });
+    }
+
+
+    public void AccectRejectMethod(String eventid, String toke, String Buddy_id, String response) {
+        progressBar.setVisibility(View.VISIBLE);
+        mAPIService.respondToFriendRequest(eventid,toke, Buddy_id, response).enqueue(new Callback<FetchSendRequest>() {
+            @Override
+            public void onResponse(Call<FetchSendRequest> call, Response<FetchSendRequest> response) {
+
+                if (response.isSuccessful()) {
+                    Log.i("hit", "post submitted to API." + response.body().toString());
+                    progressBar.setVisibility(View.GONE);
+                    if (attendeefeedrefresh.isRefreshing()) {
+                        attendeefeedrefresh.setRefreshing(false);
+                    }
+                    showResponseBuddy(response);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+
+                    if (attendeefeedrefresh.isRefreshing()) {
+                        attendeefeedrefresh.setRefreshing(false);
+                    }
+                    Toast.makeText(ActivityBuddyList.this, response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FetchSendRequest> call, Throwable t) {
+                Log.e("hit", "Unable to submit post to API.");
+                Toast.makeText(ActivityBuddyList.this, "Low network or no network", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+
+                if (attendeefeedrefresh.isRefreshing()) {
+                    attendeefeedrefresh.setRefreshing(false);
+                }
+            }
+        });
+    }
+
+    public void showResponseBuddy(Response<FetchSendRequest> response) {
+
+        if (response.body().getStatus().equalsIgnoreCase("success")) {
+            Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+            fetchFeed(token, eventid);
+
+        } else {
+
+            Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 }

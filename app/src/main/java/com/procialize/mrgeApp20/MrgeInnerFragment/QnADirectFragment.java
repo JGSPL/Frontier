@@ -124,7 +124,7 @@ public class QnADirectFragment extends Fragment implements QADirectAdapter.QADir
        
        
         nmtxt.setTextColor(Color.parseColor(colorActive));
-        pullrefresh.setTextColor(Color.parseColor(colorActive));
+        //pullrefresh.setTextColor(Color.parseColor(colorActive));
         txtEmpty.setTextColor(Color.parseColor(colorActive));
 
         mAPIService = ApiUtils.getAPIService();
@@ -215,8 +215,11 @@ public class QnADirectFragment extends Fragment implements QADirectAdapter.QADir
                 qaRv.setAdapter(qaAttendeeAdapter);
                 qaRv.scheduleLayoutAnimation();
                 txtEmpty.setVisibility(View.GONE);
+                pullrefresh.setVisibility(View.VISIBLE);
             } else {
                 txtEmpty.setVisibility(View.VISIBLE);
+                pullrefresh.setVisibility(View.INVISIBLE);
+
                 //linUpper.setBackground(getResources().getDrawable(R.drawable.noqna));
 
                 qaAttendeeAdapter = new QADirectAdapter(getContext(), response.body().getQa_question(), this);
@@ -468,10 +471,6 @@ public class QnADirectFragment extends Fragment implements QADirectAdapter.QADir
 
             }
 
-           /* qaAttendeeAdapter = new QADirectAdapter(getContext(), response.body().getQa_question(), this);
-            qaAttendeeAdapter.notifyDataSetChanged();
-            qaRv.setAdapter(qaAttendeeAdapter);
-            qaRv.scheduleLayoutAnimation();*/
         } else {
             Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
         }

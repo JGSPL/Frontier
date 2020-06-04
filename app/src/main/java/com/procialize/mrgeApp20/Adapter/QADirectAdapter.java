@@ -4,15 +4,25 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
@@ -73,15 +83,35 @@ public class QADirectAdapter extends RecyclerView.Adapter<QADirectAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final DirectQuestion question = directQuestionLists.get(position);
         holder.nameTv.setTextColor(Color.parseColor(colorActive));
+        if(question.getLast_name()!=null) {
+            holder.nameTv.setText(question.getFirst_name() + " " + question.getLast_name());
+        }else{
+            holder.nameTv.setText(question.getFirst_name());
 
-        holder.nameTv.setText(question.getFirst_name());
+        }
         try{
-        holder.QaTv.setText(StringEscapeUtils.unescapeJava(question.getQuestion()));
+        holder.QaTv.setText( "Q. "+StringEscapeUtils.unescapeJava(question.getQuestion()));
         }catch (IllegalArgumentException e){
             e.printStackTrace();
 
         }
-        holder.AnsTv.setVisibility(View.GONE);
+
+        if(question.getAttendee_designation()!=null){
+            holder.designationTv.setText(question.getAttendee_designation());
+        }
+        if(question.getReply().equalsIgnoreCase("")){
+            holder.AnsTv.setText("Awaiting Answer");
+
+        }else{
+            try{
+                holder.AnsTv.setText( "A. "+StringEscapeUtils.unescapeJava(question.getReply()));
+            }catch (IllegalArgumentException e){
+                e.printStackTrace();
+
+            }
+
+        }
+
 
         if (holder.likeLL.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) holder.likeLL.getLayoutParams();
@@ -114,6 +144,33 @@ public class QADirectAdapter extends RecyclerView.Adapter<QADirectAdapter.MyView
 
         if (eventSettingLists.size() != 0) {
             applysetting(eventSettingLists);
+        }
+
+        if (question.getProfile_pic() != null) {
+
+
+            Glide.with(context).load(ApiConstant.profilepic + question.getProfile_pic())
+                    .apply(RequestOptions.skipMemoryCacheOf(false))
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            holder.profileIV.setImageResource(R.drawable.profilepic_placeholder);
+
+                            holder.progressBar.setVisibility(View.GONE);
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            holder.progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    }).into(holder.profileIV);
+
+        } else {
+            holder.progressBar.setVisibility(View.GONE);
+
         }
 
 
@@ -198,9 +255,10 @@ public class QADirectAdapter extends RecyclerView.Adapter<QADirectAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nameTv, dateTv, QaTv, AnsTv, countTv;
-        public ImageView likeIv;
+        public TextView nameTv, dateTv, QaTv, AnsTv, countTv, designationTv;
+        public ImageView likeIv, profileIV;
         LinearLayout likeLL;
+        ProgressBar progressBar;
 
         public MyViewHolder(View view) {
             super(view);
@@ -210,8 +268,10 @@ public class QADirectAdapter extends RecyclerView.Adapter<QADirectAdapter.MyView
             AnsTv = view.findViewById(R.id.AnsTv);
             countTv = view.findViewById(R.id.countTv);
             likeLL = view.findViewById(R.id.likeLL);
-
+            progressBar= view.findViewById(R.id.progressBar);
             likeIv = view.findViewById(R.id.likeIv);
+            profileIV = view.findViewById(R.id.profileIV);
+            designationTv = view.findViewById(R.id.designationTv);
 
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
