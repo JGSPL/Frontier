@@ -385,10 +385,7 @@ public interface APIService {
                                           @Field("target_attendee_type") String target_attendee_type);
 
 
-    @POST("EventInfoFetch")
-    @FormUrlEncoded
-    Call<EventInfoFetch> EventInfoFetch(@Field("api_access_token") String api_access_token,
-                                        @Field("event_id") String event_id);
+
 
 
     @POST("SurveyFetch")
@@ -742,9 +739,9 @@ public interface APIService {
     //buddy related api
     @POST("sendFriendRequest")
     @FormUrlEncoded
-    Call<FetchSendRequest> sendFriendRequest( @Field("event_id") String event_id,
-                                              @Field("api_access_token") String api_access_token,
-                                             @Field("buddy_id") String buddy_id);
+    Call<FetchSendRequest> sendFriendRequest(  @Field("api_access_token") String api_access_token,
+                                               @Field("event_id") String event_id,
+                                               @Field("buddy_id") String buddy_id);
 
     @POST("cancelFriendRequest")
     @FormUrlEncoded
@@ -771,6 +768,13 @@ public interface APIService {
     Call<FetchEngagementData> getEngagementData(@Field("event_id") String event_id,
                                                 @Field("api_access_token") String api_access_token
                                                   );
+
+
+
+    @POST("EventInfoFetch")
+    @FormUrlEncoded
+    Call<EventInfoFetch> EventInfoFetch(@Field("api_access_token") String api_access_token,
+                                        @Field("event_id") String event_id);
 
 
 }

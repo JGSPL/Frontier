@@ -102,7 +102,8 @@
                                 android:text="Selfie Engagement"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/textsizesmall" />
+                                android:textSize="@dimen/textsizesmall"
+                                android:textStyle="bold"/>
 
                             <TextView
                                 android:id="@+id/tv_selfie_total_items"
@@ -111,10 +112,10 @@
                                 android:layout_gravity="top"
                                 android:layout_marginTop="5dp"
                                 android:gravity="center|left"
-                                android:text="Selfie Engagement"
+                                android:text=""
                                 android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/textsizesmaller" />
+                                android:textSize="12dp" />
 
                         </LinearLayout>
 
@@ -143,7 +144,7 @@
                         android:layout_margin="10dp"
                         android:layout_marginTop="5dp"
                         android:gravity="center|left"
-                        android:text="Lorem ipsum dolor sit amet, ius ad mollis accusamus theophrastus, convenire concludaturque quo an, vel ut nobis laoreet"
+                        android:text=""
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textsizesmall" />
@@ -190,7 +191,8 @@
                                 android:text="Video Engagement"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/textsizesmall" />
+                                android:textSize="@dimen/textsizesmall"
+                                android:textStyle="bold"/>
 
                             <TextView
                                 android:id="@+id/video_total_items"
@@ -199,10 +201,10 @@
                                 android:layout_gravity="top"
                                 android:layout_marginTop="5dp"
                                 android:gravity="center|left"
-                                android:text="Selfie Engagement"
+                                android:text=""
                                 android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/textsizesmaller" />
+                                android:textSize="12dp" />
 
                         </LinearLayout>
 
@@ -231,7 +233,7 @@
                         android:layout_margin="10dp"
                         android:layout_marginTop="5dp"
                         android:gravity="center|left"
-                        android:text="Lorem ipsum dolor sit amet, ius ad mollis accusamus theophrastus, convenire concludaturque quo an, vel ut nobis laoreet"
+                        android:text=""
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textsizesmall" />

@@ -534,7 +534,13 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
             if (userList != null && !userList.isEmpty()) {
                 for (AttendeeList user : userList) {
                     final String firstName = user.getFirstName().toLowerCase();
-                    final String lastName = user.getLastName().toLowerCase();
+                    String lastName="";
+                    try {
+                        if (!user.getLastName().isEmpty()) {
+                            lastName = user.getLastName().toLowerCase();
+                        }
+                    }catch (Exception e)
+                    {e.printStackTrace();}
                     if (firstName.startsWith(query) || lastName.startsWith(query)) {
                         searchResults.add(user);
                     }

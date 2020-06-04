@@ -19,6 +19,29 @@ public class EventInfoFetch {
     @SerializedName("msg")
     @Expose
     private String msg;
+    @SerializedName("sponsor_file_path")
+    @Expose
+    private String sponsor_file_path;
+
+    @SerializedName("sponsor_list")
+    @Expose
+    private List<SponsorsList> sponsor_list;
+
+    public List<SponsorsList> getSponsor_list() {
+        return sponsor_list;
+    }
+
+    public void setSponsor_list(List<SponsorsList> sponsor_list) {
+        this.sponsor_list = sponsor_list;
+    }
+
+    public String getSponsor_file_path() {
+        return sponsor_file_path;
+    }
+
+    public void setSponsor_file_path(String sponsor_file_path) {
+        this.sponsor_file_path = sponsor_file_path;
+    }
 
     public List<EventList> getEventList() {
         return eventList;

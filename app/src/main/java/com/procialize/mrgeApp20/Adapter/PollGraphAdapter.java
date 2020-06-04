@@ -86,6 +86,7 @@ public class PollGraphAdapter extends RecyclerView.Adapter<PollGraphAdapter.MyVi
         rpms2 = new LinearLayout.LayoutParams(0,
                 ViewGroup.LayoutParams.MATCH_PARENT, weight);
         rpms2.setMargins(0, 0, 0, 0);
+
         l3.setLayoutParams(rprms);
         l3.setWeightSum(100);
         l3.setMinimumHeight(40);
