@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:id="@+id/linQues"
+        android:visibility="visible"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@drawable/drawable_receiver"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp">
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/QaTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="0dp"
+                    android:autoLink="web"
+                    android:textColorLink="@android:color/holo_blue_dark"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/ReviewTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="0dp"
+                    android:visibility="gone"
+                    android:text="Awaiting answer from VIP Support Team"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:weightSum="10"
+            android:layout_height="wrap_content">
+
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/dateNTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:gravity="left"
+                android:layout_gravity="left"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorAccent"
+                android:textSize="8sp" />
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/linAns"
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:visibility="visible"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp">
+
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/drawable_sender"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_margin="0dp">
+
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/AnsTv"
+                android:padding="5dp"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:layout_gravity="left"
+                android:gravity="left"
+                android:autoLink="web"
+                android:textColorLink="@android:color/holo_blue_dark"
+                android:textColor="@color/colorwhite"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="10"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="right"
+            android:layout_height="wrap_content">
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/dateATv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_marginTop="5dp"
+                android:gravity="right"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="right"
+                android:text=""
+                android:singleLine="true"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -767,36 +767,6 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         });
     }
 
-/*
-    public void AddBuddy(String eventid,  String token, String attendeeid) {
-        showProgress();
-//        showProgress();
-        mBuddyAPIService.sendFriendRequest(token, eventid, attendeeid).enqueue(new Callback<FetchSendRequest>() {
-            @Override
-            public void onResponse(Call<FetchSendRequest> call, Response<FetchSendRequest> response) {
-
-                if (response.isSuccessful()) {
-                    dismissProgress();
-
-                    Log.i("hit", "post submitted to API." + response.body().toString());
-                    Buddyresponse(response);
-
-                } else {
-                    dismissProgress();
-                    Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<FetchSendRequest> call, Throwable t) {
-                dismissProgress();
-                Log.e("hit", "Low network or no network");
-                Toast.makeText(getApplicationContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
-//                dismissProgress();
-            }
-        });
-    }
-*/
 
     private void Buddyresponse(Response<FetchSendRequest> response) {
 

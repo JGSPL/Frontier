@@ -110,19 +110,39 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
+        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            android:id="@+id/txtEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="Start conversation \n with VIP Support Team"
+            android:textColor="@color/activetab"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/attendeefeedrefresh"
+            android:id="@+id/qaRvrefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:layout_weight="1">
+            <ListView
+                android:id="@+id/qaRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:divider="@android:color/transparent"
+                android:fadeScrollbars="false"
+                android:smoothScrollbar="true" />
 
+<!--
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/attendeerecycler"
+                android:id="@+id/qaRv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical" />
+-->
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -149,6 +169,7 @@
                 android:padding="5dp"/>
 
             <EditText
+                android:id="@+id/commentEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -161,6 +182,7 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/commentBt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_send"/>
