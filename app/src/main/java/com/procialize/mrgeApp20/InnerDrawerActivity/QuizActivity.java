@@ -98,7 +98,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
     public static String foldername = "null",strTimer="0";
     public static Button submit, btnNext;
     ImageView headerlogoIv;
-    TextView questionTv, txt_time;
+    TextView questionTv, txt_time,txtSkip;
     public static TextView txt_count;
     CustomViewPager pager;
     //    QuizPagerAdapter pagerAdapter;
@@ -115,7 +115,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
     boolean flag2 = true;
     public static boolean submitflag = false;
     Timer timer;
-    public int time = 10;
+    public int time = 10,timerForQuiz;
     public static int countpage = 1;
     ProgressBar progressBarCircle;
     TextView  textViewTime;
@@ -146,9 +146,10 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                     e.printStackTrace();
                 }
 
-                Intent intent = new Intent(QuizActivity.this, FolderQuizActivity.class);
+               /* Intent intent = new Intent(QuizActivity.this, FolderQuizActivity.class);
                 startActivity(intent);
-                finish();
+                finish();*/
+               onBackPressed();
 
             }
         });
@@ -167,7 +168,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
 
         foldername = getIntent().getExtras().getString("folder");
         strTimer = getIntent().getExtras().getString("timer");
-
+        timerForQuiz = Integer.parseInt(getIntent().getExtras().getString("timer"));
+        time = timerForQuiz;
         time = Integer.parseInt(strTimer);
         // Session Manager
         session = new SessionManager(getApplicationContext());
@@ -184,7 +186,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         submit = (Button) findViewById(R.id.submit);
         btnNext = (Button) findViewById(R.id.btnNext);
         txt_time = (TextView) findViewById(R.id.txt_time);
-
+        txtSkip = (TextView) findViewById(R.id.txtSkip);
+        txtSkip.setOnClickListener(this);
         progressBarCircle = (ProgressBar) findViewById(R.id.progressBarCircle);
         textViewTime = (TextView) findViewById(R.id.textViewTime);
 
@@ -200,7 +203,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         questionTv.setBackgroundColor(Color.parseColor(colorActive));
         btnNext.setBackgroundColor(Color.parseColor(colorActive));
         submit.setBackgroundColor(Color.parseColor(colorActive));
-        txt_count.setTextColor(Color.parseColor(colorActive));
+        //txt_count.setTextColor(Color.parseColor(colorActive));
 
         try {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
@@ -243,7 +246,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 } else if (quizList.size() >= pager.getCurrentItem() + 1) {
                     btnNext.setVisibility(View.VISIBLE);
                     submit.setVisibility(View.GONE);
-                    time = 0;
+                    //time = 0;
+                    time = timerForQuiz;
                     timercountdown.cancel();
                     timercountdown.start();
                     txt_time.setText("" + ":" + checkdigit(time));
@@ -257,6 +261,26 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         });
         pager = findViewById(R.id.pager);
 
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                time = timerForQuiz;
+                txt_count.setText("Questions " + (position+1) + "/" + quizList.size());
+               /* timercountdown.cancel();
+                timercountdown.start();*/
+                //startCountDownTimer(time * 1000);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         quizNameList.setAnimationCacheEnabled(true);
         quizNameList.setDrawingCacheEnabled(true);
         quizNameList.hasFixedSize();
@@ -276,8 +300,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         timercountdown = new CountDownTimer(10000, 1000) {
             public void onTick(long millisUntilFinished) {
                 if (time == 0) {
-
-                    time = 10;
+                    time = timerForQuiz;
+                    //time = 10;
                 }
 
                 txt_time.setText("" + ":" + checkdigit(time));
@@ -288,7 +312,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
             }
 
             public void onFinish() {
-                time = 0;
+                //time = 0;
+                time = timerForQuiz;
                 timercountdown.cancel();
                 timercountdown.start();
                 txt_time.setText("" + ":" + checkdigit(time));
@@ -472,7 +497,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                                 quiz_question_id = question_id[0];
                                 quiz_options_id = question_ans[0];
                                 int answers = pagerAdapter.getCorrectOption();
-                                //new postQuizQuestion().execute();
+                                new postQuizQuestion().execute();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
                             }
@@ -574,7 +599,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 pDialog = null;
             }
 
-
+            txt_count.setText("Questions 1/" + quizList.size());
             pagerAdapter = new QuizPagerAdapter(QuizActivity.this, quizList);
             pager.setAdapter(pagerAdapter);
             pager.setPagingEnabled(false);
@@ -705,12 +730,151 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                     quiz_question_id = question_id[0];
                     quiz_options_id = question_ans[0];
                     int answers = pagerAdapter.getCorrectOption();
-                    //new postQuizQuestion().execute();
+                    Toast.makeText(appDelegate, quiz_options_id, Toast.LENGTH_SHORT).show();
+                    Log.d("Selected Options==>",quiz_options_id);
+                    new postQuizQuestion().execute();
 //                    Intent intent = new Intent(QuizActivity.this, YourScoreActivity.class);
 //                    intent.putExtra("folderName", foldername);
 //                    intent.putExtra("Answers", answers);
 //                    intent.putExtra("TotalQue", adapter.getselectedData().length);
 //                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        else if(v.getId() == R.id.txtSkip) {
+
+            pager.setCurrentItem(pager.getCurrentItem() + 1, true);
+            countpage = pager.getCurrentItem();
+            if (quizList.size() == pager.getCurrentItem() + 1) {
+                btnNext.setVisibility(View.GONE);
+                submit.setVisibility(View.VISIBLE);
+            } else if (quizList.size() >= pager.getCurrentItem() + 1) {
+                btnNext.setVisibility(View.VISIBLE);
+                submit.setVisibility(View.GONE);
+                //time = 0;
+                time = timerForQuiz;
+                timercountdown.cancel();
+                timercountdown.start();
+                txt_time.setText("" + ":" + checkdigit(time));
+            }
+
+            submitflag = true;
+            Boolean valid = true;
+            final int[] check = {0};
+            int sum = 0;
+            final String[] question_id = {""};
+            final String[] question_ans = {""};
+            final String[] value = {""};
+            final RadioGroup[] radioGroup = new RadioGroup[1];
+            final EditText[] ans_edit = new EditText[1];
+            final RadioButton[] radioButton = new RadioButton[1];
+//            Log.e("size", adapter.getItemCount() + "");
+
+            String[] data = pagerAdapter.getselectedData();
+            String[] question = pagerAdapter.getselectedquestion();
+
+            if (data != null) {
+                for (int i = 0; i < data.length; i++) {
+                    if (i != 0) {
+                        question_id[0] = question_id[0] + "$#";
+                        question_ans[0] = question_ans[0] + "$#";
+                    }
+
+                    String id = quizList.get(i).getId();
+                    question_id[0] = question_id[0] + id;
+
+                    flag = true;
+                    flag1 = true;
+                    flag2 = true;
+                    if (data[i] != null) {
+                        if (quizList.get(i).getQuiz_type() != null) {
+                            if (quizList.get(i).getQuiz_type().equalsIgnoreCase("2")) {
+                                if (!data[i].equalsIgnoreCase("")) {
+                                    question_ans[0] = question_ans[0] + data[i];
+                                } else {
+                                    valid = false;
+                                }
+                            } else {
+
+                                if (!data[i].equalsIgnoreCase("")) {
+
+                                    String idno = quizList.get(i).getId();
+
+                                    for (int j = 0; j < quizOptionList.size(); j++) {
+                                        if (quizOptionList.get(j).getOption().equals(data[i]) && quizOptionList.get(j).getQuizId().equals(idno)) {
+                                            question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                        }
+                                    }
+                                } else {
+                                    String idno = quizList.get(i).getId();
+
+                                    for (int j = 0; j < quizOptionList.size(); j++) {
+                                        if (quizOptionList.get(j).getQuizId().equals(idno)) {
+                                            if (flag1 == true) {
+                                                question_ans[0] = question_ans[0] + "0";
+                                                //question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                                flag1 = false;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+
+                            if (!data[i].equalsIgnoreCase("")) {
+
+                                String idno = quizList.get(i).getId();
+
+                                for (int j = 0; j < quizOptionList.size(); j++) {
+                                    if (quizOptionList.get(j).getOption().equals(data[i]) && quizOptionList.get(j).getQuizId().equals(idno)) {
+                                        question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                    }
+                                }
+                            } else {
+                                String idno = quizList.get(i).getId();
+
+                                for (int j = 0; j < quizOptionList.size(); j++) {
+                                    if (quizOptionList.get(j).getQuizId().equals(idno)) {
+                                        if (flag2 == true) {
+                                            question_ans[0] = question_ans[0] + "0";
+                                            // question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                            flag2 = false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        String idno = quizList.get(i).getId();
+
+
+                        for (int j = 0; j < quizOptionList.size(); j++) {
+                            if (quizOptionList.get(j).getQuizId().equals(idno)) {
+                                if (flag == true) {
+                                    // question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                    question_ans[0] = question_ans[0] + "0";
+                                    flag = false;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Log.e("valid_ans", question_ans.toString());
+                Log.e("valid_id", question_id.toString());
+                Log.e("valid_string", valid.toString());
+
+                if (valid == true) {
+                    quiz_question_id = question_id[0];
+                    quiz_options_id = question_ans[0];
+                    int answers = pagerAdapter.getCorrectOption();
+
+                    Log.d("Selected Options==>",quiz_options_id);
+
+                    Toast.makeText(appDelegate, quiz_options_id, Toast.LENGTH_SHORT).show();
+                    new postQuizQuestion().execute();
                 } else {
                     Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
                 }
@@ -817,6 +981,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 intent.putExtra("folderName", foldername);
                 intent.putExtra("Answers", String.valueOf(total_correct_answer));
                 intent.putExtra("TotalQue", String.valueOf(total_questions));
+                intent.putExtra("Page", "Question");
                 startActivity(intent);
                 count1 = 1;
                 pagerAdapter.selectopt = 0;
@@ -846,10 +1011,10 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
             e.printStackTrace();
         }
 
-        Intent intent = new Intent(QuizActivity.this, FolderQuizActivity.class);
+        /*Intent intent = new Intent(QuizActivity.this, FolderQuizActivity.class);
         startActivity(intent);
-        finish();
-
+        finish();*/
+getSupportFragmentManager().popBackStack();
 
     }
 

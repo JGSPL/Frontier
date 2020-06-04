@@ -16,6 +16,17 @@
         android:orientation="vertical">
 
         <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            android:id="@+id/tv_not_attempted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="You have skipped this question.."
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsizenormal"
+            android:gravity="center"/>
+
+
+        <com.procialize.mrgeApp20.Fonts.RobotoTextview
             android:id="@+id/txt_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -2,39 +2,40 @@ package com.procialize.mrgeApp20.Engagement.Fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Environment;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+
+import com.procialize.mrgeApp20.ApiConstant.APIService;
+import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
+import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.Engagement.Activity.SelfieContestActivity;
 import com.procialize.mrgeApp20.Engagement.Activity.VideoContestActivity;
+import com.procialize.mrgeApp20.Engagement.Models.FetchEngagementData;
+import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
 import cn.jzvd.JzvdStd;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
@@ -49,9 +50,13 @@ public class EngagementFragment extends Fragment {
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid, colorActive;
     ImageView headerlogoIv;
-    private List<EventSettingList> eventSettingLists;
     LinearLayout linear;
     View rootView;
+    ProgressBar progressBar;
+    private List<EventSettingList> eventSettingLists;
+    APIService mAPIService;
+    TextView selfieTv,tv_selfie_total_items,tv_selfie_desc,videoTv,video_total_items,tv_video_desc;
+    ConnectionDetector cd;
 
     @Nullable
     @Override
@@ -61,17 +66,25 @@ public class EngagementFragment extends Fragment {
         return rootView;
     }
 
-   public void initView(View rootView) {
+    public void initView(View rootView) {
 
-       try {
-           setNotification(getActivity(),MrgeHomeActivity.tv_notification, MrgeHomeActivity.ll_notification_count);
-       }catch (Exception e)
-       {e.printStackTrace();}
+        mAPIService = ApiUtils.getAPIService();
+        try {
+            setNotification(getActivity(), MrgeHomeActivity.tv_notification, MrgeHomeActivity.ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        selfieTv = (TextView)rootView.findViewById(R.id.selfieTv);
+        tv_selfie_total_items = (TextView)rootView.findViewById(R.id.tv_selfie_total_items);
+        tv_selfie_desc = (TextView)rootView.findViewById(R.id.tv_selfie_desc);
+        videoTv = (TextView)rootView.findViewById(R.id.videoTv);
+        video_total_items = (TextView)rootView.findViewById(R.id.video_total_items);
+        tv_video_desc = (TextView)rootView.findViewById(R.id.tv_video_desc);
 
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
-
 
 
         selfiecard_view = rootView.findViewById(R.id.selfiecard_view);
@@ -79,21 +92,24 @@ public class EngagementFragment extends Fragment {
         linear = rootView.findViewById(R.id.linear);
 
 
-        TextView header = rootView.findViewById(R.id.title);
-        header.setTextColor(Color.parseColor(colorActive));
+      /*  TextView header = rootView.findViewById(R.id.title);
+        header.setTextColor(Color.parseColor(colorActive));*/
         TextView selfieTv = rootView.findViewById(R.id.selfieTv);
         //selfieTv.setBackgroundColor(Color.parseColor(colorActive));
         TextView videoTv = rootView.findViewById(R.id.videoTv);
+        progressBar = rootView.findViewById(R.id.progressBar);
         //videoTv.setBackgroundColor(Color.parseColor(colorActive));
 
 
         SessionManager sessionManager = new SessionManager(getActivity());
 
         user = sessionManager.getUserDetails();
+      String token= user.get(SessionManager.KEY_TOKEN);
+        String  event_id = prefs.getString("eventid", "1");
 
 
-        crashlytics("Engagement",user.get(SessionManager.KEY_TOKEN));
-        firbaseAnalytics(getActivity(), "Engagement",user.get(SessionManager.KEY_TOKEN));
+        crashlytics("Engagement", user.get(SessionManager.KEY_TOKEN));
+        firbaseAnalytics(getActivity(), "Engagement", user.get(SessionManager.KEY_TOKEN));
         eventSettingLists = SessionManager.loadEventList();
 
         if (eventSettingLists.size() != 0) {
@@ -128,6 +144,14 @@ public class EngagementFragment extends Fragment {
 //                finish();
             }
         });
+
+        cd = new ConnectionDetector(getActivity());
+        if(cd.isConnectingToInternet()) {
+            getEngagementData(event_id, token);
+        }else
+        {
+            Toast.makeText(getActivity(), "No Internet Connection..!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void applysetting(List<EventSettingList> eventSettingLists) {
@@ -141,12 +165,12 @@ public class EngagementFragment extends Fragment {
             }*/
             if (eventSettingLists.get(i).getFieldName().equals("interact")) {
 
-                if(eventSettingLists.get(i).getSub_menuList()!=null) {
+                if (eventSettingLists.get(i).getSub_menuList() != null) {
                     if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
                         for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
                             if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("engagement_selfie_contest")) {
                                 engagement_selfie_contest = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                            }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("engagement_video_contest")) {
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("engagement_video_contest")) {
                                 engagement_video_contest = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                             }
                         }
@@ -157,6 +181,65 @@ public class EngagementFragment extends Fragment {
         }
     }
 
+    public void getEngagementData(String eventid, String apikey) {
+        showProgress();
+        mAPIService.getEngagementData(eventid, apikey).enqueue(new Callback<FetchEngagementData>() {
+            @Override
+            public void onResponse(Call<FetchEngagementData> call, Response<FetchEngagementData> response) {
+                if (response.isSuccessful()) {
+                    Log.i("hit", "post submitted to API." + response.body().toString());
+                    dismissProgress();
+                    showResponse(response);
+                } else {
+                    dismissProgress();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FetchEngagementData> call, Throwable t) {
+                Toast.makeText(getActivity(), "Low network or no network", Toast.LENGTH_SHORT).show();
+                dismissProgress();
+            }
+        });
+    }
+
+
+    public void showResponse(Response<FetchEngagementData> response) {
+        if (response.body().getStatus().equals("success")) {
+          String selfieTitle=  response.body().getSelfie_engagement().getSelfie_title();
+          String selfieDescription =  response.body().getSelfie_engagement().getSelfie_description();
+          String selfieTotalItem=  response.body().getSelfie_engagement().getTotal_items();
+
+            selfieTv.setText(selfieTitle);
+            tv_selfie_total_items.setText(selfieTotalItem);
+            tv_selfie_desc.setText(selfieDescription);
+
+          String videoTitle=  response.body().getVideo_engagement().getVideo_title();
+          String videoDescription=  response.body().getVideo_engagement().getVideo_description();
+          String videoTotalItems=  response.body().getVideo_engagement().getTotal_items();
+
+            videoTv.setText(videoTitle);
+            video_total_items.setText(videoTotalItems);
+            tv_video_desc.setText(videoDescription);
+
+        } else {
+            Toast.makeText(getActivity(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    public void showProgress() {
+        if (progressBar.getVisibility() == View.GONE) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void dismissProgress() {
+        if (progressBar.getVisibility() == View.VISIBLE) {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void onPause() {

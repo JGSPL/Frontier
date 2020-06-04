@@ -108,6 +108,12 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
             }
 
+            if (quizList.get(position).getSelected_option().equals("0")) {
+                holder.tv_not_attempted.setVisibility(View.VISIBLE);
+            } else {
+                holder.tv_not_attempted.setVisibility(View.GONE);
+            }
+
             if (holder.raiolayout.getVisibility() == View.GONE) {
                 holder.raiolayout.setVisibility(View.VISIBLE);
             }
@@ -194,7 +200,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         //        TextView quiz_title_txt, quiz_question_distruct, textno1, textno;
         LinearLayout raiolayout;
         RecyclerView ansList;
-        TextView txt_question;
+        TextView txt_question,tv_not_attempted;
         //        EditText ans_edit;
 //        RadioGroup viewGroup;
 
@@ -221,6 +227,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
             ansList.setLayoutManager(mLayoutManager);
 
             txt_question = convertView.findViewById(R.id.txt_question);
+            tv_not_attempted = convertView.findViewById(R.id.tv_not_attempted);
 
 //            viewGroup = (RadioGroup) convertView
 //                    .findViewById(R.id.radiogroup);

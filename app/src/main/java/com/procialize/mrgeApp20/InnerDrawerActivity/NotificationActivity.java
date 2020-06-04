@@ -530,8 +530,8 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
 
             }
             else if (notification.getNotificationType().equalsIgnoreCase("Quiz") && news_feed_like != null) {
-                Intent intent = new Intent(NotificationActivity.this, FolderQuizActivity.class);
-                startActivity(intent);
+               /* Intent intent = new Intent(NotificationActivity.this, FolderQuizActivity.class);
+                startActivity(intent);*/
 
             } else if (notification.getNotificationType().equalsIgnoreCase("Post") && news_feed_like != null) {
                 Intent intent = new Intent(NotificationActivity.this, MrgeHomeActivity.class);

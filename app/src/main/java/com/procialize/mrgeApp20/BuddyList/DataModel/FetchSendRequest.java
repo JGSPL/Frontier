@@ -4,10 +4,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class FetchSendRequest {
-
     @SerializedName("status")
     @Expose
     private String status;
+
     @SerializedName("msg")
     @Expose
     private String msg;
