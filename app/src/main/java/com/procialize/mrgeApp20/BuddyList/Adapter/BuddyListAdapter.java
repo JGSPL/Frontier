@@ -157,15 +157,20 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
                 holder.btnCancel.setVisibility(View.VISIBLE);
             holder.btnAccept.setVisibility(View.GONE);
             holder.btnReject.setVisibility(View.GONE);
+            holder.ic_rightarrow.setVisibility(View.GONE);
 
         }else if(attendee.getRequest_type().equalsIgnoreCase("request_received")){
             holder.btnCancel.setVisibility(View.GONE);
             holder.btnAccept.setVisibility(View.VISIBLE);
             holder.btnReject.setVisibility(View.VISIBLE);
+            holder.ic_rightarrow.setVisibility(View.GONE);
+
         }else{
             holder.btnCancel.setVisibility(View.GONE);
-            holder.btnAccept.setVisibility(View.GONE);
-            holder.btnReject.setVisibility(View.GONE);
+            holder.btnAccept.setVisibility(View.INVISIBLE);
+            holder.btnReject.setVisibility(View.INVISIBLE);
+            holder.ic_rightarrow.setVisibility(View.VISIBLE);
+
         }
 
 
@@ -278,7 +283,12 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
                 @Override
                 public void onClick(View view) {
                     // send selected contact in callback
-                    listener.onContactSelected(attendeeListFiltered.get(getAdapterPosition()));
+                    if(attendeeListFiltered.get(getAdapterPosition()).getRequest_type().equalsIgnoreCase("request_sent") ||
+                            attendeeListFiltered.get(getAdapterPosition()).getRequest_type().equalsIgnoreCase("request_received")) {
+                    }else{
+                        listener.onContactSelected(attendeeListFiltered.get(getAdapterPosition()));
+
+                    }
                 }
             });
 

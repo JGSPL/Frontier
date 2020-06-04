@@ -82,10 +82,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/edittexthmbg"
+            android:background="@drawable/newsfeedrowbg"
             android:hint="@string/search_attendee_here"
             android:imeOptions="actionDone"
             android:padding="10dp"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/colorAccent"
+            android:drawableLeft="@drawable/ic_search"
             android:textColor="@color/inactivetab"
             android:textSize="@dimen/textsizesmall" />
 
@@ -94,6 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:visibility="gone"
             android:padding="@dimen/padding"
             android:text="@string/refresh"
             android:textColor="@color/black"
