@@ -140,14 +140,14 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     String strPath;
     BackgroundReceiver mReceiver;
     IntentFilter mFilter;
+    ImageView profileIV;
+    ProgressBar progressView;
     private DBHelper procializeDB;
     private List<NewsFeedList> newsfeedsDBList;
     private APIService mAPIService;
     private ConnectionDetector cd;
     private List<news_feed_media> news_feed_media;
     private List<AttendeeList> attendeeList;
-    ImageView profileIV;
-    ProgressBar progressView;
 
     public FragmentNewsFeed() {
         // Required empty public constructor
@@ -206,7 +206,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     @Override
     public void onResume() {
         super.onResume();
-       // setHasOptionsMenu(false);
+        // setHasOptionsMenu(false);
     }
 
     private void initView() {
@@ -250,7 +250,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         user = sessionManager.getUserDetails();
         //progressbar = rootView.findViewById(R.id.progressbar);
         cd = new ConnectionDetector(getActivity());
-
 
 
         mAPIService = ApiUtils.getAPIService();
@@ -487,7 +486,12 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 if (count > 0) {
                     count = count - 1;
                     feed.setTotalLikes(String.valueOf(count));
-                    liketext.setText(count + " Likes");
+
+                    if (count == 1) {
+                        liketext.setText(count + " Like");
+                    } else {
+                        liketext.setText(count + " Likes");
+                    }
 
                     feed.setTotalLikes(String.valueOf(count));
 
@@ -515,9 +519,14 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             try {
 
                 count = count + 1;
+                if (count == 1) {
+                    liketext.setText(count + " Like");
+                } else {
+                    liketext.setText(count + " Likes");
+                }
+
                 feed.setTotalLikes(String.valueOf(count));
 
-                liketext.setText(count + " Likes");
                 feed.setTotalLikes(String.valueOf(count));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1414,7 +1423,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             /* mTvCapital.setText("Capital : " + capital);*/
         }
     }
-
 
 
 }

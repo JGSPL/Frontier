@@ -69,7 +69,6 @@ import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.ApiConstant.TenorApiService;
 import com.procialize.mrgeApp20.BuildConfig;
-
 import com.procialize.mrgeApp20.CustomTools.PixabayImageView;
 import com.procialize.mrgeApp20.CustomTools.RecyclerItemClickListener;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
@@ -97,7 +96,6 @@ import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.SwipeMultimediaAdapter;
 import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.UsersAdapter;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
-import com.procialize.mrgeApp20.Utility.Util;
 import com.procialize.mrgeApp20.Utility.Utility;
 import com.squareup.picasso.Picasso;
 
@@ -389,7 +387,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         testdata = findViewById(R.id.testdata);
 
 
-     //    commentbtn.setBackgroundColor(Color.parseColor(colorActive));
+        //    commentbtn.setBackgroundColor(Color.parseColor(colorActive));
 
         feedimageIv = findViewById(R.id.feedimageIv);
 //        feedimageIv.setAspectRatio(p1);
@@ -413,7 +411,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/" + ApiConstant.folderName + "/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -572,9 +570,18 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
             headingTv.setVisibility(View.GONE);
         }
 
+        if (Likes.equals("1")) {
+            likeTv.setText(Likes + " Like ");
+        } else {
+            likeTv.setText(Likes + " Likes ");
+        }
 
-        likeTv.setText(Likes + " Likes ");
-        commentTv.setText(Comments + " Comments ");
+        if (Comments.equals("1")) {
+            commentTv.setText(Comments + " Comment ");
+        } else {
+            commentTv.setText(Comments + " Comments ");
+        }
+        // commentTv.setText(Comments + " Comments ");
 
         if (noti_type.equalsIgnoreCase("Notification")) {
             designationTv.setVisibility(View.GONE);
@@ -767,14 +774,14 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                 intent.putExtra("company", company);
                 intent.putExtra("designation", designation);
 
-                intent.putExtra("heading",heading);
+                intent.putExtra("heading", heading);
                 intent.putExtra("date", date);
                 intent.putExtra("Likes", Likes);
                 intent.putExtra("Likeflag", Likeflag);
                 intent.putExtra("Comments", Comments);
-                intent.putExtra("profilepic",profileurl);
+                intent.putExtra("profilepic", profileurl);
 //        intent.putExtra("type", feed.getType());
-                intent.putExtra("feedid",feedid);
+                intent.putExtra("feedid", feedid);
                 intent.putExtra("AspectRatio", p1);
                 intent.putExtra("noti_type", "Wall_Post");
 
@@ -802,14 +809,14 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
             public void onClick(View v) {
 
                 if (Likeflag.equals("0")) {
-                  //  likeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_afterlike, 0);
+                    //  likeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_afterlike, 0);
                     iv_like.setImageDrawable(getResources().getDrawable(R.drawable.ic_afterlike));
-                   // setTextViewDrawableColor(likeTv, colorActive);
+                    // setTextViewDrawableColor(likeTv, colorActive);
                     Likeflag = "1";
                     PostLike(eventid, feedid, apikey);
                     Likecount("Like");
                 } else {
-                  //  likeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_like, 0);
+                    //  likeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_like, 0);
                     iv_like.setImageDrawable(getResources().getDrawable(R.drawable.ic_like));
                     Likeflag = "0";
                     PostLike(eventid, feedid, apikey);
@@ -918,7 +925,13 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
                 if (count > 0) {
                     count = count - 1;
-                    likeTv.setText(count + " Likes");
+                    if (count == 1) {
+                        likeTv.setText(count + " Like ");
+                    } else {
+                        likeTv.setText(count + " Likes ");
+                    }
+
+                    //likeTv.setText(count + " Likes");
                     Likes = String.valueOf(count);
 
                 } else {
@@ -935,7 +948,13 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
 
                 count = count + 1;
-                likeTv.setText(count + " Likes");
+                if (count == 1) {
+                    likeTv.setText(count + " Like ");
+                } else {
+                    likeTv.setText(count + " Likes ");
+                }
+
+                //likeTv.setText(count + " Likes");
                 Likes = String.valueOf(count);
 
             } catch (Exception e) {
@@ -953,7 +972,11 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
 
             count = count + 1;
-            commentTv.setText(count + " Comments");
+            if (count == 1) {
+                commentTv.setText(count + " Comment");
+            } else {
+                commentTv.setText(count + " Comments");
+            }
             Comments = String.valueOf(count);
 
         } catch (Exception e) {
@@ -970,7 +993,12 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
 
             count = count - 1;
-            commentTv.setText(count + " Comments");
+            if (count == 1) {
+                commentTv.setText(count + " Comment");
+            } else {
+                commentTv.setText(count + " Comments");
+            }
+            //commentTv.setText(count + " Comments");
             Comments = String.valueOf(count);
 
         } catch (Exception e) {
@@ -1745,8 +1773,18 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         companyTv.setText(company);
         designationTv.setText(designation);*/
 //        headingTv.setText(StringEscapeUtils.unescapeJava(heading));
-        likeTv.setText(Likes + " Likes ");
-        commentTv.setText(Comments + " Comments ");
+        if (Likes.equals("1")) {
+            likeTv.setText(Likes + " Like ");
+        } else {
+            likeTv.setText(Likes + " Likes ");
+        }
+
+        if (Comments.equals("1")) {
+            commentTv.setText(Comments + " Comment ");
+        } else {
+            commentTv.setText(Comments + " Comments ");
+        }
+        //commentTv.setText(Comments + " Comments ");
 
         if (date != null) {
 //            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
@@ -1780,7 +1818,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
             try {
                 Date date1 = formatter.parse(date);
 
-                DateFormat originalFormat = new SimpleDateFormat("dd MMM,HH:mm", Locale.UK);
+                DateFormat originalFormat = new SimpleDateFormat("dd MMM,hh:mm a", Locale.UK);
 
                 String date = originalFormat.format(date1);
 
@@ -1912,7 +1950,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
               /*  videoplayer.setUp(videourl
                         , JzvdStd.SCREEN_WINDOW_NORMAL, "");*/
 
-                videoplayer.setUp(videourl,""
+                videoplayer.setUp(videourl, ""
                         , JzvdStd.SCREEN_NORMAL);
 
                 Glide.with(CommentActivity.this).load(thumbImg).into(videoplayer.thumbImageView);
@@ -2016,7 +2054,14 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
             if (userList != null && !userList.isEmpty()) {
                 for (AttendeeList user : userList) {
                     final String firstName = user.getFirstName().toLowerCase();
-                    final String lastName = user.getLastName().toLowerCase();
+                    String lastName = "";
+                    try {
+                        if (!user.getLastName().isEmpty()) {
+                            lastName = user.getLastName().toLowerCase();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     if (firstName.startsWith(query) || lastName.startsWith(query)) {
                         searchResults.add(user);
                     }
@@ -2026,6 +2071,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         }
         return searchResults;
     }
+
 
     private void showMentionsList(boolean display) {
         com.percolate.caffeine.ViewUtils.showView(this, R.id.mentions_list_layout);

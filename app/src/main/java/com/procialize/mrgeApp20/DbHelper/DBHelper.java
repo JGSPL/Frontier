@@ -2079,7 +2079,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " where " + ATTENDEE_TYPE + " =\'A\'";
 */
 
-        String selectQuery = "select * from " + ATTENDEES_TABLE_NAME + " where " + ATTENDEE_ID + " LIKE \'%" + att_id + "%\'";
+        String selectQuery = "select * from " + ATTENDEES_TABLE_NAME + " where " + ATTENDEE_ID + " = '" + att_id + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

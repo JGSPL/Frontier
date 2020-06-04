@@ -2,16 +2,11 @@ package com.procialize.mrgeApp20.MrgeInnerFragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +21,10 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -41,6 +40,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.procialize.mrgeApp20.Adapter.SponsorAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
@@ -49,13 +49,14 @@ import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.EventInfoFetch;
 import com.procialize.mrgeApp20.GetterSetter.EventList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
+import com.procialize.mrgeApp20.GetterSetter.SponsorsList;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
+import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.NewsFeedAdapterRecycler;
+import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Utility;
 
-import java.io.File;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -98,6 +99,9 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     private DBHelper dbHelper;
     private List<EventList> eventList;
     private List<EventList> eventDBList;
+    List<SponsorsList> sponsorList;
+    String filePath;
+    RecyclerView rv_sponsors;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -134,6 +138,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         nameTv = view2.findViewById(R.id.nameTv);
         dateTv = view2.findViewById(R.id.dateTv);
         cityTv = view2.findViewById(R.id.cityTv);
+        rv_sponsors = view2.findViewById(R.id.rv_sponsors);
 
         event_desc = view2.findViewById(R.id.event_desc);
         view = view2.findViewById(R.id.view);
@@ -141,7 +146,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         back = view2.findViewById(R.id.back);
         linMap = view2.findViewById(R.id.linMap);
         db = dbHelper.getWritableDatabase();
-       // fm = ( SupportMapFragment ) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
+        // fm = ( SupportMapFragment ) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
         fm = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
 
 
@@ -149,7 +154,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-       TextView header = ( TextView ) view2.findViewById(R.id.event_info_heading);
+        TextView header = ( TextView ) view2.findViewById(R.id.event_info_heading);
         header.setTextColor(Color.parseColor(colorActive));
       //  nameTv.setTextColor(Color.parseColor(colorActive));
 
@@ -232,11 +237,18 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         // specify an adapter (see also next example)
 
         if (response.body().getEventList().isEmpty()) {
+
+            sponsorList = response.body().getSponsor_list();
+            filePath = response.body().getSponsor_file_path();
+
+            SponsorAdapter sponsorAdapter = new SponsorAdapter(getActivity(), sponsorList, filePath);
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(),3);
+            rv_sponsors.setLayoutManager(mLayoutManager);
+            rv_sponsors.setItemAnimator(new DefaultItemAnimator());
+            rv_sponsors.setAdapter(sponsorAdapter);
+
             db = dbHelper.getReadableDatabase();
-
             eventDBList = dbHelper.getEventListDetail();
-
-
             if (eventDBList.size() != 0) {
                 String startTime = "", endTime = "";
                 SimpleDateFormat sdf = new SimpleDateFormat(ApiConstant.dateformat + " HH:mm");
@@ -257,7 +269,6 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                     startTime = currentDateandTime;
                     endTime = currentDateandTime;
                 }
-
 
                 // SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
 
@@ -308,9 +319,10 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
                 try {
 
-                    event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                    //event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                    event_desc.setText(eventDBList.get(0).getEventDescription());
+                    event_desc.setVisibility(View.VISIBLE);
                     //event_desc.setText("\n" + eventDBList.get(0).getEventDescription());
-
 
                     String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
                     Glide.with(getContext()).load(image_final_url)
@@ -319,14 +331,12 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                             .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-
                             logoIv.setImageResource(R.drawable.app_icon);
                             return true;
                         }
 
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-
                             return false;
                         }
                     }).into(logoIv);
@@ -397,7 +407,6 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
 
             } else {
-
                 /*setContentView(R.layout.activity_empty_view);
                 ImageView imageView = findViewById(R.id.back);
                 TextView text_empty = findViewById(R.id.text_empty);
@@ -437,6 +446,15 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                     endTime = currentDateandTime;
                 }
 
+                sponsorList = response.body().getSponsor_list();
+                filePath = response.body().getSponsor_file_path();
+
+                SponsorAdapter sponsorAdapter = new SponsorAdapter(getActivity(), sponsorList, filePath);
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(),3);
+                rv_sponsors.setNestedScrollingEnabled(false);
+                rv_sponsors.setLayoutManager(mLayoutManager);
+                rv_sponsors.setItemAnimator(new DefaultItemAnimator());
+                rv_sponsors.setAdapter(sponsorAdapter);
 
                 // SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
 
@@ -490,15 +508,16 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
                         event_desc.setVisibility(View.VISIBLE);
 //                        eventvenu.setVisibility(View.VISIBLE);
-                        view.setVisibility(View.VISIBLE);
+                       // view.setVisibility(View.VISIBLE);
 
                     } else {
                         event_desc.setVisibility(View.GONE);
 //                        eventvenu.setVisibility(View.GONE);
-                        view.setVisibility(View.GONE);
+                     //   view.setVisibility(View.GONE);
                     }
 
-                    event_desc.setText(response.body().getEventList().get(0).getEventLocation() + "\n\n" + response.body().getEventList().get(0).getEventDescription());
+                    //event_desc.setText(response.body().getEventList().get(0).getEventLocation() + "\n\n" + response.body().getEventList().get(0).getEventDescription());
+                    event_desc.setText(response.body().getEventList().get(0).getEventDescription());
                     String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + response.body().getEventList().get(0).getLogo();
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
@@ -677,12 +696,14 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                         view.setVisibility(View.VISIBLE);
 
                     } else {
-                        event_desc.setVisibility(View.GONE);
+                       // event_desc.setVisibility(View.GONE);
 //                        eventvenu.setVisibility(View.GONE);
-                        view.setVisibility(View.GONE);
+                    //    view.setVisibility(View.GONE);
                     }
 
-                    event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                    String eventDescription = eventDBList.get(0).getEventDescription();
+                   // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                    event_desc.setText(eventDescription);
                     String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));

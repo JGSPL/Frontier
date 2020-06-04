@@ -38,12 +38,15 @@ import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.BuddyList.Adapter.LiveChatAdapter;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
+import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,6 +71,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
     EditText commentEt;
     ImageView commentBt;
     public static String chat_id = "0";
+    List<chat_list> chat_lists = new ArrayList<>();
 
 
     @Override
@@ -205,7 +209,8 @@ public class ActivityBuddyChat extends AppCompatActivity {
         qaRvrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                UserChatHistory(eventid,token,attendeeid,"0");
+                String chat_id = chat_lists.get(0).getId();
+                UserChatHistory(eventid,token,attendeeid,chat_id);
             }
         });
     }
@@ -281,8 +286,18 @@ public class ActivityBuddyChat extends AppCompatActivity {
 
             if (!(response.body().getChatList().isEmpty())) {
                 //  txtEmpty.setVisibility(View.GONE);
+                /*if(chat_lists.size() > 0)
+                { */
+                    for(int i=0;i<response.body().getChatList().size();i++) {
+                        chat_lists.add(response.body().getChatList().get(i));
+                    }
+                /*}
+                else
+                {
 
-                liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, response.body().getChatList(),attendeeid);
+                }*/
+
+                        liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists,attendeeid);
                 liveChatAdapter.notifyDataSetChanged();
                 qaRv.setAdapter(liveChatAdapter);
                 liveChatAdapter.notifyDataSetChanged();

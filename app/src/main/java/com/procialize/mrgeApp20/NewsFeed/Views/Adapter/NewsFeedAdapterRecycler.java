@@ -483,8 +483,19 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
         }
 
 
-        holder.liketext.setText(feed.getTotalLikes() + " Likes ");
-        holder.commenttext.setText(feed.getTotalComments() + " Comments ");
+        if(feed.getTotalLikes().equals("1"))
+        {holder.liketext.setText(feed.getTotalLikes() + " Like ");}
+        else {
+            holder.liketext.setText(feed.getTotalLikes() + " Likes ");
+        }
+
+        if(feed.getTotalComments().equals("1")){
+            holder.commenttext.setText(feed.getTotalComments() + " Comment ");
+        }
+        else {
+            holder.commenttext.setText(feed.getTotalComments() + " Comments ");
+        }
+
 
         mAPIService = ApiUtils.getAPIService();
         sessionManager = new SessionManager(context);
@@ -562,7 +573,8 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                 Date date1 = formatter.parse(feed.getPostDate());
 
                 //DateFormat originalFormat = new SimpleDateFormat("dd MMM , HH:mm", Locale.UK);
-                DateFormat originalFormat = new SimpleDateFormat("dd MMM HH:mm", Locale.UK);
+                //DateFormat originalFormat = new SimpleDateFormat("dd MMM HH:mm", Locale.UK);
+                DateFormat originalFormat = new SimpleDateFormat("dd MMM hh:mm a", Locale.UK);
 
                 String date = originalFormat.format(date1);
 

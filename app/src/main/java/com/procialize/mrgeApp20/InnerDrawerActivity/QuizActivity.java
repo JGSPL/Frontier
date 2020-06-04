@@ -61,6 +61,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
+
 public class QuizActivity extends AppCompatActivity implements OnClickListener {
 
     private ProgressDialog pDialog;
@@ -200,7 +202,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         relative = (RelativeLayout) findViewById(R.id.relative);
         questionTv.setText(foldername);
         quizNameList.setLayoutFrozen(true);
-        questionTv.setBackgroundColor(Color.parseColor(colorActive));
+        //questionTv.setBackgroundColor(Color.parseColor(colorActive));
         btnNext.setBackgroundColor(Color.parseColor(colorActive));
         submit.setBackgroundColor(Color.parseColor(colorActive));
         //txt_count.setTextColor(Color.parseColor(colorActive));
@@ -209,7 +211,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -506,6 +508,16 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 }
             }
         }.start();
+
+        //-----------------------------For Notification count-----------------------------
+        try {
+            LinearLayout ll_notification_count = findViewById(R.id.ll_notification_count);
+            TextView tv_notification = findViewById(R.id.tv_notification);
+            setNotification(this, tv_notification, ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //----------------------------------------------------------------------------------
     }
 
     public String checkdigit(int number) {

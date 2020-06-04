@@ -98,10 +98,8 @@ public class LikeAdapter  extends RecyclerView.Adapter<LikeAdapter.MyViewHolder>
             holder.imageIv.setImageResource(R.drawable.profilepic_placeholder);
         }
 
-        holder.nameTv.setTextColor(Color.parseColor(colorActive));
-
+       // holder.nameTv.setTextColor(Color.parseColor(colorActive));
         holder.nameTv.setText(attendeeList.getFirstName() + " " + attendeeList.getLastName());
-
 
         SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
         SimpleDateFormat targetFormat = new SimpleDateFormat("dd MMM HH:mm");
