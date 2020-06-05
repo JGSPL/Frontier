@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
@@ -45,6 +46,7 @@ import com.procialize.mrgeApp20.BuddyList.DataModel.FetchSendRequest;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
+import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -113,6 +115,8 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
 //        eventid=intent.getStringExtra("eventId");
 //        eventnamestr=intent.getStringExtra("eventnamestr");
         cd = new ConnectionDetector(ActivityBuddyList.this);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorwhite), PorterDuff.Mode.SRC_ATOP);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,6 +142,16 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         searchEt = findViewById(R.id.searchEt);
         attendeefeedrefresh = findViewById(R.id.attendeefeedrefresh);
         progressBar = findViewById(R.id.progressBar);
+
+        ImageView notificationlogoIv = findViewById(R.id.notificationlogoIv);
+        notificationlogoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(main);
+                //finish();
+            }
+        });
 
         try {
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ ApiConstant.folderName+"/" + "background.jpg");
@@ -211,7 +225,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         });
 
 
-/*
+
         searchEt.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -230,7 +244,6 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
                 attendeeAdapter.getFilter().filter(s.toString());
             }
         });
-*/
     }
 
     public void fetchFeed(String token, String eventid) {

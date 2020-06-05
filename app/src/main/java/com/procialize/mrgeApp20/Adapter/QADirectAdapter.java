@@ -97,7 +97,8 @@ public class QADirectAdapter extends RecyclerView.Adapter<QADirectAdapter.MyView
         }
 
         if(question.getAttendee_designation()!=null){
-            holder.designationTv.setText(question.getAttendee_designation());
+            holder.designationTv.setText(question.getAttendee_designation() +
+                    ", "+ question.getAttendee_city());
         }
         if(question.getReply().equalsIgnoreCase("")){
             holder.AnsTv.setText("Awaiting Answer");

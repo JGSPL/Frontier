@@ -124,6 +124,8 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:minHeight="25dp"
+                        android:stateListAnimator="@null"
+
                         android:id="@+id/btnAccept"
                         android:text="Accept"
                         android:visibility="gone"
@@ -147,6 +149,7 @@
                         android:text="Reject"
                         android:textSize="8dp"
                         android:id="@+id/btnReject"
+                        android:stateListAnimator="@null"
 
                         android:layout_marginLeft="10dp"
                         android:visibility="gone"
@@ -166,7 +169,7 @@
                         android:text="Cancel Request"
                         android:textSize="8dp"
                         android:id="@+id/btnCancel"
-
+                        android:stateListAnimator="@null"
                         android:layout_marginLeft="10dp"
                         android:visibility="gone"
                         android:paddingRight="5dp"

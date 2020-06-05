@@ -137,7 +137,7 @@
                 android:text=""
                 android:singleLine="true"
                 android:textColor="@color/colorAccent"
-                android:textSize="12sp" />
+                android:textSize="8sp" />
 
 
         </LinearLayout>
