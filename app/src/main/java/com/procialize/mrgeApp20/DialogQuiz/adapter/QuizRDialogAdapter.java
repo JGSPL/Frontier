@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.procialize.mrgeApp20.Adapter.AnswerAdapter;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
+import com.procialize.mrgeApp20.DialogQuiz.DialogQuizREsult;
 import com.procialize.mrgeApp20.GetterSetter.Quiz;
 import com.procialize.mrgeApp20.GetterSetter.QuizOptionList;
 import com.procialize.mrgeApp20.InnerDrawerActivity.QuizNewActivity;
@@ -77,7 +78,6 @@ public class QuizRDialogAdapter extends RecyclerView.Adapter<QuizRDialogAdapter.
         ansArray = new String[quizList.size()];
         procializeDB = new DBHelper(context);
         db = procializeDB.getWritableDatabase();
-
         db = procializeDB.getReadableDatabase();
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, context.MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
@@ -89,7 +89,7 @@ public class QuizRDialogAdapter extends RecyclerView.Adapter<QuizRDialogAdapter.
     public QuizRDialogAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.quiz_row_list, parent, false);
+                .inflate(R.layout.spot_quiz_row, parent, false);
 
         QuizRDialogAdapter.ViewHolder viewHolder = new QuizRDialogAdapter.ViewHolder(view);
         return viewHolder;
@@ -106,7 +106,7 @@ public class QuizRDialogAdapter extends RecyclerView.Adapter<QuizRDialogAdapter.
             }
 
             holder.txt_question.setTextColor(Color.parseColor(colorActive));
-            quizOptionList = QuizNewActivity.appDelegate.getQuizOptionList();
+            quizOptionList = DialogQuizREsult. appDelegate.getQuizOptionList();
             if (quizSpecificOptionListnew.size() > 0) {
                 quizSpecificOptionListnew.clear();
             }

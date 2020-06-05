@@ -55,7 +55,6 @@ public class DialogQuizREsult {
     SessionManager sessionManager;
     String apikey, getQuizUrl = "";
     // Access Token Variable
-    private String accessToken, event_id;
 
     private String quiz_question_id;
     private String quiz_options_id;
@@ -74,7 +73,7 @@ public class DialogQuizREsult {
     private ArrayList<QuizOptionList> quizOptionList = new ArrayList<QuizOptionList>();
 
     public static MyApplication appDelegate;
-    String foldername = "null";
+    String Foldername = "null";
     Button submit;
     ImageView headerlogoIv;
     private DBHelper procializeDB;
@@ -84,12 +83,12 @@ public class DialogQuizREsult {
     LinearLayoutManager llm;
     LinearLayoutManager recyclerLayoutManager;
     ViewPager pager;
-    TextView questionTv, txt_count;
     Button btnNext;
     RelativeLayout relative;
     Context context2;
+    String FolderId;
 
-    public void resultQuizDialog(Context context, String folder) {
+    public void resultQuizDialog(Context context, String foldername, String folderId) {
 
         // dialog = new BottomSheetDialog(context);
         ResultDialog = new BottomSheetDialog(context, R.style.SheetDialog);
@@ -108,8 +107,8 @@ public class DialogQuizREsult {
         db = procializeDB.getWritableDatabase();
 
         db = procializeDB.getReadableDatabase();
-        foldername = folder;
-
+        Foldername = foldername;
+        FolderId = folderId;
 
         appDelegate = (MyApplication) context.getApplicationContext();
 
@@ -121,29 +120,23 @@ public class DialogQuizREsult {
         // apikey
         apikey = user.get(SessionManager.KEY_TOKEN);
 
-        getQuizUrl = constant.baseUrl + constant.quizlist;
+        getQuizUrl = constant.baseUrl + constant.Spotquizlist;
 
 
         submit = (Button) ResultDialog.findViewById(R.id.submit);
         pager = (ViewPager)ResultDialog.findViewById(R.id.pager);
-        questionTv = (TextView) ResultDialog.findViewById(R.id.questionTv);
         btnNext = (Button) ResultDialog.findViewById(R.id.btnNext);
-        txt_count = (TextView) ResultDialog.findViewById(R.id.txt_count);
 //        txt_count.setVisibility(View.GONE);
         quizNameList = (RecyclerView) ResultDialog.findViewById(R.id.quiz_list);
         btnNext = (Button) ResultDialog.findViewById(R.id.btnNext);
         relative = (RelativeLayout) ResultDialog.findViewById(R.id.relative);
         recyclerLayoutManager = new LinearLayoutManager(context);
         quizNameList.setLayoutManager(recyclerLayoutManager);
-        questionTv.setBackgroundColor(Color.parseColor(colorActive));
         submit.setBackgroundColor(Color.parseColor(colorActive));
         btnNext.setBackgroundColor(Color.parseColor(colorActive));
-        txt_count.setTextColor(Color.parseColor(colorActive));
-//		quizNameList.setItemViewCacheSize(0);
         quizNameList.setAnimationCacheEnabled(true);
         quizNameList.setDrawingCacheEnabled(true);
         quizNameList.hasFixedSize();
-        questionTv.setText(foldername);
         quizNameList.setLayoutFrozen(true);
 //        quizNameList.setNestedScrollingEnabled(false);
         quizNameList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
@@ -160,7 +153,6 @@ public class DialogQuizREsult {
                 if (i != count) {
 //                    if (option != llm.findLastVisibleItemPosition()) {
                     quizNameList.getLayoutManager().scrollToPosition(llm.findLastVisibleItemPosition() + 1);
-                    txt_count.setText(count + 1 + "/" + i);
                     count = count + 1;
                     if (quizList.size() == llm.findLastVisibleItemPosition() + 2) {
 
@@ -225,10 +217,10 @@ public class DialogQuizREsult {
             List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
 
             nameValuePair.add(new BasicNameValuePair("api_access_token",
-                    accessToken));
+                    apikey));
 
             nameValuePair.add(new BasicNameValuePair("event_id",
-                    event_id));
+                    eventid));
 
             // Making a request to url and getting response
             String jsonStr = sh.makeServiceCall(getQuizUrl,
@@ -253,7 +245,7 @@ public class DialogQuizREsult {
 
                 // Get Quiz Parser
                 quizParser = new QuizParser();
-                quizList = quizParser.Quiz_Parser(jsonStr, foldername);
+                quizList = quizParser.Quiz_Parser2(jsonStr, FolderId);
 
                 // Get Quiz Option List
                 quizOptionParser = new QuizOptionParser();
@@ -281,14 +273,7 @@ public class DialogQuizREsult {
             adapter = new QuizRDialogAdapter(context2, quizList);
             quizNameList.setAdapter(adapter);
             int itemcount = adapter.getItemCount();
-            txt_count.setText(1 + "/" + itemcount);
-            if (quizList.size() > 1) {
-                btnNext.setVisibility(View.VISIBLE);
-                submit.setVisibility(View.GONE);
-            } else {
-                btnNext.setVisibility(View.GONE);
-                submit.setVisibility(View.VISIBLE);
-            }
+
 
         }
     }
