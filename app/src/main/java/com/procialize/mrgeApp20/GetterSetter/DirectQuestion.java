@@ -52,7 +52,17 @@ public class DirectQuestion {
     @Expose
     private String reply;
 
+    @SerializedName("attendee_city")
+    @Expose
+    private String attendee_city ;
 
+    public String getAttendee_city() {
+        return attendee_city;
+    }
+
+    public void setAttendee_city(String attendee_city) {
+        this.attendee_city = attendee_city;
+    }
 
     public String getReply() {
         return reply;

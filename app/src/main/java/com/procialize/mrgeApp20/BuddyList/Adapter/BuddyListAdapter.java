@@ -198,7 +198,7 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
 
                             // name match condition. this might differ depending on your requirement
                             // here we are looking for name or phone number match
-                            String name = row.getFirstName().toLowerCase() + " " + row.getLastName().toLowerCase();
+                            String name = row.getFirstName().toLowerCase()/* + " " + row.getLastName().toLowerCase()*/;
 
                             if (name.contains(charString.toLowerCase())) {
                                 filteredList.add(row);

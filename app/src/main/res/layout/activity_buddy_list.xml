@@ -27,6 +27,7 @@
             android:contentInsetRight="0dp"
             android:elevation="0dp"
             android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/back_white"
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
@@ -80,17 +81,21 @@
         <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
             android:id="@+id/searchEt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/newsfeedrowbg"
             android:hint="@string/search_attendee_here"
             android:imeOptions="actionDone"
-            android:padding="10dp"
+            android:padding="5dp"
+
             android:drawablePadding="5dp"
             android:drawableTint="@color/colorAccent"
             android:drawableLeft="@drawable/ic_search"
             android:textColor="@color/inactivetab"
-            android:textSize="@dimen/textsizesmall" />
+            android:textSize="12dp" />
 
         <com.procialize.mrgeApp20.Fonts.RobotoTextview
             android:id="@+id/pullrefresh"

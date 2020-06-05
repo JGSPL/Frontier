@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -62,7 +64,7 @@ import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class DialogLivePoll {
+public class DialogLivePoll implements View.OnClickListener{
     public static MyApplication appDelegate;
     public static String quiz_question_id;
     public static ListView recyclerView;
@@ -113,7 +115,7 @@ public class DialogLivePoll {
     // Session Manager Class
     private SessionManager session;
     // Access Token Variable
-    private String accessToken, event_id;
+    private String accessToken, event_id, show_result;
     private String quiz_options_id;
     private String quizQuestionUrl = "";
     private ConnectionDetector cd;
@@ -123,6 +125,8 @@ public class DialogLivePoll {
     private QuizOptionParser quizOptionParser;
     private DBHelper procializeDB;
     private SQLiteDatabase db;
+    RecyclerView pollGraph;
+
 
     public void welcomeLivePollDialog(Context context) {
 
@@ -210,7 +214,18 @@ public class DialogLivePoll {
 
 //        btnNext.setOnClickListener(this);
 
-        recyclerView = (ListView) Detaildialog.findViewById(R.id.quiz_list);
+        pollGraph =Detaildialog. findViewById(R.id.pollGraph);
+        relative = Detaildialog.findViewById(R.id.relative);
+        test = Detaildialog.findViewById(R.id.test);
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
+        pollGraph.setLayoutManager(mLayoutManager);
+
+        int resId = R.anim.layout_animation_slide_right;
+        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(context, resId);
+        pollGraph.setLayoutAnimation(animation);
+
+        //recyclerView = (ListView) Detaildialog.findViewById(R.id.quiz_list);
         questionTv = (TextView) Detaildialog.findViewById(R.id.questionTv);
         radios = new ArrayList<RadioButton>();
         questionTv.setText(pollListsNew.getQuestion());
@@ -247,7 +262,7 @@ public class DialogLivePoll {
         eventid = prefs.getString("eventid", "1");
         questionId = pollListsNew.getId();
 
-        submit.setOnClickListener(new View.OnClickListener() {
+        /*submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (replyFlag.equalsIgnoreCase("1")) {
@@ -262,7 +277,7 @@ public class DialogLivePoll {
                     }
                 }
             }
-        });
+        });*/
 
 
         pager = Detaildialog.findViewById(R.id.pager);
@@ -272,15 +287,179 @@ public class DialogLivePoll {
 
         Detaildialog.show();
     }
-
     public void addRadioButtons(int number) {
 
         viewGroup.removeAllViewsInLayout();
 
-        /*
+
+        String[] color = {"#112F7A", "#0E73BA", "#04696E", "#00A89C", "#000000", "#4D4D4D", "#949494", "#112F7A", "#0E73BA", "#04696E", "#00A89C", "#000000"};
+
+        Float totalUser = 0.0f;
+
+
+
+        for (int k = 0; k < optionLists.size(); k++) {
+
+            if (optionLists.get(k).getLivePollId()
+                    .equalsIgnoreCase(questionId)) {
+                totalUser = (totalUser + Float.parseFloat(optionLists
+                        .get(k).getTotalUser()));
+
+            }
+
+        }
+
+        // quiz_layout.setBackgroundColor(Color.parseColor("#1B5E20"));
+        if (replyFlag.equalsIgnoreCase("1")) {
+            if (show_result.equalsIgnoreCase("0")) {
+                viewGroup.setVisibility(View.GONE);
+                PollGraphAdapter pollAdapter = new PollGraphAdapter(context2, optionLists, questionId);
+                pollAdapter.notifyDataSetChanged();
+                pollGraph.setAdapter(pollAdapter);
+                pollGraph.scheduleLayoutAnimation();
+                submit.setVisibility(View.GONE);
+               // PollBtn.setVisibility(View.VISIBLE);
+            } else {
+
+            }
+
+        } else {
+
+            pollGraph.setVisibility(View.GONE);
+            viewGroup.setVisibility(View.VISIBLE);
+
+            for (int row = 0; row < 1; row++) {
+
+                for (int i = 1; i < number; i++) {
+
+                    LinearLayout ll = new LinearLayout(context2);
+
+                    LinearLayout l3 = new LinearLayout(context2);
+                    FrameLayout fl = new FrameLayout(context2);
+
+                    ll.setOrientation(LinearLayout.HORIZONTAL);
+                    ll.setPadding(5, 10, 5, 10);
+
+                    LinearLayout ll2 = new LinearLayout(context2);
+                    ll2.setOrientation(LinearLayout.HORIZONTAL);
+
+
+                    LinearLayout.LayoutParams rprms, rprmsRdBtn, rpms2;
+
+                    RadioButton rdbtn = new RadioButton(context2);
+                    rdbtn.setId((row * 2) + i);
+                    rdbtn.setText(StringEscapeUtils.unescapeJava(optionLists.get(i - 1).getOption()));
+                    rdbtn.setTextColor(Color.BLACK);
+//                rdbtn.setTypeface(typeFace);
+                    rdbtn.setOnClickListener(this);
+
+
+
+                    radios.add(rdbtn);
+
+                    // rdbtn.setBackgroundResource(R.drawable.edit_background);
+
+                    rprms = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    rprms.setMargins(5, 5, 5, 5);
+
+                    Float weight = 1.0f;
+
+                    if (replyFlag.equalsIgnoreCase("1")) {
+
+                        // if (quizSpecificOptionListnew.get(i -
+                        // 1).getLive_poll_id()
+                        // .equalsIgnoreCase(questionId)) {
+                        ll2.setBackgroundColor(Color.parseColor(color[i]));
+
+                        weight = ((Float.parseFloat(optionLists.get(i - 1)
+                                .getTotalUser()) / totalUser) * 100);
+
+                        // }
+
+                    } else {
+
+                        weight = 100.0f;
+                    }
+
+                    rpms2 = new LinearLayout.LayoutParams(0,
+                            ViewGroup.LayoutParams.MATCH_PARENT, weight);
+                    rpms2.setMargins(5, 5, 5, 5);
+
+
+//                    ll.setBackgroundResource(R.drawable.agenda_bg);
+                    ll.setWeightSum(weight);
+                    ll.setLayoutParams(rprms);
+
+                    l3.setLayoutParams(rprms);
+                    ll.setPadding(5, 10, 5, 10);
+                    l3.setWeightSum(weight);
+
+                    // ll2.setBackgroundColor(Color.parseColor(color[i]));
+                    ll2.setLayoutParams(rpms2);
+
+
+                    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+                    params.gravity = Gravity.CENTER;
+                    rprmsRdBtn = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    rprms.setMargins(5, 5, 5, 5);
+
+                    rdbtn.setLayoutParams(rprmsRdBtn);
+                    if (Build.VERSION.SDK_INT >= 21) {
+
+                        ColorStateList colorStateList = new ColorStateList(
+                                new int[][]{
+
+                                        new int[]{-android.R.attr.state_checked}, //disabled
+                                        new int[]{android.R.attr.state_checked} //enabled
+                                },
+                                new int[]{
+
+                                        Color.parseColor("#4d4d4d")//disabled
+                                        , Color.parseColor(colorActive)//enabled
+
+                                }
+                        );
+
+
+                        rdbtn.setButtonTintList(colorStateList);//set the color tint list
+                        rdbtn.invalidate(); //could not be necessary
+                    }
+//                    rdbtn.setButtonDrawable(R.drawable.radio_buttontoggle_first);
+                    rdbtn.setBackgroundResource(R.drawable.livepollback);
+                    l3.addView(ll2, rpms2);
+
+
+                    fl.addView(l3, rprms);
+                    fl.addView(rdbtn, rprmsRdBtn);
+
+                    // ll2.addView(rdbtn, rprmsRdBtn);
+                    ll.addView(fl, params);
+
+                    viewGroup.addView(ll, rprms);
+                    viewGroup.invalidate();
+                }
+
+            }
+        }
+
+    }
+
+
+/*
+    public void addRadioButtons(int number) {
+
+        viewGroup.removeAllViewsInLayout();
+
+        */
+/*
          * String[] color = { "#2196F3", "#00BCD4", "#FF5722", "#8BC34A",
          * "#FF9800", "#1B5E20" };
-         */
+         *//*
+
 
         String[] color = {"#112F7A", "#0E73BA", "#04696E", "#00A89C", "#000000", "#4D4D4D", "#949494", "#112F7A", "#0E73BA", "#04696E", "#00A89C", "#000000"};
 
@@ -401,6 +580,7 @@ public class DialogLivePoll {
             }
         }
     }
+*/
 
     public void fetchPoll(String token, String eventid) {
         //showProgress();
@@ -594,5 +774,47 @@ public class DialogLivePoll {
         pollGraph.scheduleLayoutAnimation();
 
         dialogResult.show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == submit) {
+            if (replyFlag.equalsIgnoreCase("1")) {
+                Toast.makeText(context2, "You Already Submited This Poll", Toast.LENGTH_SHORT).show();
+
+            } else {
+                if (quiz_options_id != null) {
+                    LivePollSubmitFetch(accessToken, eventid, questionId, quiz_options_id);
+
+                } else {
+                    Toast.makeText(context2, "Please select something", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+        } else {
+
+            String option = ((RadioButton) v).getText().toString();
+
+            for (RadioButton radio : radios) {
+                if (!radio.getText().equals(option)) {
+
+                    radio.setChecked(false);
+
+                }
+
+            }
+
+            for (int i = 0; i < optionLists.size(); i++) {
+                test.setText(StringEscapeUtils.unescapeJava(optionLists.get(i).getOption()));
+                if (option.equalsIgnoreCase(test.getText().toString())) {
+
+                    quiz_options_id = optionLists.get(i)
+                            .getOptionId();
+                }
+
+            }
+
+        }
     }
 }

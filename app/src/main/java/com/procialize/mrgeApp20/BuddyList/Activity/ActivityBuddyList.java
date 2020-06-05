@@ -46,6 +46,7 @@ import com.procialize.mrgeApp20.BuddyList.DataModel.FetchSendRequest;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
+import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -142,6 +143,16 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         attendeefeedrefresh = findViewById(R.id.attendeefeedrefresh);
         progressBar = findViewById(R.id.progressBar);
 
+        ImageView notificationlogoIv = findViewById(R.id.notificationlogoIv);
+        notificationlogoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(main);
+                //finish();
+            }
+        });
+
         try {
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ ApiConstant.folderName+"/" + "background.jpg");
             Resources res = getResources();
@@ -214,7 +225,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         });
 
 
-/*
+
         searchEt.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -233,7 +244,6 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
                 attendeeAdapter.getFilter().filter(s.toString());
             }
         });
-*/
     }
 
     public void fetchFeed(String token, String eventid) {

@@ -273,6 +273,8 @@
                     android:layout_height="35dp"
                     android:background="@drawable/button_background"
                     android:text="@string/rate"
+                    android:stateListAnimator="@null"
+
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textAllCaps="false"

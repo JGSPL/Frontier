@@ -290,7 +290,7 @@ public class QnADirectFragment extends Fragment implements QADirectAdapter.QADir
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                count = 250 - s.length();
+                count = 150 - s.length();
                 counttv.setText(count + "");
             }
 

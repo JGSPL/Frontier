@@ -81,7 +81,7 @@
                 android:imeOptions="actionSend|flagNoEnterAction"
                 android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
                 android:lines="5"
-                android:maxLength="250"
+                android:maxLength="150"
                 android:maxLines="10"
                 android:minLines="4"
                 android:padding="5dp"
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:gravity="right"
-                android:text="250"
+                android:text="150"
                 android:textColor="#000" />
 
 
@@ -108,12 +108,15 @@
 
                 <com.procialize.mrgeApp20.Fonts.RobotoButton
                     android:id="@+id/ratebtn"
-                    android:layout_width="150dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_marginLeft="20dp"
+                    android:drawableLeft="@drawable/messega"
                     android:layout_marginRight="20dp"
+                    android:padding="10dp"
                     android:background="@drawable/speakerbtnbg"
-                    android:text="@string/sendmsg"
+                    android:text="Send Question"
+                    android:drawablePadding="10dp"
                     android:textAllCaps="false"
                     android:textColor="@color/colorwhite"
                     android:textSize="14sp" />

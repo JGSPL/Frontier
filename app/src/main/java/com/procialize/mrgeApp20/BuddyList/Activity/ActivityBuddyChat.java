@@ -254,7 +254,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
                         qaRvrefresh.setRefreshing(false);
                     }
                     Log.i("hit", "post submitted to API." + response.body().toString());
-                    Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                  //WS  ZAXDFRTGHNB  Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
 
                     // QAFetch(token, eventid);
@@ -310,14 +310,10 @@ public class ActivityBuddyChat extends AppCompatActivity {
 
 
             } else {
-                txtEmpty.setVisibility(View.VISIBLE);
-
-                /*liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, response.body().getChatList(),attendeeid);
-                qaRv.setAdapter(liveChatAdapter);
-                liveChatAdapter.notifyDataSetChanged();*/
+             //   txtEmpty.setVisibility(View.VISIBLE);
 
                 
-                    txtEmpty.setText("Start conversation \n with VIP Support Team");
+                    //txtEmpty.setText("Start conversation \n with VIP Support Team");
 
 
                
