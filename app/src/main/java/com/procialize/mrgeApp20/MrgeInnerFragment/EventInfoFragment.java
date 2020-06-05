@@ -23,7 +23,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -51,8 +50,6 @@ import com.procialize.mrgeApp20.GetterSetter.EventList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.SponsorsList;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
-import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.NewsFeedAdapterRecycler;
-import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Utility;
@@ -82,7 +79,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     SessionManager sessionManager;
     String token;
     ProgressBar progressbar;
-    String event_info_display_map ="0", event_info_description ="0";
+    String event_info_display_map = "0", event_info_description = "0";
     List<EventSettingList> eventSettingLists;
     SupportMapFragment fm;
     ImageView back;
@@ -91,6 +88,10 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     String eventid, colorActive;
     ImageView headerlogoIv;
     RelativeLayout relative_head;
+    List<SponsorsList> sponsorList;
+    String filePath;
+    LinearLayout linShare;
+    RecyclerView rv_sponsors;
     private APIService mAPIService;
     private GoogleMap map;
     private Date d2, d1;
@@ -99,9 +100,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     private DBHelper dbHelper;
     private List<EventList> eventList;
     private List<EventList> eventDBList;
-    List<SponsorsList> sponsorList;
-    String filePath;
-    RecyclerView rv_sponsors;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -126,19 +125,39 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         }
 
         try {
-            setNotification(getActivity(), MrgeHomeActivity.tv_notification,MrgeHomeActivity.ll_notification_count);
-        }catch (Exception e)
-        {e.printStackTrace();}
+            setNotification(getActivity(), MrgeHomeActivity.tv_notification, MrgeHomeActivity.ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         cd = new ConnectionDetector(getContext());
         mAPIService = ApiUtils.getAPIService();
         dbHelper = new DBHelper(getContext());
         sessionManager = new SessionManager(getContext());
-        logoIv =view2. findViewById(R.id.logoIv);
+        logoIv = view2.findViewById(R.id.logoIv);
         nameTv = view2.findViewById(R.id.nameTv);
         dateTv = view2.findViewById(R.id.dateTv);
         cityTv = view2.findViewById(R.id.cityTv);
         rv_sponsors = view2.findViewById(R.id.rv_sponsors);
+        linShare = view2.findViewById(R.id.linShare);
+        linShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+                // Add data to the intent, the receiving app will decide
+                // what to do with it.
+                share.putExtra(Intent.EXTRA_SUBJECT, nameTv.getText().toString());
+                share.putExtra(Intent.EXTRA_TEXT, event_desc.getText().toString());
+
+                startActivity(Intent.createChooser(share, "Share Event Info!"));
+
+            }
+        });
 
         event_desc = view2.findViewById(R.id.event_desc);
         view = view2.findViewById(R.id.view);
@@ -153,22 +172,19 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         fm.getMapAsync(this);
 
 
-
-        TextView header = ( TextView ) view2.findViewById(R.id.event_info_heading);
+        TextView header = (TextView) view2.findViewById(R.id.event_info_heading);
         header.setTextColor(Color.parseColor(colorActive));
-      //  nameTv.setTextColor(Color.parseColor(colorActive));
+        //  nameTv.setTextColor(Color.parseColor(colorActive));
 
 
-        RelativeLayout layoutTop = ( RelativeLayout ) view2.findViewById(R.id.layoutTop);
-       // layoutTop.setBackgroundColor(Color.parseColor(colorActive));
+        RelativeLayout layoutTop = (RelativeLayout) view2.findViewById(R.id.layoutTop);
+        // layoutTop.setBackgroundColor(Color.parseColor(colorActive));
 
 
-
-
-       //if (event_info_display_map.equalsIgnoreCase("1")) {
-            event_desc.setMovementMethod(new ScrollingMovementMethod());
-            event_desc.setMaxLines(20);
-            event_desc.setVerticalScrollBarEnabled(true);
+        //if (event_info_display_map.equalsIgnoreCase("1")) {
+        event_desc.setMovementMethod(new ScrollingMovementMethod());
+        event_desc.setMaxLines(20);
+        event_desc.setVerticalScrollBarEnabled(true);
        /* } else {
 
         }*/
@@ -190,12 +206,12 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
             }
 */
             if (eventSettingLists.get(i).getFieldName().equals("event_details")) {
-                if(eventSettingLists.get(i).getSub_menuList()!=null) {
+                if (eventSettingLists.get(i).getSub_menuList() != null) {
                     if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
                         for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
                             if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_display_map")) {
                                 event_info_display_map = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                            }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_description")) {
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_description")) {
                                 event_info_description = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                             }
 
@@ -208,7 +224,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
 
     public void fetchEventInfo(String token, String eventid) {
-       // showProgress();
+        // showProgress();
         mAPIService.EventInfoFetch(token, eventid).enqueue(new Callback<EventInfoFetch>() {
             @Override
             public void onResponse(Call<EventInfoFetch> call, Response<EventInfoFetch> response) {
@@ -216,7 +232,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                 if (response.isSuccessful()) {
                     Log.i("hit", "post submitted to API." + response.body().toString());
 
-                  //  dismissProgress();
+                    //  dismissProgress();
                     showResponse(response);
                 } else {
                     dismissProgress();
@@ -242,7 +258,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
             filePath = response.body().getSponsor_file_path();
 
             SponsorAdapter sponsorAdapter = new SponsorAdapter(getActivity(), sponsorList, filePath);
-            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(),3);
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
             rv_sponsors.setLayoutManager(mLayoutManager);
             rv_sponsors.setItemAnimator(new DefaultItemAnimator());
             rv_sponsors.setAdapter(sponsorAdapter);
@@ -329,17 +345,17 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                             .apply(RequestOptions.skipMemoryCacheOf(true)).circleCrop()
                             .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).circleCrop()
                             .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            logoIv.setImageResource(R.drawable.app_icon);
-                            return true;
-                        }
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    logoIv.setImageResource(R.drawable.app_icon);
+                                    return true;
+                                }
 
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            return false;
-                        }
-                    }).into(logoIv);
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    return false;
+                                }
+                            }).into(logoIv);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -450,7 +466,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                 filePath = response.body().getSponsor_file_path();
 
                 SponsorAdapter sponsorAdapter = new SponsorAdapter(getActivity(), sponsorList, filePath);
-                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(),3);
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
                 rv_sponsors.setNestedScrollingEnabled(false);
                 rv_sponsors.setLayoutManager(mLayoutManager);
                 rv_sponsors.setItemAnimator(new DefaultItemAnimator());
@@ -508,12 +524,12 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
                         event_desc.setVisibility(View.VISIBLE);
 //                        eventvenu.setVisibility(View.VISIBLE);
-                       // view.setVisibility(View.VISIBLE);
+                        // view.setVisibility(View.VISIBLE);
 
                     } else {
                         event_desc.setVisibility(View.GONE);
 //                        eventvenu.setVisibility(View.GONE);
-                     //   view.setVisibility(View.GONE);
+                        //   view.setVisibility(View.GONE);
                     }
 
                     //event_desc.setText(response.body().getEventList().get(0).getEventLocation() + "\n\n" + response.body().getEventList().get(0).getEventDescription());
@@ -527,7 +543,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 
-                           // logoIv.setImageResource(R.drawable.profilepic_placeholder);
+                            // logoIv.setImageResource(R.drawable.profilepic_placeholder);
                             return true;
                         }
 
@@ -696,13 +712,13 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                         view.setVisibility(View.VISIBLE);
 
                     } else {
-                       // event_desc.setVisibility(View.GONE);
+                        // event_desc.setVisibility(View.GONE);
 //                        eventvenu.setVisibility(View.GONE);
-                    //    view.setVisibility(View.GONE);
+                        //    view.setVisibility(View.GONE);
                     }
 
                     String eventDescription = eventDBList.get(0).getEventDescription();
-                   // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                    // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
                     event_desc.setText(eventDescription);
                     String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
 

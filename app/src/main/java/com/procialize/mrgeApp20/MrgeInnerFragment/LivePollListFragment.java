@@ -88,8 +88,8 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
         }catch (Exception e)
         {e.printStackTrace();}
 
-        /*DialogLivePoll dialogLivePoll = new DialogLivePoll();
-        dialogLivePoll.welcomeLivePollDialog(getActivity());*/
+        DialogLivePoll dialogLivePoll = new DialogLivePoll();
+        dialogLivePoll.welcomeLivePollDialog(getActivity());
 
         cd = new ConnectionDetector(getContext());
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);

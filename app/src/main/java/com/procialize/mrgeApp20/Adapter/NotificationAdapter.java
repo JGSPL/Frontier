@@ -95,18 +95,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         final NotificationList notificationList = notificationLists.get(position);
 
         holder.notiLin.setBackgroundColor(Color.parseColor(colorActive));
-        holder.nameTv.setTextColor(Color.parseColor(colorActive));
+       // holder.nameTv.setTextColor(Color.parseColor(colorActive));
 
         int colorInt = Color.parseColor(colorActive);
 
         ColorStateList csl = ColorStateList.valueOf(colorInt);
-        Drawable drawable = DrawableCompat.wrap(holder.arrowIv.getDrawable());
+       /* Drawable drawable = DrawableCompat.wrap(holder.arrowIv.getDrawable());
         DrawableCompat.setTintList(drawable, csl);
         holder.arrowIv.setImageDrawable(drawable);
 
         Drawable drawable1 = DrawableCompat.wrap(holder.arrowIv.getDrawable());
         DrawableCompat.setTintList(drawable1, csl);
-        holder.arrowIvmsg.setImageDrawable(drawable1);
+        holder.arrowIvmsg.setImageDrawable(drawable1);*/
 
 
         if (notificationList.getNotificationContent() != null) {
@@ -332,7 +332,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         try {
             Date date1 = formatter.parse(notificationList.getNotificationDate());
 
-            DateFormat originalFormat = new SimpleDateFormat("dd MMM yyyy HH:mm", Locale.UK);
+            DateFormat originalFormat = new SimpleDateFormat("dd MMMM yyyy hh:mm a", Locale.UK);
 
             String date = originalFormat.format(date1);
 
@@ -388,7 +388,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.ivtype.setImageResource(R.drawable.notifymessage);
             holder.arrowIv.setVisibility(View.GONE);
             holder.arrowIvmsg.setImageResource(R.drawable.messageiv);
-            holder.arrowIvmsg.setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_ATOP);
+           // holder.arrowIvmsg.setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_ATOP);
 
         } else if (notificationList.getNotificationType().equalsIgnoreCase("Quiz")) {
             holder.txt_msg.setVisibility(View.GONE);

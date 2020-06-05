@@ -784,10 +784,26 @@ public interface APIService {
                                         @Field("event_id") String event_id);
 
 
+
     @POST("getUserChathistory")
     @FormUrlEncoded
     Call<FetchChatList> UserChathistory(@Field("event_id") String event_id,
                                          @Field("api_access_token") String api_access_token,
                                          @Field("buddy_id") String buddy_id,
                                          @Field("chat_id") String message );
+
+    @POST("SpotLivePollFetch")
+    @FormUrlEncoded
+    Call<LivePollFetch> SpotLivePollFetch(@Field("api_access_token") String api_access_token,
+                                       @Field("event_id") String event_id);
+
+
+    @POST("SpotLivePollFetch")
+    @FormUrlEncoded
+    Call<LivePollSubmitFetch> SpotLivePollSubmit(@Field("api_access_token") String api_access_token,
+                                           @Field("event_id") String event_id,
+                                           @Field("live_poll_id") String live_poll_id,
+                                           @Field("live_poll_options_id") String live_poll_options_id
+                                       );
+
 }

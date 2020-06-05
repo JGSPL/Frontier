@@ -106,7 +106,7 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="5dp"
                         android:text="Sent you message : "
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/textsizesmall" />
 
                 </LinearLayout>
@@ -116,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp"
                     android:text=""
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/textsizesmall" />
 
 
@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp"
                     android:text=""
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/textsizesmall"
                     android:visibility="gone"/>
 

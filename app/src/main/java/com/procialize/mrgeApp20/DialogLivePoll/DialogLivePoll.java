@@ -255,8 +255,8 @@ public class DialogLivePoll {
                 } else {
                     if (quiz_options_id != null) {
                         Detaildialog.dismiss();
-                        // thankYouDialog(context2, pollListsNew.getQuestion(), questionId, optionLists);
-                        LivePollSubmitFetch(accessToken, eventid, questionId, quiz_options_id);
+                        thankYouDialog(context2, pollListsNew.getQuestion(), questionId, optionLists);
+                       // LivePollSubmitFetch(accessToken, eventid, questionId, quiz_options_id);
                     } else {
                         Toast.makeText(context2, "Please select something", Toast.LENGTH_SHORT).show();
                     }
@@ -404,7 +404,7 @@ public class DialogLivePoll {
 
     public void fetchPoll(String token, String eventid) {
         //showProgress();
-        mAPIService.LivePollFetch(token, eventid).enqueue(new Callback<LivePollFetch>() {
+        mAPIService.SpotLivePollFetch(token, eventid).enqueue(new Callback<LivePollFetch>() {
             @Override
             public void onResponse(Call<LivePollFetch> call, Response<LivePollFetch> response) {
 
@@ -456,7 +456,7 @@ public class DialogLivePoll {
 
     public void LivePollSubmitFetch(String token, String eventid, String pollid, String polloptionid) {
 
-        mAPIService.LivePollSubmitFetch(token, eventid, pollid, polloptionid).enqueue(new Callback<LivePollSubmitFetch>() {
+        mAPIService.SpotLivePollSubmit(token, eventid, pollid, polloptionid).enqueue(new Callback<LivePollSubmitFetch>() {
             @Override
             public void onResponse(Call<LivePollSubmitFetch> call, Response<LivePollSubmitFetch> response) {
 
