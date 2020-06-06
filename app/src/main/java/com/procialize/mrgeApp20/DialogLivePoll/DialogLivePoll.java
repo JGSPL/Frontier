@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.DialogLivePoll;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -169,8 +170,11 @@ public class DialogLivePoll implements View.OnClickListener{
                 dialog.dismiss();
             }
         });
+        /*if(!((Activity) context).isFinishing())
+        {*/
+            dialog.show();
+       /* }*/
 
-        dialog.show();
     }
 
     public void livePollDetailDialog(Context context) {
@@ -614,17 +618,33 @@ public class DialogLivePoll implements View.OnClickListener{
         if (response.body().getLivePollOptionList().size() != 0) {
             //empty.setVisibility(View.GONE);
             for (int i = 0; i < pollLists.size(); i++) {
-                if (pollLists.get(i).getReplied().equalsIgnoreCase("0")) {
+                //if (pollLists.get(i).getReplied().equalsIgnoreCase("0")) {
                     //if (pollLists.get(i).getShow_result().equalsIgnoreCase("0")) {
                     String id = pollLists.get(i).getId();
                     String question = pollLists.get(i).getQuestion();
                     String replied = pollLists.get(i).getReplied();
                     String show_result = pollLists.get(i).getShow_result();
                     pollListsNew = pollLists.get(i);
-                    livePollDetailDialog(context2);
+
+                    if(replied.equalsIgnoreCase("0"))
+                    {
+                        livePollDetailDialog(context2);
+                    }else
+                    {
+                        if (totalOptionLists.size() != 0) {
+                            for (int j = 0; j < totalOptionLists.size(); j++) {
+                                if (totalOptionLists.get(j).getLivePollId().equalsIgnoreCase(pollListsNew.getId())) {
+                                    Count = Count + Integer.parseInt(totalOptionLists.get(j).getTotalUser());
+                                    optionLists.add(totalOptionLists.get(j));
+                                }
+                            }
+                        }
+                        resultDialog(context2,pollListsNew.getQuestion(), pollLists.get(0).getId(), optionLists);
+                    }
                     return;
                     //}
-                }
+               // }
+
             }
             /*LivePollDialogAdapter pollAdapter = new LivePollDialogAdapter(context2, response.body().getLivePollList(), response.body().getLivePollOptionList());
             pollAdapter.notifyDataSetChanged();

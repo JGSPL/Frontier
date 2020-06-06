@@ -85,6 +85,7 @@ import com.procialize.mrgeApp20.CustomTools.CustomViewPager;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
+import com.procialize.mrgeApp20.DialogLivePoll.DialogLivePoll;
 import com.procialize.mrgeApp20.Downloads.DocumentsActivity;
 import com.procialize.mrgeApp20.Downloads.DownloadsFragment;
 import com.procialize.mrgeApp20.EmptyViewActivity;
@@ -92,7 +93,6 @@ import com.procialize.mrgeApp20.Engagement.Fragment.EngagementFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFolderFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFragment;
 import com.procialize.mrgeApp20.Fragments.AttendeeFragment;
-import com.procialize.mrgeApp20.Speaker.Views.SpeakerFragment;
 import com.procialize.mrgeApp20.Gallery.Image.Activity.GalleryFragment;
 import com.procialize.mrgeApp20.Gallery.Video.Activity.VideoFragment;
 import com.procialize.mrgeApp20.GetterSetter.AgendaList;
@@ -133,6 +133,7 @@ import com.procialize.mrgeApp20.MrgeInnerFragment.QnASpeakerFragment;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.Speaker.Views.SpeakerFragment;
 import com.procialize.mrgeApp20.Utility.PlayerConfig;
 import com.procialize.mrgeApp20.Utility.Res;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -170,28 +171,21 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     public static int flag = 0;
     public static ImageView headerlogoIv, notificationlogoIv, grid_image_view, list_image_view;
     public static TextView txtMainHeader;
-    public static LinearLayout linear_livestream, linear_zoom, linear_layout,linear_changeView;
+    public static LinearLayout linear_livestream, linear_zoom, linear_layout, linear_changeView;
     public static boolean flagshown = false;
     public static TextView txt_zoom, txt_streaming;
     public static ImageView img_zoom, img_stream;
+    public static LinearLayout ll_notification_count;
+    public static TextView tv_notification;
+    public static NotificationCountReciever notificationCountReciever;
+    public static IntentFilter notificationCountFilter;
+    public static LinearLayout ll_notification_count_drawer;
+    public static TextView tv_notification_drawer;
     RecyclerView menurecycler;
     SessionManager session;
     List<EventSettingList> eventSettingLists;
     List<EventMenuSettingList> eventMenuSettingLists;
     HashMap<String, String> eventlist;
-    private String event_details  = "0", attendee = "0",attendee_designation = "0",attendee_company = "0",
-            attendee_location = "0",attendee_mobile = "0",attendee_save_contact = "0",speaker = "0",
-            speaker_rating = "0",speaker_designation = "0",speaker_company = "0", speaker_location = "0",
-            speaker_mobile = "0", speaker_save_contact = "0", agenda, agenda_conference = "0",
-            agenda_vacation = "0", event_info = "0",event_info_display_map = "0", event_info_description = "0",
-            event_info_email = "0", event_info_contact = "0", attendee_message = "0",
-            speaker_message = "0", emergency_contact = "0";
-
-    private String interact  = "0",QnA  = "0" , QnA_speaker = "0",QnA_session = "0",QnA_like_question = "0",
-            QnA_reply_question = "0",QnA_direct_question = "0", engagement_selfie_contest = "0",
-            engagement_video_contest = "0",quiz = "0", live_poll = "0", engagement = "0";
-    private String folder = "0",image_gallery = "0",document_download = "0",video_gallery = "0";
-
     String side_menu = "0", side_menu_my_travel = "0", side_menu_notification = "0", side_menu_display_qr = "0", side_menu_qr_scanner = "0",
             side_menu_quiz = "0", side_menu_live_poll = "0", side_menu_survey = "0",
             side_menu_feedback = "0", side_menu_gallery_video = "0", gallery_video_native = "0", gallery_video_youtube = "0",
@@ -211,15 +205,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     TextView logout, buddyList, editProfile, home, contactus, eventname, switchbt, chatbt, eula, privacy_policy, eventInfo, notification, exh_analytics, txt_version;
     String eventnamestr;
     LinearLayout linear;
-    public static LinearLayout ll_notification_count;
-    public static TextView tv_notification;
     String imgname, accesstoken;
     HashMap<String, String> user;
     String MY_PREFS_CATEGORY = "categorycnt";
     WallPostReciever mReceiver;
-    public static NotificationCountReciever notificationCountReciever;
+    SpotLivePollReciever spotLivePollReciever;
     IntentFilter mFilter;
-    public static IntentFilter notificationCountFilter;
+    IntentFilter spotLivePollFilter;
     String catcnt;
     LinearLayout linTab4, linTab3, linTab2;
     String zoom_meeting_id, zoom_password, zoom_status, zoom_time;//,youtube_stream_url,  stream_status, stream_time
@@ -235,8 +227,19 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     LinearLayout linChange, linzoom, linStream;
     ImageView img_view;
     TextView txt_change;
-
     List<YouTubeApiList> youTubeApiLists = new ArrayList<>();
+    int youTubeLinkPosition = -1;
+    private String event_details = "0", attendee = "0", attendee_designation = "0", attendee_company = "0",
+            attendee_location = "0", attendee_mobile = "0", attendee_save_contact = "0", speaker = "0",
+            speaker_rating = "0", speaker_designation = "0", speaker_company = "0", speaker_location = "0",
+            speaker_mobile = "0", speaker_save_contact = "0", agenda, agenda_conference = "0",
+            agenda_vacation = "0", event_info = "0", event_info_display_map = "0", event_info_description = "0",
+            event_info_email = "0", event_info_contact = "0", attendee_message = "0",
+            speaker_message = "0", emergency_contact = "0";
+    private String interact = "0", QnA = "0", QnA_speaker = "0", QnA_session = "0", QnA_like_question = "0",
+            QnA_reply_question = "0", QnA_direct_question = "0", engagement_selfie_contest = "0",
+            engagement_video_contest = "0", quiz = "0", live_poll = "0", engagement = "0";
+    private String folder = "0", image_gallery = "0", document_download = "0", video_gallery = "0";
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private CustomViewPager viewPager, Subviewpager, Subviewpager2, Subviewpager3;
@@ -280,10 +283,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     private DBHelper dbHelper;
     private YouTubePlayerSupportFragment youTubePlayerFragment;
     private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
-    int youTubeLinkPosition=-1;
-
-    public static LinearLayout ll_notification_count_drawer;
-    public static TextView tv_notification_drawer;
 
     @Override
     public Resources getResources() {
@@ -340,6 +339,18 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             e.printStackTrace();
         }
 
+      /*  DialogLivePoll dialogLivePoll = new DialogLivePoll();
+        dialogLivePoll.welcomeLivePollDialog(MrgeHomeActivity.this);*/
+
+        try {
+            spotLivePollReciever = new SpotLivePollReciever();
+            spotLivePollFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_SPOT_LIVE_POLL);
+            LocalBroadcastManager.getInstance(this).registerReceiver(spotLivePollReciever, spotLivePollFilter);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         try {
             notificationCountReciever = new NotificationCountReciever();
             notificationCountFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_NOTIFICATION_COUNT);
@@ -388,7 +399,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         tv_notification = (TextView) findViewById(R.id.tv_notification);
         SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        String notificationCount = prefs1.getString("notificationCount","");
+        String notificationCount = prefs1.getString("notificationCount", "");
         tv_notification.setText(notificationCount);
 
         if (cd.isConnectingToInternet()) {
@@ -410,11 +421,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         linear_changeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(youTubeLinkPosition < youTubeApiLists.size()-1) {
-                    youTubeLinkPosition = youTubeLinkPosition+1;
+                if (youTubeLinkPosition < youTubeApiLists.size() - 1) {
+                    youTubeLinkPosition = youTubeLinkPosition + 1;
                     initializeYoutubePlayer(youTubeLinkPosition);
-                }
-                else {
+                } else {
                     youTubeLinkPosition = 0;
                     initializeYoutubePlayer(youTubeLinkPosition);
                 }
@@ -424,12 +434,12 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         linear_zoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(zoom_status.equalsIgnoreCase("1")) {
+                if (zoom_status.equalsIgnoreCase("1")) {
                     Intent intent = new Intent(MrgeHomeActivity.this, InitAuthSDKActivity.class);
                     intent.putExtra("meeting_id", zoom_meeting_id);
                     intent.putExtra("meeting_password", zoom_password);
                     startActivity(intent);
-                }else{
+                } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MrgeHomeActivity.this);
                     builder.setTitle("Exit");
                     builder.setMessage("No meeting active currently");
@@ -445,7 +455,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
 
-                                   dialog.dismiss();
+                                    dialog.dismiss();
 
                                 }
                             });
@@ -986,7 +996,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 sub2tabLayout.getTabAt(0).setIcon(sub1tabIcons[2]);
             } else if (sub2tabLayout.getTabAt(0).getText().equals("SCHEDULE")) {
                 sub2tabLayout.getTabAt(0).setIcon(sub1tabIcons[3]);
-            }else if (sub2tabLayout.getTabAt(0).getText().equals("EMERGENCY")) {
+            } else if (sub2tabLayout.getTabAt(0).getText().equals("EMERGENCY")) {
                 sub2tabLayout.getTabAt(0).setIcon(sub1tabIcons[4]);
             }
         }
@@ -1001,7 +1011,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 sub2tabLayout.getTabAt(1).setIcon(sub1tabIcons[2]);
             } else if (sub2tabLayout.getTabAt(1).getText().equals("SCHEDULE")) {
                 sub2tabLayout.getTabAt(1).setIcon(sub1tabIcons[3]);
-            }else if (sub2tabLayout.getTabAt(1).getText().equals("EMERGENCY")) {
+            } else if (sub2tabLayout.getTabAt(1).getText().equals("EMERGENCY")) {
                 sub2tabLayout.getTabAt(1).setIcon(sub1tabIcons[4]);
             }
         }
@@ -1016,7 +1026,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 sub2tabLayout.getTabAt(2).setIcon(sub1tabIcons[2]);
             } else if (sub2tabLayout.getTabAt(2).getText().equals("SCHEDULE")) {
                 sub2tabLayout.getTabAt(2).setIcon(sub1tabIcons[3]);
-            }else if (sub2tabLayout.getTabAt(2).getText().equals("EMERGENCY")) {
+            } else if (sub2tabLayout.getTabAt(2).getText().equals("EMERGENCY")) {
                 sub2tabLayout.getTabAt(2).setIcon(sub1tabIcons[4]);
             }
         }
@@ -1031,7 +1041,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 sub2tabLayout.getTabAt(3).setIcon(sub1tabIcons[2]);
             } else if (sub2tabLayout.getTabAt(3).getText().equals("SCHEDULE")) {
                 sub2tabLayout.getTabAt(3).setIcon(sub1tabIcons[3]);
-            }else if (sub2tabLayout.getTabAt(3).getText().equals("EMERGENCY")) {
+            } else if (sub2tabLayout.getTabAt(3).getText().equals("EMERGENCY")) {
                 sub2tabLayout.getTabAt(3).setIcon(sub1tabIcons[4]);
             }
         }
@@ -1056,24 +1066,24 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     private void Sub2setupViewPager(ViewPager viewPager) {
 
         viewPagerAdapterSub2 = new ViewPagerAdapterSub(getSupportFragmentManager());
-        if(event_info.equalsIgnoreCase("1")){
+        if (event_info.equalsIgnoreCase("1")) {
             viewPagerAdapterSub2.addFragment(new EventInfoFragment(), "EVENT INFO");
         }
-        if(attendee.equalsIgnoreCase("1")){
+        if (attendee.equalsIgnoreCase("1")) {
             viewPagerAdapterSub2.addFragment(new AttendeeFragment(), "ATTENDEES");
         }
-        if(speaker.equalsIgnoreCase("1")){
+        if (speaker.equalsIgnoreCase("1")) {
             viewPagerAdapterSub2.addFragment(new SpeakerFragment(), "SPEAKERS");
         }
-        if(agenda.equalsIgnoreCase("1")){
-            if(agenda_conference.equalsIgnoreCase("1")){
+        if (agenda.equalsIgnoreCase("1")) {
+            if (agenda_conference.equalsIgnoreCase("1")) {
                 viewPagerAdapterSub2.addFragment(new AgendaFragment(), "SCHEDULE");
 
-            }else {
+            } else {
                 viewPagerAdapterSub2.addFragment(new AgendaFolderFragment(), "SCHEDULE");
             }
         }
-        if(emergency_contact.equalsIgnoreCase("1")){
+        if (emergency_contact.equalsIgnoreCase("1")) {
             viewPagerAdapterSub2.addFragment(new EmergencyFragment(), "EMERGENCY");
         }
 
@@ -1134,15 +1144,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     private void Sub3setupViewPager(ViewPager viewPager) {
 
         viewPagerAdapterSub3 = new ViewPagerAdapterSub(getSupportFragmentManager());
-        if(image_gallery.equalsIgnoreCase("1")){
+        if (image_gallery.equalsIgnoreCase("1")) {
             viewPagerAdapterSub3.addFragment(new GalleryFragment(), "IMAGE");
 
         }
-        if(video_gallery.equalsIgnoreCase("1")){
+        if (video_gallery.equalsIgnoreCase("1")) {
             viewPagerAdapterSub3.addFragment(new VideoFragment(), "VIDEO");
 
         }
-        if(document_download.equalsIgnoreCase("1")){
+        if (document_download.equalsIgnoreCase("1")) {
             viewPagerAdapterSub3.addFragment(new DownloadsFragment(), "DOWNLOADS");
 
         }
@@ -1208,29 +1218,29 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             QnA_reply_question = "0",QnA_direct_question = "0", engagement_selfie_contest = "0",
                             engagement_video_contest = "0",quiz = "0", live_poll = "0", engagement = "0";*/
         viewPagerAdapterSub4 = new ViewPagerAdapterSub(getSupportFragmentManager());
-        if(quiz.equalsIgnoreCase("1")){
+        if (quiz.equalsIgnoreCase("1")) {
             viewPagerAdapterSub4.addFragment(new FolderQuizFragment(), "QUIZ");
 
         }
-        if(live_poll.equalsIgnoreCase("1")){
+        if (live_poll.equalsIgnoreCase("1")) {
             viewPagerAdapterSub4.addFragment(new LivePollListFragment(), "LIVE POLL");
 
         }
-        if(QnA.equalsIgnoreCase("1")){
-            if(QnA_session.equalsIgnoreCase("1")){
+        if (QnA.equalsIgnoreCase("1")) {
+            if (QnA_session.equalsIgnoreCase("1")) {
                 viewPagerAdapterSub4.addFragment(new QnASessionFragment(), "Q&A");
 
-            }else if(QnA_speaker.equalsIgnoreCase("1")){
+            } else if (QnA_speaker.equalsIgnoreCase("1")) {
                 viewPagerAdapterSub4.addFragment(new QnASpeakerFragment(), "Q&A");
 
-            }else{
+            } else {
                 viewPagerAdapterSub4.addFragment(new QnADirectFragment(), "Q&A");
 
             }
 
         }
 
-        if(engagement.equalsIgnoreCase("1")){
+        if (engagement.equalsIgnoreCase("1")) {
             viewPagerAdapterSub4.addFragment(new EngagementFragment(), "ENGAGEMENT");
 
         }
@@ -1254,16 +1264,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         ll_notification_count_drawer = outer.findViewById(R.id.ll_notification_count_drawer);
         tv_notification_drawer = outer.findViewById(R.id.tv_notification_drawer);
         SharedPreferences prefs1 = getSharedPreferences("ProcializeInfo", MODE_PRIVATE);
-        String notificationCount = prefs1.getString("notificationCount","");
+        String notificationCount = prefs1.getString("notificationCount", "");
         tv_notification_drawer.setText(notificationCount);
 
-        if(notificationCount.equalsIgnoreCase("0"))
-        {
+        if (notificationCount.equalsIgnoreCase("0")) {
             tv_notification_drawer.setVisibility(View.GONE);
             ll_notification_count_drawer.setVisibility(View.GONE);
-        }
-        else
-        {
+        } else {
             tv_notification_drawer.setVisibility(View.VISIBLE);
             ll_notification_count_drawer.setVisibility(View.VISIBLE);
         }
@@ -1477,7 +1484,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         }
         if (event_details.equalsIgnoreCase("1")) {
             //if (agenda_conference.equalsIgnoreCase("1")) {
-                adapter.addFragment(new BlankFragment(), "Event Details");
+            adapter.addFragment(new BlankFragment(), "Event Details");
             /*} else if (agenda_vacation.equalsIgnoreCase("1")) {
                 adapter.addFragment(new BlankFragment(), "Event Details");
             }*/
@@ -1505,7 +1512,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         // overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 //        profiledetails();
         super.onResume();
-        setNotification(this,tv_notification,ll_notification_count);
+        setNotification(this, tv_notification, ll_notification_count);
 
 
     }
@@ -1619,114 +1626,114 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 } else if (eventSettingLists.get(i).getFieldName().equals("side_menu_sponsor")) {
 
                     side_menu_sponsor = eventSettingLists.get(i).getFieldValue();
-                }else if (eventSettingLists.get(i).getFieldName().equals("event_details")) {
+                } else if (eventSettingLists.get(i).getFieldName().equals("event_details")) {
 
                     event_details = eventSettingLists.get(i).getFieldValue();
-                    if(eventSettingLists.get(i).getSub_menuList()!=null) {
+                    if (eventSettingLists.get(i).getSub_menuList() != null) {
                         if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
                             for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
                                 if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee")) {
 
                                     attendee = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_designation")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_designation")) {
                                     attendee_designation = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_company")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_company")) {
                                     attendee_company = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_location")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_location")) {
                                     attendee_location = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_mobile")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_mobile")) {
                                     attendee_mobile = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_save_contact")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_save_contact")) {
                                     attendee_save_contact = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("agenda")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("agenda")) {
                                     agenda = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("agenda_conference")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("agenda_conference")) {
                                     agenda_conference = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("agenda_vacation")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("agenda_vacation")) {
                                     agenda_vacation = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info")) {
                                     event_info = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_display_map")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_display_map")) {
                                     event_info_display_map = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_description")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_description")) {
                                     event_info_description = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_email")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_email")) {
                                     event_info_email = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_contact")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_contact")) {
                                     event_info_contact = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_message")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_message")) {
                                     attendee_message = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_message")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_message")) {
                                     speaker_message = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("emergency_contact")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("emergency_contact")) {
                                     emergency_contact = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker")) {
                                     speaker = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_rating")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_rating")) {
                                     speaker_rating = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_designation")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_designation")) {
                                     speaker_designation = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_company")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_company")) {
                                     speaker_company = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_location")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_location")) {
                                     speaker_location = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_mobile")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_mobile")) {
                                     speaker_mobile = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_save_contact")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_save_contact")) {
                                     speaker_save_contact = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                                 }
 
                             }
                         }
                     }
-                }else if (eventSettingLists.get(i).getFieldName().equals("interact")) {
+                } else if (eventSettingLists.get(i).getFieldName().equals("interact")) {
 
                     interact = eventSettingLists.get(i).getFieldValue();
-                    if(eventSettingLists.get(i).getSub_menuList()!=null) {
+                    if (eventSettingLists.get(i).getSub_menuList() != null) {
                         if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
                             for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
                                 if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A")) {
                                     QnA = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_speaker")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_speaker")) {
                                     QnA_speaker = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_session")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_session")) {
                                     QnA_session = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_like_question")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_like_question")) {
                                     QnA_like_question = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_reply_question")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_reply_question")) {
                                     QnA_reply_question = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_direct_question")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_direct_question")) {
                                     QnA_direct_question = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("engagement_selfie_contest")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("engagement_selfie_contest")) {
                                     engagement_selfie_contest = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("engagement_video_contest")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("engagement_video_contest")) {
                                     engagement_video_contest = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("quiz")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("quiz")) {
                                     quiz = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("live_poll")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("live_poll")) {
                                     live_poll = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("engagement")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("engagement")) {
                                     engagement = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                                 }
-                        }
+                            }
                         }
                     }
-                }else if (eventSettingLists.get(i).getFieldName().equals("folder")) {
+                } else if (eventSettingLists.get(i).getFieldName().equals("folder")) {
 
 
                     /*
                     private String folder = "0",image_gallery = "0",document_download = "0",video_gallery = "0";*/
                     folder = eventSettingLists.get(i).getFieldValue();
-                    if(eventSettingLists.get(i).getSub_menuList()!=null) {
+                    if (eventSettingLists.get(i).getSub_menuList() != null) {
                         if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
                             for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
                                 if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("image_gallery")) {
 
                                     image_gallery = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("document_download")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("document_download")) {
 
                                     document_download = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                                }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("video_gallery")) {
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("video_gallery")) {
 
                                     video_gallery = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                                 }
@@ -1862,7 +1869,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             Intent speaker = new Intent(this, SpeakerActivity.class);
             startActivity(speaker);
 
-        }  else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_agenda")) {
+        } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_agenda")) {
 
             if (agenda_conference.equalsIgnoreCase("1")) {
                 Intent agenda = new Intent(this, AgendaActivity.class);
@@ -2124,8 +2131,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     if (response.body().getYoutube_info().size() > 0) {
                         youTubeApiLists = response.body().getYoutube_info();
 
-                        if(youTubeApiLists.get(0).getStream_status().equalsIgnoreCase("1"))
-                        {
+                        if (youTubeApiLists.get(0).getStream_status().equalsIgnoreCase("1")) {
                             linStream.setBackgroundColor(Color.parseColor(colorActive));
                             txt_streaming.setBackgroundColor(Color.parseColor(colorActive));
                             img_stream.setBackgroundColor(Color.parseColor(colorActive));
@@ -2149,8 +2155,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             txt_change.setText("Change View");
                             img_view.startAnimation(anim);
                             //-----------------------------------
-                        }
-                        else {
+                        } else {
                             linChange.setBackgroundColor(Color.parseColor("#686868"));
                             img_view.setBackgroundColor(Color.parseColor("#686868"));
                             txt_change.setBackgroundColor(Color.parseColor("#686868"));
@@ -2188,7 +2193,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     //}
                     if (zoom_status.equalsIgnoreCase("1")) {
 //                            countDownzoom();
-
 
 
                         linzoom.setBackgroundColor(Color.parseColor(colorActive));
@@ -2260,7 +2264,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
 
                     String url2 = parts2[0];
-
 
 
                     Log.e("videoid", YouvideoId);
@@ -4298,6 +4301,31 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
     }
 
+    public static class NotificationCountReciever extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // progressbarForSubmit.setVisibility(View.GONE);
+            //Log.d("service end", "service end");
+           /* SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String notificationCount = prefs1.getString("notificationCount", "");
+            tv_notification.setVisibility(View.VISIBLE);
+            ll_notification_count.setVisibility(View.VISIBLE);
+            tv_notification.setText(notificationCount);*/
+            setNotification(context, tv_notification, ll_notification_count);
+
+
+            try {
+                notificationCountReciever = new MrgeHomeActivity.NotificationCountReciever();
+                notificationCountFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_NOTIFICATION_COUNT);
+                LocalBroadcastManager.getInstance(context).registerReceiver(notificationCountReciever, notificationCountFilter);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
     class ViewPagerAdapterSub extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -4339,30 +4367,16 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         }
     }
 
-    public static class NotificationCountReciever extends BroadcastReceiver {
+    private class SpotLivePollReciever extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             // progressbarForSubmit.setVisibility(View.GONE);
-            //Log.d("service end", "service end");
-           /* SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            String notificationCount = prefs1.getString("notificationCount", "");
-            tv_notification.setVisibility(View.VISIBLE);
-            ll_notification_count.setVisibility(View.VISIBLE);
-            tv_notification.setText(notificationCount);*/
-            setNotification(context,tv_notification,ll_notification_count);
 
+            setupViewPager(viewPager);
 
-
-
-            try {
-                notificationCountReciever = new MrgeHomeActivity.NotificationCountReciever();
-                notificationCountFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_NOTIFICATION_COUNT);
-                LocalBroadcastManager.getInstance(context).registerReceiver(notificationCountReciever, notificationCountFilter);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
+            Log.d("service end", "service end");
+            DialogLivePoll dialogLivePoll = new DialogLivePoll();
+            dialogLivePoll.welcomeLivePollDialog(MrgeHomeActivity.this);
         }
     }
 
@@ -4397,5 +4411,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(spotLivePollReciever);
+        super.onDestroy();
     }
 }

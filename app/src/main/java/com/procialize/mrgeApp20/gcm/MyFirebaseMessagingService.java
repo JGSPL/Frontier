@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -19,11 +20,13 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
 import com.procialize.mrgeApp20.Activity.SplashActivity;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
+import com.procialize.mrgeApp20.BuildConfig;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.Utility.MyApplication;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -82,80 +85,104 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         event_id = prefs.getString("eventid", "1");
 
-        if (remoteMessage.getData().get("event_id").equalsIgnoreCase(event_id)) {
+        Log.d("Event Id==>", remoteMessage.getData().get("event_id"));
+        // if (remoteMessage.getData().get("event_id").equalsIgnoreCase(event_id)) {
 
-            notificationCount++;
-            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                setupChannels();
-            }
-            notificationId = new Random().nextInt(60000);
-            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            String imageUri = remoteMessage.getData().get("image");
-            long when = System.currentTimeMillis();
-            bitmap = getBitmapfromUrl(imageUri);
-
-            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID);
-//        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                //transperent icon
-                if(Build.BRAND.equalsIgnoreCase("samsung")) {
-                    notificationBuilder.setSmallIcon(R.drawable.app_icon);
-                }else {
-                    notificationBuilder.setSmallIcon(R.drawable.trans_logo);
-                    notificationBuilder.setColor(getResources().getColor(R.color.colorwhite));
-                }
-            } else {
-                notificationBuilder.setSmallIcon(R.drawable.app_icon);
-//            notificationBuilder.setColor(getResources().getColor(R.color.activetab));
-            }
-            //-----------For notification count----------------------
-            SharedPreferences prefs2 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            String strNotificationCount = prefs2.getString("notificationCount","");
-
-            if(strNotificationCount.isEmpty())
-            {
-                strNotificationCount = "0";
-            }
-
-            notificationCount = Integer.parseInt(strNotificationCount);
-
-            notificationCount = notificationCount+1;
-
-            SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs1.edit();
-            editor.putString("notificationCount", String.valueOf(notificationCount));
-            editor.commit();
-
-            Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_NOTIFICATION_COUNT);
-            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
-            //----------------------------------------------------------------------
-
-
-            notificationBuilder.setContentTitle("Mrge App")
-                    .setColorized(true)
-                    .setWhen(when)
-                    .setAutoCancel(true)
-                    .setShowWhen(true)
-                    .setSound(alarmSound)
-                    .setDefaults(NotificationCompat.DEFAULT_ALL)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(getEmojiFromString(remoteMessage.getData().get("message"))))
-                    .setContentText(getEmojiFromString(remoteMessage.getData().get("message")))
-                    .setStyle(new NotificationCompat.BigPictureStyle()
-                            .bigPicture(bitmap).bigLargeIcon(null));
-
-
-            // Session Manager
-            session = new SessionManager(getApplicationContext());
-            if (session.isLoggedIn()) {
-                bitmap = getBitmapfromUrl(imageUri);
-                sendNotification(remoteMessage.getData().get("message"), bitmap);
-            }
+        notificationCount++;
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            setupChannels();
         }
+        notificationId = new Random().nextInt(60000);
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        try {
+            String msgTye = remoteMessage.getData().get("type");
+            Log.d("notification_type", msgTye);
+
+            if (msgTye.equalsIgnoreCase("spot_poll")) {
+
+
+               // if(!MyApplication.isAppDestoryed) {
+                    Intent notifyIntent = new Intent(this, MrgeHomeActivity.class);
+                    notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(notifyIntent);
+
+
+                    Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_LIVE_POLL);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+                //}
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String imageUri = remoteMessage.getData().get("image");
+        long when = System.currentTimeMillis();
+        bitmap = getBitmapfromUrl(imageUri);
+
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID);
+//        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //transperent icon
+            if (Build.BRAND.equalsIgnoreCase("samsung")) {
+                notificationBuilder.setSmallIcon(R.drawable.app_icon);
+            } else {
+                notificationBuilder.setSmallIcon(R.drawable.trans_logo);
+                notificationBuilder.setColor(getResources().getColor(R.color.colorwhite));
+            }
+        } else {
+            notificationBuilder.setSmallIcon(R.drawable.app_icon);
+//            notificationBuilder.setColor(getResources().getColor(R.color.activetab));
+        }
+        //-----------For notification count----------------------
+        SharedPreferences prefs2 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String strNotificationCount = prefs2.getString("notificationCount", "");
+
+        if (strNotificationCount.isEmpty()) {
+            strNotificationCount = "0";
+        }
+
+        notificationCount = Integer.parseInt(strNotificationCount);
+
+        notificationCount = notificationCount + 1;
+
+        SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs1.edit();
+        editor.putString("notificationCount", String.valueOf(notificationCount));
+        editor.commit();
+
+        Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_NOTIFICATION_COUNT);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+        //----------------------------------------------------------------------
+
+
+        notificationBuilder.setContentTitle("Mrge App")
+                .setColorized(true)
+                .setWhen(when)
+                .setAutoCancel(true)
+                .setShowWhen(true)
+                .setSound(alarmSound)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(getEmojiFromString(remoteMessage.getData().get("message"))))
+                .setContentText(getEmojiFromString(remoteMessage.getData().get("message")))
+                .setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(bitmap).bigLargeIcon(null));
+
+
+        // Session Manager
+        session = new SessionManager(getApplicationContext());
+        if (session.isLoggedIn()) {
+            bitmap = getBitmapfromUrl(imageUri);
+            sendNotification(remoteMessage.getData().get("message"), bitmap);
+        }
+        //}
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -196,9 +223,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //transperent icon
-            if(Build.BRAND.equalsIgnoreCase("samsung")) {
+            if (Build.BRAND.equalsIgnoreCase("samsung")) {
                 mBuilder.setSmallIcon(R.drawable.app_icon);
-            }else {
+            } else {
                 mBuilder.setSmallIcon(R.drawable.trans_logo);
                 mBuilder.setColor(getResources().getColor(R.color.colorwhite));
             }
@@ -235,6 +262,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             LocalBroadcastManager.getInstance(this).sendBroadcast(countIntent);
         }
     }
+
     private int getNotificationIcon() {
         boolean selectIcon = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
         return selectIcon ? R.drawable.app_icon : R.drawable.app_icon;

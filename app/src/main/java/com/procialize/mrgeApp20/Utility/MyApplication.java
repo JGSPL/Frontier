@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.StrictMode;
 
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
 import androidx.multidex.MultiDex;
 
 
@@ -21,7 +24,7 @@ import java.util.ArrayList;
 //import android.support.text.emoji.FontRequestEmojiCompatConfig;
 //import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
 
-public class MyApplication extends Application {
+public class MyApplication extends Application  implements LifecycleObserver {
 
     /*
      * private BeaconManager beaconManager;
@@ -54,6 +57,7 @@ public class MyApplication extends Application {
     private String speakerName;
     private String eventId = "";
 
+    public static boolean isAppDestoryed = false;
     public static Context getmContext() {
         return mContext;
     }
@@ -124,6 +128,24 @@ public class MyApplication extends Application {
 //        }
 //        EmojiCompat.init(config);
 
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void onAppBackgrounded() {
+        //App in background
+        isAppDestoryed = false;
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void onAppForegrounded() {
+        // App in foreground
+        isAppDestoryed = false;
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    public void onAppDestryed()
+    {
+        isAppDestoryed = true;
     }
 
     @Override
