@@ -338,7 +338,8 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             holder.tv_concat.setVisibility(View.GONE);
             holder.companyTv.setVisibility(View.GONE);
         } else {
-            holder.companyTv.setText(feed.getCompanyName());
+            //holder.companyTv.setText(feed.getCompanyName());
+            holder.companyTv.setText(feed.getCity());
             holder.companyTv.setVisibility(View.VISIBLE);
             holder.tv_concat.setVisibility(View.VISIBLE);
         }

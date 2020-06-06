@@ -245,6 +245,7 @@ public class VideoFirstLevelActivity extends AppCompatActivity implements VideoF
                     Intent edit = new Intent(VideoFirstLevelActivity.this, VideoViewGalleryActivity.class);
                     edit.putExtra("videoUrl", firstLevelFilter.getFileName());
                     edit.putExtra("title", firstLevelFilter.getTitle());
+                    edit.putExtra("foldername", firstLevelFilter.getFolderName());
                     edit.putExtra("page", "videoMain");
                     edit.putExtra("gallerylist", (Serializable) filtergallerylist);
                     startActivity(edit);

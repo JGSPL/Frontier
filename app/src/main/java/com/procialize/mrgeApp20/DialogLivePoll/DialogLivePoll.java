@@ -261,7 +261,7 @@ public class DialogLivePoll implements View.OnClickListener{
         accessToken = user.get(SessionManager.KEY_TOKEN);
         eventid = prefs.getString("eventid", "1");
         questionId = pollListsNew.getId();
-
+        submit.setOnClickListener(this);
         /*submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -634,7 +634,7 @@ public class DialogLivePoll implements View.OnClickListener{
         }
     }
 
-    public void LivePollSubmitFetch(String token, String eventid, String pollid, String polloptionid) {
+    public void submitLivePoll(String token, String eventid, String pollid, String polloptionid) {
 
         mAPIService.SpotLivePollSubmit(token, eventid, pollid, polloptionid).enqueue(new Callback<LivePollSubmitFetch>() {
             @Override
@@ -669,6 +669,8 @@ public class DialogLivePoll implements View.OnClickListener{
                 pollGraph.setVisibility(View.VISIBLE);
                 AlloptionLists.clear();
                 AlloptionLists = response.body().getLivePollOptionList();*/
+                totalOptionLists.clear();
+                totalOptionLists = response.body().getLivePollOptionList();
                 if (totalOptionLists.size() != 0) {
                     for (int i = 0; i < totalOptionLists.size(); i++) {
 
@@ -677,6 +679,7 @@ public class DialogLivePoll implements View.OnClickListener{
                             optionLists.add(totalOptionLists.get(i));
                         }
                     }
+
 
                     replyFlag = "1";
                     if (optionLists.size() != 0) {
@@ -738,7 +741,6 @@ public class DialogLivePoll implements View.OnClickListener{
             public void onClick(View v) {
                 fetchPoll(accessToken, eventid);
                 dialog.dismiss();
-
             }
         });*/
         dialogThankYou.show();
@@ -749,6 +751,7 @@ public class DialogLivePoll implements View.OnClickListener{
         dialogResult.setContentView(R.layout.bottom_live_poll_result_dialog);
         dialogResult.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialogResult.getWindow().setDimAmount(0);
+
 
         LinearLayout Quizcard = dialogResult.findViewById(R.id.Quizcard);
         Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -781,40 +784,29 @@ public class DialogLivePoll implements View.OnClickListener{
         if (v == submit) {
             if (replyFlag.equalsIgnoreCase("1")) {
                 Toast.makeText(context2, "You Already Submited This Poll", Toast.LENGTH_SHORT).show();
-
             } else {
                 if (quiz_options_id != null) {
-                    LivePollSubmitFetch(accessToken, eventid, questionId, quiz_options_id);
-
+                    Detaildialog.dismiss();
+                    submitLivePoll(accessToken, eventid, questionId, quiz_options_id);
                 } else {
                     Toast.makeText(context2, "Please select something", Toast.LENGTH_SHORT).show();
-
                 }
             }
-
         } else {
-
             String option = ((RadioButton) v).getText().toString();
-
             for (RadioButton radio : radios) {
                 if (!radio.getText().equals(option)) {
-
                     radio.setChecked(false);
-
                 }
-
             }
 
             for (int i = 0; i < optionLists.size(); i++) {
                 test.setText(StringEscapeUtils.unescapeJava(optionLists.get(i).getOption()));
                 if (option.equalsIgnoreCase(test.getText().toString())) {
-
                     quiz_options_id = optionLists.get(i)
                             .getOptionId();
                 }
-
             }
-
         }
     }
 }

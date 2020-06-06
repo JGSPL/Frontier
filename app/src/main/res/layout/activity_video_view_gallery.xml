@@ -2,18 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.procialize.mrgeApp20.InnerDrawerActivity.SwappingGalleryActivity"
-    android:id="@+id/linear"
-    android:background="@color/black">
+    android:background="@color/black"
+    tools:context="com.procialize.mrgeApp20.InnerDrawerActivity.SwappingGalleryActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/transperent"
         app:elevation="0dp"
-        android:background="@android:color/transparent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
@@ -32,21 +32,21 @@
             app:contentInsetRight="0dp"
             app:contentInsetStart="0dp">
 
-          <!--  <ImageView
-                android:id="@+id/headerlogoIv"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="-10dp"
-                android:contentDescription=" "
-                />-->
-
+            <!--    <ImageView
+                    android:id="@+id/headerlogoIv"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="-10dp"
+                    android:contentDescription=" "
+                    />
+    -->
             <ImageView
                 android:id="@+id/backIv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:contentDescription="TODO"
-                android:src="@drawable/ic_back"
+                android:src="@drawable/back_white"
                 android:padding="@dimen/padding"
                 android:layout_marginLeft="13dp"/>
 
@@ -62,7 +62,7 @@
                     android:layout_margin="@dimen/margin"
                     android:layout_weight="1"
                     android:gravity="left"
-                    android:text="Video"
+                    android:text=""
                     android:textColor="@color/colorwhite"
                     android:textFontWeight="1"
                     android:textSize="@dimen/textsizenormal"
@@ -88,8 +88,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:tint="@color/colorwhite"
                         android:foregroundGravity="center"
+                        android:tint="@color/colorwhite"
                         android:src="@drawable/ic_notification" />
 
                     <LinearLayout
@@ -119,7 +119,7 @@
         </androidx.appcompat.widget.Toolbar>
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="0dp"
             android:background="@color/linecolor"/>
 
 
@@ -170,12 +170,12 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="15dp"
-            android:text=""
-            android:gravity="left|center_vertical"
             android:layout_marginLeft="@dimen/album_dp_15"
-            android:textColor="@color/colorwhite"/>
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:text=""
+            android:textColor="@color/colorwhite"
+            android:textSize="15dp" />
 
         <LinearLayout
             android:id="@+id/linSave"
@@ -229,8 +229,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal" />
 
 
 </RelativeLayout>

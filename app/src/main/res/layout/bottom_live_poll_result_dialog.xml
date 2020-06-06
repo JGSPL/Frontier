@@ -39,7 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tvQuestion"
-        android:padding="10dp"/>
+        android:padding="10dp"
+        android:textColor="@color/black"/>
 
 
     <androidx.recyclerview.widget.RecyclerView

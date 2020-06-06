@@ -64,6 +64,18 @@ public class NewsFeedList implements Serializable {
     @Expose
     private String totalComments;
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    @SerializedName("city")
+    @Expose
+    private String city;
+
     public String getLike_type() {
         return like_type;
     }

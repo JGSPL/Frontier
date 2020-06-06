@@ -102,6 +102,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String NEWSFEED_TOTAL_LIKES = "NEWSFEED_TOTAL_LIKES";
     public static final String NEWSFEED_TOTAL_COMMENTS = "NEWSFEED_TOTAL_COMMENTS";
     public static final String NEWSFEED_ATTENDEE_TYPE = "NEWSFEED_ATTENDEE_TYPE";
+    public static final String NEWSFEED_CITY = "NEWSFEED_CITY";
 
     public static final String QUIZ_TABLE = "QUIZ_TABLE";
 
@@ -277,7 +278,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static DBHelper sInstance;
 
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -371,7 +372,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + NEWSFEED_LIKE_FLAG + " text, "
                 + NEWSFEED_TOTAL_LIKES + " text, "
                 + NEWSFEED_TOTAL_COMMENTS + " text,"
-                + NEWSFEED_ATTENDEE_TYPE + " text)");
+                + NEWSFEED_ATTENDEE_TYPE + " text,"
+                + NEWSFEED_CITY + " text)");
 
         db.execSQL("create table " + QUIZ_TABLE + "(" + QUIZ_ID
                 + " text, " + QUESTION + " text, " + CORRECTANSWERID + " text, " + FOLDERNAME + " text, " + REPLIED + " text, " + SELECTED_OPTION
@@ -904,6 +906,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 String attendee_type = newsfeedsList.get(i).getAttendee_type();
                 if (attendee_type != null && attendee_type.length() > 0) {
                     contentValues.put(NEWSFEED_ATTENDEE_TYPE, attendee_type);
+                }
+                String city = newsfeedsList.get(i).getCity();
+                if (city != null && city.length() > 0) {
+                    contentValues.put(NEWSFEED_CITY, city);
                 }
 
                 db.insert(NEWSFEED_TABLE_NAME, null, contentValues);
@@ -2238,6 +2244,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 newsfeedsList.setTotalLikes(cursor.getString(16));
                 newsfeedsList.setTotalComments(cursor.getString(17));
                 newsfeedsList.setAttendee_type(cursor.getString(18));
+                newsfeedsList.setCity(cursor.getString(19));
 
                 String selectQueryMedia = "select BUZZ_FEED_ID,BUZZ_MEDIA_TYPE,BUZZ_MEDIA_FILE,BUZZ_THUMB_IMAGE FROM " +
                         BUZZ_MEDIA_TABLE_NAME + " where " + BUZZ_FEED_ID + " = '" + cursor.getString(0) + "'";
@@ -2410,6 +2417,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 newsfeedsList.setTotalLikes(cursor.getString(16));
                 newsfeedsList.setTotalComments(cursor.getString(17));
                 newsfeedsList.setAttendee_type(cursor.getString(18));
+                newsfeedsList.setCity(cursor.getString(19));
                 String selectQueryMedia = "select BUZZ_FEED_ID,BUZZ_MEDIA_TYPE,BUZZ_MEDIA_FILE,BUZZ_THUMB_IMAGE FROM " +
                         BUZZ_MEDIA_TABLE_NAME + " where " + BUZZ_FEED_ID + " = '" + cursor.getString(0) + "'";
                 Cursor cursorMedia = db.rawQuery(selectQueryMedia, null);

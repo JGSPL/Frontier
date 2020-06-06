@@ -267,7 +267,6 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
             if (eventSettingLists.get(i).getFieldName().equals("news_feed_share")) {
                 news_feed_share = eventSettingLists.get(i).getFieldValue();
             }
-
         }
     }
 

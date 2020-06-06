@@ -53,9 +53,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        final FirstLevelFilter videoList = galleryLists.get(position);
+        final FirstLevelFilter videoList1 = galleryLists.get(position);
 
-        holder.nameTv.setText(videoList.getTitle());
+        holder.nameTv.setText(videoList1.getTitle());
 
         prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
@@ -65,19 +65,19 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
        // holder.nameTv.setTextColor(Color.parseColor(colorActive));
 
         int count = 0 ;
-        for (int i=0;i<galleryLists.size();i++)
+        for (int i=0;i<videoList.size();i++)
         {
-            String fId = videoList.getFolder_id();
-            if(fId.equalsIgnoreCase(galleryLists.get(i).getFolder_id())){
+            String fId = videoList1.getFolder_id();
+            if(fId.equalsIgnoreCase(videoList.get(i).getFolder_id())){
                 count++;
             }
         }
         holder.tv_count.setText(String.valueOf(count)+" items");
 
 
-        if (videoList.getFolderName() == null) {
+        if (videoList1.getFolderName() == null) {
             try {
-                String CurrentString = videoList.getFileName();
+                String CurrentString = videoList1.getFileName();
                 String[] separated = CurrentString.split("v=");
 
                 String id = separated[1];
@@ -115,7 +115,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
 //                        .placeholder(context.getDrawable(R.drawable.folder_back))
 //                        .into(holder.imageIv);
 
-                Glide.with(context).load(videoList.getFileName())
+                Glide.with(context).load(videoList1.getFileName())
                         .apply(RequestOptions.skipMemoryCacheOf(true))
                         .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).listener(new RequestListener<Drawable>() {
                     @Override
@@ -140,7 +140,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
 //                    .placeholder(context.getDrawable(R.drawable.folder_back))
 //                    .into(holder.imageIv);
 
-            Glide.with(context).load(videoList.getFileName())
+            Glide.with(context).load(videoList1.getFileName())
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).listener(new RequestListener<Drawable>() {
                 @Override

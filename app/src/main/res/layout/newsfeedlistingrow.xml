@@ -213,7 +213,7 @@
                             android:layout_toEndOf="@+id/imageView"
                             android:paddingLeft="5dp"
                             android:text=""
-                            android:textColor="@color/inactivetab"
+                            android:textColor="@color/textcolorLight"
                             android:textSize="@dimen/textsizesmall"
                             android:visibility="gone" />
 
@@ -226,7 +226,7 @@
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
                             android:text="-"
-                            android:textColor="@color/inactivetab"
+                            android:textColor="@color/textcolorLight"
                             android:textSize="@dimen/textsizesmall"
                             android:visibility="gone" />
 
@@ -238,7 +238,7 @@
                             android:layout_toEndOf="@+id/imageView"
                             android:paddingLeft="5dp"
                             android:text="bbb"
-                            android:textColor="@color/inactivetab"
+                            android:textColor="@color/textcolorLight"
                             android:textSize="@dimen/textsizesmall"
                             android:visibility="gone" />
                     </LinearLayout>

@@ -111,25 +111,23 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         if (notificationList.getNotificationContent() != null) {
             if (notificationList.getNotificationContent().contains("gif")) {
-                holder.messageTV.setVisibility(View.VISIBLE);
-                holder.gifiv.setVisibility(View.GONE);
-                holder.messageTV.setText("GIF");
-//
-//                    Glide.with(context).load(notificationList.getNotificationContent())
-//                            .apply(RequestOptions.skipMemoryCacheOf(true))
-//                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
-//                        @Override
-//                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//
-//                            return true;
-//                        }
-//
-//                        @Override
-//                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                            return false;
-//                        }
-//                    }).into(holder.gifiv);
+                holder.messageTV.setVisibility(View.GONE);
+                holder.gifiv.setVisibility(View.VISIBLE);
+               // holder.messageTV.setText("GIF");
 
+                    Glide.with(context).load(notificationList.getNotificationContent())
+                            .apply(RequestOptions.skipMemoryCacheOf(true))
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            return false;
+                        }
+                    }).into(holder.gifiv);
             } else {
                 holder.messageTV.setVisibility(View.VISIBLE);
                 holder.gifiv.setVisibility(View.GONE);

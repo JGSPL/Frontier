@@ -1020,14 +1020,13 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                     showResponse(response);
                 } else {
                     progressBar.setVisibility(View.GONE);
-
                     Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<CommentList> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Something went wrong, Please try later", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
 
             }

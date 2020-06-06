@@ -69,7 +69,7 @@ import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 public class VideoViewGalleryActivity extends AppCompatActivity implements SwipeVideoAdapter.SwipeVideoAdapterListner, SwipeVideoPagerAdapter.onItemClick {
 
     public int rvposition = 0;
-    String name;
+    String name,foldername;
     List<FirstLevelFilter> firstLevelFilters;
     SwipeVideoAdapter swipeImageAdapter;
     SwipeVideoPagerAdapter swipepagerAdapter;
@@ -81,7 +81,7 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
     String MY_PREFS_NAME = "ProcializeInfo";
     String img = "";
     RelativeLayout linear;
-    TextView tv_title;
+    TextView tv_title,title;
     String strPath = "";
     boolean isShare;
     /*TrustManager[] trustAllCerts = new TrustManager[]{
@@ -178,6 +178,7 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
 */
         try {
             name = getIntent().getExtras().getString("videoUrl");
+            foldername = getIntent().getExtras().getString("foldername");
             firstLevelFilters = (List<FirstLevelFilter>) getIntent().getExtras().getSerializable("gallerylist");
         } catch (Exception e) {
             e.printStackTrace();
@@ -190,6 +191,8 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
         backIv = findViewById(R.id.backIv);
         linear = findViewById(R.id.linear);
         tv_title = findViewById(R.id.tv_title);
+        title = findViewById(R.id.title);
+        title.setText(foldername);
         headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);

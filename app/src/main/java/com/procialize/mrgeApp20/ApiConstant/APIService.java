@@ -798,12 +798,11 @@ public interface APIService {
                                        @Field("event_id") String event_id);
 
 
-    @POST("SpotLivePollFetch")
+    @POST("SpotLivePollSubmit")
     @FormUrlEncoded
     Call<LivePollSubmitFetch> SpotLivePollSubmit(@Field("api_access_token") String api_access_token,
                                            @Field("event_id") String event_id,
                                            @Field("live_poll_id") String live_poll_id,
                                            @Field("live_poll_options_id") String live_poll_options_id
                                        );
-
 }

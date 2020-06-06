@@ -2,6 +2,7 @@ package com.procialize.mrgeApp20.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,8 +68,15 @@ public class PollGraphAdapter extends RecyclerView.Adapter<PollGraphAdapter.MyVi
         ll2.setPadding(10, 10, 10, 10);
 
        // ll2.setBackgroundResource(R.drawable.poll_cobg);
-        ll2.setBackgroundColor(Color.parseColor(color[position]));
+
+        GradientDrawable gradientDrawable   =   new GradientDrawable();
+        gradientDrawable.setCornerRadii(new float[]{20, 20, 20, 20, 20, 20, 20, 20});
+        gradientDrawable.setColor(Color.parseColor(color[position]));
+
+        //ll2.setBackgroundColor(Color.parseColor(color[position]));
+        ll2.setBackground(gradientDrawable);
         ll2.setMinimumHeight(40);
+
         Float weight = 0.0f;
 
 
