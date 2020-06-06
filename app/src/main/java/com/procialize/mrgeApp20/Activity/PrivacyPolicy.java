@@ -27,6 +27,7 @@ import com.procialize.mrgeApp20.Utility.Util;
 
 import java.io.File;
 
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
@@ -96,6 +97,14 @@ public class PrivacyPolicy extends AppCompatActivity {
 
         crashlytics("Privacy Policy", "");
         firbaseAnalytics(this,"Privacy Policy", "");
+
+        try {
+            LinearLayout ll_notification_count = findViewById(R.id.ll_notification_count);
+            TextView tv_notification = findViewById(R.id.tv_notification);
+            setNotification(this, tv_notification, ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

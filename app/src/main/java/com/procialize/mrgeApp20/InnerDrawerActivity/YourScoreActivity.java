@@ -9,11 +9,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +18,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.R;
@@ -67,7 +67,7 @@ public class YourScoreActivity extends AppCompatActivity {
         linear = findViewById(R.id.linear);
         txt_title = findViewById(R.id.txt_title);
         headerlogoIv = findViewById(R.id.headerlogoIv);
-        viewResult= findViewById(R.id.viewResult);
+        viewResult = findViewById(R.id.viewResult);
         viewResult.setPaintFlags(viewResult.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         Util.logomethod(this, headerlogoIv);
@@ -84,7 +84,7 @@ public class YourScoreActivity extends AppCompatActivity {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ ApiConstant.folderName+"/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/" + ApiConstant.folderName + "/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -100,11 +100,10 @@ public class YourScoreActivity extends AppCompatActivity {
         String correnctcount = intent.getStringExtra("Answers");
         String totalcount = intent.getStringExtra("TotalQue");
         Page = intent.getStringExtra("Page");
-        if(Page.equalsIgnoreCase("Question")){
+        if (Page.equalsIgnoreCase("Question")) {
             viewResult.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             viewResult.setVisibility(View.GONE);
-
         }
 
         viewResult.setOnClickListener(new View.OnClickListener() {
@@ -112,14 +111,14 @@ public class YourScoreActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent1 = new Intent(YourScoreActivity.this, QuizNewActivity.class);
                 intent1.putExtra("folder", folderName);
-
                 startActivity(intent1);
-
+                finish();
             }
         });
-        try{
-        questionTv.setText(StringEscapeUtils.unescapeJava(folderName));
-        }catch (IllegalArgumentException e){
+
+        try {
+            questionTv.setText(StringEscapeUtils.unescapeJava(folderName));
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
 
         }
