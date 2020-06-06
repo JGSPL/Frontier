@@ -7,11 +7,41 @@
     android:layout_height="400dp"
     android:orientation="vertical"
     android:weightSum="10">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/linTop"
+        android:layout_width="match_parent"
+        android:weightSum="10"
+        android:layout_height="wrap_content">
+
+        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            android:layout_width="0dp"
+            android:layout_weight="8"
+            android:layout_height="wrap_content"
+            android:text="Live Quiz"
+            android:textColor="@color/activetab"
+            android:layout_marginRight="70dp"
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:layout_marginLeft="20dp">
+        </com.procialize.mrgeApp20.Fonts.RobotoTextview>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_close"
+            android:layout_gravity="right"
+            android:id="@+id/imgClose"
+            android:padding="10dp">
+        </ImageView>
+    </LinearLayout>
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/linTop"
                 android:layout_margin="5dp">
 
                 <androidx.viewpager.widget.ViewPager

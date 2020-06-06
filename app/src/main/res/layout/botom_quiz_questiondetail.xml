@@ -7,7 +7,7 @@
     android:layout_marginRight="10dp"
     android:layout_marginBottom="60dp"
     android:layout_width="match_parent"
-    android:layout_height="380dp">
+    android:layout_height="350dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,8 +25,9 @@
                 android:layout_weight="8"
                 android:layout_height="wrap_content"
                 android:text="Live Quiz"
+                android:textColor="@color/activetab"
                 android:layout_marginRight="70dp"
-                android:textSize="@dimen/textsizenormal"
+                android:textSize="18sp"
                 android:padding="8dp"
                 android:layout_marginLeft="20dp">
             </com.procialize.mrgeApp20.Fonts.RobotoTextview>
@@ -70,10 +71,8 @@
 
             <com.procialize.mrgeApp20.CustomTools.CustomViewPager
                 android:id="@+id/pager"
-                android:background="@color/colorwhite"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_centerInParent="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -102,11 +101,12 @@
 
                 <com.procialize.mrgeApp20.Fonts.RobotoButton
                     android:id="@+id/submit"
-                    android:layout_width="300dp"
-                    android:layout_height="50dp"
+                    android:layout_width="120dp"
+                    android:layout_height="30dp"
                     android:layout_margin="10dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/loginbutton"
                     android:gravity="center"
                     android:text="Submit"

@@ -96,6 +96,15 @@ public class DialogQuizREsult {
         ResultDialog.setContentView(R.layout.bottom_quiz_result);
         ResultDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         ResultDialog.getWindow().setDimAmount(0);
+        ResultDialog.setCancelable(true);
+
+        ImageView ic_close = ResultDialog.findViewById(R.id.imgClose);
+        ic_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ResultDialog.dismiss();
+            }
+        });
 
         context2 = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
