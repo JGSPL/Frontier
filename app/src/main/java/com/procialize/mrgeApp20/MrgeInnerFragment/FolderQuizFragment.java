@@ -141,8 +141,8 @@ public class FolderQuizFragment extends Fragment {
 
         }
 
-       /* DialogQuiz dQuiz = new DialogQuiz();
-        dQuiz.welcomeQuizDialog(getContext());*/
+        DialogQuiz dQuiz = new DialogQuiz();
+        dQuiz.welcomeQuizDialog(getContext());
 
         quizrefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

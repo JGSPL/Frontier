@@ -21,7 +21,15 @@ public class QuizFolder {
 
     String total_quiz;
     String total_correct;
+    String folder_id;
 
+    public String getFolder_id() {
+        return folder_id;
+    }
+
+    public void setFolder_id(String folder_id) {
+        this.folder_id = folder_id;
+    }
 
     public String getAnswered() {
         return answered;

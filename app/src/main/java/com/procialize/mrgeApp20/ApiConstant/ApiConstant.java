@@ -27,7 +27,11 @@ public class ApiConstant {
 
     public static String tenorUrl = "https://api.tenor.com/v1/";
     public static String quizlist = "QuizFetch";
+    public static String Spotquizlist = "SpotQuizFetch";
+
     public static String quizsubmit = "QuizSubmit";
+    public static String Spotquizsubmit = "SpotQuizSubmit";
+
     public static String exhiilogo = imgURL + "uploads/exhibitor_image/";
     //    public static String exhiilogo = "https://www.procialize.info/" + "uploads/exhibitor_image/";
     public static String doc = "https://www.procialize.info/";

@@ -42,7 +42,7 @@
         </ImageView>
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
@@ -61,38 +61,11 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:padding="10dp"
+                android:visibility="gone"
                 android:text="General Knowledge"
                 android:textColor="@color/colorwhite"
                 android:textSize="16dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:background="@color/colorwhite"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/txt_count"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end" />
-
-                <TextView
-                    android:id="@+id/txt_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:gravity="end"
-                    android:text=""
-                    android:visibility="visible"
-                    android:textColor="@color/black" />
-
-
-
-            </LinearLayout>
 
 
             <com.procialize.mrgeApp20.CustomTools.CustomViewPager
@@ -100,8 +73,9 @@
                 android:background="@color/colorwhite"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_centerInParent="true"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
 
 
             <com.procialize.mrgeApp20.CustomTools.NoScrollRecycler
@@ -117,36 +91,14 @@
                 android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                android:id="@android:id/empty"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center|center_horizontal"
-                android:text="No active quiz"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:visibility="gone" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_alignParentBottom="true"
-                android:layout_below="@+id/linQuizQues"
+                android:layout_below="@+id/quiz_list"
                 android:orientation="vertical">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoButton
-                    android:id="@+id/btnNext"
-                    android:layout_width="300dp"
-                    android:layout_height="50dp"
-                    android:layout_margin="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/loginbutton"
-                    android:gravity="center"
-                    android:text="Next"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorwhite"
-                    android:visibility="invisible" />
 
                 <com.procialize.mrgeApp20.Fonts.RobotoButton
                     android:id="@+id/submit"
@@ -160,10 +112,10 @@
                     android:text="Submit"
                     android:textAllCaps="false"
                     android:textColor="@color/colorwhite"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 

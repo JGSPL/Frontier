@@ -66,7 +66,7 @@ import java.util.Timer;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class DialogQuiz {
+public class DialogQuiz implements View.OnClickListener {
     static BottomSheetDialog dialog, Detaildialog, ThankyouDialog, ResultDialog;
     private ProgressDialog pDialog;
     String MY_PREFS_NAME = "ProcializeInfo";
@@ -94,7 +94,6 @@ public class DialogQuiz {
     private String quiz_options_id;
 
     private String quizQuestionUrl = "";
-    CountDownTimer timercountdown;
     private ConnectionDetector cd;
     private long startTime = 0L;
     long timeInMilliseconds = 0L;
@@ -104,18 +103,18 @@ public class DialogQuiz {
     boolean[] timerStarts = {false};
     private ApiConstant constant = new ApiConstant();
 
-    public static RecyclerView quizNameList;
-//    private QuizNewAdapter adapter;
+
     private QuizAdapter adapter;
 
     private QuizParser quizParser;
     RelativeLayout relative;
     private QuizOptionParser quizOptionParser;
     public static String foldername = "null";
-    public static Button submit, btnNext;
+    public static String folderId = "null";
+
+    public static Button submit;
     ImageView headerlogoIv;
     TextView questionTv, txt_time, txtHeaderQ;
-    public static TextView txt_count;
     CustomViewPager pager;
     ViewPager pager2;
 
@@ -148,7 +147,7 @@ public class DialogQuiz {
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
-        getQuizUrl = ApiConstant.baseUrl + ApiConstant.quizlist;
+        getQuizUrl = ApiConstant.baseUrl + ApiConstant.Spotquizlist;
 
         appDelegate = (MyApplication) context.getApplicationContext();
 
@@ -176,7 +175,7 @@ public class DialogQuiz {
         btnQuizStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // new getQuizList().execute();
+                new getQuizList().execute();
                 dialog.dismiss();
 
             }
@@ -185,7 +184,7 @@ public class DialogQuiz {
         dialog.show();
     }
 
-    public void QuizDetailDialog(Context context, String folder) {
+    public void QuizDetailDialog(Context context, String folderid, String folderName) {
 
         // dialog = new BottomSheetDialog(context);
         Detaildialog = new BottomSheetDialog(context, R.style.SheetDialog);
@@ -209,45 +208,35 @@ public class DialogQuiz {
 
         // apikey
         apikey = user.get(SessionManager.KEY_TOKEN);
-        quizQuestionUrl = constant.baseUrl + constant.quizsubmit;
+        quizQuestionUrl = constant.baseUrl + constant.Spotquizsubmit;
         procializeDB = new DBHelper(context);
         db = procializeDB.getWritableDatabase();
 
         db = procializeDB.getReadableDatabase();
 
 
-        foldername = folder;
+        foldername = folderName;
+        folderId = folderid;
 
         // Session Manager
 
         cd = new ConnectionDetector(context);
 
         // Initialize Get Quiz URL
-        getQuizUrl = constant.baseUrl + constant.quizlist;
+        getQuizUrl = constant.baseUrl + constant.Spotquizlist;
 
 
         submit = (Button) Detaildialog.findViewById(R.id.submit);
-        btnNext = (Button) Detaildialog.findViewById(R.id.btnNext);
-        txt_time = (TextView) Detaildialog.findViewById(R.id.txt_time);
 
-//        btnNext.setOnClickListener(this);
 
-        quizNameList = (RecyclerView) Detaildialog.findViewById(R.id.quiz_list);
         questionTv = (TextView) Detaildialog.findViewById(R.id.questionTv);
 
-        txt_count = (TextView) Detaildialog.findViewById(R.id.txt_count);
         questionTv.setText(foldername);
-        quizNameList.setLayoutFrozen(true);
         questionTv.setBackgroundColor(Color.parseColor(colorActive));
-        btnNext.setBackgroundColor(Color.parseColor(colorActive));
         submit.setBackgroundColor(Color.parseColor(colorActive));
-        txt_count.setTextColor(Color.parseColor(colorActive));
+        submit.setOnClickListener(this);
 
-//        quizNameList.setNestedScrollingEnabled(false);
-        quizNameList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        llm = (LinearLayoutManager) quizNameList.getLayoutManager();
-
-
+/*
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -277,13 +266,10 @@ public class DialogQuiz {
                 }
             }
         });
+*/
 
 
         pager = Detaildialog.findViewById(R.id.pager);
-
-        quizNameList.setAnimationCacheEnabled(true);
-        quizNameList.setDrawingCacheEnabled(true);
-        quizNameList.hasFixedSize();
 
 
         if (cd.isConnectingToInternet()) {
@@ -294,214 +280,6 @@ public class DialogQuiz {
                     Toast.LENGTH_SHORT).show();
         }
 
-        timercountdown = new CountDownTimer(10000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                if (time == 0) {
-
-                    time = 10;
-                }
-
-                txt_time.setText("" + ":" + checkdigit(time));
-                time--;
-            }
-
-            public void onFinish() {
-                time = 0;
-                timercountdown.cancel();
-                timercountdown.start();
-                txt_time.setText("" + ":" + checkdigit(time));
-                if (pager.getCurrentItem() < quizList.size() - 1) {
-                    countpage = pager.getCurrentItem();
-                    pager.setCurrentItem(pager.getCurrentItem() + 1);
-                    int opt = 1;
-                    if (pagerAdapter.quizSpecificOptionListnew.size() > 1) {
-                        pagerAdapter.selectedOption = pagerAdapter.quizSpecificOptionListnew.get(1).getOptionId();
-                    } else {
-                        pagerAdapter.selectedOption = pagerAdapter.quizSpecificOptionListnew.get(0).getOptionId();
-                    }
-
-
-                    if (pagerAdapter.quizSpecificOptionListnew.size() > 1) {
-                        if (pagerAdapter.selectedOption.equalsIgnoreCase(pagerAdapter.correctAnswer)) {
-                            pagerAdapter.selectopt = pagerAdapter.selectopt + 1;
-                            opt = 0;
-                        } else {
-                            pagerAdapter.selectopt = pagerAdapter.selectopt + 1;
-                            opt = 1;
-                        }
-                    } else {
-                        pagerAdapter.selectopt = 0;
-                        opt = 0;
-                    }
-
-
-                    pagerAdapter.dataArray[pager.getCurrentItem()] = pagerAdapter.quizSpecificOptionListnew.get(opt).getOption();
-                    pagerAdapter.checkArray[pager.getCurrentItem()] = pagerAdapter.quizSpecificOptionListnew.get(opt).getOption();
-
-                    if (quizList.size() == pager.getCurrentItem() + 1) {
-                        btnNext.setVisibility(View.GONE);
-                        submit.setVisibility(View.VISIBLE);
-                    } else if (quizList.size() >= pager.getCurrentItem() + 1) {
-                        btnNext.setVisibility(View.VISIBLE);
-                        submit.setVisibility(View.GONE);
-                    }
-
-
-                } else {
-                    if (submitflag != true) {
-//                        customHandler.removeCallbacks(updateTimerThread);
-                        btnNext.setVisibility(View.VISIBLE);
-                        submit.setVisibility(View.GONE);
-
-                        int opt = 1;
-                        if (pagerAdapter.quizSpecificOptionListnew.size() > 1) {
-                            pagerAdapter.selectedOption = pagerAdapter.quizSpecificOptionListnew.get(1).getOptionId();
-                        } else {
-                            pagerAdapter.selectedOption = pagerAdapter.quizSpecificOptionListnew.get(0).getOptionId();
-                        }
-
-
-                        if (pagerAdapter.quizSpecificOptionListnew.size() > 1) {
-                            if (pagerAdapter.selectedOption.equalsIgnoreCase(pagerAdapter.correctAnswer)) {
-                                pagerAdapter.selectopt = pagerAdapter.selectopt + 1;
-                                opt = 0;
-                            } else {
-                                pagerAdapter.selectopt = pagerAdapter.selectopt + 1;
-                                opt = 1;
-                            }
-                        } else {
-                            pagerAdapter.selectopt = 0;
-                            opt = 0;
-                        }
-
-
-                        pagerAdapter.dataArray[pager.getCurrentItem()] = pagerAdapter.quizSpecificOptionListnew.get(opt).getOption();
-                        pagerAdapter.checkArray[pager.getCurrentItem()] = pagerAdapter.quizSpecificOptionListnew.get(opt).getOption();
-
-                        submitflag = true;
-                        Boolean valid = true;
-                        final int[] check = {0};
-                        int sum = 0;
-                        final String[] question_id = {""};
-                        final String[] question_ans = {""};
-                        final String[] value = {""};
-                        final RadioGroup[] radioGroup = new RadioGroup[1];
-                        final EditText[] ans_edit = new EditText[1];
-                        final RadioButton[] radioButton = new RadioButton[1];
-
-
-                        String[] data = pagerAdapter.getselectedData();
-                        String[] question = pagerAdapter.getselectedquestion();
-
-                        if (data != null) {
-                            for (int i = 0; i < data.length; i++) {
-                                if (i != 0) {
-                                    question_id[0] = question_id[0] + "$#";
-                                    question_ans[0] = question_ans[0] + "$#";
-                                }
-
-                                String id = quizList.get(i).getId();
-                                question_id[0] = question_id[0] + id;
-
-                                flag = true;
-                                flag1 = true;
-                                flag2 = true;
-                                if (data[i] != null) {
-                                    if (quizList.get(i).getQuiz_type() != null) {
-                                        if (quizList.get(i).getQuiz_type().equalsIgnoreCase("2")) {
-                                            if (!data[i].equalsIgnoreCase("")) {
-                                                question_ans[0] = question_ans[0] + data[i];
-                                            } else {
-                                                valid = false;
-                                            }
-                                        } else {
-
-                                            if (!data[i].equalsIgnoreCase("")) {
-
-                                                String idno = quizList.get(i).getId();
-
-                                                for (int j = 0; j < quizOptionList.size(); j++) {
-                                                    if (quizOptionList.get(j).getOption().equals(data[i]) && quizOptionList.get(j).getQuizId().equals(idno)) {
-                                                        question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
-                                                    }
-                                                }
-                                            } else {
-                                                String idno = quizList.get(i).getId();
-
-
-                                                for (int j = 0; j < quizOptionList.size(); j++) {
-                                                    if (quizOptionList.get(j).getQuizId().equals(idno)) {
-                                                        if (flag1 == true) {
-                                                            question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
-                                                            flag1 = false;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    } else {
-
-                                        if (!data[i].equalsIgnoreCase("")) {
-
-                                            String idno = quizList.get(i).getId();
-
-                                            for (int j = 0; j < quizOptionList.size(); j++) {
-                                                if (quizOptionList.get(j).getOption().equals(data[i]) && quizOptionList.get(j).getQuizId().equals(idno)) {
-                                                    question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
-                                                }
-                                            }
-                                        } else {
-                                            String idno = quizList.get(i).getId();
-
-
-                                            for (int j = 0; j < quizOptionList.size(); j++) {
-                                                if (quizOptionList.get(j).getQuizId().equals(idno)) {
-                                                    if (flag2 == true) {
-                                                        question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
-                                                        flag2 = false;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    String idno = quizList.get(i).getId();
-
-
-                                    for (int j = 0; j < quizOptionList.size(); j++) {
-                                        if (quizOptionList.get(j).getQuizId().equals(idno)) {
-                                            if (flag == true) {
-                                                question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
-                                                flag = false;
-                                            }
-                                        }
-                                    }
-                                }
-
-                            }
-
-
-                            Log.e("valid", question_ans.toString());
-                            Log.e("valid", question_id.toString());
-                            Log.e("valid", valid.toString());
-
-
-                            if (valid == true) {
-                                quiz_question_id = question_id[0];
-                                quiz_options_id = question_ans[0];
-                                int answers = pagerAdapter.getCorrectOption();
-                                ///  new postQuizQuestion().execute();
-
-                            } else {
-                                Toast.makeText(context, "Please answer all questions", Toast.LENGTH_SHORT).show();
-                            }
-
-
-                        }
-                    }
-                }
-            }
-        }.start();
 
         Detaildialog.show();
     }
@@ -562,7 +340,7 @@ public class DialogQuiz {
 
                 //Get Folder Parser
                 quizFolderParser = new QuizFolderParser();
-                quizFolders = quizFolderParser.QuizFolder_Parser(jsonStr);
+                quizFolders = quizFolderParser.QuizFolder_Parser2(jsonStr);
 
                 appDelegate.setQuizOptionList(quizOptionList);
 
@@ -573,52 +351,56 @@ public class DialogQuiz {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            String quiz = quizFolders.get(0).getFolder_name();
-            if (quiz != null) {
-                if (quiz != null && !quiz.equalsIgnoreCase("null")) {
+            if (quizFolders.size() > 0) {
+                String quiz = quizFolders.get(0).getFolder_id();
+                String Foldername = quizFolders.get(0).getFolder_name();
 
-                    if (Jsontr != null) {
+                if (quiz != null) {
+                    if (quiz != null && !quiz.equalsIgnoreCase("null")) {
 
-                        QuizParser quizParser = new QuizParser();
+                        if (Jsontr != null) {
 
-                        quizList = new ArrayList<>();
+                            QuizParser quizParser = new QuizParser();
 
-                        Log.e("size", quizList.size() + "");
-                        Log.e("size", quiz);
+                            quizList = new ArrayList<>();
 
-                        quizList = quizParser.Quiz_Parser(Jsontr, quiz);
+                            Log.e("size", quizList.size() + "");
+                            Log.e("size", quiz);
+
+                            quizList = quizParser.Quiz_Parser2(Jsontr, quiz);
 
 
-                        if (/*quizList != null ||*/ quizList.size() > 0) {
+                            if (/*quizList != null ||*/ quizList.size() > 0) {
 
-                            if (quizList.get(0).getReplied().equals("1")) {
+                                if (quizList.get(0).getReplied().equals("1")) {
 
-                                QuizDetailDialog(context2, quiz);
+                                    QuizDetailDialog(context2, quiz, foldername);
 
+                                } else {
+                                    QuizDetailDialog(context2, quiz, foldername);
+
+                                    count1 = 1;
+                                    submitflag = false;
+
+
+                                }
                             } else {
-                                QuizDetailDialog(context2, quiz);
 
-                                count1 = 1;
-                                submitflag = false;
-
-
+                                Toast.makeText(context2,
+                                        "Question not available.",
+                                        Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-
-                            Toast.makeText(context2,
-                                    "Question not available.",
-                                    Toast.LENGTH_SHORT).show();
                         }
+                    } else {
+
+                        Toast.makeText(context2,
+                                "Question not available.",
+                                Toast.LENGTH_SHORT).show();
                     }
-                } else {
-
-                    Toast.makeText(context2,
-                            "Question not available.",
-                            Toast.LENGTH_SHORT).show();
                 }
+
+
             }
-
-
         }
     }
 
@@ -657,10 +439,10 @@ public class DialogQuiz {
             List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
 
             nameValuePair.add(new BasicNameValuePair("api_access_token",
-                    accessToken));
+                    apikey));
 
             nameValuePair.add(new BasicNameValuePair("event_id",
-                    event_id));
+                    eventid));
 
             // Making a request to url and getting response
             String jsonStr = sh.makeServiceCall(getQuizUrl,
@@ -685,7 +467,7 @@ public class DialogQuiz {
 
                 // Get Quiz Parser
                 quizParser = new QuizParser();
-                quizList = quizParser.Quiz_Parser(jsonStr, foldername);
+                quizList = quizParser.Quiz_Parser2(jsonStr, folderId);
 
                 // Get Quiz Option List
                 quizOptionParser = new QuizOptionParser();
@@ -714,14 +496,14 @@ public class DialogQuiz {
             pagerAdapter = new QuizPagerDialogAdapter(context2, quizList);
             pager.setAdapter(pagerAdapter);
             pager.setPagingEnabled(false);
-            if (quizList.size() > 1) {
-                btnNext.setVisibility(View.VISIBLE);
+            submit.setVisibility(View.VISIBLE);
+
+            /*if (quizList.size() > 1) {
                 submit.setVisibility(View.GONE);
 
             } else {
-                btnNext.setVisibility(View.GONE);
                 submit.setVisibility(View.VISIBLE);
-            }
+            }*/
 
 
         }
@@ -770,7 +552,7 @@ public class DialogQuiz {
             public void onClick(View v) {
                 //new getQuizList().execute();
                 DialogQuizREsult dQR = new DialogQuizREsult();
-                dQR.resultQuizDialog(context, foldername);
+                dQR.resultQuizDialog(context, foldername,folderId);
                 ThankyouDialog.dismiss();
 
             }
@@ -779,6 +561,238 @@ public class DialogQuiz {
         ThankyouDialog.show();
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v == submit) {
+            submitflag = true;
+            Boolean valid = true;
+            final int[] check = {0};
+            int sum = 0;
+            final String[] question_id = {""};
+            final String[] question_ans = {""};
+            final String[] value = {""};
+            final RadioGroup[] radioGroup = new RadioGroup[1];
+            final EditText[] ans_edit = new EditText[1];
+            final RadioButton[] radioButton = new RadioButton[1];
+//            Log.e("size", adapter.getItemCount() + "");
+
+
+            String[] data = pagerAdapter.getselectedData();
+            String[] question = pagerAdapter.getselectedquestion();
+
+            if (data != null) {
+                for (int i = 0; i < data.length; i++) {
+                    if (i != 0) {
+                        question_id[0] = question_id[0] + "$#";
+                        question_ans[0] = question_ans[0] + "$#";
+                    }
+
+                    String id = quizList.get(i).getId();
+                    question_id[0] = question_id[0] + id;
+
+                    flag = true;
+                    flag1 = true;
+                    flag2 = true;
+                    if (data[i] != null) {
+                        if (quizList.get(i).getQuiz_type() != null) {
+                            if (quizList.get(i).getQuiz_type().equalsIgnoreCase("2")) {
+                                if (!data[i].equalsIgnoreCase("")) {
+                                    question_ans[0] = question_ans[0] + data[i];
+                                } else {
+                                    valid = false;
+                                }
+                            } else {
+
+                                if (!data[i].equalsIgnoreCase("")) {
+
+                                    String idno = quizList.get(i).getId();
+
+                                    for (int j = 0; j < quizOptionList.size(); j++) {
+                                        if (quizOptionList.get(j).getOption().equals(data[i]) && quizOptionList.get(j).getQuizId().equals(idno)) {
+                                            question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                        }
+                                    }
+                                } else {
+                                    String idno = quizList.get(i).getId();
+
+                                    for (int j = 0; j < quizOptionList.size(); j++) {
+                                        if (quizOptionList.get(j).getQuizId().equals(idno)) {
+                                            if (flag1 == true) {
+                                                question_ans[0] = question_ans[0] + "0";
+                                                //question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                                flag1 = false;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+
+                            if (!data[i].equalsIgnoreCase("")) {
+
+                                String idno = quizList.get(i).getId();
+
+                                for (int j = 0; j < quizOptionList.size(); j++) {
+                                    if (quizOptionList.get(j).getOption().equals(data[i]) && quizOptionList.get(j).getQuizId().equals(idno)) {
+                                        question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                    }
+                                }
+                            } else {
+                                String idno = quizList.get(i).getId();
+
+                                for (int j = 0; j < quizOptionList.size(); j++) {
+                                    if (quizOptionList.get(j).getQuizId().equals(idno)) {
+                                        if (flag2 == true) {
+                                            question_ans[0] = question_ans[0] + "0";
+                                            // question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                            flag2 = false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        String idno = quizList.get(i).getId();
+
+
+                        for (int j = 0; j < quizOptionList.size(); j++) {
+                            if (quizOptionList.get(j).getQuizId().equals(idno)) {
+                                if (flag == true) {
+                                    // question_ans[0] = question_ans[0] + quizOptionList.get(j).getOptionId();
+                                    question_ans[0] = question_ans[0] + "0";
+                                    flag = false;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                Log.e("valid_ans", question_ans.toString());
+                Log.e("valid_id", question_id.toString());
+                Log.e("valid_string", valid.toString());
+
+
+                if (valid == true) {
+                    quiz_question_id = question_id[0];
+                    quiz_options_id = question_ans[0];
+                    int answers = pagerAdapter.getCorrectOption();
+                    Toast.makeText(appDelegate, quiz_options_id, Toast.LENGTH_SHORT).show();
+                    Log.d("Selected Options==>",quiz_options_id);
+                    new postQuizQuestion().execute();
+//                    Intent intent = new Intent(QuizActivity.this, YourScoreActivity.class);
+//                    intent.putExtra("folderName", foldername);
+//                    intent.putExtra("Answers", answers);
+//                    intent.putExtra("TotalQue", adapter.getselectedData().length);
+//                    startActivity(intent);
+                } else {
+                    Toast.makeText(context2, "Please answer all questions", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+    private class postQuizQuestion extends AsyncTask<Void, Void, Void> {
+
+        String error = "";
+        String message = "";
+        String total_correct_answer = "";
+        String total_questions = "";
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+            try {
+                pDialog = new ProgressDialog(context2,
+                        R.style.Base_Theme_AppCompat_Dialog_Alert);
+                pDialog.setMessage("Please wait...");
+                pDialog.setCancelable(false);
+                pDialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            // Creating service handler class instance
+            ServiceHandler sh = new ServiceHandler();
+            List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
+
+            nameValuePair.add(new BasicNameValuePair("api_access_token",
+                    apikey));
+            nameValuePair.add(new BasicNameValuePair("event_id",
+                    eventid));
+            nameValuePair.add(new BasicNameValuePair("quiz_id", quiz_question_id));
+            nameValuePair.add(new BasicNameValuePair("quiz_options_id",
+                    quiz_options_id));
+
+            // Making a request to url and getting response
+            String jsonStr = sh.makeServiceCall(quizQuestionUrl,
+                    ServiceHandler.POST, nameValuePair);
+            Log.d("Response: ", "> " + jsonStr);
+
+            if (jsonStr != null) {
+                try {
+
+                    JSONObject jsonResult = new JSONObject(jsonStr);
+                    error = jsonResult.getString("status");
+                    message = jsonResult.getString("msg");
+                    total_correct_answer = jsonResult.getString("total_correct_answer");
+                    total_questions = jsonResult.getString("total_questions");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            pagerAdapter.checkArray=null;
+            pagerAdapter.correctAnswer="";
+            pagerAdapter.selectedOption="";
+            pagerAdapter.dataArray=null;
+            pagerAdapter.dataIDArray=null;
+            pagerAdapter.ansArray=null;
+            // Dismiss the progress dialog
+            try {
+                if (pDialog != null) {
+                    pDialog.dismiss();
+                    pDialog = null;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (error.equalsIgnoreCase("success")) {
+                int answers = pagerAdapter.getCorrectOption();
+                /*Intent intent = new Intent(context2, YourScoreActivity.class);
+                intent.putExtra("folderName", foldername);
+                intent.putExtra("Answers", String.valueOf(total_correct_answer));
+                intent.putExtra("TotalQue", String.valueOf(total_questions));
+                intent.putExtra("Page", "Question");
+                context2.startActivity(intent);*/
+                count1 = 1;
+                pagerAdapter.selectopt = 0;
+                submitflag = true;
+               // DialogQuizREsult QuizRe = new DialogQuizREsult();
+               // QuizRe.resultQuizDialog(context2,foldername,folderId);
+                Detaildialog.dismiss();
+                ThankYouQuizDialog(context2);
+
+            } else {
+
+                Toast.makeText(context2, message,
+                        Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
 
 
 }
