@@ -709,7 +709,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
                         event_desc.setVisibility(View.VISIBLE);
 //                        eventvenu.setVisibility(View.VISIBLE);
-                        view.setVisibility(View.VISIBLE);
+//                        view.setVisibility(View.VISIBLE);
 
                     } else {
                         // event_desc.setVisibility(View.GONE);

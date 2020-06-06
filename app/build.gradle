@@ -12,12 +12,12 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-       /* ndk {
+        ndk {
             //abiFilters "armeabi-v7a", 'arm64-v8a', 'x86', 'x86_64'
             abiFilters "armeabi-v7a", 'arm64-v8a', 'x86'
 
-        }*/
-        splits {
+        }
+        /*splits {
             density {
                 enable true
                 exclude "ldpi", "tvdpi", "xxxhdpi"
@@ -29,7 +29,7 @@ android {
                 include 'x86', 'armeabi-v7a', 'mips'
                 universalApk true
             }
-        }
+        }*/
 /*
         splits {
             density {

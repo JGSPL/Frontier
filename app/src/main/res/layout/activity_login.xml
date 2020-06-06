@@ -76,7 +76,7 @@
                 android:background="@android:color/transparent"
                 android:hint="@string/hint_email"
                 android:imeOptions="actionDone"
-                android:inputType="number"
+                android:inputType="text"
                 android:maxLines="1"
                 android:padding="0dp"
                 android:textColor="@color/black"
