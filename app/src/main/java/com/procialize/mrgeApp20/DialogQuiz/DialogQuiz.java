@@ -193,6 +193,16 @@ public class DialogQuiz implements View.OnClickListener {
         Detaildialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         Detaildialog.getWindow().setDimAmount(0);
 
+        Detaildialog.setCancelable(false);
+
+        ImageView ic_close = Detaildialog.findViewById(R.id.imgClose);
+        ic_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Detaildialog.dismiss();
+            }
+        });
+
         context2 = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
@@ -373,8 +383,10 @@ public class DialogQuiz implements View.OnClickListener {
                             if (/*quizList != null ||*/ quizList.size() > 0) {
 
                                 if (quizList.get(0).getReplied().equals("1")) {
+                                    DialogQuizREsult qq = new DialogQuizREsult();
+                                    qq.resultQuizDialog(context2, foldername, quiz);
 
-                                    QuizDetailDialog(context2, quiz, foldername);
+
 
                                 } else {
                                     QuizDetailDialog(context2, quiz, foldername);
@@ -517,6 +529,7 @@ public class DialogQuiz implements View.OnClickListener {
         ThankyouDialog.setContentView(R.layout.bottom_quiz_thankyou);
         ThankyouDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         ThankyouDialog.getWindow().setDimAmount(0);
+        ThankyouDialog.dismiss();
 
         context2 = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -539,6 +552,7 @@ public class DialogQuiz implements View.OnClickListener {
         CardView Quizcard = ThankyouDialog.findViewById(R.id.Quizcard);
         Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
         Quizcard.setAlpha(0.8f);
+        txtViewResult.setTextColor(Color.parseColor(colorActive));
 
 
         imgClose.setOnClickListener(new View.OnClickListener() {

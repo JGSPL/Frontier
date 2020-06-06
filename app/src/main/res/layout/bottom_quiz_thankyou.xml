@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:id="@+id/txtViewResult"
-                android:textSize="@dimen/textsizenormal"
+                android:textSize="@dimen/textsizesmall"
                 android:text="View Results"
                 android:layout_gravity="center"
                 android:gravity="center"

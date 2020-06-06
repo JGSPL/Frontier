@@ -84,7 +84,7 @@ public class QuizPagerDialogAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup view, final int position) {
-        View myImageLayout = inflater.inflate(R.layout.quiz_row_test, view, false);
+        View myImageLayout = inflater.inflate(R.layout.spot_quiz_row_test, view, false);
 
         TextView quiz_title_txt, quiz_question_distruct = null, txt_page, textno;
         LinearLayout raiolayout;
@@ -192,7 +192,7 @@ public class QuizPagerDialogAdapter extends PagerAdapter {
                     // rdbtn.setPadding(10,10,10,5);
                     rdbtn.setLayoutParams(p);
                     rdbtn.setTag(quizSpecificOptionListnew.get(i - 1).getOptionId());
-                    rdbtn.setBackgroundResource(R.drawable.livepollback);
+                    rdbtn.setBackgroundResource(R.drawable.newsfeedrowbg);
 
 //                    rdbtn.setButtonDrawable(R.drawable.radio_buttontoggle_first);
                     rdbtn.setPaddingRelative(5, 5, 5, 5);
