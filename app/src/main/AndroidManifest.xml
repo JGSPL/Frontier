@@ -173,6 +173,7 @@
         <activity
             android:name=".MergeMain.MrgeHomeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+
             android:windowSoftInputMode="stateHidden|adjustNothing" />
         <activity
             android:name=".Activity.ProfileActivity"

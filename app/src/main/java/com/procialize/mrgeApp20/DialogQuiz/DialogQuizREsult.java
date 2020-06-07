@@ -45,7 +45,7 @@ import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
 
 public class DialogQuizREsult {
-    static BottomSheetDialog  ResultDialog;
+    BottomSheetDialog  ResultDialog;
     private ProgressDialog pDialog;
     // Session Manager Class
     private SessionManager session;

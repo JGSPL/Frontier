@@ -67,7 +67,7 @@ import java.util.Timer;
 import static android.content.Context.MODE_PRIVATE;
 
 public class DialogQuiz implements View.OnClickListener {
-    static BottomSheetDialog dialog, Detaildialog, ThankyouDialog, ResultDialog;
+    BottomSheetDialog dialog, Detaildialog, ThankyouDialog, ResultDialog;
     private ProgressDialog pDialog;
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid, colorActive;

@@ -104,10 +104,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
                // if(!MyApplication.isAppDestoryed) {
-                    Intent notifyIntent = new Intent(this, MrgeHomeActivity.class);
+                    /*Intent notifyIntent = new Intent(this, MrgeHomeActivity.class);
                     notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                             | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(notifyIntent);
+                    notifyIntent.putExtra("spot_poll","spot_poll");
+                    startActivity(notifyIntent);*/
+                    MrgeHomeActivity.spot_poll = "spot_poll";
 
 
                     Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_LIVE_POLL);

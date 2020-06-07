@@ -18,6 +18,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -26,6 +27,7 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,6 +40,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -57,6 +60,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.crashlytics.android.Crashlytics;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -134,6 +138,7 @@ import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Speaker.Views.SpeakerFragment;
+import com.procialize.mrgeApp20.Utility.MyApplication;
 import com.procialize.mrgeApp20.Utility.PlayerConfig;
 import com.procialize.mrgeApp20.Utility.Res;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -169,6 +174,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     public static String logoImg = "", colorActive = "", eventback = "";
     public static int activetab;
     public static int flag = 0;
+    public static String spot_poll = "S";
     public static ImageView headerlogoIv, notificationlogoIv, grid_image_view, list_image_view;
     public static TextView txtMainHeader;
     public static LinearLayout linear_livestream, linear_zoom, linear_layout, linear_changeView;
@@ -220,7 +226,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     YouTubePlayerTracker mTracker = null;
     YouTubePlayer youTubePlayer;
     Fragment fragment = null;
-    Dialog myDialog;
+   // Dialog myDialog;
     ViewPagerAdapterSub viewPagerAdapterSub3;
     ViewPagerAdapterSub viewPagerAdapterSub2;
     ViewPagerAdapterSub viewPagerAdapterSub4;
@@ -339,17 +345,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             e.printStackTrace();
         }
 
-      /*  DialogLivePoll dialogLivePoll = new DialogLivePoll();
-        dialogLivePoll.welcomeLivePollDialog(MrgeHomeActivity.this);*/
 
-        try {
-            spotLivePollReciever = new SpotLivePollReciever();
-            spotLivePollFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_SPOT_LIVE_POLL);
-            LocalBroadcastManager.getInstance(this).registerReceiver(spotLivePollReciever, spotLivePollFilter);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         try {
             notificationCountReciever = new NotificationCountReciever();
@@ -358,6 +354,17 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        Intent intent = getIntent();
+        try {
+            if (intent != null) {
+                spot_poll = intent.getStringExtra("spot_poll");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void initializeView() {
@@ -543,6 +550,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             eventMenuSettingLists = SessionManager.loadMenuEventList();
             Setting(eventSettingLists);
         }
+
+
     }
 
     private void afterSettingView() {
@@ -730,6 +739,16 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
             }
         });
+
+        try {
+            spotLivePollReciever = new SpotLivePollReciever();
+            spotLivePollFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_SPOT_LIVE_POLL);
+            LocalBroadcastManager.getInstance(this).registerReceiver(spotLivePollReciever, spotLivePollFilter);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -2285,6 +2304,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 Log.e("", "Youtube Player View initialization failed");
             }
         });
+
 
         float_icon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -4291,6 +4311,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         return true;
     }
 
+/*
     private void showQuizDialouge() {
 
         myDialog = new Dialog(MrgeHomeActivity.this);
@@ -4300,6 +4321,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
 
     }
+*/
 
     public static class NotificationCountReciever extends BroadcastReceiver {
         @Override
@@ -4372,13 +4394,27 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         public void onReceive(Context context, Intent intent) {
             // progressbarForSubmit.setVisibility(View.GONE);
 
-            setupViewPager(viewPager);
+           // setupViewPager(viewPager);
+
+
 
             Log.d("service end", "service end");
-            DialogLivePoll dialogLivePoll = new DialogLivePoll();
+            if(spot_poll!=null) {
+                if (spot_poll.equalsIgnoreCase("spot_poll")) {
+                    DialogLivePoll dialogLivePoll = new DialogLivePoll();
+                    dialogLivePoll.welcomeLivePollDialog(MrgeHomeActivity.this);
+                    spot_poll = "S";
+
+                }
+            }
+
+           /* DialogLivePoll dialogLivePoll = new DialogLivePoll();
             dialogLivePoll.welcomeLivePollDialog(MrgeHomeActivity.this);
+*/
         }
     }
+
+
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -4415,7 +4451,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
     @Override
     protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(spotLivePollReciever);
         super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(spotLivePollReciever);
+        procializeDB.close();
+        dbHelper.close();
+        finishAffinity();
     }
 }

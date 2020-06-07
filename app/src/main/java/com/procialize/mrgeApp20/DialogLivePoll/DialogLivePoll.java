@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -74,7 +75,7 @@ public class DialogLivePoll implements View.OnClickListener{
     public static int count1 = 1;
     public static boolean submitflag = false;
     public static int countpage = 1;
-    static BottomSheetDialog dialog, Detaildialog, dialogThankYou, dialogResult;
+    BottomSheetDialog dialog, Detaildialog, dialogThankYou, dialogResult;
     private static LinearLayout layoutHolder;
     public String Jsontr;
     public int time = 10;
@@ -161,6 +162,7 @@ public class DialogLivePoll implements View.OnClickListener{
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                dialog.cancel();
             }
         });
         btnQuizStart.setOnClickListener(new View.OnClickListener() {
@@ -168,23 +170,31 @@ public class DialogLivePoll implements View.OnClickListener{
             public void onClick(View v) {
                 fetchPoll(accessToken, eventid);
                 dialog.dismiss();
+                dialog.cancel();
+
             }
         });
+        if(!dialog.isShowing()){
+            dialog.show();
+        }
+
+       /* Handler handler=new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dialog.show();
+
+            }
+        },100);*/
         /*if(!((Activity) context).isFinishing())
         {*/
-            dialog.show();
        /* }*/
 
     }
 
     public void livePollDetailDialog(Context context) {
 
-        // dialog = new BottomSheetDialog(context);
-        /*Detaildialog =new BottomSheetDialog(context,R.style.SheetDialog);
 
-        Detaildialog.setContentView(R.layout.botom_live_poll_detail);
-        //Detaildialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        Detaildialog.getWindow().setDimAmount(0);*/
         Detaildialog = new BottomSheetDialog(context, R.style.SheetDialog);
         Detaildialog.setContentView(R.layout.botom_live_poll_detail);
         Detaildialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
