@@ -129,7 +129,13 @@ public class QADirectAdapter extends RecyclerView.Adapter<QADirectAdapter.MyView
 //            }
 //        }
 
-        holder.countTv.setText(question.getTotal_likes() + " Likes");
+
+
+        if(question.getTotal_likes().equalsIgnoreCase("1"))
+        { holder.countTv.setText(question.getTotal_likes() + " Like");}
+        else
+        { holder.countTv.setText(question.getTotal_likes() + " Likes");}
+     //   holder.countTv.setText(question.getTotal_likes() + " Likes");
 
         mAPIService = ApiUtils.getAPIService();
 

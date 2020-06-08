@@ -339,6 +339,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                             videothumbpath = resultList.get(0).getmThumbPath();
                             new SubmitPostTask().execute("", "");
                         }
+
                     } else {
                         if (postMsg.isEmpty()) {
                             Toast.makeText(PostNewActivity.this, "Please Enter your Post", Toast.LENGTH_SHORT).show();

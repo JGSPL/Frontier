@@ -147,7 +147,8 @@
                 android:text="General Knowledge"
                 android:textColor="@color/black"
                 android:layout_gravity="left"
-                android:textSize="16dp" />
+                android:textSize="18dp"
+                android:textStyle="bold"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

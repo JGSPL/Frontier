@@ -559,6 +559,19 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             Setting(eventSettingLists);
         }
 
+        /*if(sub3tabLayout.getVisibility() == View.VISIBLE && linTab3.getVisibility() == View.VISIBLE )
+        {
+            viewPager.setClipToPadding(false);
+            viewPager.setPadding(10,10,10,80);
+        }if(sub2tabLayout.getVisibility() == View.VISIBLE && linTab2.getVisibility() == View.VISIBLE)
+        {
+            viewPager.setClipToPadding(false);
+            viewPager.setPadding(10,10,10,80);
+        }if(sub4tabLayout.getVisibility() == View.VISIBLE && linTab4.getVisibility() == View.VISIBLE)
+        {
+            viewPager.setClipToPadding(false);
+            viewPager.setPadding(10,10,10,80);
+        }*/
 
     }
 

@@ -72,7 +72,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
                 count++;
             }
         }
-        holder.tv_count.setText(String.valueOf(count)+" items");
+        if (count == 1) {
+            holder.tv_count.setText(String.valueOf(count) + " item");
+        } else {
+            holder.tv_count.setText(String.valueOf(count) + " items");
+        }
+       // holder.tv_count.setText(String.valueOf(count)+" items");
 
 
         if (videoList1.getFolderName() == null) {
