@@ -756,12 +756,14 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
             }
         }
         else if(v.getId() == R.id.txtSkip) {
-
+            Boolean valid=false;
             pager.setCurrentItem(pager.getCurrentItem() + 1, true);
             countpage = pager.getCurrentItem();
             if (quizList.size() == pager.getCurrentItem() + 1) {
                 btnNext.setVisibility(View.GONE);
                 submit.setVisibility(View.VISIBLE);
+                submitflag = true;
+                valid = true;
             } else if (quizList.size() >= pager.getCurrentItem() + 1) {
                 btnNext.setVisibility(View.VISIBLE);
                 submit.setVisibility(View.GONE);
@@ -772,8 +774,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 txt_time.setText("" + ":" + checkdigit(time));
             }
 
-            submitflag = true;
-            Boolean valid = true;
+            //submitflag = true;
+            //Boolean valid = true;
             final int[] check = {0};
             int sum = 0;
             final String[] question_id = {""};

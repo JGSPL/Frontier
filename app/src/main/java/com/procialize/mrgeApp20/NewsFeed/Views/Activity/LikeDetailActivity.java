@@ -12,13 +12,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -34,6 +27,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -44,7 +45,6 @@ import com.procialize.mrgeApp20.Adapter.LikeAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
-
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
 import com.procialize.mrgeApp20.GetterSetter.LikeListing;
@@ -52,7 +52,6 @@ import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
 import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.SwipeMultimediaAdapter;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
-import com.procialize.mrgeApp20.Utility.Util;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -71,7 +70,6 @@ import retrofit2.Response;
  */
 public class LikeDetailActivity extends AppCompatActivity {
     String newsfeedid;
-    private APIService mAPIService;
     String token;
     HashMap<String, String> user;
     String MY_PREFS_NAME = "ProcializeInfo";
@@ -79,7 +77,7 @@ public class LikeDetailActivity extends AppCompatActivity {
     LikeAdapter likeAdapter;
     List<AttendeeList> attendeeLists;
     RecyclerView like_list;
-    ImageView  profileIV, feedimageIv, playicon;
+    ImageView profileIV, feedimageIv, playicon;
     ProgressBar progressView, feedprogress;
     TextView nameTv, designationTv, dateTv, companyTv, headingTv;
     JzvdStd videoplayer;
@@ -89,16 +87,17 @@ public class LikeDetailActivity extends AppCompatActivity {
     LinearLayout relative;
     TextView testdata;
     String substring;
-    private List<AttendeeList> attendeeDBList;
-    private DBHelper dbHelper;
-    private DBHelper procializeDB;
     List<AttendeeList> customers = null;
-    private SQLiteDatabase db;
     CardView card_view;
     ViewPager vp_slider;
     LinearLayout ll_dots;
     ArrayList<news_feed_media> myList;
     TextView tv_header;
+    private APIService mAPIService;
+    private List<AttendeeList> attendeeDBList;
+    private DBHelper dbHelper;
+    private DBHelper procializeDB;
+    private SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,13 +128,13 @@ public class LikeDetailActivity extends AppCompatActivity {
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
 
-       // headerlogoIv = findViewById(R.id.headerlogoIv);
+        // headerlogoIv = findViewById(R.id.headerlogoIv);
         profileIV = findViewById(R.id.profileIV);
         feedimageIv = findViewById(R.id.feedimageIv);
         playicon = findViewById(R.id.playicon);
         tv_header = findViewById(R.id.tv_header);
 
-      /*  Util.logomethod(this, headerlogoIv);*/
+        /*  Util.logomethod(this, headerlogoIv);*/
 
         progressView = findViewById(R.id.progressView);
         feedprogress = findViewById(R.id.feedprogress);
@@ -162,7 +161,7 @@ public class LikeDetailActivity extends AppCompatActivity {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/" + ApiConstant.folderName + "/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -443,7 +442,7 @@ public class LikeDetailActivity extends AppCompatActivity {
                     }
                 }
 
-                SwipeMultimediaAdapter swipepagerAdapter = new SwipeMultimediaAdapter(LikeDetailActivity.this, imagesSelectednew, imagesSelectednew1,myList);
+                SwipeMultimediaAdapter swipepagerAdapter = new SwipeMultimediaAdapter(LikeDetailActivity.this, imagesSelectednew, imagesSelectednew1, myList);
                 vp_slider.setAdapter(swipepagerAdapter);
                 swipepagerAdapter.notifyDataSetChanged();
 
@@ -514,7 +513,7 @@ public class LikeDetailActivity extends AppCompatActivity {
               /*  videoplayer.setUp(videourl
                         , JzvdStd.SCREEN_WINDOW_NORMAL, "");*/
 
-                videoplayer.setUp(videourl,""
+                videoplayer.setUp(videourl, ""
                         , JzvdStd.SCREEN_NORMAL);
 
                 Glide.with(LikeDetailActivity.this).load(videourl).into(videoplayer.thumbImageView);
@@ -578,7 +577,11 @@ public class LikeDetailActivity extends AppCompatActivity {
             likeAdapter.notifyDataSetChanged();
             like_list.setAdapter(likeAdapter);
 
-            tv_header.setText(attendeeLists.size() +" Likes");
+            if (attendeeLists.size() == 1) {
+                tv_header.setText(attendeeLists.size() + " Like");
+            } else {
+                tv_header.setText(attendeeLists.size() + " Likes");
+            }
 //            like_list.scheduleLayoutAnimation();
 
         } else {

@@ -338,8 +338,8 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                             picturePath = resultList.get(0).getmPath();
                             videothumbpath = resultList.get(0).getmThumbPath();
                             new SubmitPostTask().execute("", "");
-
                         }
+
                     } else {
                         if (postMsg.isEmpty()) {
                             Toast.makeText(PostNewActivity.this, "Please Enter your Post", Toast.LENGTH_SHORT).show();
@@ -496,25 +496,28 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private String highlightMentions(TextView commentTextView, final List<Mentionable> mentions) {
-        final SpannableStringBuilder spannable = new SpannableStringBuilder(commentTextView.getText());
-        SQLiteDatabase db = procializeDB.getWritableDatabase();
-        for (int i = 0; i < mentions.size(); i++) {
-            String mentionNameFromDb = procializeDB.getMeentionNameFromAttendeeId(String.valueOf(mentions.get(i).getMentionid()), db);
-            if (mentionNameFromDb.isEmpty()) {
-                mentionNameFromDb = "<" + mentions.get(i).getMentionid() + "^" + mentions.get(i).getMentionName() + ">";
-            }
-            int offset = mentions.get(i).getMentionOffset();
-            int length = mentions.get(i).getMentionLength();
-            if (i != 0) {
-                for (int j = 0; j < i; j++) {
-                    offset = offset + mentions.get(j).getMentionid().length() + 3;
+        try {
+            final SpannableStringBuilder spannable = new SpannableStringBuilder(commentTextView.getText());
+            SQLiteDatabase db = procializeDB.getWritableDatabase();
+            for (int i = 0; i < mentions.size(); i++) {
+                String mentionNameFromDb = procializeDB.getMeentionNameFromAttendeeId(String.valueOf(mentions.get(i).getMentionid()), db);
+                if (mentionNameFromDb.isEmpty()) {
+                    mentionNameFromDb = "<" + mentions.get(i).getMentionid() + "^" + mentions.get(i).getMentionName() + ">";
                 }
+                int offset = mentions.get(i).getMentionOffset();
+                int length = mentions.get(i).getMentionLength();
+                if (i != 0) {
+                    for (int j = 0; j < i; j++) {
+                        offset = offset + mentions.get(j).getMentionid().length() + 3;
+                    }
+                }
+                spannable.setSpan(mentionNameFromDb, offset, offset + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannable.replace(offset, offset + length, mentionNameFromDb);
+                //String mentionedData = data.replace(mentionName, mentionNameFromDb);
+                commentTextView.setText(spannable, TextView.BufferType.SPANNABLE);
             }
-            spannable.setSpan(mentionNameFromDb, offset, offset + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            spannable.replace(offset, offset + length, mentionNameFromDb);
-            //String mentionedData = data.replace(mentionName, mentionNameFromDb);
-            commentTextView.setText(spannable, TextView.BufferType.SPANNABLE);
-        }
+        }catch (Exception e)
+        {e.printStackTrace();}
         return commentTextView.getText().toString();
     }
 

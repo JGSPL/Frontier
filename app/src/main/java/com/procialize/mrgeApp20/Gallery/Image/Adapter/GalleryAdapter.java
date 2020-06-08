@@ -3,7 +3,6 @@ package com.procialize.mrgeApp20.Gallery.Image.Adapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,12 +40,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     String MY_PREFS_NAME = "ProcializeInfo";
     SharedPreferences prefs;
     String colorActive;
+    List<GalleryList> galleryLists;
     private List<FirstLevelFilter> filtergallerylists;
     private Context context;
     private GalleryAdapterListner listener;
-    List<GalleryList> galleryLists;
 
-    public GalleryAdapter(Context context, List<FirstLevelFilter> filtergallerylists, GalleryAdapterListner listener,List<GalleryList> galleryLists) {
+    public GalleryAdapter(Context context, List<FirstLevelFilter> filtergallerylists, GalleryAdapterListner listener, List<GalleryList> galleryLists) {
 
         this.filtergallerylists = filtergallerylists;
         this.galleryLists = galleryLists;
@@ -63,15 +62,18 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
         holder.nameTv.setText(galleryList.getTitle());
 
-        int count = 0 ;
-        for (int i=0;i<galleryLists.size();i++)
-        {
+        int count = 0;
+        for (int i = 0; i < galleryLists.size(); i++) {
             String fId = galleryList.getFolder_id();
-            if(fId.equalsIgnoreCase(galleryLists.get(i).getFolder_id())){
+            if (fId.equalsIgnoreCase(galleryLists.get(i).getFolder_id())) {
                 count++;
             }
         }
-        holder.tv_count.setText(String.valueOf(count)+" items");
+        if (count == 1) {
+            holder.tv_count.setText(String.valueOf(count) + " item");
+        } else {
+            holder.tv_count.setText(String.valueOf(count) + " items");
+        }
         //holder.nameTv.setTextColor(Color.parseColor(colorActive));
 
         Glide.with(context).load(galleryList.getFileName())
@@ -91,7 +93,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
         }).into(holder.imageIv).onLoadStarted(context.getDrawable(R.drawable.gallery_placeholder));
 
         int color = Color.parseColor(colorActive);
-      //  holder.img.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        //  holder.img.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         holder.progressBar.setVisibility(View.GONE);
 
@@ -127,7 +129,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nameTv,tv_count;
+        public TextView nameTv, tv_count;
         public LinearLayout mainLL;
         public ImageView imageIv, img;
         private ProgressBar progressBar;

@@ -290,12 +290,8 @@
                             android:paddingBottom="2dp"
                             android:src="@drawable/ic_more"
                             android:visibility="visible" />
-
                     </LinearLayout>
-
-
                 </LinearLayout>
-
             </LinearLayout>
 
             <TextView
@@ -304,6 +300,7 @@
                 android:layout_height="wrap_content"
                 android:autoLink="web"
                 android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:paddingBottom="5dp"
                 android:text=""
                 android:textColor="@color/inactivetab"
