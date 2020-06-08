@@ -7,6 +7,8 @@ package com.procialize.mrgeApp20.ApiConstant;
 public class ApiConstant {
 
     public static final String BROADCAST_ACTION_FOR_SPOT_LIVE_POLL = "com.procialize.eventsapp.BROADCAST.spot_live_poll";
+    public static final String BROADCAST_ACTION_FOR_SPOT_Quiz = "com.procialize.eventsapp.BROADCAST.spot_Quiz";
+
     public static final String BROADCAST_ACTION_FOR_NOTIFICATION_COUNT = "com.procialize.eventsapp.BROADCAST.notification_count";
     public static final String BROADCAST_ACTION = "com.procialize.eventsapp.BROADCAST";
     public static final String BROADCAST_ACTION_BUZZ_FEED = "com.procialize.eventsapp.BROADCAST.BUZZ_FEED";

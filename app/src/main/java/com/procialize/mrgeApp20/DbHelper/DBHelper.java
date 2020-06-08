@@ -52,6 +52,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String ATTENDEE_COMPANY_NAME = "ATTENDEE_COMPANY_NAME";
     public static final String ATTENDEE_DESIGNATION = "ATTENDEE_DESIGNATION";
     public static final String ATTENDEE_TYPE = "ATTENDEE_TYPE";
+    public static final String BUDDY_STATUS = "BUDDY_STATUS";
+
     public static final String ATTENDEE_TOTAL_RATING = "ATTENDEE_TOTAL_RATING";
     public static final String ATTENDEE_AVG_RATING = "ATTENDEE_AVG_RATING";
     public static final String ATTENDEE_STAR = "ATTENDEE_STAR";
@@ -278,7 +280,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 1;
     private static DBHelper sInstance;
 
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -312,7 +314,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 + ATTENDEE_PROFILE_PIC + " text, " + ATTENDEE_MOBILE
                 + " text, " + ATTENDEE_EMAIL + " text, "
                 + ATTENDEE_COMPANY_NAME + " text, " + ATTENDEE_DESIGNATION
-                + " text, " + ATTENDEE_TYPE + " text, " + ATTENDEE_MENTION_NAME + " text)");
+                + " text, " + ATTENDEE_TYPE + " text, "
+                + BUDDY_STATUS + " text, "
+                + ATTENDEE_MENTION_NAME + " text)");
 
         // Creating User data table
         db.execSQL("create table " + USER_TABLE_NAME + "(" + ATTENDEE_ID
@@ -660,6 +664,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 if (attendee_type != null && attendee_type.length() > 0) {
                     contentValues.put(ATTENDEE_TYPE, attendee_type);
                 }
+                String buddy_status = attendeesList.get(i).getBuddy_status();
+                if (buddy_status != null && buddy_status.length() > 0) {
+                    contentValues.put(BUDDY_STATUS, buddy_status);
+                }
+
+
 
                 String mention_name;
                 if (attendeesList.get(i).getLastName() != null) {
@@ -2009,6 +2019,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 attendeesList.setCompanyName(cursor.getString(10));
                 attendeesList.setDesignation(cursor.getString(11));
                 attendeesList.setAttendeeType(cursor.getString(12));
+                attendeesList.setBuddy_status(cursor.getString(13));
 
                 attendeeList.add(attendeesList);
             } while (cursor.moveToNext());
@@ -2071,6 +2082,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 attendeesList.setCompanyName(cursor.getString(10));
                 attendeesList.setDesignation(cursor.getString(11));
                 attendeesList.setAttendeeType(cursor.getString(12));
+                attendeesList.setBuddy_status(cursor.getString(13));
 
                 attendeeList.add(attendeesList);
             } while (cursor.moveToNext());
@@ -2107,6 +2119,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 attendeesList.setCompanyName(cursor.getString(10));
                 attendeesList.setDesignation(cursor.getString(11));
                 attendeesList.setAttendeeType(cursor.getString(12));
+                attendeesList.setBuddy_status(cursor.getString(13));
 
                 attendeeList.add(attendeesList);
             } while (cursor.moveToNext());

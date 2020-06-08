@@ -172,20 +172,6 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
         SessionManager sessionManager = new SessionManager(getContext());
 
         HashMap<String, String> user = sessionManager.getUserDetails();
-        /*try {
-
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
-            Resources res = getResources();
-            Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
-            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-            linear.setBackgroundDrawable(bd);
-
-            Log.e("PATH", String.valueOf(mypath));
-        } catch (Exception e) {
-            e.printStackTrace();
-            linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
-
-        }*/
 
         // token
         final String token = user.get(SessionManager.KEY_TOKEN);
@@ -334,6 +320,8 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
         attendeetail.putExtra("description", attendee.getDescription());
         attendeetail.putExtra("profile", attendee.getProfilePic());
         attendeetail.putExtra("mobile", attendee.getMobile());
+        attendeetail.putExtra("buddy_status", attendee.getBuddy_status());
+
 //                speakeretail.putExtra("totalrate",attendee.getTotalRating());
         startActivity(attendeetail);
 //        getActivity().finish();
