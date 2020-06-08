@@ -201,180 +201,153 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
                 holder.nameTv.setText(Html.fromHtml(name1, Html.FROM_HTML_MODE_LEGACY));
             }
         } else {
-            holder.progressViewgif.setVisibility(View.GONE);
-          //  holder.commentTv.setVisibility(View.VISIBLE);
-            holder.gifIV.setVisibility(View.GONE);
 
+            try {
+                holder.progressViewgif.setVisibility(View.GONE);
+                //  holder.commentTv.setVisibility(View.VISIBLE);
+                holder.gifIV.setVisibility(View.GONE);
 
 //            holder.commentTv.setText(StringEscapeUtils.unescapeJava(comment.getComment()));
+                holder.testdata.setText(StringEscapeUtils.unescapeJava(comment.getComment()));
 
+                final SpannableStringBuilder stringBuilder = new SpannableStringBuilder(holder.testdata.getText());
+                if (comment.getComment() != null) {
 
-            holder.testdata.setText(StringEscapeUtils.unescapeJava(comment.getComment()));
-
-            final SpannableStringBuilder stringBuilder = new SpannableStringBuilder(holder.testdata.getText());
-            if (comment.getComment() != null) {
-
-                holder.nameTv.setVisibility(View.VISIBLE);
-              //  holder.commentTv.setVisibility(View.VISIBLE);
+                    holder.nameTv.setVisibility(View.VISIBLE);
+                    //  holder.commentTv.setVisibility(View.VISIBLE);
 //                    holder.wallNotificationText.setText(getEmojiFromString(notificationImageStatus));
-                int flag = 0;
-                for (int i = 0; i < stringBuilder.length(); i++) {
-                    String sample = stringBuilder.toString();
-                    if ((stringBuilder.charAt(i) == '<')) {
-                        try {
-                            String text = "<";
-                            String text1 = ">";
+                    int flag = 0;
+                    for (int i = 0; i < stringBuilder.length(); i++) {
+                        String sample = stringBuilder.toString();
+                        if ((stringBuilder.charAt(i) == '<')) {
+                            try {
+                                String text = "<";
+                                String text1 = ">";
 
-                            if (flag == 0) {
-                                int start = sample.indexOf(text, i);
-                                int end = sample.indexOf(text1, i);
+                                if (flag == 0) {
+                                    int start = sample.indexOf(text, i);
+                                    int end = sample.indexOf(text1, i);
 
-                                Log.v("Indexes of", "Start : " + start + "," + end);
-                                try {
-                                    substring = sample.substring(start, end + 1);
-                                    Log.v("String names: ", substring);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
+                                    Log.v("Indexes of", "Start : " + start + "," + end);
+                                    try {
+                                        substring = sample.substring(start, end + 1);
+                                        Log.v("String names: ", substring);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
 
 
-                                if (substring.contains("<")) {
-                                    if (sample.contains(substring)) {
-                                        substring = substring.replace("<", "");
-                                        substring = substring.replace(">", "");
-                                        int index = substring.indexOf("^");
+                                    if (substring.contains("<")) {
+                                        if (sample.contains(substring)) {
+                                            substring = substring.replace("<", "");
+                                            substring = substring.replace(">", "");
+                                            int index = substring.indexOf("^");
 //                                    substring = substring.replace("^", "");
-                                        final String attendeeid = substring.substring(0, index);
-                                        substring = substring.substring(index+1, substring.length());
+                                            final String attendeeid = substring.substring(0, index);
+                                            substring = substring.substring(index + 1, substring.length());
 
 
-                                        stringBuilder.setSpan(stringBuilder, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                        stringBuilder.setSpan(new ForegroundColorSpan(Color.RED), start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                            stringBuilder.setSpan(stringBuilder, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                            stringBuilder.setSpan(new ForegroundColorSpan(Color.RED), start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
-                                        stringBuilder.setSpan(new ClickableSpan() {
-                                            @Override
-                                            public void onClick(View widget) {
-                                                attendeeDBList = dbHelper.getAttendeeDetailsId(attendeeid);
-                                                Intent intent = new Intent(context, AttendeeDetailActivity.class);
-                                                intent.putExtra("id", attendeeDBList.get(0).getAttendeeId());
-                                                intent.putExtra("name", attendeeDBList.get(0).getFirstName() + " " + attendeeDBList.get(0).getLastName());
-                                                intent.putExtra("city", attendeeDBList.get(0).getCity());
-                                                intent.putExtra("country", attendeeDBList.get(0).getCountry());
-                                                intent.putExtra("company", attendeeDBList.get(0).getCompanyName());
-                                                intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
-                                                intent.putExtra("description", attendeeDBList.get(0).getDescription());
-                                                intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
-                                                intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
-                                                context.startActivity(intent);
-                                            }
-                                        }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                        stringBuilder.replace(start, end + 1, substring);
-                                        holder.testdata.setText(stringBuilder, TextView.BufferType.SPANNABLE);
-                                        holder.commentTv.setMovementMethod(LinkMovementMethod.getInstance());
-                                        holder.commentTv.setText(stringBuilder);
+                                            stringBuilder.setSpan(new ClickableSpan() {
+                                                @Override
+                                                public void onClick(View widget) {
+                                                    attendeeDBList = dbHelper.getAttendeeDetailsId(attendeeid);
+                                                    Intent intent = new Intent(context, AttendeeDetailActivity.class);
+                                                    intent.putExtra("id", attendeeDBList.get(0).getAttendeeId());
+                                                    intent.putExtra("name", attendeeDBList.get(0).getFirstName() + " " + attendeeDBList.get(0).getLastName());
+                                                    intent.putExtra("city", attendeeDBList.get(0).getCity());
+                                                    intent.putExtra("country", attendeeDBList.get(0).getCountry());
+                                                    intent.putExtra("company", attendeeDBList.get(0).getCompanyName());
+                                                    intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
+                                                    intent.putExtra("description", attendeeDBList.get(0).getDescription());
+                                                    intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
+                                                    intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
+                                                    context.startActivity(intent);
+                                                }
+                                            }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                            stringBuilder.replace(start, end + 1, substring);
+                                            holder.testdata.setText(stringBuilder, TextView.BufferType.SPANNABLE);
+                                            holder.commentTv.setMovementMethod(LinkMovementMethod.getInstance());
+                                            holder.commentTv.setText(stringBuilder);
 
-                                        /*String name1 = "<font color='#f15a2b'>" + comment.getFirstName() + " " + comment.getLastName() + "</font>"; //set Black color of name
-                                        holder.nameTv.setMovementMethod(LinkMovementMethod.getInstance());
-                                        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
-                                            holder.nameTv.setText(Html.fromHtml(name1));
-                                            holder.nameTv.append( stringBuilder);
-                                        } else {
-                                            holder.nameTv.setText(Html.fromHtml(name1, Html.FROM_HTML_MODE_LEGACY));   //set text
-                                            holder.nameTv.append( stringBuilder);   //append text into textView
-                                        }*/
+                                            flag = 1;
+                                        }
+                                    }
+                                } else {
 
-                                        flag = 1;
-//                        holder.attendee_comments.setText(attendees.getComment().indexOf(substring, start));
-//                        holder.attendee_comments.setText(attendees.getComment().indexOf(substring, start));
-//                        attendees.setComment(substring);
+                                    int start = sample.indexOf(text, i);
+                                    int end = sample.indexOf(text1, i);
+
+                                    Log.v("Indexes of", "Start : " + start + "," + end);
+                                    try {
+                                        substring = sample.substring(start, end + 1);
+                                        Log.v("String names: ", substring);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (substring.contains("<")) {
+                                        if (sample.contains(substring)) {
+                                            substring = substring.replace("<", "");
+                                            substring = substring.replace(">", "");
+                                            int index = substring.indexOf("^");
+//                                    substring = substring.replace("^", "");
+                                            final String attendeeid = substring.substring(0, index);
+                                            substring = substring.substring(index + 1, substring.length());
+
+
+                                            stringBuilder.setSpan(stringBuilder, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                            stringBuilder.setSpan(new ForegroundColorSpan(Color.RED), start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                                            stringBuilder.setSpan(new ClickableSpan() {
+                                                @Override
+                                                public void onClick(View widget) {
+                                                    attendeeDBList = dbHelper.getAttendeeDetailsId(attendeeid);
+                                                    Intent intent = new Intent(context, AttendeeDetailActivity.class);
+                                                    intent.putExtra("id", attendeeDBList.get(0).getAttendeeId());
+                                                    intent.putExtra("name", attendeeDBList.get(0).getFirstName() + " " + attendeeDBList.get(0).getLastName());
+                                                    intent.putExtra("city", attendeeDBList.get(0).getCity());
+                                                    intent.putExtra("country", attendeeDBList.get(0).getCountry());
+                                                    intent.putExtra("company", attendeeDBList.get(0).getCompanyName());
+                                                    intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
+                                                    intent.putExtra("description", attendeeDBList.get(0).getDescription());
+                                                    intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
+                                                    context.startActivity(intent);
+                                                }
+                                            }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                                            stringBuilder.replace(start, end + 1, substring);
+                                            holder.testdata.setText(stringBuilder, TextView.BufferType.SPANNABLE);
+                                            holder.commentTv.setMovementMethod(LinkMovementMethod.getInstance());
+
+                                            holder.commentTv.setText(stringBuilder);
+
+                                        }
                                     }
                                 }
-                            } else {
-
-                                int start = sample.indexOf(text, i);
-                                int end = sample.indexOf(text1, i);
-
-                                Log.v("Indexes of", "Start : " + start + "," + end);
-                                try {
-                                    substring = sample.substring(start, end + 1);
-                                    Log.v("String names: ", substring);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                if (substring.contains("<")) {
-                                    if (sample.contains(substring)) {
-                                        substring = substring.replace("<", "");
-                                        substring = substring.replace(">", "");
-                                        int index = substring.indexOf("^");
-//                                    substring = substring.replace("^", "");
-                                        final String attendeeid = substring.substring(0, index);
-                                        substring = substring.substring(index+1, substring.length());
-
-
-                                        stringBuilder.setSpan(stringBuilder, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                        stringBuilder.setSpan(new ForegroundColorSpan(Color.RED), start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                                        stringBuilder.setSpan(new ClickableSpan() {
-                                            @Override
-                                            public void onClick(View widget) {
-                                                attendeeDBList = dbHelper.getAttendeeDetailsId(attendeeid);
-                                                Intent intent = new Intent(context, AttendeeDetailActivity.class);
-                                                intent.putExtra("id", attendeeDBList.get(0).getAttendeeId());
-                                                intent.putExtra("name", attendeeDBList.get(0).getFirstName() + " " + attendeeDBList.get(0).getLastName());
-                                                intent.putExtra("city", attendeeDBList.get(0).getCity());
-                                                intent.putExtra("country", attendeeDBList.get(0).getCountry());
-                                                intent.putExtra("company", attendeeDBList.get(0).getCompanyName());
-                                                intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
-                                                intent.putExtra("description", attendeeDBList.get(0).getDescription());
-                                                intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
-                                                context.startActivity(intent);
-                                            }
-                                        }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                                        stringBuilder.replace(start, end + 1, substring);
-                                        holder.testdata.setText(stringBuilder, TextView.BufferType.SPANNABLE);
-                                        holder.commentTv.setMovementMethod(LinkMovementMethod.getInstance());
-
-                                        holder.commentTv.setText(stringBuilder);
-
-                                 /*       String name1 = "<font color='#f15a2b'>" + comment.getFirstName() + " " + comment.getLastName() + "</font>"; //set Black color of name
-                                        holder.nameTv.setMovementMethod(LinkMovementMethod.getInstance());
-                                        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
-                                            holder.nameTv.setText(Html.fromHtml(name1));
-                                            holder.nameTv.append( stringBuilder);
-                                        } else {
-                                            holder.nameTv.setText(Html.fromHtml(name1, Html.FROM_HTML_MODE_LEGACY));   //set text
-                                            holder.nameTv.append( stringBuilder);   //append text into textView
-                                        }*/
-
-//                        holder.attendee_comments.setText(attendees.getComment().indexOf(substring, start));
-//                        holder.attendee_comments.setText(attendees.getComment().indexOf(substring, start));
-//                        attendees.setComment(substring);
-                                    }
-                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
                     }
-                }
 
-              /*  String styledText1 = "<font color='red'>"+comment.getFirstName() + " " + comment.getLastName() +" </font>";
-                holder.nameTv.setText(Html.fromHtml(styledText1)+" "+stringBuilder, TextView.BufferType.SPANNABLE);*/
-               // holder.commentTv.setText(stringBuilder);
-                String name1 = "<font color='#f15a2b'>" + comment.getFirstName() + " " + comment.getLastName()+" " + "</font>"; //set Black color of name
-                holder.nameTv.setMovementMethod(LinkMovementMethod.getInstance());
-                if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
-                    holder.nameTv.setText(Html.fromHtml(name1));
-                    holder.nameTv.append(stringBuilder);
+                    // holder.commentTv.setText(stringBuilder);
+                    String name1 = "<font color='#f15a2b'>" + comment.getFirstName() + " " + comment.getLastName() + " " + "</font>"; //set Black color of name
+                    holder.nameTv.setMovementMethod(LinkMovementMethod.getInstance());
+                    if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
+                        holder.nameTv.setText(Html.fromHtml(name1));
+                        holder.nameTv.append(stringBuilder);
+                    } else {
+                        holder.nameTv.setText(Html.fromHtml(name1, Html.FROM_HTML_MODE_LEGACY));   //set text
+                        holder.nameTv.append(stringBuilder);   //append text into textView
+                    }
                 } else {
-                    holder.nameTv.setText(Html.fromHtml(name1, Html.FROM_HTML_MODE_LEGACY));   //set text
-                    holder.nameTv.append(stringBuilder);   //append text into textView
+                    holder.commentTv.setVisibility(View.GONE);
                 }
-            } else {
-                holder.commentTv.setVisibility(View.GONE);
-            }
+            }catch (IllegalArgumentException e)
+            {e.printStackTrace();}
         }
     }
 

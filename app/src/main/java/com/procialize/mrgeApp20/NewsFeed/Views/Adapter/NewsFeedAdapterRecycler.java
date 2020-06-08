@@ -239,33 +239,35 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                 });
             }
         } else {
-            if (value == true) {
 
-                holder.txtfeedRv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            try {
+                if (value == true) {
 
-                        Intent postview = new Intent(context, PostNewActivity.class);
-                        postview.putExtra("for", "text");
-                        context.startActivity(postview);
-                    }
-                });
+                    holder.txtfeedRv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            Intent postview = new Intent(context, PostNewActivity.class);
+                            postview.putExtra("for", "text");
+                            context.startActivity(postview);
+                        }
+                    });
 
 
-                holder.imagefeedRv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    holder.imagefeedRv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                        Intent postview = new Intent(context, PostNewActivity.class);
-                        postview.putExtra("for", "image");
-                        context.startActivity(postview);
+                            Intent postview = new Intent(context, PostNewActivity.class);
+                            postview.putExtra("for", "image");
+                            context.startActivity(postview);
 //                getActivity().finish();
-                    }
-                });
+                        }
+                    });
 
-                holder.videofeedRv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    holder.videofeedRv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
                        /* if (device.equalsIgnoreCase("vivo V3")) {
                             Intent postview = new Intent(context, PostActivityVideo.class);
@@ -276,33 +278,33 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                             postview.putExtra("for", "video");
                             context.startActivity(postview);
                         }*/
-                    }
-                });
-            } else {
-                holder.txtfeedRv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                        }
+                    });
+                } else {
+                    holder.txtfeedRv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
                        /* Intent postview = new Intent(context, PostViewActivity.class);
                         postview.putExtra("for", "text");
                         context.startActivity(postview);*/
-                    }
-                });
+                        }
+                    });
 
 
-                holder.imagefeedRv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    holder.imagefeedRv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                        Intent postview = new Intent(context, PostNewActivity.class);
-                        postview.putExtra("for", "image");
-                        context.startActivity(postview);
-                    }
-                });
+                            Intent postview = new Intent(context, PostNewActivity.class);
+                            postview.putExtra("for", "image");
+                            context.startActivity(postview);
+                        }
+                    });
 
-                holder.videofeedRv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    holder.videofeedRv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
                        /* if (device.equalsIgnoreCase("vivo V3")) {
                             Intent postview = new Intent(context, PostActivityVideo.class);
@@ -313,8 +315,12 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                             postview.putExtra("for", "video");
                             context.startActivity(postview);
                         }*/
-                    }
-                });
+                        }
+                    });
+                }
+            }catch (IllegalArgumentException e)
+            {
+                e.printStackTrace();
             }
         }
 
@@ -333,16 +339,15 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             holder.designationTv.setVisibility(View.VISIBLE);
         }
 
-        if (company.equalsIgnoreCase("0")) {
-
+/*        if (company.equalsIgnoreCase("0")) {
             holder.tv_concat.setVisibility(View.GONE);
             holder.companyTv.setVisibility(View.GONE);
-        } else {
+        } else {*/
             //holder.companyTv.setText(feed.getCompanyName());
             holder.companyTv.setText(feed.getCity());
             holder.companyTv.setVisibility(View.VISIBLE);
             holder.tv_concat.setVisibility(View.VISIBLE);
-        }
+        /*}*/
 
         holder.testdata.setText(StringEscapeUtils.unescapeJava(feed.getPostStatus()));
 

@@ -325,14 +325,50 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         // attendeesList = (ListView)
         // CommentActivity.this.findViewById(R.id.speakers_list);
         customers = dbHelper.getAttendeeDetails();
+      /*  mentions = new Mentions.Builder(this, commentEt)
+                .suggestionsListener(this)
+                .queryListener(this)
+                .build();*/
+
         mentions = new Mentions.Builder(this, commentEt)
                 .suggestionsListener(this)
                 .queryListener(this)
                 .build();
 
+
         setupMentionsList();
 
     }
+
+   /* private void setupMentionsList() {
+        final RecyclerView mentionsList = findViewById(R.id.mentions_list);
+        mentionsList.setLayoutManager(new LinearLayoutManager(this));
+        usersAdapter = new UsersAdapter(this);
+        mentionsList.setAdapter(usersAdapter);
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(commentEt.getWindowToken(), 0);
+        // set on item click listener
+        mentionsList.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(final View view, final int position) {
+                final AttendeeList user = usersAdapter.getItem(position);
+
+                *//*
+                 * We are creating a mentions object which implements the
+                 * <code>Mentionable</code> interface this allows the library to set the offset
+                 * and length of the mention.
+                 *//*
+                if (user != null) {
+                    final Mention mention = new Mention();
+                    mention.setMentionName(user.getFirstName() + " " + user.getLastName() + " ");
+                    mention.setMentionid(user.getAttendeeId());
+                    mentions.insertMention(mention);
+
+
+                }
+            }
+        }));
+    }*/
 
     private void setupMentionsList() {
         final RecyclerView mentionsList = findViewById(R.id.mentions_list);
@@ -354,7 +390,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                  */
                 if (user != null) {
                     final Mention mention = new Mention();
-                    mention.setMentionName(user.getFirstName() + " " + user.getLastName() + " ");
+                    mention.setMentionName(user.getFirstName() + " " + user.getLastName());
                     mention.setMentionid(user.getAttendeeId());
                     mentions.insertMention(mention);
 
@@ -722,7 +758,6 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                 // post_status_post.setText("");
                 // post_status_post
                 // .setHint("What's on your mind (Not more than 500 characters)");
-
                 final Comment comment = new Comment();
                 comment.setComment(postMsg);
                 comment.setMentions(mentions.getInsertedMentions());
@@ -2024,12 +2059,28 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         startActivity(Intent.createChooser(share, "Share link!"));
     }
 
-    @Override
     public void onQueryReceived(String s) {
+
         final List<AttendeeList> users = searchUsers(s);
         if (users != null && !users.isEmpty()) {
             usersAdapter.clear();
             usersAdapter.setCurrentQuery(s);
+            ArrayList<String> arr = new ArrayList<String>(users.size());
+            for (int j = 0; j < users.size(); j++) {
+                arr.add(users.get(j).getAttendeeId());
+            }
+
+            for (int i = 0; i < mentions.getInsertedMentions().size(); i++) {
+                String mentionName = mentions.getInsertedMentions().get(i).getMentionid();
+                if (arr.contains(mentionName)) {
+                    int index = arr.indexOf(mentionName);
+                    users.remove(index);
+                    arr.clear();
+                    for (int j = 0; j < users.size(); j++) {
+                        arr.add(users.get(j).getAttendeeId());
+                    }
+                }
+            }
             usersAdapter.addAll(users);
             showMentionsList(true);
         } else {
@@ -2046,6 +2097,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         }
     }
 
+
     public List<AttendeeList> searchUsers(String query) {
         final List<AttendeeList> searchResults = new ArrayList<>();
         if (StringUtils.isNotBlank(query)) {
@@ -2053,14 +2105,13 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
             if (userList != null && !userList.isEmpty()) {
                 for (AttendeeList user : userList) {
                     final String firstName = user.getFirstName().toLowerCase();
-                    String lastName = "";
+                    String lastName="";
                     try {
                         if (!user.getLastName().isEmpty()) {
                             lastName = user.getLastName().toLowerCase();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    }catch (Exception e)
+                    {e.printStackTrace();}
                     if (firstName.startsWith(query) || lastName.startsWith(query)) {
                         searchResults.add(user);
                     }
@@ -2086,25 +2137,29 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
     //Tagging function By Aparna
     private String highlightMentions(TextView commentTextView, final List<Mentionable> mentions) {
-        final SpannableStringBuilder spannable = new SpannableStringBuilder(commentTextView.getText());
-        SQLiteDatabase db = procializeDB.getWritableDatabase();
-        for (int i = 0; i < mentions.size(); i++) {
-            String mentionNameFromDb = procializeDB.getMeentionNameFromAttendeeId(String.valueOf(mentions.get(i).getMentionid()), db);
-            if (mentionNameFromDb.isEmpty()) {
-                mentionNameFromDb = "<" + mentions.get(i).getMentionid() + "^" + mentions.get(i).getMentionName() + ">";
-            }
-            int offset = mentions.get(i).getMentionOffset();
-            int length = mentions.get(i).getMentionLength();
-            if (i != 0) {
-                for (int j = 0; j < i; j++) {
-                    offset = offset + mentions.get(j).getMentionid().length() + 3;
+
+        try {
+            final SpannableStringBuilder spannable = new SpannableStringBuilder(commentTextView.getText());
+            SQLiteDatabase db = procializeDB.getWritableDatabase();
+            for (int i = 0; i < mentions.size(); i++) {
+                String mentionNameFromDb = procializeDB.getMeentionNameFromAttendeeId(String.valueOf(mentions.get(i).getMentionid()), db);
+                if (mentionNameFromDb.isEmpty()) {
+                    mentionNameFromDb = "<" + mentions.get(i).getMentionid() + "^" + mentions.get(i).getMentionName() + ">";
                 }
+                int offset = mentions.get(i).getMentionOffset();
+                int length = mentions.get(i).getMentionLength();
+                if (i != 0) {
+                    for (int j = 0; j < i; j++) {
+                        offset = offset + mentions.get(j).getMentionid().length() + 3;
+                    }
+                }
+                spannable.setSpan(mentionNameFromDb, offset, offset + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannable.replace(offset, offset + length, mentionNameFromDb);
+                //String mentionedData = data.replace(mentionName, mentionNameFromDb);
+                commentTextView.setText(spannable, TextView.BufferType.SPANNABLE);
             }
-            spannable.setSpan(mentionNameFromDb, offset, offset + length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            spannable.replace(offset, offset + length, mentionNameFromDb);
-            //String mentionedData = data.replace(mentionName, mentionNameFromDb);
-            commentTextView.setText(spannable, TextView.BufferType.SPANNABLE);
-        }
+        }catch (Exception e)
+        {e.printStackTrace();}
         return commentTextView.getText().toString();
     }
 

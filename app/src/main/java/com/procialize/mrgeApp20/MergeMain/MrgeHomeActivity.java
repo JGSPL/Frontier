@@ -423,6 +423,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 FlyingVideo.get(MrgeHomeActivity.this).close();
                 linear_layout.setVisibility(View.VISIBLE);
                 linear_livestream.setVisibility(View.GONE);
+                youTubeLinkPosition = 0;
+                initializeYoutubePlayer(youTubeLinkPosition);
             }
         });
         linear_changeView.setOnClickListener(new View.OnClickListener() {
@@ -4395,8 +4397,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             // progressbarForSubmit.setVisibility(View.GONE);
 
            // setupViewPager(viewPager);
-
-
 
             Log.d("service end", "service end");
             if(spot_poll!=null) {

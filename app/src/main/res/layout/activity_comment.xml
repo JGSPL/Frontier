@@ -486,7 +486,6 @@
                     android:id="@+id/textData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="500"
                     android:textSize="10sp"
                     android:visibility="gone" />
 
@@ -498,6 +497,13 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_send"/>
         </LinearLayout>
+
+       <!-- <TextView
+            android:id="@+id/textData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:visibility="visible" />-->
    <!--     <LinearLayout
             android:id="@+id/action_container"
             android:layout_width="match_parent"
@@ -530,13 +536,13 @@
                 android:textSize="@dimen/textsizesmall" />-->
 
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/textData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="500"
                 android:textSize="10sp"
-                android:visibility="gone" />
+                android:visibility="gone" />-->
 
         <!--   <Button
                android:id="@+id/commentBt"
