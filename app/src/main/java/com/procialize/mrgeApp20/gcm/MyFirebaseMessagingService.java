@@ -85,7 +85,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         event_id = prefs.getString("eventid", "1");
 
-        Log.d("Event Id==>", remoteMessage.getData().get("event_id"));
+      //  Log.d("Event Id==>", remoteMessage.getData().get("event_id"));
         // if (remoteMessage.getData().get("event_id").equalsIgnoreCase(event_id)) {
 
         notificationCount++;
@@ -114,6 +114,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                     Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_LIVE_POLL);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+                //}
+            }
+
+            if (msgTye.equalsIgnoreCase("spot_quiz")) {
+
+
+                // if(!MyApplication.isAppDestoryed) {
+                    /*Intent notifyIntent = new Intent(this, MrgeHomeActivity.class);
+                    notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    notifyIntent.putExtra("spot_poll","spot_poll");
+                    startActivity(notifyIntent);*/
+                MrgeHomeActivity.spot_quiz = "spot_quiz";
+
+
+                Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_Quiz);
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
                 //}
             }
 

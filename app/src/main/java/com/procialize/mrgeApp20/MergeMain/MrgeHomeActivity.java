@@ -90,6 +90,7 @@ import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.DialogLivePoll.DialogLivePoll;
+import com.procialize.mrgeApp20.DialogQuiz.DialogQuiz;
 import com.procialize.mrgeApp20.Downloads.DocumentsActivity;
 import com.procialize.mrgeApp20.Downloads.DownloadsFragment;
 import com.procialize.mrgeApp20.EmptyViewActivity;
@@ -175,6 +176,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     public static int activetab;
     public static int flag = 0;
     public static String spot_poll = "S";
+    public static String spot_quiz = "SQ";
+
     public static ImageView headerlogoIv, notificationlogoIv, grid_image_view, list_image_view;
     public static TextView txtMainHeader;
     public static LinearLayout linear_livestream, linear_zoom, linear_layout, linear_changeView;
@@ -216,8 +219,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     String MY_PREFS_CATEGORY = "categorycnt";
     WallPostReciever mReceiver;
     SpotLivePollReciever spotLivePollReciever;
+    SpotQuizReciever spotQuizReciever;
     IntentFilter mFilter;
     IntentFilter spotLivePollFilter;
+    IntentFilter spotQuizFilter;
+
     String catcnt;
     LinearLayout linTab4, linTab3, linTab2;
     String zoom_meeting_id, zoom_password, zoom_status, zoom_time;//,youtube_stream_url,  stream_status, stream_time
@@ -355,14 +361,14 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             e.printStackTrace();
         }
 
-        Intent intent = getIntent();
+       /* Intent intent = getIntent();
         try {
             if (intent != null) {
                 spot_poll = intent.getStringExtra("spot_poll");
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
 
     }
@@ -751,6 +757,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             e.printStackTrace();
         }
 
+
+        try {
+            spotQuizReciever = new SpotQuizReciever();
+            spotQuizFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_SPOT_Quiz);
+            LocalBroadcastManager.getInstance(this).registerReceiver(spotQuizReciever, spotQuizFilter);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -4390,6 +4405,24 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             Log.d("service end", "service end");
         }
     }
+    private class SpotQuizReciever extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            Log.d("service end", "service end");
+            if(spot_quiz!=null) {
+                if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
+                    DialogQuiz dialogquiz = new DialogQuiz();
+                    dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this);
+                    spot_quiz = "S";
+
+                }
+            }
+
+
+        }
+    }
+
 
     private class SpotLivePollReciever extends BroadcastReceiver {
         @Override

@@ -19,6 +19,18 @@ public class FetchChatList {
     @Expose
     private String msg;
 
+    @SerializedName("data_pages")
+    @Expose
+    private String data_pages;
+
+    public String getData_pages() {
+        return data_pages;
+    }
+
+    public void setData_pages(String data_pages) {
+        this.data_pages = data_pages;
+    }
+
     public List<chat_list> getChatList() {
         return chatList;
     }

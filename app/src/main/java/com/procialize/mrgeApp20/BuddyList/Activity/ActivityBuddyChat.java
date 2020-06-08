@@ -72,7 +72,8 @@ public class ActivityBuddyChat extends AppCompatActivity {
     ImageView commentBt;
     public static String chat_id = "0";
     List<chat_list> chat_lists = new ArrayList<>();
-
+    String page = "0";
+    int pageNO,pageNumber = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,8 +210,19 @@ public class ActivityBuddyChat extends AppCompatActivity {
         qaRvrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                String chat_id = chat_lists.get(0).getId();
-                UserChatHistory(eventid,token,attendeeid,chat_id);
+               // String chat_id = chat_lists.get(0).getId();
+                pageNO = Integer.parseInt(page);
+
+                pageNumber++;
+                if(pageNumber<=pageNO){
+                    UserChatHistory(eventid, token, attendeeid, String.valueOf(pageNumber));
+                }else{
+                    if (qaRvrefresh.isRefreshing()) {
+                        qaRvrefresh.setRefreshing(false);
+                    }
+                    Toast.makeText(ActivityBuddyChat.this, "Chat loading complete", Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
     }
@@ -227,7 +239,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
                     commentEt.setText("");
                     commentBt.setEnabled(true);
 
-                    UserChatHistory(eventid,token,attendeeid,"");
+                    UserChatHistory(eventid,token,attendeeid,"1");
 
                 } else {
 
@@ -283,6 +295,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
 
         // specify an adapter (see also next example)
         if (response.body().getStatus().equalsIgnoreCase("success")) {
+            page = response.body().getData_pages();
 
             if (!(response.body().getChatList().isEmpty())) {
                 //  txtEmpty.setVisibility(View.GONE);

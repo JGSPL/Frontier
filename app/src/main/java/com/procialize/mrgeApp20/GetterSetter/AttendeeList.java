@@ -48,6 +48,18 @@ public class AttendeeList implements Serializable {
     @Expose
     private String attendeeType;
 
+    @SerializedName("buddy_status")
+    @Expose
+    private String buddy_status;
+
+    public String getBuddy_status() {
+        return buddy_status;
+    }
+
+    public void setBuddy_status(String buddy_status) {
+        this.buddy_status = buddy_status;
+    }
+
     public String getCreated() {
         return created;
     }

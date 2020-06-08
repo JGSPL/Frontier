@@ -89,7 +89,7 @@ import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
 public class AttendeeDetailActivity extends AppCompatActivity {
 
     public static final int RequestPermissionCode = 8;
-    String attendeeid, city, country, company, designation, description, totalrating, name, profile, mobile;
+    String attendeeid, city, country, company, designation, description, totalrating, name, profile, mobile,buddy_status;
     TextView tvname, tvcompany, tvdesignation, tvcity, tvmob, attendeetitle, tv_description;
     TextView sendbtn;
     Dialog myDialog;
@@ -195,6 +195,8 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             totalrating = getIntent().getExtras().getString("totalrating");
             profile = getIntent().getExtras().getString("profile");
             mobile = getIntent().getExtras().getString("mobile");
+            buddy_status = getIntent().getExtras().getString("buddy_status");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -223,8 +225,30 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         linMsg = findViewById(R.id.linMsg);
         linsave = findViewById(R.id.linsave);
         tv_description.setMovementMethod(new ScrollingMovementMethod());
+        if(buddy_status.equalsIgnoreCase("send_request")){
+            saveContact.setText("Add to buddy list");
 
-       // attendeetitle.setTextColor(Color.parseColor(colorActive));
+        }else  if(buddy_status.equalsIgnoreCase("friends")){
+            saveContact.setText("Added to buddy list");
+
+        }
+
+        saveContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(buddy_status.equalsIgnoreCase("send_request")) {
+
+                    AddBuddy(apikey, eventid, attendeeid);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Already added", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
+
+
+        // attendeetitle.setTextColor(Color.parseColor(colorActive));
        // tvname.setTextColor(Color.parseColor(colorActive));
         sendbtn = findViewById(R.id.sendMsg);
 
@@ -531,42 +555,6 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             }
         });
 
-        saveContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                /*Intent main = new Intent(getApplicationContext(), ActivityBuddyList.class);
-                startActivity(main);*/
-                AddBuddy(apikey,eventid,attendeeid);
-
-               /* if (mobile.isEmpty()) {
-                    Intent addContactIntent = new Intent(Contacts.Intents.Insert.ACTION, Contacts.People.CONTENT_URI);
-                    addContactIntent.putExtra(Contacts.Intents.Insert.NAME, name);
-                    addContactIntent.putExtra(Contacts.Intents.Insert.COMPANY, company);
-                    addContactIntent.putExtra(Contacts.Intents.Insert.PHONE, mobile);
-                    addContactIntent.putExtra(Contacts.Intents.Insert.JOB_TITLE, designation);
-
-                    startActivity(addContactIntent);
-                } else {
-                    try {
-                        Intent intent = new Intent(
-                                ContactsContract.Intents.SHOW_OR_CREATE_CONTACT,
-                                Uri.parse("tel:" + mobile));
-                        intent.putExtra(ContactsContract.Intents.Insert.NAME, name);
-                        intent.putExtra(ContactsContract.Intents.Insert.COMPANY, company);
-                        intent.putExtra(ContactsContract.Intents.Insert.PHONE, mobile);
-                        intent.putExtra(ContactsContract.Intents.Insert.JOB_TITLE, designation);
-
-                        intent.putExtra(ContactsContract.Intents.EXTRA_FORCE_CREATE, true);
-
-                        startActivity(intent);
-//                    addToContactList(AttendeeDetailActivity.this, name, mobile);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }*/
-            }
-        });
 
 
 /*
