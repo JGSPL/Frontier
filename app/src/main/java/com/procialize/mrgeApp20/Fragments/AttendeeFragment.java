@@ -93,7 +93,7 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
     private List<AttendeeList> attendeesDBList;
     private DBHelper dbHelper;
     LinearLayout linear;
-
+     String token;
 
     public AttendeeFragment() {
         // Required empty public constructor
@@ -174,7 +174,7 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
         HashMap<String, String> user = sessionManager.getUserDetails();
 
         // token
-        final String token = user.get(SessionManager.KEY_TOKEN);
+         token = user.get(SessionManager.KEY_TOKEN);
         crashlytics("Attendee",token);
         firbaseAnalytics(getActivity(),"Attendee",token);
         if (cd.isConnectingToInternet()) {
@@ -357,7 +357,18 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
     public void onResume() {
         super.onResume();
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        if (cd.isConnectingToInternet()) {
+            fetchFeed(token, eventid);
+        } else {
+            db = procializeDB.getReadableDatabase();
 
+            attendeesDBList = dbHelper.getAttendeeDetails();
+
+            attendeeAdapter = new AttendeeAdapter(getActivity(), attendeesDBList, this);
+            attendeeAdapter.notifyDataSetChanged();
+            attendeerecycler.setAdapter(attendeeAdapter);
+            attendeerecycler.scheduleLayoutAnimation();
+        }
     }
 
     /**

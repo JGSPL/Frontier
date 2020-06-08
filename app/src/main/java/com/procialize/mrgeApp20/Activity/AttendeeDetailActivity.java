@@ -119,7 +119,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
     private List<AttendeeList> attendeesDBList;
     private DBHelper dbHelper;
     private RelativeLayout layoutTop;
-
+    ImageView imgBuddy;
     LinearLayout ll_notification_count;
     TextView tv_notification;
 
@@ -224,14 +224,30 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         layoutTop = findViewById(R.id.layoutTop);
         linMsg = findViewById(R.id.linMsg);
         linsave = findViewById(R.id.linsave);
+        imgBuddy = findViewById(R.id.imgBuddy);
         tv_description.setMovementMethod(new ScrollingMovementMethod());
+
         if(buddy_status.equalsIgnoreCase("send_request")){
             saveContact.setText("Add to buddy list");
+            imgBuddy.setVisibility(View.VISIBLE);
 
         }else  if(buddy_status.equalsIgnoreCase("friends")){
             saveContact.setText("Added to buddy list");
+            linsave.setBackgroundColor(Color.parseColor(colorActive));
+            saveContact.setBackgroundColor(Color.parseColor(colorActive));
+            saveContact.setTextColor(Color.parseColor("#ffffff"));
+            imgBuddy.setVisibility(View.GONE);
+
+
+        }else if(buddy_status.equalsIgnoreCase("request_sent")){
+            saveContact.setText("Request sent");
+            linsave.setBackgroundColor(Color.parseColor(colorActive));
+            saveContact.setBackgroundColor(Color.parseColor(colorActive));
+            saveContact.setTextColor(Color.parseColor("#ffffff"));
+            imgBuddy.setVisibility(View.GONE);
 
         }
+
 
         saveContact.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -761,7 +777,14 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         if (response.body().getStatus().equalsIgnoreCase("Success")) {
             Log.e("post", "success");
 //            myDialog.dismiss();
-            saveContact.setText("Request send");
+            linsave.setBackgroundColor(Color.parseColor(colorActive));
+            saveContact.setBackgroundColor(Color.parseColor(colorActive));
+            saveContact.setTextColor(Color.parseColor("#ffffff"));
+            saveContact.setEnabled(false);
+            linsave.setEnabled(false);
+            imgBuddy.setVisibility(View.GONE);
+
+            saveContact.setText("Request sent");
             Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
         } else {
             Log.e("post", "fail");

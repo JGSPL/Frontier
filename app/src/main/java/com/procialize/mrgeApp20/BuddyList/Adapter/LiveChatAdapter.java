@@ -49,7 +49,7 @@ public class LiveChatAdapter extends BaseAdapter {
             ActivityBuddyChat.chat_id = directQuestionLists.get(0).getId();
         }
 
-         Collections.reverse(directQuestionLists);
+       // Collections.reverse(directQuestionLists);
 
         this.context = context;
 
