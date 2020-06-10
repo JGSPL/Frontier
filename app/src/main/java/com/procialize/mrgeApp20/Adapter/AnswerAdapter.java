@@ -66,17 +66,12 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.ViewHolder
                     holder.radio.setBackgroundResource(R.drawable.unchecked_radio);
                 }
             } else if (option.equalsIgnoreCase(SelectedAns)) {
-
                 holder.raiolayout.setBackgroundResource(R.drawable.quiz_wrong);
                 holder.radio.setBackgroundResource(R.drawable.checked_radio);
-
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         holder.textno1.setText(optionList.getOption());
     }
 

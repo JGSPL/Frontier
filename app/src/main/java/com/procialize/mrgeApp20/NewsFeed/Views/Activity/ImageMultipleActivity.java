@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.NewsFeed.Views.Activity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -28,6 +29,7 @@ import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -109,9 +111,11 @@ public class ImageMultipleActivity extends AppCompatActivity {
             context.startActivity(Intent.createChooser(sharingIntent,"share:"));
 
         } else {*/
+        final Dialog dialog = new Dialog(context);
         Picasso.with(context).load(url).into(new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                dialog.dismiss();
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("image/*");
                 // i.putExtra(Intent.EXTRA_SUBJECT, data);
@@ -121,10 +125,16 @@ public class ImageMultipleActivity extends AppCompatActivity {
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
+                dialog.dismiss();
             }
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.dialog_progress);
+                dialog.show();
+
             }
         });
         // }

@@ -51,6 +51,7 @@ import com.procialize.mrgeApp20.Utility.MyApplication;
 import com.procialize.mrgeApp20.Utility.ServiceHandler;
 import com.procialize.mrgeApp20.Utility.Util;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
@@ -200,7 +201,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         questionTv = (TextView) findViewById(R.id.questionTv);
         txt_count = (TextView) findViewById(R.id.txt_count);
         relative = (RelativeLayout) findViewById(R.id.relative);
-        questionTv.setText(foldername);
+        questionTv.setText(StringEscapeUtils.unescapeJava(foldername));
         quizNameList.setLayoutFrozen(true);
         //questionTv.setBackgroundColor(Color.parseColor(colorActive));
         btnNext.setBackgroundColor(Color.parseColor(colorActive));
@@ -499,7 +500,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                                 quiz_question_id = question_id[0];
                                 quiz_options_id = question_ans[0];
                                 int answers = pagerAdapter.getCorrectOption();
-                                new postQuizQuestion().execute();
+                                //new postQuizQuestion().execute();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
                             }
@@ -888,7 +889,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                     Log.d("Selected Options==>",quiz_options_id);
 
                     Toast.makeText(appDelegate, quiz_options_id, Toast.LENGTH_SHORT).show();
-                    new postQuizQuestion().execute();
+                    //new postQuizQuestion().execute();
                 } else {
                     Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
                 }

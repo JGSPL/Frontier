@@ -95,7 +95,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         final NotificationList notificationList = notificationLists.get(position);
 
         holder.notiLin.setBackgroundColor(Color.parseColor(colorActive));
-       // holder.nameTv.setTextColor(Color.parseColor(colorActive));
+       holder.nameTv.setTextColor(Color.parseColor(colorActive));
 
         int colorInt = Color.parseColor(colorActive);
 
