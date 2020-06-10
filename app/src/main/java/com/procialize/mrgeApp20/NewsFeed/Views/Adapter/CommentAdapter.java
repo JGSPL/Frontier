@@ -109,8 +109,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         holder.nameTv.setText(Html.fromHtml(styledText)+" "+StringEscapeUtils.unescapeJava(comment.getComment()), TextView.BufferType.SPANNABLE);*/
 
 
-/*       */
-
         try {
 //            Date date1 = formatter.parse(comment.getCreated());
 //
@@ -134,7 +132,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
             Date date1 = formatter.parse(comment.getCreated());
 
-            DateFormat originalFormat = new SimpleDateFormat("dd MMMM HH:mm aa", Locale.UK);
+            DateFormat originalFormat = new SimpleDateFormat("dd MMMM hh:mm aa", Locale.UK);
 
             String date = originalFormat.format(date1);
 

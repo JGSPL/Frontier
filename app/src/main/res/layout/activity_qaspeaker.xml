@@ -135,7 +135,7 @@
                 android:layout_height="match_parent"
                 android:padding="5dp"
                 android:clipToPadding="false"
-                android:paddingBottom="70dp">
+                android:paddingBottom="120dp">
 
             </androidx.recyclerview.widget.RecyclerView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

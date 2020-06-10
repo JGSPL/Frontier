@@ -5,6 +5,7 @@
     android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="com.procialize.mrgeApp20.Engagement.Fragment.EngagementFragment">
 
@@ -51,207 +52,212 @@
 
     </com.google.android.material.appbar.AppBarLayout>-->
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:gravity="top"
-            android:orientation="vertical">
+            android:fillViewport="true"
+            android:scrollbars="vertical">
 
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/selfiecard_view"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardUseCompatPadding="true">
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:gravity="top"
+                android:orientation="vertical">
 
-                <LinearLayout
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/selfiecard_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    card_view:cardUseCompatPadding="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_margin="10dp"
-                            android:src="@drawable/selfie_engagement_logo" />
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/selfieTv"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="top"
-                                android:gravity="center|left"
-                                android:text="Selfie Engagement"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/textsizesmall"
-                                android:textStyle="bold"/>
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_margin="10dp"
+                                android:src="@drawable/selfie_engagement_logo" />
 
-                            <TextView
-                                android:id="@+id/tv_selfie_total_items"
+                            <LinearLayout
                                 android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/selfieTv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="top"
+                                    android:gravity="center|left"
+                                    android:text="Selfie Engagement"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/textsizesmall"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tv_selfie_total_items"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="top"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="center|left"
+                                    android:text=""
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textColor="@color/black"
+                                    android:textSize="12dp" />
+
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="top"
-                                android:layout_marginTop="5dp"
-                                android:gravity="center|left"
-                                android:text=""
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/black"
-                                android:textSize="12dp" />
+                                android:layout_gravity="center"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/ic_rightarrow" />
 
                         </LinearLayout>
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:src="@drawable/ic_rightarrow" />
+                            android:background="@color/grey_light" />
 
+                        <TextView
+                            android:id="@+id/tv_selfie_desc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:layout_margin="10dp"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center|left"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/textsizesmall" />
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="bottom"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@color/grey_light" />
+                </androidx.cardview.widget.CardView>
 
-                    <TextView
-                        android:id="@+id/tv_selfie_desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_margin="10dp"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center|left"
-                        android:text=""
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/textsizesmall" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/videocard_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                card_view:cardUseCompatPadding="true">
-
-                <LinearLayout
+                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/videocard_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginTop="10dp"
+                    card_view:cardUseCompatPadding="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_margin="10dp"
-                            android:src="@drawable/video_engagement_logo" />
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/videoTv"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="top"
-                                android:gravity="center|left"
-                                android:text="Video Engagement"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/textsizesmall"
-                                android:textStyle="bold"/>
+                            <ImageView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_margin="10dp"
+                                android:src="@drawable/video_engagement_logo" />
 
-                            <TextView
-                                android:id="@+id/video_total_items"
+                            <LinearLayout
                                 android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/videoTv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="top"
+                                    android:gravity="center|left"
+                                    android:text="Video Engagement"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/textsizesmall"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/video_total_items"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="top"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="center|left"
+                                    android:text=""
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textColor="@color/black"
+                                    android:textSize="12dp" />
+
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="top"
-                                android:layout_marginTop="5dp"
-                                android:gravity="center|left"
-                                android:text=""
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textColor="@color/black"
-                                android:textSize="12dp" />
+                                android:layout_gravity="center"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/ic_rightarrow" />
 
                         </LinearLayout>
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:src="@drawable/ic_rightarrow" />
+                            android:background="@color/grey_light" />
 
+                        <TextView
+                            android:id="@+id/tv_video_desc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:layout_margin="10dp"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center|left"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/textsizesmall" />
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="bottom"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@color/grey_light" />
-
-                    <TextView
-                        android:id="@+id/tv_video_desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_margin="10dp"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center|left"
-                        android:text=""
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/textsizesmall" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
 
-
-        </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
 
     </RelativeLayout>
-
 </LinearLayout>

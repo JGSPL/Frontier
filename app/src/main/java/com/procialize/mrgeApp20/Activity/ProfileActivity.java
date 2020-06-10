@@ -1097,9 +1097,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_FILE) {
-//                onSelectFromGalleryResult(data);
+                onSelectFromGalleryResult(data);
 
-                Uri selectedImage = data.getData();
+                /*Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
                 Cursor cursor = getContentResolver().query(selectedImage,
@@ -1127,7 +1127,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, "Image selected",
                         Toast.LENGTH_SHORT).show();
 
-                cursor.close();
+                cursor.close();*/
             } else if (requestCode == REQUEST_CAMERA) {
                 onCaptureImageResult(data);
             } else if (requestCode == UCrop.REQUEST_CROP) {
@@ -1166,6 +1166,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         }
     }
+
 
     private void onCaptureImageResult(Intent data) {
         try {

@@ -580,7 +580,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
                 //DateFormat originalFormat = new SimpleDateFormat("dd MMM , HH:mm", Locale.UK);
                 //DateFormat originalFormat = new SimpleDateFormat("dd MMM HH:mm", Locale.UK);
-                DateFormat originalFormat = new SimpleDateFormat("dd MMM hh:mm a", Locale.UK);
+                DateFormat originalFormat = new SimpleDateFormat("dd MMMM hh:mm a", Locale.UK);
 
                 String date = originalFormat.format(date1);
 

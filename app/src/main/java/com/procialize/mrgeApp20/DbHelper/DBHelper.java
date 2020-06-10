@@ -23,6 +23,7 @@ import com.procialize.mrgeApp20.GetterSetter.NewsFeedList;
 import com.procialize.mrgeApp20.GetterSetter.NewsFeedPostMultimedia;
 import com.procialize.mrgeApp20.GetterSetter.NotificationList;
 import com.procialize.mrgeApp20.GetterSetter.Quiz;
+import com.procialize.mrgeApp20.GetterSetter.SponsorsList;
 import com.procialize.mrgeApp20.Speaker.Models.SpeakerList;
 import com.procialize.mrgeApp20.GetterSetter.UserData;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
@@ -239,10 +240,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public static final String EVENTINFO_TABLE = "EVENTINFO_TABLE";
+    public static final String SPONSOR_TABLE = "SPONSOR_TABLE";
 
     public static final String EVENTINFO_ID = "EVENT_ID";
     public static final String EVENTINFO_NAME = "EVENTINFO_NAME";
     public static final String EVENT_DESCRIPTION = "EVENT_DESCRIPTION";
+
+    public static final String SPONSOR_ID = "SPONSOR_ID";
+    public static final String SPONSOR_NAME = "SPONSOR_NAME";
+    public static final String SPONSOR_LOGO = "SPONSOR_LOGO";
 
     public static final String EVENT_START = "EVENT_START";
 
@@ -427,6 +433,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + EVENT_END + " text, " + EVENT_LOCATION + " text, " + EVENT_CITY + " text, "
                 + EVENT_COUNTRY + " text, " + EVENT_LATITUDE + " text, " + EVENT_LONGITUDE + " text, " + LOGO + " text)");
 
+        db.execSQL("create table " + SPONSOR_TABLE + "(" + SPONSOR_ID
+                + " text, " + SPONSOR_NAME + " text, " + SPONSOR_LOGO + " text)");
 
 
         try {
@@ -471,6 +479,7 @@ public class DBHelper extends SQLiteOpenHelper {
             db.execSQL("DELETE FROM " + NOTIFICATION_LIST);
             db.execSQL("DELETE FROM " + USER_TABLE_NAME);
             db.execSQL("DELETE FROM " + EVENTINFO_TABLE);
+            db.execSQL("DELETE FROM " + SPONSOR_TABLE);
             db.execSQL("DELETE FROM " + UPLOAD_MULTIMEDIA_TABLE);
 
             db.execSQL("DROP TABLE IF EXISTS " + ATTENDEES_TABLE_NAME);
@@ -1268,8 +1277,44 @@ public class DBHelper extends SQLiteOpenHelper {
         return;
     }
 
-    //get Agenda Media Info
+    public void insertSponsorInfo(List<SponsorsList> sponsorList,
+                                SQLiteDatabase db) {
 
+        db = this.getWritableDatabase();
+        ContentValues contentValues;
+        db.beginTransaction();
+        try {
+            for (int i = 0; i < sponsorList.size(); i++) {
+                contentValues = new ContentValues();
+
+                String sponsor_id = sponsorList.get(i).getId();
+                if (sponsor_id != null && sponsor_id.length() > 0) {
+                    contentValues.put(SPONSOR_ID, sponsor_id);
+                }
+
+                String sponsor_name = sponsorList.get(i).getLogo();
+                if (sponsor_name != null && sponsor_name.length() > 0) {
+                    contentValues.put(SPONSOR_LOGO, sponsor_name);
+                }
+
+                String sponsor_description = sponsorList.get(i).getName();
+                if (sponsor_description != null && sponsor_description.length() > 0) {
+                    contentValues.put(SPONSOR_NAME, sponsor_description);
+                }
+
+                db.insert(SPONSOR_TABLE, null, contentValues);
+            }
+
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
+        return;
+    }
+
+    //get Agenda Media Info
     public void insertAgendaMediaInfo(List<AgendaMediaList> agendasList,
                                       SQLiteDatabase db) {
         db = this.getWritableDatabase();
@@ -2059,6 +2104,27 @@ public class DBHelper extends SQLiteOpenHelper {
         return eventList;
     }
 
+    public List<SponsorsList> getSponsorList() {
+        String selectQuery = "select * from " + SPONSOR_TABLE;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        List<SponsorsList> sponsorsLists = new ArrayList<SponsorsList>();
+        if (cursor.moveToFirst()) {
+
+            do {
+                SponsorsList sponsorList = new SponsorsList();
+                sponsorList.setId(cursor.getString(0));
+                sponsorList.setName(cursor.getString(1));
+                sponsorList.setLogo(cursor.getString(2));
+
+                sponsorsLists.add(sponsorList);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return sponsorsLists;
+    }
+
     public List<AttendeeList> getAttendeeList() {
         String selectQuery = "select * from " + ATTENDEES_TABLE_NAME;
 
@@ -2744,6 +2810,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public void clearEventListTable() {
         SQLiteDatabase db = this.getReadableDatabase();
         db.execSQL(" DELETE FROM " + EVENTINFO_TABLE);
+    }
+
+    public void clearSponsorTable() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.execSQL(" DELETE FROM " + SPONSOR_TABLE);
     }
 
     public void clearAgendaTable() {

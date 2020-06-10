@@ -33,7 +33,6 @@ import com.procialize.mrgeApp20.GetterSetter.ExhibitoreBrochureViewUserListing;
 import com.procialize.mrgeApp20.GetterSetter.FetchAgenda;
 import com.procialize.mrgeApp20.GetterSetter.FetchAttendee;
 import com.procialize.mrgeApp20.GetterSetter.FetchFeed;
-import com.procialize.mrgeApp20.Speaker.Models.FetchSpeaker;
 import com.procialize.mrgeApp20.GetterSetter.Forgot;
 import com.procialize.mrgeApp20.GetterSetter.GalleryListFetch;
 import com.procialize.mrgeApp20.GetterSetter.GeneralInfoList;
@@ -81,6 +80,7 @@ import com.procialize.mrgeApp20.GetterSetter.VideoContestLikes;
 import com.procialize.mrgeApp20.GetterSetter.VideoContestListFetch;
 import com.procialize.mrgeApp20.GetterSetter.VideoFetchListFetch;
 import com.procialize.mrgeApp20.GetterSetter.Weather;
+import com.procialize.mrgeApp20.Speaker.Models.FetchSpeaker;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -98,13 +98,13 @@ public interface APIService {
     Call<Login> LoginPost(/*@Field("email") String email,
                           @Field("password") String password,
                           @Field("api_access_token") String api_access_token,*/
-                          @Field("event_id") String eventId,
-                          @Field("registration_id") String registration_id,
-                          @Field("platform") String platform,
-                          @Field("device") String device,
-                          @Field("os_version") String os_version,
-                          @Field("api_access_token") String api_access_token,
-                          @Field("app_version") String app_version);
+            @Field("event_id") String eventId,
+            @Field("registration_id") String registration_id,
+            @Field("platform") String platform,
+            @Field("device") String device,
+            @Field("os_version") String os_version,
+            @Field("api_access_token") String api_access_token,
+            @Field("app_version") String app_version);
 
     @POST("Login")
     @FormUrlEncoded
@@ -121,13 +121,18 @@ public interface APIService {
                                      @Field("password") String password);*/
 
 
-    @POST("LoginMobile")
+    @POST("commonLogin")
+    @FormUrlEncoded
+    Call<EventListing> EventListPost(@Field("username") String mobile);
+/*
+ @POST("LoginMobile")
     @FormUrlEncoded
     Call<EventListing> EventListPost(@Field("mobile") String mobile);
+*/
 
-    @POST("ResendOtp")
+    @POST("commonResendOtp")
     @FormUrlEncoded
-    Call<EventListing> ResendOtp(@Field("mobile") String mobile);
+    Call<EventListing> ResendOtp(@Field("username") String mobile);
 
 
     @POST("ExhibitorFetch")
@@ -384,9 +389,6 @@ public interface APIService {
                                           @Field("message_text") String message_text,
                                           @Field("target_attendee_id") String target_attendee_id,
                                           @Field("target_attendee_type") String target_attendee_type);
-
-
-
 
 
     @POST("SurveyFetch")
@@ -732,10 +734,11 @@ public interface APIService {
     @FormUrlEncoded
     Call<ContactListFetch> ContactListFetch(@Field("event_id") String event_id,
                                             @Field("api_access_token") String api_access_token);
+
     @POST("ContactHeplDeskFetch")
     @FormUrlEncoded
     Call<ContactListFetch> ContactHeplDeskFetch(@Field("event_id") String event_id,
-                                            @Field("api_access_token") String api_access_token);
+                                                @Field("api_access_token") String api_access_token);
 
     //buddy related api
     @POST("sendFriendRequest")
@@ -747,35 +750,35 @@ public interface APIService {
     @POST("cancelFriendRequest")
     @FormUrlEncoded
     Call<FetchSendRequest> cancelFriendRequest(@Field("event_id") String event_id,
-                                             @Field("api_access_token") String api_access_token,
-                                             @Field("buddy_id") String buddy_id);
+                                               @Field("api_access_token") String api_access_token,
+                                               @Field("buddy_id") String buddy_id);
 
     @POST("respondToFriendRequest")
     @FormUrlEncoded
     Call<FetchSendRequest> respondToFriendRequest(@Field("event_id") String event_id,
-                                               @Field("api_access_token") String api_access_token,
-                                               @Field("buddy_id") String buddy_id,
+                                                  @Field("api_access_token") String api_access_token,
+                                                  @Field("buddy_id") String buddy_id,
                                                   @Field("response") String response);
 
     @POST("getBuddyList")
     @FormUrlEncoded
     Call<FetchBuddyList> getBuddyList(@Field("event_id") String event_id,
                                       @Field("api_access_token") String api_access_token
-                                                  );
+    );
 
 
     @POST("EngagementListFetch")
     @FormUrlEncoded
     Call<FetchEngagementData> getEngagementData(@Field("event_id") String event_id,
                                                 @Field("api_access_token") String api_access_token
-                                                  );
+    );
+
     @POST("LiveChatPostUser")
     @FormUrlEncoded
     Call<FetchChatList> LiveChatPostUser(@Field("event_id") String event_id,
                                          @Field("api_access_token") String api_access_token,
                                          @Field("buddy_id") String buddy_id,
-                                         @Field("message") String message );
-
+                                         @Field("message") String message);
 
 
     @POST("EventInfoFetch")
@@ -784,41 +787,40 @@ public interface APIService {
                                         @Field("event_id") String event_id);
 
 
-
     @POST("getUserChathistory")
     @FormUrlEncoded
     Call<FetchChatList> UserChathistory(@Field("event_id") String event_id,
-                                         @Field("api_access_token") String api_access_token,
-                                         @Field("buddy_id") String buddy_id,
-                                         @Field("pageNumber") String message );
+                                        @Field("api_access_token") String api_access_token,
+                                        @Field("buddy_id") String buddy_id,
+                                        @Field("pageNumber") String message);
 
     @POST("SpotLivePollFetch")
     @FormUrlEncoded
     Call<LivePollFetch> SpotLivePollFetch(@Field("api_access_token") String api_access_token,
-                                       @Field("event_id") String event_id);
+                                          @Field("event_id") String event_id);
 
 
     @POST("SpotLivePollSubmit")
     @FormUrlEncoded
     Call<LivePollSubmitFetch> SpotLivePollSubmit(@Field("api_access_token") String api_access_token,
-                                           @Field("event_id") String event_id,
-                                           @Field("live_poll_id") String live_poll_id,
-                                           @Field("live_poll_options_id") String live_poll_options_id
-                                       );
+                                                 @Field("event_id") String event_id,
+                                                 @Field("live_poll_id") String live_poll_id,
+                                                 @Field("live_poll_options_id") String live_poll_options_id
+    );
 
     @POST("eventLiveChat")
     @FormUrlEncoded
     Call<FetchChatList> eventLiveChat(@Field("event_id") String event_id,
-                                         @Field("api_access_token") String api_access_token,
-                                         @Field("receiver_id") String buddy_id,
-                                         @Field("message") String message );
+                                      @Field("api_access_token") String api_access_token,
+                                      @Field("receiver_id") String buddy_id,
+                                      @Field("message") String message);
 
     @POST("getEventChatHistory")
     @FormUrlEncoded
     Call<FetchChatList> EventChatHistory(@Field("event_id") String event_id,
-                                        @Field("api_access_token") String api_access_token,
-                                        @Field("receiver_id") String buddy_id,
-                                        @Field("pageNumber") String message );
+                                         @Field("api_access_token") String api_access_token,
+                                         @Field("receiver_id") String buddy_id,
+                                         @Field("pageNumber") String message);
 
 
 }

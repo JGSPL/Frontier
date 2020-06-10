@@ -100,6 +100,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     private DBHelper dbHelper;
     private List<EventList> eventList;
     private List<EventList> eventDBList;
+    private List<SponsorsList> sponsorDBList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -152,7 +153,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                 // Add data to the intent, the receiving app will decide
                 // what to do with it.
                 share.putExtra(Intent.EXTRA_SUBJECT, nameTv.getText().toString());
-                share.putExtra(Intent.EXTRA_TEXT, event_desc.getText().toString());
+                share.putExtra(Intent.EXTRA_TEXT, "I am attending " + nameTv.getText().toString() + " using the MRGE app. Check out mrge.in for more");//event_desc.getText().toString());
 
                 startActivity(Intent.createChooser(share, "Share Event Info!"));
 
@@ -192,6 +193,21 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         if (cd.isConnectingToInternet()) {
             fetchEventInfo(token, eventid);
         }
+
+        db = dbHelper.getReadableDatabase();
+        sponsorDBList = dbHelper.getSponsorList();
+        if (!cd.isConnectingToInternet()) {
+            if (sponsorDBList.size() != 0) {
+                String sponsor_filePath = prefs.getString("sponsor_filePath", "");
+                SponsorAdapter sponsorAdapter1 = new SponsorAdapter(getActivity(), sponsorDBList, sponsor_filePath);
+                RecyclerView.LayoutManager mLayoutManager1 = new GridLayoutManager(getActivity(), 3);
+                rv_sponsors.setNestedScrollingEnabled(false);
+                rv_sponsors.setLayoutManager(mLayoutManager1);
+                rv_sponsors.setItemAnimator(new DefaultItemAnimator());
+                rv_sponsors.setAdapter(sponsorAdapter1);
+            }
+        }
+
         return view2;
     }
 
@@ -257,6 +273,11 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
             sponsorList = response.body().getSponsor_list();
             filePath = response.body().getSponsor_file_path();
 
+            SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("sponsor_filePath", filePath);
+            editor.commit();
+
             SponsorAdapter sponsorAdapter = new SponsorAdapter(getActivity(), sponsorList, filePath);
             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
             rv_sponsors.setLayoutManager(mLayoutManager);
@@ -265,6 +286,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
             db = dbHelper.getReadableDatabase();
             eventDBList = dbHelper.getEventListDetail();
+            sponsorDBList = dbHelper.getSponsorList();
             if (eventDBList.size() != 0) {
                 String startTime = "", endTime = "";
                 SimpleDateFormat sdf = new SimpleDateFormat(ApiConstant.dateformat + " HH:mm");
@@ -335,13 +357,31 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
                 try {
 
-                    //event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
-                    event_desc.setText(eventDBList.get(0).getEventDescription());
+                    event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                    //event_desc.setText(eventDBList.get(0).getEventDescription());
                     event_desc.setVisibility(View.VISIBLE);
                     //event_desc.setText("\n" + eventDBList.get(0).getEventDescription());
 
                     String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
+
                     Glide.with(getContext()).load(image_final_url)
+                            .placeholder(R.drawable.profilepic_placeholder)
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    logoIv.setImageResource(R.drawable.app_icon);
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    logoIv.setImageResource(R.drawable.app_icon);
+                                    return false;
+                                }
+                            }).into(logoIv);
+
+                   /* Glide.with(getContext()).load(image_final_url)
                             .apply(RequestOptions.skipMemoryCacheOf(true)).circleCrop()
                             .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).circleCrop()
                             .listener(new RequestListener<Drawable>() {
@@ -355,7 +395,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                                 public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                                     return false;
                                 }
-                            }).into(logoIv);
+                            }).into(logoIv);*/
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -383,7 +423,6 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
                     }
                 });
-
 
 /*
                 try {
@@ -436,10 +475,19 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                     }
                 });*/
             }
+            if (sponsorDBList.size() != 0) {
+                SponsorAdapter sponsorAdapter1 = new SponsorAdapter(getActivity(), sponsorDBList, filePath);
+                RecyclerView.LayoutManager mLayoutManager1 = new GridLayoutManager(getActivity(), 3);
+                rv_sponsors.setNestedScrollingEnabled(false);
+                rv_sponsors.setLayoutManager(mLayoutManager1);
+                rv_sponsors.setItemAnimator(new DefaultItemAnimator());
+                rv_sponsors.setAdapter(sponsorAdapter1);
+            }
         } else {
             if (response.body().getStatus().equalsIgnoreCase("success")) {
                 eventList = response.body().getEventList();
                 dbHelper.clearEventListTable();
+                dbHelper.clearSponsorTable();
                 dbHelper.insertEventInfo(eventList, db);
 
                 String startTime = "", endTime = "";
@@ -463,7 +511,14 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                 }
 
                 sponsorList = response.body().getSponsor_list();
+
+                dbHelper.insertSponsorInfo(sponsorList, db);
                 filePath = response.body().getSponsor_file_path();
+
+                SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("sponsor_filePath", filePath);
+                editor.commit();
 
                 SponsorAdapter sponsorAdapter = new SponsorAdapter(getActivity(), sponsorList, filePath);
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
@@ -532,27 +587,27 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                         //   view.setVisibility(View.GONE);
                     }
 
-                    //event_desc.setText(response.body().getEventList().get(0).getEventLocation() + "\n\n" + response.body().getEventList().get(0).getEventDescription());
-                    event_desc.setText(response.body().getEventList().get(0).getEventDescription());
+                    event_desc.setText(response.body().getEventList().get(0).getEventLocation() + "\n\n" + response.body().getEventList().get(0).getEventDescription());
+                    // event_desc.setText(response.body().getEventList().get(0).getEventDescription());
                     String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + response.body().getEventList().get(0).getLogo();
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
                     Glide.with(getContext()).load(image_final_url)
-                            .apply(RequestOptions.skipMemoryCacheOf(true)).circleCrop()
-                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            .placeholder(R.drawable.profilepic_placeholder)
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    logoIv.setImageResource(R.drawable.app_icon);
+                                    return false;
+                                }
 
-                            // logoIv.setImageResource(R.drawable.profilepic_placeholder);
-                            return true;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-
-                            return false;
-                        }
-                    }).into(logoIv);
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    logoIv.setImageResource(R.drawable.app_icon);
+                                    return false;
+                                }
+                            }).into(logoIv);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -718,27 +773,27 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                     }
 
                     String eventDescription = eventDBList.get(0).getEventDescription();
-                    // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
-                    event_desc.setText(eventDescription);
+                    event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                    // event_desc.setText(eventDescription);
                     String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
                     Glide.with(getContext()).load(image_final_url)
-                            .apply(RequestOptions.skipMemoryCacheOf(true))
-                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            .placeholder(R.drawable.profilepic_placeholder)
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    logoIv.setImageResource(R.drawable.app_icon);
+                                    return false;
+                                }
 
-                            logoIv.setImageResource(R.drawable.profilepic_placeholder);
-                            return true;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-
-                            return false;
-                        }
-                    }).into(logoIv);
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    logoIv.setImageResource(R.drawable.app_icon);
+                                    return false;
+                                }
+                            }).into(logoIv);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
