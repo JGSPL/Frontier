@@ -92,7 +92,8 @@ import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
 public class AttendeeDetailActivity extends AppCompatActivity {
 
     public static final int RequestPermissionCode = 8;
-    String attendeeid, city, country, company, designation, description, totalrating, name, profile, mobile,buddy_status;
+    String attendeeid, city, country, company, designation,
+            description, totalrating, name, profile, mobile,buddy_status,page_status;
     TextView tvname, tvcompany, tvdesignation, tvcity, tvmob, attendeetitle, tv_description;
     TextView sendbtn;
     Dialog myDialog;
@@ -199,6 +200,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             profile = getIntent().getExtras().getString("profile");
             mobile = getIntent().getExtras().getString("mobile");
             buddy_status = getIntent().getExtras().getString("buddy_status");
+           // page_status = getIntent().getExtras().getString("page_status");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -376,12 +378,16 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             linearsaveandsend.setVisibility(View.VISIBLE);
         }
 
+       // LinearLayout linCoounter = findViewById(R.id.linCoounter);
         if (attendeemsg.equalsIgnoreCase("1")) {
             linMsg.setVisibility(View.VISIBLE);
             posttextEt.setVisibility(View.VISIBLE);
+          // linCoounter.setVisibility(View.VISIBLE);
         } else {
             linMsg.setVisibility(View.GONE);
             posttextEt.setVisibility(View.GONE);
+           // linCoounter.setVisibility(View.GONE);
+
         }
 
         if (attendee_savecontact.equalsIgnoreCase("1")) {

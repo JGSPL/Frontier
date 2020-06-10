@@ -153,7 +153,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
         iv_buddy_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent attendeetail = new Intent(AttendeeChatActivity.this, AttendeeDetailActivity.class);
+                Intent attendeetail = new Intent(AttendeeChatActivity.this, AttendeeDetailChat.class);
                 attendeetail.putExtra("id", attendeeid);
                 attendeetail.putExtra("name", name);
                 attendeetail.putExtra("city", city);
@@ -164,6 +164,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
                 attendeetail.putExtra("profile", profile);
                 attendeetail.putExtra("mobile", mobile);
                 attendeetail.putExtra("buddy_status", buddy_status);
+               // attendeetail.putExtra("page_status", "ChatPage");
 
 //                speakeretail.putExtra("totalrate",attendee.getTotalRating());
                 startActivity(attendeetail);
