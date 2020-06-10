@@ -193,7 +193,7 @@ public class QuizPagerAdapter extends PagerAdapter {
 //                    rdbtn.setButtonDrawable(R.drawable.radio_buttontoggle_first);
                     rdbtn.setPaddingRelative(5, 5, 5, 5);
                     rdbtn.setPadding(15, 15, 15, 15);
-
+                    rdbtn.setTextColor(activity.getResources().getColor(R.color.textcolorLight));
 
                     if (checkArray[position] != null) {
                         if (rdbtn.getText().toString().equalsIgnoreCase(checkArray[position])) {
@@ -240,8 +240,8 @@ public class QuizPagerAdapter extends PagerAdapter {
                 raiolayout.setVisibility(View.GONE);
             }
 
-            quiz_title_txt.setText(quizList.get(position).getQuestion());
-            quiz_question_distruct.setText(quizList.get(position).getQuestion());
+            quiz_title_txt.setText(StringEscapeUtils.unescapeJava(quizList.get(position).getQuestion()));
+            quiz_question_distruct.setText(StringEscapeUtils.unescapeJava(quizList.get(position).getQuestion()));
 
 
         } else if (quizList.get(position).getQuiz_type().equalsIgnoreCase("1")) {

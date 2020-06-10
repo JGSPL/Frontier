@@ -61,6 +61,20 @@ public class YourScoreActivity extends AppCompatActivity {
 
 
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+
+
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               /* Intent intent = new Intent(QuizNewActivity.this, FolderQuizActivity.class);
+                startActivity(intent);*/
+                finish();
+
+            }
+        });
+
+
         txt_count = findViewById(R.id.txt_count);
         questionTv = findViewById(R.id.questionTv);
         btn_ok = findViewById(R.id.btn_ok);

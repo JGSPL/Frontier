@@ -793,11 +793,16 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                     startActivity(MainIntent);
                     finish();
                 }
+
+                if(is_completed.equalsIgnoreCase("1"))
+                {
+                    Toast.makeText(PostNewActivity.this, "Post uploaded successfully..!!", Toast.LENGTH_SHORT)
+                            .show();
+                }
             } else {
                 Toast.makeText(PostNewActivity.this, message, Toast.LENGTH_SHORT)
                         .show();
             }
         }
     }
-
 }

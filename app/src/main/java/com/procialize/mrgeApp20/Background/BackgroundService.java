@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -555,6 +556,10 @@ public class BackgroundService extends IntentService {
                     dbHelper.updateMultimediaInfo(media_file, news_feed_id1, db, media_file_thumb, folderUniqueId);
                     message = json.getString("msg");
                     getFileToUpload();
+                    /*if(is_completed.equalsIgnoreCase("1"))
+                    {
+                        Toast.makeText(this, "Post Uploaded successfully", Toast.LENGTH_SHORT).show();
+                    }*/
                 } else {
                     dbHelper.getReadableDatabase();
                     SQLiteDatabase db = dbHelper.getWritableDatabase();

@@ -1,6 +1,7 @@
 package com.procialize.mrgeApp20.NewsFeed.Views.Fragment;
 
 
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -27,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
@@ -153,10 +155,12 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         // Required empty public constructor
     }
 
-    static public void shareImage(final String data, String url, final Context context) {
+    public void shareImage(final String data, String url, final Context context) {
+        final Dialog dialog = new Dialog(context);
         Picasso.with(context).load(url).into(new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                dialog.dismiss();
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("image/*");
                 i.putExtra(Intent.EXTRA_SUBJECT, data);
@@ -167,10 +171,19 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
+                dialog.dismiss();
             }
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.dialog_progress);
+                dialog.show();
+
+                //Toast.makeText(context, "Please wait for image download", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -1419,10 +1432,12 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             fetchFeed(token, eventid);
             tv_uploading.clearAnimation();
             tv_uploading.setVisibility(View.GONE);
+            Toast.makeText(context, "Post uploaded successfully..!!", Toast.LENGTH_SHORT).show();
             // progressbarForSubmit.setProgress(Integer.parseInt(String.valueOf(progress)));
             /* mTvCapital.setText("Capital : " + capital);*/
         }
     }
+
 
 
 }

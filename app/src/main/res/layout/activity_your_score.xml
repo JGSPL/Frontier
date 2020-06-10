@@ -185,7 +185,7 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="I'm hosting a quiz show,\nbut I never considered myself\na game show host,"
+                android:text="I'm hosting a quiz show,\nbut I never considered myself\na game show host."
                 android:textColor="@color/textcolorLight"
                 android:textSize="14dp" />
 

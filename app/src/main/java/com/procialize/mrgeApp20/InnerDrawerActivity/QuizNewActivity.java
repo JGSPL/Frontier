@@ -47,6 +47,7 @@ import com.procialize.mrgeApp20.Utility.MyApplication;
 import com.procialize.mrgeApp20.Utility.ServiceHandler;
 import com.procialize.mrgeApp20.Utility.Util;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
@@ -174,7 +175,8 @@ public class QuizNewActivity extends AppCompatActivity implements View.OnClickLi
         quizNameList.setAnimationCacheEnabled(true);
         quizNameList.setDrawingCacheEnabled(true);
         quizNameList.hasFixedSize();
-        questionTv.setText(foldername);
+       // questionTv.setText(foldername);
+        questionTv.setText(StringEscapeUtils.unescapeJava(foldername));
         quizNameList.setLayoutFrozen(true);
 //        quizNameList.setNestedScrollingEnabled(false);
         quizNameList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -206,7 +208,7 @@ public class QuizNewActivity extends AppCompatActivity implements View.OnClickLi
                 if (i != count) {
 //                    if (option != llm.findLastVisibleItemPosition()) {
                     quizNameList.getLayoutManager().scrollToPosition(llm.findLastVisibleItemPosition() + 1);
-                    txt_count.setText("QUestions "+(count + 1) + "/" + i);
+                    txt_count.setText("Questions "+(count + 1) + "/" + i);
                     count = count + 1;
                     if (quizList.size() == llm.findLastVisibleItemPosition() + 2) {
 

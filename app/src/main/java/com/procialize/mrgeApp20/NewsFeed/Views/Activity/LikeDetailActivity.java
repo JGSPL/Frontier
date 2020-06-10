@@ -580,7 +580,7 @@ public class LikeDetailActivity extends AppCompatActivity {
             like_list.setAdapter(likeAdapter);
 
             if (attendeeLists.size() == 1) {
-                tv_header.setText(attendeeLists.size() + " Likes");
+                tv_header.setText(attendeeLists.size() + " Like");
             }else if (attendeeLists.size() == 0) {
                 tv_header.setText("0" + " Likes");
             } else {
