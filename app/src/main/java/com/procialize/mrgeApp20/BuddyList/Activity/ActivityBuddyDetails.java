@@ -112,7 +112,7 @@ public class ActivityBuddyDetails extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorwhite), PorterDuff.Mode.SRC_ATOP);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,7 +194,7 @@ public class ActivityBuddyDetails extends AppCompatActivity {
         txtRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AccectRejectMethod(eventid,apikey,attendeeid,"4");
+                AccectRejectMethod(eventid,apikey,attendeeid,"03");
 
             }
         });
@@ -453,6 +453,7 @@ public class ActivityBuddyDetails extends AppCompatActivity {
         if (response.body().getStatus().equalsIgnoreCase("success")) {
             Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
             //fetchFeed(token, eventid);
+            finish();
 
         } else {
 
