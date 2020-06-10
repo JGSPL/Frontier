@@ -1,7 +1,6 @@
-package com.procialize.mrgeApp20.BuddyList.Activity;
+package com.procialize.mrgeApp20.AttendeeChat;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,13 +15,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,10 +34,11 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
-import com.procialize.mrgeApp20.BuddyList.Adapter.LiveChatAdapter;
+import com.procialize.mrgeApp20.AttendeeChat.Adapter.AttendeeChatAdapter;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
 import com.procialize.mrgeApp20.R;
@@ -57,12 +55,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityBuddyChat extends AppCompatActivity {
+public class AttendeeChatActivity extends AppCompatActivity {
 
-    private String attendeeid, name, city, country, company, designation, description, totalrating, profile, mobile;
+    private String attendeeid, name, city, country, company, designation, description, totalrating, profile, mobile,
+            buddy_status;
     ImageView iv_buddy_details,profileIV;
     TextView title, sub_title;
-    public LiveChatAdapter liveChatAdapter;
+    public AttendeeChatAdapter liveChatAdapter;
     String token;
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid, colorActive;
@@ -78,7 +77,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
     public static String chat_id = "0";
     List<chat_list> chat_lists = new ArrayList<>();
     List<chat_list> chat_NewAdd = new ArrayList<>();
-    public static String SpotChat="";
+    public static String SpotEventChat="";
 
     String page = "0";
     int pageNO,pageNumber = 1;
@@ -120,6 +119,8 @@ public class ActivityBuddyChat extends AppCompatActivity {
             totalrating = getIntent().getExtras().getString("totalrating");
             profile = getIntent().getExtras().getString("profile");
             mobile = getIntent().getExtras().getString("mobile");
+            buddy_status = getIntent().getExtras().getString("buddy_status");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -152,7 +153,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
         iv_buddy_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent attendeetail = new Intent(ActivityBuddyChat.this, ActivityBuddyDetails.class);
+                Intent attendeetail = new Intent(AttendeeChatActivity.this, AttendeeDetailActivity.class);
                 attendeetail.putExtra("id", attendeeid);
                 attendeetail.putExtra("name", name);
                 attendeetail.putExtra("city", city);
@@ -162,6 +163,8 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 attendeetail.putExtra("description", description);
                 attendeetail.putExtra("profile", profile);
                 attendeetail.putExtra("mobile", mobile);
+                attendeetail.putExtra("buddy_status", buddy_status);
+
 //                speakeretail.putExtra("totalrate",attendee.getTotalRating());
                 startActivity(attendeetail);
             }
@@ -172,14 +175,14 @@ public class ActivityBuddyChat extends AppCompatActivity {
     void init(){
         progressBar = findViewById(R.id.progressBar);
         qaRvrefresh = findViewById(R.id.qaRvrefresh);
-         qaRv = findViewById(R.id.qaRv);
+        qaRv = findViewById(R.id.qaRv);
         txtEmpty = findViewById(R.id.txtEmpty);
         commentEt = findViewById(R.id.commentEt);
         commentBt = findViewById(R.id.commentBt);
 
-        mAPIService = ApiUtils.getBuddyAPIService();
+        mAPIService = ApiUtils.getAPIService();
 
-        SessionManager sessionManager = new SessionManager(ActivityBuddyChat.this);
+        SessionManager sessionManager = new SessionManager(AttendeeChatActivity.this);
 
         HashMap<String, String> user = sessionManager.getUserDetails();
 
@@ -210,7 +213,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
                     PostChat(eventid,token,attendeeid,msg);
                     commentBt.setEnabled(false);
                 } else {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBuddyChat.this);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(AttendeeChatActivity.this);
                     builder.setTitle("");
                     builder.setMessage("Please post a message");
 
@@ -229,7 +232,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
         qaRvrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-               // String chat_id = chat_lists.get(0).getId();
+                // String chat_id = chat_lists.get(0).getId();
                 pageNO = Integer.parseInt(page);
 
                 pageNumber= pageNumber+1;
@@ -239,7 +242,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
                     if (qaRvrefresh.isRefreshing()) {
                         qaRvrefresh.setRefreshing(false);
                     }
-                    Toast.makeText(ActivityBuddyChat.this, "Chat loading complete", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AttendeeChatActivity.this, "Chat loading complete", Toast.LENGTH_SHORT).show();
                     pageNumber = 1;
                 }
             }
@@ -251,28 +254,24 @@ public class ActivityBuddyChat extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             /*chat_id.replace("chat_","");
             String BuddyId = chat_id;*/
-            String BuddyId = chat_id.replace("chat_", "");
+            String BuddyId = chat_id.replace("eventchat_", "");
             Log.d("service end", "service end");
             if(BuddyId.equalsIgnoreCase(attendeeid)) {
-                if (SpotChat != null) {
-                    if (SpotChat.equalsIgnoreCase("chat")) {
+                if (SpotEventChat != null) {
+                    if (SpotEventChat.equalsIgnoreCase("Eventchat")) {
                         UserChatHistoryRefresh(eventid, token, attendeeid, "1");
-                        SpotChat = "S";
+                        SpotEventChat = "S";
                         pageNumber = 1;
 
                     }
                 }
             }
-
-           /* DialogLivePoll dialogLivePoll = new DialogLivePoll();
-            dialogLivePoll.welcomeLivePollDialog(MrgeHomeActivity.this);
-*/
         }
     }
 
 
     private void PostChat(final String eventid, final String token, String budd_id,String msg) {
-        mAPIService.LiveChatPostUser(eventid,token,budd_id,msg).enqueue(new Callback<FetchChatList>() {
+        mAPIService.eventLiveChat(eventid,token,budd_id,msg).enqueue(new Callback<FetchChatList>() {
             @Override
             public void onResponse(Call<FetchChatList> call, Response<FetchChatList> response) {
 
@@ -283,25 +282,25 @@ public class ActivityBuddyChat extends AppCompatActivity {
                     commentEt.setText("");
                     commentBt.setEnabled(true);
                     showResponsePost(response);
-                   // UserChatHistory(eventid,token,attendeeid,"1");
+                    // UserChatHistory(eventid,token,attendeeid,"1");
 
                 } else {
 
-                    Toast.makeText(ActivityBuddyChat.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AttendeeChatActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
 
             @Override
             public void onFailure(Call<FetchChatList> call, Throwable t) {
-                Toast.makeText(ActivityBuddyChat.this, "Low network or no network", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AttendeeChatActivity.this, "Low network or no network", Toast.LENGTH_SHORT).show();
 
             }
         });
     }
 
     private void UserChatHistoryRefresh(final String eventid, final String token, String budd_id,String msg) {
-        mAPIService.UserChathistory(eventid,token,budd_id,msg).enqueue(new Callback<FetchChatList>() {
+        mAPIService.EventChatHistory(eventid,token,budd_id,msg).enqueue(new Callback<FetchChatList>() {
             @Override
             public void onResponse(Call<FetchChatList> call, Response<FetchChatList> response) {
 
@@ -318,7 +317,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
 
                 } else {
 
-                    Toast.makeText(ActivityBuddyChat.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AttendeeChatActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -328,7 +327,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 if (qaRvrefresh.isRefreshing()) {
                     qaRvrefresh.setRefreshing(false);
                 }
-                Toast.makeText(ActivityBuddyChat.this, "Low network or no network", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AttendeeChatActivity.this, "Low network or no network", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -352,7 +351,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 pageNumber = 1;
 
 
-                liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists,attendeeid);
+                liveChatAdapter = new AttendeeChatAdapter(AttendeeChatActivity.this, chat_lists,attendeeid);
                 liveChatAdapter.notifyDataSetChanged();
                 qaRv.setAdapter(liveChatAdapter);
                 liveChatAdapter.notifyDataSetChanged();
@@ -375,7 +374,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
 
         // specify an adapter (see also next example)
         if (response.body().getStatus().equalsIgnoreCase("success")) {
-           // page = response.body().getData_pages();
+            // page = response.body().getData_pages();
 
             if (!(response.body().getChatList().isEmpty())) {
 
@@ -387,10 +386,10 @@ public class ActivityBuddyChat extends AppCompatActivity {
                     chat_lists.add(response.body().getChatList().get(i));
                 }
                 Collections.reverse(chat_lists);
-                pageNumber = 0;
+                pageNumber = 1;
 
 
-                liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists,attendeeid);
+                liveChatAdapter = new AttendeeChatAdapter(AttendeeChatActivity.this, chat_lists,attendeeid);
                 liveChatAdapter.notifyDataSetChanged();
                 qaRv.setAdapter(liveChatAdapter);
                 liveChatAdapter.notifyDataSetChanged();
@@ -410,7 +409,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
 
 
     private void UserChatHistory(final String eventid, final String token, String budd_id,String msg) {
-        mAPIService.UserChathistory(eventid,token,budd_id,msg).enqueue(new Callback<FetchChatList>() {
+        mAPIService.EventChatHistory(eventid,token,budd_id,msg).enqueue(new Callback<FetchChatList>() {
             @Override
             public void onResponse(Call<FetchChatList> call, Response<FetchChatList> response) {
 
@@ -419,7 +418,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
                         qaRvrefresh.setRefreshing(false);
                     }
                     Log.i("hit", "post submitted to API." + response.body().toString());
-                  //WS  ZAXDFRTGHNB  Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                    //WS  ZAXDFRTGHNB  Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
 
                     // QAFetch(token, eventid);
@@ -427,7 +426,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
 
                 } else {
 
-                    Toast.makeText(ActivityBuddyChat.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AttendeeChatActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -437,7 +436,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 if (qaRvrefresh.isRefreshing()) {
                     qaRvrefresh.setRefreshing(false);
                 }
-                Toast.makeText(ActivityBuddyChat.this, "Low network or no network", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AttendeeChatActivity.this, "Low network or no network", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -478,7 +477,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 }
 
 
-                liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists,attendeeid);
+                liveChatAdapter = new AttendeeChatAdapter(AttendeeChatActivity.this, chat_lists,attendeeid);
                 liveChatAdapter.notifyDataSetChanged();
                 qaRv.setAdapter(liveChatAdapter);
                 liveChatAdapter.notifyDataSetChanged();
@@ -491,20 +490,12 @@ public class ActivityBuddyChat extends AppCompatActivity {
 
 
             } else {
-             //   txtEmpty.setVisibility(View.VISIBLE);
-
-                
-                    //txtEmpty.setText("Start conversation \n with VIP Support Team");
-
-
-               
 
             }
 
 
 
         } else {
-           // Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
         }
     }

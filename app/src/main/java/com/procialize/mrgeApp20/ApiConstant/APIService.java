@@ -805,4 +805,20 @@ public interface APIService {
                                            @Field("live_poll_id") String live_poll_id,
                                            @Field("live_poll_options_id") String live_poll_options_id
                                        );
+
+    @POST("eventLiveChat")
+    @FormUrlEncoded
+    Call<FetchChatList> eventLiveChat(@Field("event_id") String event_id,
+                                         @Field("api_access_token") String api_access_token,
+                                         @Field("receiver_id") String buddy_id,
+                                         @Field("message") String message );
+
+    @POST("getEventChatHistory")
+    @FormUrlEncoded
+    Call<FetchChatList> EventChatHistory(@Field("event_id") String event_id,
+                                        @Field("api_access_token") String api_access_token,
+                                        @Field("receiver_id") String buddy_id,
+                                        @Field("pageNumber") String message );
+
+
 }

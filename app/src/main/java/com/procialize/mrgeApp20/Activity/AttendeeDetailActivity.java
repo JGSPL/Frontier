@@ -55,7 +55,9 @@ import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
-import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyList;
+import com.procialize.mrgeApp20.AttendeeChat.Adapter.AttendeeChatAdapter;
+import com.procialize.mrgeApp20.AttendeeChat.AttendeeChatActivity;
+import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchSendRequest;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
@@ -73,6 +75,7 @@ import com.squareup.picasso.Picasso;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -559,12 +562,14 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         linMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (posttextEt.getText().toString().length() > 0) {
 
                     String msg = StringEscapeUtils.escapeJava(posttextEt.getText().toString());
                     linMsg.setEnabled(false);
                     linMsg.setClickable(false);
-                    PostMesssage(eventid, msg, apikey, attendeeid);
+                    //PostMesssage(eventid, msg, apikey, attendeeid);
+                    PostChat(eventid,apikey,attendeeid,msg);
                 } else {
                     Toast.makeText(getApplicationContext(), "Enter Message", Toast.LENGTH_SHORT).show();
                 }
@@ -594,6 +599,64 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         //----------------------------------------------------------------------------------
 
     }
+    private void PostChat(final String eventid, final String token, String budd_id,String msg) {
+        mAPIService.eventLiveChat(eventid,token,budd_id,msg).enqueue(new Callback<FetchChatList>() {
+            @Override
+            public void onResponse(Call<FetchChatList> call, Response<FetchChatList> response) {
+
+                if (response.isSuccessful()) {
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                    Log.i("hit", "post submitted to API." + response.body().toString());
+                    Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                    showResponsePost(response);
+                    // UserChatHistory(eventid,token,attendeeid,"1");
+
+                } else {
+
+                    Toast.makeText(AttendeeDetailActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<FetchChatList> call, Throwable t) {
+                Toast.makeText(AttendeeDetailActivity.this, "Low network or no network", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+    public void showResponsePost(Response<FetchChatList> response) {
+
+        // specify an adapter (see also next example)
+        if (response.body().getStatus().equalsIgnoreCase("success")) {
+            // page = response.body().getData_pages();
+
+            if (!(response.body().getChatList().isEmpty())) {
+
+                Intent attendeetail = new Intent(AttendeeDetailActivity.this, AttendeeChatActivity.class);
+                attendeetail.putExtra("id", attendeeid);
+                attendeetail.putExtra("name", name);
+                attendeetail.putExtra("city", city);
+                attendeetail.putExtra("country", country);
+                attendeetail.putExtra("company", company);
+                attendeetail.putExtra("designation", designation);
+                attendeetail.putExtra("description", description);
+                attendeetail.putExtra("profile", profile);
+                attendeetail.putExtra("mobile", mobile);
+//                speakeretail.putExtra("totalrate",attendee.getTotalRating());
+                startActivity(attendeetail);
+                finish();
+
+            } else {
+
+            }
+
+        } else {
+
+        }
+    }
+
 
     public boolean CheckingPermissionIsEnabledOrNot() {
 

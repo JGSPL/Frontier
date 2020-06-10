@@ -547,6 +547,8 @@ public class LikeDetailActivity extends AppCompatActivity {
                     showPostLikeListresponse(response);
                 } else {
 //                    dismissProgress();
+                    tv_header.setText("0" + " Likes");
+
                     Toast.makeText(LikeDetailActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -578,7 +580,9 @@ public class LikeDetailActivity extends AppCompatActivity {
             like_list.setAdapter(likeAdapter);
 
             if (attendeeLists.size() == 1) {
-                tv_header.setText(attendeeLists.size() + " Like");
+                tv_header.setText(attendeeLists.size() + " Likes");
+            }else if (attendeeLists.size() == 0) {
+                tv_header.setText("0" + " Likes");
             } else {
                 tv_header.setText(attendeeLists.size() + " Likes");
             }

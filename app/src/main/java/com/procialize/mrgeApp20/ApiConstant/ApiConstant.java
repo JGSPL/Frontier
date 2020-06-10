@@ -8,6 +8,7 @@ public class ApiConstant {
 
     public static final String BROADCAST_ACTION_FOR_SPOT_LIVE_POLL = "com.procialize.eventsapp.BROADCAST.spot_live_poll";
     public static final String BROADCAST_ACTION_FOR_SPOT_Quiz = "com.procialize.eventsapp.BROADCAST.spot_Quiz";
+    public static final String BROADCAST_ACTION_FOR_SPOT_ChatBuddy = "com.procialize.eventsapp.BROADCAST.spot_Chat";
 
     public static final String BROADCAST_ACTION_FOR_NOTIFICATION_COUNT = "com.procialize.eventsapp.BROADCAST.notification_count";
     public static final String BROADCAST_ACTION = "com.procialize.eventsapp.BROADCAST";

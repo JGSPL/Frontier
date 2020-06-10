@@ -22,6 +22,8 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.procialize.mrgeApp20.Activity.SplashActivity;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
+import com.procialize.mrgeApp20.AttendeeChat.AttendeeChatActivity;
+import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyChat;
 import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
@@ -120,12 +122,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (msgTye.equalsIgnoreCase("spot_quiz")) {
 
 
-                // if(!MyApplication.isAppDestoryed) {
-                    /*Intent notifyIntent = new Intent(this, MrgeHomeActivity.class);
-                    notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    notifyIntent.putExtra("spot_poll","spot_poll");
-                    startActivity(notifyIntent);*/
+
                 MrgeHomeActivity.spot_quiz = "spot_quiz";
 
 
@@ -133,6 +130,30 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
                 //}
             }
+            if (msgTye.contains("chat_")) {
+
+
+
+                ActivityBuddyChat.SpotChat = "chat";
+                ActivityBuddyChat.chat_id = msgTye;
+
+                Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_ChatBuddy);
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+                //}
+            }
+            if (msgTye.contains("eventchat_")) {
+
+
+
+                AttendeeChatActivity.SpotEventChat = "Eventchat";
+                AttendeeChatActivity.chat_id = msgTye;
+
+                Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_ChatBuddy);
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+                //}
+            }
+
+
 
         } catch (Exception e) {
             e.printStackTrace();

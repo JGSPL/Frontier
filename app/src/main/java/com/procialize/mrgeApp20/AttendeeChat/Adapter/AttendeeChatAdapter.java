@@ -1,4 +1,4 @@
-package com.procialize.mrgeApp20.BuddyList.Adapter;
+package com.procialize.mrgeApp20.AttendeeChat.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
-import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyChat;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Utility.Utility;
@@ -21,14 +20,13 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class LiveChatAdapter extends BaseAdapter {
+public class AttendeeChatAdapter extends BaseAdapter {
 
     String token, message;
     String QA_like_question, QA_reply_question;
@@ -43,10 +41,10 @@ public class LiveChatAdapter extends BaseAdapter {
     private String att_id;
     String size = "5";
 
-    public LiveChatAdapter(Context context, List<chat_list> directQuestionLists, String att_id) {
+    public AttendeeChatAdapter(Context context, List<chat_list> directQuestionLists, String att_id) {
         this.directQuestionLists = directQuestionLists;
         if(size.equalsIgnoreCase(String.valueOf(directQuestionLists.size()))){
-          //  ActivityBuddyChat.chat_id = directQuestionLists.get(0).getId();
+            //ActivityBuddyChat.chat_id = directQuestionLists.get(0).getId();
         }
 
         //Collections.reverse(directQuestionLists);
@@ -217,9 +215,8 @@ public class LiveChatAdapter extends BaseAdapter {
 
 
     public static class ViewHolder {
-        public TextView   QaTv, AnsTv, ReviewTv,dateNTv,dateATv;
+        public TextView QaTv, AnsTv, ReviewTv,dateNTv,dateATv;
         LinearLayout linAns, linQues;
     }
 
 }
-

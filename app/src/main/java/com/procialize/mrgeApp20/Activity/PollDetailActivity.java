@@ -454,7 +454,7 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
                     RadioButton rdbtn = new RadioButton(this);
                     rdbtn.setId((row * 2) + i);
                     rdbtn.setText(StringEscapeUtils.unescapeJava(optionLists.get(i - 1).getOption()));
-                    rdbtn.setTextColor(Color.BLACK);
+                    rdbtn.setTextColor(Color.parseColor("#898989"));
 //                rdbtn.setTypeface(typeFace);
                     rdbtn.setOnClickListener(this);
 

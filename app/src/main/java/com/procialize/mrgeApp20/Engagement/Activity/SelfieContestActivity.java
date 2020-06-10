@@ -328,7 +328,7 @@ public class SelfieContestActivity extends AppCompatActivity implements SelfieAd
         } else {
 
             likeIv.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_active_like));
-            likeIv.setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_ATOP);
+            likeIv.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
             SelfieLike(token, eventid, selfieList.getId());
 
 

@@ -28,12 +28,16 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.Activity.LoginActivity;
 import com.procialize.mrgeApp20.Adapter.AttendeeAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
+import com.procialize.mrgeApp20.AttendeeChat.AttendeeChatActivity;
+import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
+import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
@@ -44,6 +48,8 @@ import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -94,7 +100,7 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
     private DBHelper dbHelper;
     LinearLayout linear;
      String token;
-
+    AttendeeList attendeeTmp;
     public AttendeeFragment() {
         // Required empty public constructor
     }
@@ -310,40 +316,77 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
 
     @Override
     public void onContactSelected(AttendeeList attendee) {
-        Intent attendeetail = new Intent(getContext(), AttendeeDetailActivity.class);
-        attendeetail.putExtra("id", attendee.getAttendeeId());
-        attendeetail.putExtra("name", attendee.getFirstName() + " " + attendee.getLastName());
-        attendeetail.putExtra("city", attendee.getCity());
-        attendeetail.putExtra("country", attendee.getCountry());
-        attendeetail.putExtra("company", attendee.getCompanyName());
-        attendeetail.putExtra("designation", attendee.getDesignation());
-        attendeetail.putExtra("description", attendee.getDescription());
-        attendeetail.putExtra("profile", attendee.getProfilePic());
-        attendeetail.putExtra("mobile", attendee.getMobile());
-        attendeetail.putExtra("buddy_status", attendee.getBuddy_status());
 
-//                speakeretail.putExtra("totalrate",attendee.getTotalRating());
-        startActivity(attendeetail);
-//        getActivity().finish();
+        attendeeTmp = attendee;
+        UserChatHistory(eventid,token,attendeeTmp.getAttendeeId(),"1");;
+
+    }
+    private void UserChatHistory(final String eventid, final String token, String budd_id,String msg) {
+        mAPIService.EventChatHistory(eventid,token,budd_id,msg).enqueue(new Callback<FetchChatList>() {
+            @Override
+            public void onResponse(Call<FetchChatList> call, Response<FetchChatList> response) {
+
+                if (response.isSuccessful()) {
+                    Log.i("hit", "post submitted to API." + response.body().toString());
+
+                    showResponseChat(response);
+
+                } else {
+
+                    Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<FetchChatList> call, Throwable t) {
+                Toast.makeText(getContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
+    public void showResponseChat(Response<FetchChatList> response) {
+
+        // specify an adapter (see also next example)
+        if (response.body().getStatus().equalsIgnoreCase("success")) {
+
+            if (!(response.body().getChatList().isEmpty())) {
+                Intent attendeetail = new Intent(getContext(), AttendeeChatActivity.class);
+                attendeetail.putExtra("id", attendeeTmp.getAttendeeId());
+                attendeetail.putExtra("name", attendeeTmp.getFirstName() + " " + attendeeTmp.getLastName());
+                attendeetail.putExtra("city", attendeeTmp.getCity());
+                attendeetail.putExtra("country", attendeeTmp.getCountry());
+                attendeetail.putExtra("company", attendeeTmp.getCompanyName());
+                attendeetail.putExtra("designation", attendeeTmp.getDesignation());
+                attendeetail.putExtra("description", attendeeTmp.getDescription());
+                attendeetail.putExtra("profile", attendeeTmp.getProfilePic());
+                attendeetail.putExtra("mobile", attendeeTmp.getMobile());
+                attendeetail.putExtra("buddy_status", attendeeTmp.getBuddy_status());
+
+//                speakeretail.putExtra("totalrate",attendee.getTotalRating());
+                startActivity(attendeetail);
+            } else{
+                Intent attendeetail = new Intent(getContext(), AttendeeDetailActivity.class);
+                attendeetail.putExtra("id", attendeeTmp.getAttendeeId());
+                attendeetail.putExtra("name", attendeeTmp.getFirstName() + " " + attendeeTmp.getLastName());
+                attendeetail.putExtra("city", attendeeTmp.getCity());
+                attendeetail.putExtra("country", attendeeTmp.getCountry());
+                attendeetail.putExtra("company", attendeeTmp.getCompanyName());
+                attendeetail.putExtra("designation", attendeeTmp.getDesignation());
+                attendeetail.putExtra("description", attendeeTmp.getDescription());
+                attendeetail.putExtra("profile", attendeeTmp.getProfilePic());
+                attendeetail.putExtra("mobile", attendeeTmp.getMobile());
+                attendeetail.putExtra("buddy_status", attendeeTmp.getBuddy_status());
+
+                startActivity(attendeetail);
+            }
+        }
+    }
+
+
+
 
     @Override
     public void onPause() {

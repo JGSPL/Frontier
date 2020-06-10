@@ -47,6 +47,7 @@ import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
+import com.procialize.mrgeApp20.BuddyList.DataModel.FetchSendRequest;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
@@ -60,6 +61,10 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.WRITE_CONTACTS;
@@ -93,6 +98,7 @@ public class ActivityBuddyDetails extends AppCompatActivity {
     private List<AttendeeList> attendeesDBList;
     private DBHelper dbHelper;
     private RelativeLayout layoutTop;
+            TextView txtRemove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +141,7 @@ public class ActivityBuddyDetails extends AppCompatActivity {
         // token
 
 
-        mAPIService = ApiUtils.getAPIService();
+        mAPIService = ApiUtils.getBuddyAPIService();
         sessionManager = new SessionManager(ActivityBuddyDetails.this);
 
         HashMap<String, String> user = sessionManager.getUserDetails();
@@ -179,27 +185,20 @@ public class ActivityBuddyDetails extends AppCompatActivity {
         viewone = findViewById(R.id.viewone);
         viewtfour = findViewById(R.id.viewtfour);
         viewtfive = findViewById(R.id.viewtfive);
+        txtRemove = findViewById(R.id.txtRemove);
         //linear = findViewById(R.id.linear);
         tvmob = findViewById(R.id.tvmob);
         layoutTop = findViewById(R.id.layoutTop);
         tv_description.setMovementMethod(new ScrollingMovementMethod());
+        
+        txtRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AccectRejectMethod(eventid,apikey,attendeeid,"4");
 
-        /*try {
-//            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
-            //path to /data/data/yourapp/app_data/dirName
-//            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
-            Resources res = getResources();
-            Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
-            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-            linear.setBackgroundDrawable(bd);
+            }
+        });
 
-            Log.e("PATH", String.valueOf(mypath));
-        } catch (Exception e) {
-            e.printStackTrace();
-            linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
-
-        }*/
 
 
 
@@ -426,5 +425,40 @@ public class ActivityBuddyDetails extends AppCompatActivity {
             }
         }
     }
+    public void AccectRejectMethod(String eventid, String toke, String Buddy_id, String response) {
+        mAPIService.respondToFriendRequest(eventid,toke, Buddy_id, response).enqueue(new Callback<FetchSendRequest>() {
+            @Override
+            public void onResponse(Call<FetchSendRequest> call, Response<FetchSendRequest> response) {
+
+                if (response.isSuccessful()) {
+                    Log.i("hit", "post submitted to API." + response.body().toString());
+
+                    showResponseBuddy(response);
+                } else {
+
+                    Toast.makeText(ActivityBuddyDetails.this, response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FetchSendRequest> call, Throwable t) {
+                Log.e("hit", "Unable to submit post to API.");
+                Toast.makeText(ActivityBuddyDetails.this, "Low network or no network", Toast.LENGTH_SHORT).show();
+                
+            }
+        });
+    }
+    public void showResponseBuddy(Response<FetchSendRequest> response) {
+
+        if (response.body().getStatus().equalsIgnoreCase("success")) {
+            Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+            //fetchFeed(token, eventid);
+
+        } else {
+
+            Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 }

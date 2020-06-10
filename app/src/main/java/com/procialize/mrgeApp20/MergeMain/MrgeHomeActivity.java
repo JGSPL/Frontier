@@ -4499,6 +4499,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(spotLivePollReciever);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(spotQuizReciever);
+
         procializeDB.close();
         dbHelper.close();
         finishAffinity();
