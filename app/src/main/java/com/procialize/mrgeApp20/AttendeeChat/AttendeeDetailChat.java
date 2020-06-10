@@ -215,26 +215,28 @@ public class AttendeeDetailChat extends AppCompatActivity {
 
             }
         });
+        if(buddy_status!=null) {
 
-        if(buddy_status.equalsIgnoreCase("send_request")){
-            saveContact.setText("Add to buddy list");
-            imgBuddy.setVisibility(View.VISIBLE);
+            if (buddy_status.equalsIgnoreCase("send_request")) {
+                saveContact.setText("Add to buddy list");
+                imgBuddy.setVisibility(View.VISIBLE);
 
-        }else  if(buddy_status.equalsIgnoreCase("friends")){
-            saveContact.setText("Added to buddy list");
-            linsave.setBackgroundColor(Color.parseColor(colorActive));
-            saveContact.setBackgroundColor(Color.parseColor(colorActive));
-            saveContact.setTextColor(Color.parseColor("#ffffff"));
-            imgBuddy.setVisibility(View.GONE);
+            } else if (buddy_status.equalsIgnoreCase("friends")) {
+                saveContact.setText("Added to buddy list");
+                linsave.setBackgroundColor(Color.parseColor(colorActive));
+                saveContact.setBackgroundColor(Color.parseColor(colorActive));
+                saveContact.setTextColor(Color.parseColor("#ffffff"));
+                imgBuddy.setVisibility(View.GONE);
 
 
-        }else if(buddy_status.equalsIgnoreCase("request_sent")){
-            saveContact.setText("Request sent");
-            linsave.setBackgroundColor(Color.parseColor(colorActive));
-            saveContact.setBackgroundColor(Color.parseColor(colorActive));
-            saveContact.setTextColor(Color.parseColor("#ffffff"));
-            imgBuddy.setVisibility(View.GONE);
+            } else if (buddy_status.equalsIgnoreCase("request_sent")) {
+                saveContact.setText("Request sent");
+                linsave.setBackgroundColor(Color.parseColor(colorActive));
+                saveContact.setBackgroundColor(Color.parseColor(colorActive));
+                saveContact.setTextColor(Color.parseColor("#ffffff"));
+                imgBuddy.setVisibility(View.GONE);
 
+            }
         }
 
         linsave.setOnClickListener(new View.OnClickListener() {
@@ -318,7 +320,7 @@ public class AttendeeDetailChat extends AppCompatActivity {
                 viewtwo.setVisibility(View.GONE);
                 viewone.setVisibility(View.GONE);
 
-            } else if (designation != null && attendee_design.equalsIgnoreCase("1")) {
+            } else if (designation != null /*&& attendee_design.equalsIgnoreCase("1")*/) {
                 if (designation.equalsIgnoreCase("")) {
                     tvdesignation.setVisibility(View.GONE);
                     viewtwo.setVisibility(View.GONE);
@@ -346,7 +348,7 @@ public class AttendeeDetailChat extends AppCompatActivity {
                 tvcity.setVisibility(View.GONE);
                 viewtfour.setVisibility(View.GONE);
 
-            } else if (city != null && attendee_location.equalsIgnoreCase("1")) {
+            } else if (city != null/* && attendee_location.equalsIgnoreCase("1")*/) {
                 if (city.equalsIgnoreCase("")) {
                     tvcity.setVisibility(View.GONE);
                     viewtfour.setVisibility(View.GONE);
@@ -475,7 +477,7 @@ public class AttendeeDetailChat extends AppCompatActivity {
         }
     }
     public void AccectRejectMethod(String eventid, String toke, String Buddy_id, String response) {
-        mAPIService.respondToFriendRequest(eventid,toke, Buddy_id, response).enqueue(new Callback<FetchSendRequest>() {
+        mAPIService.removeBuddy(eventid,toke, Buddy_id).enqueue(new Callback<FetchSendRequest>() {
             @Override
             public void onResponse(Call<FetchSendRequest> call, Response<FetchSendRequest> response) {
 

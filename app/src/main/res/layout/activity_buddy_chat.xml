@@ -40,14 +40,14 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/myCardView"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_centerInParent="true"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/image_border"
                     android:padding="5dp"
-                    app:cardCornerRadius="50dp"
+                    app:cardCornerRadius="20dp"
                     app:cardElevation="@dimen/album_dp_0">
 
                     <ImageView
