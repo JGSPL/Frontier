@@ -17,6 +17,12 @@
             android:scaleType="fitXY"
             android:src="@drawable/gallery_folder"/>
 
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
         <ProgressBar
             android:id="@+id/progress_bar"
             style="?android:attr/progressBarStyle"

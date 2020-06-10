@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
-                android:hint="@string/hint_email"
+                android:hint="Mobile No. / Email Id"
                 android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxLines="1"

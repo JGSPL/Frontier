@@ -155,7 +155,7 @@
                     android:divider="@android:color/transparent"
                     android:smoothScrollbar="true"
                     android:clipToPadding="false"
-                    android:paddingBottom="70dp"/>
+                    android:paddingBottom="120dp"/>
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

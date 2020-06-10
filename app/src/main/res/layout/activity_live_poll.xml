@@ -216,7 +216,7 @@
                     android:dividerHeight="0px"
                     android:smoothScrollbar="true"
                     android:clipToPadding="false"
-                    android:paddingBottom="70dp">
+                    android:paddingBottom="120dp">
 
                 </ListView>
 

@@ -99,87 +99,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
 
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:visibility="visible">
-
-                <RelativeLayout
-                    android:id="@+id/relative"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/attendeetitle">
-
-                    <RelativeLayout
-                        android:id="@+id/layoutTop"
-                        android:layout_width="match_parent"
-                        android:layout_height="90dp"
-
-                        android:background="@android:color/transparent"></RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/layoutBottom"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_below="@id/layoutTop"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@android:color/transparent">
-
-                    </RelativeLayout>
-
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_above="@id/layoutBottom"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="-30dp"
-                        android:adjustViewBounds="true">
-
-                        <ImageView
-                            android:layout_width="95dp"
-                            android:layout_height="95dp"
-                            android:layout_centerInParent="true"
-                            android:adjustViewBounds="true"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/image_border" />
-
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/myCardView"
-                            android:layout_width="90dp"
-                            android:layout_height="90dp"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:background="@drawable/image_border"
-                            app:cardCornerRadius="45dp"
-                            app:cardElevation="@dimen/album_dp_0">
-
-                            <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                                android:id="@+id/logoIv"
-                                android:layout_width="90dp"
-                                android:layout_height="90dp"
-                                android:layout_centerInParent="true"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/image_border"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/app_icon" />
-                        </androidx.cardview.widget.CardView>
-
-                    </RelativeLayout>
-                </RelativeLayout>
-
-
-            </LinearLayout>
 
 
             <!--
@@ -196,7 +116,6 @@
                         </LinearLayout>
             -->
 
-        </LinearLayout>
 
 
         <LinearLayout
@@ -211,7 +130,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="true"
-                android:scrollbars="vertical">
+                android:scrollbars="vertical"
+                android:clipToPadding="false"
+                android:paddingBottom="120dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -219,6 +140,80 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:visibility="visible">
+
+                        <RelativeLayout
+                            android:id="@+id/relative"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/attendeetitle">
+
+                            <RelativeLayout
+                                android:id="@+id/layoutTop"
+                                android:layout_width="match_parent"
+                                android:layout_height="90dp"
+                                android:background="@android:color/transparent"></RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/layoutBottom"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_below="@id/layoutTop"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:background="@android:color/transparent">
+
+                            </RelativeLayout>
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_above="@id/layoutBottom"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="-30dp"
+                                android:adjustViewBounds="true">
+
+                                <ImageView
+                                    android:layout_width="95dp"
+                                    android:layout_height="95dp"
+                                    android:layout_centerInParent="true"
+                                    android:adjustViewBounds="true"
+                                    android:scaleType="fitXY"
+                                    android:src="@drawable/image_border" />
+
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/myCardView"
+                                    android:layout_width="90dp"
+                                    android:layout_height="90dp"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_centerVertical="true"
+                                    android:background="@drawable/image_border"
+                                    app:cardCornerRadius="45dp"
+                                    app:cardElevation="@dimen/album_dp_0">
+
+                                    <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                        android:id="@+id/logoIv"
+                                        android:layout_width="90dp"
+                                        android:layout_height="90dp"
+                                        android:layout_centerInParent="true"
+                                        android:adjustViewBounds="true"
+                                        android:background="@drawable/image_border"
+                                        android:scaleType="centerCrop"
+                                        android:src="@drawable/app_icon" />
+                                </androidx.cardview.widget.CardView>
+
+                            </RelativeLayout>
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
                     <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

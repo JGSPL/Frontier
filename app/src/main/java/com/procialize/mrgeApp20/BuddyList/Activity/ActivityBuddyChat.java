@@ -514,6 +514,6 @@ public class ActivityBuddyChat extends AppCompatActivity {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(spotChatReciever);
 
-        finishAffinity();
+        //finishAffinity();
     }
 }

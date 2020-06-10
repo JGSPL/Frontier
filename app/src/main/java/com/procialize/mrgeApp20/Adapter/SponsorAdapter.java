@@ -63,8 +63,28 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
 
         if (sponsorsList.getLogo() != null) {
 
+
             String file = filePath + sponsorsList.getLogo();
+
+            holder.tv_name.setText(sponsorsList.getName());
             Glide.with(context).load(file)
+                    .placeholder(R.drawable.profilepic_placeholder)
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            holder.progress_bar.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            holder.progress_bar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    }).into(holder.iv_sponsor_logo);
+
+           /* Glide.with(context).load(file)
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
                     .listener(new RequestListener<Drawable>() {
@@ -82,7 +102,7 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
                             holder.progress_bar.setVisibility(View.GONE);
                             return false;
                         }
-                    }).into(holder.iv_sponsor_logo);
+                    }).into(holder.iv_sponsor_logo);*/
 
         } else {
             holder.progress_bar.setVisibility(View.GONE);
@@ -96,12 +116,14 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView iv_sponsor_logo;
+        TextView tv_name;
         ProgressBar progress_bar;
 
         public MyViewHolder(View view) {
             super(view);
             iv_sponsor_logo = view.findViewById(R.id.iv_sponsor_logo);
             progress_bar = view.findViewById(R.id.progress_bar);
+            tv_name = view.findViewById(R.id.tv_name);
         }
     }
 }
