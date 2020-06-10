@@ -237,6 +237,17 @@ public class AttendeeDetailChat extends AppCompatActivity {
 
         }
 
+        linsave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(buddy_status.equalsIgnoreCase("send_request")){
+                    AddBuddy(apikey,eventid,attendeeid);
+
+
+                }
+            }
+        });
+
 
 
 
@@ -495,11 +506,59 @@ public class AttendeeDetailChat extends AppCompatActivity {
             saveContact.setBackgroundColor(Color.parseColor("#ffffff"));
             saveContact.setTextColor(Color.parseColor(colorActive));
             saveContact.setText("Add to buddy list");
+            buddy_status= "send_request";
 
             imgBuddy.setVisibility(View.VISIBLE);
 
         } else {
 
+            Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void AddBuddy( String token,String eventid,String messId) {
+        mAPIService.sendFriendRequest(token, eventid, messId).enqueue(new Callback<FetchSendRequest>() {
+            @Override
+            public void onResponse(Call<FetchSendRequest> call, Response<FetchSendRequest> response) {
+
+                if (response.isSuccessful()) {
+                    Log.i("hit", "post submitted to API." + response.body().toString());
+
+                    Buddyresponse(response);
+                } else {
+
+
+                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FetchSendRequest> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+    }
+
+
+    private void Buddyresponse(Response<FetchSendRequest> response) {
+
+        if (response.body().getStatus().equalsIgnoreCase("Success")) {
+            Log.e("post", "success");
+//            myDialog.dismiss();
+            linsave.setBackgroundColor(Color.parseColor(colorActive));
+            saveContact.setBackgroundColor(Color.parseColor(colorActive));
+            saveContact.setTextColor(Color.parseColor("#ffffff"));
+            saveContact.setEnabled(false);
+            linsave.setEnabled(false);
+            imgBuddy.setVisibility(View.GONE);
+
+            saveContact.setText("Request sent");
+            Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+        } else {
+            Log.e("post", "fail");
+//            myDialog.dismiss();
             Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
         }
     }

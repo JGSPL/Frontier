@@ -506,6 +506,5 @@ public class AttendeeChatActivity extends AppCompatActivity {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(spotChatReciever);
 
-        finishAffinity();
     }
 }

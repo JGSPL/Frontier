@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/activetab"
                 android:minWidth="150dp"
                 android:onClick="onClickJoin"
                 android:text="Join Meeting"
