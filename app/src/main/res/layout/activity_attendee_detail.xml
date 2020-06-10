@@ -357,6 +357,7 @@
                         android:layout_below="@+id/posttextEt"
                         android:layout_alignParentBottom="true"
                         android:gravity="right"
+                        android:id="@+id/linCoounter"
                         android:orientation="horizontal">
 
 
@@ -417,18 +418,28 @@
                             android:textColor="@color/colorwhite"
                             android:textSize="@dimen/textsizesmall" />
                     </LinearLayout>
-
                     <LinearLayout
-                        android:id="@+id/linsave"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:layout_weight="5"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="10dp"
-
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
+                        android:orientation="vertical"
+                        >
+
+                    <LinearLayout
+                        android:id="@+id/linsave"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/button_background"
                         android:orientation="horizontal">
                         <ImageView
@@ -451,6 +462,19 @@
                             android:textAllCaps="false"
                             android:textColor="@color/activetab"
                             android:textSize="@dimen/textsizesmall" />
+                    </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/txtRemove"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:visibility="gone"
+                            android:gravity="center_horizontal"
+                            android:text="@string/remove_from_buddy_list"
+                            android:textColor="@color/colorwhite"
+                            android:textSize="15dp" />
+
                     </LinearLayout>
                 </LinearLayout>
 

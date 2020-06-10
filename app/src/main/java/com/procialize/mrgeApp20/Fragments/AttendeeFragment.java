@@ -379,6 +379,7 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
                 attendeetail.putExtra("profile", attendeeTmp.getProfilePic());
                 attendeetail.putExtra("mobile", attendeeTmp.getMobile());
                 attendeetail.putExtra("buddy_status", attendeeTmp.getBuddy_status());
+                attendeetail.putExtra("page_status", "ListPage");
 
                 startActivity(attendeetail);
             }

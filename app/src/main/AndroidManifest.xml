@@ -34,6 +34,7 @@
         <activity android:name=".BuddyList.Activity.ActivityBuddyDetails" />
         <activity android:name=".Gallery.Video.Activity.VideoViewGalleryActivity" />
         <activity android:name=".AttendeeChat.AttendeeChatActivity"></activity>
+        <activity android:name=".AttendeeChat.AttendeeDetailChat"></activity>
 
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
