@@ -54,6 +54,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String ATTENDEE_DESIGNATION = "ATTENDEE_DESIGNATION";
     public static final String ATTENDEE_TYPE = "ATTENDEE_TYPE";
     public static final String BUDDY_STATUS = "BUDDY_STATUS";
+    public static final String CHAT_DATA_COUNT = "CHAT_DATA_COUNT";
 
     public static final String ATTENDEE_TOTAL_RATING = "ATTENDEE_TOTAL_RATING";
     public static final String ATTENDEE_AVG_RATING = "ATTENDEE_AVG_RATING";
@@ -322,6 +323,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + ATTENDEE_COMPANY_NAME + " text, " + ATTENDEE_DESIGNATION
                 + " text, " + ATTENDEE_TYPE + " text, "
                 + BUDDY_STATUS + " text, "
+                + CHAT_DATA_COUNT + " text, "
                 + ATTENDEE_MENTION_NAME + " text)");
 
         // Creating User data table
@@ -677,7 +679,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 if (buddy_status != null && buddy_status.length() > 0) {
                     contentValues.put(BUDDY_STATUS, buddy_status);
                 }
-
+                String chat_count = attendeesList.get(i).getChat_data_count();
+                if (chat_count != null && chat_count.length() > 0) {
+                    contentValues.put(CHAT_DATA_COUNT, chat_count);
+                }
 
 
                 String mention_name;
@@ -2065,6 +2070,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 attendeesList.setDesignation(cursor.getString(11));
                 attendeesList.setAttendeeType(cursor.getString(12));
                 attendeesList.setBuddy_status(cursor.getString(13));
+                attendeesList.setChat_data_count(cursor.getString(14));
 
                 attendeeList.add(attendeesList);
             } while (cursor.moveToNext());
@@ -2149,6 +2155,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 attendeesList.setDesignation(cursor.getString(11));
                 attendeesList.setAttendeeType(cursor.getString(12));
                 attendeesList.setBuddy_status(cursor.getString(13));
+                attendeesList.setChat_data_count(cursor.getString(14));
 
                 attendeeList.add(attendeesList);
             } while (cursor.moveToNext());
@@ -2186,6 +2193,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 attendeesList.setDesignation(cursor.getString(11));
                 attendeesList.setAttendeeType(cursor.getString(12));
                 attendeesList.setBuddy_status(cursor.getString(13));
+                attendeesList.setChat_data_count(cursor.getString(14));
 
                 attendeeList.add(attendeesList);
             } while (cursor.moveToNext());

@@ -39,7 +39,7 @@
                 android:layout_marginTop="@dimen/margin"
                 android:gravity="left"
 
-                android:text="Buddy Details"
+                android:text="Attendee Details"
                 android:textColor="@color/activetab"
                 android:textSize="@dimen/textsizenormal"
                 android:textStyle="bold" />

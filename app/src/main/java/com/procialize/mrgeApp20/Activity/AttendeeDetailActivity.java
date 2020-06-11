@@ -650,6 +650,8 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                 attendeetail.putExtra("description", description);
                 attendeetail.putExtra("profile", profile);
                 attendeetail.putExtra("mobile", mobile);
+                attendeetail.putExtra("buddy_status", buddy_status);
+
 //                speakeretail.putExtra("totalrate",attendee.getTotalRating());
                 startActivity(attendeetail);
                 finish();

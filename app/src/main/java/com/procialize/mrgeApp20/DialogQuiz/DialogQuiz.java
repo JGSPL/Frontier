@@ -176,7 +176,6 @@ public class DialogQuiz implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 new getQuizList().execute();
-                dialog.dismiss();
 
             }
         });
@@ -367,6 +366,7 @@ public class DialogQuiz implements View.OnClickListener {
 
                 if (quiz != null) {
                     if (quiz != null && !quiz.equalsIgnoreCase("null")) {
+                        dialog.dismiss();
 
                         if (Jsontr != null) {
 

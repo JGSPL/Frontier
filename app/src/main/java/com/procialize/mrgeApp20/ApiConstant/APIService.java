@@ -753,6 +753,14 @@ public interface APIService {
                                                @Field("api_access_token") String api_access_token,
                                                @Field("buddy_id") String buddy_id);
 
+
+    @POST("removeBuddy")
+    @FormUrlEncoded
+    Call<FetchSendRequest> removeBuddy(@Field("event_id") String event_id,
+                                               @Field("api_access_token") String api_access_token,
+                                               @Field("buddy_id") String buddy_id);
+
+
     @POST("respondToFriendRequest")
     @FormUrlEncoded
     Call<FetchSendRequest> respondToFriendRequest(@Field("event_id") String event_id,

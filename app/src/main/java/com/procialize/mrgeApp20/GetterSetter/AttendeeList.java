@@ -52,6 +52,18 @@ public class AttendeeList implements Serializable {
     @Expose
     private String buddy_status;
 
+    @SerializedName("chat_data_count")
+    @Expose
+    private String chat_data_count;
+
+    public String getChat_data_count() {
+        return chat_data_count;
+    }
+
+    public void setChat_data_count(String chat_data_count) {
+        this.chat_data_count = chat_data_count;
+    }
+
     public String getBuddy_status() {
         return buddy_status;
     }

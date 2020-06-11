@@ -116,7 +116,17 @@ public class ActivityBuddyDetails extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                onBackPressed();
+                Intent attendeetail = new Intent(ActivityBuddyDetails.this, ActivityBuddyChat.class);
+                attendeetail.putExtra("id", attendeeid);
+                attendeetail.putExtra("name", name);
+                attendeetail.putExtra("city", city);
+                attendeetail.putExtra("country", country);
+                attendeetail.putExtra("company", company);
+                attendeetail.putExtra("designation", designation);
+                attendeetail.putExtra("description", description);
+                attendeetail.putExtra("profile", profile);
+                attendeetail.putExtra("mobile", mobile);
+                startActivity(attendeetail);
                 finish();
             }
         });
@@ -269,7 +279,7 @@ public class ActivityBuddyDetails extends AppCompatActivity {
                 viewtwo.setVisibility(View.GONE);
                 viewone.setVisibility(View.GONE);
 
-            } else if (designation != null && attendee_design.equalsIgnoreCase("1")) {
+            } else if (designation != null/* && attendee_design.equalsIgnoreCase("1")*/) {
                 if (designation.equalsIgnoreCase("")) {
                     tvdesignation.setVisibility(View.GONE);
                     viewtwo.setVisibility(View.GONE);
@@ -297,7 +307,7 @@ public class ActivityBuddyDetails extends AppCompatActivity {
                 tvcity.setVisibility(View.GONE);
                 viewtfour.setVisibility(View.GONE);
 
-            } else if (city != null && attendee_location.equalsIgnoreCase("1")) {
+            } else if (city != null/* && attendee_location.equalsIgnoreCase("1")*/) {
                 if (city.equalsIgnoreCase("")) {
                     tvcity.setVisibility(View.GONE);
                     viewtfour.setVisibility(View.GONE);
@@ -426,7 +436,7 @@ public class ActivityBuddyDetails extends AppCompatActivity {
         }
     }
     public void AccectRejectMethod(String eventid, String toke, String Buddy_id, String response) {
-        mAPIService.respondToFriendRequest(eventid,toke, Buddy_id, response).enqueue(new Callback<FetchSendRequest>() {
+        mAPIService.removeBuddy(eventid,toke, Buddy_id).enqueue(new Callback<FetchSendRequest>() {
             @Override
             public void onResponse(Call<FetchSendRequest> call, Response<FetchSendRequest> response) {
 

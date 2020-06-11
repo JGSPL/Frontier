@@ -455,6 +455,16 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
             Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
         }
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (cd.isConnectingToInternet()) {
+            fetchFeed(token, eventid);
+        }
+
+    }
+
 
 
 }

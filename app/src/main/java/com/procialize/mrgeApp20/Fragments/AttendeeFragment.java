@@ -317,8 +317,41 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
     @Override
     public void onContactSelected(AttendeeList attendee) {
 
-        attendeeTmp = attendee;
-        UserChatHistory(eventid,token,attendeeTmp.getAttendeeId(),"1");;
+      //  attendeeTmp = attendee;
+        if (attendee.getChat_data_count().equalsIgnoreCase("0")) {
+            Intent attendeetail = new Intent(getContext(), AttendeeDetailActivity.class);
+            attendeetail.putExtra("id", attendee.getAttendeeId());
+            attendeetail.putExtra("name", attendee.getFirstName() + " " + attendee.getLastName());
+            attendeetail.putExtra("city", attendee.getCity());
+            attendeetail.putExtra("country", attendee.getCountry());
+            attendeetail.putExtra("company", attendee.getCompanyName());
+            attendeetail.putExtra("designation", attendee.getDesignation());
+            attendeetail.putExtra("description", attendee.getDescription());
+            attendeetail.putExtra("profile", attendee.getProfilePic());
+            attendeetail.putExtra("mobile", attendee.getMobile());
+            attendeetail.putExtra("buddy_status", attendee.getBuddy_status());
+            attendeetail.putExtra("page_status", "ListPage");
+
+
+            startActivity(attendeetail);
+
+        } else{
+            Intent attendeetail = new Intent(getContext(), AttendeeChatActivity.class);
+            attendeetail.putExtra("id", attendee.getAttendeeId());
+            attendeetail.putExtra("name", attendee.getFirstName() + " " + attendee.getLastName());
+            attendeetail.putExtra("city", attendee.getCity());
+            attendeetail.putExtra("country", attendee.getCountry());
+            attendeetail.putExtra("company", attendee.getCompanyName());
+            attendeetail.putExtra("designation", attendee.getDesignation());
+            attendeetail.putExtra("description", attendee.getDescription());
+            attendeetail.putExtra("profile", attendee.getProfilePic());
+            attendeetail.putExtra("mobile", attendee.getMobile());
+            attendeetail.putExtra("buddy_status", attendee.getBuddy_status());
+
+//                speakeretail.putExtra("totalrate",attendee.getTotalRating());
+            startActivity(attendeetail);
+        }
+       // UserChatHistory(eventid,token,attendeeTmp.getAttendeeId(),"1");;
 
     }
     private void UserChatHistory(final String eventid, final String token, String budd_id,String msg) {
@@ -352,37 +385,7 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
         // specify an adapter (see also next example)
         if (response.body().getStatus().equalsIgnoreCase("success")) {
 
-            if (!(response.body().getChatList().isEmpty())) {
-                Intent attendeetail = new Intent(getContext(), AttendeeChatActivity.class);
-                attendeetail.putExtra("id", attendeeTmp.getAttendeeId());
-                attendeetail.putExtra("name", attendeeTmp.getFirstName() + " " + attendeeTmp.getLastName());
-                attendeetail.putExtra("city", attendeeTmp.getCity());
-                attendeetail.putExtra("country", attendeeTmp.getCountry());
-                attendeetail.putExtra("company", attendeeTmp.getCompanyName());
-                attendeetail.putExtra("designation", attendeeTmp.getDesignation());
-                attendeetail.putExtra("description", attendeeTmp.getDescription());
-                attendeetail.putExtra("profile", attendeeTmp.getProfilePic());
-                attendeetail.putExtra("mobile", attendeeTmp.getMobile());
-                attendeetail.putExtra("buddy_status", attendeeTmp.getBuddy_status());
 
-//                speakeretail.putExtra("totalrate",attendee.getTotalRating());
-                startActivity(attendeetail);
-            } else{
-                Intent attendeetail = new Intent(getContext(), AttendeeDetailActivity.class);
-                attendeetail.putExtra("id", attendeeTmp.getAttendeeId());
-                attendeetail.putExtra("name", attendeeTmp.getFirstName() + " " + attendeeTmp.getLastName());
-                attendeetail.putExtra("city", attendeeTmp.getCity());
-                attendeetail.putExtra("country", attendeeTmp.getCountry());
-                attendeetail.putExtra("company", attendeeTmp.getCompanyName());
-                attendeetail.putExtra("designation", attendeeTmp.getDesignation());
-                attendeetail.putExtra("description", attendeeTmp.getDescription());
-                attendeetail.putExtra("profile", attendeeTmp.getProfilePic());
-                attendeetail.putExtra("mobile", attendeeTmp.getMobile());
-                attendeetail.putExtra("buddy_status", attendeeTmp.getBuddy_status());
-                attendeetail.putExtra("page_status", "ListPage");
-
-                startActivity(attendeetail);
-            }
         }
     }
 

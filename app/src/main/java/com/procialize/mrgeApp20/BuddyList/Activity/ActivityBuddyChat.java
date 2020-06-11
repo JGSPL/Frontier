@@ -79,7 +79,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
     List<chat_list> chat_lists = new ArrayList<>();
     List<chat_list> chat_NewAdd = new ArrayList<>();
     public static String SpotChat="";
-
+    String buddy_status;
     String page = "0";
     int pageNO,pageNumber = 1;
 
@@ -120,6 +120,8 @@ public class ActivityBuddyChat extends AppCompatActivity {
             totalrating = getIntent().getExtras().getString("totalrating");
             profile = getIntent().getExtras().getString("profile");
             mobile = getIntent().getExtras().getString("mobile");
+            buddy_status = getIntent().getExtras().getString("buddy_status");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -162,8 +164,11 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 attendeetail.putExtra("description", description);
                 attendeetail.putExtra("profile", profile);
                 attendeetail.putExtra("mobile", mobile);
+                attendeetail.putExtra("buddy_status", buddy_status);
+
 //                speakeretail.putExtra("totalrate",attendee.getTotalRating());
                 startActivity(attendeetail);
+                finish();
             }
         });
         init();
