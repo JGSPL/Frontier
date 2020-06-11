@@ -87,7 +87,7 @@ public class QASpeakerAdapter extends RecyclerView.Adapter<QASpeakerAdapter.MyVi
 
         }
 
-        if (question.getAnswer() != null && QA_reply_question.equalsIgnoreCase("1")) {
+        if (question.getAnswer() != null) {
             if (!question.getAnswer().equalsIgnoreCase("null")) {
                 try{
                     holder.AnsTv.setText("Ans :- " + StringEscapeUtils.unescapeJava(question.getAnswer()));
@@ -182,8 +182,6 @@ public class QASpeakerAdapter extends RecyclerView.Adapter<QASpeakerAdapter.MyVi
                     for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
                         if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_like_question")) {
                             QA_like_question = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                        }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_reply_question")) {
-                            QA_reply_question = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                         }
                     }
                 }

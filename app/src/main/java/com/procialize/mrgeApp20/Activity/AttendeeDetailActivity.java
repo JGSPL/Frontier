@@ -390,12 +390,13 @@ public class AttendeeDetailActivity extends AppCompatActivity {
 
         }
 
-        if (attendee_savecontact.equalsIgnoreCase("1")) {
+        /*if (attendee_savecontact.equalsIgnoreCase("1")) {
             linsave.setVisibility(View.VISIBLE);
         } else {
             linsave.setVisibility(View.GONE);
-        }
+        }*/
 
+        linsave.setVisibility(View.VISIBLE);
 
         if (name.equalsIgnoreCase("N A")) {
             tvname.setVisibility(View.GONE);
@@ -430,7 +431,9 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             viewthree.setVisibility(View.GONE);
         }
 
-
+        tvmob.setVisibility(View.GONE);
+        viewtfour.setVisibility(View.GONE);
+/*
         try {
             if (attendee_mobile.equalsIgnoreCase("N A")) {
                 tvmob.setVisibility(View.GONE);
@@ -456,6 +459,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             tvmob.setVisibility(View.GONE);
             viewtfour.setVisibility(View.GONE);
         }
+*/
 
 
         try {
@@ -720,11 +724,11 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                         attendee_location = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                     }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_mobile")) {
                         attendee_mobile = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                    }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_save_contact")) {
+                    }/*else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_save_contact")) {
                         attendee_savecontact = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                         attendee_savecontact = "1";
 
-                    }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_designation")) {
+                    }*/else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_designation")) {
                         attendee_design = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                     }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_message")) {
                         attendeemsg = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
@@ -733,21 +737,6 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                 }
             }
 
-           /* if (eventSettingLists.get(i).getFieldName().equals("attendee_company")) {
-                attendee_company = eventSettingLists.get(i).getFieldValue();
-            } else if (eventSettingLists.get(i).getFieldName().equals("attendee_location")) {
-                attendee_location = eventSettingLists.get(i).getFieldValue();
-            } else if (eventSettingLists.get(i).getFieldName().equals("attendee_mobile")) {
-                attendee_mobile = eventSettingLists.get(i).getFieldValue();
-            } else if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("attendee_design")) {
-                attendee_design = eventSettingLists.get(i).getFieldValue();
-            } else if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("attendee_designation")) {
-                attendee_design = eventSettingLists.get(i).getFieldValue();
-            } else if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("attendee_message")) {
-                attendeemsg = eventSettingLists.get(i).getFieldValue();
-            } else if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("attendee_save_contact")) {
-                attendee_savecontact = eventSettingLists.get(i).getFieldValue();
-            }*/
         }
     }
 
