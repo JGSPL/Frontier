@@ -2,17 +2,17 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_marginBottom="70dp"
+    android:layout_marginBottom="55dp"
     android:layout_marginRight="20dp"
     android:id="@+id/Quizcard"
     android:layout_marginLeft="10dp"
-    android:layout_height="wrap_content">
+    android:layout_height="250dp">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="50dp">
+        >
 
         <ImageView
             android:layout_width="30dp"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/live_poll_logo"
             android:layout_gravity="center"
-            android:paddingTop="50dp">
+            android:paddingTop="15dp">
         </ImageView>
         <com.procialize.mrgeApp20.Fonts.RobotoTextview
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
             android:layout_height="35dp"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/activetab"
             android:gravity="center"
             android:text="start"

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/Quizcard"
-
+    android:layout_marginBottom="55dp"
     android:layout_width="match_parent"
-    android:layout_height="400dp">
+    android:layout_height="250dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp">
+        android:layout_marginBottom="0dp">
 
 
         <RelativeLayout
@@ -20,7 +20,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/up"
+                android:gravity="center"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <com.procialize.mrgeApp20.Fonts.RobotoTextview
@@ -46,10 +48,14 @@
                     android:padding="10dp"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:layout_below="@+id/questionTv"
                     android:orientation="vertical">
 
@@ -78,14 +84,35 @@
                         android:visibility="gone"
                         android:paddingRight="5dp"></androidx.recyclerview.widget.RecyclerView>
 
+                    <com.procialize.mrgeApp20.Fonts.RobotoButton
+                        android:id="@+id/submit"
+                        android:layout_width="200dp"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/pollGraph"
+
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/activetab"
+                        android:gravity="center"
+                        android:text="Submit"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorwhite"
+                        android:textSize="@dimen/textsizesmall"
+                        android:visibility="visible" />
 
                 </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
+
             </LinearLayout>
 
             <com.procialize.mrgeApp20.Fonts.RobotoButton
                 android:id="@+id/btnNext"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
+                android:layout_below="@+id/up"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
@@ -99,22 +126,6 @@
                 android:visibility="gone" />
 
 
-            <com.procialize.mrgeApp20.Fonts.RobotoButton
-                android:id="@+id/submit"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/activetab"
-                android:gravity="center"
-                android:text="Submit"
-                android:textAllCaps="false"
-                android:textColor="@color/colorwhite"
-                android:textSize="@dimen/textsizesmall"
-                android:visibility="visible" />
         </RelativeLayout>
 
     </LinearLayout>

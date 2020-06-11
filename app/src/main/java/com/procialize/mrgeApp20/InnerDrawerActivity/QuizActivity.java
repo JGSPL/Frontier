@@ -500,7 +500,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                                 quiz_question_id = question_id[0];
                                 quiz_options_id = question_ans[0];
                                 int answers = pagerAdapter.getCorrectOption();
-                                //new postQuizQuestion().execute();
+                                new postQuizQuestion().execute();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
                             }
@@ -889,7 +889,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                     Log.d("Selected Options==>",quiz_options_id);
 
                     Toast.makeText(appDelegate, quiz_options_id, Toast.LENGTH_SHORT).show();
-                    //new postQuizQuestion().execute();
+                    new postQuizQuestion().execute();
                 } else {
                     Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
                 }
