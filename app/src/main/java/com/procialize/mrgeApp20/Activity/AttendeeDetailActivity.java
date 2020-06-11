@@ -102,7 +102,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
     String apikey;
     ImageView profileIV;
     ProgressBar progressBar, progressBarmain;
-    String attendee_company, attendee_location, attendee_mobile, attendee_design, attendee_savecontact, attendeemsg;
+    String attendee_company, attendee_location, attendee_mobile, attendee_design, attendee_savecontact="1", attendeemsg;
     List<EventSettingList> eventSettingLists;
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid, colorActive, eventnamestr;

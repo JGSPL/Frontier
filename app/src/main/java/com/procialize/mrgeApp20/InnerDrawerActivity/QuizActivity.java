@@ -752,7 +752,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                     int answers = pagerAdapter.getCorrectOption();
                     Toast.makeText(appDelegate, quiz_options_id, Toast.LENGTH_SHORT).show();
                     Log.d("Selected Options==>",quiz_options_id);
-                   // new postQuizQuestion().execute();
+                    new postQuizQuestion().execute();
 
 
                 } else {
@@ -878,7 +878,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                     Log.d("Selected Options==>",quiz_options_id);
 
                     Toast.makeText(appDelegate, quiz_options_id, Toast.LENGTH_SHORT).show();
-                    //new postQuizQuestion().execute();
+                    new postQuizQuestion().execute();
                 } else {
                     Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
                 }
@@ -1160,7 +1160,7 @@ getSupportFragmentManager().popBackStack();
                 Log.d("Selected Options==>",quiz_options_id);
 
                 Toast.makeText(appDelegate, quiz_options_id, Toast.LENGTH_SHORT).show();
-                //new postQuizQuestion().execute();
+                new postQuizQuestion().execute();
             } /*else {
                 Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
             }*/
