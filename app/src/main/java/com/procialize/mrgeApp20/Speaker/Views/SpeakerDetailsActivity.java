@@ -299,11 +299,11 @@ public class SpeakerDetailsActivity extends AppCompatActivity implements PdfList
             tvcity.setVisibility(View.GONE);
             viewfour.setVisibility(View.GONE);
         }
-
-        if (mobile != null && speaker_mobile.equalsIgnoreCase("1")) {
+        tvmobile.setVisibility(View.GONE);
+        viewfive.setVisibility(View.GONE);
+        /*if (mobile != null && speaker_mobile.equalsIgnoreCase("1")) {
             if (mobile.equalsIgnoreCase("")) {
-                tvmobile.setVisibility(View.GONE);
-                viewfive.setVisibility(View.GONE);
+
 
             } else {
                 tvmobile.setText(mobile);
@@ -314,7 +314,7 @@ public class SpeakerDetailsActivity extends AppCompatActivity implements PdfList
             tvmobile.setVisibility(View.GONE);
             viewfive.setVisibility(View.GONE);
 
-        }
+        }*/
         if (profile != null) {
             Glide.with(this).load(ApiConstant.profilepic + profile).listener(new RequestListener<Drawable>() {
                 @Override
@@ -403,9 +403,9 @@ public class SpeakerDetailsActivity extends AppCompatActivity implements PdfList
                             speaker_company = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                         }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_location")) {
                             speaker_location = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                        }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_mobile")) {
+                        }/*else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("speaker_mobile")) {
                             speaker_mobile = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                        }
+                        }*/
 
                     }
                 }

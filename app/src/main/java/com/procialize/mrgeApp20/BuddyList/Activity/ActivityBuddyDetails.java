@@ -244,33 +244,8 @@ public class ActivityBuddyDetails extends AppCompatActivity {
             tvcompany.setVisibility(View.GONE);
             viewthree.setVisibility(View.GONE);
         }
-
-
-        try {
-            if (attendee_mobile.equalsIgnoreCase("N A")) {
-                tvmob.setVisibility(View.GONE);
-                viewtfour.setVisibility(View.GONE);
-            } else if (mobile != null && attendee_mobile.equalsIgnoreCase("1")) {
-                if (mobile.equalsIgnoreCase("")) {
-                    tvmob.setVisibility(View.GONE);
-                    viewtfour.setVisibility(View.GONE);
-                } else if (mobile.equalsIgnoreCase(" ")) {
-                    tvmob.setVisibility(View.GONE);
-                    viewtfour.setVisibility(View.GONE);
-                } else {
-                    tvmob.setText(mobile);
-                }
-
-
-            } else {
-                tvmob.setVisibility(View.GONE);
-                viewtfour.setVisibility(View.GONE);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            tvmob.setVisibility(View.GONE);
-            viewtfour.setVisibility(View.GONE);
-        }
+        tvmob.setVisibility(View.GONE);
+        viewtfour.setVisibility(View.GONE);
 
 
         try {
@@ -430,8 +405,6 @@ public class ActivityBuddyDetails extends AppCompatActivity {
                 attendee_design = eventSettingLists.get(i).getFieldValue();
             } else if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("attendee_message")) {
                 attendeemsg = eventSettingLists.get(i).getFieldValue();
-            } else if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("attendee_save_contact")) {
-                attendee_savecontact = eventSettingLists.get(i).getFieldValue();
             }
         }
     }

@@ -120,17 +120,6 @@ public class QADirectAdapter extends RecyclerView.Adapter<QADirectAdapter.MyView
             holder.likeLL.requestLayout();
         }
 
-//        if (question.geta()!=null && QA_reply_question.equalsIgnoreCase("1")) {
-//            if(!question.getAnswer().equalsIgnoreCase("null")) {
-//                holder.AnsTv.setText("Ans :- "+StringEscapeUtils.unescapeJava(question.getAnswer()));
-//            }else
-//            {
-//                holder.AnsTv.setVisibility(View.GONE);
-//            }
-//        }
-
-
-
         if(question.getTotal_likes().equalsIgnoreCase("1"))
         { holder.countTv.setText(question.getTotal_likes() + " Like");}
         else
@@ -244,9 +233,9 @@ public class QADirectAdapter extends RecyclerView.Adapter<QADirectAdapter.MyView
                     for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
                         if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_like_question")) {
                             QA_like_question = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                        }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_reply_question")) {
+                        }/*else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("Q&A_reply_question")) {
                             QA_reply_question = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                        }
+                        }*/
                     }
                 }
             }
