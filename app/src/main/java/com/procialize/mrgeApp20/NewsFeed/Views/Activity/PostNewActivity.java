@@ -87,6 +87,7 @@ import java.util.Locale;
 
 import javax.annotation.Nullable;
 
+import cn.jzvd.JzvdStd;
 import okhttp3.Headers;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -121,6 +122,9 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     SessionManager session;
     String apikey, eventId;
     LinearLayout linear;
+    ImageView headerlogoIv;
+    ImageView profileIV;
+    ProgressBar progressView;
     private ArrayList<AlbumFile> mAlbumFiles = new ArrayList<>();//Array For selected images and videos
     private int dotscount;
     private ImageView[] dots;
@@ -131,9 +135,6 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     private UsersAdapter usersAdapter;
     private DBHelper procializeDB;
     private ArrayList<AttendeeList> customers;
-    ImageView headerlogoIv;
-    ImageView profileIV;
-    ProgressBar progressView;
 
     public static HttpResponse transformResponse(Response response) {
 
@@ -199,7 +200,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         });
 
         try {
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/" + ApiConstant.folderName + "/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -217,6 +218,24 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         sliderDotspanel = (LinearLayout) findViewById(R.id.SliderDots);
+
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                JzvdStd.goOnPlayOnPause();
+            }
+
+            @Override
+            public void onPageSelected(int position1) {
+                JzvdStd.goOnPlayOnPause();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                JzvdStd.goOnPlayOnPause();
+            }
+        });
 
         postbtn = findViewById(R.id.postbtn);
         postbtn.setOnClickListener(this);
@@ -242,7 +261,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void afterTextChanged(Editable s) {
                 // TODO Auto-generated method stub
-               // txtcount.setText(String.valueOf(500 - s.length()) + "/");
+                // txtcount.setText(String.valueOf(500 - s.length()) + "/");
                 txtcount.setText(String.valueOf(s.length()));
 
                 if (s.length() > 0) {
@@ -304,7 +323,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
 
         apikey = user.get(SessionManager.KEY_TOKEN);
 
-        tv_name.setText(user.get(SessionManager.KEY_NAME)+ " " + user.get(SessionManager.KEY_LNAME));
+        tv_name.setText(user.get(SessionManager.KEY_NAME) + " " + user.get(SessionManager.KEY_LNAME));
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventId = prefs.getString("eventid", "1");
 
@@ -516,8 +535,9 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                 //String mentionedData = data.replace(mentionName, mentionNameFromDb);
                 commentTextView.setText(spannable, TextView.BufferType.SPANNABLE);
             }
-        }catch (Exception e)
-        {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return commentTextView.getText().toString();
     }
 
@@ -537,13 +557,14 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
             if (userList != null && !userList.isEmpty()) {
                 for (AttendeeList user : userList) {
                     final String firstName = user.getFirstName().toLowerCase();
-                    String lastName="";
+                    String lastName = "";
                     try {
                         if (!user.getLastName().isEmpty()) {
                             lastName = user.getLastName().toLowerCase();
                         }
-                    }catch (Exception e)
-                    {e.printStackTrace();}
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     if (firstName.startsWith(query) || lastName.startsWith(query)) {
                         searchResults.add(user);
                     }
@@ -794,8 +815,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                     finish();
                 }
 
-                if(is_completed.equalsIgnoreCase("1"))
-                {
+                if (is_completed.equalsIgnoreCase("1")) {
                     Toast.makeText(PostNewActivity.this, "Post uploaded successfully..!!", Toast.LENGTH_SHORT)
                             .show();
                 }
