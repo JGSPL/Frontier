@@ -39,6 +39,7 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -320,7 +321,12 @@ public class AgendaDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         //----------------------------------------------------------------------------------
-
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, apikey,
+                eventid,
+                ApiConstant.pageVisited,
+                "15",
+                "");
+        getUserActivityReport.userActivityReport();
     }
 
     private void applysetting(List<EventSettingList> eventSettingLists) {

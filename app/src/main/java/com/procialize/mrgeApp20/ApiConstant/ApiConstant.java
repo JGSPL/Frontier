@@ -14,6 +14,10 @@ public class ApiConstant {
     public static final String BROADCAST_ACTION = "com.procialize.eventsapp.BROADCAST";
     public static final String BROADCAST_ACTION_BUZZ_FEED = "com.procialize.eventsapp.BROADCAST.BUZZ_FEED";
     public static String folderName = "MrgeApp2020";
+
+    public static String pageVisited = "1";
+    public static String fileViewed = "2";
+    public static String fileDownloaded = "3";
     //Production URL
     // public static String baseUrl = "https://www.procialize.live/stage/mrge/API/event_api_call/";
     //public static String baseUrl = "https://www.procialize.live/stage/baseapp/API/event_api_call/";

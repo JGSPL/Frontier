@@ -176,7 +176,10 @@
             android:name=".MergeMain.MrgeHomeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
 
-            android:windowSoftInputMode="stateHidden|adjustNothing" />
+            android:windowSoftInputMode="stateHidden|adjustNothing" >
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity" /></activity>
         <activity
             android:name=".Activity.ProfileActivity"
             android:screenOrientation="portrait"
@@ -229,14 +232,14 @@
             android:name=".Activity.AgendaDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
+     <!--   <activity
             android:name=".InnerDrawerActivity.EventInfoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.procialize.mrgeApp20.Activity.HomeActivity" />
-        </activity>
+        </activity>-->
         <activity
             android:name=".InnerDrawerActivity.FeedBackActivity"
             android:screenOrientation="portrait"

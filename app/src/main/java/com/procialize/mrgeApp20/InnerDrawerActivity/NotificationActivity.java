@@ -60,6 +60,7 @@ import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -250,6 +251,12 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
             }
         });
 
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "40",
+                "");
+        getUserActivityReport.userActivityReport();
     }
 
     private void applysetting(List<EventSettingList> eventSettingLists) {

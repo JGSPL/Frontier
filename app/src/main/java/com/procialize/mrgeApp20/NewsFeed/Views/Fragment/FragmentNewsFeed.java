@@ -85,6 +85,7 @@ import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.NewsFeedAdapterRecycler;
 import com.procialize.mrgeApp20.NewsFeed.Views.RecyclerItemTouchHelper;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -155,6 +156,22 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         // Required empty public constructor
     }
 
+    static public Uri getLocalBitmapUri(Bitmap bmp, Context context) {
+        Uri bmpUri = null;
+        try {
+            File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.close();
+//            bmpUri = Uri.fromFile(file);
+            bmpUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".android.fileprovider", file);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
+    }
+
     public void shareImage(final String data, String url, final Context context) {
         final Dialog dialog = new Dialog(context);
         Picasso.with(context).load(url).into(new Target() {
@@ -186,22 +203,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 //Toast.makeText(context, "Please wait for image download", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    static public Uri getLocalBitmapUri(Bitmap bmp, Context context) {
-        Uri bmpUri = null;
-        try {
-            File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
-            FileOutputStream out = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-            out.close();
-//            bmpUri = Uri.fromFile(file);
-            bmpUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".android.fileprovider", file);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bmpUri;
     }
 
     @Override
@@ -384,6 +385,13 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 }
             }
         });
+
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
+                eventid,
+                ApiConstant.pageVisited,
+                "5",
+                "");
+        getUserActivityReport.userActivityReport();
     }
 
     public void showResponseAttendee(Response<FetchAttendee> response) {
@@ -1437,7 +1445,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             /* mTvCapital.setText("Capital : " + capital);*/
         }
     }
-
 
 
 }

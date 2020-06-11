@@ -55,6 +55,7 @@ import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.UserData;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -344,6 +345,13 @@ public class ActivityBuddyDetails extends AppCompatActivity {
                     }).into(profileIV);
         } else {
         }
+
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, apikey,
+                eventid,
+                ApiConstant.pageVisited,
+                "44",
+                "");
+        getUserActivityReport.userActivityReport();
     }
 
     public boolean CheckingPermissionIsEnabledOrNot() {

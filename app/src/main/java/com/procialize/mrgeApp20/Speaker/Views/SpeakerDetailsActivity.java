@@ -54,6 +54,7 @@ import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Speaker.Views.Adapter.PdfListAdapter;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -376,6 +377,13 @@ public class SpeakerDetailsActivity extends AppCompatActivity implements PdfList
             e.printStackTrace();
         }
         //----------------------------------------------------------------------------------
+
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, apikey,
+                eventid,
+                ApiConstant.pageVisited,
+                "13",
+                "");
+        getUserActivityReport.userActivityReport();
     }
 
     private void applysetting(List<EventSettingList> eventSettingLists) {
@@ -557,6 +565,7 @@ public class SpeakerDetailsActivity extends AppCompatActivity implements PdfList
         pdfview.putExtra("url", "https://docs.google.com/gview?embedded=true&url=" + pdf_file_path + pdfList.getPdf_file());
         pdfview.putExtra("url1", pdf_file_path + pdfList.getPdf_file());
         pdfview.putExtra("doc_name",  pdfList.getPdf_name());
+        pdfview.putExtra("page_id",  "49");
         startActivity(pdfview);
     }
 }

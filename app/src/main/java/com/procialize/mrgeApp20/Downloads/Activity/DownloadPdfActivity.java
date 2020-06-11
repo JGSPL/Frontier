@@ -62,7 +62,7 @@ import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 public class DownloadPdfActivity extends AppCompatActivity {
 
     String url = "";
-    String url1 = "", doc_name = "";
+    String url1 = "", doc_name = "",page_id="";
     WebView webview;
     ImageView backIv;
     ImageView headerlogoIv;
@@ -133,6 +133,7 @@ public class DownloadPdfActivity extends AppCompatActivity {
         url = getIntent().getStringExtra("url");
         url1 = getIntent().getStringExtra("url1");
         doc_name = getIntent().getStringExtra("doc_name");
+        page_id = getIntent().getStringExtra("page_id");
 
         TextView title = findViewById(R.id.title);
         title.setText(doc_name);

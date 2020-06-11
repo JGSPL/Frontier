@@ -23,9 +23,12 @@ import android.widget.TextView;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
+import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.io.File;
+import java.util.HashMap;
 
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
@@ -35,6 +38,8 @@ public class EULAActivity extends AppCompatActivity {
     ImageView headerlogoIv;
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid, colorActive;
+    SessionManager sessionManager;
+            String api_token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +63,12 @@ public class EULAActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
+
+        sessionManager = new SessionManager(this);
+        HashMap<String, String> user = sessionManager.getUserDetails();
+
+
+        api_token = user.get(SessionManager.KEY_TOKEN);
 
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
@@ -105,6 +116,14 @@ public class EULAActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, api_token,
+                eventid,
+                ApiConstant.pageVisited,
+                "45",
+                "");
+        getUserActivityReport.userActivityReport();
     }
 
     @Override

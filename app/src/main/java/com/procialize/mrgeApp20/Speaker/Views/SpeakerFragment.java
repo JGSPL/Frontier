@@ -26,6 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.procialize.mrgeApp20.Activity.LoginActivity;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.Speaker.Views.Adapter.SpeakerAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
@@ -38,6 +39,7 @@ import com.procialize.mrgeApp20.Speaker.Models.SpeakerList;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -252,7 +254,12 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
             }
         });
 
-
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
+                eventid,
+                ApiConstant.pageVisited,
+                "12",
+                "");
+        getUserActivityReport.userActivityReport();
         return view;
     }
 

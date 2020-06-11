@@ -12,6 +12,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 
+import static com.zipow.videobox.confapp.ConfMgr.getApplicationContext;
+
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     private static final String TAG = "MyFirebaseIIDService";

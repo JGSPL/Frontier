@@ -22,6 +22,7 @@ import com.procialize.mrgeApp20.Activity.ExhibitorDetailActivity;
 import com.procialize.mrgeApp20.Activity.LoginActivity;
 import com.procialize.mrgeApp20.Adapter.ExhibitorAttendeeAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
@@ -33,6 +34,7 @@ import com.procialize.mrgeApp20.GetterSetter.ExhibitorDataList;
 import com.procialize.mrgeApp20.GetterSetter.ExhibitorList;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -133,6 +135,12 @@ public class ContactFragment extends Fragment implements ExhibitorAttendeeAdapte
             }
         });
 
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), accesstoken,
+                eventid,
+                ApiConstant.pageVisited,
+                "16",
+                "");
+        getUserActivityReport.userActivityReport();
         return view;
     }
 

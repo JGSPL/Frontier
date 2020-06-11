@@ -97,6 +97,7 @@ import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.UsersAdapter;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Utility;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -338,6 +339,12 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
         setupMentionsList();
 
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, apikey,
+                eventid,
+                ApiConstant.pageVisited,
+                "6",
+                "");
+        getUserActivityReport.userActivityReport();
     }
 
    /* private void setupMentionsList() {

@@ -64,6 +64,7 @@ import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
 import com.procialize.mrgeApp20.Utility.Utility;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 import com.squareup.picasso.Picasso;
 import com.yalantis.ucrop.UCrop;
 
@@ -309,6 +310,13 @@ public class ProfileActivity extends AppCompatActivity {
             RequestMultiplePermission();
 
         }*/
+
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, api_token,
+                eventid,
+                ApiConstant.pageVisited,
+                "41",
+                "");
+        getUserActivityReport.userActivityReport();
     }
 
     private void initializeView() {

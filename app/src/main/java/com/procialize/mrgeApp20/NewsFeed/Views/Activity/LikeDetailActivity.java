@@ -52,6 +52,7 @@ import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
 import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.SwipeMultimediaAdapter;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -562,7 +563,12 @@ public class LikeDetailActivity extends AppCompatActivity {
             }
         });
 
-
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "7",
+                "");
+        getUserActivityReport.userActivityReport();
     }
 
     private void showPostLikeListresponse(Response<LikeListing> response) {

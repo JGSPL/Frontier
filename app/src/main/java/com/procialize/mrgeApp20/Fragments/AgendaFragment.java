@@ -32,6 +32,7 @@ import com.procialize.mrgeApp20.Activity.AgendaDetailActivity;
 import com.procialize.mrgeApp20.Activity.LoginActivity;
 import com.procialize.mrgeApp20.Adapter.AgendaAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
@@ -41,6 +42,7 @@ import com.procialize.mrgeApp20.GetterSetter.FetchAgenda;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -221,7 +223,12 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.AgendaAdap
                 }
             }
         });
-
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
+                eventid,
+                ApiConstant.pageVisited,
+                "14",
+                "");
+        getUserActivityReport.userActivityReport();
 
         return view;
     }

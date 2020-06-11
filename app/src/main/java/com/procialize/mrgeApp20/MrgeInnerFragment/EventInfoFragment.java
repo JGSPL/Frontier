@@ -53,6 +53,7 @@ import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Utility;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -208,6 +209,13 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
             }
         }
 
+
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
+                eventid,
+                ApiConstant.pageVisited,
+                "48",
+                "");
+        getUserActivityReport.userActivityReport();
         return view2;
     }
 

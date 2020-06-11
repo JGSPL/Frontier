@@ -50,6 +50,7 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -253,6 +254,14 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "42",
+                "");
+        getUserActivityReport.userActivityReport();
     }
 
     public void fetchFeed(String token, String eventid) {

@@ -242,7 +242,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 if (quizList.size() == pager.getCurrentItem() + 1) {
                     btnNext.setVisibility(View.GONE);
                     submit.setVisibility(View.VISIBLE);
-
+                    submitflag = true;
                     //                    txt_time.setText(String.format(Locale.getDefault(), "%d", time));
 //                    if (time > 0)
 //                        time -= 1;
@@ -746,7 +746,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 Log.e("valid_string", valid.toString());
 
 
-                if (valid == true) {
+                //if (valid == true) {
+                if (submitflag == true) {
                     quiz_question_id = question_id[0];
                     quiz_options_id = question_ans[0];
                     int answers = pagerAdapter.getCorrectOption();
@@ -755,9 +756,9 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                     new postQuizQuestion().execute();
 
 
-                } else {
+                } /*else {
                     Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         }
         else if(v.getId() == R.id.txtSkip) {
@@ -870,7 +871,8 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 Log.e("valid_id", question_id.toString());
                 Log.e("valid_string", valid.toString());
 
-                if (valid == true && submitflag == true) {
+               // if (valid == true && submitflag == true) {
+                if (submitflag == true) {
                     quiz_question_id = question_id[0];
                     quiz_options_id = question_ans[0];
                     int answers = pagerAdapter.getCorrectOption();
@@ -880,7 +882,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                     Toast.makeText(appDelegate, quiz_options_id, Toast.LENGTH_SHORT).show();
                     new postQuizQuestion().execute();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Please answer all questions", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "last question", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -899,7 +901,6 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 timercountdown.start();
                 txt_time.setText("" + ":" + checkdigit(time));
             }
-
         }
     }
 
@@ -907,11 +908,9 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-
         if (cd.isConnectingToInternet()) {
             new getQuizList().execute();
         }
-
     }
 
 
@@ -935,7 +934,6 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
 
         @Override

@@ -43,6 +43,7 @@ import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -248,6 +249,13 @@ public class AttendeeChatActivity extends AppCompatActivity {
                 }
             }
         });
+
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "11",
+                "");
+        getUserActivityReport.userActivityReport();
     }
 
     private class SpotChatReciever extends BroadcastReceiver {

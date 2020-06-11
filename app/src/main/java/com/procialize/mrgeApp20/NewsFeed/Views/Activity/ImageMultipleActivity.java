@@ -54,7 +54,9 @@ import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.SwipeMultimediaDetailsAdapter;
+import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -69,6 +71,7 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -337,7 +340,6 @@ public class ImageMultipleActivity extends AppCompatActivity {
             imagesSelectednew1.add(ApiConstant.newsfeedwall + news_feed_media.get(i).getThumb_image());
         }
 
-
         sharebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -465,6 +467,18 @@ public class ImageMultipleActivity extends AppCompatActivity {
                 }
             });
         }
+
+        SessionManager sessionManager = new SessionManager(this);
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        String api_token = user.get(SessionManager.KEY_TOKEN);
+        SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String eventid = prefs1.getString("eventid", "1");
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, api_token,
+                eventid,
+                ApiConstant.pageVisited,
+                "46",
+                "");
+        getUserActivityReport.userActivityReport();
 
     }
 

@@ -34,6 +34,7 @@ import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.Activity.LoginActivity;
 import com.procialize.mrgeApp20.Adapter.AttendeeAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.AttendeeChat.AttendeeChatActivity;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
@@ -46,6 +47,7 @@ import com.procialize.mrgeApp20.GetterSetter.FetchAttendee;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -244,6 +246,12 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
             e.printStackTrace();
         }
 
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
+                eventid,
+                ApiConstant.pageVisited,
+                "9",
+                "");
+        getUserActivityReport.userActivityReport();
         return view;
     }
 

@@ -23,9 +23,12 @@ import android.widget.TextView;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
+import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.io.File;
+import java.util.HashMap;
 
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
@@ -105,6 +108,16 @@ public class PrivacyPolicy extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        SessionManager sessionManager = new SessionManager(this);
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        String api_token = user.get(SessionManager.KEY_TOKEN);
+
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, api_token,
+                eventid,
+                ApiConstant.pageVisited,
+                "46",
+                "");
+        getUserActivityReport.userActivityReport();
     }
 
     @Override

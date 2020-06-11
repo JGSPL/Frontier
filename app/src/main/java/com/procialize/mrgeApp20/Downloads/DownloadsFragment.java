@@ -47,6 +47,7 @@ import com.procialize.mrgeApp20.GetterSetter.DocumentsListFetch;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -139,7 +140,12 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
             }
         });
 
-
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
+                eventid,
+                ApiConstant.pageVisited,
+                "23",
+                "");
+        getUserActivityReport.userActivityReport();
     }
 
     public void fetchDocuments(String token, String eventid) {
@@ -223,6 +229,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
         pdfview.putExtra("url", "https://docs.google.com/gview?embedded=true&url=" + ApiConstant.imgURL + "uploads/documents/" + document.getFileName());
         pdfview.putExtra("url1", ApiConstant.imgURL + "uploads/documents/" + document.getFileName());
         pdfview.putExtra("doc_name",  document.getTitle());
+        pdfview.putExtra("page_id",  "24");
         startActivity(pdfview);
     }
 

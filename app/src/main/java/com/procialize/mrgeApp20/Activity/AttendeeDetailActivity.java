@@ -70,6 +70,7 @@ import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -607,7 +608,12 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         //----------------------------------------------------------------------------------
-
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, apikey,
+                eventid,
+                ApiConstant.pageVisited,
+                "10",
+                "");
+        getUserActivityReport.userActivityReport();
     }
     private void PostChat(final String eventid, final String token, String budd_id,String msg) {
         mAPIService.eventLiveChat(eventid,token,budd_id,msg).enqueue(new Callback<FetchChatList>() {

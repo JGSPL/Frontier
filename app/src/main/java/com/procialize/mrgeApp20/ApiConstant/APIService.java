@@ -12,6 +12,7 @@ import com.procialize.mrgeApp20.Engagement.Models.FetchEngagementData;
 import com.procialize.mrgeApp20.GetterSetter.AddExhibitorBrochure;
 import com.procialize.mrgeApp20.GetterSetter.Agenda;
 import com.procialize.mrgeApp20.GetterSetter.Analytic;
+import com.procialize.mrgeApp20.GetterSetter.BaseResponse;
 import com.procialize.mrgeApp20.GetterSetter.CommentList;
 import com.procialize.mrgeApp20.GetterSetter.ContactListFetch;
 import com.procialize.mrgeApp20.GetterSetter.CurrencyConverterResponse;
@@ -831,4 +832,12 @@ public interface APIService {
                                          @Field("pageNumber") String message);
 
 
+
+    @POST("getUserActivityReport")
+    @FormUrlEncoded
+    Call<BaseResponse> getUserActivityReport(@Field("api_access_token") String api_access_token,
+                                             @Field("event_id") String event_id,
+                                             @Field("event_type") String event_type,
+                                             @Field("page_id") String page_id,
+                                             @Field("file_id") String file_id);
 }
