@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.BuddyList.Adapter.LiveChatAdapter;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
+import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.util.GetUserActivityReport;
@@ -83,6 +85,8 @@ public class ActivityBuddyChat extends AppCompatActivity {
     String buddy_status;
     String page = "0";
     int pageNO,pageNumber = 1;
+    DBHelper procializeDB;
+    SQLiteDatabase db;
 
     SpotChatReciever spotChatReciever;
     IntentFilter spotChatFilter;
@@ -150,6 +154,9 @@ public class ActivityBuddyChat extends AppCompatActivity {
 
         title.setText(name);
         sub_title.setText(designation + " - " + city);
+
+         procializeDB  = new DBHelper(this);
+         db = procializeDB.getWritableDatabase();
 
         iv_buddy_details = findViewById(R.id.iv_buddy_details);
         iv_buddy_details.setOnClickListener(new View.OnClickListener() {
@@ -232,6 +239,8 @@ public class ActivityBuddyChat extends AppCompatActivity {
             }
         });
 
+        procializeDB.setBuddyChatUnreadMessageCountToZero(attendeeid);
+
         qaRvrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -272,14 +281,10 @@ public class ActivityBuddyChat extends AppCompatActivity {
                         UserChatHistoryRefresh(eventid, token, attendeeid, "1");
                         SpotChat = "S";
                         pageNumber = 1;
-
+                        procializeDB.setBuddyChatUnreadMessageCountToZero(attendeeid);
                     }
                 }
             }
-
-           /* DialogLivePoll dialogLivePoll = new DialogLivePoll();
-            dialogLivePoll.welcomeLivePollDialog(MrgeHomeActivity.this);
-*/
         }
     }
 
@@ -297,18 +302,14 @@ public class ActivityBuddyChat extends AppCompatActivity {
                     commentBt.setEnabled(true);
                     showResponsePost(response);
                    // UserChatHistory(eventid,token,attendeeid,"1");
-
                 } else {
-
                     Toast.makeText(ActivityBuddyChat.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
-
             @Override
             public void onFailure(Call<FetchChatList> call, Throwable t) {
                 Toast.makeText(ActivityBuddyChat.this, "Low network or no network", Toast.LENGTH_SHORT).show();
-
             }
         });
     }

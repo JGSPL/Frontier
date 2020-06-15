@@ -3,6 +3,7 @@ package com.procialize.mrgeApp20.BuddyList.Adapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.BuddyList.DataModel.Buddy;
+import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -54,7 +56,8 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
     private Context context;
     private List<Buddy> attendeeListFiltered;
     private AttendeeAdapterListner listener;
-
+    private DBHelper procializeDB;
+    private SQLiteDatabase db;
 
     public BuddyListAdapter(Context context, List<Buddy> attendeeLists, AttendeeAdapterListner listener) {
         this.attendeeLists = attendeeLists;
@@ -64,6 +67,8 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
 
+        procializeDB = new DBHelper(context);
+        db = procializeDB.getWritableDatabase();
     }
 
     @Override
@@ -89,8 +94,6 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
         Drawable drawable = DrawableCompat.wrap(holder.ic_rightarrow.getDrawable());
         DrawableCompat.setTintList(drawable, csl);
         holder.ic_rightarrow.setImageDrawable(drawable);*/
-
-
 
 
         try {
@@ -158,22 +161,31 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
             holder.btnAccept.setVisibility(View.GONE);
             holder.btnReject.setVisibility(View.GONE);
             holder.ic_rightarrow.setVisibility(View.GONE);
-
         }else if(attendee.getRequest_type().equalsIgnoreCase("request_received")){
             holder.btnCancel.setVisibility(View.GONE);
             holder.btnAccept.setVisibility(View.VISIBLE);
             holder.btnReject.setVisibility(View.VISIBLE);
             holder.ic_rightarrow.setVisibility(View.GONE);
-
         }else{
             holder.btnCancel.setVisibility(View.GONE);
             holder.btnAccept.setVisibility(View.INVISIBLE);
             holder.btnReject.setVisibility(View.INVISIBLE);
             holder.ic_rightarrow.setVisibility(View.VISIBLE);
-
         }
-
-
+        String attendee_id = attendee.getFriend_id();
+        String unreadMsgCount = procializeDB.getBuddyChatForAttendeeId(attendee_id);
+        if(!unreadMsgCount.equalsIgnoreCase("0"))
+        {
+            holder.tv_count.setText(unreadMsgCount);
+            holder.tv_count.setVisibility(View.VISIBLE);
+            holder.ic_rightarrow.setVisibility(View.GONE);
+        }
+        else
+        {
+            holder.tv_count.setText("");
+            holder.tv_count.setVisibility(View.GONE);
+            holder.ic_rightarrow.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -256,7 +268,7 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nameTv, locationTv, designationTv;
+        public TextView nameTv, locationTv, designationTv,tv_count;
         public ImageView profileIv, ic_rightarrow;
         public LinearLayout mainLL;
         public ProgressBar progressBar;
@@ -272,6 +284,7 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
             btnAccept = view.findViewById(R.id.btnAccept);
             btnReject = view.findViewById(R.id.btnReject);
             btnCancel = view.findViewById(R.id.btnCancel);
+            tv_count = view.findViewById(R.id.tv_count);
 
             ic_rightarrow = view.findViewById(R.id.ic_rightarrow);
 

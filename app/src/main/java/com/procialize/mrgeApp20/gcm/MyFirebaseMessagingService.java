@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -24,11 +25,11 @@ import com.procialize.mrgeApp20.Activity.SplashActivity;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.AttendeeChat.AttendeeChatActivity;
 import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyChat;
-import com.procialize.mrgeApp20.BuildConfig;
+import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list_db;
+import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
-import com.procialize.mrgeApp20.Utility.MyApplication;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -87,7 +88,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         event_id = prefs.getString("eventid", "1");
 
-      //  Log.d("Event Id==>", remoteMessage.getData().get("event_id"));
+        //  Log.d("Event Id==>", remoteMessage.getData().get("event_id"));
         // if (remoteMessage.getData().get("event_id").equalsIgnoreCase(event_id)) {
 
         notificationCount++;
@@ -105,22 +106,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (msgTye.equalsIgnoreCase("spot_poll")) {
 
 
-               // if(!MyApplication.isAppDestoryed) {
+                // if(!MyApplication.isAppDestoryed) {
                     /*Intent notifyIntent = new Intent(this, MrgeHomeActivity.class);
                     notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                             | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     notifyIntent.putExtra("spot_poll","spot_poll");
                     startActivity(notifyIntent);*/
-                    MrgeHomeActivity.spot_poll = "spot_poll";
+                MrgeHomeActivity.spot_poll = "spot_poll";
 
 
-                    Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_LIVE_POLL);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+                Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_LIVE_POLL);
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
                 //}
             }
 
             if (msgTye.equalsIgnoreCase("spot_quiz")) {
-
 
 
                 MrgeHomeActivity.spot_quiz = "spot_quiz";
@@ -133,16 +133,30 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (msgTye.contains("chat_")) {
 
 
-
                 ActivityBuddyChat.SpotChat = "chat";
                 ActivityBuddyChat.chat_id = msgTye;
 
+                if (msgTye.contains("chat_")) {
+                    msgTye = msgTye.replace("chat_", "");
+                }
+
+                String[] message = remoteMessage.getData().get("message").split("-");
+                chat_list_db UsersList = new chat_list_db();
+                UsersList.setIs_read("0");
+                UsersList.setId("");
+                UsersList.setSender_id(msgTye);
+                UsersList.setReceiver_id("");
+                UsersList.setMessage(message[1]);
+                UsersList.setTimestamp("");
+                UsersList.setStatus("");
+                DBHelper procializeDB  = new DBHelper(this);
+                SQLiteDatabase db = procializeDB.getWritableDatabase();
+                procializeDB.insertBuddyChat(UsersList, db);
                 Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_ChatBuddy);
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
                 //}
             }
             if (msgTye.contains("eventchat_")) {
-
 
 
                 AttendeeChatActivity.SpotEventChat = "Eventchat";
@@ -152,8 +166,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
                 //}
             }
-
-
 
         } catch (Exception e) {
             e.printStackTrace();
