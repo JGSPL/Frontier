@@ -486,7 +486,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
 
     public void indexset(String name) {
         for (int j = 0; j < firstLevelFilters.size(); j++) {
-            if (firstLevelFilters.get(j).getFileName().equalsIgnoreCase(name)) {
+            if (firstLevelFilters.get(j).getId().equalsIgnoreCase(name)) {
                 pager.setCurrentItem(j);
             }
         }
@@ -494,7 +494,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
 
     @Override
     public void onContactSelected(VideoContest filtergallerylists) {
-        indexset(filtergallerylists.getFileName());
+        indexset(filtergallerylists.getId());
 
     }
 

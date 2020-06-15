@@ -554,7 +554,7 @@ public class ProfileActivity extends AppCompatActivity {
         } else {
             if (email != null) {
                 Etemail.setText(email);
-                Etemail.setVisibility(View.VISIBLE);
+              //  Etemail.setVisibility(View.VISIBLE);
              /*   input_layout_emailid.setVisibility(View.VISIBLE);*/
 
             }

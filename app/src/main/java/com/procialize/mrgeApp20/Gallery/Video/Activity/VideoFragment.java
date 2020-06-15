@@ -98,24 +98,6 @@ View rootView;
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
 
-/*
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-        headerlogoIv = findViewById(R.id.headerlogoIv);
-        Util.logomethod(this, headerlogoIv);*/
 
         videoRv = rootView.findViewById(R.id.videoRv);
         progressBar = rootView.findViewById(R.id.progressBar);
@@ -128,7 +110,6 @@ View rootView;
         msg_txt.setTextColor(Color.parseColor(colorActive));
         pullrefresh.setTextColor(Color.parseColor(colorActive));
 
-      // Util.logomethodwithText( getActivity(), true,"Video", MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);
 
 
 

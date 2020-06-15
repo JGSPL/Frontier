@@ -420,11 +420,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 /*if(youTubeLinkPosition <= youTubeApiLists.size()) {
                     initializeYoutubePlayer(youTubeLinkPosition);
                 }*/
-                FlyingVideo.get(MrgeHomeActivity.this).close();
-                linear_layout.setVisibility(View.VISIBLE);
-                linear_livestream.setVisibility(View.GONE);
-                youTubeLinkPosition = 0;
-                initializeYoutubePlayer(youTubeLinkPosition);
+                if(youTubeApiLists.size()>0) {
+                    FlyingVideo.get(MrgeHomeActivity.this).close();
+                    linear_layout.setVisibility(View.VISIBLE);
+                    linear_livestream.setVisibility(View.GONE);
+                    youTubeLinkPosition = 0;
+                    initializeYoutubePlayer(youTubeLinkPosition);
+                }
             }
         });
         linear_changeView.setOnClickListener(new View.OnClickListener() {

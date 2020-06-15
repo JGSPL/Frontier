@@ -488,18 +488,19 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             holder.headingTv.setVisibility(View.GONE);
         }
 
-
-        if(feed.getTotalLikes().equals("1"))
-        {holder.liketext.setText(feed.getTotalLikes() + " Like ");}
-        else {
-            holder.liketext.setText(feed.getTotalLikes() + " Likes ");
+        if(feed.getTotalLikes()!=null) {
+            if (feed.getTotalLikes().equals("1")) {
+                holder.liketext.setText(feed.getTotalLikes() + " Like ");
+            } else {
+                holder.liketext.setText(feed.getTotalLikes() + " Likes ");
+            }
         }
-
-        if(feed.getTotalComments().equals("1")){
-            holder.commenttext.setText(feed.getTotalComments() + " Comment ");
-        }
-        else {
-            holder.commenttext.setText(feed.getTotalComments() + " Comments ");
+        if(feed.getTotalComments()!=null) {
+            if (feed.getTotalComments().equals("1")) {
+                holder.commenttext.setText(feed.getTotalComments() + " Comment ");
+            } else {
+                holder.commenttext.setText(feed.getTotalComments() + " Comments ");
+            }
         }
 
 

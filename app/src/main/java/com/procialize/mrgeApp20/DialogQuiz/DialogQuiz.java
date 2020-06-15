@@ -142,6 +142,7 @@ public class DialogQuiz implements View.OnClickListener {
         dialog.setContentView(R.layout.bottom_quiz_welcome);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.getWindow().setDimAmount(0);
+        dialog.setCancelable(false);
 
         context2 = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -530,6 +531,7 @@ public class DialogQuiz implements View.OnClickListener {
         ThankyouDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         ThankyouDialog.getWindow().setDimAmount(0);
         ThankyouDialog.dismiss();
+        ThankyouDialog.setCancelable(false);
 
         context2 = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);

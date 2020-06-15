@@ -101,6 +101,7 @@ public class SwipeEngagmentVideoAdapter extends RecyclerView.Adapter<SwipeEngagm
             mainLL = view.findViewById(R.id.mainLL);
             progressBar = view.findViewById(R.id.progressBar);
 
+/*
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -108,6 +109,7 @@ public class SwipeEngagmentVideoAdapter extends RecyclerView.Adapter<SwipeEngagm
                     listener.onContactSelected(filtergallerylists.get(getAdapterPosition()));
                 }
             });
+*/
         }
     }
 }

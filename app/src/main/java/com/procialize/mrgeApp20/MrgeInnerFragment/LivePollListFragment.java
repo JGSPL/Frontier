@@ -71,6 +71,7 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
     private ConnectionDetector cd;
     TextView empty, pullrefresh;
     LinearLayout linear;
+     String token;
 
     public LivePollListFragment() {
         // Required empty public constructor
@@ -119,7 +120,7 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
         HashMap<String, String> user = sessionManager.getUserDetails();
 
         // token
-        final String token = user.get(SessionManager.KEY_TOKEN);
+         token = user.get(SessionManager.KEY_TOKEN);
         crashlytics("Live Poll",token);
         firbaseAnalytics(getContext(), "Live Poll", token);
 
@@ -223,13 +224,6 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        //  overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-
-    }
-
 
     @Override
     public void onContactSelected(LivePollList pollList) {
@@ -266,4 +260,21 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
         JzvdStd.releaseAllVideos();
 
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (cd.isConnectingToInternet()) {
+            fetchPoll(token, eventid);
+        } else {
+            if (pollrefresh.isRefreshing()) {
+                pollrefresh.setRefreshing(false);
+            }
+            Toast.makeText(getContext(), "No internet connection",
+                    Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+
 }
