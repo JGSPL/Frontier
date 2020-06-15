@@ -43,6 +43,7 @@ import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.DialogQuiz.DialogQuiz;
 import com.procialize.mrgeApp20.Utility.MyApplication;
 import com.procialize.mrgeApp20.Utility.ServiceHandler;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -222,6 +223,15 @@ public class FolderQuizFragment extends Fragment {
 
             }
         });
+
+        //--------------------------------------------------------------------------------------
+       /* GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "25",
+                "");
+        getUserActivityReport.userActivityReport();*/
+        //--------------------------------------------------------------------------------------
         return view;
     }
     @Override

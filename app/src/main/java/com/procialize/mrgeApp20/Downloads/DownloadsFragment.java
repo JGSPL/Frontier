@@ -140,12 +140,12 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
             }
         });
 
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
+        /*GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
                 eventid,
                 ApiConstant.pageVisited,
                 "23",
                 "");
-        getUserActivityReport.userActivityReport();
+        getUserActivityReport.userActivityReport();*/
     }
 
     public void fetchDocuments(String token, String eventid) {
@@ -230,6 +230,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
         pdfview.putExtra("url1", ApiConstant.imgURL + "uploads/documents/" + document.getFileName());
         pdfview.putExtra("doc_name",  document.getTitle());
         pdfview.putExtra("page_id",  "24");
+        pdfview.putExtra("file_id",  document.getId());
         startActivity(pdfview);
     }
 

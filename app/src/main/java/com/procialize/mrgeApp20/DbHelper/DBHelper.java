@@ -282,6 +282,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String BUZZ_WIDTH = "BUZZ_WIDTH";
     public static final String BUZZ_HEIGHT = "BUZZ_HEIGHT";
     public static final String BUZZ_MEDIA_IMAGE = "BUZZ_MEDIA_IMAGE";
+    public static final String BUZZ_MEDIA_ID = "BUZZ_MEDIA_ID";
 
     public static final String LOGO = "LOGO";
 
@@ -460,7 +461,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + BUZZ_THUMB_IMAGE + " text, "
                 + BUZZ_WIDTH + " text, "
                 + BUZZ_MEDIA_IMAGE + " blob, "
-                + BUZZ_HEIGHT + " text)");
+                + BUZZ_HEIGHT + " text, "
+                + BUZZ_MEDIA_ID + " text)");
 
     }
 
@@ -1669,6 +1671,10 @@ public class DBHelper extends SQLiteOpenHelper {
                     contentValues.put(BUZZ_HEIGHT, session_date);
                 }
 
+                String media_id = agendasList.get(i).getMedia_id();
+                if (media_id != null && media_id.length() > 0) {
+                    contentValues.put(BUZZ_MEDIA_ID, media_id);
+                }
 
                 //if (agendasList.get(i).getMedia_type().equalsIgnoreCase("image")) {
                 if (agendasList.get(i).getMedia_image() != null) {
@@ -2333,7 +2339,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 newsfeedsList.setAttendee_type(cursor.getString(18));
                 newsfeedsList.setCity(cursor.getString(19));
 
-                String selectQueryMedia = "select BUZZ_FEED_ID,BUZZ_MEDIA_TYPE,BUZZ_MEDIA_FILE,BUZZ_THUMB_IMAGE FROM " +
+                String selectQueryMedia = "select BUZZ_FEED_ID,BUZZ_MEDIA_TYPE,BUZZ_MEDIA_FILE,BUZZ_THUMB_IMAGE,BUZZ_MEDIA_ID FROM " +
                         BUZZ_MEDIA_TABLE_NAME + " where " + BUZZ_FEED_ID + " = '" + cursor.getString(0) + "'";
                 Cursor cursorMedia = db.rawQuery(selectQueryMedia, null);
                 int count = cursorMedia.getCount();
@@ -2345,6 +2351,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         newsFeedMediaList.setMedia_type(cursorMedia.getString(1));
                         newsFeedMediaList.setMediaFile(cursorMedia.getString(2));
                         newsFeedMediaList.setThumb_image(cursorMedia.getString(3));
+                        newsFeedMediaList.setMedia_id(cursorMedia.getString(4));
                         // newsFeedMediaList.setWidth(cursorMedia.getString(4));
                        /* if(cursorMedia.getBlob(4)!=null)
                         newsFeedMediaList.setMedia_image(cursorMedia.getBlob(4));

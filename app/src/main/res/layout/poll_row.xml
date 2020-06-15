@@ -88,9 +88,7 @@
                 android:paddingLeft="10dp"
                 android:text="="
                 android:textColor="@color/black"
-                android:textSize="@dimen/textsizesmall"
-                android:maxLines="1"
-                android:ellipsize="end"/>
+                android:textSize="@dimen/textsizesmall"/>
 
                 <com.procialize.mrgeApp20.Fonts.RobotoTextview
                     android:id="@+id/statusTv"

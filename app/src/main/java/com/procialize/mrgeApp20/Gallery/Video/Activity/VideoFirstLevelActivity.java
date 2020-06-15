@@ -28,6 +28,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.procialize.mrgeApp20.Gallery.Image.Activity.GalleryFirstLevelActivity;
 import com.procialize.mrgeApp20.Gallery.Video.Adapter.VideoFirstLevelAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
@@ -39,6 +40,7 @@ import com.procialize.mrgeApp20.GetterSetter.VideoList;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.io.File;
 import java.io.Serializable;
@@ -165,6 +167,13 @@ public class VideoFirstLevelActivity extends AppCompatActivity implements VideoF
         }
         //----------------------------------------------------------------------------------
 
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this,token,
+                eventid,
+                ApiConstant.pageVisited,
+                "21",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
     }
 
     @Override

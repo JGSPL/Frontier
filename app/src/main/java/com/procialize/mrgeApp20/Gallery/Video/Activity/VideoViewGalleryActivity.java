@@ -40,8 +40,11 @@ import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.Gallery.Video.Adapter.SwipeVideoAdapter;
 import com.procialize.mrgeApp20.Gallery.Video.Adapter.SwipeVideoPagerAdapter;
 import com.procialize.mrgeApp20.GetterSetter.FirstLevelFilter;
+import com.procialize.mrgeApp20.InnerDrawerActivity.SwappingGalleryActivity;
 import com.procialize.mrgeApp20.R;
+import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -55,6 +58,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -77,7 +81,7 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
     ViewPager pager;
     ImageView right, left, backIv;
     ImageView headerlogoIv;
-    String colorActive;
+    String colorActive,eventid;
     String MY_PREFS_NAME = "ProcializeInfo";
     String img = "";
     RelativeLayout linear;
@@ -197,7 +201,7 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
         Util.logomethod(this, headerlogoIv);
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
-
+        eventid = prefs.getString("eventid", "1");
         backIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -241,8 +245,17 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
         savebtn.setBackgroundColor(Color.parseColor(colorActive));
         sharebtn.setBackgroundColor(Color.parseColor(colorActive));*/
 
-
-
+        SessionManager sessionManager = new SessionManager(VideoViewGalleryActivity.this);
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        final String token = user.get(SessionManager.KEY_TOKEN);
+        //------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(VideoViewGalleryActivity.this, token,
+                eventid,
+                ApiConstant.fileViewed,
+                "22",
+                firstLevelFilters.get(rvposition).getId());
+        getUserActivityReport.userActivityReport();
+        //------------------------------------------------------------------
 
         linShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -326,6 +339,15 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
         linSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //------------------------------------------------------------------
+                GetUserActivityReport getUserActivityReport = new GetUserActivityReport(VideoViewGalleryActivity.this, token,
+                        eventid,
+                        ApiConstant.fileDownloaded,
+                        "22",
+                        firstLevelFilters.get(rvposition).getId());
+                getUserActivityReport.userActivityReport();
+                //------------------------------------------------------------------
+
                 isShare = false;
                 String UrlfileName = firstLevelFilters.get(rvposition).getFileName();
                 if (UrlfileName.contains("youtu")) {

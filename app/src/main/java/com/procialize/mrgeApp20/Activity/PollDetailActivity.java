@@ -46,6 +46,7 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -250,6 +251,14 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
             e.printStackTrace();
         }
         //----------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "29",
+                "");
+        getUserActivityReport.userActivityReport();
+        //---------------------------------------------------------------
     }
 
 

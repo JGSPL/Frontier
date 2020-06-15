@@ -44,9 +44,11 @@ import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.SelfieLike;
 import com.procialize.mrgeApp20.GetterSetter.SelfieList;
 import com.procialize.mrgeApp20.GetterSetter.SelfieListFetch;
+import com.procialize.mrgeApp20.NewsFeed.Views.Activity.ImageMultipleActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -325,6 +327,16 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
 
 
                     } else {
+
+                        //---------------------------------------------------------------------------------------------------------
+                        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(SwappingSelfieActivity.this, token,
+                                eventid,
+                                ApiConstant.fileDownloaded,
+                                "19",
+                                firstLevelFilters.get(rvposition).getId());
+                        getUserActivityReport.userActivityReport();
+                        //-----------------------------------------------------------------------------------------------
+
                         //new myAsyncTask().execute();
                         PicassoTrustAll.getInstance(SwappingSelfieActivity.this)
                                 .load(ApiConstant.selfieimage + firstLevelFilters.get(rvposition).getFileName())
@@ -474,6 +486,15 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
 
             @Override
             public void onPageSelected(int position) {
+                //---------------------------------------------------------------------------------------------------------
+                GetUserActivityReport getUserActivityReport = new GetUserActivityReport(SwappingSelfieActivity.this, token,
+                        eventid,
+                        ApiConstant.fileViewed,
+                        "19",
+                        firstLevelFilters.get(rvposition).getId());
+                getUserActivityReport.userActivityReport();
+                //-----------------------------------------------------------------------------------------------
+
             }
 
             @Override
@@ -490,6 +511,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
             e.printStackTrace();
         }
         //----------------------------------------------------------------------------------
+
     }
 
     public void indexset(String name) {

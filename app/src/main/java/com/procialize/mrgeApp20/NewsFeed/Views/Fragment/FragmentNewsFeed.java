@@ -1044,6 +1044,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                         nb_media.setThumb_image(newsfeedsDBList.get(i).getNews_feed_media().get(j).getThumb_image());
                         nb_media.setWidth(newsfeedsDBList.get(i).getNews_feed_media().get(j).getWidth());
                         nb_media.setHeight(newsfeedsDBList.get(i).getNews_feed_media().get(j).getHeight());
+                        nb_media.setMedia_id(newsfeedsDBList.get(i).getNews_feed_media().get(j).getMedia_id());
 
                         news_feed_mediaDB.add(nb_media);
                     }

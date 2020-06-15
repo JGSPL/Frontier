@@ -52,6 +52,7 @@ import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.MyApplication;
 import com.procialize.mrgeApp20.Utility.Util;
 import com.procialize.mrgeApp20.Utility.Utility;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -242,6 +243,14 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
 //            }
         });
 
+        //----------------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, apikey,
+                eventId,
+                ApiConstant.pageVisited,
+                "36",
+                "");
+        getUserActivityReport.userActivityReport();
+        //---------------------------------------------------------------
     }
 
     public class SubmitPostTask extends AsyncTask<String, String, JSONObject> {

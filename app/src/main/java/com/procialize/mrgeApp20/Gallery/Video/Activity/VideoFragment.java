@@ -47,6 +47,7 @@ import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -159,6 +160,14 @@ View rootView;
                 fetchVideo(token, eventid);
             }
         });
+
+       GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(),token,
+               eventid,
+               ApiConstant.pageVisited,
+               "21",
+               "");
+       getUserActivityReport.userActivityReport();
+       //--------------------------------------------------------------------------------------
     }
 
 

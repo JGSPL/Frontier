@@ -46,6 +46,7 @@ import com.procialize.mrgeApp20.InnerDrawerActivity.VideoContestUploadActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -187,6 +188,15 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
             e.printStackTrace();
         }
         //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "37",
+                "");
+        getUserActivityReport.userActivityReport();
+        //---------------------------------------------------------------
     }
 
     public void SelfieListFetch(String token, String eventid) {

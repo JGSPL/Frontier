@@ -210,12 +210,12 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         }
 
 
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
+        /*GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
                 eventid,
                 ApiConstant.pageVisited,
                 "48",
                 "");
-        getUserActivityReport.userActivityReport();
+        getUserActivityReport.userActivityReport();*/
         return view2;
     }
 

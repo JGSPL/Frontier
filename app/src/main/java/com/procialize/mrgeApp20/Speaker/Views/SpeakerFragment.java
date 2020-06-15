@@ -254,12 +254,12 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
             }
         });
 
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
+        /*GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
                 eventid,
                 ApiConstant.pageVisited,
                 "12",
                 "");
-        getUserActivityReport.userActivityReport();
+        getUserActivityReport.userActivityReport();*/
         return view;
     }
 

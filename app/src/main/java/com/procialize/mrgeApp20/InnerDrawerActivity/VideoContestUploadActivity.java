@@ -47,6 +47,7 @@ import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.ScalingUtilities;
 import com.procialize.mrgeApp20.Utility.Util;
 import com.procialize.mrgeApp20.Utility.Utility;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -523,6 +524,14 @@ public class VideoContestUploadActivity extends AppCompatActivity implements Pro
 
 
         selectVideo();
+        //----------------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, apikey,
+                eventId,
+                ApiConstant.pageVisited,
+                "39",
+                "");
+        getUserActivityReport.userActivityReport();
+        //---------------------------------------------------------------
     }
 
     @Override

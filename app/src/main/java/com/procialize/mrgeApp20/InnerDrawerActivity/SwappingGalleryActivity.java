@@ -36,7 +36,9 @@ import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.FirstLevelFilter;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
+import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -45,6 +47,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.jzvd.JzvdStd;
@@ -67,6 +70,7 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
     String img = "";
     RelativeLayout linear;
     TextView tv_title,title;
+    String eventid,token;
     private ConnectionDetector cd;
 
     static public void shareImage(String url, final Context context) {
@@ -147,6 +151,7 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
         Util.logomethod(this, headerlogoIv);
         title = findViewById(R.id.title);
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
         title.setText(folderName);
 
@@ -158,7 +163,9 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
             }
         });
 
-
+        SessionManager sessionManager = new SessionManager(SwappingGalleryActivity.this);
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        token = user.get(SessionManager.KEY_TOKEN);
 
         /*try {
 
@@ -201,7 +208,14 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
             @Override
             public void onClick(View v) {
                 if (cd.isConnectingToInternet()) {
-
+                    //------------------------------------------------------------------
+                    GetUserActivityReport getUserActivityReport = new GetUserActivityReport(SwappingGalleryActivity.this, token,
+                            eventid,
+                            ApiConstant.fileDownloaded,
+                            "19",
+                            firstLevelFilters.get(rvposition).getId());
+                    getUserActivityReport.userActivityReport();
+                    //------------------------------------------------------------------
                     try {
                         try {
                             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -397,6 +411,12 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
             @Override
             public void onPageSelected(int position) {
 
+                GetUserActivityReport getUserActivityReport = new GetUserActivityReport(SwappingGalleryActivity.this, token,
+                        eventid,
+                        ApiConstant.fileViewed,
+                        "19",
+                        firstLevelFilters.get(rvposition).getId());
+                getUserActivityReport.userActivityReport();
             }
 
             @Override

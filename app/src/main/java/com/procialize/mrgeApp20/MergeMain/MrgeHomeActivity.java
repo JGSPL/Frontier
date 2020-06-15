@@ -1,6 +1,5 @@
 package com.procialize.mrgeApp20.MergeMain;
 
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,7 +17,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -27,7 +25,6 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,7 +37,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -60,7 +56,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.crashlytics.android.Crashlytics;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -139,11 +134,11 @@ import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Speaker.Views.SpeakerFragment;
-import com.procialize.mrgeApp20.Utility.MyApplication;
 import com.procialize.mrgeApp20.Utility.PlayerConfig;
 import com.procialize.mrgeApp20.Utility.Res;
 import com.procialize.mrgeApp20.Utility.Util;
 import com.procialize.mrgeApp20.Zoom.ui.InitAuthSDKActivity;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -232,7 +227,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     YouTubePlayerTracker mTracker = null;
     YouTubePlayer youTubePlayer;
     Fragment fragment = null;
-   // Dialog myDialog;
+    // Dialog myDialog;
     ViewPagerAdapterSub viewPagerAdapterSub3;
     ViewPagerAdapterSub viewPagerAdapterSub2;
     ViewPagerAdapterSub viewPagerAdapterSub4;
@@ -350,7 +345,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
 
         try {
@@ -1195,17 +1189,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         viewPagerAdapterSub3 = new ViewPagerAdapterSub(getSupportFragmentManager());
         if (image_gallery.equalsIgnoreCase("1")) {
             viewPagerAdapterSub3.addFragment(new GalleryFragment(), "IMAGE");
-
         }
         if (video_gallery.equalsIgnoreCase("1")) {
             viewPagerAdapterSub3.addFragment(new VideoFragment(), "VIDEO");
-
         }
         if (document_download.equalsIgnoreCase("1")) {
             viewPagerAdapterSub3.addFragment(new DownloadsFragment(), "DOWNLOADS");
-
         }
-
         Subviewpager2.setAdapter(viewPagerAdapterSub3);
     }
 
@@ -1222,7 +1212,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             }
         }
 
-
         if (sub4tabLayout.getTabAt(1) != null) {
             if (sub4tabLayout.getTabAt(1).getText().equals("QUIZ")) {
                 sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[0]);
@@ -1234,7 +1223,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 sub4tabLayout.getTabAt(1).setIcon(sub3tabIcons[3]);
             }
         }
-
 
         if (sub4tabLayout.getTabAt(2) != null) {
             if (sub4tabLayout.getTabAt(2).getText().equals("QUIZ")) {
@@ -1278,20 +1266,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         if (QnA.equalsIgnoreCase("1")) {
             if (QnA_session.equalsIgnoreCase("1")) {
                 viewPagerAdapterSub4.addFragment(new QnASessionFragment(), "Q&A");
-
             } else if (QnA_speaker.equalsIgnoreCase("1")) {
                 viewPagerAdapterSub4.addFragment(new QnASpeakerFragment(), "Q&A");
-
             } else {
                 viewPagerAdapterSub4.addFragment(new QnADirectFragment(), "Q&A");
-
             }
-
         }
 
         if (engagement.equalsIgnoreCase("1")) {
             viewPagerAdapterSub4.addFragment(new EngagementFragment(), "ENGAGEMENT");
-
         }
 
         Subviewpager3.setAdapter(viewPagerAdapterSub4);
@@ -3433,20 +3416,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         sub2tabLayout.setVisibility(View.GONE);
                         linTab2.setVisibility(View.GONE);
                         if (tab.getText().equals("EVENT INFO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                            callEventInfoFragment();
                         } else if (tab.getText().equals("ATTENDEES")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                            callAttendeeFragment();
                         } else if (tab.getText().equals("SPEAKERS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                            callSpeakerFragment();
                         } else if (tab.getText().equals("SCHEDULE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                            callScheduleFragment();
                         } else if (tab.getText().equals("EMERGENCY")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
+                            callEmergencyFragment();
                         }
                     }
 
@@ -3469,20 +3447,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                            callEventInfoFragment();
                         } else if (tab.getText().equals("ATTENDEES")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                            callAttendeeFragment();
                         } else if (tab.getText().equals("SPEAKERS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                            callSpeakerFragment();
                         } else if (tab.getText().equals("SCHEDULE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                            callScheduleFragment();
                         } else if (tab.getText().equals("EMERGENCY")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
+                            callEmergencyFragment();
                         }
                     }
                 });
@@ -3510,20 +3483,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         sub2tabLayout.setVisibility(View.GONE);
                         linTab2.setVisibility(View.GONE);
                         if (tab.getText().equals("EVENT INFO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                            callEventInfoFragment();
                         } else if (tab.getText().equals("ATTENDEES")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                            callAttendeeFragment();
                         } else if (tab.getText().equals("SPEAKERS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                            callSpeakerFragment();
                         } else if (tab.getText().equals("SCHEDULE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                            callScheduleFragment();
                         } else if (tab.getText().equals("EMERGENCY")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
+                            callEmergencyFragment();
                         }
                     }
 
@@ -3547,20 +3515,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                            callEventInfoFragment();
                         } else if (tab.getText().equals("ATTENDEES")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                            callAttendeeFragment();
                         } else if (tab.getText().equals("SPEAKERS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                            callSpeakerFragment();
                         } else if (tab.getText().equals("SCHEDULE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                            callScheduleFragment();
                         } else if (tab.getText().equals("EMERGENCY")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
+                            callEmergencyFragment();
                         }
                     }
                 });
@@ -3585,20 +3548,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                         sub2tabLayout.setVisibility(View.GONE);
                         if (tab.getText().equals("EVENT INFO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                            callEventInfoFragment();
                         } else if (tab.getText().equals("ATTENDEES")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                            callAttendeeFragment();
                         } else if (tab.getText().equals("SPEAKERS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                            callSpeakerFragment();
                         } else if (tab.getText().equals("SCHEDULE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                            callScheduleFragment();
                         } else if (tab.getText().equals("EMERGENCY")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
+                            callEmergencyFragment();
                         }
                     }
 
@@ -3621,20 +3579,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                            callEventInfoFragment();
                         } else if (tab.getText().equals("ATTENDEES")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                            callAttendeeFragment();
                         } else if (tab.getText().equals("SPEAKERS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                            callSpeakerFragment();
                         } else if (tab.getText().equals("SCHEDULE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                            callScheduleFragment();
                         } else if (tab.getText().equals("EMERGENCY")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
+                            callEmergencyFragment();
                         }
                     }
                 });
@@ -3660,20 +3613,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         sub2tabLayout.setVisibility(View.GONE);
                         linTab2.setVisibility(View.GONE);
                         if (tab.getText().equals("EVENT INFO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                            callEventInfoFragment();
                         } else if (tab.getText().equals("ATTENDEES")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                            callAttendeeFragment();
                         } else if (tab.getText().equals("SPEAKERS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                            callSpeakerFragment();
                         } else if (tab.getText().equals("SCHEDULE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                            callScheduleFragment();
                         } else if (tab.getText().equals("EMERGENCY")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
+                            callEmergencyFragment();
                         }
                     }
 
@@ -3696,20 +3644,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                            callEventInfoFragment();
                         } else if (tab.getText().equals("ATTENDEES")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                            callAttendeeFragment();
                         } else if (tab.getText().equals("SPEAKERS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                            callSpeakerFragment();
                         } else if (tab.getText().equals("SCHEDULE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                            callScheduleFragment();
                         } else if (tab.getText().equals("EMERGENCY")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact Contact", txtMainHeader, headerlogoIv);
+                            callEmergencyFragment();
                         }
                     }
                 });
@@ -3731,20 +3674,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         // sub2tabLayout.setVisibility(View.GONE);
                         if (tab.getText().equals("EVENT INFO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                            callEventInfoFragment();
                         } else if (tab.getText().equals("ATTENDEES")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                            callAttendeeFragment();
                         } else if (tab.getText().equals("SPEAKERS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                            callSpeakerFragment();
                         } else if (tab.getText().equals("SCHEDULE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                            callScheduleFragment();
                         } else if (tab.getText().equals("EMERGENCY")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact Contact Contact", txtMainHeader, headerlogoIv);
+                            callEmergencyFragment();
                         }
                     }
 
@@ -3763,20 +3701,16 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         list_image_view.setVisibility(View.GONE);
                         JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+                            callEventInfoFragment();
                         } else if (tab.getText().equals("ATTENDEES")) {
 
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+                            callAttendeeFragment();
                         } else if (tab.getText().equals("SPEAKERS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+                            callSpeakerFragment();
                         } else if (tab.getText().equals("SCHEDULE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+                            callScheduleFragment();
                         } else if (tab.getText().equals("EMERGENCY")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
+                            callEmergencyFragment();
                         }
                     }
                 });
@@ -3836,17 +3770,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         sub3tabLayout.setVisibility(View.GONE);
                         linTab3.setVisibility(View.GONE);
                         if (tab.getText().equals("IMAGE")) {
-                            grid_image_view.setVisibility(View.GONE);
-                            list_image_view.setVisibility(View.GONE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+                            callGalleryFragment();
                         } else if (tab.getText().equals("VIDEO")) {
-                            grid_image_view.setVisibility(View.GONE);
-                            list_image_view.setVisibility(View.GONE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+                            callVideoFragment();
                         } else if (tab.getText().equals("DOWNLOADS")) {
-                            grid_image_view.setVisibility(View.VISIBLE);
-                            list_image_view.setVisibility(View.VISIBLE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
+                            callDownloadsFragment();
                         }
                     }
                 });
@@ -3874,17 +3802,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         sub3tabLayout.setVisibility(View.GONE);
 
                         if (tab.getText().equals("IMAGE")) {
-                            grid_image_view.setVisibility(View.GONE);
-                            list_image_view.setVisibility(View.GONE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+                            callGalleryFragment();
                         } else if (tab.getText().equals("VIDEO")) {
-                            grid_image_view.setVisibility(View.GONE);
-                            list_image_view.setVisibility(View.GONE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+                            callVideoFragment();
                         } else if (tab.getText().equals("DOWNLOADS")) {
-                            grid_image_view.setVisibility(View.VISIBLE);
-                            list_image_view.setVisibility(View.VISIBLE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
+                            callDownloadsFragment();
                         }
                     }
 
@@ -3907,17 +3829,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         sub3tabLayout.setVisibility(View.GONE);
                         linTab3.setVisibility(View.GONE);
                         if (tab.getText().equals("IMAGE")) {
-                            grid_image_view.setVisibility(View.GONE);
-                            list_image_view.setVisibility(View.GONE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+                            callGalleryFragment();
                         } else if (tab.getText().equals("VIDEO")) {
-                            grid_image_view.setVisibility(View.GONE);
-                            list_image_view.setVisibility(View.GONE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+                            callVideoFragment();
                         } else if (tab.getText().equals("DOWNLOADS")) {
-                            grid_image_view.setVisibility(View.VISIBLE);
-                            list_image_view.setVisibility(View.VISIBLE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
+                            callDownloadsFragment();
                         }
                     }
                 });
@@ -3940,17 +3856,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         sub3tabLayout.setVisibility(View.GONE);
                         linTab3.setVisibility(View.GONE);
                         if (tab.getText().equals("IMAGE")) {
-                            grid_image_view.setVisibility(View.GONE);
-                            list_image_view.setVisibility(View.GONE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+                            callGalleryFragment();
                         } else if (tab.getText().equals("VIDEO")) {
-                            grid_image_view.setVisibility(View.GONE);
-                            list_image_view.setVisibility(View.GONE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+                            callVideoFragment();
                         } else if (tab.getText().equals("DOWNLOADS")) {
-                            grid_image_view.setVisibility(View.VISIBLE);
-                            list_image_view.setVisibility(View.VISIBLE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
+                            callDownloadsFragment();
                         }
                     }
 
@@ -3973,17 +3883,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         sub3tabLayout.setVisibility(View.GONE);
                         linTab3.setVisibility(View.GONE);
                         if (tab.getText().equals("IMAGE")) {
-                            grid_image_view.setVisibility(View.GONE);
-                            list_image_view.setVisibility(View.GONE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+                            callGalleryFragment();
                         } else if (tab.getText().equals("VIDEO")) {
-                            grid_image_view.setVisibility(View.GONE);
-                            list_image_view.setVisibility(View.GONE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+                            callVideoFragment();
                         } else if (tab.getText().equals("DOWNLOADS")) {
-                            grid_image_view.setVisibility(View.VISIBLE);
-                            list_image_view.setVisibility(View.VISIBLE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
+                            callDownloadsFragment();
                         }
                     }
                 });
@@ -4006,14 +3910,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         // sub3tabLayout.setVisibility(View.GONE);
                         if (tab.getText().equals("IMAGE")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+                            callGalleryFragment();
                         } else if (tab.getText().equals("VIDEO")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+                            callVideoFragment();
                         } else if (tab.getText().equals("DOWNLOADS")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
+                            callDownloadsFragment();
                         }
                     }
 
@@ -4032,17 +3933,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         sub3tabLayout.setVisibility(View.GONE);
                         linTab3.setVisibility(View.GONE);
                         if (tab.getText().equals("IMAGE")) {
-                            grid_image_view.setVisibility(View.GONE);
-                            list_image_view.setVisibility(View.GONE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+                            callGalleryFragment();
                         } else if (tab.getText().equals("VIDEO")) {
-                            grid_image_view.setVisibility(View.GONE);
-                            list_image_view.setVisibility(View.GONE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+                            callVideoFragment();
                         } else if (tab.getText().equals("DOWNLOADS")) {
-                            grid_image_view.setVisibility(View.VISIBLE);
-                            list_image_view.setVisibility(View.VISIBLE);
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
+                            callDownloadsFragment();
                         }
                     }
                 });
@@ -4057,13 +3952,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
             int i = sub4tabLayout.getTabCount();
             if (i == 4) {
-
-
                 sub4tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
                 sub4tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
                 sub4tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
                 sub4tabLayout.getTabAt(3).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
-
 
                 sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
@@ -4081,18 +3973,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         linTab4.setVisibility(View.GONE);
 
                         if (tab.getText().equals("QUIZ")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                            callQuizFolderFragment();
                         } else if (tab.getText().equals("LIVE POLL")) {
-                            // showQuizDialouge();
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                            callLivePollFragment();
                         } else if (tab.getText().equals("Q&A")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                            callQnAFragment();
                         } else if (tab.getText().equals("ENGAGEMENT")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
+                            callEngagementFragment();
                         }
                     }
 
@@ -4115,17 +4002,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         sub4tabLayout.setVisibility(View.GONE);
                         linTab4.setVisibility(View.GONE);
                         if (tab.getText().equals("QUIZ")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                            callQuizFolderFragment();
                         } else if (tab.getText().equals("LIVE POLL")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                            callLivePollFragment();
                         } else if (tab.getText().equals("Q&A")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                            callQnAFragment();
                         } else if (tab.getText().equals("ENGAGEMENT")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
+                            callEngagementFragment();
                         }
                     }
                 });
@@ -4150,17 +4033,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                         sub4tabLayout.setVisibility(View.GONE);
                         if (tab.getText().equals("QUIZ")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                            callQuizFolderFragment();
                         } else if (tab.getText().equals("LIVE POLL")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                            callLivePollFragment();
                         } else if (tab.getText().equals("Q&A")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                            callQnAFragment();
                         } else if (tab.getText().equals("ENGAGEMENT")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
+                            callEngagementFragment();
                         }
                     }
 
@@ -4183,17 +4062,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         sub4tabLayout.setVisibility(View.GONE);
                         linTab4.setVisibility(View.GONE);
                         if (tab.getText().equals("QUIZ")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                            callQuizFolderFragment();
                         } else if (tab.getText().equals("LIVE POLL")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                            callLivePollFragment();
                         } else if (tab.getText().equals("Q&A")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                            callQnAFragment();
                         } else if (tab.getText().equals("ENGAGEMENT")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
+                            callEngagementFragment();
                         }
                     }
                 });
@@ -4219,17 +4094,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         sub4tabLayout.setVisibility(View.GONE);
                         linTab4.setVisibility(View.GONE);
                         if (tab.getText().equals("QUIZ")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                            callQuizFolderFragment();
                         } else if (tab.getText().equals("LIVE POLL")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                            callLivePollFragment();
                         } else if (tab.getText().equals("Q&A")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                            callQnAFragment();
                         } else if (tab.getText().equals("ENGAGEMENT")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
+                            callEngagementFragment();
                         }
                     }
 
@@ -4242,17 +4113,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                         tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
                         if (tab.getText().equals("QUIZ")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                            callQuizFolderFragment();
                         } else if (tab.getText().equals("LIVE POLL")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                            callLivePollFragment();
                         } else if (tab.getText().equals("Q&A")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                            callQnAFragment();
                         } else if (tab.getText().equals("ENGAGEMENT")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
+                            callEngagementFragment();
                         }
                     }
 
@@ -4283,17 +4150,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         // sub3tabLayout.setVisibility(View.GONE);
                         if (tab.getText().equals("QUIZ")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                            callQuizFolderFragment();
                         } else if (tab.getText().equals("LIVE POLL")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                            callLivePollFragment();
                         } else if (tab.getText().equals("Q&A")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                            callQnAFragment();
                         } else if (tab.getText().equals("ENGAGEMENT")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
+                            callEngagementFragment();
                         }
                     }
 
@@ -4312,17 +4175,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         sub4tabLayout.setVisibility(View.GONE);
                         linTab4.setVisibility(View.GONE);
                         if (tab.getText().equals("QUIZ")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+                            callQuizFolderFragment();
                         } else if (tab.getText().equals("LIVE POLL")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+                            callLivePollFragment();
                         } else if (tab.getText().equals("Q&A")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+                            callQnAFragment();
                         } else if (tab.getText().equals("ENGAGEMENT")) {
-
-                            Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
+                            callEngagementFragment();
                         }
                     }
                 });
@@ -4352,6 +4211,18 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
     }
 */
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(spotLivePollReciever);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(spotQuizReciever);
+
+        procializeDB.close();
+        dbHelper.close();
+        finishAffinity();
+    }
+
 
     public static class NotificationCountReciever extends BroadcastReceiver {
         @Override
@@ -4418,12 +4289,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             Log.d("service end", "service end");
         }
     }
+
     private class SpotQuizReciever extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
 
             Log.d("service end", "service end");
-            if(spot_quiz!=null) {
+            if (spot_quiz != null) {
                 if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
                     DialogQuiz dialogquiz = new DialogQuiz();
                     dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this);
@@ -4436,16 +4308,15 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         }
     }
 
-
     private class SpotLivePollReciever extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             // progressbarForSubmit.setVisibility(View.GONE);
 
-           // setupViewPager(viewPager);
+            // setupViewPager(viewPager);
 
             Log.d("service end", "service end");
-            if(spot_poll!=null) {
+            if (spot_poll != null) {
                 if (spot_poll.equalsIgnoreCase("spot_poll")) {
                     DialogLivePoll dialogLivePoll = new DialogLivePoll();
                     dialogLivePoll.welcomeLivePollDialog(MrgeHomeActivity.this);
@@ -4459,8 +4330,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 */
         }
     }
-
-
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -4495,14 +4364,173 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(spotLivePollReciever);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(spotQuizReciever);
+    public void callAttendeeFragment() {
+        //------------------------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(MrgeHomeActivity.this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "9",
+                "");
+        getUserActivityReport.userActivityReport();
+        //---------------------------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+    }
 
-        procializeDB.close();
-        dbHelper.close();
-        finishAffinity();
+    public void callEventInfoFragment() {
+        //------------------------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(MrgeHomeActivity.this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "48",
+                "");
+        getUserActivityReport.userActivityReport();
+        //---------------------------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+    }
+
+    public void callSpeakerFragment() {
+        //------------------------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "12",
+                "");
+        getUserActivityReport.userActivityReport();
+        //---------------------------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+    }
+
+    public void callScheduleFragment() {
+        //------------------------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "14",
+                "");
+        getUserActivityReport.userActivityReport();
+        //---------------------------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+    }
+
+    public void callEmergencyFragment() {
+        //------------------------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "16",
+                "");
+        getUserActivityReport.userActivityReport();
+        //---------------------------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
+    }
+
+    public void callGalleryFragment() {
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "17",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
+        grid_image_view.setVisibility(View.GONE);
+        list_image_view.setVisibility(View.GONE);
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+    }
+
+    public void callVideoFragment() {
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "20",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
+    grid_image_view.setVisibility(View.GONE);
+    list_image_view.setVisibility(View.GONE);
+    Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+    }
+
+    public void callDownloadsFragment() {
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "23",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
+        grid_image_view.setVisibility(View.VISIBLE);
+        list_image_view.setVisibility(View.VISIBLE);
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
+    }
+
+    public void callQuizFolderFragment() {
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "25",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+    }
+
+    public void callLivePollFragment() {
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "28",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+    }
+
+    public void callQnAFragment() {
+        if (QnA_session.equalsIgnoreCase("1")) {
+            //--------------------------------------------------------------------------------------
+            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                    eventid,
+                    ApiConstant.pageVisited,
+                    "32",
+                    "");
+            getUserActivityReport.userActivityReport();
+            //--------------------------------------------------------------------------------------
+        } else if (QnA_speaker.equalsIgnoreCase("1")) {
+            //--------------------------------------------------------------------------------------
+            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                    eventid,
+                    ApiConstant.pageVisited,
+                    "31",
+                    "");
+            getUserActivityReport.userActivityReport();
+            //--------------------------------------------------------------------------------------
+        } else {
+            //--------------------------------------------------------------------------------------
+            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                    eventid,
+                    ApiConstant.pageVisited,
+                    "30",
+                    "");
+            getUserActivityReport.userActivityReport();
+            //--------------------------------------------------------------------------------------
+        }
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+    }
+
+    public void callEngagementFragment() {
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "30",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
     }
 }

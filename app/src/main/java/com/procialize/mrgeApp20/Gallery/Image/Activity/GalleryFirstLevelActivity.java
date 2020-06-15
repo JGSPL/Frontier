@@ -29,11 +29,14 @@ import com.procialize.mrgeApp20.GetterSetter.GalleryList;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SwappingGalleryActivity;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
+import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.jzvd.JzvdStd;
@@ -147,6 +150,7 @@ public class GalleryFirstLevelActivity extends AppCompatActivity implements Gall
                             firstLevelFilter.setTitle(galleryLists.get(i).getTitle());
                             firstLevelFilter.setFolderName(galleryLists.get(i).getFolderName());
                             firstLevelFilter.setFolder_id(galleryLists.get(i).getFolder_id());
+                            firstLevelFilter.setId(galleryLists.get(i).getId());
                             firstLevelFilter.setFileName(ApiConstant.galleryimage + galleryLists.get(i).getFileName());
                             filtergallerylists.add(firstLevelFilter);
                         }
@@ -170,6 +174,17 @@ public class GalleryFirstLevelActivity extends AppCompatActivity implements Gall
             e.printStackTrace();
         }
         //----------------------------------------------------------------------------------
+        SessionManager sessionManager = new SessionManager(GalleryFirstLevelActivity.this);
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        final String token = user.get(SessionManager.KEY_TOKEN);
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this,token,
+                eventid,
+                ApiConstant.pageVisited,
+                "18",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
     }
 
     @Override

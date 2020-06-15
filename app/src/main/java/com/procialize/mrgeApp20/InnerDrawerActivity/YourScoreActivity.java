@@ -24,11 +24,14 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.R;
+import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.File;
+import java.util.HashMap;
 
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 
@@ -171,5 +174,19 @@ public class YourScoreActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String eventid = prefs1.getString("eventid", "1");
+        SessionManager sessionManager = new SessionManager(YourScoreActivity.this);
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        String token = user.get(SessionManager.KEY_TOKEN);
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this,token,
+                eventid,
+                ApiConstant.pageVisited,
+                "27",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
     }
 }

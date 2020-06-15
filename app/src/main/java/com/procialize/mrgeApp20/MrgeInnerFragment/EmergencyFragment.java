@@ -163,6 +163,12 @@ public class EmergencyFragment extends Fragment {
             }
         });
 
+        /*GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
+                eventid,
+                ApiConstant.pageVisited,
+                "16",
+                "");
+        getUserActivityReport.userActivityReport();*/
 
         return rootView;
     }

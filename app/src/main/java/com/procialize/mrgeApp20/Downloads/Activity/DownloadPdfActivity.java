@@ -40,6 +40,7 @@ import com.procialize.mrgeApp20.GetterSetter.Analytic;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -62,7 +63,7 @@ import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 public class DownloadPdfActivity extends AppCompatActivity {
 
     String url = "";
-    String url1 = "", doc_name = "",page_id="";
+    String url1 = "", doc_name = "",page_id="",file_id="";
     WebView webview;
     ImageView backIv;
     ImageView headerlogoIv;
@@ -134,6 +135,7 @@ public class DownloadPdfActivity extends AppCompatActivity {
         url1 = getIntent().getStringExtra("url1");
         doc_name = getIntent().getStringExtra("doc_name");
         page_id = getIntent().getStringExtra("page_id");
+        file_id = getIntent().getStringExtra("file_id");
 
         TextView title = findViewById(R.id.title);
         title.setText(doc_name);
@@ -198,6 +200,12 @@ public class DownloadPdfActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new DownloadFile().execute(url1);
+                GetUserActivityReport getUserActivityReport = new GetUserActivityReport(DownloadPdfActivity.this, token,
+                        eventid,
+                        ApiConstant.fileDownloaded,
+                        page_id,
+                        file_id);
+                getUserActivityReport.userActivityReport();
             }
         });
 
@@ -267,6 +275,13 @@ public class DownloadPdfActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         //----------------------------------------------------------------------------------
+
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.fileViewed,
+                page_id,
+                file_id);
+        getUserActivityReport.userActivityReport();
     }
 
     public void SubmitAnalytics(String token, String eventid, String target_attendee_id, String target_attendee_type, String analytic_type) {

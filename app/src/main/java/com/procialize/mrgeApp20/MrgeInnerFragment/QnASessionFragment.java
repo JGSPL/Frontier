@@ -48,6 +48,7 @@ import com.procialize.mrgeApp20.GetterSetter.QASessionFetch;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -199,7 +200,14 @@ public class QnASessionFragment extends Fragment implements QAAttendeeAdapter.QA
             }
         });
 
-
+        //----------------------------------------------------------------------------------
+        /*GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(),token,
+                eventid,
+                ApiConstant.pageVisited,
+                "32",
+                "");
+        getUserActivityReport.userActivityReport();*/
+        //--------------------------------------------------------------------------------------
         return rootView;
     }
 

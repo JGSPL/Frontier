@@ -246,12 +246,12 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
             e.printStackTrace();
         }
 
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
+      /*  GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
                 eventid,
                 ApiConstant.pageVisited,
                 "9",
                 "");
-        getUserActivityReport.userActivityReport();
+        getUserActivityReport.userActivityReport();*/
         return view;
     }
 

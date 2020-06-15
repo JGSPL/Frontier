@@ -56,6 +56,7 @@ import com.procialize.mrgeApp20.GetterSetter.VideoContestListFetch;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -348,6 +349,14 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
                 String UrlfileName = firstLevelFilters.get(rvposition).getFileName();
                 if (UrlfileName.contains("youtu")) {
                 } else {
+                    //---------------------------------------------------------------------------------------------------------
+                    GetUserActivityReport getUserActivityReport = new GetUserActivityReport(SwappingVideoActivity.this, token,
+                            eventid,
+                            ApiConstant.fileDownloaded,
+                            "22",
+                            firstLevelFilters.get(rvposition).getId());
+                    getUserActivityReport.userActivityReport();
+                    //---------------------------------------------------------------------------------------------
                     new DownloadFile().execute(ApiConstant.selfievideo + UrlfileName);
                 }
             }
@@ -447,6 +456,15 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
 
             @Override
             public void onPageSelected(int position) {
+                //---------------------------------------------------------------------------------------------------------
+                GetUserActivityReport getUserActivityReport = new GetUserActivityReport(SwappingVideoActivity.this, token,
+                        eventid,
+                        ApiConstant.fileViewed,
+                        "22",
+                        firstLevelFilters.get(rvposition).getId());
+                getUserActivityReport.userActivityReport();
+                //-----------------------------------------------------------------------------------------------
+
             }
 
             @Override

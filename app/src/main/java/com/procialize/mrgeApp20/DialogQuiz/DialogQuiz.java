@@ -163,7 +163,7 @@ public class DialogQuiz implements View.OnClickListener {
         Button btnQuizStart = dialog.findViewById(R.id.btnQuizStart);
         CardView Quizcard = dialog.findViewById(R.id.Quizcard);
         Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
-        Quizcard.setAlpha(0.8f);
+        Quizcard.setAlpha(0.5f);
 
 
         imgClose.setOnClickListener(new View.OnClickListener() {

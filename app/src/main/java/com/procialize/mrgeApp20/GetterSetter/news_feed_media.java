@@ -6,6 +6,18 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class news_feed_media implements Serializable {
+    @SerializedName("media_id")
+    @Expose
+    private String media_id;
+
+    public String getMedia_id() {
+        return media_id;
+    }
+
+    public void setMedia_id(String media_id) {
+        this.media_id = media_id;
+    }
+
     @SerializedName("media_type")
     @Expose
     private String media_type;

@@ -54,8 +54,10 @@ import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.EventListing;
 import com.procialize.mrgeApp20.GetterSetter.Login;
 import com.procialize.mrgeApp20.GetterSetter.UserEventList;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -461,6 +463,13 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
                         });
 
             }*/
+
+            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(EventChooserActivity.this, accesstiken,
+                    eventid,
+                    ApiConstant.pageVisited,
+                    "3",
+                    "");
+            getUserActivityReport.userActivityReport();
         } else {
             Toast.makeText(EventChooserActivity.this, "No Intrnet Connection", Toast.LENGTH_SHORT).show();
         }

@@ -332,8 +332,6 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
             }
 
             linearLayout2.setVisibility(View.GONE);

@@ -41,6 +41,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.procialize.mrgeApp20.Adapter.QASpeakerAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DialogQnA.DialogQnADirect;
@@ -50,6 +51,7 @@ import com.procialize.mrgeApp20.GetterSetter.SpeakerQuestionList;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -187,7 +189,14 @@ public class QnASpeakerFragment extends Fragment implements QASpeakerAdapter.QAS
 
             }
         });
-
+//----------------------------------------------------------------------------------
+       /* GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(),token,
+                eventid,
+                ApiConstant.pageVisited,
+                "31",
+                "");
+        getUserActivityReport.userActivityReport();*/
+        //--------------------------------------------------------------------------------------
 
         return rootView;
     }

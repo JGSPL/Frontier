@@ -223,12 +223,12 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.AgendaAdap
                 }
             }
         });
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
+       /* GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
                 eventid,
                 ApiConstant.pageVisited,
                 "14",
                 "");
-        getUserActivityReport.userActivityReport();
+        getUserActivityReport.userActivityReport();*/
 
         return view;
     }

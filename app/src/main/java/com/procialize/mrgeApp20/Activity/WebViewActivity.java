@@ -40,6 +40,7 @@ import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import java.io.File;
 import java.util.HashMap;
@@ -188,6 +189,15 @@ public class WebViewActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(WebViewActivity.this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "47",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
     }
 
 

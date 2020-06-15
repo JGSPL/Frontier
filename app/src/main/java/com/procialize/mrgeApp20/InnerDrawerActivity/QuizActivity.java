@@ -50,6 +50,7 @@ import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.MyApplication;
 import com.procialize.mrgeApp20.Utility.ServiceHandler;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.NameValuePair;
@@ -526,6 +527,15 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
             e.printStackTrace();
         }
         //----------------------------------------------------------------------------------
+
+        //----------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this,accessToken,
+                event_id,
+                ApiConstant.pageVisited,
+                "26",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
     }
 
     public String checkdigit(int number) {
@@ -943,7 +953,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
             List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
 
             nameValuePair.add(new BasicNameValuePair("api_access_token",
-                    accessToken));
+                    accessToken));D
             nameValuePair.add(new BasicNameValuePair("event_id",
                     event_id));
             nameValuePair.add(new BasicNameValuePair("quiz_id", quiz_question_id));

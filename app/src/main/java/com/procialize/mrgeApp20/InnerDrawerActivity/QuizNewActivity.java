@@ -46,6 +46,7 @@ import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.MyApplication;
 import com.procialize.mrgeApp20.Utility.ServiceHandler;
 import com.procialize.mrgeApp20.Utility.Util;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.NameValuePair;
@@ -335,6 +336,15 @@ public class QuizNewActivity extends AppCompatActivity implements View.OnClickLi
             e.printStackTrace();
         }
         //----------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this,accessToken,
+                event_id,
+                ApiConstant.pageVisited,
+                "26",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
+
     }
 
     /**

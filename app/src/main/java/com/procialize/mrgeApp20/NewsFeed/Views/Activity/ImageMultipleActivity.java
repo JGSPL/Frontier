@@ -96,6 +96,8 @@ public class ImageMultipleActivity extends AppCompatActivity {
     private ConnectionDetector cd;
     private String strPath;
     boolean isShare;
+    String api_token;
+    String eventid;
 
     static public void shareImage(String url, final Context context) {
   /*      if (url.contains("mp4")) {
@@ -222,6 +224,11 @@ public class ImageMultipleActivity extends AppCompatActivity {
             }
         });
         });*/
+        SessionManager sessionManager = new SessionManager(this);
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        api_token = user.get(SessionManager.KEY_TOKEN);
+        SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        eventid = prefs1.getString("eventid", "1");
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
@@ -321,6 +328,12 @@ public class ImageMultipleActivity extends AppCompatActivity {
                                                   }
                                               }
                                         );
+                                GetUserActivityReport getUserActivityReport = new GetUserActivityReport(ImageMultipleActivity.this, api_token,
+                                        eventid,
+                                        ApiConstant.fileDownloaded,
+                                        "8",
+                                        news_feed_media.get(shareOrSaveImagePosition).getMedia_id());
+                                getUserActivityReport.userActivityReport();
                             }
                         }
                     }
@@ -429,6 +442,8 @@ public class ImageMultipleActivity extends AppCompatActivity {
             }
         });
 
+
+
         SwipeMultimediaDetailsAdapter swipepagerAdapter = new SwipeMultimediaDetailsAdapter(ImageMultipleActivity.this, imagesSelectednew, imagesSelectednew1);
         rvp_slide.setAdapter(swipepagerAdapter);
         swipepagerAdapter.notifyDataSetChanged();
@@ -455,6 +470,15 @@ public class ImageMultipleActivity extends AppCompatActivity {
                     if (viewHolder.VideoView != null) {
                         viewHolder.VideoView.pause();
                     }*/
+
+                   //---------------------------------------------------------------------------------------------------------
+                    GetUserActivityReport getUserActivityReport = new GetUserActivityReport(ImageMultipleActivity.this, api_token,
+                            eventid,
+                            ApiConstant.fileViewed,
+                            "8",
+                            news_feed_media.get(shareOrSaveImagePosition).getMedia_id());
+                    getUserActivityReport.userActivityReport();
+                    //-----------------------------------------------------------------------------------------------
                     MediaPlayer mediaPlayer = new MediaPlayer();
                     mediaPlayer.pause();
                 }
@@ -468,17 +492,6 @@ public class ImageMultipleActivity extends AppCompatActivity {
             });
         }
 
-        SessionManager sessionManager = new SessionManager(this);
-        HashMap<String, String> user = sessionManager.getUserDetails();
-        String api_token = user.get(SessionManager.KEY_TOKEN);
-        SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        String eventid = prefs1.getString("eventid", "1");
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, api_token,
-                eventid,
-                ApiConstant.pageVisited,
-                "46",
-                "");
-        getUserActivityReport.userActivityReport();
 
     }
 
@@ -680,6 +693,13 @@ public class ImageMultipleActivity extends AppCompatActivity {
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
                 startActivity(Intent.createChooser(sharingIntent, "Share Video"));}
             else {
+                GetUserActivityReport getUserActivityReport = new GetUserActivityReport(ImageMultipleActivity.this, api_token,
+                        eventid,
+                        ApiConstant.fileDownloaded,
+                        "8",
+                        news_feed_media.get(shareOrSaveImagePosition).getMedia_id());
+                getUserActivityReport.userActivityReport();
+
                 // Display File path after downloading
                 Toast.makeText(getApplicationContext(),
                         message, Toast.LENGTH_LONG).show();

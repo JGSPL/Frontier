@@ -566,6 +566,7 @@ public class SpeakerDetailsActivity extends AppCompatActivity implements PdfList
         pdfview.putExtra("url1", pdf_file_path + pdfList.getPdf_file());
         pdfview.putExtra("doc_name",  pdfList.getPdf_name());
         pdfview.putExtra("page_id",  "49");
+        pdfview.putExtra("file_id",  pdfList.getId());
         startActivity(pdfview);
     }
 }
