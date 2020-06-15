@@ -1,6 +1,9 @@
 package com.procialize.mrgeApp20.BuddyList.Activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -62,6 +66,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyChat.SpotChat;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -86,7 +91,10 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
     private SQLiteDatabase db;
     private List<AttendeeList> attendeeDBList;
     LinearLayout ll_empty_view;
-     String token;
+    String token;
+    SpotChatReciever spotChatReciever;
+    IntentFilter spotChatFilter;
+    public static String chat_id = "0";
 
 
     @Override
@@ -262,6 +270,14 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
                 "42",
                 "");
         getUserActivityReport.userActivityReport();
+
+        try {
+            spotChatReciever = new SpotChatReciever();
+            spotChatFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_SPOT_ChatBuddy);
+            LocalBroadcastManager.getInstance(this).registerReceiver(spotChatReciever, spotChatFilter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void fetchFeed(String token, String eventid) {
@@ -416,7 +432,6 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         });
     }
 
-
     public void AccectRejectMethod(String eventid, String toke, String Buddy_id, String response) {
         progressBar.setVisibility(View.VISIBLE);
         mAPIService.respondToFriendRequest(eventid,toke, Buddy_id, response).enqueue(new Callback<FetchSendRequest>() {
@@ -475,5 +490,10 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
     }
 
 
-
+    private class SpotChatReciever extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            attendeeAdapter.notifyDataSetChanged();
+        }
+    }
 }

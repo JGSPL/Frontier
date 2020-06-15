@@ -953,7 +953,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
             List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
 
             nameValuePair.add(new BasicNameValuePair("api_access_token",
-                    accessToken));D
+                    accessToken));
             nameValuePair.add(new BasicNameValuePair("event_id",
                     event_id));
             nameValuePair.add(new BasicNameValuePair("quiz_id", quiz_question_id));
