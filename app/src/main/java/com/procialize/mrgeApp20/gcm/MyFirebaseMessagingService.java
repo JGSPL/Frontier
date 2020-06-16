@@ -89,7 +89,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         event_id = prefs.getString("eventid", "1");
 
         //  Log.d("Event Id==>", remoteMessage.getData().get("event_id"));
-        // if (remoteMessage.getData().get("event_id").equalsIgnoreCase(event_id)) {
+         if (remoteMessage.getData().get("event_id").equalsIgnoreCase(event_id)) {
 
         notificationCount++;
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -234,7 +234,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             bitmap = getBitmapfromUrl(imageUri);
             sendNotification(remoteMessage.getData().get("message"), bitmap);
         }
-        //}
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

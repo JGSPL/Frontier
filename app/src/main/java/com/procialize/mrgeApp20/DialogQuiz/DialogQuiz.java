@@ -26,10 +26,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.behavior.HideBottomViewOnScrollBehavior;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.procialize.mrgeApp20.Adapter.QuizAdapter;
 import com.procialize.mrgeApp20.Adapter.QuizFolderAdapter;
@@ -143,6 +146,8 @@ public class DialogQuiz implements View.OnClickListener {
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.getWindow().setDimAmount(0);
         dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+
 
         context2 = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -163,8 +168,8 @@ public class DialogQuiz implements View.OnClickListener {
         ImageView imgClose = dialog.findViewById(R.id.imgClose);
         Button btnQuizStart = dialog.findViewById(R.id.btnQuizStart);
         CardView Quizcard = dialog.findViewById(R.id.Quizcard);
-        Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
-        Quizcard.setAlpha(0.5f);
+       // Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
+        Quizcard.setAlpha(0.9f);
 
 
         imgClose.setOnClickListener(new View.OnClickListener() {
@@ -192,8 +197,12 @@ public class DialogQuiz implements View.OnClickListener {
         Detaildialog.setContentView(R.layout.botom_quiz_questiondetail);
         Detaildialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         Detaildialog.getWindow().setDimAmount(0);
+        Detaildialog.setCanceledOnTouchOutside(false);
 
         Detaildialog.setCancelable(false);
+
+        LinearLayout relative = Detaildialog.findViewById(R.id.relative);
+        relative.setAlpha(0.9f);
 
         ImageView ic_close = Detaildialog.findViewById(R.id.imgClose);
         ic_close.setOnClickListener(new View.OnClickListener() {
@@ -533,6 +542,10 @@ public class DialogQuiz implements View.OnClickListener {
         ThankyouDialog.dismiss();
         ThankyouDialog.setCancelable(false);
 
+        ThankyouDialog.setCanceledOnTouchOutside(false);
+        CardView CardView = ThankyouDialog.findViewById(R.id.Quizcard);
+        CardView.setAlpha(0.9f);
+
         context2 = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
@@ -693,7 +706,7 @@ public class DialogQuiz implements View.OnClickListener {
                     quiz_question_id = question_id[0];
                     quiz_options_id = question_ans[0];
                     int answers = pagerAdapter.getCorrectOption();
-                    Toast.makeText(appDelegate, quiz_options_id, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(appDelegate, quiz_options_id, Toast.LENGTH_SHORT).show();
                     Log.d("Selected Options==>",quiz_options_id);
                     new postQuizQuestion().execute();
 //                    Intent intent = new Intent(QuizActivity.this, YourScoreActivity.class);

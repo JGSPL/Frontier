@@ -221,8 +221,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
     String catcnt;
     LinearLayout linTab4, linTab3, linTab2;
-    String zoom_meeting_id, zoom_password, zoom_status, zoom_time;//,youtube_stream_url,  stream_status, stream_time
-    ImageView float_icon;
+    public static String zoom_meeting_id, zoom_password, zoom_status, zoom_time;//,youtube_stream_url,  stream_status, stream_time
+     ImageView float_icon;
     String YouvideoId;
     YouTubePlayerTracker mTracker = null;
     YouTubePlayer youTubePlayer;
@@ -231,10 +231,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     ViewPagerAdapterSub viewPagerAdapterSub3;
     ViewPagerAdapterSub viewPagerAdapterSub2;
     ViewPagerAdapterSub viewPagerAdapterSub4;
-    LinearLayout linChange, linzoom, linStream;
-    ImageView img_view;
-    TextView txt_change;
-    List<YouTubeApiList> youTubeApiLists = new ArrayList<>();
+    public static LinearLayout linChange, linzoom, linStream;
+    public static ImageView img_view;
+    public static TextView txt_change;
+    public static List<YouTubeApiList> youTubeApiLists = new ArrayList<>();
     int youTubeLinkPosition = -1;
     private String event_details = "0", attendee = "0", attendee_designation = "0", attendee_company = "0",
             attendee_location = "0", attendee_mobile = "0", attendee_save_contact = "0", speaker = "0",
@@ -2189,17 +2189,17 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             txt_change.setText("Change View");
                             img_view.startAnimation(anim);
                             //-----------------------------------
-                        } else {
-                            linChange.setBackgroundColor(Color.parseColor("#686868"));
-                            img_view.setBackgroundColor(Color.parseColor("#686868"));
-                            txt_change.setBackgroundColor(Color.parseColor("#686868"));
-
-                            linStream.setBackgroundColor(Color.parseColor("#686868"));
-                            txt_change.setBackgroundColor(Color.parseColor("#686868"));
-                            img_view.setBackgroundColor(Color.parseColor("#686868"));
-                            // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
-                            txt_change.setText("Change View");
                         }
+                    }else {
+                        linChange.setBackgroundColor(Color.parseColor("#686868"));
+                        img_view.setBackgroundColor(Color.parseColor("#686868"));
+                        txt_change.setBackgroundColor(Color.parseColor("#686868"));
+
+                        linStream.setBackgroundColor(Color.parseColor("#686868"));
+                        txt_change.setBackgroundColor(Color.parseColor("#686868"));
+                        img_view.setBackgroundColor(Color.parseColor("#686868"));
+                        // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
+                        txt_change.setText("Change View");
                     }
 
                      /*  if (stream_status.equalsIgnoreCase("1")) {

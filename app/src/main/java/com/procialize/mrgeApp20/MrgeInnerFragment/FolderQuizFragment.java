@@ -29,6 +29,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.procialize.mrgeApp20.Adapter.QuizFolderAdapter;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
+import com.procialize.mrgeApp20.DialogLivePoll.DialogLivePoll;
 import com.procialize.mrgeApp20.GetterSetter.Quiz;
 import com.procialize.mrgeApp20.GetterSetter.QuizFolder;
 import com.procialize.mrgeApp20.GetterSetter.QuizOptionList;
@@ -142,8 +143,8 @@ public class FolderQuizFragment extends Fragment {
 
         }
 
-        /*DialogQuiz dQuiz = new DialogQuiz();
-        dQuiz.welcomeQuizDialog(getContext());*/
+       /* DialogLivePoll dQuiz = new DialogLivePoll();
+        dQuiz.welcomeLivePollDialog(getContext());*/
 
         quizrefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

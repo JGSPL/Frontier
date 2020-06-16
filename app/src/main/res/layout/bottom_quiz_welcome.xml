@@ -5,6 +5,7 @@
     android:layout_marginBottom="60dp"
     android:layout_marginRight="10dp"
     android:id="@+id/Quizcard"
+    android:background="@color/colorwhite"
     android:layout_marginLeft="10dp"
     android:layout_height="250dp">
     <ScrollView

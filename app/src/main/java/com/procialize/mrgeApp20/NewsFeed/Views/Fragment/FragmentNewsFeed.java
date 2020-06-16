@@ -14,6 +14,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -132,7 +133,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     SQLiteDatabase db;
     ArrayList<NewsFeedPostMultimedia> newsFeedPostMultimediaList;
     SessionManager session;
-    String token, eventid;
+    String token, eventid, colorActive;
     TextView tv_uploading;
     NewsFeedAdapterRecycler feedAdapter;
     RecyclerView feedrecycler;
@@ -270,6 +271,8 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
+        colorActive = prefs.getString("colorActive", "");
+
         ll_mind = rootView.findViewById(R.id.ll_mind);
         ll_mind.setOnClickListener(this);
         String colorActive = prefs.getString("colorActive", "");
@@ -965,6 +968,99 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void showResponse(Response<FetchFeed> response) {
+
+        if (response.isSuccessful()) {
+            Log.i("hit", "post submitted to API." + response.body().toString());
+            // for (int i = 0; i < response.body().getLive_steaming_info().size(); i++) {
+            MrgeHomeActivity.zoom_meeting_id = response.body().getLive_steaming_info().getZoom_meeting_id();
+            MrgeHomeActivity.zoom_password = response.body().getLive_steaming_info().getZoom_password();
+            MrgeHomeActivity.zoom_status = response.body().getLive_steaming_info().getZoom_status();
+
+            MrgeHomeActivity.zoom_time = response.body().getLive_steaming_info().getZoom_datetime();
+
+            if (response.body().getYoutube_info().size() > 0) {
+                if(MrgeHomeActivity.youTubeApiLists.size()>0){
+                    MrgeHomeActivity.youTubeApiLists.clear();
+                }
+                MrgeHomeActivity. youTubeApiLists = response.body().getYoutube_info();
+                if(MrgeHomeActivity.youTubeApiLists.size()>0) {
+
+                    if (MrgeHomeActivity.youTubeApiLists.get(0).getStream_status().equalsIgnoreCase("1")) {
+                        MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor(colorActive));
+                        MrgeHomeActivity.txt_streaming.setBackgroundColor(Color.parseColor(colorActive));
+                        MrgeHomeActivity.img_stream.setBackgroundColor(Color.parseColor(colorActive));
+
+                        MrgeHomeActivity.txt_streaming.setText("Live Streaming! Tap to view ");
+                        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                        anim.setDuration(500); //You can manage the blinking time with this parameter
+                        anim.setStartOffset(20);
+                        anim.setRepeatMode(Animation.REVERSE);
+                        anim.setRepeatCount(Animation.INFINITE);
+                        MrgeHomeActivity.img_stream.startAnimation(anim);
+
+                        //-------------------------------------
+                        MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor(colorActive));
+
+                        MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor(colorActive));
+                        MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor(colorActive));
+
+                        MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor(colorActive));
+
+                        MrgeHomeActivity.txt_change.setText("Change View");
+                        MrgeHomeActivity.img_view.startAnimation(anim);
+                        //-----------------------------------
+                    } else {
+                        MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
+                        MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+                        MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));
+
+                        MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor("#686868"));
+                        MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));
+                        MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+                        // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
+                        MrgeHomeActivity.txt_change.setText("Change View");
+                    }
+                }else {
+                    MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
+                    MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+                    MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));
+
+                    MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor("#686868"));
+                    MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));
+                    MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+                    // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
+                    MrgeHomeActivity.txt_change.setText("Change View");
+                }
+            }
+
+            //}
+            if ( MrgeHomeActivity.zoom_status.equalsIgnoreCase("1")) {
+//                            countDownzoom();
+
+
+                MrgeHomeActivity.linzoom.setBackgroundColor(Color.parseColor(colorActive));
+                MrgeHomeActivity.txt_zoom.setBackgroundColor(Color.parseColor(colorActive));
+                MrgeHomeActivity.img_zoom.setBackgroundColor(Color.parseColor(colorActive));
+
+                MrgeHomeActivity.txt_zoom.setText("Participates");
+                Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                anim.setDuration(500); //You can manage the blinking time with this parameter
+                anim.setStartOffset(20);
+                anim.setRepeatMode(Animation.REVERSE);
+                anim.setRepeatCount(Animation.INFINITE);
+                MrgeHomeActivity.img_zoom.startAnimation(anim);
+            } else {
+                       /* linChange.setBackgroundColor(Color.parseColor("#686868"));
+                        img_view.setBackgroundColor(Color.parseColor("#686868"));
+                        txt_change.setBackgroundColor(Color.parseColor("#686868"));
+*/
+                MrgeHomeActivity.linzoom.setBackgroundColor(Color.parseColor("#686868"));
+                MrgeHomeActivity.txt_zoom.setBackgroundColor(Color.parseColor("#686868"));
+                MrgeHomeActivity.img_zoom.setBackgroundColor(Color.parseColor("#686868"));
+                // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
+                MrgeHomeActivity.txt_zoom.setText("Participates");
+            }
+        }
 
         try {
             Log.d("Newseed", response.toString());

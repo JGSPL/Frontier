@@ -3,6 +3,7 @@
     android:id="@+id/Quizcard"
     android:layout_marginBottom="55dp"
     android:layout_width="match_parent"
+    android:background="@color/colorwhite"
     android:layout_height="250dp">
 
     <LinearLayout
