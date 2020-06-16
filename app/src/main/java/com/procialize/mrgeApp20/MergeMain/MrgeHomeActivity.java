@@ -432,12 +432,14 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         linear_changeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (youTubeLinkPosition < youTubeApiLists.size() - 1) {
-                    youTubeLinkPosition = youTubeLinkPosition + 1;
-                    initializeYoutubePlayer(youTubeLinkPosition);
-                } else {
-                    youTubeLinkPosition = 0;
-                    initializeYoutubePlayer(youTubeLinkPosition);
+                if(youTubeApiLists.size()>0) {
+                    if (youTubeLinkPosition < youTubeApiLists.size() - 1) {
+                        youTubeLinkPosition = youTubeLinkPosition + 1;
+                        initializeYoutubePlayer(youTubeLinkPosition);
+                    } else {
+                        youTubeLinkPosition = 0;
+                        initializeYoutubePlayer(youTubeLinkPosition);
+                    }
                 }
             }
         });

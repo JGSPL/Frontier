@@ -977,11 +977,11 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             MrgeHomeActivity.zoom_status = response.body().getLive_steaming_info().getZoom_status();
 
             MrgeHomeActivity.zoom_time = response.body().getLive_steaming_info().getZoom_datetime();
+            if(MrgeHomeActivity.youTubeApiLists.size()>0){
+                MrgeHomeActivity.youTubeApiLists.clear();
+            }
 
-            if (response.body().getYoutube_info().size() > 0) {
-                if(MrgeHomeActivity.youTubeApiLists.size()>0){
-                    MrgeHomeActivity.youTubeApiLists.clear();
-                }
+             if (response.body().getYoutube_info().size() > 0) {
                 MrgeHomeActivity. youTubeApiLists = response.body().getYoutube_info();
                 if(MrgeHomeActivity.youTubeApiLists.size()>0) {
 
@@ -1031,7 +1031,24 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                     // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
                     MrgeHomeActivity.txt_change.setText("Change View");
                 }
-            }
+            }else { MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor("#686868"));
+                 MrgeHomeActivity.txt_streaming.setBackgroundColor(Color.parseColor("#686868"));
+                 MrgeHomeActivity.img_stream.setBackgroundColor(Color.parseColor("#686868"));
+                 MrgeHomeActivity.txt_streaming.setText("Nothing Streaming Currently");
+                 Animation anim = new AlphaAnimation(0.0f, 0.0f);
+                 anim.setDuration(0); //You can manage the blinking time with this parameter
+                 anim.setStartOffset(0);
+                // anim.setRepeatMode(Animation.REVERSE);
+                // anim.setRepeatCount(Animation.INFINITE);
+                 MrgeHomeActivity.img_stream.startAnimation(anim);
+                 MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
+                 MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+                 MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));
+                 MrgeHomeActivity.img_view.startAnimation(anim);
+                 MrgeHomeActivity.linear_livestream.setVisibility(View.VISIBLE);
+                 MrgeHomeActivity.linear_layout.setVisibility(View.GONE);
+
+             }
 
             //}
             if ( MrgeHomeActivity.zoom_status.equalsIgnoreCase("1")) {
