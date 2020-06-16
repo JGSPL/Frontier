@@ -5,6 +5,7 @@
     android:layout_marginBottom="55dp"
     android:layout_marginRight="20dp"
     android:id="@+id/Quizcard"
+    android:background="@color/colorwhite"
     android:layout_marginLeft="10dp"
     android:layout_height="250dp">
 

@@ -96,7 +96,11 @@ public class DialogQuizREsult {
         ResultDialog.setContentView(R.layout.bottom_quiz_result);
         ResultDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         ResultDialog.getWindow().setDimAmount(0);
-        ResultDialog.setCancelable(true);
+        ResultDialog.setCancelable(false);
+        ResultDialog.setCanceledOnTouchOutside(false);
+
+        RelativeLayout relative = ResultDialog.findViewById(R.id.relative);
+        relative.setAlpha(0.9f);
 
         ImageView ic_close = ResultDialog.findViewById(R.id.imgClose);
         ic_close.setOnClickListener(new View.OnClickListener() {

@@ -149,8 +149,9 @@
         <item name="android:windowContentOverlay">@null</item>
 -->
         <item name="android:colorBackground">     @android:color/transparent</item>
+        <item name="alpha">0.2</item>
         <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:backgroundDimAmount">0.3</item>
+       <!-- <item name="android:backgroundDimAmount">0.8</item>-->
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
     </style>

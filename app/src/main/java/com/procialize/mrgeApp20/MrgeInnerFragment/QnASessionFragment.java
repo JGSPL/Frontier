@@ -127,6 +127,7 @@ public class QnASessionFragment extends Fragment implements QAAttendeeAdapter.QA
 
         txt_header.setTextColor(Color.parseColor(colorActive));
 
+/*
         try {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
@@ -142,6 +143,7 @@ public class QnASessionFragment extends Fragment implements QAAttendeeAdapter.QA
             e.printStackTrace();
             linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
         }
+*/
 
         list = new ArrayList<>();
         agendaLisQAS = new ArrayList<>();

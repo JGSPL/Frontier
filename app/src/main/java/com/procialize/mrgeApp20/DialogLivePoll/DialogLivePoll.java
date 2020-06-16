@@ -137,6 +137,11 @@ public class DialogLivePoll implements View.OnClickListener{
         dialog.setContentView(R.layout.bottom_live_poll_welcome);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.getWindow().setDimAmount(0);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+
+        CardView Quizcard = dialog.findViewById(R.id.Quizcard);
+        Quizcard.setAlpha(0.9f);
 
         context2 = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -154,9 +159,7 @@ public class DialogLivePoll implements View.OnClickListener{
 
         ImageView imgClose = dialog.findViewById(R.id.imgClose);
         Button btnQuizStart = dialog.findViewById(R.id.btnQuizStart);
-        CardView Quizcard = dialog.findViewById(R.id.Quizcard);
-        Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
-        Quizcard.setAlpha(0.8f);
+
 
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,8 +203,9 @@ public class DialogLivePoll implements View.OnClickListener{
         Detaildialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         Detaildialog.getWindow().setDimAmount(0);
         LinearLayout Quizcard = Detaildialog.findViewById(R.id.Quizcard);
-        Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
-        Quizcard.setAlpha(0.8f);
+        Quizcard.setAlpha(0.9f);
+        Detaildialog.setCanceledOnTouchOutside(false);
+        Detaildialog.setCancelable(false);
 
         context2 = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -757,8 +761,7 @@ public class DialogLivePoll implements View.OnClickListener{
         });
         //Button btnQuizStart = dialog.findViewById(R.id.btnQuizStart);
         LinearLayout Quizcard = dialogThankYou.findViewById(R.id.Quizcard);
-        Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
-        Quizcard.setAlpha(0.8f);
+        Quizcard.setAlpha(0.9f);
 
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -781,11 +784,12 @@ public class DialogLivePoll implements View.OnClickListener{
         dialogResult.setContentView(R.layout.bottom_live_poll_result_dialog);
         dialogResult.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialogResult.getWindow().setDimAmount(0);
-
+        dialogResult.setCanceledOnTouchOutside(false);
+        dialogResult.setCancelable(false);
 
         LinearLayout Quizcard = dialogResult.findViewById(R.id.Quizcard);
         Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
-        Quizcard.setAlpha(0.8f);
+        Quizcard.setAlpha(0.9f);
 
         TextView tvQuestion = dialogResult.findViewById(R.id.tvQuestion);
         ImageView imgClose = dialogResult.findViewById(R.id.imgClose);
