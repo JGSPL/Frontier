@@ -152,7 +152,11 @@ public class AttendeeChatActivity extends AppCompatActivity {
         sub_title = findViewById(R.id.sub_title);
 
         title.setText(name);
-        sub_title.setText(designation + " - " + city);
+        if(designation!=null && city!=null) {
+            sub_title.setText(designation + " - " + city);
+            sub_title.setVisibility(View.VISIBLE);
+        }else
+        {sub_title.setVisibility(View.GONE);}
 
         procializeDB  = new DBHelper(this);
         db = procializeDB.getWritableDatabase();

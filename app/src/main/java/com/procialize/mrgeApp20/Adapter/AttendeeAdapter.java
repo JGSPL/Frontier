@@ -97,16 +97,16 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
 
         try {
             if (attendee_location.equalsIgnoreCase("0")) {
-                holder.locationTv.setVisibility(View.GONE);
+                holder.locationTv.setVisibility(View.INVISIBLE);
             } else {
                 if (attendee.getCompanyName().equalsIgnoreCase("N A")) {
-                    holder.locationTv.setVisibility(View.GONE);
+                    holder.locationTv.setVisibility(View.INVISIBLE);
                 }
                 if (attendee.getCompanyName().equalsIgnoreCase("")) {
-                    holder.locationTv.setVisibility(View.GONE);
+                    holder.locationTv.setVisibility(View.INVISIBLE);
                 }
                 if (attendee.getCompanyName().equalsIgnoreCase(" ")) {
-                    holder.locationTv.setVisibility(View.GONE);
+                    holder.locationTv.setVisibility(View.INVISIBLE);
                 } else {
                     holder.locationTv.setVisibility(View.VISIBLE);
                     holder.locationTv.setText(attendee.getCity());
@@ -114,22 +114,22 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
             }
         } catch (Exception e) {
             e.printStackTrace();
-            holder.locationTv.setVisibility(View.GONE);
+            holder.locationTv.setVisibility(View.INVISIBLE);
         }
 
 
         try {
             if (attendee_design.equalsIgnoreCase("0")) {
-                holder.designationTv.setVisibility(View.GONE);
+                holder.designationTv.setVisibility(View.INVISIBLE);
             } else {
                 if (attendee.getDesignation().equalsIgnoreCase("N A")) {
-                    holder.designationTv.setVisibility(View.GONE);
+                    holder.designationTv.setVisibility(View.INVISIBLE);
                 }
                 if (attendee.getDesignation().equalsIgnoreCase("")) {
-                    holder.designationTv.setVisibility(View.GONE);
+                    holder.designationTv.setVisibility(View.INVISIBLE);
                 }
                 if (attendee.getDesignation().equalsIgnoreCase(" ")) {
-                    holder.designationTv.setVisibility(View.GONE);
+                    holder.designationTv.setVisibility(View.INVISIBLE);
                 } else {
                     holder.designationTv.setVisibility(View.VISIBLE);
                     holder.designationTv.setText(attendee.getDesignation());
@@ -137,7 +137,7 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
             }
         } catch (Exception e) {
             e.printStackTrace();
-            holder.designationTv.setVisibility(View.GONE);
+            holder.designationTv.setVisibility(View.INVISIBLE);
         }
 
 

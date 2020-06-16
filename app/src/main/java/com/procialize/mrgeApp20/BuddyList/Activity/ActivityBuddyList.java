@@ -319,19 +319,21 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
     public void showResponse(Response<FetchBuddyList> response) {
 
         // specify an adapter (see also next example)
-        if (!(response.body().getBuddyList().isEmpty())) {
+        if (response.body().getBuddyList()!= null) {
+            //if (!(response.body().getBuddyList().isEmpty())) {
 
-            ll_empty_view.setVisibility(View.GONE);
-            attendeerecycler.setVisibility(View.VISIBLE);
+                ll_empty_view.setVisibility(View.GONE);
+                attendeerecycler.setVisibility(View.VISIBLE);
 
            /* dbHelper.clearAttendeesTable();
             dbHelper.insertAttendeesInfo(response.body().getAttendeeList(), db);
 */
 
-            attendeeAdapter = new BuddyListAdapter(ActivityBuddyList.this, response.body().getBuddyList(), this);
-            attendeeAdapter.notifyDataSetChanged();
-            attendeerecycler.setAdapter(attendeeAdapter);
-        } else {
+                attendeeAdapter = new BuddyListAdapter(ActivityBuddyList.this, response.body().getBuddyList(), this);
+                attendeeAdapter.notifyDataSetChanged();
+                attendeerecycler.setAdapter(attendeeAdapter);
+            //}
+        }else {
 
             ll_empty_view.setVisibility(View.VISIBLE);
             attendeerecycler.setVisibility(View.GONE);

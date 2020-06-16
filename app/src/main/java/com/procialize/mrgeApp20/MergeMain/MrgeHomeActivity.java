@@ -1791,7 +1791,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         }
         boolean check = JzvdStd.backPress();
 
-
         if (check == true) {
             youTubePlayer.release();
             JzvdStd.goOnPlayOnPause();

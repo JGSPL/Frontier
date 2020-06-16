@@ -637,7 +637,7 @@ public class DialogLivePoll implements View.OnClickListener{
                     String id = pollLists.get(i).getId();
                     String question = pollLists.get(i).getQuestion();
                     String replied = pollLists.get(i).getReplied();
-                    String show_result = pollLists.get(i).getShow_result();
+                    show_result = pollLists.get(i).getShow_result();
                     pollListsNew = pollLists.get(i);
 
                     if(replied.equalsIgnoreCase("0"))
@@ -705,6 +705,8 @@ public class DialogLivePoll implements View.OnClickListener{
                 AlloptionLists = response.body().getLivePollOptionList();*/
                 totalOptionLists.clear();
                 totalOptionLists = response.body().getLivePollOptionList();
+                show_result = response.body().getLivePollList().get(0).getShow_result();
+
                 if (totalOptionLists.size() != 0) {
                     for (int i = 0; i < totalOptionLists.size(); i++) {
 
@@ -718,7 +720,7 @@ public class DialogLivePoll implements View.OnClickListener{
                     replyFlag = "1";
                     if (optionLists.size() != 0) {
                         viewGroup.setVisibility(View.GONE);
-                        thankYouDialog(context2, pollListsNew.getQuestion(), questionId, optionLists);
+                        thankYouDialog(context2, pollListsNew.getQuestion(), questionId, optionLists,show_result);
                     }
                 }
             }
@@ -727,7 +729,7 @@ public class DialogLivePoll implements View.OnClickListener{
         }
     }
 
-    public void thankYouDialog(Context context, String question, String questionId, List<LivePollOptionList> optionLists) {
+    public void thankYouDialog(Context context, String question, String questionId, List<LivePollOptionList> optionLists,String show_result) {
         // dialog = new BottomSheetDialog(context);
         dialogThankYou = new BottomSheetDialog(context, R.style.SheetDialog);
         dialogThankYou.setContentView(R.layout.bottom_live_poll_thank_you_dialog);
@@ -750,6 +752,10 @@ public class DialogLivePoll implements View.OnClickListener{
 
         ImageView imgClose = dialogThankYou.findViewById(R.id.imgClose);
         TextView tv_view_result = dialogThankYou.findViewById(R.id.tv_view_result);
+        if(show_result.equalsIgnoreCase("1"))
+        {
+            tv_view_result.setVisibility(View.GONE);
+        }
         tv_view_result.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -792,6 +798,7 @@ public class DialogLivePoll implements View.OnClickListener{
         Quizcard.setAlpha(0.9f);
 
         TextView tvQuestion = dialogResult.findViewById(R.id.tvQuestion);
+        TextView tvAlreadyAnswered = dialogResult.findViewById(R.id.tvAlreadyAnswered);
         ImageView imgClose = dialogResult.findViewById(R.id.imgClose);
         RecyclerView pollGraph = dialogResult.findViewById(R.id.pollGraph);
 
@@ -802,13 +809,24 @@ public class DialogLivePoll implements View.OnClickListener{
             }
         });
 
-        tvQuestion.setText(question);
+        tvQuestion.setText(StringEscapeUtils.unescapeJava(question));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
         pollGraph.setLayoutManager(mLayoutManager);
         PollGraphAdapter pollAdapter = new PollGraphAdapter(context, optionLists, questionId);
         pollAdapter.notifyDataSetChanged();
         pollGraph.setAdapter(pollAdapter);
         pollGraph.scheduleLayoutAnimation();
+
+        if(show_result.equalsIgnoreCase("1"))
+        {
+            tvAlreadyAnswered.setVisibility(View.VISIBLE);
+            pollGraph.setVisibility(View.GONE);
+        }
+        else
+        {
+            tvAlreadyAnswered.setVisibility(View.GONE);
+            pollGraph.setVisibility(View.VISIBLE);
+        }
 
         dialogResult.show();
     }

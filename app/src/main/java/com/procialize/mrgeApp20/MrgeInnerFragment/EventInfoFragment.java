@@ -55,6 +55,8 @@ import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Utility;
 import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -185,7 +187,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
         //if (event_info_display_map.equalsIgnoreCase("1")) {
         event_desc.setMovementMethod(new ScrollingMovementMethod());
-        event_desc.setMaxLines(20);
+        //event_desc.setMaxLines(20);
         event_desc.setVerticalScrollBarEnabled(true);
        /* } else {
 
@@ -598,7 +600,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                         //   view.setVisibility(View.GONE);
                     }
 
-                    event_desc.setText(response.body().getEventList().get(0).getEventLocation() + "\n\n" + response.body().getEventList().get(0).getEventDescription());
+                    event_desc.setText(StringEscapeUtils.unescapeJava(response.body().getEventList().get(0).getEventLocation() + "\n\n" + response.body().getEventList().get(0).getEventDescription()));
                     // event_desc.setText(response.body().getEventList().get(0).getEventDescription());
                     String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + response.body().getEventList().get(0).getLogo();
 

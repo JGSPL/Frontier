@@ -2,12 +2,10 @@ package com.procialize.mrgeApp20.Activity;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -22,7 +20,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -45,7 +42,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -55,7 +51,6 @@ import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
-import com.procialize.mrgeApp20.AttendeeChat.Adapter.AttendeeChatAdapter;
 import com.procialize.mrgeApp20.AttendeeChat.AttendeeChatActivity;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchSendRequest;
@@ -66,7 +61,6 @@ import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.SendMessagePost;
 import com.procialize.mrgeApp20.GetterSetter.UserData;
 import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
-import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -76,7 +70,6 @@ import com.squareup.picasso.Picasso;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -94,7 +87,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
 
     public static final int RequestPermissionCode = 8;
     String attendeeid, city, country, company, designation,
-            description, totalrating, name, profile, mobile,buddy_status,page_status;
+            description, totalrating, name, profile, mobile, buddy_status, page_status;
     TextView tvname, tvcompany, tvdesignation, tvcity, tvmob, attendeetitle, tv_description;
     TextView sendbtn;
     Dialog myDialog;
@@ -103,7 +96,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
     String apikey;
     ImageView profileIV;
     ProgressBar progressBar, progressBarmain;
-    String attendee_company, attendee_location, attendee_mobile, attendee_design, attendee_savecontact="1", attendeemsg;
+    String attendee_company, attendee_location, attendee_mobile, attendee_design, attendee_savecontact = "1", attendeemsg;
     List<EventSettingList> eventSettingLists;
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid, colorActive, eventnamestr;
@@ -117,6 +110,9 @@ public class AttendeeDetailActivity extends AppCompatActivity {
     ImageView headerlogoIv;
     TextView saveContact;
     RelativeLayout linear;
+    ImageView imgBuddy;
+    LinearLayout ll_notification_count;
+    TextView tv_notification;
     private DBHelper procializeDB;
     private SQLiteDatabase db;
     private ConnectionDetector cd;
@@ -124,9 +120,6 @@ public class AttendeeDetailActivity extends AppCompatActivity {
     private List<AttendeeList> attendeesDBList;
     private DBHelper dbHelper;
     private RelativeLayout layoutTop;
-    ImageView imgBuddy;
-    LinearLayout ll_notification_count;
-    TextView tv_notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +143,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         });
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
-
+        cd = new ConnectionDetector(this);
         headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -201,7 +194,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             profile = getIntent().getExtras().getString("profile");
             mobile = getIntent().getExtras().getString("mobile");
             buddy_status = getIntent().getExtras().getString("buddy_status");
-           // page_status = getIntent().getExtras().getString("page_status");
+            // page_status = getIntent().getExtras().getString("page_status");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -233,11 +226,11 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         imgBuddy = findViewById(R.id.imgBuddy);
         tv_description.setMovementMethod(new ScrollingMovementMethod());
 
-        if(buddy_status.equalsIgnoreCase("send_request")){
+        if (buddy_status.equalsIgnoreCase("send_request")) {
             saveContact.setText("Add to buddy list");
             imgBuddy.setVisibility(View.VISIBLE);
 
-        }else  if(buddy_status.equalsIgnoreCase("friends")){
+        } else if (buddy_status.equalsIgnoreCase("friends")) {
             saveContact.setText("Added to buddy list");
             linsave.setBackgroundColor(Color.parseColor(colorActive));
             saveContact.setBackgroundColor(Color.parseColor(colorActive));
@@ -245,7 +238,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             imgBuddy.setVisibility(View.GONE);
 
 
-        }else if(buddy_status.equalsIgnoreCase("request_sent")){
+        } else if (buddy_status.equalsIgnoreCase("request_sent")) {
             saveContact.setText("Request sent");
             linsave.setBackgroundColor(Color.parseColor(colorActive));
             saveContact.setBackgroundColor(Color.parseColor(colorActive));
@@ -258,10 +251,10 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         saveContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(buddy_status.equalsIgnoreCase("send_request")) {
+                if (buddy_status.equalsIgnoreCase("send_request")) {
 
                     AddBuddy(apikey, eventid, attendeeid);
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Already added", Toast.LENGTH_SHORT).show();
 
                 }
@@ -271,14 +264,14 @@ public class AttendeeDetailActivity extends AppCompatActivity {
 
 
         // attendeetitle.setTextColor(Color.parseColor(colorActive));
-       // tvname.setTextColor(Color.parseColor(colorActive));
+        // tvname.setTextColor(Color.parseColor(colorActive));
         sendbtn = findViewById(R.id.sendMsg);
 
         try {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"/"+ApiConstant.folderName+"/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/" + ApiConstant.folderName + "/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -305,10 +298,10 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         final GradientDrawable shapeunactive = setgradientDrawable(5, "#4D4D4D");
         final GradientDrawable shapeunactivelayout = setgradientDrawable(10, "#4D4D4D");
 //
-       // linsave.setBackground(shapelayout);
+        // linsave.setBackground(shapelayout);
 //        linMsg.setBackground(shapelayout);
 //        sendbtn.setBackground(shape);
-      //  saveContact.setBackground(shape);
+        //  saveContact.setBackground(shape);
 //        posttextEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 //            @Override
 //            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -328,7 +321,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         linMsg.setEnabled(false);
         linsave.setEnabled(false);
 
-       TextView txtcount = findViewById(R.id.txtcount);
+        TextView txtcount = findViewById(R.id.txtcount);
         final TextWatcher txwatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start,
@@ -344,7 +337,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 // TODO Auto-generated method stub
                 //txtcount.setText(String.valueOf(150 - s.length()) + "/");
-                txtcount.setText(String.valueOf(s.length()) );
+                txtcount.setText(String.valueOf(s.length()));
 
                 if (s.length() > 0) {
                     linMsg.setEnabled(true);
@@ -379,15 +372,15 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             linearsaveandsend.setVisibility(View.VISIBLE);
         }
 
-       // LinearLayout linCoounter = findViewById(R.id.linCoounter);
+        // LinearLayout linCoounter = findViewById(R.id.linCoounter);
         if (attendeemsg.equalsIgnoreCase("1")) {
             linMsg.setVisibility(View.VISIBLE);
             posttextEt.setVisibility(View.VISIBLE);
-          // linCoounter.setVisibility(View.VISIBLE);
+            // linCoounter.setVisibility(View.VISIBLE);
         } else {
             linMsg.setVisibility(View.GONE);
             posttextEt.setVisibility(View.GONE);
-           // linCoounter.setVisibility(View.GONE);
+            // linCoounter.setVisibility(View.GONE);
 
         }
 
@@ -574,15 +567,19 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (posttextEt.getText().toString().length() > 0) {
+                if (cd.isConnectingToInternet()) {
+                    if (posttextEt.getText().toString().length() > 0) {
 
-                    String msg = StringEscapeUtils.escapeJava(posttextEt.getText().toString());
-                    linMsg.setEnabled(false);
-                    linMsg.setClickable(false);
-                    //PostMesssage(eventid, msg, apikey, attendeeid);
-                    PostChat(eventid,apikey,attendeeid,msg);
+                        String msg = StringEscapeUtils.escapeJava(posttextEt.getText().toString());
+                        linMsg.setEnabled(false);
+                        linMsg.setClickable(false);
+                        //PostMesssage(eventid, msg, apikey, attendeeid);
+                        PostChat(eventid, apikey, attendeeid, msg);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Enter Message", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Enter Message", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AttendeeDetailActivity.this, "No internet connection..!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -603,7 +600,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         try {
             LinearLayout ll_notification_count = findViewById(R.id.ll_notification_count);
             TextView tv_notification = findViewById(R.id.tv_notification);
-            setNotification(this,tv_notification,ll_notification_count);
+            setNotification(this, tv_notification, ll_notification_count);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -615,8 +612,9 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                 "");
         getUserActivityReport.userActivityReport();
     }
-    private void PostChat(final String eventid, final String token, String budd_id,String msg) {
-        mAPIService.eventLiveChat(eventid,token,budd_id,msg).enqueue(new Callback<FetchChatList>() {
+
+    private void PostChat(final String eventid, final String token, String budd_id, String msg) {
+        mAPIService.eventLiveChat(eventid, token, budd_id, msg).enqueue(new Callback<FetchChatList>() {
             @Override
             public void onResponse(Call<FetchChatList> call, Response<FetchChatList> response) {
 
@@ -642,6 +640,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             }
         });
     }
+
     public void showResponsePost(Response<FetchChatList> response) {
 
         // specify an adapter (see also next example)
@@ -726,17 +725,17 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                 for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
                     if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_company")) {
                         attendee_company = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                    }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_location")) {
+                    } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_location")) {
                         attendee_location = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                    }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_mobile")) {
+                    } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_mobile")) {
                         attendee_mobile = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                     }/*else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_save_contact")) {
                         attendee_savecontact = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                         attendee_savecontact = "1";
 
-                    }*/else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_designation")) {
+                    }*/ else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_designation")) {
                         attendee_design = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                    }else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_message")) {
+                    } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("attendee_message")) {
                         attendeemsg = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                     }
 
@@ -808,7 +807,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void AddBuddy( String token,String eventid,String messId) {
+    public void AddBuddy(String token, String eventid, String messId) {
         showProgress();
         mBuddyAPIService.sendFriendRequest(token, eventid, messId).enqueue(new Callback<FetchSendRequest>() {
             @Override
@@ -1043,7 +1042,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                         WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
                                 | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         dialog.setContentView(R.layout.imagepopulayout);
-        ImageView image = ( ImageView ) dialog.findViewById(R.id.image);
+        ImageView image = (ImageView) dialog.findViewById(R.id.image);
 //        String imgae = dbManager.GetimageUrl(datamodel.get(position).getProdcutid());
         String imageUrl = ApiConstant.profilepic + profile;
         Picasso.with(AttendeeDetailActivity.this).load(imageUrl).into(image);
@@ -1055,8 +1054,6 @@ public class AttendeeDetailActivity extends AppCompatActivity {
 //        super.onBackPressed();
         finish();
     }
-
-
 
 
 }
