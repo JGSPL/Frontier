@@ -46,7 +46,8 @@ public class PollGraphAdapter extends RecyclerView.Adapter<PollGraphAdapter.MyVi
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final LivePollOptionList pollList = optionLists.get(position);
 
-        String[] color = {"#C4A5C6", "#F99EAF", "#95C4D6", "#CCD883", "#C4A5C6", "#F99EAF", "#95C4D6", "#CCD883", "#C4A5C6", "#F99EAF", "#95C4D6", "#CCD883"};
+        String[] color = {"#C4A5C6", "#F99EAF", "#95C4D6", "#CCD883", "#C4A5C6", "#F99EAF", "#95C4D6", "#CCD883", "#C4A5C6", "#F99EAF", "#95C4D6", "#CCD883",
+                "#C4A5C6", "#F99EAF", "#95C4D6", "#CCD883", "#C4A5C6", "#F99EAF", "#95C4D6", "#CCD883","#C4A5C6", "#F99EAF", "#95C4D6", "#CCD883"};
         Float totalUser = 0.0f;
 
 
@@ -75,7 +76,7 @@ public class PollGraphAdapter extends RecyclerView.Adapter<PollGraphAdapter.MyVi
 
         //ll2.setBackgroundColor(Color.parseColor(color[position]));
         ll2.setBackground(gradientDrawable);
-        ll2.setMinimumHeight(40);
+        ll2.setMinimumHeight(15);
 
         Float weight = 0.0f;
 
@@ -107,6 +108,13 @@ public class PollGraphAdapter extends RecyclerView.Adapter<PollGraphAdapter.MyVi
         holder.linGraph.addView(l3);
 
     }
+
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
 
     @Override
     public int getItemCount() {

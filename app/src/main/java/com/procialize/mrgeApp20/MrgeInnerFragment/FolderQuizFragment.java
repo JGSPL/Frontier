@@ -146,6 +146,9 @@ public class FolderQuizFragment extends Fragment {
        /* DialogLivePoll dQuiz = new DialogLivePoll();
         dQuiz.welcomeLivePollDialog(getContext());*/
 
+        //DialogQuiz dQuiz = new DialogQuiz();
+        //dQuiz.welcomeQuizDialog(getContext());
+
         quizrefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
