@@ -1,6 +1,9 @@
 package com.procialize.mrgeApp20.Fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +41,7 @@ import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.AttendeeChat.AttendeeChatActivity;
+import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
@@ -103,6 +108,9 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
     LinearLayout linear;
      String token;
     AttendeeList attendeeTmp;
+    SpotChatReciever spotChatReciever;
+    IntentFilter spotChatFilter;
+
     public AttendeeFragment() {
         // Required empty public constructor
     }
@@ -252,6 +260,13 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
                 "9",
                 "");
         getUserActivityReport.userActivityReport();*/
+        try {
+            spotChatReciever = new SpotChatReciever();
+            spotChatFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_SPOT_ChatBuddy);
+            LocalBroadcastManager.getInstance(getActivity()).registerReceiver(spotChatReciever, spotChatFilter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return view;
     }
 
@@ -398,6 +413,12 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
     }
 
 
+    private class SpotChatReciever extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            attendeeAdapter.notifyDataSetChanged();
+        }
+    }
 
 
     @Override

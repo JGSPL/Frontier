@@ -3,6 +3,7 @@ package com.procialize.mrgeApp20.Adapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
+import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.R;
@@ -53,6 +55,8 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
     private Context context;
     private List<AttendeeList> attendeeListFiltered;
     private AttendeeAdapterListner listener;
+    private DBHelper procializeDB;
+    private SQLiteDatabase db;
 
 
     public AttendeeAdapter(Context context, List<AttendeeList> attendeeLists, AttendeeAdapterListner listener) {
@@ -62,7 +66,8 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
         this.context = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
-
+        procializeDB = new DBHelper(context);
+        db = procializeDB.getWritableDatabase();
     }
 
     @Override
@@ -216,6 +221,21 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
         } else {
             holder.progressBar.setVisibility(View.GONE);
         }*/
+
+        String attendee_id = attendee.getAttendeeId();
+        String unreadMsgCount = procializeDB.getAttendeeChatForAttendeeId(attendee_id);
+        if(!unreadMsgCount.equalsIgnoreCase("0"))
+        {
+            holder.tv_count.setText(unreadMsgCount);
+            holder.tv_count.setVisibility(View.VISIBLE);
+            holder.ic_rightarrow.setVisibility(View.GONE);
+        }
+        else
+        {
+            holder.tv_count.setText("");
+            holder.tv_count.setVisibility(View.GONE);
+            holder.ic_rightarrow.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -314,7 +334,7 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView nameTv, locationTv, designationTv;
+        public TextView nameTv, locationTv, designationTv,tv_count;
         public ImageView profileIv, ic_rightarrow;
         public LinearLayout mainLL;
         public ProgressBar progressBar;
@@ -322,6 +342,7 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
         public MyViewHolder(View view) {
             super(view);
             nameTv = view.findViewById(R.id.nameTv);
+            tv_count = view.findViewById(R.id.tv_count);
             locationTv = view.findViewById(R.id.locationTv);
             designationTv = view.findViewById(R.id.designationTv);
 

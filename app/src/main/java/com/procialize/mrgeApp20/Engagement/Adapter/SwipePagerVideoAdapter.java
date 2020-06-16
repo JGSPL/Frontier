@@ -22,6 +22,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
+import com.procialize.mrgeApp20.GetterSetter.FirstLevelFilter;
 import com.procialize.mrgeApp20.GetterSetter.SelfieList;
 import com.procialize.mrgeApp20.GetterSetter.VideoContest;
 import com.procialize.mrgeApp20.R;
@@ -72,7 +73,6 @@ public class SwipePagerVideoAdapter extends PagerAdapter {
         View myImageLayout = inflater.inflate(R.layout.slide_selfie_video, view, false);
 
         VideoContest firstLevelFilter = images.get(position);
-
 
         JzvdStd video_view = myImageLayout.findViewById(R.id.video_view);
         TextView name = myImageLayout.findViewById(R.id.name);

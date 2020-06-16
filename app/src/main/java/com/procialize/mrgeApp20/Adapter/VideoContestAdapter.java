@@ -119,7 +119,7 @@ public class VideoContestAdapter extends RecyclerView.Adapter<VideoContestAdapte
     }
 
     public interface VideoContestAdapterListner {
-        void onContactSelected(List<VideoContest> videoContest, ImageView imageView);
+        void onContactSelected(List<VideoContest> videoContest, ImageView imageView,int position);
 
         void onLikeListener(View v, VideoContest videoContest, int position, TextView count, ImageView likeIv);
 
@@ -152,7 +152,7 @@ public class VideoContestAdapter extends RecyclerView.Adapter<VideoContestAdapte
                 @Override
                 public void onClick(View view) {
                     // send selected contact in callback
-                    listener.onContactSelected(videoContestList, imageIv);
+                    listener.onContactSelected(videoContestList, imageIv,getAdapterPosition());
                 }
             });
 
