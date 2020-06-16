@@ -185,7 +185,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
         //if (event_info_display_map.equalsIgnoreCase("1")) {
         event_desc.setMovementMethod(new ScrollingMovementMethod());
-        event_desc.setMaxLines(20);
+       // event_desc.setMaxLines(20);
         event_desc.setVerticalScrollBarEnabled(true);
        /* } else {
 
