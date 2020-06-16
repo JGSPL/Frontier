@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -88,6 +89,7 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
     TextView tv_title,title;
     String strPath = "";
     boolean isShare;
+    LinearLayout btnlayout;
     /*TrustManager[] trustAllCerts = new TrustManager[]{
             new X509TrustManager() {
 
@@ -198,6 +200,7 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
         title = findViewById(R.id.title);
         title.setText(foldername);
         headerlogoIv = findViewById(R.id.headerlogoIv);
+        btnlayout = findViewById(R.id.btnlayout);
         Util.logomethod(this, headerlogoIv);
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
@@ -458,7 +461,14 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
             e.printStackTrace();
         }
         //----------------------------------------------------------------------------------
-
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            recyclerView.setVisibility(View.VISIBLE);
+            btnlayout.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.GONE);
+            btnlayout.setVisibility(View.GONE);
+        }
     }
 
     @Override

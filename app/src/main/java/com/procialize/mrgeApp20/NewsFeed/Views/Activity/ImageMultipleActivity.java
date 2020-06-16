@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -98,6 +99,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
     boolean isShare;
     String api_token;
     String eventid;
+    LinearLayout bottomlayout;
 
     static public void shareImage(String url, final Context context) {
   /*      if (url.contains("mp4")) {
@@ -194,6 +196,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
         });
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
+        bottomlayout = findViewById(R.id.bottomlayout);
         Util.logomethod(this, headerlogoIv);
 
         LinearLayout linear = findViewById(R.id.linear);
@@ -492,7 +495,12 @@ public class ImageMultipleActivity extends AppCompatActivity {
             });
         }
 
-
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            bottomlayout.setVisibility(View.VISIBLE);
+        } else {
+            bottomlayout.setVisibility(View.GONE);
+        }
     }
 
     private void shareTextUrl(String data, String url) {

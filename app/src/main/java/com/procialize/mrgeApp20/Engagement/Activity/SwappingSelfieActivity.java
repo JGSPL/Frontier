@@ -512,6 +512,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
         }
         //----------------------------------------------------------------------------------
 
+
     }
 
     public void indexset(String name) {

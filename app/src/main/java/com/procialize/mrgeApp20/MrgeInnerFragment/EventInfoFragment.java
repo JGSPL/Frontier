@@ -370,7 +370,10 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                     event_desc.setVisibility(View.VISIBLE);
                     //event_desc.setText("\n" + eventDBList.get(0).getEventDescription());
 
-                    String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
+                    SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    String logoImg = prefs1.getString("logoImg", "");
+
+                    String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" +logoImg;
 
                     Glide.with(getContext()).load(image_final_url)
                             .placeholder(R.drawable.profilepic_placeholder)

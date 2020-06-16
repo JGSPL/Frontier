@@ -105,6 +105,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
     public boolean isShare=false;
     String strPath = "";
     TextView tv_header;
+    LinearLayout btnlayout;
 
     static public Uri getLocalBitmapUri(Bitmap bmp, Context context) {
         Uri bmpUri = null;
@@ -155,6 +156,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
         tv_like = findViewById(R.id.tv_like);
         headerlogoIv = findViewById(R.id.headerlogoIv);
         progressBar = findViewById(R.id.progressBar);
+        btnlayout = findViewById(R.id.btnlayout);
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
         eventid = prefs.getString("eventid", "1");
@@ -491,8 +493,10 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             recyclerView.setVisibility(View.VISIBLE);
+            btnlayout.setVisibility(View.VISIBLE);
         } else {
             recyclerView.setVisibility(View.GONE);
+            btnlayout.setVisibility(View.GONE);
         }
     }
 
@@ -505,10 +509,15 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
        // }
     }
 
-    @Override
+   /* @Override
     public void onContactSelected(VideoContest filtergallerylists) {
         indexset(filtergallerylists.getId());
-    }
+    }*/
+   @Override
+   public void onContactSelected(int pos) {
+       JzvdStd.goOnPlayOnPause();
+       indexset(""+pos);
+   }
 
     @Override
     public void onPause() {

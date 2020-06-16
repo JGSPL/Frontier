@@ -78,6 +78,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
     View rootView;
     List<DocumentList> documentsList = new ArrayList<>();
     private APIService mAPIService;
+    String listType="";
 
     @Nullable
     @Override
@@ -190,12 +191,28 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
         if (response.body().getStatus().equalsIgnoreCase("success")) {
             if (!(response.body().getDocumentList().isEmpty())) {
                  documentsList = response.body().getDocumentList();
-                DocumentsGridAdapter docAdapterGrid = new DocumentsGridAdapter(getActivity(),documentsList, this);
-                docRv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-                docAdapterGrid.notifyDataSetChanged();
-                docRv.setAdapter(docAdapterGrid);
-                docRv.setVisibility(View.VISIBLE);
-                msg.setVisibility(View.GONE);
+                 if(listType.equalsIgnoreCase("grid") || listType.equalsIgnoreCase("")) {
+                     MrgeHomeActivity.grid_image_view.setImageDrawable(getResources().getDrawable(R.drawable.active_grid_view));
+                     MrgeHomeActivity.list_image_view.setImageDrawable(getResources().getDrawable(R.drawable.inactive_list_view));
+                     DocumentsGridAdapter docAdapterGrid = new DocumentsGridAdapter(getActivity(), documentsList, this);
+                     docRv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+                     docAdapterGrid.notifyDataSetChanged();
+                     docRv.setAdapter(docAdapterGrid);
+                     docRv.setVisibility(View.VISIBLE);
+                     msg.setVisibility(View.GONE);
+                 }
+                 else
+                 {
+                     MrgeHomeActivity.grid_image_view.setImageDrawable(getResources().getDrawable(R.drawable.inactive_grid_view));
+                     MrgeHomeActivity.list_image_view.setImageDrawable(getResources().getDrawable(R.drawable.active_list_view));
+                     DocumentsListAdapter docAdapter = new DocumentsListAdapter(getActivity(), documentsList, this);
+                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+                     docRv.setLayoutManager(mLayoutManager);
+                     docAdapter.notifyDataSetChanged();
+                     docRv.setAdapter(docAdapter);
+                     docRv.setVisibility(View.VISIBLE);
+                     msg.setVisibility(View.GONE);
+                 }
 
             } else {
 
@@ -246,6 +263,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
         {
             case R.id.grid_image_view:
                 if(documentsList.size() > 0) {
+                    listType = "grid";
                     MrgeHomeActivity.grid_image_view.setImageDrawable(getResources().getDrawable(R.drawable.active_grid_view));
                     MrgeHomeActivity.list_image_view.setImageDrawable(getResources().getDrawable(R.drawable.inactive_list_view));
                     DocumentsGridAdapter docAdapterGrid = new DocumentsGridAdapter(getActivity(), documentsList, this);
@@ -258,6 +276,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
                 break;
             case R.id.list_image_view:
                 if(documentsList.size() > 0) {
+                    listType = "list";
                     MrgeHomeActivity.grid_image_view.setImageDrawable(getResources().getDrawable(R.drawable.inactive_grid_view));
                     MrgeHomeActivity.list_image_view.setImageDrawable(getResources().getDrawable(R.drawable.active_list_view));
                     DocumentsListAdapter docAdapter = new DocumentsListAdapter(getActivity(), documentsList, this);

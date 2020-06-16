@@ -85,7 +85,8 @@ public class SwipeEngagmentVideoAdapter extends RecyclerView.Adapter<SwipeEngagm
     }
 
     public interface SwipeImageSelfieAdapterListner {
-        void onContactSelected(VideoContest filtergallerylists);
+       // void onContactSelected(VideoContest filtergallerylists);
+        void onContactSelected(int pos);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -101,15 +102,14 @@ public class SwipeEngagmentVideoAdapter extends RecyclerView.Adapter<SwipeEngagm
             mainLL = view.findViewById(R.id.mainLL);
             progressBar = view.findViewById(R.id.progressBar);
 
-/*
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     // send selected contact in callback
-                    listener.onContactSelected(filtergallerylists.get(getAdapterPosition()));
+                    //listener.onContactSelected(filtergallerylists.get(getAdapterPosition()));
+                    listener.onContactSelected(getAdapterPosition());
                 }
             });
-*/
         }
     }
 }
