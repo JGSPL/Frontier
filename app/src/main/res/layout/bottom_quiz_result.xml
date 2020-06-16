@@ -38,12 +38,15 @@
             android:padding="10dp">
         </ImageView>
     </LinearLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/linTop"
 
+        android:layout_height="match_parent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/linTop"
                 android:layout_margin="5dp">
 
                 <androidx.viewpager.widget.ViewPager
@@ -87,6 +90,8 @@
                     android:visibility="gone" />
 
             </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
     <com.procialize.mrgeApp20.Fonts.RobotoButton
         android:id="@+id/submit"
         android:layout_width="match_parent"

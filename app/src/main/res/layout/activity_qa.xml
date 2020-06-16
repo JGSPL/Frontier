@@ -13,6 +13,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
 
@@ -57,6 +58,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="4sp"
+        android:visibility="gone"
         android:text="@string/qa"
         android:textColor="@color/activetab"
         android:textSize="17dp" />

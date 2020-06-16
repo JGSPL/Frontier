@@ -1087,8 +1087,10 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 //            } else {
 //                post_layout.setVisibility(View.VISIBLE);
 //            }
+            if(response.body().getNewsFeedList().size()>0) {
 
-            news_feed_mediaDB = response.body().getNewsFeedList().get(0).getNews_feed_media();
+                news_feed_mediaDB = response.body().getNewsFeedList().get(0).getNews_feed_media();
+            }
 
         /*    List<news_feed_list> newsFeedLists = new ArrayList<>();
             newsFeedLists = response.body().getNews_feed_list();*/
