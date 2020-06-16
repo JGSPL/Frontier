@@ -89,152 +89,171 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         event_id = prefs.getString("eventid", "1");
 
         //  Log.d("Event Id==>", remoteMessage.getData().get("event_id"));
-        // if (remoteMessage.getData().get("event_id").equalsIgnoreCase(event_id)) {
+        if (remoteMessage.getData().get("event_id").equalsIgnoreCase(event_id)) {
 
-        notificationCount++;
-        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            setupChannels();
-        }
-        notificationId = new Random().nextInt(60000);
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            notificationCount++;
+            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                setupChannels();
+            }
+            notificationId = new Random().nextInt(60000);
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        try {
-            String msgTye = remoteMessage.getData().get("type");
-            Log.d("notification_type", msgTye);
+            try {
+                String msgTye = remoteMessage.getData().get("type");
+                Log.d("notification_type", msgTye);
 
-            if (msgTye.equalsIgnoreCase("spot_poll")) {
+                if (msgTye.equalsIgnoreCase("spot_poll")) {
 
 
-                // if(!MyApplication.isAppDestoryed) {
+                    // if(!MyApplication.isAppDestoryed) {
                     /*Intent notifyIntent = new Intent(this, MrgeHomeActivity.class);
                     notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                             | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     notifyIntent.putExtra("spot_poll","spot_poll");
                     startActivity(notifyIntent);*/
-                MrgeHomeActivity.spot_poll = "spot_poll";
+                    MrgeHomeActivity.spot_poll = "spot_poll";
 
 
-                Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_LIVE_POLL);
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
-                //}
-            }
-
-            if (msgTye.equalsIgnoreCase("spot_quiz")) {
-
-
-                MrgeHomeActivity.spot_quiz = "spot_quiz";
-
-
-                Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_Quiz);
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
-                //}
-            }
-            if (msgTye.contains("chat_")) {
-
-
-                ActivityBuddyChat.SpotChat = "chat";
-                ActivityBuddyChat.chat_id = msgTye;
-
-                if (msgTye.contains("chat_")) {
-                    msgTye = msgTye.replace("chat_", "");
+                    Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_LIVE_POLL);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+                    //}
                 }
 
-                String[] message = remoteMessage.getData().get("message").split("-");
-                chat_list_db UsersList = new chat_list_db();
-                UsersList.setIs_read("0");
-                UsersList.setId("");
-                UsersList.setSender_id(msgTye);
-                UsersList.setReceiver_id("");
-                UsersList.setMessage(message[1]);
-                UsersList.setTimestamp("");
-                UsersList.setStatus("");
-                DBHelper procializeDB  = new DBHelper(this);
-                SQLiteDatabase db = procializeDB.getWritableDatabase();
-                procializeDB.insertBuddyChat(UsersList, db);
-                Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_ChatBuddy);
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
-                //}
+                if (msgTye.equalsIgnoreCase("spot_quiz")) {
+
+
+                    MrgeHomeActivity.spot_quiz = "spot_quiz";
+
+
+                    Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_Quiz);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+                    //}
+                }
+                if (msgTye.contains("eventchat_")) {
+
+
+                    AttendeeChatActivity.SpotEventChat = "Eventchat";
+                    AttendeeChatActivity.chat_id = msgTye;
+
+                    if (msgTye.contains("eventchat_")) {
+                        msgTye = msgTye.replace("eventchat_", "");
+                    }
+
+
+                    String[] message = remoteMessage.getData().get("message").split("-");
+                    chat_list_db UsersList = new chat_list_db();
+                    UsersList.setIs_read("0");
+                    UsersList.setId("");
+                    UsersList.setSender_id(msgTye);
+                    UsersList.setReceiver_id("");
+                    UsersList.setMessage(message[1]);
+                    UsersList.setTimestamp("");
+                    UsersList.setStatus("");
+                    DBHelper procializeDB = new DBHelper(this);
+                    SQLiteDatabase db = procializeDB.getWritableDatabase();
+                    procializeDB.insertAttendeeChat(UsersList, db);
+
+                    Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_ChatBuddy);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+                    //}
+                }
+
+                if (msgTye.contains("chat_")) {
+
+
+                    ActivityBuddyChat.SpotChat = "chat";
+                    ActivityBuddyChat.chat_id = msgTye;
+
+                    if (msgTye.contains("chat_")) {
+                        msgTye = msgTye.replace("chat_", "");
+                    }
+
+                    String[] message = remoteMessage.getData().get("message").split("-");
+                    chat_list_db UsersList = new chat_list_db();
+                    UsersList.setIs_read("0");
+                    UsersList.setId("");
+                    UsersList.setSender_id(msgTye);
+                    UsersList.setReceiver_id("");
+                    UsersList.setMessage(message[1]);
+                    UsersList.setTimestamp("");
+                    UsersList.setStatus("");
+                    DBHelper procializeDB = new DBHelper(this);
+                    SQLiteDatabase db = procializeDB.getWritableDatabase();
+                    procializeDB.insertBuddyChat(UsersList, db);
+                    Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_ChatBuddy);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+                    //}
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            if (msgTye.contains("eventchat_")) {
 
-
-                AttendeeChatActivity.SpotEventChat = "Eventchat";
-                AttendeeChatActivity.chat_id = msgTye;
-
-                Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_ChatBuddy);
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
-                //}
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        String imageUri = remoteMessage.getData().get("image");
-        long when = System.currentTimeMillis();
-        bitmap = getBitmapfromUrl(imageUri);
-
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID);
-//        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //transperent icon
-            if (Build.BRAND.equalsIgnoreCase("samsung")) {
-                notificationBuilder.setSmallIcon(R.drawable.app_icon);
-            } else {
-                notificationBuilder.setSmallIcon(R.drawable.trans_logo);
-                notificationBuilder.setColor(getResources().getColor(R.color.colorwhite));
-            }
-        } else {
-            notificationBuilder.setSmallIcon(R.drawable.app_icon);
-//            notificationBuilder.setColor(getResources().getColor(R.color.activetab));
-        }
-        //-----------For notification count----------------------
-        SharedPreferences prefs2 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        String strNotificationCount = prefs2.getString("notificationCount", "");
-
-        if (strNotificationCount.isEmpty()) {
-            strNotificationCount = "0";
-        }
-
-        notificationCount = Integer.parseInt(strNotificationCount);
-
-        notificationCount = notificationCount + 1;
-
-        SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs1.edit();
-        editor.putString("notificationCount", String.valueOf(notificationCount));
-        editor.commit();
-
-        Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_NOTIFICATION_COUNT);
-        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
-        //----------------------------------------------------------------------
-
-
-        notificationBuilder.setContentTitle("Mrge App")
-                .setColorized(true)
-                .setWhen(when)
-                .setAutoCancel(true)
-                .setShowWhen(true)
-                .setSound(alarmSound)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(getEmojiFromString(remoteMessage.getData().get("message"))))
-                .setContentText(getEmojiFromString(remoteMessage.getData().get("message")))
-                .setStyle(new NotificationCompat.BigPictureStyle()
-                        .bigPicture(bitmap).bigLargeIcon(null));
-
-
-        // Session Manager
-        session = new SessionManager(getApplicationContext());
-        if (session.isLoggedIn()) {
+            String imageUri = remoteMessage.getData().get("image");
+            long when = System.currentTimeMillis();
             bitmap = getBitmapfromUrl(imageUri);
-            sendNotification(remoteMessage.getData().get("message"), bitmap);
+
+            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID);
+//        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                //transperent icon
+                if (Build.BRAND.equalsIgnoreCase("samsung")) {
+                    notificationBuilder.setSmallIcon(R.drawable.app_icon);
+                } else {
+                    notificationBuilder.setSmallIcon(R.drawable.trans_logo);
+                    notificationBuilder.setColor(getResources().getColor(R.color.colorwhite));
+                }
+            } else {
+                notificationBuilder.setSmallIcon(R.drawable.app_icon);
+//            notificationBuilder.setColor(getResources().getColor(R.color.activetab));
+            }
+            //-----------For notification count----------------------
+            SharedPreferences prefs2 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String strNotificationCount = prefs2.getString("notificationCount", "");
+
+            if (strNotificationCount.isEmpty()) {
+                strNotificationCount = "0";
+            }
+
+            notificationCount = Integer.parseInt(strNotificationCount);
+
+            notificationCount = notificationCount + 1;
+
+            SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs1.edit();
+            editor.putString("notificationCount", String.valueOf(notificationCount));
+            editor.commit();
+
+            Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_NOTIFICATION_COUNT);
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+            //----------------------------------------------------------------------
+
+
+            notificationBuilder.setContentTitle("Mrge App")
+                    .setColorized(true)
+                    .setWhen(when)
+                    .setAutoCancel(true)
+                    .setShowWhen(true)
+                    .setSound(alarmSound)
+                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(getEmojiFromString(remoteMessage.getData().get("message"))))
+                    .setContentText(getEmojiFromString(remoteMessage.getData().get("message")))
+                    .setStyle(new NotificationCompat.BigPictureStyle()
+                            .bigPicture(bitmap).bigLargeIcon(null));
+
+
+            // Session Manager
+            session = new SessionManager(getApplicationContext());
+            if (session.isLoggedIn()) {
+                bitmap = getBitmapfromUrl(imageUri);
+                sendNotification(remoteMessage.getData().get("message"), bitmap);
+            }
         }
-        //}
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

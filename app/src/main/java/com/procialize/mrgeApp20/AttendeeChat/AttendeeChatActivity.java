@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.AttendeeChat.Adapter.AttendeeChatAdapter;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
+import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.util.GetUserActivityReport;
@@ -85,6 +87,8 @@ public class AttendeeChatActivity extends AppCompatActivity {
 
     SpotChatReciever spotChatReciever;
     IntentFilter spotChatFilter;
+    DBHelper procializeDB;
+    SQLiteDatabase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,6 +153,11 @@ public class AttendeeChatActivity extends AppCompatActivity {
 
         title.setText(name);
         sub_title.setText(designation + " - " + city);
+
+        procializeDB  = new DBHelper(this);
+        db = procializeDB.getWritableDatabase();
+
+        procializeDB.setAttendeeChatUnreadMessageCountToZero(attendeeid);
 
         iv_buddy_details = findViewById(R.id.iv_buddy_details);
         iv_buddy_details.setOnClickListener(new View.OnClickListener() {
@@ -515,4 +524,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(spotChatReciever);
 
     }
+
+
+
 }

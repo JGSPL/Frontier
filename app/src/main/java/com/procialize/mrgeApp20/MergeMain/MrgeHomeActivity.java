@@ -1791,7 +1791,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
 
         if (check == true) {
-
+            youTubePlayer.release();
             JzvdStd.goOnPlayOnPause();
 
         } else {
@@ -1810,7 +1810,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
                                             int which) {
-
+                            youTubePlayer.release();
                             ActivityCompat.finishAffinity(MrgeHomeActivity.this);
 
                         }
@@ -4224,6 +4224,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         dbHelper.close();
         finishAffinity();
     }
+
+
 
 
     public static class NotificationCountReciever extends BroadcastReceiver {

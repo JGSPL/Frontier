@@ -115,7 +115,17 @@
                 android:layout_height="20dp"
                 android:contentDescription="TODO"
                 android:src="@drawable/ic_rightarrow" />
-
+            <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:contentDescription="TODO"
+                android:background="@drawable/unread_msg_count_circle"
+                android:text="10"
+                android:textSize="10dp"
+                android:gravity="center"
+                android:textColor="@color/colorwhite"
+                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 

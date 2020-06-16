@@ -276,13 +276,15 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
     }
 
     @Override
-    public void onContactSelected(List<VideoContest> videoContest, ImageView ivProfile) {
+    public void onContactSelected(List<VideoContest> videoContest, ImageView ivProfile,int pos) {
 
         //SubmitAnalytics(token, eventid, "", "", "videocontest", videoContest.getTitle());
 
         Intent intent = new Intent(VideoContestActivity.this, SwappingVideoActivity.class);
         intent.putExtra("gallerylist",(Serializable) videoContest);
-       /* intent.putExtra("videoUrl", videoContest.getFileName());
+        intent.putExtra("positionSelect",""+pos);
+
+       /* intent.putExtra("url", videoContest.getFileName());
         intent.putExtra("title", videoContest.getTitle());
         intent.putExtra("page", "contest");*/
         startActivity(intent);

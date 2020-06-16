@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -83,7 +84,7 @@ import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 
 public class SwappingVideoActivity extends AppCompatActivity implements SwipeEngagmentVideoAdapter.SwipeImageSelfieAdapterListner {
     public int rvposition = 0;
-    String name;
+    String name,position="0",positionSelect="0";
     List<VideoContest> firstLevelFilters;
     SwipeEngagmentVideoAdapter swipeImageAdapter;
     SwipePagerVideoAdapter swipepagerAdapter;
@@ -134,9 +135,13 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+        Intent i = getIntent();
+
         cd = new ConnectionDetector(this);
-        name = getIntent().getExtras().getString("url");
+        //name = getIntent().getExtras().getString("url");
+        //positionSelect = getIntent().getStringExtra("position");
         firstLevelFilters = (List<VideoContest>) getIntent().getExtras().getSerializable("gallerylist");
+        positionSelect = getIntent().getExtras().getString("positionSelect");
         mAPIService = ApiUtils.getAPIService();
         recyclerView = findViewById(R.id.listrecycler);
         pager = findViewById(R.id.pager);
@@ -364,7 +369,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
 
 
 
-        indexset(name);
+        indexset(positionSelect);
 
         right.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -482,20 +487,27 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
             e.printStackTrace();
         }
         //----------------------------------------------------------------------------------
+
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            recyclerView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.GONE);
+        }
     }
 
-    public void indexset(String name) {
-        for (int j = 0; j < firstLevelFilters.size(); j++) {
-            if (firstLevelFilters.get(j).getId().equalsIgnoreCase(name)) {
-                pager.setCurrentItem(j);
-            }
-        }
+    public void indexset(String position) {
+       // for (int j = 0; j < firstLevelFilters.size(); j++) {
+           // if (firstLevelFilters.get(j).getId().equalsIgnoreCase(name)) {
+                pager.setCurrentItem(Integer.parseInt(position));
+                recyclerView.scrollToPosition(Integer.parseInt(position));
+           // }
+       // }
     }
 
     @Override
     public void onContactSelected(VideoContest filtergallerylists) {
         indexset(filtergallerylists.getId());
-
     }
 
     @Override
@@ -514,7 +526,6 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
             swipeImageAdapter.notifyDataSetChanged();
             recyclerView.setAdapter(swipeImageAdapter);
             recyclerView.scheduleLayoutAnimation();
-
 
             swipepagerAdapter = new SwipePagerVideoAdapter(this, firstLevelFilters);
             swipepagerAdapter.notifyDataSetChanged();
