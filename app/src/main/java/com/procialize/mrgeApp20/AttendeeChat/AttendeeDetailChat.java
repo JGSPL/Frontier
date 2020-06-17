@@ -220,6 +220,7 @@ public class AttendeeDetailChat extends AppCompatActivity {
             if (buddy_status.equalsIgnoreCase("send_request")) {
                 saveContact.setText("Add to buddy list");
                 imgBuddy.setVisibility(View.VISIBLE);
+                txtRemove.setVisibility(View.GONE);
 
             } else if (buddy_status.equalsIgnoreCase("friends")) {
                 saveContact.setText("Added to buddy list");
@@ -227,7 +228,7 @@ public class AttendeeDetailChat extends AppCompatActivity {
                 saveContact.setBackgroundColor(Color.parseColor(colorActive));
                 saveContact.setTextColor(Color.parseColor("#ffffff"));
                 imgBuddy.setVisibility(View.GONE);
-
+                txtRemove.setVisibility(View.VISIBLE);
 
             } else if (buddy_status.equalsIgnoreCase("request_sent")) {
                 saveContact.setText("Request sent");
@@ -235,6 +236,7 @@ public class AttendeeDetailChat extends AppCompatActivity {
                 saveContact.setBackgroundColor(Color.parseColor(colorActive));
                 saveContact.setTextColor(Color.parseColor("#ffffff"));
                 imgBuddy.setVisibility(View.GONE);
+                txtRemove.setVisibility(View.GONE);
 
             }
         }

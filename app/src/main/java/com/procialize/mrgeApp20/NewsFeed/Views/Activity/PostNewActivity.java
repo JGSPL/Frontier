@@ -49,6 +49,7 @@ import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
 import com.procialize.mrgeApp20.GetterSetter.Comment;
+import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.Mention;
 import com.procialize.mrgeApp20.GetterSetter.NewsFeedPostMultimedia;
 import com.procialize.mrgeApp20.GetterSetter.SelectedImages;
@@ -135,6 +136,9 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     private UsersAdapter usersAdapter;
     private DBHelper procializeDB;
     private ArrayList<AttendeeList> customers;
+    private List<EventSettingList> eventSettingLists;
+    String news_feed_post = "1", news_feed_images = "1", news_feed_video = "1", designatio = "1", news_feed_gif = "0";;
+    String news_feed_like = "0", news_feed_comment = "0", news_feed_share = "0";
 
     public static HttpResponse transformResponse(Response response) {
 
@@ -184,6 +188,8 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                 .setLocale(Locale.getDefault())
                 .build()
         );
+
+
         init();
     }
 
@@ -297,6 +303,11 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         postUrlmulti = ApiConstant.baseUrl + "PostNewsFeedMultiple";
 
         session = new SessionManager(getApplicationContext());
+
+        eventSettingLists = session.loadEventList();
+        if (eventSettingLists.size() != 0) {
+            applysetting(eventSettingLists);
+        }
         HashMap<String, String> user = session.getUserDetails();
         String profilepic = user.get(SessionManager.KEY_PIC);
         if (profilepic != null) {
@@ -825,4 +836,41 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     }
+
+    private void applysetting(List<EventSettingList> eventSettingLists) {
+
+        for (int i = 0; i < eventSettingLists.size(); i++) {
+
+
+            if (eventSettingLists.get(i).getFieldName().equals("news_feed")) {
+                if (eventSettingLists.get(i).getSub_menuList() != null) {
+                    if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                        for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                            if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_post")) {
+
+                                news_feed_post = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_images")) {
+                                news_feed_images = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_video")) {
+                                news_feed_video = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_comment")) {
+                                news_feed_comment = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_like")) {
+                                news_feed_like = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_share")) {
+                                news_feed_share = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_gif")) {
+                                news_feed_gif = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
+
+        }
+    }
+
 }
