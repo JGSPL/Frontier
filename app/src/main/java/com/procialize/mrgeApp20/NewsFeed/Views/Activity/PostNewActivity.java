@@ -104,7 +104,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
 
     EditText posttextEt;
     TextView txtcount;
-    LinearLayout llUploadMedia;
+    LinearLayout llUploadMedia,ll_count;
     List<SelectedImages> resultList = new ArrayList<SelectedImages>();
     ArrayList<Integer> videoPositionArray = new ArrayList<Integer>();
     ViewPagerMultimediaAdapter viewPagerAdapter;
@@ -125,6 +125,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     ImageView headerlogoIv;
     ImageView profileIV;
     ProgressBar progressView;
+    String news_feed_post = "1", news_feed_images = "1", news_feed_video = "1", news_feed_gif = "1";
     private ArrayList<AlbumFile> mAlbumFiles = new ArrayList<>();//Array For selected images and videos
     private int dotscount;
     private ImageView[] dots;
@@ -214,6 +215,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
 
         cd = new ConnectionDetector(this);
         llUploadMedia = (LinearLayout) findViewById(R.id.llUploadMedia);
+        ll_count = (LinearLayout) findViewById(R.id.ll_count);
         llUploadMedia.setOnClickListener(this);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -328,6 +330,20 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         eventId = prefs.getString("eventid", "1");
 
         setupMentionsList();
+
+        if (news_feed_post.equalsIgnoreCase("1")) {
+            posttextEt.setVisibility(View.VISIBLE);
+            ll_count.setVisibility(View.VISIBLE);
+        } else {
+            posttextEt.setVisibility(View.GONE);
+            ll_count.setVisibility(View.GONE);
+        }
+
+        if (news_feed_images.equalsIgnoreCase("1") && news_feed_video.equalsIgnoreCase("1") && news_feed_gif.equalsIgnoreCase("1")) {
+            llUploadMedia.setVisibility(View.VISIBLE);
+        } else {
+            llUploadMedia.setVisibility(View.GONE);
+        }
     }
 
     @Override

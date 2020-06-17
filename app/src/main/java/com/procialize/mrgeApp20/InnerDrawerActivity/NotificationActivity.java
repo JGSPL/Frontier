@@ -94,7 +94,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
     List<EventSettingList> eventSettingLists;
     String news_feed_share,
             news_feed_comment,
-            news_feed_like;
+            news_feed_like="1";
     private APIService mAPIService;
     private DBHelper procializeDB;
     private SQLiteDatabase db;
@@ -263,9 +263,9 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
 
         for (int i = 0; i < eventSettingLists.size(); i++) {
 
-            if (eventSettingLists.get(i).getFieldName().equals("news_feed_like")) {
+           /* if (eventSettingLists.get(i).getFieldName().equals("news_feed_like")) {
                 news_feed_like = eventSettingLists.get(i).getFieldValue();
-            }
+            }*/
 
             if (eventSettingLists.get(i).getFieldName().equals("news_feed_comment")) {
                 news_feed_comment = eventSettingLists.get(i).getFieldValue();
@@ -352,6 +352,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
             db = procializeDB.getReadableDatabase();
 
             newsfeedsDBList = dbHelper.getNewsFeedLikeandComment(notification.getNotificationPostId());
+           // if (notification.getNotificationType().equalsIgnoreCase("Cmnt") && news_feed_comment != null) {
             if (notification.getNotificationType().equalsIgnoreCase("Cmnt") && news_feed_comment != null) {
 
                 if (!news_feed_comment.equalsIgnoreCase("0")) {

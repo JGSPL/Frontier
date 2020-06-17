@@ -53,6 +53,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     String event_id;
     Bitmap bitmap;
     int notificationCount = 0;
+    String strEventId = "";
 
     public static String getEmojiFromString(String emojiString) {
 
@@ -88,8 +89,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         event_id = prefs.getString("eventid", "1");
 
+        try {
+            strEventId = remoteMessage.getData().get("event_id");
+        }catch (Exception e)
+        {}
         //  Log.d("Event Id==>", remoteMessage.getData().get("event_id"));
-        if (remoteMessage.getData().get("event_id").equalsIgnoreCase(event_id)) {
+        if (strEventId.equalsIgnoreCase(event_id)) {
 
             notificationCount++;
             notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

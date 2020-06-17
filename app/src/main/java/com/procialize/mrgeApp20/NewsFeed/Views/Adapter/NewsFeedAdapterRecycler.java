@@ -871,18 +871,22 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
         if (news_feed_like.equalsIgnoreCase("0")) {
             holder.likeTv.setVisibility(View.GONE);
+            holder.liketext.setVisibility(View.GONE);
 //            viewone.setVisibility(View.GONE);
         } else {
             holder.likeTv.setVisibility(View.VISIBLE);
+            holder.liketext.setVisibility(View.VISIBLE);
 //            viewone.setVisibility(View.VISIBLE);
         }
 
         if (news_feed_comment.equalsIgnoreCase("0")) {
             holder.commentTv.setVisibility(View.GONE);
+            holder.commenttext.setVisibility(View.GONE);
 //            viewtwo.setVisibility(View.GONE);
 
         } else {
             holder.commentTv.setVisibility(View.VISIBLE);
+            holder.commenttext.setVisibility(View.VISIBLE);
 //            viewtwo.setVisibility(View.VISIBLE);
         }
 

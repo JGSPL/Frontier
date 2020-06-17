@@ -290,12 +290,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //Buddy Chat--------------------------------------------------------------
     public static final String BUDDY_CHAT_TABLE_NAME = "BUDDY_CHAT_TABLE_NAME";
-    public static final String BUDDY_CHAT_ID = "BUDDY_CHAT_ID";
+   // public static final String BUDDY_CHAT_ID = "BUDDY_CHAT_ID";
     public static final String BUDDY_CHAT_SENDER_ID = "BUDDY_CHAT_SENDER_ID";
-    public static final String BUDDY_CHAT_RECEIVER_ID = "BUDDY_CHAT_RECEIVER_ID";
+    //public static final String BUDDY_CHAT_RECEIVER_ID = "BUDDY_CHAT_RECEIVER_ID";
     public static final String BUDDY_CHAT_MESSAGE = "BUDDY_CHAT_MESSAGE";
-    public static final String BUDDY_CHAT_TIMESTAMP = "BUDDY_CHAT_TIMESTAMP";
-    public static final String BUDDY_CHAT_STATUS = "BUDDY_CHAT_STATUS";
+    /*public static final String BUDDY_CHAT_TIMESTAMP = "BUDDY_CHAT_TIMESTAMP";
+    public static final String BUDDY_CHAT_STATUS = "BUDDY_CHAT_STATUS";*/
     public static final String BUDDY_CHAT_IS_READ = "BUDDY_CHAT_IS_READ";
 
 
@@ -487,12 +487,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 + BUZZ_MEDIA_ID + " text)");
 
         db.execSQL("create table " + BUDDY_CHAT_TABLE_NAME + "("
-                + BUDDY_CHAT_ID + " text, "
+                //+ BUDDY_CHAT_ID + " text, "
                 + BUDDY_CHAT_SENDER_ID + " text, "
-                + BUDDY_CHAT_RECEIVER_ID + " text, "
+                //+ BUDDY_CHAT_RECEIVER_ID + " text, "
                 + BUDDY_CHAT_MESSAGE + " text, "
-                + BUDDY_CHAT_TIMESTAMP + " text, "
-                + BUDDY_CHAT_STATUS + " text, "
+               // + BUDDY_CHAT_TIMESTAMP + " text, "
+                //+ BUDDY_CHAT_STATUS + " text, "
                 + BUDDY_CHAT_IS_READ + " text)");
 
         db.execSQL("create table " + ATTENDEE_CHAT_TABLE_NAME + "("
@@ -644,30 +644,30 @@ public class DBHelper extends SQLiteOpenHelper {
             //for (int i = 0; i < UsersList.size(); i++) {
             contentValues = new ContentValues();
 
-            String strId = UsersList.getId();
+            /*String strId = UsersList.getId();
             if (strId != null && strId.length() > 0) {
                 contentValues.put(BUDDY_CHAT_ID, strId);
-            }
+            }*/
             String strSender_id = UsersList.getSender_id();
             if (strSender_id != null && strSender_id.length() > 0) {
                 contentValues.put(BUDDY_CHAT_SENDER_ID, strSender_id);
             }
-            String strReceiver_id = UsersList.getReceiver_id();
+            /*String strReceiver_id = UsersList.getReceiver_id();
             if (strReceiver_id != null && strReceiver_id.length() > 0) {
                 contentValues.put(BUDDY_CHAT_RECEIVER_ID, strReceiver_id);
-            }
+            }*/
             String strMessage = UsersList.getMessage();
             if (strMessage != null && strMessage.length() > 0) {
                 contentValues.put(BUDDY_CHAT_MESSAGE, strMessage);
             }
-            String strTimestamp = UsersList.getTimestamp();
+            /*String strTimestamp = UsersList.getTimestamp();
             if (strTimestamp != null && strTimestamp.length() > 0) {
                 contentValues.put(BUDDY_CHAT_TIMESTAMP, strTimestamp);
             }
             String strStatus = UsersList.getStatus();
             if (strStatus != null && strStatus.length() > 0) {
                 contentValues.put(BUDDY_CHAT_STATUS, strStatus);
-            }
+            }*/
             String strIsRead = "0";
             if (strIsRead != null && strIsRead.length() > 0) {
                 contentValues.put(BUDDY_CHAT_IS_READ, strIsRead);
