@@ -245,6 +245,13 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             saveContact.setTextColor(Color.parseColor("#ffffff"));
             imgBuddy.setVisibility(View.GONE);
 
+        }else if (buddy_status.equalsIgnoreCase("request_received")) {
+            saveContact.setText("Request sent");
+            linsave.setBackgroundColor(Color.parseColor(colorActive));
+            saveContact.setBackgroundColor(Color.parseColor(colorActive));
+            saveContact.setTextColor(Color.parseColor("#ffffff"));
+            imgBuddy.setVisibility(View.GONE);
+
         }
 
 
@@ -254,6 +261,10 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                 if (buddy_status.equalsIgnoreCase("send_request")) {
 
                     AddBuddy(apikey, eventid, attendeeid);
+                }else if (buddy_status.equalsIgnoreCase("request_received") ||
+                        buddy_status.equalsIgnoreCase("request_sent")) {
+
+                    Toast.makeText(getApplicationContext(), "Buddy request already sent", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Already added", Toast.LENGTH_SHORT).show();
 
@@ -850,6 +861,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             imgBuddy.setVisibility(View.GONE);
 
             saveContact.setText("Request sent");
+            buddy_status = "request_sent";
             Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
         } else {
             Log.e("post", "fail");

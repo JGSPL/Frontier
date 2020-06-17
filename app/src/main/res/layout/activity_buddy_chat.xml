@@ -161,6 +161,17 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/edittextchat"
                 android:paddingLeft="5dp">
+               <!-- <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
+                    android:id="@+id/commentEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Message"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/colorwhite"
+                    android:textSize="15dp"
+                     />-->
 
             <ImageView
                 android:layout_width="40dp"

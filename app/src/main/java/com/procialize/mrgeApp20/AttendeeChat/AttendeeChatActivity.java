@@ -54,6 +54,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -217,6 +218,11 @@ public class AttendeeChatActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+       /* EmojIconActions emojIcon= new EmojIconActions(this, rootView, emojiconEditText,
+                emojiImageView); 
+
+        emojIcon.ShowEmojIcon();  */
 
 
         commentBt.setOnClickListener(new View.OnClickListener() {
