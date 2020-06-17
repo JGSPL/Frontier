@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -364,11 +365,21 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         final View deleteDialogView = factory.inflate(R.layout.buddy_list_disclaimer_dialog, null);
         final AlertDialog deleteDialog = new AlertDialog.Builder(this).create();
         deleteDialog.setView(deleteDialogView);
+        deleteDialog.setCancelable(false);
+        CheckBox checkBox = deleteDialogView.findViewById(R.id.checkBox);
+
+
         deleteDialogView.findViewById(R.id.btn_start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //your business logic
-                deleteDialog.dismiss();
+                if(checkBox.isChecked()){
+                    deleteDialog.dismiss();
+
+                }else{
+                    Toast.makeText(ActivityBuddyList.this, "Please agree with terms and conditions to continue", Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
         deleteDialog.show();

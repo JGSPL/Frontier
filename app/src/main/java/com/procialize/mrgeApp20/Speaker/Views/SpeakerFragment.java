@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -85,6 +87,7 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
     private List<SpeakerList> speakersDBList;
     private DBHelper dbHelper;
     LinearLayout linear;
+    Boolean isVisible = false;
 
 
     public SpeakerFragment() {
@@ -151,23 +154,6 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-       /* try {
-
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
-            Resources res = getResources();
-            Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
-            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-            linear.setBackgroundDrawable(bd);
-
-            Log.e("PATH", String.valueOf(mypath));
-        } catch (Exception e) {
-            e.printStackTrace();
-            linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
-
-        }*/
-//        speakerrecycler.setHasFixedSize(true);
 
 
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -262,6 +248,26 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
         getUserActivityReport.userActivityReport();*/
         return view;
     }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser ) {
+           /* if (cd.isConnectingToInternet()) {
+                fetchSpeaker(token, eventid);
+            } else {
+                db = procializeDB.getReadableDatabase();
+
+                speakersDBList = dbHelper.getSpeakerDetails();
+
+                speakerAdapter = new SpeakerAdapter(getActivity(), speakersDBList, this);
+                speakerAdapter.notifyDataSetChanged();
+                speakerrecycler.setAdapter(speakerAdapter);
+                speakerrecycler.scheduleLayoutAnimation();
+            }*/
+
+        }
+    }
+
 
 
     public void fetchSpeaker(String token, String eventid) {
@@ -405,4 +411,5 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

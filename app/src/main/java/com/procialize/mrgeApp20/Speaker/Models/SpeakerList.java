@@ -45,7 +45,7 @@ public class SpeakerList implements Serializable {
     @SerializedName("designation")
     @Expose
     private String designation;
-    @SerializedName("attendee_type")
+    @SerializedName("event_attendee_type")
     @Expose
     private String attendeeType;
     @SerializedName("total_rating")

@@ -19,6 +19,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -110,6 +112,7 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
     AttendeeList attendeeTmp;
     SpotChatReciever spotChatReciever;
     IntentFilter spotChatFilter;
+    Boolean isVisible = false;
 
     public AttendeeFragment() {
         // Required empty public constructor
@@ -269,6 +272,27 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
         }
         return view;
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser ) {
+           /* if (cd.isConnectingToInternet()) {
+                fetchFeed(token, eventid);
+            } else {
+                db = procializeDB.getReadableDatabase();
+
+                attendeesDBList = dbHelper.getAttendeeDetails();
+
+                attendeeAdapter = new AttendeeAdapter(getActivity(), attendeesDBList, this);
+                attendeeAdapter.notifyDataSetChanged();
+                attendeerecycler.setAdapter(attendeeAdapter);
+                attendeerecycler.scheduleLayoutAnimation();
+            }*/
+
+        }
+    }
+
 
 
     public void fetchFeed(String token, String eventid) {
@@ -461,4 +485,5 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }
