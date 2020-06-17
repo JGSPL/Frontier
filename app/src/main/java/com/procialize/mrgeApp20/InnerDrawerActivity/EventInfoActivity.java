@@ -7,14 +7,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +46,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.procialize.mrgeApp20.Adapter.SponsorAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
@@ -47,10 +55,16 @@ import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.EventInfoFetch;
 import com.procialize.mrgeApp20.GetterSetter.EventList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
+import com.procialize.mrgeApp20.GetterSetter.SponsorsList;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.Utility.KeyboardUtility;
 import com.procialize.mrgeApp20.Utility.Util;
 import com.procialize.mrgeApp20.Utility.Utility;
+import com.procialize.mrgeApp20.util.GetUserActivityReport;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.File;
 import java.text.ParseException;
@@ -65,9 +79,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 
-public class EventInfoActivity extends FragmentActivity implements OnMapReadyCallback {
+public class EventInfoActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
     ImageView logoIv;
@@ -78,7 +93,7 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
     SessionManager sessionManager;
     String token;
     ProgressBar progressbar;
-    String event_info_display_map, event_info_description;
+    String event_info_display_map = "0", event_info_description = "0";
     List<EventSettingList> eventSettingLists;
     SupportMapFragment fm;
     ImageView back;
@@ -87,53 +102,57 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
     String eventid, colorActive;
     ImageView headerlogoIv;
     RelativeLayout relative_head;
+    List<SponsorsList> sponsorList;
+    String filePath;
+    LinearLayout linShare;
+    RecyclerView rv_sponsors;
     private APIService mAPIService;
     private GoogleMap map;
     private Date d2, d1;
-    private DBHelper procializeDB;
     private SQLiteDatabase db;
     private ConnectionDetector cd;
     private DBHelper dbHelper;
     private List<EventList> eventList;
     private List<EventList> eventDBList;
+    private List<SponsorsList> sponsorDBList;
+    Boolean isVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_eventinfo2);
+        setContentView(R.layout.activity_eventinfo_for_logo);
         // overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
-        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        Intent intent=getIntent();
+//        eventid=intent.getStringExtra("eventId");
+//        eventnamestr=intent.getStringExtra("eventnamestr");
+        cd = new ConnectionDetector(EventInfoActivity.this);
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.activetab), PorterDuff.Mode.SRC_ATOP);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // onBackPressed();
+                KeyboardUtility.hideSoftKeyboard(EventInfoActivity.this);
+
+                finish();
+            }
+        });
+        SharedPreferences prefs = EventInfoActivity.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
-
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-
-
-        headerlogoIv = findViewById(R.id.headerlogoIv);
         relative_head = findViewById(R.id.relative_head);
-        Util.logomethod(this, headerlogoIv);
         sessionManager = new SessionManager(this);
 
         // get user data from session
         HashMap<String, String> user = sessionManager.getUserDetails();
 
-        try {
-//            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
-            //path to /data/data/yourapp/app_data/dirName
-//            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
-            Resources res = getResources();
-            Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
-            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-            relative_head.setBackgroundDrawable(bd);
-
-            Log.e("PATH", String.valueOf(mypath));
-        } catch (Exception e) {
-            e.printStackTrace();
-            relative_head.setBackgroundColor(Color.parseColor("#f1f1f1"));
-        }
         token = user.get(SessionManager.KEY_TOKEN);
         crashlytics("Event Info", token);
         eventSettingLists = sessionManager.loadEventList();
@@ -141,70 +160,136 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
         if (eventSettingLists.size() != 0) {
             applysetting(eventSettingLists);
         }
-        cd = new ConnectionDetector(EventInfoActivity.this);
+
+        try {
+            setNotification(EventInfoActivity.this, MrgeHomeActivity.tv_notification, MrgeHomeActivity.ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        cd = new ConnectionDetector(this);
         mAPIService = ApiUtils.getAPIService();
-        dbHelper = new DBHelper(EventInfoActivity.this);
-        sessionManager = new SessionManager(EventInfoActivity.this);
-
-        procializeDB = new DBHelper(EventInfoActivity.this);
-        db = procializeDB.getWritableDatabase();
-
-        fm = ( SupportMapFragment ) getSupportFragmentManager().findFragmentById(R.id.map);
-        fm.getMapAsync(this);
-
+        dbHelper = new DBHelper(this);
+        sessionManager = new SessionManager(this);
         logoIv = findViewById(R.id.logoIv);
         nameTv = findViewById(R.id.nameTv);
         dateTv = findViewById(R.id.dateTv);
         cityTv = findViewById(R.id.cityTv);
+        rv_sponsors = findViewById(R.id.rv_sponsors);
+        linShare = findViewById(R.id.linShare);
+        linShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+                // Add data to the intent, the receiving app will decide
+                // what to do with it.
+                share.putExtra(Intent.EXTRA_SUBJECT, nameTv.getText().toString());
+                share.putExtra(Intent.EXTRA_TEXT, "I am attending " + nameTv.getText().toString() + " using the MRGE app. Check out mrge.in for more");//event_desc.getText().toString());
+
+                startActivity(Intent.createChooser(share, "Share Event Info!"));
+
+            }
+        });
 
         event_desc = findViewById(R.id.event_desc);
         view = findViewById(R.id.view);
         progressbar = findViewById(R.id.progressbar);
         back = findViewById(R.id.back);
         linMap = findViewById(R.id.linMap);
+        db = dbHelper.getWritableDatabase();
+        // fm = ( SupportMapFragment ) EventInfoActivity.this.getSupportFragmentManager().findFragmentById(R.id.map);
+        fm = ( SupportMapFragment ) getSupportFragmentManager().findFragmentById(R.id.map);
 
-        TextView header = ( TextView ) findViewById(R.id.event_info_heading);
+
+        fm.getMapAsync(this);
+
+
+        TextView header = (TextView) findViewById(R.id.event_info_heading);
         header.setTextColor(Color.parseColor(colorActive));
-        nameTv.setTextColor(Color.parseColor(colorActive));
+        //  nameTv.setTextColor(Color.parseColor(colorActive));
 
 
-        RelativeLayout layoutTop = ( RelativeLayout ) findViewById(R.id.layoutTop);
-        layoutTop.setBackgroundColor(Color.parseColor(colorActive));
+        RelativeLayout layoutTop = (RelativeLayout) findViewById(R.id.layoutTop);
+        // layoutTop.setBackgroundColor(Color.parseColor(colorActive));
 
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        //if (event_info_display_map.equalsIgnoreCase("1")) {
+        event_desc.setMovementMethod(new ScrollingMovementMethod());
+        //event_desc.setMaxLines(20);
+        event_desc.setVerticalScrollBarEnabled(true);
+       /* } else {
 
+        }*/
 
-        if (event_info_display_map.equalsIgnoreCase("1")) {
-            event_desc.setMovementMethod(new ScrollingMovementMethod());
-            event_desc.setMaxLines(20);
-            event_desc.setVerticalScrollBarEnabled(true);
-        } else {
-
+        if (cd.isConnectingToInternet()) {
+            fetchEventInfo(token, eventid);
         }
+
+        db = dbHelper.getReadableDatabase();
+        sponsorDBList = dbHelper.getSponsorList();
+        if (!cd.isConnectingToInternet()) {
+            if (sponsorDBList.size() != 0) {
+                String sponsor_filePath = prefs.getString("sponsor_filePath", "");
+                SponsorAdapter sponsorAdapter1 = new SponsorAdapter(EventInfoActivity.this, sponsorDBList, sponsor_filePath);
+                RecyclerView.LayoutManager mLayoutManager1 = new GridLayoutManager(EventInfoActivity.this, 3);
+                rv_sponsors.setNestedScrollingEnabled(false);
+                rv_sponsors.setLayoutManager(mLayoutManager1);
+                rv_sponsors.setItemAnimator(new DefaultItemAnimator());
+                rv_sponsors.setAdapter(sponsorAdapter1);
+            }
+        }
+        try {
+            LinearLayout ll_notification_count = findViewById(R.id.ll_notification_count);
+            TextView tv_notification = findViewById(R.id.tv_notification);
+            setNotification(this, tv_notification, ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(EventInfoActivity.this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "48",
+                "");
+        getUserActivityReport.userActivityReport();
     }
+
 
     private void applysetting(List<EventSettingList> eventSettingLists) {
 
         for (int i = 0; i < eventSettingLists.size(); i++) {
 
-            if (eventSettingLists.get(i).getFieldName().equals("event_info_display_map")) {
+           /* if (eventSettingLists.get(i).getFieldName().equals("event_info_display_map")) {
                 event_info_display_map = eventSettingLists.get(i).getFieldValue();
             } else if (eventSettingLists.get(i).getFieldName().equals("event_info_description")) {
                 event_info_description = eventSettingLists.get(i).getFieldValue();
             }
+*/
+            if (eventSettingLists.get(i).getFieldName().equals("event_details")) {
+                if (eventSettingLists.get(i).getSub_menuList() != null) {
+                    if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                        for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                            if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_display_map")) {
+                                event_info_display_map = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("event_info_description")) {
+                                event_info_description = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }
 
+                        }
+                    }
+                }
+            }
         }
     }
 
 
     public void fetchEventInfo(String token, String eventid) {
-        showProgress();
+        // showProgress();
         mAPIService.EventInfoFetch(token, eventid).enqueue(new Callback<EventInfoFetch>() {
             @Override
             public void onResponse(Call<EventInfoFetch> call, Response<EventInfoFetch> response) {
@@ -212,18 +297,18 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
                 if (response.isSuccessful()) {
                     Log.i("hit", "post submitted to API." + response.body().toString());
 
-                    dismissProgress();
+                    //  dismissProgress();
                     showResponse(response);
                 } else {
                     dismissProgress();
-                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EventInfoActivity.this, response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<EventInfoFetch> call, Throwable t) {
-                dismissProgress();
-                Toast.makeText(getApplicationContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
+                //dismissProgress();
+                Toast.makeText(EventInfoActivity.this, "Low network or no network", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -233,11 +318,24 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
         // specify an adapter (see also next example)
 
         if (response.body().getEventList().isEmpty()) {
-            db = procializeDB.getReadableDatabase();
 
+            sponsorList = response.body().getSponsor_list();
+            filePath = response.body().getSponsor_file_path();
+
+            SharedPreferences prefs = EventInfoActivity.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("sponsor_filePath", filePath);
+            editor.commit();
+
+            SponsorAdapter sponsorAdapter = new SponsorAdapter(EventInfoActivity.this, sponsorList, filePath);
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(EventInfoActivity.this, 3);
+            rv_sponsors.setLayoutManager(mLayoutManager);
+            rv_sponsors.setItemAnimator(new DefaultItemAnimator());
+            rv_sponsors.setAdapter(sponsorAdapter);
+
+            db = dbHelper.getReadableDatabase();
             eventDBList = dbHelper.getEventListDetail();
-
-
+            sponsorDBList = dbHelper.getSponsorList();
             if (eventDBList.size() != 0) {
                 String startTime = "", endTime = "";
                 SimpleDateFormat sdf = new SimpleDateFormat(ApiConstant.dateformat + " HH:mm");
@@ -258,7 +356,6 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
                     startTime = currentDateandTime;
                     endTime = currentDateandTime;
                 }
-
 
                 // SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
 
@@ -308,38 +405,49 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
 
 
                 try {
-                    if (event_info_description.equalsIgnoreCase("1") && eventDBList.get(0).getEventDescription() != null) {
-
-                        event_desc.setVisibility(View.VISIBLE);
-//                        eventvenu.setVisibility(View.VISIBLE);
-                        view.setVisibility(View.VISIBLE);
-
-                    } else {
-                        event_desc.setVisibility(View.GONE);
-//                        eventvenu.setVisibility(View.GONE);
-                        view.setVisibility(View.GONE);
-                    }
 
                     event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
-                    String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
+                    //event_desc.setText(eventDBList.get(0).getEventDescription());
+                    event_desc.setVisibility(View.VISIBLE);
+                    //event_desc.setText("\n" + eventDBList.get(0).getEventDescription());
 
-//                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
-                    Glide.with(getApplicationContext()).load(image_final_url)
-                            .apply(RequestOptions.skipMemoryCacheOf(true))
-                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    SharedPreferences prefs1 = EventInfoActivity.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    String logoImg = prefs1.getString("logoImg", "");
 
-                            logoIv.setImageResource(R.drawable.profilepic_placeholder);
-                            return true;
-                        }
+                    String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" +logoImg;
 
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    Glide.with(this).load(image_final_url)
+                            .placeholder(R.drawable.profilepic_placeholder)
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    logoIv.setImageResource(R.drawable.app_icon);
+                                    return false;
+                                }
 
-                            return false;
-                        }
-                    }).into(logoIv);
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    logoIv.setImageResource(R.drawable.app_icon);
+                                    return false;
+                                }
+                            }).into(logoIv);
+
+                   /* Glide.with(this).load(image_final_url)
+                            .apply(RequestOptions.skipMemoryCacheOf(true)).circleCrop()
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).circleCrop()
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    logoIv.setImageResource(R.drawable.app_icon);
+                                    return true;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    return false;
+                                }
+                            }).into(logoIv);*/
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -368,7 +476,7 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
                     }
                 });
 
-
+/*
                 try {
                     if (map != null && event_info_display_map.equalsIgnoreCase("1")) {
 
@@ -402,11 +510,11 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
                     }
                 } catch (Exception e) {
                 }
+*/
 
 
             } else {
-
-                setContentView(R.layout.activity_empty_view);
+                /*setContentView(R.layout.activity_empty_view);
                 ImageView imageView = findViewById(R.id.back);
                 TextView text_empty = findViewById(R.id.text_empty);
                 final ImageView headerlogoIv1 = findViewById(R.id.headerlogoIv);
@@ -417,13 +525,22 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
                     public void onClick(View v) {
                         finish();
                     }
-                });
+                });*/
+            }
+            if (sponsorDBList.size() != 0) {
+                SponsorAdapter sponsorAdapter1 = new SponsorAdapter(EventInfoActivity.this, sponsorDBList, filePath);
+                RecyclerView.LayoutManager mLayoutManager1 = new GridLayoutManager(EventInfoActivity.this, 3);
+                rv_sponsors.setNestedScrollingEnabled(false);
+                rv_sponsors.setLayoutManager(mLayoutManager1);
+                rv_sponsors.setItemAnimator(new DefaultItemAnimator());
+                rv_sponsors.setAdapter(sponsorAdapter1);
             }
         } else {
             if (response.body().getStatus().equalsIgnoreCase("success")) {
                 eventList = response.body().getEventList();
-                procializeDB.clearEventListTable();
-                procializeDB.insertEventInfo(eventList, db);
+                dbHelper.clearEventListTable();
+                dbHelper.clearSponsorTable();
+                dbHelper.insertEventInfo(eventList, db);
 
                 String startTime = "", endTime = "";
                 SimpleDateFormat sdf = new SimpleDateFormat(ApiConstant.dateformat + " HH:mm");
@@ -445,6 +562,22 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
                     endTime = currentDateandTime;
                 }
 
+                sponsorList = response.body().getSponsor_list();
+
+                dbHelper.insertSponsorInfo(sponsorList, db);
+                filePath = response.body().getSponsor_file_path();
+
+                SharedPreferences prefs = EventInfoActivity.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("sponsor_filePath", filePath);
+                editor.commit();
+
+                SponsorAdapter sponsorAdapter = new SponsorAdapter(EventInfoActivity.this, sponsorList, filePath);
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(EventInfoActivity.this, 3);
+                rv_sponsors.setNestedScrollingEnabled(false);
+                rv_sponsors.setLayoutManager(mLayoutManager);
+                rv_sponsors.setItemAnimator(new DefaultItemAnimator());
+                rv_sponsors.setAdapter(sponsorAdapter);
 
                 // SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
 
@@ -498,34 +631,35 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
 
                         event_desc.setVisibility(View.VISIBLE);
 //                        eventvenu.setVisibility(View.VISIBLE);
-                        view.setVisibility(View.VISIBLE);
+                        // view.setVisibility(View.VISIBLE);
 
                     } else {
                         event_desc.setVisibility(View.GONE);
 //                        eventvenu.setVisibility(View.GONE);
-                        view.setVisibility(View.GONE);
+                        //   view.setVisibility(View.GONE);
                     }
 
-                    event_desc.setText(response.body().getEventList().get(0).getEventLocation() + "\n\n" + response.body().getEventList().get(0).getEventDescription());
+                    event_desc.setText(StringEscapeUtils.unescapeJava(response.body().getEventList().get(0).getEventLocation() + "\n\n" + response.body().getEventList().get(0).getEventDescription()));
+                    // event_desc.setText(response.body().getEventList().get(0).getEventDescription());
                     String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + response.body().getEventList().get(0).getLogo();
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
-                    Glide.with(getApplicationContext()).load(image_final_url)
-                            .apply(RequestOptions.skipMemoryCacheOf(true))
-                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    Glide.with(this).load(image_final_url)
+                            .placeholder(R.drawable.profilepic_placeholder)
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    logoIv.setImageResource(R.drawable.app_icon);
+                                    return false;
+                                }
 
-                            logoIv.setImageResource(R.drawable.profilepic_placeholder);
-                            return true;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-
-                            return false;
-                        }
-                    }).into(logoIv).onLoadStarted(this.getDrawable(R.drawable.profilepic_placeholder));
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    logoIv.setImageResource(R.drawable.app_icon);
+                                    return false;
+                                }
+                            }).into(logoIv);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -534,14 +668,6 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
                     @Override
                     public void onClick(View v) {
 
-                   /* String label = "ABC Label";
-                    String uriBegin = "geo:" + response.body().getEventList().get(0).getEventLatitude() + "," + response.body().getEventList().get(0).getEventLongitude();
-                    String query = response.body().getEventList().get(0).getEventLatitude() + "," + response.body().getEventList().get(0).getEventLatitude() + "(" + label + ")";
-                    String encodedQuery = Uri.encode(query);
-                    String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
-                    Uri uri = Uri.parse(uriString);
-                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
-                    startActivity(intent);*/
                         String label = response.body().getEventList().get(0).getEventName();
                         String strUri = "http://maps.google.com/maps?q=loc:" + response.body().getEventList().get(0).getEventLatitude() + "," + response.body().getEventList().get(0).getEventLongitude() + " (" + label + ")";
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(strUri));
@@ -611,7 +737,7 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
         if (cd.isConnectingToInternet()) {
             fetchEventInfo(token, eventid);
         } else {
-            db = procializeDB.getReadableDatabase();
+            db = dbHelper.getReadableDatabase();
 
             eventDBList = dbHelper.getEventListDetail();
 
@@ -690,34 +816,36 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
 
                         event_desc.setVisibility(View.VISIBLE);
 //                        eventvenu.setVisibility(View.VISIBLE);
-                        view.setVisibility(View.VISIBLE);
+//                        view.setVisibility(View.VISIBLE);
 
                     } else {
-                        event_desc.setVisibility(View.GONE);
+                        // event_desc.setVisibility(View.GONE);
 //                        eventvenu.setVisibility(View.GONE);
-                        view.setVisibility(View.GONE);
+                        //    view.setVisibility(View.GONE);
                     }
 
+                    String eventDescription = eventDBList.get(0).getEventDescription();
                     event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                    // event_desc.setText(eventDescription);
                     String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
-                    Glide.with(getApplicationContext()).load(image_final_url)
-                            .apply(RequestOptions.skipMemoryCacheOf(true))
-                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    Glide.with(this).load(image_final_url)
+                            .placeholder(R.drawable.profilepic_placeholder)
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    logoIv.setImageResource(R.drawable.app_icon);
+                                    return false;
+                                }
 
-                            logoIv.setImageResource(R.drawable.profilepic_placeholder);
-                            return true;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-
-                            return false;
-                        }
-                    }).into(logoIv);
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    logoIv.setImageResource(R.drawable.app_icon);
+                                    return false;
+                                }
+                            }).into(logoIv);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -784,7 +912,7 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
 
             } else {
 
-                setContentView(R.layout.activity_empty_view);
+               /* setContentView(R.layout.activity_empty_view);
                 ImageView imageView = findViewById(R.id.back);
                 TextView text_empty = findViewById(R.id.text_empty);
                 final ImageView headerlogoIv1 = findViewById(R.id.headerlogoIv);
@@ -795,21 +923,10 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
                     public void onClick(View v) {
                         finish();
                     }
-                });
+                });*/
             }
 
-            try {
-                LinearLayout linear_head = findViewById(R.id.linear_head);
-                File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
-                Resources res = getResources();
-                Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
-                BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-                linear_head.setBackgroundDrawable(bd);
 
-                Log.e("PATH", String.valueOf(mypath));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
 
@@ -826,7 +943,7 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         //   overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         super.onResume();
     }
@@ -835,7 +952,9 @@ public class EventInfoActivity extends FragmentActivity implements OnMapReadyCal
     public void onPause() {
         super.onPause();
 
+        isVisible = true;
         JzvdStd.releaseAllVideos();
 
     }
+
 }

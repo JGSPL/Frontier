@@ -182,9 +182,20 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
         }
         else
         {
-            holder.tv_count.setText("");
-            holder.tv_count.setVisibility(View.GONE);
-            holder.ic_rightarrow.setVisibility(View.VISIBLE);
+            if(attendee.getRequest_type().equalsIgnoreCase("request_sent")) {
+                holder.tv_count.setText("");
+                holder.tv_count.setVisibility(View.GONE);
+                holder.ic_rightarrow.setVisibility(View.GONE);
+            }else if(attendee.getRequest_type().equalsIgnoreCase("request_received")){
+                holder.tv_count.setText("");
+                holder.tv_count.setVisibility(View.GONE);
+                holder.ic_rightarrow.setVisibility(View.GONE);
+            }else {
+
+                holder.tv_count.setText("");
+                holder.tv_count.setVisibility(View.GONE);
+                holder.ic_rightarrow.setVisibility(View.VISIBLE);
+            }
         }
     }
 

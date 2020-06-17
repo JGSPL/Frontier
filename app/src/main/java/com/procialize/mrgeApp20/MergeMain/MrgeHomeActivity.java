@@ -600,13 +600,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         // Util.logomethod(this, headerlogoIv);
 
-       /* headerlogoIv.setOnClickListener(new View.OnClickListener() {
+        headerlogoIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction()
-                        .add(android.R.id.content, new EventInfoFragment()).commit();}
+                startActivity(new Intent(MrgeHomeActivity.this, EventInfoActivity.class));
 
-        });*/
+            }
+        });
 
         notificationlogoIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -750,7 +750,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         eula = navigationView.findViewById(R.id.eula);
 
         if (ApiConstant.baseUrl.contains("stage")) {
-            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(6)");
+            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(7)");
         } else {
             txt_version.setText("Version : " + BuildConfig.VERSION_NAME);
         }

@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".BuddyList.Activity.ActivityBuddyList">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:contentInsetStart="0dp"
+            android:contentInsetLeft="0dp"
+            android:contentInsetEnd="0dp"
+            android:contentInsetRight="0dp"
+            android:elevation="0dp"
+            android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/back_white"
+            app:contentInsetEnd="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetStart="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="Event Info"
+                    android:textColor="@color/activetab"
+                    android:textFontWeight="1"
+                    android:textSize="@dimen/textsizenormal"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/headerlogoIv"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="-10dp"
+                    android:contentDescription=" "
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/notificationlogoIv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:foregroundGravity="center"
+                        android:src="@drawable/ic_notification" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_notification_count"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/count_circle"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/tv_notification"
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dp"
+                            android:gravity="top|center"
+                            android:text="50"
+                            android:textColor="@color/black"
+                            android:textSize="8dp" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_weight="1"
+                android:text="Buddy List"
+                android:textColor="@color/colorwhite"
+                android:textSize="@dimen/textsizenormal"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:id="@+id/headerlogoIv"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="-10dp"
+                android:contentDescription=" "
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/notificationlogoIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:layout_marginRight="10dp"
+                android:tint="@color/colorwhite"
+                android:src="@drawable/ic_notification" />
+
+            </LinearLayout>-->
+        </androidx.appcompat.widget.Toolbar>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+<RelativeLayout
+    android:id="@+id/relative_head"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <!--
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </androidx.core.widget.NestedScrollView>
+    -->
+
+    <LinearLayout
+        android:id="@+id/linear_head"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/event_info_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="@string/eventInfo"
+                android:textColor="@color/activetab"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+
+
+
+            <!--
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/agendabg"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+
+                        </LinearLayout>
+            -->
+
+
+
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:scrollbars="vertical"
+                android:clipToPadding="false"
+                android:paddingBottom="120dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:visibility="visible">
+
+                        <RelativeLayout
+                            android:id="@+id/relative"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/attendeetitle">
+
+                            <RelativeLayout
+                                android:id="@+id/layoutTop"
+                                android:layout_width="match_parent"
+                                android:layout_height="90dp"
+                                android:background="@android:color/transparent"></RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/layoutBottom"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_below="@id/layoutTop"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:background="@android:color/transparent">
+
+                            </RelativeLayout>
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_above="@id/layoutBottom"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="-30dp"
+                                android:adjustViewBounds="true">
+
+                                <ImageView
+                                    android:layout_width="95dp"
+                                    android:layout_height="95dp"
+                                    android:layout_centerInParent="true"
+                                    android:adjustViewBounds="true"
+                                    android:scaleType="fitXY"
+                                    android:src="@drawable/image_border" />
+
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/myCardView"
+                                    android:layout_width="90dp"
+                                    android:layout_height="90dp"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_centerVertical="true"
+                                    android:background="@drawable/image_border"
+                                    app:cardCornerRadius="45dp"
+                                    app:cardElevation="@dimen/album_dp_0">
+
+                                    <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                        android:id="@+id/logoIv"
+                                        android:layout_width="90dp"
+                                        android:layout_height="90dp"
+                                        android:layout_centerInParent="true"
+                                        android:adjustViewBounds="true"
+                                        android:background="@drawable/image_border"
+                                        android:scaleType="centerCrop"
+                                        android:src="@drawable/app_icon" />
+                                </androidx.cardview.widget.CardView>
+
+                            </RelativeLayout>
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+                    <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="Sponsors"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textsizesmall" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_sponsors"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"></androidx.recyclerview.widget.RecyclerView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorwhite"
+                        android:gravity="left"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                            android:id="@+id/nameTv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:drawableLeft="@drawable/event_name"
+                            android:drawablePadding="10dp"
+                            android:gravity="left"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/textsizesmall" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@color/linecolor" />
+
+                        <TextView
+                            android:id="@+id/dateTv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:drawableLeft="@drawable/event_date"
+
+                            android:drawablePadding="10dp"
+                            android:gravity="left"
+
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/textsizesmall" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@color/linecolor" />
+
+                        <TextView
+                            android:id="@+id/cityTv"
+                            android:layout_width="10dp"
+                            android:layout_height="16dp"
+                            android:layout_margin="5dp"
+                            android:gravity="left"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/textsizesmall"
+                            android:visibility="gone" />
+
+
+                        <LinearLayout
+                            android:id="@+id/linShare"
+                            android:layout_width="150dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="10dp"
+                            android:layout_weight="5"
+                            android:background="@color/activetab"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/shareMsg"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="4dp"
+                                android:background="@color/activetab"
+                                android:drawableLeft="@drawable/share_icon"
+                                android:drawablePadding="10dp"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="Share"
+                                android:textAllCaps="false"
+                                android:textColor="@color/colorwhite"
+                                android:textSize="@dimen/textsizesmall" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/event_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:autoLink="web"
+                        android:background="@color/colorwhite"
+                        android:gravity="left"
+                        android:padding="10dp"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textColorLink="@android:color/holo_blue_dark"
+                        android:textSize="@dimen/textsizesmall"
+                        android:textStyle="normal" />
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+            <!-- </LinearLayout> -->
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linMap"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorwhite"
+        android:gravity="center"
+        android:orientation="horizontal"
+
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/createaccbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="View on Maps"
+            android:textAllCaps="false"
+            android:textColor="@color/colorwhite"
+            android:textSize="@dimen/textsizenormal" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/map_icon" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/mapLL"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+
+        <fragment
+            android:id="@+id/map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</RelativeLayout>
+</LinearLayout>
