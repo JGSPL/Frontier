@@ -434,7 +434,7 @@ public class ActivityBuddyDetails extends AppCompatActivity {
             @Override
             public void onFailure(Call<FetchSendRequest> call, Throwable t) {
                 Log.e("hit", "Unable to submit post to API.");
-                Toast.makeText(ActivityBuddyDetails.this, "Low network or no network", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityBuddyDetails.this, "No network", Toast.LENGTH_SHORT).show();
                 
             }
         });

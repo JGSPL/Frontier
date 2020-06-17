@@ -89,7 +89,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
     private DBHelper dbHelper;
     private DBHelper procializeDB;
     private SQLiteDatabase db;
-    private List<AttendeeList> attendeeDBList;
+    private List<Buddy> buddyDBList;
     LinearLayout ll_empty_view;
     String token;
     SpotChatReciever spotChatReciever;
@@ -144,7 +144,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         }
 
 
-        attendeeDBList = new ArrayList<>();
+        buddyDBList = new ArrayList<>();
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);
@@ -201,14 +201,18 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         if (cd.isConnectingToInternet()) {
             fetchFeed(token, eventid);
         } else {
-           /* db = procializeDB.getReadableDatabase();
+            if (attendeefeedrefresh.isRefreshing()) {
+                attendeefeedrefresh.setRefreshing(false);
+            }
 
-            attendeeDBList = dbHelper.getAttendeeDetails();
+            db = procializeDB.getReadableDatabase();
 
-            attendeeAdapter = new BuddyListAdapter(this, attendeeDBList, this);
+            buddyDBList = dbHelper.getBuddyDetail();
+
+            attendeeAdapter = new BuddyListAdapter(this, buddyDBList, this);
             attendeeAdapter.notifyDataSetChanged();
             attendeerecycler.setAdapter(attendeeAdapter);
-            attendeerecycler.scheduleLayoutAnimation();*/
+            attendeerecycler.scheduleLayoutAnimation();
         }
 
         attendeefeedrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -218,18 +222,22 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
                 if (cd.isConnectingToInternet()) {
                     fetchFeed(token, eventid);
                 } else {
-                    /*db = procializeDB.getReadableDatabase();
+                    if (attendeefeedrefresh.isRefreshing()) {
+                        attendeefeedrefresh.setRefreshing(false);
+                    }
 
-                    attendeeDBList = dbHelper.getAttendeeDetails();
+                    db = procializeDB.getReadableDatabase();
 
-                    attendeeAdapter = new BuddyListAdapter(ActivityBuddyList.this, attendeeDBList, ActivityBuddyList.this);
+                    buddyDBList = dbHelper.getBuddyDetail();
+
+                    attendeeAdapter = new BuddyListAdapter(ActivityBuddyList.this, buddyDBList, ActivityBuddyList.this);
                     attendeeAdapter.notifyDataSetChanged();
                     attendeerecycler.setAdapter(attendeeAdapter);
                     attendeerecycler.scheduleLayoutAnimation();
 
                     if (attendeefeedrefresh.isRefreshing()) {
                         attendeefeedrefresh.setRefreshing(true);
-                    }*/
+                    }
                 }
             }
         });
@@ -325,9 +333,9 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
                 ll_empty_view.setVisibility(View.GONE);
                 attendeerecycler.setVisibility(View.VISIBLE);
 
-           /* dbHelper.clearAttendeesTable();
-            dbHelper.insertAttendeesInfo(response.body().getAttendeeList(), db);
-*/
+            dbHelper.clearBuddyTable();
+            dbHelper.insertBuddyInfo(response.body().getBuddyList(), db);
+
 
                 attendeeAdapter = new BuddyListAdapter(ActivityBuddyList.this, response.body().getBuddyList(), this);
                 attendeeAdapter.notifyDataSetChanged();
