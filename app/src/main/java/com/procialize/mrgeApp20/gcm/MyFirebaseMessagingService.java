@@ -185,7 +185,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     UsersList.setStatus("");
                     DBHelper procializeDB = new DBHelper(this);
                     SQLiteDatabase db = procializeDB.getWritableDatabase();
-                    procializeDB.insertBuddyChat(UsersList, db);
+                    procializeDB.insertBuddyChatCount(UsersList, db);
                     Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_SPOT_ChatBuddy);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
                     //}

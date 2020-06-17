@@ -1,7 +1,6 @@
 package com.procialize.mrgeApp20.BuddyList.Activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,13 +16,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +41,7 @@ import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.BuddyList.Adapter.LiveChatAdapter;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
+import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -62,10 +60,11 @@ import retrofit2.Response;
 
 public class ActivityBuddyChat extends AppCompatActivity {
 
-    private String attendeeid, name, city, country, company, designation, description, totalrating, profile, mobile;
-    ImageView iv_buddy_details,profileIV;
-    TextView title, sub_title;
+    public static String chat_id = "0";
+    public static String SpotChat = "";
     public LiveChatAdapter liveChatAdapter;
+    ImageView iv_buddy_details, profileIV;
+    TextView title, sub_title;
     String token;
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid, colorActive;
@@ -73,23 +72,23 @@ public class ActivityBuddyChat extends AppCompatActivity {
     ProgressBar progressBar;
     ListView qaRv;
     ImageView headerlogoIv;
-    TextView txtEmpty, nmtxt,pullrefresh;
-    private APIService mAPIService;
+    TextView txtEmpty, nmtxt, pullrefresh;
     LinearLayout linear;
     EditText commentEt;
     ImageView commentBt;
-    public static String chat_id = "0";
     List<chat_list> chat_lists = new ArrayList<>();
     List<chat_list> chat_NewAdd = new ArrayList<>();
-    public static String SpotChat="";
     String buddy_status;
     String page = "0";
-    int pageNO,pageNumber = 1;
+    int pageNO, pageNumber = 1;
     DBHelper procializeDB;
     SQLiteDatabase db;
-
     SpotChatReciever spotChatReciever;
     IntentFilter spotChatFilter;
+    ConnectionDetector cd;
+    private String userId,chat_with_id,attendeeid, name, city, country, company, designation, description, totalrating, profile, mobile;
+    private APIService mAPIService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +115,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
 
         try {
             attendeeid = getIntent().getExtras().getString("id");
+            chat_with_id = getIntent().getExtras().getString("id");
             name = getIntent().getExtras().getString("name");
             city = getIntent().getExtras().getString("city");
             country = getIntent().getExtras().getString("country");
@@ -155,8 +155,8 @@ public class ActivityBuddyChat extends AppCompatActivity {
         title.setText(name);
         sub_title.setText(designation + " - " + city);
 
-         procializeDB  = new DBHelper(this);
-         db = procializeDB.getWritableDatabase();
+        procializeDB = new DBHelper(this);
+        db = procializeDB.getWritableDatabase();
 
         iv_buddy_details = findViewById(R.id.iv_buddy_details);
         iv_buddy_details.setOnClickListener(new View.OnClickListener() {
@@ -182,10 +182,10 @@ public class ActivityBuddyChat extends AppCompatActivity {
         init();
     }
 
-    void init(){
+    void init() {
         progressBar = findViewById(R.id.progressBar);
         qaRvrefresh = findViewById(R.id.qaRvrefresh);
-         qaRv = findViewById(R.id.qaRv);
+        qaRv = findViewById(R.id.qaRv);
         txtEmpty = findViewById(R.id.txtEmpty);
         commentEt = findViewById(R.id.commentEt);
         commentBt = findViewById(R.id.commentBt);
@@ -198,11 +198,25 @@ public class ActivityBuddyChat extends AppCompatActivity {
 
         // token
         token = user.get(SessionManager.KEY_TOKEN);
+        userId = user.get(SessionManager.KEY_USER_ID);
 
         int resId = R.anim.layout_animation_slide_right;
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(this, resId);
 
-        UserChatHistory(eventid,token,attendeeid,"1");
+        cd = new ConnectionDetector(this);
+
+        if (cd.isConnectingToInternet()) {
+            UserChatHistory(eventid, token, attendeeid, "1");
+        } else {
+            List<chat_list> chat_lists1 = procializeDB.getBuddyChat(chat_with_id, userId);
+            //Collections.reverse(chat_lists1);
+            liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists1, attendeeid);
+            liveChatAdapter.notifyDataSetChanged();
+            qaRv.setAdapter(liveChatAdapter);
+            liveChatAdapter.notifyDataSetChanged();
+            txtEmpty.setVisibility(View.GONE);
+            qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
+        }
 
         try {
             spotChatReciever = new SpotChatReciever();
@@ -213,14 +227,13 @@ public class ActivityBuddyChat extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         commentBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (commentEt.getText().toString().length() > 0) {
 
                     String msg = StringEscapeUtils.escapeJava(commentEt.getText().toString());
-                    PostChat(eventid,token,attendeeid,msg);
+                    PostChat(eventid, token, attendeeid, msg);
                     commentBt.setEnabled(false);
                 } else {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBuddyChat.this);
@@ -244,13 +257,13 @@ public class ActivityBuddyChat extends AppCompatActivity {
         qaRvrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-               // String chat_id = chat_lists.get(0).getId();
+                // String chat_id = chat_lists.get(0).getId();
                 pageNO = Integer.parseInt(page);
 
-                pageNumber= pageNumber+1;
-                if(pageNumber<=pageNO){
+                pageNumber = pageNumber + 1;
+                if (pageNumber <= pageNO) {
                     UserChatHistory(eventid, token, attendeeid, String.valueOf(pageNumber));
-                }else{
+                } else {
                     if (qaRvrefresh.isRefreshing()) {
                         qaRvrefresh.setRefreshing(false);
                     }
@@ -268,29 +281,8 @@ public class ActivityBuddyChat extends AppCompatActivity {
         getUserActivityReport.userActivityReport();
     }
 
-    private class SpotChatReciever extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            /*chat_id.replace("chat_","");
-            String BuddyId = chat_id;*/
-            String BuddyId = chat_id.replace("chat_", "");
-            Log.d("service end", "service end");
-            if(BuddyId.equalsIgnoreCase(attendeeid)) {
-                if (SpotChat != null) {
-                    if (SpotChat.equalsIgnoreCase("chat")) {
-                        UserChatHistoryRefresh(eventid, token, attendeeid, "1");
-                        SpotChat = "S";
-                        pageNumber = 1;
-                        procializeDB.setBuddyChatUnreadMessageCountToZero(attendeeid);
-                    }
-                }
-            }
-        }
-    }
-
-
-    private void PostChat(final String eventid, final String token, String budd_id,String msg) {
-        mAPIService.LiveChatPostUser(eventid,token,budd_id,msg).enqueue(new Callback<FetchChatList>() {
+    private void PostChat(final String eventid, final String token, String budd_id, String msg) {
+        mAPIService.LiveChatPostUser(eventid, token, budd_id, msg).enqueue(new Callback<FetchChatList>() {
             @Override
             public void onResponse(Call<FetchChatList> call, Response<FetchChatList> response) {
 
@@ -301,7 +293,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
                     commentEt.setText("");
                     commentBt.setEnabled(true);
                     showResponsePost(response);
-                   // UserChatHistory(eventid,token,attendeeid,"1");
+                    // UserChatHistory(eventid,token,attendeeid,"1");
                 } else {
                     Toast.makeText(ActivityBuddyChat.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
@@ -314,8 +306,8 @@ public class ActivityBuddyChat extends AppCompatActivity {
         });
     }
 
-    private void UserChatHistoryRefresh(final String eventid, final String token, String budd_id,String msg) {
-        mAPIService.UserChathistory(eventid,token,budd_id,msg).enqueue(new Callback<FetchChatList>() {
+    private void UserChatHistoryRefresh(final String eventid, final String token, String budd_id, String msg) {
+        mAPIService.UserChathistory(eventid, token, budd_id, msg).enqueue(new Callback<FetchChatList>() {
             @Override
             public void onResponse(Call<FetchChatList> call, Response<FetchChatList> response) {
 
@@ -347,7 +339,49 @@ public class ActivityBuddyChat extends AppCompatActivity {
             }
         });
     }
+
     public void showResponseRefresh(Response<FetchChatList> response) {
+
+        // specify an adapter (see also next example)
+        if (response.body().getStatus().equalsIgnoreCase("success")) {
+            // page = response.body().getData_pages();
+
+            if (!(response.body().getChatList().isEmpty())) {
+                /*for(int i=0;i<response.body().getChatList().size();i++) {
+                    chat_lists.add(response.body().getChatList().get(i));
+                }*/
+                chat_lists.clear();
+                for (int i = 0; i < response.body().getChatList().size(); i++) {
+                    chat_lists.add(response.body().getChatList().get(i));
+                }
+                Collections.reverse(chat_lists);
+                pageNumber = 1;
+
+                SharedPreferences prefs = getSharedPreferences("chat", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("sender_id", chat_lists.get(0).getSender_id());
+                editor.commit();
+
+                liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists, attendeeid);
+                liveChatAdapter.notifyDataSetChanged();
+                qaRv.setAdapter(liveChatAdapter);
+                liveChatAdapter.notifyDataSetChanged();
+
+                // qaRv.scheduleLayoutAnimation();
+                txtEmpty.setVisibility(View.GONE);
+                qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
+
+                procializeDB.deleteBuddyChat(chat_with_id,userId);
+                procializeDB.insertBuddyChat(chat_lists, db);
+            } else {
+
+            }
+        } else {
+
+        }
+    }
+
+    public void showResponsePost(Response<FetchChatList> response) {
 
         // specify an adapter (see also next example)
         if (response.body().getStatus().equalsIgnoreCase("success")) {
@@ -359,52 +393,14 @@ public class ActivityBuddyChat extends AppCompatActivity {
                     chat_lists.add(response.body().getChatList().get(i));
                 }*/
                 chat_lists.clear();
-                for(int i=0;i<response.body().getChatList().size();i++) {
-                    chat_lists.add(response.body().getChatList().get(i));
-                }
-                Collections.reverse(chat_lists);
-                pageNumber = 1;
-
-
-                liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists,attendeeid);
-                liveChatAdapter.notifyDataSetChanged();
-                qaRv.setAdapter(liveChatAdapter);
-                liveChatAdapter.notifyDataSetChanged();
-
-                // qaRv.scheduleLayoutAnimation();
-                txtEmpty.setVisibility(View.GONE);
-                qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
-
-            } else {
-
-            }
-
-        } else {
-
-        }
-    }
-
-
-    public void showResponsePost(Response<FetchChatList> response) {
-
-        // specify an adapter (see also next example)
-        if (response.body().getStatus().equalsIgnoreCase("success")) {
-           // page = response.body().getData_pages();
-
-            if (!(response.body().getChatList().isEmpty())) {
-
-                /*for(int i=0;i<response.body().getChatList().size();i++) {
-                    chat_lists.add(response.body().getChatList().get(i));
-                }*/
-                chat_lists.clear();
-                for(int i=0;i<response.body().getChatList().size();i++) {
+                for (int i = 0; i < response.body().getChatList().size(); i++) {
                     chat_lists.add(response.body().getChatList().get(i));
                 }
                 Collections.reverse(chat_lists);
                 pageNumber = 0;
 
 
-                liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists,attendeeid);
+                liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists, attendeeid);
                 liveChatAdapter.notifyDataSetChanged();
                 qaRv.setAdapter(liveChatAdapter);
                 liveChatAdapter.notifyDataSetChanged();
@@ -412,7 +408,15 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 // qaRv.scheduleLayoutAnimation();
                 txtEmpty.setVisibility(View.GONE);
                 qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
+                SharedPreferences prefs = getSharedPreferences("chat", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("sender_id", chat_lists.get(0).getSender_id());
+                editor.commit();
 
+                SharedPreferences prefs1 = getSharedPreferences("chat", MODE_PRIVATE);
+                String sender_id = prefs1.getString("sender_id", "");
+                procializeDB.deleteBuddyChat(chat_with_id,userId);
+                procializeDB.insertBuddyChat(chat_lists, db);
             } else {
 
             }
@@ -422,9 +426,8 @@ public class ActivityBuddyChat extends AppCompatActivity {
         }
     }
 
-
-    private void UserChatHistory(final String eventid, final String token, String budd_id,String msg) {
-        mAPIService.UserChathistory(eventid,token,budd_id,msg).enqueue(new Callback<FetchChatList>() {
+    private void UserChatHistory(final String eventid, final String token, String budd_id, String msg) {
+        mAPIService.UserChathistory(eventid, token, budd_id, msg).enqueue(new Callback<FetchChatList>() {
             @Override
             public void onResponse(Call<FetchChatList> call, Response<FetchChatList> response) {
 
@@ -433,7 +436,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
                         qaRvrefresh.setRefreshing(false);
                     }
                     Log.i("hit", "post submitted to API." + response.body().toString());
-                  //WS  ZAXDFRTGHNB  Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                    //WS  ZAXDFRTGHNB  Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
 
                     // QAFetch(token, eventid);
@@ -457,7 +460,6 @@ public class ActivityBuddyChat extends AppCompatActivity {
         });
     }
 
-
     public void showResponse(Response<FetchChatList> response) {
 
         // specify an adapter (see also next example)
@@ -470,29 +472,28 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 chat_listsNew = response.body().getChatList();
                 Collections.reverse(chat_listsNew);
 
-                if(chat_lists.size()>0){
+                if (chat_lists.size() > 0) {
                     chat_lists.clear();
                 }
-                for(int i=0;i<chat_listsNew.size();i++) {
+                for (int i = 0; i < chat_listsNew.size(); i++) {
                     chat_lists.add(chat_listsNew.get(i));
                 }
-                if(chat_NewAdd.size()>0){
-                    for(int i=0;i<chat_NewAdd.size();i++) {
+                if (chat_NewAdd.size() > 0) {
+                    for (int i = 0; i < chat_NewAdd.size(); i++) {
                         chat_lists.add(chat_NewAdd.get(i));
                     }
                 }
 
 
-
-                if(chat_NewAdd.size()>0){
+                if (chat_NewAdd.size() > 0) {
                     chat_NewAdd.clear();
                 }
-                for(int i=0;i<chat_lists.size();i++) {
+                for (int i = 0; i < chat_lists.size(); i++) {
                     chat_NewAdd.add(chat_lists.get(i));
                 }
 
 
-                liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists,attendeeid);
+                liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists, attendeeid);
                 liveChatAdapter.notifyDataSetChanged();
                 qaRv.setAdapter(liveChatAdapter);
                 liveChatAdapter.notifyDataSetChanged();
@@ -501,25 +502,22 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 txtEmpty.setVisibility(View.GONE);
                 qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
 
+                SharedPreferences prefs = getSharedPreferences("chat", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("sender_id", chat_lists.get(0).getReceiver_id());
+                editor.commit();
 
-
+                SharedPreferences prefs1 = getSharedPreferences("chat", MODE_PRIVATE);
+                String sender_id = prefs1.getString("sender_id", "");
+                procializeDB.deleteBuddyChat(chat_with_id,userId);
+                procializeDB.insertBuddyChat(chat_NewAdd, db);
 
             } else {
-             //   txtEmpty.setVisibility(View.VISIBLE);
-
-                
-                    //txtEmpty.setText("Start conversation \n with VIP Support Team");
-
-
-               
-
+                //   txtEmpty.setVisibility(View.VISIBLE);
+                //txtEmpty.setText("Start conversation \n with VIP Support Team");
             }
-
-
-
         } else {
-           // Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-
+            // Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -527,7 +525,26 @@ public class ActivityBuddyChat extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(spotChatReciever);
-
         //finishAffinity();
+    }
+
+    private class SpotChatReciever extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            /*chat_id.replace("chat_","");
+            String BuddyId = chat_id;*/
+            String BuddyId = chat_id.replace("chat_", "");
+            Log.d("service end", "service end");
+            if (BuddyId.equalsIgnoreCase(attendeeid)) {
+                if (SpotChat != null) {
+                    if (SpotChat.equalsIgnoreCase("chat")) {
+                        UserChatHistoryRefresh(eventid, token, attendeeid, "1");
+                        SpotChat = "S";
+                        pageNumber = 1;
+                        procializeDB.setBuddyChatUnreadMessageCountToZero(attendeeid);
+                    }
+                }
+            }
+        }
     }
 }

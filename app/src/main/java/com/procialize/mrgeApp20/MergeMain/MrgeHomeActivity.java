@@ -134,6 +134,7 @@ import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Speaker.Views.SpeakerFragment;
+import com.procialize.mrgeApp20.Utility.KeyboardUtility;
 import com.procialize.mrgeApp20.Utility.PlayerConfig;
 import com.procialize.mrgeApp20.Utility.Res;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -1018,8 +1019,12 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
                 if (drawer.isDrawerOpen(GravityCompat.START)) {
                     drawer.closeDrawer(GravityCompat.START);
+                    KeyboardUtility.hideSoftKeyboard(MrgeHomeActivity.this);
+
                 } else {
                     drawer.openDrawer(GravityCompat.START);
+                    KeyboardUtility.hideSoftKeyboard(MrgeHomeActivity.this);
+
                 }
             }
         });
@@ -1605,14 +1610,12 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                 } /*else if (eventSettingLists.get(i).getFieldName().equals("news_feed_video")) {
                     news_feed_video = eventSettingLists.get(i).getFieldValue();
                 }*/
-
                 else if (eventSettingLists.get(i).getFieldName().equals("news_feed")) {
                     news_feed = eventSettingLists.get(i).getFieldValue();
                     if (eventSettingLists.get(i).getSub_menuList() != null) {
                         if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
                             for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
                                 if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_post")) {
-
                                     news_feed_post = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                                 } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_images")) {
                                     news_feed_images = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
@@ -1630,8 +1633,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                             }
                         }
                     }
-
-
                 } else if (eventSettingLists.get(i).getFieldName().equals("main_tab_attendee")) {
                     attendee = eventSettingLists.get(i).getFieldValue();
                 } else if (eventSettingLists.get(i).getFieldName().equals("main_tab_speaker")) {
@@ -2130,6 +2131,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             if (!(response.body().getUserData().equals(null))) {
 
                 try {
+                    String id = response.body().getUserData().getAttendeeId();
                     String name = response.body().getUserData().getFirstName();
                     String company = response.body().getUserData().getCompanyName();
                     String designation = response.body().getUserData().getDesignation();
@@ -2147,7 +2149,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
                     SessionManager sessionManager = new SessionManager(MrgeHomeActivity.this);
                     if (sessionManager != null) {
-                        sessionManager.createProfileSession(name, company, designation, pic, lastname, city, description, country, email, mobno, attendee_status, exhibitor_id, exhibitor_status);
+                        sessionManager.createProfileSession(id,name, company, designation, pic, lastname, city, description, country, email, mobno, attendee_status, exhibitor_id, exhibitor_status);
                     }
 
                 } catch (Exception e) {

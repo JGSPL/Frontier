@@ -751,6 +751,7 @@ public class ProfileActivity extends AppCompatActivity {
             if (!(response.body().getUserData().equals(null))) {
 
                 try {
+                    String id = response.body().getUserData().getAttendeeId();
                     String name = response.body().getUserData().getFirstName();
                     String company = response.body().getUserData().getCompanyName();
                     String designation = response.body().getUserData().getDesignation();
@@ -768,7 +769,7 @@ public class ProfileActivity extends AppCompatActivity {
                     SharedPreferences.Editor pref = getSharedPreferences("PROFILE_PICTURE", MODE_PRIVATE).edit();
                     pref.clear();
 
-                    sessionManager.createProfileSession(name, company, designation, pic, lastname, city, description, country, email, mobno, attendee_status, exhibitor_id, exhibitor_status);
+                    sessionManager.createProfileSession(id,name, company, designation, pic, lastname, city, description, country, email, mobno, attendee_status, exhibitor_id, exhibitor_status);
 
                     initializeView();
                 } catch (Exception e) {
@@ -907,6 +908,7 @@ public class ProfileActivity extends AppCompatActivity {
                         if (response.body().getStatus().equals("success")) {
                             Log.i("hit", "post submitted to API." + response.body().toString());
 
+                            String id = response.body().getUserData().getAttendeeId();
                             String name = response.body().getUserData().getFirstName();
                             String company = response.body().getUserData().getCompanyName();
                             String designation = response.body().getUserData().getDesignation();
@@ -924,7 +926,7 @@ public class ProfileActivity extends AppCompatActivity {
                             SharedPreferences.Editor pref = getSharedPreferences("PROFILE_PICTURE", MODE_PRIVATE).edit();
                             pref.clear();
 
-                            sessionManager.createProfileSession(name, company, designation, pic, lastname, city, description, country, email, mobno, attendee_type, exhibitor_id, exhibitor_status);
+                            sessionManager.createProfileSession(id,name, company, designation, pic, lastname, city, description, country, email, mobno, attendee_type, exhibitor_id, exhibitor_status);
 //                      initializeView();
 
                             Intent home = new Intent(getApplicationContext(), MrgeHomeActivity.class);
@@ -970,6 +972,7 @@ public class ProfileActivity extends AppCompatActivity {
                         if (response.body().getStatus().equals("success")) {
                             Log.i("hit", "post submitted to API." + response.body().toString());
 
+                            String id = response.body().getUserData().getAttendeeId();
                             String name = response.body().getUserData().getFirstName();
                             String company = response.body().getUserData().getCompanyName();
                             String designation = response.body().getUserData().getDesignation();
@@ -987,7 +990,7 @@ public class ProfileActivity extends AppCompatActivity {
                             SharedPreferences.Editor pref = getSharedPreferences("PROFILE_PICTURE", MODE_PRIVATE).edit();
                             pref.clear();
 
-                            sessionManager.createProfileSession(name, company, designation, pic, lastname, city, description, country, email, mobno, attendee_status, exhibitor_id, exhibitor_status);
+                            sessionManager.createProfileSession(id,name, company, designation, pic, lastname, city, description, country, email, mobno, attendee_status, exhibitor_id, exhibitor_status);
 //                      initializeView();
 
                             Intent home = new Intent(getApplicationContext(), MrgeHomeActivity.class);

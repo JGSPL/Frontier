@@ -25,6 +25,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class SessionManager {
     // User name (make variable public to access from outside)
     public static final String MY_PREFS_NAME = "ProcializeInfo";
+    public static final String KEY_USER_ID = "attendee_id";
     public static final String KEY_NAME = "name";
     public static final String KEY_LNAME = "lname";
     // Email address (make variable public to access from outside)
@@ -240,6 +241,7 @@ public class SessionManager {
         user.put(KEY_NAME, pref.getString(KEY_NAME, null));
 
         user.put(KEY_LNAME, pref.getString(KEY_LNAME, null));
+        user.put(KEY_USER_ID, pref.getString(KEY_USER_ID, null));
 
         // user email id
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
@@ -316,11 +318,15 @@ public class SessionManager {
         return pref.getBoolean(IS_LOGIN, false);
     }
 
-    public void createProfileSession(String name, String company, String designation, String pic, String lastname, String city, String description, String country, String email, String mobno, String attendee_type, String exhibitor_id, String exhibitor_status) {
+    public void createProfileSession(String userId,String name, String company, String designation, String pic, String lastname,
+                                     String city, String description, String country, String email, String mobno, String attendee_type, String exhibitor_id,
+                                     String exhibitor_status) {
 
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
+        // Storing name in pref
+        editor.putString(KEY_USER_ID, userId);
         // Storing name in pref
         editor.putString(KEY_NAME, name);
 

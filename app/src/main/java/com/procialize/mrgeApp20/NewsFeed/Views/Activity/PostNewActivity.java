@@ -126,7 +126,6 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     ImageView headerlogoIv;
     ImageView profileIV;
     ProgressBar progressView;
-    String news_feed_post = "1", news_feed_images = "1", news_feed_video = "1", news_feed_gif = "1";
     private ArrayList<AlbumFile> mAlbumFiles = new ArrayList<>();//Array For selected images and videos
     private int dotscount;
     private ImageView[] dots;
@@ -138,7 +137,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     private DBHelper procializeDB;
     private ArrayList<AttendeeList> customers;
     private List<EventSettingList> eventSettingLists;
-    String news_feed_post = "1", news_feed_images = "1", news_feed_video = "1", designatio = "1", news_feed_gif = "0";;
+    String news_feed_post = "1", news_feed_images = "1", news_feed_video = "1", news_feed_gif = "0", designatio = "1";
     String news_feed_like = "0", news_feed_comment = "0", news_feed_share = "0";
 
     public static HttpResponse transformResponse(Response response) {
@@ -856,14 +855,11 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     private void applysetting(List<EventSettingList> eventSettingLists) {
 
         for (int i = 0; i < eventSettingLists.size(); i++) {
-
-
             if (eventSettingLists.get(i).getFieldName().equals("news_feed")) {
                 if (eventSettingLists.get(i).getSub_menuList() != null) {
                     if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
                         for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
                             if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_post")) {
-
                                 news_feed_post = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                             } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_images")) {
                                 news_feed_images = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
@@ -881,12 +877,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                         }
                     }
                 }
-
-
             }
-
-
         }
     }
-
 }

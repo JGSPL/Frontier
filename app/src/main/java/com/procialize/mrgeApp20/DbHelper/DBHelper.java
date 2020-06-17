@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list_db;
 import com.procialize.mrgeApp20.GetterSetter.AgendaList;
 import com.procialize.mrgeApp20.GetterSetter.AgendaMediaList;
@@ -287,27 +288,35 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String LOGO = "LOGO";
 
-
-    //Buddy Chat--------------------------------------------------------------
+    //Buddy Chat Count--------------------------------------------------------------
     public static final String BUDDY_CHAT_TABLE_NAME = "BUDDY_CHAT_TABLE_NAME";
-   // public static final String BUDDY_CHAT_ID = "BUDDY_CHAT_ID";
+     public static final String BUDDY_CHAT_ID = "BUDDY_CHAT_ID";
     public static final String BUDDY_CHAT_SENDER_ID = "BUDDY_CHAT_SENDER_ID";
-    //public static final String BUDDY_CHAT_RECEIVER_ID = "BUDDY_CHAT_RECEIVER_ID";
+    public static final String BUDDY_CHAT_RECEIVER_ID = "BUDDY_CHAT_RECEIVER_ID";
     public static final String BUDDY_CHAT_MESSAGE = "BUDDY_CHAT_MESSAGE";
+    public static final String BUDDY_CHAT_TIMESTAMP = "BUDDY_CHAT_TIMESTAMP";
+    public static final String BUDDY_CHAT_STATUS = "BUDDY_CHAT_STATUS";
+
+    //Buddy Chat Count--------------------------------------------------------------
+    public static final String BUDDY_CHAT_COUNT_TABLE_NAME = "BUDDY_CHAT_COUNT_TABLE_NAME";
+   // public static final String BUDDY_CHAT_ID = "BUDDY_CHAT_ID";
+    public static final String BUDDY_CHAT_COUNT_SENDER_ID = "BUDDY_CHAT_COUNT_SENDER_ID";
+    //public static final String BUDDY_CHAT_RECEIVER_ID = "BUDDY_CHAT_RECEIVER_ID";
+    public static final String BUDDY_CHAT_COUNT_MESSAGE = "BUDDY_CHAT_COUNT_MESSAGE";
     /*public static final String BUDDY_CHAT_TIMESTAMP = "BUDDY_CHAT_TIMESTAMP";
     public static final String BUDDY_CHAT_STATUS = "BUDDY_CHAT_STATUS";*/
-    public static final String BUDDY_CHAT_IS_READ = "BUDDY_CHAT_IS_READ";
+    public static final String BUDDY_CHAT_COUNT_IS_READ = "BUDDY_CHAT_COUNT_IS_READ";
 
 
-    //Attendee Chat--------------------------------------------------------------
-    public static final String ATTENDEE_CHAT_TABLE_NAME = "ATTENDEE_CHAT_TABLE_NAME";
-    public static final String ATTENDEE_CHAT_ID = "ATTENDEE_CHAT_ID";
-    public static final String ATTENDEE_CHAT_SENDER_ID = "ATTENDEE_CHAT_SENDER_ID";
-    public static final String ATTENDEE_CHAT_RECEIVER_ID = "ATTENDEE_CHAT_RECEIVER_ID";
-    public static final String ATTENDEE_CHAT_MESSAGE = "ATTENDEE_CHAT_MESSAGE";
-    public static final String ATTENDEE_CHAT_TIMESTAMP = "ATTENDEE_CHAT_TIMESTAMP";
-    public static final String ATTENDEE_CHAT_STATUS = "ATTENDEE_CHAT_STATUS";
-    public static final String ATTENDEE_CHAT_IS_READ = "ATTENDEE_CHAT_IS_READ";
+    //Attendee Chat Count--------------------------------------------------------------
+    public static final String ATTENDEE_CHAT_COUNT_TABLE_NAME = "ATTENDEE_CHAT_COUNT_TABLE_NAME";
+    //public static final String ATTENDEE_CHAT_ID = "ATTENDEE_CHAT_ID";
+    public static final String ATTENDEE_CHAT_COUNT_SENDER_ID = "ATTENDEE_CHAT_COUNT_SENDER_ID";
+    //public static final String ATTENDEE_CHAT_RECEIVER_ID = "ATTENDEE_CHAT_RECEIVER_ID";
+    public static final String ATTENDEE_CHAT_COUNT_MESSAGE = "ATTENDEE_CHAT_COUNT_MESSAGE";
+    /*public static final String ATTENDEE_CHAT_TIMESTAMP = "ATTENDEE_CHAT_TIMESTAMP";
+    public static final String ATTENDEE_CHAT_STATUS = "ATTENDEE_CHAT_STATUS";*/
+    public static final String ATTENDEE_CHAT_COUNT_IS_READ = "ATTENDEE_CHAT_COUNT_IS_READ";
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -487,22 +496,30 @@ public class DBHelper extends SQLiteOpenHelper {
                 + BUZZ_MEDIA_ID + " text)");
 
         db.execSQL("create table " + BUDDY_CHAT_TABLE_NAME + "("
-                //+ BUDDY_CHAT_ID + " text, "
+                + BUDDY_CHAT_ID + " text, "
                 + BUDDY_CHAT_SENDER_ID + " text, "
-                //+ BUDDY_CHAT_RECEIVER_ID + " text, "
+                + BUDDY_CHAT_RECEIVER_ID + " text, "
                 + BUDDY_CHAT_MESSAGE + " text, "
+                + BUDDY_CHAT_TIMESTAMP + " text, "
+                + BUDDY_CHAT_STATUS + " text)");
+
+db.execSQL("create table " + BUDDY_CHAT_COUNT_TABLE_NAME + "("
+                //+ BUDDY_CHAT_ID + " text, "
+                + BUDDY_CHAT_COUNT_SENDER_ID + " text, "
+                //+ BUDDY_CHAT_RECEIVER_ID + " text, "
+                + BUDDY_CHAT_COUNT_MESSAGE + " text, "
                // + BUDDY_CHAT_TIMESTAMP + " text, "
                 //+ BUDDY_CHAT_STATUS + " text, "
-                + BUDDY_CHAT_IS_READ + " text)");
+                + BUDDY_CHAT_COUNT_IS_READ + " text)");
 
-        db.execSQL("create table " + ATTENDEE_CHAT_TABLE_NAME + "("
-                + ATTENDEE_CHAT_ID + " text, "
-                + ATTENDEE_CHAT_SENDER_ID + " text, "
-                + ATTENDEE_CHAT_RECEIVER_ID + " text, "
-                + ATTENDEE_CHAT_MESSAGE + " text, "
-                + ATTENDEE_CHAT_TIMESTAMP + " text, "
-                + ATTENDEE_CHAT_STATUS + " text, "
-                + ATTENDEE_CHAT_IS_READ + " text)");
+        db.execSQL("create table " + ATTENDEE_CHAT_COUNT_TABLE_NAME + "("
+                //+ ATTENDEE_CHAT_ID + " text, "
+                + ATTENDEE_CHAT_COUNT_SENDER_ID + " text, "
+                //+ ATTENDEE_CHAT_RECEIVER_ID + " text, "
+                + ATTENDEE_CHAT_COUNT_MESSAGE + " text, "
+               /* + ATTENDEE_CHAT_TIMESTAMP + " text, "
+                + ATTENDEE_CHAT_STATUS + " text, "*/
+                + ATTENDEE_CHAT_COUNT_IS_READ + " text)");
 
     }
 
@@ -635,8 +652,90 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //Insert Buddy chat into table for unreadcount
-    public void insertBuddyChat(chat_list_db UsersList,
-                                SQLiteDatabase db) {
+    public void insertBuddyChat(List<chat_list> UsersList,
+                                     SQLiteDatabase db) {
+        db = this.getWritableDatabase();
+        ContentValues contentValues;
+        db.beginTransaction();
+        try {
+            for (int i = 0; i < UsersList.size(); i++) {
+            contentValues = new ContentValues();
+
+            String strId = UsersList.get(i).getId();
+            if (strId != null && strId.length() > 0) {
+                contentValues.put(BUDDY_CHAT_ID, strId);
+            }
+            String strSender_id = UsersList.get(i).getSender_id();
+            if (strSender_id != null && strSender_id.length() > 0) {
+                contentValues.put(BUDDY_CHAT_SENDER_ID, strSender_id);
+            }
+            String strReceiver_id = UsersList.get(i).getReceiver_id();
+            if (strReceiver_id != null && strReceiver_id.length() > 0) {
+                contentValues.put(BUDDY_CHAT_RECEIVER_ID, strReceiver_id);
+            }
+            String strMessage = UsersList.get(i).getMessage();
+            if (strMessage != null && strMessage.length() > 0) {
+                contentValues.put(BUDDY_CHAT_MESSAGE, strMessage);
+            }
+            String strTimestamp = UsersList.get(i).getTimestamp();
+            if (strTimestamp != null && strTimestamp.length() > 0) {
+                contentValues.put(BUDDY_CHAT_TIMESTAMP, strTimestamp);
+            }
+            String strStatus = UsersList.get(i).getStatus();
+            if (strStatus != null && strStatus.length() > 0) {
+                contentValues.put(BUDDY_CHAT_STATUS, strStatus);
+            }
+            db.insert(BUDDY_CHAT_TABLE_NAME, null, contentValues);
+            }
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
+        return;
+    }
+
+    public boolean deleteBuddyChat(String receiver_id,String sender_id)
+    {
+        String deleteSql = "DELETE FROM "+BUDDY_CHAT_TABLE_NAME+" where ("+BUDDY_CHAT_RECEIVER_ID +"='"+receiver_id
+                +"' and "+BUDDY_CHAT_SENDER_ID+"='"+sender_id+"') OR ("+BUDDY_CHAT_RECEIVER_ID +"='"+sender_id
+                +"' and "+BUDDY_CHAT_SENDER_ID+"='"+receiver_id+"')";
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(deleteSql);
+        return true;
+    }
+
+    public List<chat_list> getBuddyChat(String receiver_id,String sender_id) {
+        String selectQuery = "select * from " + BUDDY_CHAT_TABLE_NAME + " where ("+BUDDY_CHAT_RECEIVER_ID +"='"+receiver_id
+                +"' and "+BUDDY_CHAT_SENDER_ID+"='"+sender_id+"') OR ("+BUDDY_CHAT_RECEIVER_ID +"='"+sender_id
+                        +"' and "+BUDDY_CHAT_SENDER_ID+"='"+receiver_id+"')";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        List<chat_list> questionList = new ArrayList<chat_list>();
+
+        if (cursor.moveToFirst()) {
+            do {
+
+                chat_list chatList = new chat_list();
+               chatList.setId(cursor.getString(0));
+               chatList.setSender_id(cursor.getString(1));
+               chatList.setReceiver_id(cursor.getString(2));
+               chatList.setMessage(cursor.getString(3));
+               chatList.setTimestamp(cursor.getString(4));
+               chatList.setStatus(cursor.getString(5));
+
+                questionList.add(chatList);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return questionList;
+    }
+
+    //Insert Buddy chat count into table for unreadcount
+    public void insertBuddyChatCount(chat_list_db UsersList,
+                                     SQLiteDatabase db) {
         db = this.getWritableDatabase();
         ContentValues contentValues;
         db.beginTransaction();
@@ -650,7 +749,7 @@ public class DBHelper extends SQLiteOpenHelper {
             }*/
             String strSender_id = UsersList.getSender_id();
             if (strSender_id != null && strSender_id.length() > 0) {
-                contentValues.put(BUDDY_CHAT_SENDER_ID, strSender_id);
+                contentValues.put(BUDDY_CHAT_COUNT_SENDER_ID, strSender_id);
             }
             /*String strReceiver_id = UsersList.getReceiver_id();
             if (strReceiver_id != null && strReceiver_id.length() > 0) {
@@ -658,7 +757,7 @@ public class DBHelper extends SQLiteOpenHelper {
             }*/
             String strMessage = UsersList.getMessage();
             if (strMessage != null && strMessage.length() > 0) {
-                contentValues.put(BUDDY_CHAT_MESSAGE, strMessage);
+                contentValues.put(BUDDY_CHAT_COUNT_MESSAGE, strMessage);
             }
             /*String strTimestamp = UsersList.getTimestamp();
             if (strTimestamp != null && strTimestamp.length() > 0) {
@@ -670,9 +769,9 @@ public class DBHelper extends SQLiteOpenHelper {
             }*/
             String strIsRead = "0";
             if (strIsRead != null && strIsRead.length() > 0) {
-                contentValues.put(BUDDY_CHAT_IS_READ, strIsRead);
+                contentValues.put(BUDDY_CHAT_COUNT_IS_READ, strIsRead);
             }
-            db.insert(BUDDY_CHAT_TABLE_NAME, null, contentValues);
+            db.insert(BUDDY_CHAT_COUNT_TABLE_NAME, null, contentValues);
 
             //}
             db.setTransactionSuccessful();
@@ -694,35 +793,35 @@ public class DBHelper extends SQLiteOpenHelper {
             //for (int i = 0; i < UsersList.size(); i++) {
             contentValues = new ContentValues();
 
-            String strId = UsersList.getId();
+            /*String strId = UsersList.getId();
             if (strId != null && strId.length() > 0) {
                 contentValues.put(ATTENDEE_CHAT_ID, strId);
-            }
+            }*/
             String strSender_id = UsersList.getSender_id();
             if (strSender_id != null && strSender_id.length() > 0) {
-                contentValues.put(ATTENDEE_CHAT_SENDER_ID, strSender_id);
+                contentValues.put(ATTENDEE_CHAT_COUNT_SENDER_ID, strSender_id);
             }
-            String strReceiver_id = UsersList.getReceiver_id();
+            /*String strReceiver_id = UsersList.getReceiver_id();
             if (strReceiver_id != null && strReceiver_id.length() > 0) {
                 contentValues.put(ATTENDEE_CHAT_RECEIVER_ID, strReceiver_id);
-            }
+            }*/
             String strMessage = UsersList.getMessage();
             if (strMessage != null && strMessage.length() > 0) {
-                contentValues.put(ATTENDEE_CHAT_MESSAGE, strMessage);
+                contentValues.put(ATTENDEE_CHAT_COUNT_MESSAGE, strMessage);
             }
-            String strTimestamp = UsersList.getTimestamp();
+            /*String strTimestamp = UsersList.getTimestamp();
             if (strTimestamp != null && strTimestamp.length() > 0) {
                 contentValues.put(ATTENDEE_CHAT_TIMESTAMP, strTimestamp);
             }
             String strStatus = UsersList.getStatus();
             if (strStatus != null && strStatus.length() > 0) {
                 contentValues.put(ATTENDEE_CHAT_STATUS, strStatus);
-            }
+            }*/
             String strIsRead = "0";
             if (strIsRead != null && strIsRead.length() > 0) {
-                contentValues.put(ATTENDEE_CHAT_IS_READ, strIsRead);
+                contentValues.put(ATTENDEE_CHAT_COUNT_IS_READ, strIsRead);
             }
-            db.insert(ATTENDEE_CHAT_TABLE_NAME, null, contentValues);
+            db.insert(ATTENDEE_CHAT_COUNT_TABLE_NAME, null, contentValues);
 
             //}
             db.setTransactionSuccessful();
@@ -2063,8 +2162,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public String getBuddyChatForAttendeeId(String id) {
         String count = "0";
-        String selectQuery = "select count(*) as count from " + BUDDY_CHAT_TABLE_NAME + " where " + BUDDY_CHAT_IS_READ + " = '0' " +
-                "and " + BUDDY_CHAT_SENDER_ID + " = '" + id + "'";
+        String selectQuery = "select count(*) as count from " + BUDDY_CHAT_COUNT_TABLE_NAME + " where " + BUDDY_CHAT_COUNT_IS_READ + " = '0' " +
+                "and " + BUDDY_CHAT_COUNT_SENDER_ID + " = '" + id + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -2081,18 +2180,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public boolean setBuddyChatUnreadMessageCountToZero(String id) {
-        String updateTable = "UPDATE " + BUDDY_CHAT_TABLE_NAME +
-                " SET " + BUDDY_CHAT_IS_READ + " = '1' WHERE " + BUDDY_CHAT_SENDER_ID + " = '" + id + "'";
+        String updateTable = "UPDATE " + BUDDY_CHAT_COUNT_TABLE_NAME +
+                " SET " + BUDDY_CHAT_COUNT_IS_READ + " = '1' WHERE " + BUDDY_CHAT_COUNT_SENDER_ID + " = '" + id + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
-         db.execSQL(updateTable);
+        db.execSQL(updateTable);
         return true;
     }
 
     public String getAttendeeChatForAttendeeId(String id) {
         String count = "0";
-        String selectQuery = "select count(*) as count from " + ATTENDEE_CHAT_TABLE_NAME + " where " + ATTENDEE_CHAT_IS_READ + " = '0' " +
-                "and " + ATTENDEE_CHAT_SENDER_ID + " = '" + id + "'";
+        String selectQuery = "select count(*) as count from " + ATTENDEE_CHAT_COUNT_TABLE_NAME + " where " + ATTENDEE_CHAT_COUNT_IS_READ + " = '0' " +
+                "and " + ATTENDEE_CHAT_COUNT_SENDER_ID + " = '" + id + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -2106,8 +2205,8 @@ public class DBHelper extends SQLiteOpenHelper {
         return count;
     }
     public boolean setAttendeeChatUnreadMessageCountToZero(String id) {
-        String updateTable = "UPDATE " + ATTENDEE_CHAT_TABLE_NAME +
-                " SET " + ATTENDEE_CHAT_IS_READ + " = '1' WHERE " + ATTENDEE_CHAT_SENDER_ID + " = '" + id + "'";
+        String updateTable = "UPDATE " + ATTENDEE_CHAT_COUNT_TABLE_NAME +
+                " SET " + ATTENDEE_CHAT_COUNT_IS_READ + " = '1' WHERE " + ATTENDEE_CHAT_COUNT_SENDER_ID + " = '" + id + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
          db.execSQL(updateTable);

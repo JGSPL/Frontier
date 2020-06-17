@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,6 +54,7 @@ import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
 import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.Utility.KeyboardUtility;
 import com.procialize.mrgeApp20.Utility.Util;
 import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
@@ -131,6 +133,8 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
             @Override
             public void onClick(View v) {
                // onBackPressed();
+                KeyboardUtility.hideSoftKeyboard(ActivityBuddyList.this);
+
                 finish();
             }
         });

@@ -883,7 +883,6 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             holder.commentTv.setVisibility(View.GONE);
             holder.commenttext.setVisibility(View.GONE);
 //            viewtwo.setVisibility(View.GONE);
-
         } else {
             holder.commentTv.setVisibility(View.VISIBLE);
             holder.commenttext.setVisibility(View.VISIBLE);
@@ -897,8 +896,6 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             holder.shareTv.setVisibility(View.VISIBLE);
 //            viewtwo.setVisibility(View.VISIBLE);
         }
-
-
     }
 
     @Override
