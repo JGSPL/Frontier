@@ -12,12 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Zoom.initsdk.AuthConstants;
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.MyMeetingActivity;
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.view.MeetingWindowHelper;
-import com.procialize.mrgeApp20.Zoom.startjoinmeeting.apiuser.APIUserConstants;
 import com.procialize.mrgeApp20.Zoom.startjoinmeeting.apiuser.APIUserInfo;
 import com.procialize.mrgeApp20.Zoom.startjoinmeeting.apiuser.APIUserInfoHelper;
 import com.procialize.mrgeApp20.Zoom.startjoinmeeting.apiuser.ApiUserStartMeetingHelper;
@@ -29,6 +27,7 @@ import us.zoom.sdk.MeetingServiceListener;
 import us.zoom.sdk.MeetingStatus;
 import us.zoom.sdk.ZoomSDK;
 
+import static com.procialize.mrgeApp20.Zoom.startjoinmeeting.apiuser.APIUserConstants.USER_ID;
 
 
 public class APIUserStartJoinMeetingActivity extends Activity implements AuthConstants, MeetingServiceListener, View.OnClickListener{
@@ -95,7 +94,7 @@ public class APIUserStartJoinMeetingActivity extends Activity implements AuthCon
 		refreshUI();
 		if(APIUserInfoHelper.getAPIUserInfo() == null) {
 			RetrieveUserInfoTask task = new RetrieveUserInfoTask();//retrieve api user token
-			task.execute(APIUserConstants.USER_ID);
+			task.execute(USER_ID);
 		}
 	}
 

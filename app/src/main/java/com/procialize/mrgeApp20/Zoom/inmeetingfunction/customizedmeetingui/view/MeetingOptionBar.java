@@ -18,7 +18,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-
 import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.view.adapter.SimpleMenuAdapter;
@@ -27,12 +26,14 @@ import com.procialize.mrgeApp20.Zoom.ui.QAActivity;
 
 import us.zoom.sdk.InMeetingAnnotationController;
 import us.zoom.sdk.InMeetingAudioController;
+import us.zoom.sdk.InMeetingBOController;
 import us.zoom.sdk.InMeetingService;
 import us.zoom.sdk.InMeetingShareController;
 import us.zoom.sdk.InMeetingUserInfo;
 import us.zoom.sdk.InMeetingVideoController;
 import us.zoom.sdk.InMeetingWebinarController;
 import us.zoom.sdk.ZoomSDK;
+
 
 public class MeetingOptionBar extends FrameLayout implements View.OnClickListener {
 
@@ -54,6 +55,9 @@ public class MeetingOptionBar extends FrameLayout implements View.OnClickListene
     private final int MENU_ANNOTATION_ON = 12;
     private final int MENU_ANNOTATION_QA = 13;
     private final int MENU_SWITCH_DOMAIN = 14;
+    private final int MENU_CREATE_BO = 15;
+    private final int MENU_LOWER_ALL_HANDS = 16;
+    private final int MENU_RECLAIM_HOST = 17;
     MeetingOptionBarCallBack mCallBack;
 
     View mContentView;
@@ -105,6 +109,12 @@ public class MeetingOptionBar extends FrameLayout implements View.OnClickListene
         void onClickDisconnectAudio();
 
         void onClickSwitchLoudSpeaker();
+
+        void onClickAdminBo();
+
+        void onClickLowerAllHands();
+
+        void onClickReclaimHost();
 
         void showMoreMenu(PopupWindow popupWindow);
 
@@ -366,6 +376,22 @@ public class MeetingOptionBar extends FrameLayout implements View.OnClickListene
         return false;
     }
 
+    private boolean isMySelfMeetingHost() {
+        InMeetingUserInfo myUserInfo = mInMeetingService.getMyUserInfo();
+        if (myUserInfo != null && !mInMeetingService.isWebinarMeeting()) {
+            return myUserInfo.getInMeetingUserRole() == InMeetingUserInfo.InMeetingUserRole.USERROLE_HOST;
+        }
+        return false;
+    }
+
+    private boolean isMySelfHostCohost(){
+        InMeetingUserInfo myUserInfo = mInMeetingService.getMyUserInfo();
+        if (myUserInfo != null) {
+            return myUserInfo.getInMeetingUserRole() == InMeetingUserInfo.InMeetingUserRole.USERROLE_HOST
+                    || myUserInfo.getInMeetingUserRole() == InMeetingUserInfo.InMeetingUserRole.USERROLE_COHOST;
+        }
+        return false;
+    }
 
     private void showMoreMenuPopupWindow() {
         final SimpleMenuAdapter menuAdapter = new SimpleMenuAdapter(mContext);
@@ -417,6 +443,21 @@ public class MeetingOptionBar extends FrameLayout implements View.OnClickListene
                     menuAdapter.addItem((new SimpleMenuItem(MENU_ANNOTATION_QA, "QA")));
                 }
             }
+        }
+
+        if (isMySelfMeetingHost()) {
+            InMeetingBOController boController = mInMeetingService.getInMeetingBOController();
+            if (boController.isBOEnabled()) {
+                menuAdapter.addItem((new SimpleMenuItem(MENU_CREATE_BO, "Breakout Rooms")));
+            }
+        }
+
+        if (isMySelfHostCohost()) {
+            menuAdapter.addItem((new SimpleMenuItem(MENU_LOWER_ALL_HANDS, "Lower All Hands")));
+        }
+
+        if (mInMeetingService.canReclaimHost()) {
+            menuAdapter.addItem((new SimpleMenuItem(MENU_RECLAIM_HOST, "Reclaim Host")));
         }
 
         View popupWindowLayout = LayoutInflater.from(mContext).inflate(R.layout.popupwindow, null);
@@ -476,6 +517,24 @@ public class MeetingOptionBar extends FrameLayout implements View.OnClickListene
                     case MENU_SWITCH_DOMAIN: {
                         boolean success = ZoomSDK.getInstance().switchDomain("zoom.us", true);
                         Log.d(TAG, "switchDomain:" + success);
+                        break;
+                    }
+                    case MENU_CREATE_BO: {
+                        if (null != mCallBack) {
+                            mCallBack.onClickAdminBo();
+                        }
+                        break;
+                    }
+                    case MENU_LOWER_ALL_HANDS: {
+                        if (null != mCallBack) {
+                            mCallBack.onClickLowerAllHands();
+                        }
+                        break;
+                    }
+                    case MENU_RECLAIM_HOST: {
+                        if (null != mCallBack) {
+                            mCallBack.onClickReclaimHost();
+                        }
                         break;
                     }
                 }

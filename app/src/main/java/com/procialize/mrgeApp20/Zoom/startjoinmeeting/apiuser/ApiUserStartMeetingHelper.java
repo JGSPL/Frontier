@@ -3,7 +3,6 @@ package com.procialize.mrgeApp20.Zoom.startjoinmeeting.apiuser;
 import android.content.Context;
 import android.util.Log;
 
-
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.zoommeetingui.ZoomMeetingUISettingHelper;
 
 import us.zoom.sdk.MeetingService;

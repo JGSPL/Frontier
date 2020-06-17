@@ -1,11 +1,14 @@
 package com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.view.share;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+
+@SuppressLint("AppCompatCustomView")
 public class ColorSelectedImage extends ImageView {
 	private int color = 0;
 	private Paint mPaint;

@@ -1,4 +1,4 @@
-package com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.view.share;/*
+/* 
  * Copyright (C) 2008 OpenIntents.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,7 @@ package com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.view
  * limitations under the License.
  */
 
+package com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.view.share;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -58,10 +59,8 @@ public class ColorCircle extends View {
 	 * layout file.
 	 * 
 	 * These attributes are defined in res/values/attrs.xml .
-	 * 
-	 * @see View#View(Context,
-	 *      AttributeSet, java.util.Map)
-	 */
+	 *
+     */
 	public ColorCircle(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();

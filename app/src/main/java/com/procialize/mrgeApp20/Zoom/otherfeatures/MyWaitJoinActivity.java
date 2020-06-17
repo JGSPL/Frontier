@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-
 import com.procialize.mrgeApp20.R;
 
 import us.zoom.androidlib.util.AndroidAppUtil;
@@ -16,6 +15,7 @@ import us.zoom.sdk.MeetingService;
 import us.zoom.sdk.MeetingServiceListener;
 import us.zoom.sdk.MeetingStatus;
 import us.zoom.sdk.ZoomSDK;
+
 
 
 public class MyWaitJoinActivity extends Activity implements View.OnClickListener, MeetingServiceListener {

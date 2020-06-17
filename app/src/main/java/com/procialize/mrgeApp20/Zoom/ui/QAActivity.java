@@ -1,6 +1,6 @@
 package com.procialize.mrgeApp20.Zoom.ui;
 
-
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,8 +14,8 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import com.procialize.mrgeApp20.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +29,7 @@ import us.zoom.sdk.InMeetingQAController;
 import us.zoom.sdk.InMeetingServiceListener;
 import us.zoom.sdk.InMeetingUserInfo;
 import us.zoom.sdk.ZoomSDK;
+
 
 public class QAActivity extends ZMActivity implements InMeetingQAController.InMeetingQAListener, InMeetingServiceListener {
 
@@ -61,7 +62,7 @@ public class QAActivity extends ZMActivity implements InMeetingQAController.InMe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_zoomqa);
+        setContentView(R.layout.activity_qa);
         listView = findViewById(R.id.question_list);
 
         listView.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1, list));
@@ -661,5 +662,15 @@ public class QAActivity extends ZMActivity implements InMeetingQAController.InMe
     @Override
     public void onMeetingActiveVideo(long userId) {
         
+    }
+
+    @Override
+    public void onSinkAttendeeChatPriviledgeChanged(int i) {
+
+    }
+
+    @Override
+    public void onSinkAllowAttendeeChatNotification(int i) {
+
     }
 }

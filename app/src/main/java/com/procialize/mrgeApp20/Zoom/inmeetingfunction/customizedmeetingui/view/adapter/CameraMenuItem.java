@@ -1,7 +1,5 @@
 package com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.view.adapter;
 
-
-
 public class CameraMenuItem extends SimpleMenuItem {
     private String cameraId;
     public CameraMenuItem(int action, String label, String cameraId) {

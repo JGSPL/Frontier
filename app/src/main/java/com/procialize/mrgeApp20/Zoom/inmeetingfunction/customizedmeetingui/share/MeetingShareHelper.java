@@ -30,7 +30,6 @@ import us.zoom.sdk.MobileRTCShareView;
 import us.zoom.sdk.ZoomSDK;
 
 
-
 public class MeetingShareHelper {
 
     private final static String TAG = MeetingShareHelper.class.getSimpleName();

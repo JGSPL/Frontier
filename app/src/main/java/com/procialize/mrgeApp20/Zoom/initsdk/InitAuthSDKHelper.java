@@ -39,11 +39,9 @@ public class InitAuthSDKHelper implements AuthConstants, ZoomSDKInitializeListen
 
             ZoomSDKInitParams initParams = new ZoomSDKInitParams();
             initParams.jwtToken = SDK_JWTTOKEN;
-            initParams.appKey = SDK_KEY;
-            initParams.appSecret = SDK_SECRET;
             initParams.enableLog = true;
             initParams.logSize = 50;
-            initParams.domain = AuthConstants.WEB_DOMAIN;
+            initParams.domain=AuthConstants.WEB_DOMAIN;
             initParams.videoRawDataMemoryMode = ZoomSDKRawDataMemoryMode.ZoomSDKRawDataMemoryModeStack;
 //            mZoomSDK.initialize(context, this, initParams);
             mZoomSDK.initialize(context, SDK_KEY, SDK_SECRET, this);
@@ -67,10 +65,10 @@ public class InitAuthSDKHelper implements AuthConstants, ZoomSDKInitializeListen
 
     @Override
     public void onZoomAuthIdentityExpired() {
-        Log.e(TAG, "onZoomAuthIdentityExpired in init");
+        Log.e(TAG,"onZoomAuthIdentityExpired in init");
     }
 
-    public void reset() {
+    public void reset(){
         mInitAuthSDKCallback = null;
     }
 }

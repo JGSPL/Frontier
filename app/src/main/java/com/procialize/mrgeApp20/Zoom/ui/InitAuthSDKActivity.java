@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Zoom.initsdk.InitAuthSDKCallback;
 import com.procialize.mrgeApp20.Zoom.initsdk.InitAuthSDKHelper;
@@ -20,13 +19,18 @@ import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.MyMee
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.RawDataMeetingActivity;
 import com.procialize.mrgeApp20.Zoom.startjoinmeeting.UserLoginCallback;
 
+import java.util.List;
+
+import us.zoom.sdk.InMeetingNotificationHandle;
 import us.zoom.sdk.JoinMeetingParams;
+import us.zoom.sdk.MeetingInviteMenuItem;
 import us.zoom.sdk.MeetingServiceListener;
 import us.zoom.sdk.MeetingStatus;
 import us.zoom.sdk.ZoomApiError;
 import us.zoom.sdk.ZoomAuthenticationError;
 import us.zoom.sdk.ZoomError;
 import us.zoom.sdk.ZoomSDK;
+import us.zoom.sdk.ZoomUIDelegate;
 
 
 public class InitAuthSDKActivity extends Activity implements InitAuthSDKCallback,
@@ -42,7 +46,7 @@ public class InitAuthSDKActivity extends Activity implements InitAuthSDKCallback
     private EditText numberEdit;
     private EditText nameEdit;
     private ZoomSDK mZoomSDK;
-    String meetingid, meetingpassword;
+    String meetingid,meetingpassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -15,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
-
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.MyMeetingActivity;
 

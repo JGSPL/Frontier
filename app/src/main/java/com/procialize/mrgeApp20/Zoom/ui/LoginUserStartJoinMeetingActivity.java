@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Zoom.initsdk.AuthConstants;
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.MyMeetingActivity;
@@ -292,7 +291,7 @@ public class LoginUserStartJoinMeetingActivity extends Activity implements AuthC
             boolean enable = sharedPreferences.getBoolean("enable_rawdata", false);
             Intent intent = null;
             if (!enable) {
-                intent = new Intent(this,MyMeetingActivity.class);
+                intent = new Intent(this, MyMeetingActivity.class);
             } else {
                 intent = new Intent(this, RawDataMeetingActivity.class);
             }

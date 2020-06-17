@@ -13,7 +13,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-
 import com.procialize.mrgeApp20.R;
 
 import us.zoom.sdk.InMeetingRemoteController;

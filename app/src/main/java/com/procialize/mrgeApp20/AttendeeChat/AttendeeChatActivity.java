@@ -42,6 +42,7 @@ import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.AttendeeChat.Adapter.AttendeeChatAdapter;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
+import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -61,12 +62,12 @@ import retrofit2.Response;
 
 public class AttendeeChatActivity extends AppCompatActivity {
 
-    private String attendeeid, name, city, country, company, designation, description, totalrating, profile, mobile,
+    private String chat_with_id,attendeeid, name, city, country, company, designation, description, totalrating, profile, mobile,
             buddy_status;
     ImageView iv_buddy_details,profileIV;
     TextView title, sub_title;
     public AttendeeChatAdapter liveChatAdapter;
-    String token;
+    String token,userId;
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid, colorActive;
     SwipeRefreshLayout qaRvrefresh;
@@ -90,6 +91,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
     IntentFilter spotChatFilter;
     DBHelper procializeDB;
     SQLiteDatabase db;
+    ConnectionDetector cd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +118,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
 
         try {
             attendeeid = getIntent().getExtras().getString("id");
+            chat_with_id = getIntent().getExtras().getString("id");
             name = getIntent().getExtras().getString("name");
             city = getIntent().getExtras().getString("city");
             country = getIntent().getExtras().getString("country");
@@ -204,11 +207,28 @@ public class AttendeeChatActivity extends AppCompatActivity {
 
         // token
         token = user.get(SessionManager.KEY_TOKEN);
+        userId = user.get(SessionManager.KEY_USER_ID);
 
         int resId = R.anim.layout_animation_slide_right;
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(this, resId);
 
-        UserChatHistory(eventid,token,attendeeid,"1");
+       // UserChatHistory(eventid,token,attendeeid,"1");
+        cd = new ConnectionDetector(AttendeeChatActivity.this);
+
+        if (cd.isConnectingToInternet()) {
+            UserChatHistory(eventid, token, attendeeid, "1");
+        } else {
+            List<chat_list> chat_lists1 = procializeDB.getAttendeeChat(chat_with_id, userId);
+            //Collections.reverse(chat_lists1);
+            liveChatAdapter = new AttendeeChatAdapter(AttendeeChatActivity.this, chat_lists1,attendeeid);
+            liveChatAdapter.notifyDataSetChanged();
+            qaRv.setAdapter(liveChatAdapter);
+            liveChatAdapter.notifyDataSetChanged();
+
+            // qaRv.scheduleLayoutAnimation();
+            txtEmpty.setVisibility(View.GONE);
+            qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
+        }
 
         try {
             spotChatReciever = new SpotChatReciever();
@@ -388,6 +408,8 @@ public class AttendeeChatActivity extends AppCompatActivity {
                 txtEmpty.setVisibility(View.GONE);
                 qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
 
+                procializeDB.deleteAttendeeChat(chat_with_id,userId);
+                procializeDB.insertAttendeeChat(chat_lists, db);
             } else {
 
             }
@@ -425,6 +447,9 @@ public class AttendeeChatActivity extends AppCompatActivity {
                 // qaRv.scheduleLayoutAnimation();
                 txtEmpty.setVisibility(View.GONE);
                 qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
+
+                procializeDB.deleteAttendeeChat(chat_with_id,userId);
+                procializeDB.insertAttendeeChat(chat_lists, db);
 
             } else {
 
@@ -483,26 +508,26 @@ public class AttendeeChatActivity extends AppCompatActivity {
                 chat_listsNew = response.body().getChatList();
                 Collections.reverse(chat_listsNew);
 
-                if(chat_lists.size()>0){
+                if (chat_lists.size() > 0) {
                     chat_lists.clear();
                 }
-                for(int i=0;i<chat_listsNew.size();i++) {
+                for (int i = 0; i < chat_listsNew.size(); i++) {
                     chat_lists.add(chat_listsNew.get(i));
                 }
-                if(chat_NewAdd.size()>0){
-                    for(int i=0;i<chat_NewAdd.size();i++) {
+                if (chat_NewAdd.size() > 0) {
+                    for (int i = 0; i < chat_NewAdd.size(); i++) {
                         chat_lists.add(chat_NewAdd.get(i));
                     }
                 }
 
 
-
-                if(chat_NewAdd.size()>0){
+                if (chat_NewAdd.size() > 0) {
                     chat_NewAdd.clear();
                 }
-                for(int i=0;i<chat_lists.size();i++) {
+                for (int i = 0; i < chat_lists.size(); i++) {
                     chat_NewAdd.add(chat_lists.get(i));
                 }
+
 
 
                 liveChatAdapter = new AttendeeChatAdapter(AttendeeChatActivity.this, chat_lists,attendeeid);
@@ -514,27 +539,15 @@ public class AttendeeChatActivity extends AppCompatActivity {
                 txtEmpty.setVisibility(View.GONE);
                 qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
 
-
-
-
-            } else {
-
-            }
-
-
-
-        } else {
-
-        }
+                procializeDB.deleteAttendeeChat(chat_with_id,userId);
+                procializeDB.insertAttendeeChat(chat_lists, db);
+            } else {}
+        } else {}
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(spotChatReciever);
-
     }
-
-
-
 }

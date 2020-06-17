@@ -337,18 +337,15 @@ public interface APIService {
                                                             @Field("to_currency") String to_currency,
                                                             @Field("amount") String amount);
 
-
     @POST("SpeakerFetch")
     @FormUrlEncoded
     Call<FetchSpeaker> SpeakerFetchPost(@Field("api_access_token") String api_access_token,
                                         @Field("event_id") String event_id);
 
-
     @POST("AttendeeFetch")
     @FormUrlEncoded
     Call<FetchAttendee> AttendeeFetchPost(@Field("api_access_token") String api_access_token,
                                           @Field("event_id") String event_id);
-
 
     @POST("AgendaSeprateFetch")
     @FormUrlEncoded
@@ -359,7 +356,6 @@ public interface APIService {
     @FormUrlEncoded
     Call<Agenda> AgendaFetchVacation(@Field("api_access_token") String api_access_token,
                                      @Field("event_id") String event_id);
-
 
     @POST("DeleteNewsFeedPost")
     @FormUrlEncoded

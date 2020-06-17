@@ -289,7 +289,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String LOGO = "LOGO";
 
-    //Buddy Chat Count--------------------------------------------------------------
+    //Buddy Chat --------------------------------------------------------------
     public static final String BUDDY_CHAT_TABLE_NAME = "BUDDY_CHAT_TABLE_NAME";
      public static final String BUDDY_CHAT_ID = "BUDDY_CHAT_ID";
     public static final String BUDDY_CHAT_SENDER_ID = "BUDDY_CHAT_SENDER_ID";
@@ -308,6 +308,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String BUDDY_CHAT_STATUS = "BUDDY_CHAT_STATUS";*/
     public static final String BUDDY_CHAT_COUNT_IS_READ = "BUDDY_CHAT_COUNT_IS_READ";
 
+    //Attendee Chat --------------------------------------------------------------
+    public static final String ATTENDEE_CHAT_TABLE_NAME = "ATTENDEE_CHAT_TABLE_NAME";
+    public static final String ATTENDEE_CHAT_ID = "ATTENDEE_CHAT_ID";
+    public static final String ATTENDEE_CHAT_SENDER_ID = "ATTENDEE_CHAT_SENDER_ID";
+    public static final String ATTENDEE_CHAT_RECEIVER_ID = "ATTENDEE_CHAT_RECEIVER_ID";
+    public static final String ATTENDEE_CHAT_MESSAGE = "ATTENDEE_CHAT_MESSAGE";
+    public static final String ATTENDEE_CHAT_TIMESTAMP = "ATTENDEE_CHAT_TIMESTAMP";
+    public static final String ATTENDEE_CHAT_STATUS = "ATTENDEE_CHAT_STATUS";
 
     //Attendee Chat Count--------------------------------------------------------------
     public static final String ATTENDEE_CHAT_COUNT_TABLE_NAME = "ATTENDEE_CHAT_COUNT_TABLE_NAME";
@@ -515,6 +523,14 @@ public class DBHelper extends SQLiteOpenHelper {
                 + BUDDY_CHAT_TIMESTAMP + " text, "
                 + BUDDY_CHAT_STATUS + " text)");
 
+        db.execSQL("create table " + ATTENDEE_CHAT_TABLE_NAME + "("
+                + ATTENDEE_CHAT_ID + " text, "
+                + ATTENDEE_CHAT_SENDER_ID + " text, "
+                + ATTENDEE_CHAT_RECEIVER_ID + " text, "
+                + ATTENDEE_CHAT_MESSAGE + " text, "
+                + ATTENDEE_CHAT_TIMESTAMP + " text, "
+                + ATTENDEE_CHAT_STATUS + " text)");
+
 db.execSQL("create table " + BUDDY_CHAT_COUNT_TABLE_NAME + "("
                 //+ BUDDY_CHAT_ID + " text, "
                 + BUDDY_CHAT_COUNT_SENDER_ID + " text, "
@@ -721,6 +737,51 @@ db.execSQL("create table " + BUDDY_CHAT_COUNT_TABLE_NAME + "("
         return;
     }
 
+    //Insert Buddy chat into table for unreadcount
+    public void insertAttendeeChat(List<chat_list> UsersList,
+                                     SQLiteDatabase db) {
+        db = this.getWritableDatabase();
+        ContentValues contentValues;
+        db.beginTransaction();
+        try {
+            for (int i = 0; i < UsersList.size(); i++) {
+            contentValues = new ContentValues();
+
+            String strId = UsersList.get(i).getId();
+            if (strId != null && strId.length() > 0) {
+                contentValues.put(ATTENDEE_CHAT_ID, strId);
+            }
+            String strSender_id = UsersList.get(i).getSender_id();
+            if (strSender_id != null && strSender_id.length() > 0) {
+                contentValues.put(ATTENDEE_CHAT_SENDER_ID, strSender_id);
+            }
+            String strReceiver_id = UsersList.get(i).getReceiver_id();
+            if (strReceiver_id != null && strReceiver_id.length() > 0) {
+                contentValues.put(ATTENDEE_CHAT_RECEIVER_ID, strReceiver_id);
+            }
+            String strMessage = UsersList.get(i).getMessage();
+            if (strMessage != null && strMessage.length() > 0) {
+                contentValues.put(ATTENDEE_CHAT_MESSAGE, strMessage);
+            }
+            String strTimestamp = UsersList.get(i).getTimestamp();
+            if (strTimestamp != null && strTimestamp.length() > 0) {
+                contentValues.put(ATTENDEE_CHAT_TIMESTAMP, strTimestamp);
+            }
+            String strStatus = UsersList.get(i).getStatus();
+            if (strStatus != null && strStatus.length() > 0) {
+                contentValues.put(ATTENDEE_CHAT_STATUS, strStatus);
+            }
+            db.insert(ATTENDEE_CHAT_TABLE_NAME, null, contentValues);
+            }
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
+        return;
+    }
+
     public boolean deleteBuddyChat(String receiver_id,String sender_id)
     {
         String deleteSql = "DELETE FROM "+BUDDY_CHAT_TABLE_NAME+" where ("+BUDDY_CHAT_RECEIVER_ID +"='"+receiver_id
@@ -731,10 +792,47 @@ db.execSQL("create table " + BUDDY_CHAT_COUNT_TABLE_NAME + "("
         return true;
     }
 
+    public boolean deleteAttendeeChat(String receiver_id,String sender_id)
+    {
+        String deleteSql = "DELETE FROM "+ATTENDEE_CHAT_TABLE_NAME+" where ("+ATTENDEE_CHAT_RECEIVER_ID +"='"+receiver_id
+                +"' and "+ATTENDEE_CHAT_SENDER_ID+"='"+sender_id+"') OR ("+ATTENDEE_CHAT_RECEIVER_ID +"='"+sender_id
+                +"' and "+ATTENDEE_CHAT_SENDER_ID+"='"+receiver_id+"')";
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(deleteSql);
+        return true;
+    }
+
     public List<chat_list> getBuddyChat(String receiver_id,String sender_id) {
         String selectQuery = "select * from " + BUDDY_CHAT_TABLE_NAME + " where ("+BUDDY_CHAT_RECEIVER_ID +"='"+receiver_id
                 +"' and "+BUDDY_CHAT_SENDER_ID+"='"+sender_id+"') OR ("+BUDDY_CHAT_RECEIVER_ID +"='"+sender_id
                         +"' and "+BUDDY_CHAT_SENDER_ID+"='"+receiver_id+"')";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        List<chat_list> questionList = new ArrayList<chat_list>();
+
+        if (cursor.moveToFirst()) {
+            do {
+
+                chat_list chatList = new chat_list();
+               chatList.setId(cursor.getString(0));
+               chatList.setSender_id(cursor.getString(1));
+               chatList.setReceiver_id(cursor.getString(2));
+               chatList.setMessage(cursor.getString(3));
+               chatList.setTimestamp(cursor.getString(4));
+               chatList.setStatus(cursor.getString(5));
+
+                questionList.add(chatList);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return questionList;
+    }
+
+    public List<chat_list> getAttendeeChat(String receiver_id,String sender_id) {
+        String selectQuery = "select * from " + ATTENDEE_CHAT_TABLE_NAME + " where ("+ATTENDEE_CHAT_RECEIVER_ID +"='"+receiver_id
+                +"' and "+ATTENDEE_CHAT_SENDER_ID+"='"+sender_id+"') OR ("+ATTENDEE_CHAT_RECEIVER_ID +"='"+sender_id
+                        +"' and "+ATTENDEE_CHAT_SENDER_ID+"='"+receiver_id+"')";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

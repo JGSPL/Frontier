@@ -21,17 +21,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.audio.MeetingAudioCallback;
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.audio.MeetingAudioHelper;
@@ -49,14 +52,22 @@ import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.view.
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.view.share.AnnotateToolbar;
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.view.share.CustomShareView;
 import com.procialize.mrgeApp20.Zoom.ui.APIUserStartJoinMeetingActivity;
+import com.procialize.mrgeApp20.Zoom.ui.BreakoutRoomsAdminActivity;
 import com.procialize.mrgeApp20.Zoom.ui.InitAuthSDKActivity;
 import com.procialize.mrgeApp20.Zoom.ui.LoginUserStartJoinMeetingActivity;
 
 import java.util.List;
 
 import us.zoom.androidlib.app.ZMActivity;
+import us.zoom.androidlib.widget.ZMAlertDialog;
+import us.zoom.sdk.IBOAssistant;
+import us.zoom.sdk.IBOAttendee;
+import us.zoom.sdk.IBOData;
+import us.zoom.sdk.IBODataEvent;
+import us.zoom.sdk.IBOMeeting;
 import us.zoom.sdk.IZoomRetrieveSMSVerificationCodeHandler;
 import us.zoom.sdk.IZoomVerifySMSVerificationCodeHandler;
+import us.zoom.sdk.InMeetingBOController;
 import us.zoom.sdk.InMeetingEventHandler;
 import us.zoom.sdk.InMeetingService;
 import us.zoom.sdk.InMeetingUserInfo;
@@ -72,7 +83,10 @@ import us.zoom.sdk.SmsListener;
 import us.zoom.sdk.ZoomSDK;
 import us.zoom.sdk.ZoomSDKCountryCode;
 
-public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallback.VideoEvent,
+
+import static us.zoom.sdk.MobileRTCSDKError.SDKERR_SUCCESS;
+
+public class MyMeetingActivity extends ZMActivity implements View.OnClickListener, MeetingVideoCallback.VideoEvent,
         MeetingAudioCallback.AudioEvent, MeetingShareCallback.ShareEvent,
         MeetingUserCallback.UserEvent, MeetingCommonCallback.CommonEvent, SmsListener {
 
@@ -104,6 +118,7 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
     private View mWaitJoinView;
     private View mWaitRoomView;
     private TextView mConnectingText;
+    private Button mBtnJoinBo;
 
     private LinearLayout videoListLayout;
 
@@ -190,6 +205,7 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
         mMeetingVideoView.addView(mNormalSenceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         mConnectingText = (TextView) findViewById(R.id.connectingTxt);
+        mBtnJoinBo = (Button) findViewById(R.id.btn_join_bo);
 
         mVideoListView = (RecyclerView) findViewById(R.id.videoList);
         mVideoListView.bringToFront();
@@ -200,7 +216,14 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
         mAdapter = new AttenderVideoAdapter(this, getWindowManager().getDefaultDisplay().getWidth(), pinVideoListener);
         mVideoListView.setAdapter(mAdapter);
 
+        mBtnJoinBo.setOnClickListener(this);
+
         refreshToolbar();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
     }
 
     MeetingVideoHelper.VideoCallBack videoCallBack = new MeetingVideoHelper.VideoCallBack() {
@@ -261,6 +284,19 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
         }
     };
 
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id){
+            case R.id.btn_join_bo:
+                InMeetingBOController boController = mInMeetingService.getInMeetingBOController();
+                IBOAttendee boAttendee = boController.getBOAttendeeHelper();
+                if (boAttendee != null)
+                    boAttendee.joinBo();
+            break;
+        }
+    }
+
     class GestureDetectorListener extends GestureDetector.SimpleOnGestureListener {
 
         public GestureDetectorListener() {
@@ -301,7 +337,7 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
         if (mMeetingService.getMeetingStatus() == MeetingStatus.MEETING_STATUS_INMEETING) {
             mConnectingText.setVisibility(View.GONE);
             meetingOptionBar.updateMeetingNumber(mInMeetingService.getCurrentMeetingNumber() + "");
-            meetingOptionBar.updateMeetingPassword(mInMeetingService.getMeetingPassword() + "");
+            meetingOptionBar.updateMeetingPassword( mInMeetingService.getMeetingPassword());
             meetingOptionBar.refreshToolbar();
         } else {
             if (mMeetingService.getMeetingStatus() == MeetingStatus.MEETING_STATUS_CONNECTING) {
@@ -361,6 +397,13 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
             return newLayoutType;
         }
 
+        if (mInMeetingService.isWebinarMeeting()) {
+            if (isMySelfWebinarAttendee()) {
+                newLayoutType = LAYOUT_TYPE_WEBINAR_ATTENDEE;
+                return newLayoutType;
+            }
+        }
+
         if (meetingShareHelper.isOtherSharing()) {
             newLayoutType = LAYOUT_TYPE_VIEW_SHARE;
         } else if (meetingShareHelper.isSharingOut() && !meetingShareHelper.isSharingScreen()) {
@@ -383,6 +426,7 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
                     }
                 }
             }
+
 
             if (userCount == 0) {
                 newLayoutType = LAYOUT_TYPE_PREVIEW;
@@ -432,7 +476,7 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
             mDrawingView.setVisibility(View.GONE);
         } else if (type == LAYOUT_TYPE_PREVIEW) {
             showPreviewLayout();
-        } else if (type == LAYOUT_TYPE_ONLY_MYSELF) {
+        } else if (type == LAYOUT_TYPE_ONLY_MYSELF||type==LAYOUT_TYPE_WEBINAR_ATTENDEE) {
             showOnlyMeLayout();
         } else if (type == LAYOUT_TYPE_ONETOONE) {
             showOne2OneLayout();
@@ -458,8 +502,14 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
         MobileRTCVideoUnitRenderInfo renderInfo = new MobileRTCVideoUnitRenderInfo(0, 0, 100, 100);
         InMeetingUserInfo myUserInfo = mInMeetingService.getMyUserInfo();
         if (myUserInfo != null) {
+            mDefaultVideoViewMgr.removeAllVideoUnits();
             if (isMySelfWebinarAttendee()) {
-                mDefaultVideoViewMgr.addActiveVideoUnit(renderInfo);
+                if(mCurShareUserId>0)
+                {
+                    mDefaultVideoViewMgr.addShareVideoUnit(mCurShareUserId,renderInfo);
+                }else {
+                    mDefaultVideoViewMgr.addActiveVideoUnit(renderInfo);
+                }
             } else {
                 mDefaultVideoViewMgr.addAttendeeVideoUnit(myUserInfo.getUserId(), renderInfo);
             }
@@ -641,6 +691,24 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
         }
 
         @Override
+        public void onClickAdminBo() {
+            Intent intent = new Intent(MyMeetingActivity.this, BreakoutRoomsAdminActivity.class);
+            startActivity(intent);
+        }
+
+        @Override
+        public void onClickLowerAllHands() {
+            if (mInMeetingService.lowerAllHands() == SDKERR_SUCCESS)
+                Toast.makeText(MyMeetingActivity.this, "Lower all hands successfully", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onClickReclaimHost() {
+            if (mInMeetingService.reclaimHost() == SDKERR_SUCCESS)
+                Toast.makeText(MyMeetingActivity.this, "Reclaim host successfully", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
         public void showMoreMenu(PopupWindow popupWindow) {
             popupWindow.showAtLocation((View) meetingOptionBar.getParent(), Gravity.BOTTOM | Gravity.RIGHT, 0, 150);
         }
@@ -703,7 +771,7 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
         if (null != builder) {
             builder.dismiss();
         }
-        builder = new Dialog(this, R.style.ZMDialog);
+        builder = new Dialog(this,R.style.ZMDialog);
         builder.setTitle("Need password or displayName");
         builder.setContentView(R.layout.layout_input_password_name);
 
@@ -812,7 +880,16 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
                         }
                     });
         }
-        builder.setNegativeButton("Cancel", null).create();
+        if (mInMeetingService.getInMeetingBOController().isInBOMeeting()) {
+            builder.setNegativeButton("Leave BO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    leaveBo();
+                }
+            });
+        } else {
+            builder.setNegativeButton("Cancel", null);
+        }
         builder.create().show();
     }
 
@@ -822,6 +899,22 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
         }
         finish();
         mInMeetingService.leaveCurrentMeeting(end);
+    }
+
+    private void leaveBo(){
+        InMeetingBOController boController = mInMeetingService.getInMeetingBOController();
+        IBOAssistant iboAssistant = boController.getBOAssistantHelper();
+        if (iboAssistant != null) {
+            iboAssistant.leaveBO();
+        } else {
+            IBOAttendee boAttendee = boController.getBOAttendeeHelper();
+            if (boAttendee != null)
+            {
+                boAttendee.leaveBo();
+            }else {
+                leave(false);
+            }
+        }
     }
 
     private void showJoinFailDialog(int error) {
@@ -839,15 +932,25 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
         dialog.show();
     }
 
-    private void showWebinarNeedRegisterDialog() {
+    private void showWebinarNeedRegisterDialog(final InMeetingEventHandler inMeetingEventHandler) {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setCancelable(false)
                 .setTitle("Need register to join this webinar meeting ")
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mInMeetingService.leaveCurrentMeeting(true);
+                    }
+                })
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mInMeetingService.leaveCurrentMeeting(true);
+                        if(null!=inMeetingEventHandler)
+                        {
+                            long time=System.currentTimeMillis();
+                            inMeetingEventHandler.setRegisterWebinarInfo("test", time+"@example.com", false);
+                        }
                     }
                 }).create();
         dialog.show();
@@ -976,7 +1079,6 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
 
     @Override
     public void onWebinarNeedRegister() {
-        showWebinarNeedRegisterDialog();
     }
 
     @Override
@@ -1012,13 +1114,14 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
 
     @Override
     public void onJoinWebinarNeedUserNameAndEmail(InMeetingEventHandler inMeetingEventHandler) {
-        long time = System.currentTimeMillis();
-        inMeetingEventHandler.setRegisterWebinarInfo("test", time + "@example.com", false);
+        long time=System.currentTimeMillis();
+        showWebinarNeedRegisterDialog(inMeetingEventHandler);
+//        inMeetingEventHandler.setRegisterWebinarInfo("test", time+"@example.com", false);
     }
 
     @Override
     public void onFreeMeetingReminder(boolean isOrignalHost, boolean canUpgrade, boolean isFirstGift) {
-        Log.d(TAG, "onFreeMeetingReminder:" + isOrignalHost + " " + canUpgrade + " " + isFirstGift);
+        Log.d(TAG, "onFreeMeetingReminder:" + isOrignalHost +" "+ canUpgrade +" "+ isFirstGift);
     }
 
     @Override
@@ -1046,13 +1149,15 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
             MeetingUserCallback.getInstance().removeListener(this);
             MeetingCommonCallback.getInstance().removeListener(this);
             ZoomSDK.getInstance().getSmsService().removeListener(this);
-        } catch (Exception e) {
+            ZoomSDK.getInstance().getInMeetingService().getInMeetingBOController().removeListener(mBOControllerListener);
+        }catch (Exception e){
         }
     }
 
 
     private void registerListener() {
         ZoomSDK.getInstance().getSmsService().addListener(this);
+        ZoomSDK.getInstance().getInMeetingService().getInMeetingBOController().addListener(mBOControllerListener);
         MeetingAudioCallback.getInstance().addListener(this);
         MeetingVideoCallback.getInstance().addListener(this);
         MeetingShareCallback.getInstance().addListener(this);
@@ -1060,6 +1165,71 @@ public class MyMeetingActivity extends ZMActivity implements MeetingVideoCallbac
         MeetingCommonCallback.getInstance().addListener(this);
 
     }
+
+    private SimpleInMeetingBOControllerListener mBOControllerListener = new SimpleInMeetingBOControllerListener() {
+
+        ZMAlertDialog dialog;
+        @Override
+        public void onHasAttendeeRightsNotification(final IBOAttendee iboAttendee) {
+            super.onHasAttendeeRightsNotification(iboAttendee);
+            Log.d(TAG, "onHasAttendeeRightsNotification");
+            InMeetingBOController boController = mInMeetingService.getInMeetingBOController();
+            if (boController.isInBOMeeting()) {
+                mBtnJoinBo.setVisibility(View.GONE);
+                meetingOptionBar.updateMeetingNumber(iboAttendee.GetBoName());
+            } else {
+                ZMAlertDialog.Builder builder = new ZMAlertDialog.Builder(MyMeetingActivity.this)
+                        .setMessage("The host is inviting you to join Breakout Room: " + iboAttendee.GetBoName())
+                        .setNegativeButton("Later", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                mBtnJoinBo.setVisibility(View.VISIBLE);
+                            }
+                        })
+                        .setPositiveButton("Join", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                iboAttendee.joinBo();
+                            }
+                        })
+                        .setCancelable(false);
+                dialog = builder.create();
+                dialog.show();
+            }
+        }
+
+        @Override
+        public void onHasDataHelperRightsNotification(IBOData iboData) {
+            Log.d(TAG, "onHasDataHelperRightsNotification");
+            iboData.setEvent(iboDataEvent);
+        }
+
+        @Override
+        public void onLostAttendeeRightsNotification() {
+            super.onLostAttendeeRightsNotification();
+            Log.d(TAG, "onLostAttendeeRightsNotification");
+            if (null != dialog && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            mBtnJoinBo.setVisibility(View.GONE);
+        }
+    };
+
+    private IBODataEvent iboDataEvent = new IBODataEvent() {
+        @Override
+        public void onBOInfoUpdated(String strBOID) {
+            InMeetingBOController boController = mInMeetingService.getInMeetingBOController();
+            IBOData iboData = boController.getBODataHelper();
+            if(iboData != null){
+                IBOMeeting iboMeeting = iboData.getBOMeetingByID(strBOID);
+                if(iboMeeting != null && boController.isInBOMeeting())
+                    meetingOptionBar.updateMeetingNumber(iboMeeting.getBoName());
+            }
+        }
+
+        @Override
+        public void onUnAssignedUserUpdated() {
+
+        }
+    };
 
 }
 

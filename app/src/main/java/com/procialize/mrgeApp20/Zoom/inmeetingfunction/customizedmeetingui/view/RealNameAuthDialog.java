@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.view;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
+import com.procialize.mrgeApp20.R;
 import com.zipow.videobox.fragment.SelectCountryCodeFragment;
 import com.zipow.videobox.fragment.SimpleMessageDialog;
 import com.zipow.videobox.util.ZMWebPageUtil;
@@ -78,6 +80,7 @@ public class RealNameAuthDialog extends ZMDialogFragment implements View.OnClick
         this.verifySMSVerificationCodeHandler = verifySMSVerificationCodeHandler;
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     public static RealNameAuthDialog show(@NonNull ZMActivity activity, IZoomRetrieveSMSVerificationCodeHandler handler) {
         FragmentManager fm = activity.getSupportFragmentManager();
         if (fm == null)
@@ -115,7 +118,7 @@ public class RealNameAuthDialog extends ZMDialogFragment implements View.OnClick
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(STYLE_NORMAL, us.zoom.videomeetings.R.style.ZMDialog_NoTitle);
+        setStyle(STYLE_NORMAL, R.style.ZMDialog_NoTitle);
     }
 
     @Override
@@ -127,17 +130,17 @@ public class RealNameAuthDialog extends ZMDialogFragment implements View.OnClick
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setCancelable(false);
-        View view = LayoutInflater.from(getActivity()).inflate(us.zoom.videomeetings.R.layout.zm_verify_phone_dialog, null, false);
-        view.findViewById(us.zoom.videomeetings.R.id.btnClose).setOnClickListener(this);
-        mZMVerifyCodeView = view.findViewById(us.zoom.videomeetings.R.id.zmVerifyCodeView);
-        mBtnCountryCode = view.findViewById(us.zoom.videomeetings.R.id.btnCountryCode);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.zm_verify_phone_dialog, null, false);
+        view.findViewById(R.id.btnClose).setOnClickListener(this);
+        mZMVerifyCodeView = view.findViewById(R.id.zmVerifyCodeView);
+        mBtnCountryCode = view.findViewById(R.id.btnCountryCode);
         mBtnCountryCode.setOnClickListener(this);
-        mEdtNumber = view.findViewById(us.zoom.videomeetings.R.id.edtNumber);
-        mEdtCode = view.findViewById(us.zoom.videomeetings.R.id.edtCode);
-        mBtnVerify = view.findViewById(us.zoom.videomeetings.R.id.btnVerify);
+        mEdtNumber = view.findViewById(R.id.edtNumber);
+        mEdtCode = view.findViewById(R.id.edtCode);
+        mBtnVerify = view.findViewById(R.id.btnVerify);
         mBtnVerify.setOnClickListener(this);
-        mTxtSignInToJoin = view.findViewById(us.zoom.videomeetings.R.id.txtSignInToJoin);
-        mTxtPrivacy = view.findViewById(us.zoom.videomeetings.R.id.txtPrivacy);
+        mTxtSignInToJoin = view.findViewById(R.id.txtSignInToJoin);
+        mTxtPrivacy = view.findViewById(R.id.txtPrivacy);
         if (savedInstanceState == null) {
             loadDefaultNumber();
         } else {
@@ -185,11 +188,11 @@ public class RealNameAuthDialog extends ZMDialogFragment implements View.OnClick
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == us.zoom.videomeetings.R.id.btnClose) {
+        if (id == R.id.btnClose) {
             onClickClose();
-        } else if (id == us.zoom.videomeetings.R.id.btnVerify) {
+        } else if (id == R.id.btnVerify) {
             onClickVerify();
-        } else if (id == us.zoom.videomeetings.R.id.btnCountryCode) {
+        } else if (id == R.id.btnCountryCode) {
             onClickCountryCode();
         }
     }
@@ -206,10 +209,10 @@ public class RealNameAuthDialog extends ZMDialogFragment implements View.OnClick
             retrieveSMSVerificationCodeHandler = ZoomSDK.getInstance().getSmsService().getResendSMSVerificationCodeHandler();
         }
         if (null != retrieveSMSVerificationCodeHandler && retrieveSMSVerificationCodeHandler.retrieve(countryCode, number)) {
-            WaitingDialog dialog = WaitingDialog.newInstance(us.zoom.videomeetings.R.string.zm_msg_waiting);
+            WaitingDialog dialog = WaitingDialog.newInstance(R.string.zm_msg_waiting);
             dialog.show(getFragmentManager(), WaitingDialog.class.getName());
         } else {
-            SimpleMessageDialog dialog = SimpleMessageDialog.newInstance(us.zoom.videomeetings.R.string.zm_msg_verify_phone_number_failed);
+            SimpleMessageDialog dialog = SimpleMessageDialog.newInstance(R.string.zm_msg_verify_phone_number_failed);
             dialog.show(getFragmentManager(), SimpleMessageDialog.class.getName());
         }
         retrieveSMSVerificationCodeHandler = null;
@@ -250,15 +253,15 @@ public class RealNameAuthDialog extends ZMDialogFragment implements View.OnClick
         if (dialog != null)
             dialog.dismiss();
         if (result != MobileRTCSMSVerificationError.SMSVerificationCodeErr_Success) {
-            int resId = us.zoom.videomeetings.R.string.zm_msg_verify_send_sms_failed_109213;
+            int resId = R.string.zm_msg_verify_send_sms_failed_109213;
             if (result == MobileRTCSMSVerificationError.SMSVerificationCodeErr_Retrieve_InvalidPhoneNum) {
-                resId = us.zoom.videomeetings.R.string.zm_msg_verify_invalid_phone_num_109213;
+                resId = R.string.zm_msg_verify_invalid_phone_num_109213;
                 mZMVerifyCodeView.forceEnableSendCode();
             } else if (result == MobileRTCSMSVerificationError.SMSVerificationCodeErr_Retrieve_PhoneNumAlreadyBound) {
-                resId = us.zoom.videomeetings.R.string.zm_msg_verify_phone_num_already_bound_109213;
+                resId = R.string.zm_msg_verify_phone_num_already_bound_109213;
                 mZMVerifyCodeView.forceEnableSendCode();
             } else if (result == MobileRTCSMSVerificationError.SMSVerificationCodeErr_Retrieve_PhoneNumSendTooFrequent)
-                resId = us.zoom.videomeetings.R.string.zm_msg_verify_phone_num_send_too_frequent_109213;
+                resId = R.string.zm_msg_verify_phone_num_send_too_frequent_109213;
             SimpleMessageDialog simpleMessageDialog = SimpleMessageDialog.newInstance(resId);
             simpleMessageDialog.show(getFragmentManager(), SimpleMessageDialog.class.getName());
         }
@@ -288,9 +291,9 @@ public class RealNameAuthDialog extends ZMDialogFragment implements View.OnClick
             return;
         int msgId = -1;
         if (result == MobileRTCSMSVerificationError.SMSVerificationCodeErr_Verify_CodeIncorrect) {
-            msgId = us.zoom.videomeetings.R.string.zm_msg_error_verification_code_109213;
+            msgId = R.string.zm_msg_error_verification_code_109213;
         } else if (result == MobileRTCSMSVerificationError.SMSVerificationCodeErr_Verify_CodeExpired) {
-            msgId = us.zoom.videomeetings.R.string.zm_msg_expired_verification_code_109213;
+            msgId = R.string.zm_msg_expired_verification_code_109213;
         } else if (result == MobileRTCSMSVerificationError.SMSVerificationCodeErr_Verify_UnknownError || result == MobileRTCSMSVerificationError.SMSVerificationCodeErr_Success) {
             closeDialog();
             return;
@@ -299,7 +302,7 @@ public class RealNameAuthDialog extends ZMDialogFragment implements View.OnClick
             ZMAlertDialog alertDialog = new ZMAlertDialog.Builder(activity)
                     .setMessage(msgId)
                     .setCancelable(true)
-                    .setPositiveButton(us.zoom.videomeetings.R.string.zm_btn_ok, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.zm_btn_ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog,
                                             int which) {
@@ -325,7 +328,7 @@ public class RealNameAuthDialog extends ZMDialogFragment implements View.OnClick
             UIUtil.closeSoftKeyboard(getActivity(), getView());
         }
 
-        WaitingDialog dialog = WaitingDialog.newInstance(us.zoom.videomeetings.R.string.zm_msg_waiting);
+        WaitingDialog dialog = WaitingDialog.newInstance(R.string.zm_msg_waiting);
         dialog.show(getFragmentManager(), WaitingDialog.class.getName());
 
         if(null==verifySMSVerificationCodeHandler)
@@ -370,7 +373,7 @@ public class RealNameAuthDialog extends ZMDialogFragment implements View.OnClick
         if (StringUtil.isEmptyOrNull(privacyUrl))
             return;
 
-        ZMWebPageUtil.startWebPage(this, privacyUrl, getString(us.zoom.videomeetings.R.string.zm_title_privacy_policy));
+        ZMWebPageUtil.startWebPage(this, privacyUrl, getString(R.string.zm_title_privacy_policy));
     }
 
     private void onClickClose() {
@@ -381,10 +384,10 @@ public class RealNameAuthDialog extends ZMDialogFragment implements View.OnClick
 
     private void setUpView() {
         ZMSpanny spanny;
-        String tempStr = getString(us.zoom.videomeetings.R.string.zm_title_privacy_policy);
-        spanny = new ZMSpanny(getString(us.zoom.videomeetings.R.string.zm_lbl_cn_join_meeting_privacy_109213, tempStr));
+        String tempStr = getString(R.string.zm_title_privacy_policy);
+        spanny = new ZMSpanny(getString(R.string.zm_lbl_cn_join_meeting_privacy_109213, tempStr));
         spanny.setSpans(tempStr, new StyleSpan(Typeface.BOLD),
-                new ForegroundColorSpan(getResources().getColor(us.zoom.videomeetings.R.color.zm_ui_kit_color_blue_0E71EB)),
+                new ForegroundColorSpan(getResources().getColor(R.color.zm_ui_kit_color_blue_0E71EB)),
                 new RelativeSizeSpan(1.2f), new ClickableSpan() {
                     @Override
                     public void onClick(@NonNull View widget) {

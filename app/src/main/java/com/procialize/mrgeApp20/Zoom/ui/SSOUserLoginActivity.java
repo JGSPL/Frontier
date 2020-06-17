@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Zoom.startjoinmeeting.UserLoginCallback;
 

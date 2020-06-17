@@ -877,20 +877,24 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
     public void PostLike(String reaction_type, String eventid, String feedid, String token) {
 //        showProgress();
-        mAPIService.NewsFeedReaction(reaction_type, eventid, feedid, token).enqueue(new Callback<LikePost>() {
+        mAPIService.postLike(eventid, feedid, token).enqueue(new Callback<LikePost>() {
             @Override
             public void onResponse(Call<LikePost> call, Response<LikePost> response) {
+
                 if (response.isSuccessful()) {
-                    Log.i("hit", "post submitted to API." + response.toString());
+                    Log.i("hit", "post submitted to API." + response.body().toString());
+                    dismissProgress();
                     showPostlikeresponse(response);
                 } else {
-                    Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                    dismissProgress();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<LikePost> call, Throwable t) {
-                Log.e("hit", "Unable to submit post to API.");
+                Toast.makeText(getActivity(), "Low network or no network", Toast.LENGTH_SHORT).show();
+                dismissProgress();
             }
         });
     }

@@ -2,7 +2,6 @@ package com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.remo
 
 import android.util.Log;
 
-
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.view.share.CustomShareView;
 
 import us.zoom.sdk.InMeetingRemoteController;

@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
-
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.view.adapter.CameraMenuItem;
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.view.adapter.SimpleMenuAdapter;
@@ -21,6 +20,7 @@ import java.util.List;
 import us.zoom.sdk.CameraDevice;
 import us.zoom.sdk.InMeetingVideoController;
 import us.zoom.sdk.ZoomSDK;
+
 
 public class MeetingVideoHelper {
 

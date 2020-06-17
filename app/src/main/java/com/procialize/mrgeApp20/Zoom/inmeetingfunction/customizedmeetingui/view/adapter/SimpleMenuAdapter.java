@@ -6,9 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.procialize.mrgeApp20.R;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 /**

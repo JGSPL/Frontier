@@ -2,13 +2,11 @@ package com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.vide
 
 import android.util.Log;
 
-
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.BaseCallback;
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.BaseEvent;
 import com.procialize.mrgeApp20.Zoom.inmeetingfunction.customizedmeetingui.SimpleInMeetingListener;
 
 import us.zoom.sdk.ZoomSDK;
-
 
 
 public class MeetingVideoCallback extends BaseCallback<MeetingVideoCallback.VideoEvent> {

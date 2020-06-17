@@ -153,7 +153,26 @@ public class ActivityBuddyChat extends AppCompatActivity {
         sub_title = findViewById(R.id.sub_title);
 
         title.setText(name);
-        sub_title.setText(designation + " - " + city);
+        if(designation!=null)
+        {
+            sub_title.setText(designation);
+        }
+
+        if(city!=null)
+        {
+            sub_title.setText(city);
+        }
+
+        if(designation!=null && city != null) {
+            sub_title.setText(designation + " - " + city);
+        }
+        else
+        {
+            sub_title.setText("");
+        }
+
+
+
 
         procializeDB = new DBHelper(this);
         db = procializeDB.getWritableDatabase();
@@ -356,11 +375,6 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 }
                 Collections.reverse(chat_lists);
                 pageNumber = 1;
-
-                SharedPreferences prefs = getSharedPreferences("chat", MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("sender_id", chat_lists.get(0).getSender_id());
-                editor.commit();
 
                 liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists, attendeeid);
                 liveChatAdapter.notifyDataSetChanged();

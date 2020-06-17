@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.procialize.mrgeApp20.R;
 
 import java.util.ArrayList;
