@@ -195,11 +195,14 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             side_menu_feedback = "0", side_menu_gallery_video = "0", gallery_video_native = "0", gallery_video_youtube = "0",
             side_menu_image_gallery = "0", selfie_contest = "0", video_contest = "0",
             side_menu_event_info = "0", side_menu_document = "0", side_menu_engagement = "0",
-            news_feed_video = "0", QA_speaker = "0", QA_direct = "0", QA_session = "0", side_menu_attendee = "0", side_menu_speaker = "0", side_menu_agenda = "0",
+             QA_speaker = "0", QA_direct = "0", QA_session = "0", side_menu_attendee = "0", side_menu_speaker = "0", side_menu_agenda = "0",
             side_menu_general_info = "0", edit_profile_company = "0", edit_profile_designation = "0",
             side_menu_contact = "0", side_menu_email = "0", side_menu_leaderboard = "0", side_menu_exhibitor = "0",
             side_menu_sponsor = "0";
     String news_feed = "0", edit_profile = "0", general_ifo = "0", main_tab_exhibitor = "0";
+
+    String news_feed_post = "0", news_feed_images = "0", news_feed_video = "0", news_feed_comment = "0",
+            news_feed_like="0", news_feed_share="0", news_feed_gif="0";
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
     String MY_EVENT = "EventId";
@@ -1599,10 +1602,36 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     video_contest = eventSettingLists.get(i).getFieldValue();
                 } else if (eventSettingLists.get(i).getFieldName().equals("side_menu_document")) {
                     side_menu_document = eventSettingLists.get(i).getFieldValue();
-                } else if (eventSettingLists.get(i).getFieldName().equals("news_feed_video")) {
+                } /*else if (eventSettingLists.get(i).getFieldName().equals("news_feed_video")) {
                     news_feed_video = eventSettingLists.get(i).getFieldValue();
-                } else if (eventSettingLists.get(i).getFieldName().equals("news_feed")) {
+                }*/
+
+                else if (eventSettingLists.get(i).getFieldName().equals("news_feed")) {
                     news_feed = eventSettingLists.get(i).getFieldValue();
+                    if (eventSettingLists.get(i).getSub_menuList() != null) {
+                        if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                            for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                                if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_post")) {
+
+                                    news_feed_post = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_images")) {
+                                    news_feed_images = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_video")) {
+                                    news_feed_video = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_comment")) {
+                                    news_feed_comment = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_like")) {
+                                    news_feed_like = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_share")) {
+                                    news_feed_share = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_gif")) {
+                                    news_feed_gif = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }
+                            }
+                        }
+                    }
+
+
                 } else if (eventSettingLists.get(i).getFieldName().equals("main_tab_attendee")) {
                     attendee = eventSettingLists.get(i).getFieldValue();
                 } else if (eventSettingLists.get(i).getFieldName().equals("main_tab_speaker")) {

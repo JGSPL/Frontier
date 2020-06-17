@@ -86,10 +86,10 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
     APIService mAPIService;
     SessionManager sessionManager;
     float p1;
-    String news_feed_like = "", news_feed_comment = "", news_feed_share = "";
+    String news_feed_like = "0", news_feed_comment = "0", news_feed_share = "0";
     // List<EventSettingList> eventSettingLists;
     HashMap<String, String> user;
-    String news_feed_post = "1", news_feed_images = "1", news_feed_video = "1", designatio = "1", company = "1";
+    String news_feed_post = "1", news_feed_images = "1", news_feed_video = "1", designatio = "1", company = "1", news_feed_gif = "0";
     String topMgmtFlag;
     Boolean value;
     String MY_PREFS_NAME = "ProcializeInfo";
@@ -1002,7 +1002,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
         for (int i = 0; i < eventSettingLists.size(); i++) {
 
-            if (eventSettingLists.get(i).getFieldName().equals("news_feed_like")) {
+           /* if (eventSettingLists.get(i).getFieldName().equals("news_feed_like")) {
                 news_feed_like = eventSettingLists.get(i).getFieldValue();
             }
 
@@ -1022,6 +1022,39 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("news_feed_images")) {
                 news_feed_images = eventSettingLists.get(i).getFieldValue();
             }
+            if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("edit_profile_designation")) {
+                designatio = eventSettingLists.get(i).getFieldValue();
+            }
+            if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("edit_profile_company")) {
+                company = eventSettingLists.get(i).getFieldValue();
+            }*/
+            if (eventSettingLists.get(i).getFieldName().equals("news_feed")) {
+                if (eventSettingLists.get(i).getSub_menuList() != null) {
+                    if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                        for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                            if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_post")) {
+
+                                news_feed_post = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_images")) {
+                                news_feed_images = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_video")) {
+                                news_feed_video = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_comment")) {
+                                news_feed_comment = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_like")) {
+                                news_feed_like = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_share")) {
+                                news_feed_share = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_gif")) {
+                                news_feed_gif = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
             if (eventSettingLists.get(i).getFieldName().equalsIgnoreCase("edit_profile_designation")) {
                 designatio = eventSettingLists.get(i).getFieldValue();
             }
