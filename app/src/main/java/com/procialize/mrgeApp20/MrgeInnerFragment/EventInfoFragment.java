@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -104,6 +105,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     private List<EventList> eventList;
     private List<EventList> eventDBList;
     private List<SponsorsList> sponsorDBList;
+    Boolean isVisible = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -912,9 +914,29 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onPause() {
         super.onPause();
-
+        if (getUserVisibleHint() && !isVisible) {
+            Log.e("~~onResume: ", "::onLatestResume");
+            //your code
+        }
+        isVisible = true;
         JzvdStd.releaseAllVideos();
 
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser && isVisible) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //your code
+                }
+            }, 500);
+
+        }
     }
 
 }

@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -74,7 +78,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
     ImageView headerlogoIv;
     TextView txtEmpty, nmtxt, pullrefresh;
     LinearLayout linear;
-    EditText commentEt;
+   // EditText commentEt;
     ImageView commentBt;
     List<chat_list> chat_lists = new ArrayList<>();
     List<chat_list> chat_NewAdd = new ArrayList<>();
@@ -88,6 +92,13 @@ public class ActivityBuddyChat extends AppCompatActivity {
     ConnectionDetector cd;
     private String userId,chat_with_id,attendeeid, name, city, country, company, designation, description, totalrating, profile, mobile;
     private APIService mAPIService;
+
+
+    EmojiconEditText commentEt;
+    EmojiconTextView textView;
+    ImageView emojiImageView;
+    View rootView;
+    EmojIconActions emojIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,9 +217,11 @@ public class ActivityBuddyChat extends AppCompatActivity {
         qaRvrefresh = findViewById(R.id.qaRvrefresh);
         qaRv = findViewById(R.id.qaRv);
         txtEmpty = findViewById(R.id.txtEmpty);
-        commentEt = findViewById(R.id.commentEt);
+        //commentEt = findViewById(R.id.commentEt);
         commentBt = findViewById(R.id.commentBt);
-
+        rootView = findViewById(R.id.root_view);
+        commentEt = (EmojiconEditText) findViewById(R.id.commentEt);
+        emojiImageView = (ImageView) findViewById(R.id.emoji_btn);
         mAPIService = ApiUtils.getBuddyAPIService();
 
         SessionManager sessionManager = new SessionManager(ActivityBuddyChat.this);
@@ -245,6 +258,22 @@ public class ActivityBuddyChat extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        emojIcon = new EmojIconActions(this, rootView,commentEt, emojiImageView);
+        emojIcon.ShowEmojIcon();
+        emojIcon.setIconsIds(R.drawable.ic_action_keyboard, R.drawable.smiley);
+        emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
+            @Override
+            public void onKeyboardOpen() {
+               // Log.e(TAG, "Keyboard opened!");
+            }
+
+            @Override
+            public void onKeyboardClose() {
+              //  Log.e(TAG, "Keyboard closed");
+            }
+        });
+
 
         commentBt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -366,6 +395,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
             // page = response.body().getData_pages();
 
             if (!(response.body().getChatList().isEmpty())) {
+
                 /*for(int i=0;i<response.body().getChatList().size();i++) {
                     chat_lists.add(response.body().getChatList().get(i));
                 }*/

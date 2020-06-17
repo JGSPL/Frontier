@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,6 +87,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.AgendaAdap
     private List<AgendaList> agendaDBList;
     private DBHelper dbHelper;
     LinearLayout linear;
+    Boolean isVisible = false;
 
     public AgendaFragment() {
         // Required empty public constructor
@@ -223,15 +226,36 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.AgendaAdap
                 }
             }
         });
-       /* GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
-                eventid,
-                ApiConstant.pageVisited,
-                "14",
-                "");
-        getUserActivityReport.userActivityReport();*/
 
         return view;
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser ) {
+           /* if (cd.isConnectingToInternet()) {
+
+                fetchAgenda(token, eventid);
+            } else {
+                db = procializeDB.getReadableDatabase();
+
+                agendaDBList = dbHelper.getAgendaDetails();
+                // specify an adapter (see also next example)
+                AgendaAdapter agendaAdapter = new AgendaAdapter(getActivity(), agendaDBList, this);
+                agendaAdapter.notifyDataSetChanged();
+                agendarecycler.setAdapter(agendaAdapter);
+//            agendarecycler.scheduleLayoutAnimation();
+                progressBar.setVisibility(View.GONE);
+
+                if (agendafeedrefresh.isRefreshing()) {
+                    agendafeedrefresh.setRefreshing(false);
+                }
+            }*/
+
+        }
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -427,6 +451,5 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.AgendaAdap
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 
 }

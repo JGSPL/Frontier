@@ -21,6 +21,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -135,6 +136,7 @@ import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Speaker.Views.SpeakerFragment;
 import com.procialize.mrgeApp20.Utility.KeyboardUtility;
+import com.procialize.mrgeApp20.Utility.CustomViewPagerTab;
 import com.procialize.mrgeApp20.Utility.PlayerConfig;
 import com.procialize.mrgeApp20.Utility.Res;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -253,7 +255,8 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     private String folder = "0", image_gallery = "0", document_download = "0", video_gallery = "0";
     private Toolbar toolbar;
     private TabLayout tabLayout;
-    private CustomViewPager viewPager, Subviewpager, Subviewpager2, Subviewpager3;
+    private CustomViewPager viewPager;
+    private CustomViewPager  Subviewpager, Subviewpager2, Subviewpager3;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private APIService mAPIService;
@@ -621,15 +624,22 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         // activity_spring_indicator_indicator_default = findViewById(R.id.activity_spring_indicator_indicator_default);
 
-        viewPager.setPagingEnabled(false);
+      //  viewPager.setPagingEnabled(false);
         setupViewPager(viewPager);
 
-        Subviewpager.setPagingEnabled(false);
-        Subviewpager3.setPagingEnabled(false);
+       // Subviewpager.setPagingEnabled(false);
+        //Subviewpager3.setPagingEnabled(false);
+        viewPager.setPageTransformer(false, new NoPageTransformer());
+        Subviewpager.setPageTransformer(false, new NoPageTransformer());
+        Subviewpager2.setPageTransformer(false, new NoPageTransformer());
+        Subviewpager3.setPageTransformer(false, new NoPageTransformer());
+
 
         Sub2setupViewPager(Subviewpager);
         Sub3setupViewPager(Subviewpager2);
         Sub4setupViewPager(Subviewpager3);
+
+
 
         if (flag == 0) {
             viewPager.setCurrentItem(0);
@@ -643,6 +653,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
         setupTabIcons();
         tabLayout.setTabTextColors(Color.parseColor("#ffffff"), Color.parseColor("#ffffff"));
 
@@ -1120,7 +1131,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
     }
 
-    private void Sub2setupViewPager(ViewPager viewPager) {
+    private void Sub2setupViewPager(ViewGroup viewPager) {
 
         viewPagerAdapterSub2 = new ViewPagerAdapterSub(getSupportFragmentManager());
         if (event_info.equalsIgnoreCase("1")) {
@@ -4570,5 +4581,17 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         getUserActivityReport.userActivityReport();
         //--------------------------------------------------------------------------------------
         Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
+    }
+
+    private static class NoPageTransformer implements ViewPager.PageTransformer {
+        public void transformPage(View view, float position) {
+            if (position < 0) {
+                view.setScrollX((int)((float)(view.getWidth()) * position));
+            } else if (position > 0) {
+                view.setScrollX(-(int) ((float) (view.getWidth()) * -position));
+            } else {
+                view.setScrollX(0);
+            }
+        }
     }
 }
