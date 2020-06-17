@@ -55,6 +55,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
+import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,7 +78,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
     TextView txtEmpty, nmtxt,pullrefresh;
     private APIService mAPIService;
     LinearLayout linear;
-    EditText commentEt;
+    //EditText commentEt;
     ImageView commentBt;
     public static String chat_id = "0";
     List<chat_list> chat_lists = new ArrayList<>();
@@ -90,6 +92,12 @@ public class AttendeeChatActivity extends AppCompatActivity {
     IntentFilter spotChatFilter;
     DBHelper procializeDB;
     SQLiteDatabase db;
+
+    EmojiconEditText commentEt;
+    EmojiconTextView textView;
+    ImageView emojiImageView;
+    View rootView;
+    EmojIconActions emojIcon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -193,9 +201,12 @@ public class AttendeeChatActivity extends AppCompatActivity {
         qaRvrefresh = findViewById(R.id.qaRvrefresh);
         qaRv = findViewById(R.id.qaRv);
         txtEmpty = findViewById(R.id.txtEmpty);
-        commentEt = findViewById(R.id.commentEt);
+        //commentEt = findViewById(R.id.commentEt);
         commentBt = findViewById(R.id.commentBt);
-
+        commentBt = findViewById(R.id.commentBt);
+        rootView = findViewById(R.id.root_view);
+        commentEt = (EmojiconEditText) findViewById(R.id.commentEt);
+        emojiImageView = (ImageView) findViewById(R.id.emoji_btn);
         mAPIService = ApiUtils.getAPIService();
 
         SessionManager sessionManager = new SessionManager(AttendeeChatActivity.this);
@@ -219,10 +230,20 @@ public class AttendeeChatActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-       /* EmojIconActions emojIcon= new EmojIconActions(this, rootView, emojiconEditText,
-                emojiImageView); 
+        emojIcon = new EmojIconActions(this, rootView,commentEt, emojiImageView);
+        emojIcon.ShowEmojIcon();
+        emojIcon.setIconsIds(R.drawable.ic_action_keyboard, R.drawable.smiley);
+        emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
+            @Override
+            public void onKeyboardOpen() {
+                // Log.e(TAG, "Keyboard opened!");
+            }
 
-        emojIcon.ShowEmojIcon();  */
+            @Override
+            public void onKeyboardClose() {
+                //  Log.e(TAG, "Keyboard closed");
+            }
+        });
 
 
         commentBt.setOnClickListener(new View.OnClickListener() {
