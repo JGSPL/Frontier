@@ -166,7 +166,7 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
             holder.btnAccept.setVisibility(View.VISIBLE);
             holder.btnReject.setVisibility(View.VISIBLE);
             holder.ic_rightarrow.setVisibility(View.GONE);
-        }else{
+        }else if(attendee.getRequest_type().equalsIgnoreCase("friends")){
             holder.btnCancel.setVisibility(View.GONE);
             holder.btnAccept.setVisibility(View.INVISIBLE);
             holder.btnReject.setVisibility(View.INVISIBLE);

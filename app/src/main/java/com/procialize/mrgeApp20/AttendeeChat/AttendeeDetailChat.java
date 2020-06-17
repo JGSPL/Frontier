@@ -238,6 +238,14 @@ public class AttendeeDetailChat extends AppCompatActivity {
                 imgBuddy.setVisibility(View.GONE);
                 txtRemove.setVisibility(View.GONE);
 
+            }else if (buddy_status.equalsIgnoreCase("request_received")) {
+                saveContact.setText("Request sent");
+                linsave.setBackgroundColor(Color.parseColor(colorActive));
+                saveContact.setBackgroundColor(Color.parseColor(colorActive));
+                saveContact.setTextColor(Color.parseColor("#ffffff"));
+                imgBuddy.setVisibility(View.GONE);
+                txtRemove.setVisibility(View.GONE);
+
             }
         }
 
