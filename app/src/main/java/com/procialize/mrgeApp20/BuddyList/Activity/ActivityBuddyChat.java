@@ -583,15 +583,15 @@ public class ActivityBuddyChat extends AppCompatActivity {
             if (BuddyId.equalsIgnoreCase(attendeeid)) {
                 if (SpotChat != null) {
                     if (SpotChat.equalsIgnoreCase("chat")) {
-                        new Handler().postDelayed(new Runnable() {
+                       /* new Handler().postDelayed(new Runnable() {
 
                             @Override
                             public void run() {
                                 UserChatHistoryRefresh(eventid, token, attendeeid, "1");
                             }
-                        }, 3000);
+                        }, 300);*/
 
-                        // UserChatHistoryRefresh(eventid, token, attendeeid, "1");
+                         UserChatHistoryRefresh(eventid, token, attendeeid, "1");
                         SpotChat = "S";
                         pageNumber = 1;
                         procializeDB.setBuddyChatUnreadMessageCountToZero(attendeeid);

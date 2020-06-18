@@ -329,15 +329,15 @@ public class AttendeeChatActivity extends AppCompatActivity {
             if(BuddyId.equalsIgnoreCase(attendeeid)) {
                 if (SpotEventChat != null) {
                     if (SpotEventChat.equalsIgnoreCase("Eventchat")) {
-                        new Handler().postDelayed(new Runnable() {
+                       /* new Handler().postDelayed(new Runnable() {
 
                             @Override
                             public void run() {
                                 UserChatHistoryRefresh(eventid, token, attendeeid, "1");
                             }
-                        }, 3000);
+                        }, 300);*/
 
-                        //UserChatHistoryRefresh(eventid, token, attendeeid, "1");
+                    UserChatHistoryRefresh(eventid, token, attendeeid, "1");
                         SpotEventChat = "S";
                         pageNumber = 1;
 
