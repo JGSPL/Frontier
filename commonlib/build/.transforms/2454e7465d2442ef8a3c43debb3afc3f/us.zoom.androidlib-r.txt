@@ -386,6 +386,7 @@ attr selectableItemBackground
 attr selectableItemBackgroundBorderless
 attr showAsAction
 attr showDividers
+attr showLink
 attr showMotionSpec
 attr showText
 attr showTitle
@@ -829,6 +830,58 @@ color zm_ui_kit_color_yellow_FAE280
 color zm_ui_kit_color_yellow_FF742E
 color zm_ui_kit_color_yellow_FF742E_disable
 color zm_ui_kit_color_yellow_FF742E_press
+color zm_v2_avatar_border
+color zm_v2_bg_pressed
+color zm_v2_bg_red
+color zm_v2_blue_disable
+color zm_v2_blue_normal
+color zm_v2_blue_on_dark
+color zm_v2_blue_pressed
+color zm_v2_border_disabled
+color zm_v2_bottom_sheet_top_bar
+color zm_v2_btn_blue_normal
+color zm_v2_cell_divider
+color zm_v2_gray_E4E4ED
+color zm_v2_gray_bg
+color zm_v2_head
+color zm_v2_light_bg_normal
+color zm_v2_light_bg_ondark
+color zm_v2_light_bg_opaque
+color zm_v2_light_bg_selected
+color zm_v2_light_blue
+color zm_v2_msg_bg_from
+color zm_v2_orange
+color zm_v2_plist_item_guest_bg
+color zm_v2_plist_item_normal_bg
+color zm_v2_qa_tab_bg
+color zm_v2_qa_tab_text_selected
+color zm_v2_qa_tab_text_unselected
+color zm_v2_schedule_btn_fill
+color zm_v2_schedule_btn_fill_disabled
+color zm_v2_schedule_btn_stroke
+color zm_v2_schedule_btn_stroke_disabled
+color zm_v2_schedule_btn_text
+color zm_v2_schedule_label
+color zm_v2_star
+color zm_v2_svg_setting_divider
+color zm_v2_svg_setting_option
+color zm_v2_svg_wlc_bg_color_1
+color zm_v2_svg_wlc_bg_color_2
+color zm_v2_svg_wlc_bg_color_3
+color zm_v2_svg_wlc_bg_color_4
+color zm_v2_tab
+color zm_v2_txt_action
+color zm_v2_txt_action_disable
+color zm_v2_txt_desctructive
+color zm_v2_txt_primary
+color zm_v2_txt_primary_light
+color zm_v2_txt_primary_ondark
+color zm_v2_txt_secondary
+color zm_v2_txt_secondary_ondark
+color zm_v2_txt_success
+color zm_v2_waiting_room_button_bg
+color zm_v2_waiting_room_button_content
+color zm_v2_window_gb
 color zm_warn
 color zm_warn_pressed
 color zm_white
@@ -2524,6 +2577,7 @@ styleable ZMMenuListView zm_auto_compute_width
 styleable ZMSegmentTabLayout zm_bar_color zm_bar_stroke_color zm_bar_stroke_width zm_divider_color zm_divider_padding zm_divider_width zm_indicator_color zm_indicator_corner_radius zm_indicator_height zm_indicator_margin_bottom zm_indicator_margin_left zm_indicator_margin_right zm_indicator_margin_top zm_tab_padding zm_tab_width zm_textBold zm_textSelectColor zm_textUnselectColor zm_textsize
 styleable ZMSettingsCategory zm_bottomDivider zm_centerDivider zm_dividerHeight zm_seetingsItemMinHeight zm_settingsCategoryBackground zm_settingsItemSelector zm_showBottomDivider zm_showCenterDivider zm_showTopDivider zm_topDivider
 styleable ZMSettingsLayout zm_settingsCategorySpacing
+styleable ZMTextView showLink
 styleable ZMTip zm_background zm_backgroundColorIfHardwareAccelerated zm_borderColor zm_shadowColor
 styleable ZMToolbarLayout zm_show_child_number
 styleable ZMUpArrowView zm_up_arrow_divider_color zm_up_arrow_divider_height zm_up_arrow_left_delta zm_up_arrow_width

@@ -418,6 +418,9 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                     attendeetail.putExtra("designation", notification.getDesignation());
                     attendeetail.putExtra("description", attendeeDBList.get(0).getDescription());
                     attendeetail.putExtra("profile", notification.getProfilePic());
+                    attendeetail.putExtra("mobile", attendeeDBList.get(0).getMobile());
+                    attendeetail.putExtra("buddy_status", attendeeDBList.get(0).getBuddy_status());
+
                     startActivity(attendeetail);
                 } else {
                     Intent attendeetail = new Intent(this, AttendeeDetailActivity.class);
@@ -429,6 +432,9 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                     attendeetail.putExtra("designation", notification.getDesignation());
                     attendeetail.putExtra("description", "");
                     attendeetail.putExtra("profile", notification.getProfilePic());
+                    attendeetail.putExtra("mobile", " ");
+                    attendeetail.putExtra("buddy_status", " ");
+
                     startActivity(attendeetail);
                 }
 
@@ -572,6 +578,9 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
             attendeetail.putExtra("designation", notificationList.getDesignation());
             attendeetail.putExtra("description", attendeeDBList.get(0).getDescription());
             attendeetail.putExtra("profile", notificationList.getProfilePic());
+            attendeetail.putExtra("mobile", attendeeDBList.get(0).getMobile());
+            attendeetail.putExtra("buddy_status", attendeeDBList.get(0).getBuddy_status());
+
             startActivity(attendeetail);
         } else {
             Intent attendeetail = new Intent(this, AttendeeDetailActivity.class);
@@ -583,6 +592,9 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
             attendeetail.putExtra("designation", notificationList.getDesignation());
             attendeetail.putExtra("description", "");
             attendeetail.putExtra("profile", notificationList.getProfilePic());
+            attendeetail.putExtra("mobile", " ");
+            attendeetail.putExtra("buddy_status", " ");
+
             startActivity(attendeetail);
         }
 

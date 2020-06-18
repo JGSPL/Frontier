@@ -65,23 +65,23 @@
             android:layout_marginTop="0dp"
             android:orientation="vertical">
 
-            <com.zipow.videobox.view.TextViewFixTouchConsume
+            <us.zoom.androidlib.widget.ZMTextView
                 android:id="@+id/txtMessage"
                 style="@style/ZMTextView.MMMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:autoLink="all"
+                app:showLink="true"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="left|center_vertical"
                 android:maxWidth="@dimen/zm_mm_bubble_width" />
 
-            <com.zipow.videobox.view.TextViewFixTouchConsume
+            <us.zoom.androidlib.widget.ZMTextView
                 android:id="@+id/txtMessageForBigEmoji"
                 style="@style/ZMTextView.MMMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:autoLink="all"
+                app:showLink="true"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="left|center_vertical"

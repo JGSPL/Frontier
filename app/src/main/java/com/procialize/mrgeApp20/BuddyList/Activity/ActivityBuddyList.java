@@ -264,7 +264,15 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                attendeeAdapter.getFilter().filter(s.toString());
+                //attendeeAdapter.getFilter().filter(s.toString());
+                if (attendeeAdapter != null) {
+                    try {
+                        attendeeAdapter.getFilter().filter(s.toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
             }
         });
 

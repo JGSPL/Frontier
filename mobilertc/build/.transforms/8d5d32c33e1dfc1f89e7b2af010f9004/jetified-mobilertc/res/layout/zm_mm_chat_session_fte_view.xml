@@ -5,12 +5,11 @@
     android:orientation="vertical"
     android:gravity="center"
     >
-    <com.zipow.videobox.view.TextViewFixTouchConsume
+    <com.zipow.videobox.view.EmojiTextView
         android:id="@+id/txtMessage"
         style="@style/ZMTextView.MMMessage.OnDark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autoLink="all"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"

@@ -76,7 +76,6 @@
                     android:textColorHint="@color/zm_text_deep_grey"
                     android:maxLength="500"
                     android:inputType="textMultiLine|textCapSentences"
-                    android:autoLink="all"
                     android:gravity="left"
                     android:text="">
                 </EditText>

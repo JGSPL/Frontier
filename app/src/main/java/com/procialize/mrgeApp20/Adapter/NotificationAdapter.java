@@ -187,7 +187,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                                     intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
                                                     intent.putExtra("description", attendeeDBList.get(0).getDescription());
                                                     intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
+                                                    intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
                                                     intent.putExtra("buddy_status", attendeeDBList.get(0).getBuddy_status());
+
                                                     context.startActivity(intent);
                                                 }
                                             }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -239,7 +241,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                                     intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
                                                     intent.putExtra("description", attendeeDBList.get(0).getDescription());
                                                     intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
+                                                    intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
                                                     intent.putExtra("buddy_status", attendeeDBList.get(0).getBuddy_status());
+
                                                     context.startActivity(intent);
                                                 }
                                             }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
