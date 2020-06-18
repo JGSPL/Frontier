@@ -113,6 +113,58 @@
     <color name="zm_ui_kit_color_yellow_FF742E">#FF742E</color>
     <color name="zm_ui_kit_color_yellow_FF742E_disable">#67FF742E</color>
     <color name="zm_ui_kit_color_yellow_FF742E_press">#E05810</color>
+    <color name="zm_v2_avatar_border">#E5E5ED</color>
+    <color name="zm_v2_bg_pressed">#45525280</color>
+    <color name="zm_v2_bg_red">#DE2828</color>
+    <color name="zm_v2_blue_disable">#172E2E2E</color>
+    <color name="zm_v2_blue_normal">#0E72ED</color>
+    <color name="zm_v2_blue_on_dark">#0862d1</color>
+    <color name="zm_v2_blue_pressed">#0C63CE</color>
+    <color name="zm_v2_border_disabled">#909096</color>
+    <color name="zm_v2_bottom_sheet_top_bar">#F5F5F5</color>
+    <color name="zm_v2_btn_blue_normal">#0E71EB</color>
+    <color name="zm_v2_cell_divider">#EDEDF4</color>
+    <color name="zm_v2_gray_E4E4ED">#E4E4ED</color>
+    <color name="zm_v2_gray_bg">#F3F3F6</color>
+    <color name="zm_v2_head">#39394D</color>
+    <color name="zm_v2_light_bg_normal">#17525280</color>
+    <color name="zm_v2_light_bg_ondark">#17FFFFFF</color>
+    <color name="zm_v2_light_bg_opaque">#efeff3</color>
+    <color name="zm_v2_light_bg_selected">#2E525280</color>
+    <color name="zm_v2_light_blue">#E7F1FD</color>
+    <color name="zm_v2_msg_bg_from">#F2F2F7</color>
+    <color name="zm_v2_orange">#F26D21</color>
+    <color name="zm_v2_plist_item_guest_bg">#FFF7F4</color>
+    <color name="zm_v2_plist_item_normal_bg">#00FFFFFF</color>
+    <color name="zm_v2_qa_tab_bg">#0E72ED</color>
+    <color name="zm_v2_qa_tab_text_selected">#F5F5F5</color>
+    <color name="zm_v2_qa_tab_text_unselected">#747487</color>
+    <color name="zm_v2_schedule_btn_fill">#00FFFFFF</color>
+    <color name="zm_v2_schedule_btn_fill_disabled">#909096</color>
+    <color name="zm_v2_schedule_btn_stroke">#0E72ED</color>
+    <color name="zm_v2_schedule_btn_stroke_disabled">#990E72ED</color>
+    <color name="zm_v2_schedule_btn_text">#0E72ED</color>
+    <color name="zm_v2_schedule_label">#F9F9F9</color>
+    <color name="zm_v2_star">#FAAC2A</color>
+    <color name="zm_v2_svg_setting_divider">#CCCCCC</color>
+    <color name="zm_v2_svg_setting_option">#FFFFFF</color>
+    <color name="zm_v2_svg_wlc_bg_color_1">#FCFCFF</color>
+    <color name="zm_v2_svg_wlc_bg_color_2">#E4E4EE</color>
+    <color name="zm_v2_svg_wlc_bg_color_3">#808094</color>
+    <color name="zm_v2_svg_wlc_bg_color_4">#BCBCD0</color>
+    <color name="zm_v2_tab">#00000000</color>
+    <color name="zm_v2_txt_action">#0E72ED</color>
+    <color name="zm_v2_txt_action_disable">#990E72ED</color>
+    <color name="zm_v2_txt_desctructive">#DE2828</color>
+    <color name="zm_v2_txt_primary">#222230</color>
+    <color name="zm_v2_txt_primary_light">#222230</color>
+    <color name="zm_v2_txt_primary_ondark">#F5F5F5</color>
+    <color name="zm_v2_txt_secondary">#8F040413</color>
+    <color name="zm_v2_txt_secondary_ondark">#8AFFFFFF</color>
+    <color name="zm_v2_txt_success">#268543</color>
+    <color name="zm_v2_waiting_room_button_bg">#F2F2F7</color>
+    <color name="zm_v2_waiting_room_button_content">#222230</color>
+    <color name="zm_v2_window_gb">#eeeef3</color>
     <color name="zm_warn">#fd3d39</color>
     <color name="zm_warn_pressed">#cd0d09</color>
     <color name="zm_white">#ffffff</color>
@@ -1050,6 +1102,9 @@
     </declare-styleable>
     <declare-styleable name="ZMSettingsLayout">
     	<attr format="dimension" name="zm_settingsCategorySpacing"/>
+    </declare-styleable>
+    <declare-styleable name="ZMTextView">
+        <attr format="boolean" name="showLink"/>
     </declare-styleable>
     <declare-styleable name="ZMTip">
     	<attr format="color" name="zm_borderColor"/>

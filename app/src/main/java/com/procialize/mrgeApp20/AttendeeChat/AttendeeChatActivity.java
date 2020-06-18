@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -328,7 +329,15 @@ public class AttendeeChatActivity extends AppCompatActivity {
             if(BuddyId.equalsIgnoreCase(attendeeid)) {
                 if (SpotEventChat != null) {
                     if (SpotEventChat.equalsIgnoreCase("Eventchat")) {
-                        UserChatHistoryRefresh(eventid, token, attendeeid, "1");
+                        new Handler().postDelayed(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                UserChatHistoryRefresh(eventid, token, attendeeid, "1");
+                            }
+                        }, 3000);
+
+                        //UserChatHistoryRefresh(eventid, token, attendeeid, "1");
                         SpotEventChat = "S";
                         pageNumber = 1;
 

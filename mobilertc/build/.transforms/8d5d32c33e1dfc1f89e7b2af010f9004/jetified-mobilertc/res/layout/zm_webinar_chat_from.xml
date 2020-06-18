@@ -40,7 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="65dp"
         android:layout_marginTop="2dp"
-        android:autoLink="all"
         android:background="@drawable/zm_webinar_message_in"
         android:duplicateParentState="false"
         android:text="This is webinar messageddddddddddddddddddddddddd\nThis is webinar message" />

@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
-            android:src="@drawable/zm_ic_e2e_meeting" />
+            android:src="@drawable/ic_encryption_ecb_on_dark" />
 
         <LinearLayout
             android:layout_width="match_parent"

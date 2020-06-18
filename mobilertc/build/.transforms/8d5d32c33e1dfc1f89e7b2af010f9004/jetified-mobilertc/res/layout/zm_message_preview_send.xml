@@ -62,12 +62,12 @@
                     android:background="@drawable/zm_chatto_bg"
                     android:orientation="vertical">
 
-                    <com.zipow.videobox.view.TextViewFixTouchConsume
+                    <com.zipow.videobox.view.EmojiTextView
                         android:id="@+id/txtMessage"
                         style="@style/ZMTextView.MMMessage.OnDark"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:autoLink="all"
+                        app:showLink="true"
                         android:clickable="true"
                         android:focusable="true"
                         android:gravity="left|center_vertical" />

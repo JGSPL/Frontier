@@ -27,6 +27,7 @@ import com.procialize.mrgeApp20.AttendeeChat.AttendeeChatActivity;
 import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyChat;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list_db;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
+import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -279,10 +280,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     // Put the message into a notification and post it.
     private void sendNotification(String messageBody, Bitmap image) {
 
-       /* Intent notificationIntent = new Intent(getApplicationContext(),
-                NotificationActivity.class);*/
         Intent notificationIntent = new Intent(getApplicationContext(),
-                SplashActivity.class);
+                NotificationActivity.class);
+       /* Intent notificationIntent = new Intent(getApplicationContext(),
+                SplashActivity.class);*/
         notificationIntent.putExtra("fromNotification", "fromNotification");
         notificationIntent.putExtra("type", "");
         notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK

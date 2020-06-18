@@ -61,7 +61,6 @@
             style="@style/ZMTextView.MMMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autoLink="all"
             android:focusable="false"
             android:gravity="left|center_vertical"
             tools:text="" />

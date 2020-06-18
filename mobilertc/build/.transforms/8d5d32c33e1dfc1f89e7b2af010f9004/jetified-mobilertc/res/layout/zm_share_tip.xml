@@ -43,6 +43,7 @@
             android:clickable="true"
             android:focusable="true"
             android:gravity="left|center_vertical"
+            android:visibility="gone"
             android:text="@string/zm_btn_share_box" />
 
         <TextView
@@ -54,6 +55,7 @@
             android:clickable="true"
             android:focusable="true"
             android:gravity="left|center_vertical"
+            android:visibility="gone"
             android:text="@string/zm_btn_share_dropbox" />
 
         <TextView
@@ -65,6 +67,7 @@
             android:clickable="true"
             android:focusable="true"
             android:gravity="left|center_vertical"
+            android:visibility="gone"
             android:text="@string/zm_btn_share_google_drive" />
 
         <TextView
@@ -76,6 +79,7 @@
             android:clickable="true"
             android:focusable="true"
             android:gravity="left|center_vertical"
+            android:visibility="gone"
             android:text="@string/zm_btn_share_one_drive" />
 
         <TextView
@@ -87,6 +91,7 @@
             android:clickable="true"
             android:focusable="true"
             android:gravity="left|center_vertical"
+            android:visibility="gone"
             android:text="@string/zm_btn_share_one_drive_business_36279" />
 
         <TextView

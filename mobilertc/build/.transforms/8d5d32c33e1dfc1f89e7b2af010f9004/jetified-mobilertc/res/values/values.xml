@@ -1236,7 +1236,7 @@
     <string name="zm_description_video_stopped">Your video is stopped</string>
     <string name="zm_dialog_pick_outbound_error_31444">Failed to pick outbound caller ID</string>
     <string name="zm_dialog_title_outbound_31444">Pick outbound caller ID</string>
-    <string name="zm_display_version">4.6.15086.0209</string>
+    <string name="zm_display_version">4.6.21666.0429</string>
     <string name="zm_download_failed_82691">Validation Failed</string>
     <string name="zm_download_success">Download Completed</string>
     <string name="zm_downloading">Downloading</string>
@@ -3483,7 +3483,7 @@
     <string name="zm_unstar_announcements_108966">Unstar Announcements</string>
     <string name="zm_unstar_contact_requests_83123">Unstar Contact Requests</string>
     <string name="zm_url_update">%s/support/download?os=android</string>
-    <string name="zm_version_name">4.6.15086.0209</string>
+    <string name="zm_version_name">4.6.21666.0429</string>
     <string name="zm_webinar_mi_allow_chat">Allow Attendee Chat</string>
     <string name="zm_webinar_mi_downgrade_to_attendee">Change to Attendee</string>
     <string name="zm_webinar_mi_promote_to_panelist">Promote to Panelist</string>

@@ -1835,7 +1835,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         boolean check = JzvdStd.backPress();
 
         if (check == true) {
-            youTubePlayer.release();
+            if(youTubePlayer!=null) {
+                youTubePlayer.release();
+            }
             JzvdStd.goOnPlayOnPause();
 
         } else {
@@ -1854,7 +1856,9 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
                                             int which) {
-                            youTubePlayer.release();
+                            if(youTubePlayer!=null) {
+                                youTubePlayer.release();
+                            }
                             ActivityCompat.finishAffinity(MrgeHomeActivity.this);
 
                         }
