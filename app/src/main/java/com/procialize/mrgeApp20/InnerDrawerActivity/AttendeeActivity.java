@@ -294,6 +294,7 @@ public class AttendeeActivity extends AppCompatActivity implements AttendeeAdapt
         attendeetail.putExtra("description", attendee.getDescription());
         attendeetail.putExtra("profile", attendee.getProfilePic());
         attendeetail.putExtra("mobile", attendee.getMobile());
+        attendeetail.putExtra("buddy_status", attendee.getBuddy_status());
 //                speakeretail.putExtra("totalrate",attendee.getTotalRating());
         startActivity(attendeetail);
     }

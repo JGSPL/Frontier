@@ -2554,6 +2554,40 @@ db.execSQL("create table " + BUDDY_CHAT_COUNT_TABLE_NAME + "("
     }
 
 
+    public List<AttendeeList> getAttendeeDetailsFromAttendeeId(String attendeeId) {
+        String selectQuery = "select * from " + ATTENDEES_TABLE_NAME+" where "+ATTENDEE_ID+" = '"+attendeeId+"'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        List<AttendeeList> attendeeList = new ArrayList<AttendeeList>();
+        if (cursor.moveToFirst()) {
+
+            do {
+                AttendeeList attendeesList = new AttendeeList();
+                attendeesList.setAttendeeId(cursor.getString(0));
+                attendeesList.setApiAccessToken(cursor.getString(1));
+                attendeesList.setFirstName(cursor.getString(2));
+                attendeesList.setLastName(cursor.getString(3));
+                attendeesList.setDescription(cursor.getString(4));
+                attendeesList.setCity(cursor.getString(5));
+                attendeesList.setCountry(cursor.getString(6));
+                attendeesList.setProfilePic(cursor.getString(7));
+                attendeesList.setMobile(cursor.getString(8));
+                attendeesList.setEmail(cursor.getString(9));
+                attendeesList.setCompanyName(cursor.getString(10));
+                attendeesList.setDesignation(cursor.getString(11));
+                attendeesList.setAttendeeType(cursor.getString(12));
+                attendeesList.setBuddy_status(cursor.getString(13));
+                attendeesList.setChat_data_count(cursor.getString(14));
+
+                attendeeList.add(attendeesList);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return attendeeList;
+    }
+
+
     // Get Buddy List/ Details
     public List<Buddy> getBuddyDetail() {
         String selectQuery = "select * from " + BUDDY_TABLE_NAME;
@@ -2667,7 +2701,7 @@ db.execSQL("create table " + BUDDY_CHAT_COUNT_TABLE_NAME + "("
 
     public List<Buddy> getBuddyDetailbyId(String buddyId) {
         //String selectQuery = "select * from " + BUDDY_TABLE_NAME;
-        String selectQuery = "select * from " + BUDDY_TABLE_NAME + " where " + ATTENDEE_ID + " = '" + buddyId + "'";
+        String selectQuery = "select * from " + BUDDY_TABLE_NAME + " where " + BUDDY_FRIEND_ID + " = '" + buddyId + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

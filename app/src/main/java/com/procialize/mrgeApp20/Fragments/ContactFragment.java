@@ -237,6 +237,7 @@ public class ContactFragment extends Fragment implements ExhibitorAttendeeAdapte
         attendeetail.putExtra("description", AttendeeList.get(0).getDescription());
         attendeetail.putExtra("profile", AttendeeList.get(0).getProfilePic());
         attendeetail.putExtra("mobile", AttendeeList.get(0).getMobile());
+        attendeetail.putExtra("buddy_status", AttendeeList.get(0).getBuddy_status());
         startActivity(attendeetail);
 
     }

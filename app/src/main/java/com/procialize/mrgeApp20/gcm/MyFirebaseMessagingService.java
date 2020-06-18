@@ -21,12 +21,18 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.Activity.SplashActivity;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.AttendeeChat.AttendeeChatActivity;
+import com.procialize.mrgeApp20.AttendeeChat.AttendeeDetailChat;
 import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyChat;
+import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyList;
+import com.procialize.mrgeApp20.BuddyList.DataModel.Buddy;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list_db;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
+import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
+import com.procialize.mrgeApp20.InnerDrawerActivity.AttendeeActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
@@ -36,6 +42,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 
@@ -55,7 +62,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     Bitmap bitmap;
     int notificationCount = 0;
     String strEventId = "";
-
+    PendingIntent contentIntent;
     public static String getEmojiFromString(String emojiString) {
 
         if (!emojiString.contains("\\u")) {
@@ -257,7 +264,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             session = new SessionManager(getApplicationContext());
             if (session.isLoggedIn()) {
                 bitmap = getBitmapfromUrl(imageUri);
-                sendNotification(remoteMessage.getData().get("message"), bitmap);
+                sendNotification(remoteMessage.getData().get("message"),remoteMessage.getData().get("type"), bitmap);
             }
         }
     }
@@ -278,20 +285,113 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     // Put the message into a notification and post it.
-    private void sendNotification(String messageBody, Bitmap image) {
+    private void sendNotification(String messageBody, String messageType, Bitmap image) {
 
-        Intent notificationIntent = new Intent(getApplicationContext(),
-                NotificationActivity.class);
        /* Intent notificationIntent = new Intent(getApplicationContext(),
-                SplashActivity.class);*/
+                NotificationActivity.class);*/
+
+       if(messageType.contains("eventchat_"))
+       {
+            String attendeeId = messageType.replace("eventchat_", "");
+
+
+           DBHelper procializeDB = new DBHelper(this);
+           SQLiteDatabase db = procializeDB.getWritableDatabase();
+           List<AttendeeList> attendeeInfoList = procializeDB.getAttendeeDetailsFromAttendeeId(attendeeId);
+
+           if(attendeeInfoList.size() > 0) {
+               Intent notificationIntent = new Intent(getApplicationContext(),
+                       AttendeeChatActivity.class);
+               notificationIntent.putExtra("id",  attendeeInfoList.get(0).getAttendeeId());
+               notificationIntent.putExtra("name",  attendeeInfoList.get(0).getFirstName()+" "+attendeeInfoList.get(0).getLastName());
+               notificationIntent.putExtra("city",  attendeeInfoList.get(0).getCity());
+               notificationIntent.putExtra("country",  attendeeInfoList.get(0).getCountry());
+               notificationIntent.putExtra("company", attendeeInfoList.get(0).getCompanyName());
+               notificationIntent.putExtra("designation",  attendeeInfoList.get(0).getDesignation());
+               notificationIntent.putExtra("description",   attendeeInfoList.get(0).getDescription());
+               notificationIntent.putExtra("profile",  attendeeInfoList.get(0).getProfilePic());
+               notificationIntent.putExtra("mobile",  attendeeInfoList.get(0).getMobile());
+               notificationIntent.putExtra("buddy_status",  attendeeInfoList.get(0).getBuddy_status());
+               notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                       | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+               contentIntent = PendingIntent.getActivity(
+                       getApplicationContext(), new Random().nextInt(),
+                       notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+           }
+           else
+           {
+               Intent notificationIntent = new Intent(getApplicationContext(),
+                       SplashActivity.class);
+               notificationIntent.putExtra("fromNotification", "fromNotification");
+               notificationIntent.putExtra("type", "");
+               notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                       | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+               contentIntent = PendingIntent.getActivity(
+                       getApplicationContext(), new Random().nextInt(),
+                       notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+           }
+       }
+       else if(messageType.contains("chat_"))
+       {
+           String attendeeId = messageType.replace("chat_", "");
+
+
+           DBHelper procializeDB = new DBHelper(this);
+           SQLiteDatabase db = procializeDB.getWritableDatabase();
+           List<Buddy> attendeeInfoList = procializeDB.getBuddyDetailbyId(attendeeId);
+
+           if(attendeeInfoList.size() > 0) {
+               Intent notificationIntent = new Intent(getApplicationContext(),
+                       ActivityBuddyChat.class);
+               notificationIntent.putExtra("id", attendeeInfoList.get(0).getFriend_id());
+               notificationIntent.putExtra("name", attendeeInfoList.get(0).getFirstName()+" "+attendeeInfoList.get(0).getLastName());
+               notificationIntent.putExtra("city",  attendeeInfoList.get(0).getCity());
+               notificationIntent.putExtra("country",  "");
+               notificationIntent.putExtra("company",  "");
+               notificationIntent.putExtra("designation",  attendeeInfoList.get(0).getDesignation());
+               notificationIntent.putExtra("description",  "");
+               notificationIntent.putExtra("profile",  attendeeInfoList.get(0).getProfilePic());
+               notificationIntent.putExtra("mobile",  "");
+               notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                       | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+               contentIntent = PendingIntent.getActivity(
+                       getApplicationContext(), new Random().nextInt(),
+                       notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+           }
+           else
+           {
+               Intent notificationIntent = new Intent(getApplicationContext(),
+                       SplashActivity.class);
+               notificationIntent.putExtra("fromNotification", "fromNotification");
+               notificationIntent.putExtra("type", "");
+               notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                       | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+               contentIntent = PendingIntent.getActivity(
+                       getApplicationContext(), new Random().nextInt(),
+                       notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+           }
+       }
+       else
+        {
+            Intent notificationIntent = new Intent(getApplicationContext(),
+                    SplashActivity.class);
+            notificationIntent.putExtra("fromNotification", "fromNotification");
+            notificationIntent.putExtra("type", "");
+            notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                    | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            contentIntent = PendingIntent.getActivity(
+                    getApplicationContext(), new Random().nextInt(),
+                    notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+     /*  Intent notificationIntent = new Intent(getApplicationContext(),
+                SplashActivity.class);
         notificationIntent.putExtra("fromNotification", "fromNotification");
         notificationIntent.putExtra("type", "");
         notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        PendingIntent contentIntent = PendingIntent.getActivity(
+        contentIntent = PendingIntent.getActivity(
                 getApplicationContext(), new Random().nextInt(),
-                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);*/
 
         Uri alarmSound = RingtoneManager
                 .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -313,19 +413,36 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 //        mBuilder.setSmallIcon(R.drawable.app_icon);
 //        mBuilder.setSmallIcon(getNotificationIcon())
-        mBuilder.setContentTitle("MRGE")
-                .setLargeIcon(image)
-                .setColorized(true)
-                .setSound(alarmSound)
-                .setWhen(when)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(getEmojiFromString(messageBody)))
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setStyle(new NotificationCompat.BigPictureStyle()
-                        .bigPicture(image).bigLargeIcon(null))
-                .setContentText(getEmojiFromString(messageBody));
+
+        if(image!=null) {
+            mBuilder.setContentTitle("MRGE")
+                    .setLargeIcon(image)
+                    .setColorized(true)
+                    .setSound(alarmSound)
+                    .setWhen(when)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(getEmojiFromString(messageBody)))
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setStyle(new NotificationCompat.BigPictureStyle()
+                            .bigPicture(image).bigLargeIcon(null))
+                    .setContentText(getEmojiFromString(messageBody));
+        }
+        else
+        {
+            mBuilder.setContentTitle("MRGE")
+                    .setLargeIcon(image)
+                    .setColorized(true)
+                    .setSound(alarmSound)
+                    .setWhen(when)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(getEmojiFromString(messageBody)))
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setContentText(getEmojiFromString(messageBody));
+        }
         mBuilder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
         mBuilder.setContentIntent(contentIntent);
         mBuilder.setAutoCancel(true);
@@ -345,84 +462,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         return selectIcon ? R.drawable.app_icon : R.drawable.app_icon;
     }
 
-    // Put the message into a notification and post it.
-    private void sendPollNotification(String msg) {
 
-        System.out.print("Inside Gcm Service Service Service");
-
-        //notificationManager = (NotificationManager) this
-        //    .getSystemService(Context.NOTIFICATION_SERVICE);
-
-        System.out.print("Inside Gcm Service");
-
-        String url = msg.substring(msg.lastIndexOf("#") + 1);
-
-        String finalTempMsg = msg.substring(msg.lastIndexOf("^") + 1);
-
-        String[] parts = finalTempMsg.split("\\#");
-
-        String finalMsg = "Please poll for " + parts[0];
-
-        // Opens Notification Activty
-       /* Intent notificationIntent = new Intent(getApplicationContext(),
-                LivePollActivity.class);*/
-        Intent notificationIntent = new Intent(getApplicationContext(),
-                SplashActivity.class);
-        notificationIntent.putExtra("pollUrl", url);
-        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        PendingIntent contentIntent = PendingIntent.getActivity(
-                getApplicationContext(), new Random().nextInt(),
-                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Uri alarmSound = RingtoneManager
-                .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-        NotificationCompat.Builder mBuilder;
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            mBuilder = new NotificationCompat.Builder(
-                    this)
-
-                    .setSmallIcon(R.drawable.app_icon)
-                    .setContentTitle("MRGE")
-                    .setStyle(
-                            new NotificationCompat.BigTextStyle().bigText(finalMsg))
-                    .setContentText(finalMsg).setSound(alarmSound);
-
-
-            mBuilder.setContentIntent(contentIntent);
-            mBuilder.setAutoCancel(true);
-        } else {
-            mBuilder = new NotificationCompat.Builder(
-                    this)
-
-                    .setSmallIcon(R.drawable.app_icon)
-                    .setContentTitle("MRGE")
-                    .setColor(getResources().getColor(R.color.activetab))
-
-                    .setStyle(
-                            new NotificationCompat.BigTextStyle().bigText(finalMsg))
-                    .setContentText(finalMsg).setSound(alarmSound);
-
-
-            mBuilder.setContentIntent(contentIntent);
-            mBuilder.setAutoCancel(true);
-        }
-
-
-        // contentIntent.writePendingIntentOrNullToParcel(sender, out)
-        if (msg != null) {
-
-            notificationManager.notify(notificationId, mBuilder.build());
-
-            Intent countIntent = new Intent("myBroadcastIntent");
-            countIntent.putExtra("countBroadCast", "countBroadCast");
-            LocalBroadcastManager.getInstance(this).sendBroadcast(countIntent);
-        }
-
-    }
 
     public Bitmap getBitmapfromUrl(String imageUrl) {
         try {

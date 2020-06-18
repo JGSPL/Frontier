@@ -1860,7 +1860,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                                 youTubePlayer.release();
                             }
                             ActivityCompat.finishAffinity(MrgeHomeActivity.this);
-
                         }
                     });
             builder.show();
@@ -4253,13 +4252,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
 /*
     private void showQuizDialouge() {
-
         myDialog = new Dialog(MrgeHomeActivity.this);
         myDialog.setContentView(R.layout.dialog_rate_layout);
         myDialog.setCancelable(false);
         myDialog.show();
-
-
     }
 */
 
