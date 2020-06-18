@@ -79,7 +79,7 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("image/*");
-                i.putExtra(Intent.EXTRA_SUBJECT, "");
+                i.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
                 i.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(bitmap, context));
 
                 context.startActivity(Intent.createChooser(i, "Share Image"));

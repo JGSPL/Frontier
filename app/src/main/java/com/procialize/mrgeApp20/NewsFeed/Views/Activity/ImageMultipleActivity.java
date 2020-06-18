@@ -125,9 +125,9 @@ public class ImageMultipleActivity extends AppCompatActivity {
                 dialog.dismiss();
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("image/*");
-                // i.putExtra(Intent.EXTRA_SUBJECT, data);
+                 i.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
                 i.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(bitmap, context));
-                context.startActivity(Intent.createChooser(i, "Share Image"));
+                context.startActivity(Intent.createChooser(i, "Shared via MRGE app"));
             }
 
             @Override
@@ -510,7 +510,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
 
         // Add data to the intent, the receiving app will decide
         // what to do with it.
-        share.putExtra(Intent.EXTRA_SUBJECT, data);
+        share.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
         share.putExtra(Intent.EXTRA_TEXT, url);
 
         startActivity(Intent.createChooser(share, "Share link!"));
@@ -696,10 +696,10 @@ public class ImageMultipleActivity extends AppCompatActivity {
 
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("video/*");
-                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Video Share");
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
                 sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                startActivity(Intent.createChooser(sharingIntent, "Share Video"));}
+                startActivity(Intent.createChooser(sharingIntent, "Shared via MRGE app"));}
             else {
                 GetUserActivityReport getUserActivityReport = new GetUserActivityReport(ImageMultipleActivity.this, api_token,
                         eventid,

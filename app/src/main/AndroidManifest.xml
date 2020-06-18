@@ -29,12 +29,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="allowBackup">
-        <activity android:name=".BuddyList.Activity.ActivityBuddyChat"></activity>
-        <activity android:name=".BuddyList.Activity.ActivityBuddyDetails" />
-        <activity android:name=".Gallery.Video.Activity.VideoViewGalleryActivity" />
-        <activity android:name=".AttendeeChat.AttendeeChatActivity"></activity>
-        <activity android:name=".AttendeeChat.AttendeeDetailChat"></activity>
+        tools:replace="allowBackup"
+        tools:ignore="LockedOrientationActivity">
+        <activity android:name=".BuddyList.Activity.ActivityBuddyChat"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".BuddyList.Activity.ActivityBuddyDetails"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Gallery.Video.Activity.VideoViewGalleryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AttendeeChat.AttendeeChatActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AttendeeChat.AttendeeDetailChat"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
@@ -51,73 +57,75 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.MyAgendaSessionActivity" />
+        <activity android:name=".Activity.MyAgendaSessionActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activity.MainActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".Activity.AgendaSessionActivity" />
+        <activity android:name=".Activity.AgendaSessionActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activity.MeetingUsersActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.yanzhenjie.album.app.album.AlbumActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.yanzhenjie.album.app.camera.CameraActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.yanzhenjie.album.app.album.GalleryActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Activity.MsgInboxUsersActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Activity.VisitUsersActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".NewsFeed.Views.Activity.CommentActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".NewsFeed.Views.Activity.ImageMultipleActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".NewsFeed.Views.Activity.ImageViewActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".NewsFeed.Views.Activity.PostNewActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
         <activity
             android:name=".Activity.AttendeeDetailActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
         <activity
             android:name=".Activity.AnalyticUserListingActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".InnerDrawerActivity.NotificationExhibitorActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".InnerDrawerActivity.SponsorActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".InnerDrawerActivity.ExhibitorSideMenu"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Activity.DocumentDetailActivity"
@@ -158,6 +166,7 @@
         <activity
             android:name=".Activity.ExhibitorListingActivity"
             android:label="@string/title_activity_exhibitor_listing"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" /> <!-- <meta-data -->
         <!-- android:name="asset_statements" -->
         <!-- android:resource="@string/asset_statements" /> -->
@@ -171,11 +180,11 @@
         <activity
             android:name=".Activity.ExhibitorCatListActivity"
             android:label="@string/title_activity_exhibitor_listing"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MergeMain.MrgeHomeActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustNothing" >
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
@@ -216,7 +225,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Activity.VideoViewActivity"
-            android:screenOrientation="sensor"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".Speaker.Views.SpeakerDetailsActivity"
@@ -255,7 +264,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".InnerDrawerActivity.QRGeneratorActivity"
-            android:screenOrientation="sensorPortrait"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".InnerDrawerActivity.QRScanActivity"
@@ -547,6 +556,7 @@
         </activity>
         <activity
             android:name=".Zoom.ui.APIUserStartJoinMeetingActivity"
+            android:screenOrientation="portrait"
             android:icon="@drawable/app_icon"
             android:label="@string/app_name"
             android:theme="@style/ZMTheme.MainWindow">
@@ -558,6 +568,7 @@
         </activity>
         <activity
             android:name=".Zoom.ui.LoginUserStartJoinMeetingActivity"
+            android:screenOrientation="portrait"
             android:icon="@drawable/app_icon"
             android:label="@string/app_name"
             android:theme="@style/ZMTheme.MainWindow">
@@ -569,6 +580,7 @@
         </activity>
         <activity
             android:name=".Zoom.ui.EmailUserLoginActivity"
+            android:screenOrientation="portrait"
             android:icon="@drawable/app_icon"
             android:label="@string/app_name"
             android:theme="@style/ZMTheme.MainWindow">
@@ -580,6 +592,7 @@
         </activity>
         <activity
             android:name=".Zoom.ui.SSOUserLoginActivity"
+            android:screenOrientation="portrait"
             android:icon="@drawable/app_icon"
             android:label="@string/app_name"
             android:theme="@style/ZMTheme.MainWindow">
@@ -591,6 +604,7 @@
         </activity>
         <activity
             android:name=".Zoom.otherfeatures.scheduleforloginuser.PreMeetingExampleActivity"
+            android:screenOrientation="portrait"
             android:icon="@drawable/app_icon"
             android:label="@string/app_name"
             android:theme="@style/ZMTheme.MainWindow">
@@ -602,6 +616,7 @@
         </activity>
         <activity
             android:name=".Zoom.otherfeatures.scheduleforloginuser.ScheduleMeetingExampleActivity"
+            android:screenOrientation="portrait"
             android:icon="@drawable/app_icon"
             android:label="@string/app_name"
             android:theme="@style/ZMTheme.MainWindow">
@@ -613,6 +628,7 @@
         </activity>
         <activity
             android:name=".Zoom.otherfeatures.MyInviteActivity"
+            android:screenOrientation="portrait"
             android:icon="@drawable/app_icon"
             android:label="@string/invite_acitivity_name"
             android:theme="@style/ZMTheme.MainWindow">
@@ -624,6 +640,7 @@
         </activity>
         <activity
             android:name=".Zoom.otherfeatures.MyWaitJoinActivity"
+            android:screenOrientation="portrait"
             android:icon="@drawable/app_icon"
             android:theme="@style/ZMTheme.MainWindow">
             <intent-filter>
@@ -634,6 +651,7 @@
         </activity>
         <activity
             android:name=".Zoom.otherfeatures.MyCallMeByPhoneActivity"
+            android:screenOrientation="portrait"
             android:icon="@drawable/app_icon"
             android:theme="@style/ZMTheme.MainWindow">
             <intent-filter>
@@ -662,26 +680,31 @@
             android:name=".Zoom.inmeetingfunction.CustomZoomUIActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"
             android:theme="@style/ZMTheme.SubWindow" />
         <activity
             android:name="com.zipow.videobox.JoinByURLActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"
             android:theme="@style/ZMTheme.MainWindow"
             tools:replace="android:theme" />
         <activity
             android:name="com.zipow.videobox.ConfActivityNormal"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"
             android:theme="@style/ZMTheme.SubWindow" />
         <activity
             android:name="com.zipow.videobox.PListActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"
             android:theme="@style/ZMTheme.SubWindow" />
         <activity
             android:name="com.zipow.videobox.SimpleActivity"
             android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
             android:hardwareAccelerated="false"
             android:theme="@style/ZMTheme.SubWindow" />
     </application>

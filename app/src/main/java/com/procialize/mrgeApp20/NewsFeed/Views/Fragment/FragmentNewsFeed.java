@@ -181,10 +181,10 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 dialog.dismiss();
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("image/*");
-                i.putExtra(Intent.EXTRA_SUBJECT, data);
+                i.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
                 i.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(bitmap, context));
 
-                context.startActivity(Intent.createChooser(i, "Share Image"));
+                context.startActivity(Intent.createChooser(i, "Shared via MRGE app"));
             }
 
             @Override
@@ -595,9 +595,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         comment.putExtra("noti_type", "Wall_Post");
 
         news_feed_media = feed.getNews_feed_media();
-        if (news_feed_media.size() >= 1) {
+       // if (news_feed_media.size() >= 1) {
             comment.putExtra("media_list", (Serializable) news_feed_media);
-        } else if (news_feed_media.size() > 0) {
+        /*} else if (news_feed_media.size() > 0) {
             comment.putExtra("type", news_feed_media.get(0).getMedia_type());
 
             width = Float.parseFloat(news_feed_media.get(0).getWidth());
@@ -608,9 +608,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 comment.putExtra("videourl", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
                 comment.putExtra("thumbImg", ApiConstant.newsfeedwall + news_feed_media.get(0).getThumb_image());
             }
-        } else {
+    }else {
             comment.putExtra("type", "status");
-        }
+        }*/
         comment.putExtra("flag", "noti");
         startActivity(comment);
 
@@ -679,10 +679,10 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
                             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                             sharingIntent.setType("video/*");
-                            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Video Share");
+                            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
                             sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
                             sharingIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                            startActivity(Intent.createChooser(sharingIntent, "Share Video"));
+                            startActivity(Intent.createChooser(sharingIntent, "Shared via MRGE app"));
                         }
                     } else {
                         shareImage(feedList.getPostDate() + "\n" + feedList.getPostStatus(), ApiConstant.newsfeedwall + newsFeedMedia.get(swipableAdapterPosition).getMediaFile(), getContext());
@@ -701,10 +701,10 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
         // Add data to the intent, the receiving app will decide
         // what to do with it.
-        share.putExtra(Intent.EXTRA_SUBJECT, data);
+        share.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
         share.putExtra(Intent.EXTRA_TEXT, url);
 
-        startActivity(Intent.createChooser(share, "Share link!"));
+        startActivity(Intent.createChooser(share, "Shared via MRGE app!"));
     }
 
     @Override
@@ -1063,7 +1063,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 MrgeHomeActivity.txt_zoom.setBackgroundColor(Color.parseColor(colorActive));
                 MrgeHomeActivity.img_zoom.setBackgroundColor(Color.parseColor(colorActive));
 
-                MrgeHomeActivity.txt_zoom.setText("Participates");
+                MrgeHomeActivity.txt_zoom.setText("Participate");
                 Animation anim = new AlphaAnimation(0.0f, 1.0f);
                 anim.setDuration(500); //You can manage the blinking time with this parameter
                 anim.setStartOffset(20);
@@ -1079,7 +1079,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 MrgeHomeActivity.txt_zoom.setBackgroundColor(Color.parseColor("#686868"));
                 MrgeHomeActivity.img_zoom.setBackgroundColor(Color.parseColor("#686868"));
                 // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
-                MrgeHomeActivity.txt_zoom.setText("Participates");
+                MrgeHomeActivity.txt_zoom.setText("Participate");
             }
         }
 
@@ -1544,10 +1544,10 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
             sharingIntent.setType("video/*");
-            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Video Share");
+            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
             sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
             sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
-            startActivity(Intent.createChooser(sharingIntent, "Share Video"));
+            startActivity(Intent.createChooser(sharingIntent, "Shared via MRGE app"));
 
         }
     }

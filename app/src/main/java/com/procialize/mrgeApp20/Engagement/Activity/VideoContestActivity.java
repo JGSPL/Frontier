@@ -670,7 +670,7 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
 
         // Add data to the intent, the receiving app will decide
         // what to do with it.
-        share.putExtra(Intent.EXTRA_SUBJECT, data);
+        share.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
         share.putExtra(Intent.EXTRA_TEXT, url);
 
         startActivity(Intent.createChooser(share, "Share link!"));

@@ -283,7 +283,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
 
                         // Add data to the intent, the receiving app will decide
                         // what to do with it.
-                        share.putExtra(Intent.EXTRA_SUBJECT, "");
+                        share.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
                         share.putExtra(Intent.EXTRA_TEXT, UrlfileName);
 
                         startActivity(Intent.createChooser(share, "Share link!"));
@@ -671,7 +671,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
 
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("video/*");
-                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Video Share");
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
                 sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
                 startActivity(Intent.createChooser(sharingIntent, "Share Video"));

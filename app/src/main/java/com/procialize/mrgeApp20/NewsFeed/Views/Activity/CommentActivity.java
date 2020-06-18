@@ -192,7 +192,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("image/*");
-                i.putExtra(Intent.EXTRA_SUBJECT, data);
+                i.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
                 i.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(bitmap, context));
 
                 context.startActivity(Intent.createChooser(i, "Share Image"));
@@ -873,10 +873,10 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
 
                 final List<news_feed_media> newsFeedMedia = myList;
-                type = newsFeedMedia.get(swipableAdapterPosition).getMedia_type();
+
                 if (cd.isConnectingToInternet()) {
                     if (newsFeedMedia.size() > 0) {
-
+                        type = newsFeedMedia.get(swipableAdapterPosition).getMedia_type();
                         if (type.equals("Video")) {
                             boolean isPresentFile = false;
                             File dir = new File(Environment.getExternalStorageDirectory().toString() + "/" + ApiConstant.folderName);
@@ -930,7 +930,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
                                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                                 sharingIntent.setType("video/*");
-                                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Video Share");
+                                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
                                 sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
                                 sharingIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
                                 startActivity(Intent.createChooser(sharingIntent, "Share Video"));
@@ -2060,7 +2060,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
         // Add data to the intent, the receiving app will decide
         // what to do with it.
-        share.putExtra(Intent.EXTRA_SUBJECT, data);
+        share.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
         share.putExtra(Intent.EXTRA_TEXT, url);
 
         startActivity(Intent.createChooser(share, "Share link!"));
@@ -2367,7 +2367,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
             sharingIntent.setType("video/*");
-            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Video Share");
+            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
             sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
             sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
             startActivity(Intent.createChooser(sharingIntent, "Share Video"));

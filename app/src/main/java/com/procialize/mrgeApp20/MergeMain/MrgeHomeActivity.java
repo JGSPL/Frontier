@@ -2278,7 +2278,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         txt_zoom.setBackgroundColor(Color.parseColor(colorActive));
                         img_zoom.setBackgroundColor(Color.parseColor(colorActive));
 
-                        txt_zoom.setText("Participates");
+                        txt_zoom.setText("Participate");
                         Animation anim = new AlphaAnimation(0.0f, 1.0f);
                         anim.setDuration(500); //You can manage the blinking time with this parameter
                         anim.setStartOffset(20);
@@ -2294,7 +2294,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                         txt_zoom.setBackgroundColor(Color.parseColor("#686868"));
                         img_zoom.setBackgroundColor(Color.parseColor("#686868"));
                         // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
-                        txt_zoom.setText("Participates");
+                        txt_zoom.setText("Participate");
                     }
                 } else {
                 }
