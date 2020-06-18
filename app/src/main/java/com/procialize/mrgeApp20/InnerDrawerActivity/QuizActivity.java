@@ -298,10 +298,11 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                     Toast.LENGTH_SHORT).show();
         }
 
-        progressBarCircle.setMax(time);
-        progressBarCircle.setProgress(time);
+        progressBarCircle.setMax(timerForQuiz);
+        progressBarCircle.setProgress(10);
 
-        timercountdown = new CountDownTimer(10000, 1000) {
+        int timeFQ = time*1000;
+        timercountdown = new CountDownTimer(timeFQ, 1000) {
             public void onTick(long millisUntilFinished) {
                 if (time == 0) {
                     time = timerForQuiz;
@@ -892,7 +893,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                     //Toast.makeText(appDelegate, quiz_options_id, Toast.LENGTH_SHORT).show();
                     new postQuizQuestion().execute();
                 } else {
-                    Toast.makeText(getApplicationContext(), "last question", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "last question", Toast.LENGTH_SHORT).show();
                 }
             }
 
