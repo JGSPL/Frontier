@@ -21,12 +21,15 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.Activity.SplashActivity;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.AttendeeChat.AttendeeChatActivity;
 import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyChat;
+import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list_db;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
+import com.procialize.mrgeApp20.InnerDrawerActivity.AttendeeActivity;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -256,7 +259,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             session = new SessionManager(getApplicationContext());
             if (session.isLoggedIn()) {
                 bitmap = getBitmapfromUrl(imageUri);
-                sendNotification(remoteMessage.getData().get("message"), bitmap);
+                sendNotification(remoteMessage.getData().get("message"),remoteMessage.getData().get("type"), bitmap);
             }
         }
     }
@@ -277,17 +280,53 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     // Put the message into a notification and post it.
-    private void sendNotification(String messageBody, Bitmap image) {
+    private void sendNotification(String messageBody, String messageType, Bitmap image) {
 
        /* Intent notificationIntent = new Intent(getApplicationContext(),
                 NotificationActivity.class);*/
-        Intent notificationIntent = new Intent(getApplicationContext(),
+
+       if(messageType.contains("eventchat_"))
+       {
+           Intent notificationIntent = new Intent(getApplicationContext(),
+                   AttendeeDetailActivity.class);
+           notificationIntent.putExtra("fromNotification", "fromNotification");
+           notificationIntent.putExtra("type", "");
+           notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                   | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+           PendingIntent contentIntent = PendingIntent.getActivity(
+                   getApplicationContext(), new Random().nextInt(),
+                   notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+       }
+       else if(messageType.contains("chat_"))
+       {
+           Intent notificationIntent = new Intent(getApplicationContext(),
+                   ActivityBuddyList.class);
+           notificationIntent.putExtra("fromNotification", "fromNotification");
+           notificationIntent.putExtra("type", "");
+           notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                   | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+           PendingIntent contentIntent = PendingIntent.getActivity(
+                   getApplicationContext(), new Random().nextInt(),
+                   notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+       }
+       else
+        {
+            Intent notificationIntent = new Intent(getApplicationContext(),
+                    SplashActivity.class);
+            notificationIntent.putExtra("fromNotification", "fromNotification");
+            notificationIntent.putExtra("type", "");
+            notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                    | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent contentIntent = PendingIntent.getActivity(
+                    getApplicationContext(), new Random().nextInt(),
+                    notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+       Intent notificationIntent = new Intent(getApplicationContext(),
                 SplashActivity.class);
         notificationIntent.putExtra("fromNotification", "fromNotification");
         notificationIntent.putExtra("type", "");
         notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
         PendingIntent contentIntent = PendingIntent.getActivity(
                 getApplicationContext(), new Random().nextInt(),
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -312,19 +351,36 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 //        mBuilder.setSmallIcon(R.drawable.app_icon);
 //        mBuilder.setSmallIcon(getNotificationIcon())
-        mBuilder.setContentTitle("MRGE")
-                .setLargeIcon(image)
-                .setColorized(true)
-                .setSound(alarmSound)
-                .setWhen(when)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(getEmojiFromString(messageBody)))
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setStyle(new NotificationCompat.BigPictureStyle()
-                        .bigPicture(image).bigLargeIcon(null))
-                .setContentText(getEmojiFromString(messageBody));
+
+        if(image!=null) {
+            mBuilder.setContentTitle("MRGE")
+                    .setLargeIcon(image)
+                    .setColorized(true)
+                    .setSound(alarmSound)
+                    .setWhen(when)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(getEmojiFromString(messageBody)))
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setStyle(new NotificationCompat.BigPictureStyle()
+                            .bigPicture(image).bigLargeIcon(null))
+                    .setContentText(getEmojiFromString(messageBody));
+        }
+        else
+        {
+            mBuilder.setContentTitle("MRGE")
+                    .setLargeIcon(image)
+                    .setColorized(true)
+                    .setSound(alarmSound)
+                    .setWhen(when)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(getEmojiFromString(messageBody)))
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setContentText(getEmojiFromString(messageBody));
+        }
         mBuilder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
         mBuilder.setContentIntent(contentIntent);
         mBuilder.setAutoCancel(true);
@@ -344,84 +400,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         return selectIcon ? R.drawable.app_icon : R.drawable.app_icon;
     }
 
-    // Put the message into a notification and post it.
-    private void sendPollNotification(String msg) {
 
-        System.out.print("Inside Gcm Service Service Service");
-
-        //notificationManager = (NotificationManager) this
-        //    .getSystemService(Context.NOTIFICATION_SERVICE);
-
-        System.out.print("Inside Gcm Service");
-
-        String url = msg.substring(msg.lastIndexOf("#") + 1);
-
-        String finalTempMsg = msg.substring(msg.lastIndexOf("^") + 1);
-
-        String[] parts = finalTempMsg.split("\\#");
-
-        String finalMsg = "Please poll for " + parts[0];
-
-        // Opens Notification Activty
-       /* Intent notificationIntent = new Intent(getApplicationContext(),
-                LivePollActivity.class);*/
-        Intent notificationIntent = new Intent(getApplicationContext(),
-                SplashActivity.class);
-        notificationIntent.putExtra("pollUrl", url);
-        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        PendingIntent contentIntent = PendingIntent.getActivity(
-                getApplicationContext(), new Random().nextInt(),
-                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Uri alarmSound = RingtoneManager
-                .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-        NotificationCompat.Builder mBuilder;
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            mBuilder = new NotificationCompat.Builder(
-                    this)
-
-                    .setSmallIcon(R.drawable.app_icon)
-                    .setContentTitle("MRGE")
-                    .setStyle(
-                            new NotificationCompat.BigTextStyle().bigText(finalMsg))
-                    .setContentText(finalMsg).setSound(alarmSound);
-
-
-            mBuilder.setContentIntent(contentIntent);
-            mBuilder.setAutoCancel(true);
-        } else {
-            mBuilder = new NotificationCompat.Builder(
-                    this)
-
-                    .setSmallIcon(R.drawable.app_icon)
-                    .setContentTitle("MRGE")
-                    .setColor(getResources().getColor(R.color.activetab))
-
-                    .setStyle(
-                            new NotificationCompat.BigTextStyle().bigText(finalMsg))
-                    .setContentText(finalMsg).setSound(alarmSound);
-
-
-            mBuilder.setContentIntent(contentIntent);
-            mBuilder.setAutoCancel(true);
-        }
-
-
-        // contentIntent.writePendingIntentOrNullToParcel(sender, out)
-        if (msg != null) {
-
-            notificationManager.notify(notificationId, mBuilder.build());
-
-            Intent countIntent = new Intent("myBroadcastIntent");
-            countIntent.putExtra("countBroadCast", "countBroadCast");
-            LocalBroadcastManager.getInstance(this).sendBroadcast(countIntent);
-        }
-
-    }
 
     public Bitmap getBitmapfromUrl(String imageUrl) {
         try {

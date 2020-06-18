@@ -2371,7 +2371,6 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
             sharingIntent.putExtra(Intent.EXTRA_TEXT, "");
             sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
             startActivity(Intent.createChooser(sharingIntent, "Share Video"));
-
         }
     }
 }

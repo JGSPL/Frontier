@@ -1854,9 +1854,14 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
                                             int which) {
-                            youTubePlayer.release();
-                            ActivityCompat.finishAffinity(MrgeHomeActivity.this);
 
+                            try {
+                                if(youTubePlayer!=null) {
+                                    youTubePlayer.release();
+                                }
+                            }catch (Exception e)
+                            {}
+                            ActivityCompat.finishAffinity(MrgeHomeActivity.this);
                         }
                     });
             builder.show();
@@ -4236,7 +4241,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -4249,13 +4253,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
 /*
     private void showQuizDialouge() {
-
         myDialog = new Dialog(MrgeHomeActivity.this);
         myDialog.setContentView(R.layout.dialog_rate_layout);
         myDialog.setCancelable(false);
         myDialog.show();
-
-
     }
 */
 

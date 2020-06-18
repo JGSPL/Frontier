@@ -251,7 +251,6 @@ public class AttendeeDetailActivity extends AppCompatActivity {
             saveContact.setBackgroundColor(Color.parseColor(colorActive));
             saveContact.setTextColor(Color.parseColor("#ffffff"));
             imgBuddy.setVisibility(View.GONE);
-
         }
 
 

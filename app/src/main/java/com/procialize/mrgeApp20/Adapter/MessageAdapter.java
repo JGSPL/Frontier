@@ -149,6 +149,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                     attendeetail.putExtra("designation", travel.getDesignation());
                     attendeetail.putExtra("description", attendeeDBList.get(0).getDescription());
                     attendeetail.putExtra("profile", travel.getProfilePic());
+                    attendeetail.putExtra("buddy_status", attendeeDBList.get(0).getBuddy_status());
                     context.startActivity(attendeetail);
                 } else {
                     Intent attendeetail = new Intent(context, AttendeeDetailActivity.class);
