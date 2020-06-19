@@ -64,7 +64,7 @@ public class PollGraphAdapter extends RecyclerView.Adapter<PollGraphAdapter.MyVi
         LinearLayout.LayoutParams rpms2, rprms;
         LinearLayout l3 = new LinearLayout(context);
 
-        LinearLayout ll2 = new LinearLayout(context);
+       /* LinearLayout ll2 = new LinearLayout(context);
         ll2.setOrientation(LinearLayout.HORIZONTAL);
         ll2.setPadding(10, 10, 10, 10);
 
@@ -76,7 +76,7 @@ public class PollGraphAdapter extends RecyclerView.Adapter<PollGraphAdapter.MyVi
 
         //ll2.setBackgroundColor(Color.parseColor(color[position]));
         ll2.setBackground(gradientDrawable);
-        ll2.setMinimumHeight(15);
+        ll2.setMinimumHeight(15);*/
 
         Float weight = 0.0f;
 
@@ -86,6 +86,21 @@ public class PollGraphAdapter extends RecyclerView.Adapter<PollGraphAdapter.MyVi
 
 
         int num = Math.round(weight);
+
+
+        LinearLayout ll2 = new LinearLayout(context);
+        ll2.setOrientation(LinearLayout.HORIZONTAL);
+        ll2.setPadding(10, 10, 10, 10);
+
+        // ll2.setBackgroundResource(R.drawable.poll_cobg);
+
+        GradientDrawable gradientDrawable   =   new GradientDrawable();
+        gradientDrawable.setCornerRadii(new float[]{20, 20, 20, 20, 20, 20, 20, 20});
+        gradientDrawable.setColor(Color.parseColor(color[position]));
+
+        //ll2.setBackgroundColor(Color.parseColor(color[position]));
+        ll2.setBackground(gradientDrawable);
+        ll2.setMinimumHeight(15);
 
         rprms = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

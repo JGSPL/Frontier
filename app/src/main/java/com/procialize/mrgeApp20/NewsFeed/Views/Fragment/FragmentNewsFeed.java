@@ -23,6 +23,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,6 +34,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -152,6 +156,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     private ConnectionDetector cd;
     private List<news_feed_media> news_feed_media;
     private List<AttendeeList> attendeeList;
+    Dialog myDialog;
 
     public FragmentNewsFeed() {
         // Required empty public constructor
@@ -791,7 +796,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             }
         });
 
-     /*   reportTv.setOnClickListener(new View.OnClickListener() {
+        reportTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showratedialouge("reportPost", feed.getNewsFeedId());
@@ -803,8 +808,10 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             @Override
             public void onClick(View v) {
                 showratedialouge("reportUser", feed.getAttendeeId());
+                //ReportUser(eventid, feed.getAttendeeId(), token);
+
             }
-        });*/
+        });
 
         blockuserTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1303,12 +1310,12 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
-            /// myDialog.dismiss();
+             myDialog.dismiss();
 
         } else {
             Log.e("post", "fail");
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-            //   myDialog.dismiss();
+              myDialog.dismiss();
         }
     }
 
@@ -1346,12 +1353,12 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
-            //myDialog.dismiss();
+           myDialog.dismiss();
 
         } else {
             Log.e("post", "fail");
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-            // myDialog.dismiss();
+             myDialog.dismiss();
         }
     }
 
@@ -1566,5 +1573,87 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         }
     }
 
+    private void showratedialouge(final String from, final String id) {
+
+        myDialog = new Dialog(getActivity());
+        myDialog.setContentView(R.layout.dialouge_msg_layout);
+        myDialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme; //style id
+
+        myDialog.show();
+
+        TextView title = myDialog.findViewById(R.id.title);
+        if (from.equalsIgnoreCase("reportPost")) {
+            title.setText("Report Post");
+        } else if (from.equalsIgnoreCase("reportUser")) {
+            title.setText("Report User");
+
+        }
+
+
+        Button cancelbtn = myDialog.findViewById(R.id.canclebtn);
+        Button ratebtn = myDialog.findViewById(R.id.ratebtn);
+        ratebtn.setText("Send");
+
+        final EditText etmsg = myDialog.findViewById(R.id.etmsg);
+
+        final TextView counttv = myDialog.findViewById(R.id.counttv);
+        final TextView nametv = myDialog.findViewById(R.id.nametv);
+
+        nametv.setText("To " + "Admin");
+
+        ImageView imgCancel = myDialog.findViewById(R.id.imgCancel);
+        imgCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+
+        etmsg.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                count = 250 - s.length();
+                counttv.setText(count + "");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        cancelbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+
+        ratebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (etmsg.getText().toString().length() > 0) {
+
+                    String msg = StringEscapeUtils.escapeJava(etmsg.getText().toString());
+                    dialog.dismiss();
+                    if (from.equalsIgnoreCase("reportPost")) {
+                        ReportPost(eventid, id, token, msg);
+                    } else if (from.equalsIgnoreCase("reportUser")) {
+                        ReportUser(eventid, id, token, msg);
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "Enter Something", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
 }
