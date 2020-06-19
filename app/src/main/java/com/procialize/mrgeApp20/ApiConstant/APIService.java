@@ -799,7 +799,7 @@ public interface APIService {
     Call<FetchChatList> UserChathistory(@Field("event_id") String event_id,
                                         @Field("api_access_token") String api_access_token,
                                         @Field("buddy_id") String buddy_id,
-                                        @Field("pageNumber") String message);
+                                        @Field("pageNumber") String pageNumber);
 
     @POST("SpotLivePollFetch")
     @FormUrlEncoded

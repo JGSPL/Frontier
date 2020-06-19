@@ -11,18 +11,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +26,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
@@ -40,7 +39,7 @@ import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
-import com.procialize.mrgeApp20.BuddyList.Adapter.LiveChatAdapter;
+import com.procialize.mrgeApp20.BuddyList.Adapter.LiveChatAdapterRecycler;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
@@ -51,8 +50,10 @@ import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -67,7 +68,8 @@ public class ActivityBuddyChat extends AppCompatActivity {
 
     public static String chat_id = "0";
     public static String SpotChat = "";
-    public LiveChatAdapter liveChatAdapter;
+    public static String chat_message = "";
+    public LiveChatAdapterRecycler liveChatAdapter;
     ImageView iv_buddy_details, profileIV;
     TextView title, sub_title;
     String token;
@@ -75,11 +77,11 @@ public class ActivityBuddyChat extends AppCompatActivity {
     String eventid, colorActive;
     SwipeRefreshLayout qaRvrefresh;
     ProgressBar progressBar;
-    ListView qaRv;
+    RecyclerView qaRv;
     ImageView headerlogoIv;
     TextView txtEmpty, nmtxt, pullrefresh;
     LinearLayout linear;
-   // EditText commentEt;
+    // EditText commentEt;
     ImageView commentBt;
     List<chat_list> chat_lists = new ArrayList<>();
     List<chat_list> chat_NewAdd = new ArrayList<>();
@@ -91,15 +93,13 @@ public class ActivityBuddyChat extends AppCompatActivity {
     SpotChatReciever spotChatReciever;
     IntentFilter spotChatFilter;
     ConnectionDetector cd;
-    private String userId,chat_with_id,attendeeid, name, city, country, company, designation, description, totalrating, profile, mobile;
-    private APIService mAPIService;
-
-
     EmojiconEditText commentEt;
     EmojiconTextView textView;
     ImageView emojiImageView;
     View rootView;
     EmojIconActions emojIcon;
+    private String userId, chat_with_id, attendeeid, name, city, country, company, designation, description, totalrating, profile, mobile;
+    private APIService mAPIService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,25 +165,19 @@ public class ActivityBuddyChat extends AppCompatActivity {
         sub_title = findViewById(R.id.sub_title);
 
         title.setText(name);
-        if(designation!=null)
-        {
+        if (designation != null) {
             sub_title.setText(designation);
         }
 
-        if(city!=null)
-        {
+        if (city != null) {
             sub_title.setText(city);
         }
 
-        if(designation!=null && city != null) {
+        if (designation != null && city != null) {
             sub_title.setText(designation + " - " + city);
-        }
-        else
-        {
+        } else {
             sub_title.setText("");
         }
-
-
 
 
         procializeDB = new DBHelper(this);
@@ -241,14 +235,12 @@ public class ActivityBuddyChat extends AppCompatActivity {
         if (cd.isConnectingToInternet()) {
             UserChatHistory(eventid, token, attendeeid, "1");
         } else {
+            //-------------------Offline messages----------------------
             List<chat_list> chat_lists1 = procializeDB.getBuddyChat(chat_with_id, userId);
-            //Collections.reverse(chat_lists1);
-            liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists1, attendeeid);
-            liveChatAdapter.notifyDataSetChanged();
-            qaRv.setAdapter(liveChatAdapter);
-            liveChatAdapter.notifyDataSetChanged();
+            setAdapter(chat_lists1);
             txtEmpty.setVisibility(View.GONE);
-            qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
+            //qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
+            qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
         }
 
         try {
@@ -260,28 +252,30 @@ public class ActivityBuddyChat extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        emojIcon = new EmojIconActions(this, rootView,commentEt, emojiImageView);
+        emojIcon = new EmojIconActions(this, rootView, commentEt, emojiImageView);
         emojIcon.ShowEmojIcon();
         emojIcon.setIconsIds(R.drawable.ic_action_keyboard, R.drawable.smiley);
         emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
             @Override
             public void onKeyboardOpen() {
-               // Log.e(TAG, "Keyboard opened!");
+                // Log.e(TAG, "Keyboard opened!");
             }
 
             @Override
             public void onKeyboardClose() {
-              //  Log.e(TAG, "Keyboard closed");
+                //  Log.e(TAG, "Keyboard closed");
             }
         });
 
 
+        //----------------------Send Message-----------------------------------
         commentBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (commentEt.getText().toString().length() > 0) {
 
                     String msg = StringEscapeUtils.escapeJava(commentEt.getText().toString());
+                    chat_message = msg;
                     PostChat(eventid, token, attendeeid, msg);
                     commentBt.setEnabled(false);
                 } else {
@@ -300,9 +294,12 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 }
             }
         });
+        //----------------------------------------------------------------------------
 
+        //-------------Update unread message count to 0 in local db----------------------
         procializeDB.setBuddyChatUnreadMessageCountToZero(attendeeid);
 
+        //------------------Refresh list(fetch old messages)
         qaRvrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -321,6 +318,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 }
             }
         });
+        //------------------------------------------------------------
 
         GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
                 eventid,
@@ -330,6 +328,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
         getUserActivityReport.userActivityReport();
     }
 
+    //------------------------send Message-------------------------------------
     private void PostChat(final String eventid, final String token, String budd_id, String msg) {
         mAPIService.LiveChatPostUser(eventid, token, budd_id, msg).enqueue(new Callback<FetchChatList>() {
             @Override
@@ -355,8 +354,73 @@ public class ActivityBuddyChat extends AppCompatActivity {
         });
     }
 
-    private void UserChatHistoryRefresh(final String eventid, final String token, String budd_id, String msg) {
-        mAPIService.UserChathistory(eventid, token, budd_id, msg).enqueue(new Callback<FetchChatList>() {
+    public void showResponsePost(Response<FetchChatList> response) {
+
+        // specify an adapter (see also next example)
+        if (response.body().getStatus().equalsIgnoreCase("success")) {
+            // page = response.body().getData_pages();
+
+            if (!(response.body().getChatList().isEmpty())) {
+
+                /*for(int i=0;i<response.body().getChatList().size();i++) {
+                    chat_lists.add(response.body().getChatList().get(i));
+                }*/
+            /*    chat_lists.clear();
+                for (int i = 0; i < response.body().getChatList().size(); i++) {
+                    chat_lists.add(response.body().getChatList().get(i));
+                }
+                Collections.reverse(chat_lists);
+                pageNumber = 0;*/
+
+                SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date now = new Date();
+                String strDate = sdfDate.format(now);
+                try {
+                    chat_list chat_list1 = new chat_list();
+                    chat_list1.setStatus("1");
+                    chat_list1.setId("0");
+                    chat_list1.setSender_id(userId);
+                    chat_list1.setReceiver_id(chat_with_id);
+                    chat_list1.setMessage(chat_message);
+                    chat_list1.setTimestamp(strDate);
+
+                    chat_lists.add(chat_list1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (liveChatAdapter != null) {
+                    liveChatAdapter.notifyDataSetChanged();
+                    qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
+                } else {
+                    setAdapter(chat_lists);
+                }
+                // qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
+              /*  liveChatAdapter = new LiveChatAdapterRecycler(ActivityBuddyChat.this, chat_lists, attendeeid);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(ActivityBuddyChat.this);
+                qaRv.setLayoutManager(mLayoutManager);
+                qaRv.setItemAnimator(new DefaultItemAnimator());
+                liveChatAdapter.notifyDataSetChanged();
+                qaRv.setAdapter(liveChatAdapter);
+                liveChatAdapter.notifyDataSetChanged();*/
+
+                // setAdapter(chat_lists);
+                // qaRv.scheduleLayoutAnimation();
+                txtEmpty.setVisibility(View.GONE);
+                // qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
+
+
+                procializeDB.deleteBuddyChat(chat_with_id, userId);
+                procializeDB.insertBuddyChat(chat_lists, db);
+            } else {
+            }
+        } else {
+        }
+    }
+    //---------------------------------------------------------------------------
+
+    private void UserChatHistoryRefresh(final String eventid, final String token, String budd_id, String pageNumber) {
+        mAPIService.UserChathistory(eventid, token, budd_id, pageNumber).enqueue(new Callback<FetchChatList>() {
             @Override
             public void onResponse(Call<FetchChatList> call, Response<FetchChatList> response) {
 
@@ -407,16 +471,21 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 Collections.reverse(chat_lists);
                 pageNumber = 1;
 
-                liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists, attendeeid);
+                /*liveChatAdapter = new LiveChatAdapterRecycler(ActivityBuddyChat.this, chat_lists, attendeeid);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(ActivityBuddyChat.this);
+                qaRv.setLayoutManager(mLayoutManager);
+                qaRv.setItemAnimator(new DefaultItemAnimator());
                 liveChatAdapter.notifyDataSetChanged();
                 qaRv.setAdapter(liveChatAdapter);
                 liveChatAdapter.notifyDataSetChanged();
+*/
 
+                setAdapter(chat_lists);
                 // qaRv.scheduleLayoutAnimation();
                 txtEmpty.setVisibility(View.GONE);
-                qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
-
-                procializeDB.deleteBuddyChat(chat_with_id,userId);
+                //  qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
+                qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
+                procializeDB.deleteBuddyChat(chat_with_id, userId);
                 procializeDB.insertBuddyChat(chat_lists, db);
             } else {
 
@@ -426,53 +495,9 @@ public class ActivityBuddyChat extends AppCompatActivity {
         }
     }
 
-    public void showResponsePost(Response<FetchChatList> response) {
-
-        // specify an adapter (see also next example)
-        if (response.body().getStatus().equalsIgnoreCase("success")) {
-            // page = response.body().getData_pages();
-
-            if (!(response.body().getChatList().isEmpty())) {
-
-                /*for(int i=0;i<response.body().getChatList().size();i++) {
-                    chat_lists.add(response.body().getChatList().get(i));
-                }*/
-                chat_lists.clear();
-                for (int i = 0; i < response.body().getChatList().size(); i++) {
-                    chat_lists.add(response.body().getChatList().get(i));
-                }
-                Collections.reverse(chat_lists);
-                pageNumber = 0;
-
-
-                liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists, attendeeid);
-                liveChatAdapter.notifyDataSetChanged();
-                qaRv.setAdapter(liveChatAdapter);
-                liveChatAdapter.notifyDataSetChanged();
-
-                // qaRv.scheduleLayoutAnimation();
-                txtEmpty.setVisibility(View.GONE);
-                qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
-                SharedPreferences prefs = getSharedPreferences("chat", MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("sender_id", chat_lists.get(0).getSender_id());
-                editor.commit();
-
-                SharedPreferences prefs1 = getSharedPreferences("chat", MODE_PRIVATE);
-                String sender_id = prefs1.getString("sender_id", "");
-                procializeDB.deleteBuddyChat(chat_with_id,userId);
-                procializeDB.insertBuddyChat(chat_lists, db);
-            } else {
-
-            }
-
-        } else {
-
-        }
-    }
-
-    private void UserChatHistory(final String eventid, final String token, String budd_id, String msg) {
-        mAPIService.UserChathistory(eventid, token, budd_id, msg).enqueue(new Callback<FetchChatList>() {
+    //---------------------------Chatting history(fetch old messages)------------------------------------------------
+    private void UserChatHistory(final String eventid, final String token, String budd_id, String pageNumber) {
+        mAPIService.UserChathistory(eventid, token, budd_id, pageNumber).enqueue(new Callback<FetchChatList>() {
             @Override
             public void onResponse(Call<FetchChatList> call, Response<FetchChatList> response) {
 
@@ -538,15 +563,19 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 }
 
 
-                liveChatAdapter = new LiveChatAdapter(ActivityBuddyChat.this, chat_lists, attendeeid);
+                /*liveChatAdapter = new LiveChatAdapterRecycler(ActivityBuddyChat.this, chat_lists, attendeeid);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(ActivityBuddyChat.this);
+                qaRv.setLayoutManager(mLayoutManager);
+                qaRv.setItemAnimator(new DefaultItemAnimator());
                 liveChatAdapter.notifyDataSetChanged();
                 qaRv.setAdapter(liveChatAdapter);
-                liveChatAdapter.notifyDataSetChanged();
+                liveChatAdapter.notifyDataSetChanged();*/
 
+                setAdapter(chat_lists);
                 // qaRv.scheduleLayoutAnimation();
                 txtEmpty.setVisibility(View.GONE);
-                qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
-
+                //qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
+                qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
                 SharedPreferences prefs = getSharedPreferences("chat", MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("sender_id", chat_lists.get(0).getReceiver_id());
@@ -554,10 +583,11 @@ public class ActivityBuddyChat extends AppCompatActivity {
 
                 SharedPreferences prefs1 = getSharedPreferences("chat", MODE_PRIVATE);
                 String sender_id = prefs1.getString("sender_id", "");
-                procializeDB.deleteBuddyChat(chat_with_id,userId);
+                procializeDB.deleteBuddyChat(chat_with_id, userId);
                 procializeDB.insertBuddyChat(chat_NewAdd, db);
 
             } else {
+
                 //   txtEmpty.setVisibility(View.VISIBLE);
                 //txtEmpty.setText("Start conversation \n with VIP Support Team");
             }
@@ -565,12 +595,20 @@ public class ActivityBuddyChat extends AppCompatActivity {
             // Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
         }
     }
+    //------------------------------------------------------------------------------------------------------------
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(spotChatReciever);
-        //finishAffinity();
+    }
+
+    public void setAdapter(List<chat_list> chat_lists) {
+        liveChatAdapter = new LiveChatAdapterRecycler(ActivityBuddyChat.this, chat_lists, attendeeid);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(ActivityBuddyChat.this);
+        qaRv.setLayoutManager(mLayoutManager);
+        qaRv.setItemAnimator(new DefaultItemAnimator());
+        qaRv.setAdapter(liveChatAdapter);
     }
 
     private class SpotChatReciever extends BroadcastReceiver {
@@ -583,17 +621,30 @@ public class ActivityBuddyChat extends AppCompatActivity {
             if (BuddyId.equalsIgnoreCase(attendeeid)) {
                 if (SpotChat != null) {
                     if (SpotChat.equalsIgnoreCase("chat")) {
-                       /* new Handler().postDelayed(new Runnable() {
 
-                            @Override
-                            public void run() {
-                                UserChatHistoryRefresh(eventid, token, attendeeid, "1");
-                            }
-                        }, 300);*/
+                        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date now = new Date();
+                        String strDate = sdfDate.format(now);
+                        try {
+                            chat_list chat_list1 = new chat_list();
+                            chat_list1.setStatus("1");
+                            chat_list1.setId(chat_id);
+                            chat_list1.setSender_id(BuddyId);
+                            chat_list1.setReceiver_id(userId);
+                            chat_list1.setMessage(chat_message);
+                            chat_list1.setTimestamp(strDate);
 
-                         UserChatHistoryRefresh(eventid, token, attendeeid, "1");
-                        SpotChat = "S";
-                        pageNumber = 1;
+                            chat_lists.add(chat_list1);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                       /// if (liveChatAdapter != null) {
+                            liveChatAdapter.notifyDataSetChanged();
+                        /*} else {
+                            setAdapter(chat_lists);
+                        }*/
+                        qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
                         procializeDB.setBuddyChatUnreadMessageCountToZero(attendeeid);
                     }
                 }

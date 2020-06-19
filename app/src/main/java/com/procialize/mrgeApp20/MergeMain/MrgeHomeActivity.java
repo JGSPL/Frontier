@@ -4281,7 +4281,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             tv_notification.setVisibility(View.VISIBLE);
             ll_notification_count.setVisibility(View.VISIBLE);
             tv_notification.setText(notificationCount);*/
-            setNotification(context, tv_notification, ll_notification_count);
+           try {
+               setNotification(context, tv_notification, ll_notification_count);
+           }catch (Exception e)
+           {}
 
 
             try {

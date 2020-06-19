@@ -98,9 +98,7 @@ public class Util {
             notificationCountReciever = new MrgeHomeActivity.NotificationCountReciever();
             notificationCountFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_NOTIFICATION_COUNT);
             LocalBroadcastManager.getInstance(context).registerReceiver(notificationCountReciever, notificationCountFilter);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
         SharedPreferences prefs1 = context.getSharedPreferences("ProcializeInfo", MODE_PRIVATE);
         String notificationCount = prefs1.getString("notificationCount", "");
@@ -119,6 +117,9 @@ public class Util {
 
             tv_notification_drawer.setVisibility(View.VISIBLE);
             ll_notification_count_drawer.setVisibility(View.VISIBLE);
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

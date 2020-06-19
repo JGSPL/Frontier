@@ -253,17 +253,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                             holder.messageTV.setMovementMethod(LinkMovementMethod.getInstance());
 
                                             holder.messageTV.setText(stringBuilder);
-
                                         }
                                     }
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
                         }
                     }
-
                     holder.messageTV.setText(stringBuilder);
                 } else {
                     holder.messageTV.setVisibility(View.GONE);
@@ -279,7 +276,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
             } else {
                 holder.nameTv.setText(notificationList.getAttendeeFirstName());
-
             }
         } else if (notificationList.getNotificationType().equalsIgnoreCase("Cmnt")) {
             holder.txt_msg.setText("commented on your post");
@@ -288,7 +284,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
             } else {
                 holder.nameTv.setText(notificationList.getAttendeeFirstName());
-
             }
         } else if (notificationList.getNotificationType().equalsIgnoreCase("Post")) {
             holder.txt_msg.setText("");
@@ -298,7 +293,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
             } else {
                 holder.nameTv.setText(notificationList.getAttendeeFirstName());
-
             }
         } else if (notificationList.getNotificationType().equalsIgnoreCase("T")) {
             holder.txt_msg.setText("");
@@ -308,7 +302,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
             } else {
                 holder.nameTv.setText(notificationList.getAttendeeFirstName());
-
             }
         } else if (notificationList.getNotificationType().equalsIgnoreCase("Quiz")) {
             holder.txt_msg.setText("");
@@ -318,7 +311,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
             } else {
                 holder.nameTv.setText(notificationList.getAttendeeFirstName());
-
             }
         } else {
             String lName = notificationList.getAttendeeLastName();
@@ -326,9 +318,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
             } else {
                 holder.nameTv.setText(notificationList.getAttendeeFirstName());
-
             }
-
         }
 
 

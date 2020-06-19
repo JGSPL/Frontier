@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
-import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyChat;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Utility.Utility;
@@ -21,7 +20,6 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -35,18 +33,18 @@ public class LiveChatAdapter extends BaseAdapter {
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
     String colorActive;
+    String size = "5";
     private List<chat_list> directQuestionLists;
     private Context context;
     private String speakername;
     private APIService mAPIService;
     private LayoutInflater inflater;
     private String att_id;
-    String size = "5";
 
     public LiveChatAdapter(Context context, List<chat_list> directQuestionLists, String att_id) {
         this.directQuestionLists = directQuestionLists;
-        if(size.equalsIgnoreCase(String.valueOf(directQuestionLists.size()))){
-          //  ActivityBuddyChat.chat_id = directQuestionLists.get(0).getId();
+        if (size.equalsIgnoreCase(String.valueOf(directQuestionLists.size()))) {
+            //  ActivityBuddyChat.chat_id = directQuestionLists.get(0).getId();
         }
 
         //Collections.reverse(directQuestionLists);
@@ -78,18 +76,17 @@ public class LiveChatAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        if (getCount() > 0) {
-            return getCount();
-        } else {
+        //if (getCount() > 0) {
+            return directQuestionLists.size();//getCount();
+        /*} else {
             return super.getViewTypeCount();
-        }
+        }*/
     }
 
     @Override
     public int getItemViewType(int position) {
         return position;
     }
-
     @Override
     public long getItemId(int position) {
         return position;
@@ -120,104 +117,104 @@ public class LiveChatAdapter extends BaseAdapter {
             question = directQuestionLists.get(position);
 
 
-
-
-
             //if (question.geta()!=null && QA_reply_question.equalsIgnoreCase("1")) {
             if (question.getReceiver_id().equalsIgnoreCase(att_id)) {
                 try {
                     holder.AnsTv.setText(StringEscapeUtils.unescapeJava(question.getMessage()));
-                }catch (IllegalArgumentException e){
+                } catch (IllegalArgumentException e) {
 
                 }
-                holder.linAns.setVisibility(View.VISIBLE);
-                holder.ReviewTv.setVisibility(View.GONE);
-                holder.linQues.setVisibility(View.GONE);
-                if (question.getTimestamp() != null) {
-                    SimpleDateFormat formatter = null;
+                try {
+                    holder.linAns.setVisibility(View.VISIBLE);
+                    holder.ReviewTv.setVisibility(View.GONE);
+                    holder.linQues.setVisibility(View.GONE);
+                    if (question.getTimestamp() != null) {
+                        SimpleDateFormat formatter = null;
 
-                    String formate1 = ApiConstant.dateformat;
-                    String formate2 = ApiConstant.dateformat1;
+                        String formate1 = ApiConstant.dateformat;
+                        String formate2 = ApiConstant.dateformat1;
 
-                    if (Utility.isValidFormat(formate1, question.getTimestamp(), Locale.UK)) {
-                        formatter = new SimpleDateFormat(ApiConstant.dateformat);
-                    } else if (Utility.isValidFormat(formate2, question.getTimestamp(), Locale.UK)) {
-                        formatter = new SimpleDateFormat(ApiConstant.dateformat1);
+                        if (Utility.isValidFormat(formate1, question.getTimestamp(), Locale.UK)) {
+                            formatter = new SimpleDateFormat(ApiConstant.dateformat);
+                        } else if (Utility.isValidFormat(formate2, question.getTimestamp(), Locale.UK)) {
+                            formatter = new SimpleDateFormat(ApiConstant.dateformat1);
+                        }
+
+                        try {
+                            Date date1 = formatter.parse(question.getTimestamp());
+
+                            //DateFormat originalFormat = new SimpleDateFormat("dd MMM , HH:mm", Locale.UK);
+                            DateFormat originalFormat = new SimpleDateFormat("HH:mm", Locale.UK);
+
+                            String date = originalFormat.format(date1);
+
+                            holder.dateATv.setText(date);
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
-
-                    try {
-                        Date date1 = formatter.parse(question.getTimestamp());
-
-                        //DateFormat originalFormat = new SimpleDateFormat("dd MMM , HH:mm", Locale.UK);
-                        DateFormat originalFormat = new SimpleDateFormat("HH:mm", Locale.UK);
-
-                        String date = originalFormat.format(date1);
-
-                        holder.dateATv.setText(date);
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                } catch (Exception e) {
                 }
-
 
             } else if (question.getSender_id().equalsIgnoreCase(att_id)) {
                 try {
                     holder.QaTv.setText(StringEscapeUtils.unescapeJava(question.getMessage()));
-                }catch (IllegalArgumentException e){
+                } catch (IllegalArgumentException e) {
 
                 }
-                //holder.nameTv.setText(question.get());
-                if (question.getTimestamp() != null) {
-                    SimpleDateFormat formatter = null;
+                try {
+                    //holder.nameTv.setText(question.get());
+                    if (question.getTimestamp() != null) {
+                        SimpleDateFormat formatter = null;
 
-                    String formate1 = ApiConstant.dateformat;
-                    String formate2 = ApiConstant.dateformat1;
+                        String formate1 = ApiConstant.dateformat;
+                        String formate2 = ApiConstant.dateformat1;
 
-                    if (Utility.isValidFormat(formate1, question.getTimestamp(), Locale.UK)) {
-                        formatter = new SimpleDateFormat(ApiConstant.dateformat);
-                    } else if (Utility.isValidFormat(formate2, question.getTimestamp(), Locale.UK)) {
-                        formatter = new SimpleDateFormat(ApiConstant.dateformat1);
+                        if (Utility.isValidFormat(formate1, question.getTimestamp(), Locale.UK)) {
+                            formatter = new SimpleDateFormat(ApiConstant.dateformat);
+                        } else if (Utility.isValidFormat(formate2, question.getTimestamp(), Locale.UK)) {
+                            formatter = new SimpleDateFormat(ApiConstant.dateformat1);
+                        }
+
+                        try {
+                            Date date1 = formatter.parse(question.getTimestamp());
+
+                            //DateFormat originalFormat = new SimpleDateFormat("dd MMM , HH:mm", Locale.UK);
+                            DateFormat originalFormat = new SimpleDateFormat("HH:mm", Locale.UK);
+
+                            String date = originalFormat.format(date1);
+
+                            holder.dateNTv.setText(date);
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                    try {
-                        Date date1 = formatter.parse(question.getTimestamp());
+                    holder.AnsTv.setVisibility(View.GONE);
+                    holder.ReviewTv.setVisibility(View.GONE);
+                    holder.linAns.setVisibility(View.GONE);
+                    holder.linQues.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
 
-                        //DateFormat originalFormat = new SimpleDateFormat("dd MMM , HH:mm", Locale.UK);
-                        DateFormat originalFormat = new SimpleDateFormat("HH:mm", Locale.UK);
-
-                        String date = originalFormat.format(date1);
-
-                        holder.dateNTv.setText(date);
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
                 }
-
-                holder.AnsTv.setVisibility(View.GONE);
-                holder.ReviewTv.setVisibility(View.GONE);
-                holder.linAns.setVisibility(View.GONE);
-                holder.linQues.setVisibility(View.VISIBLE);
-
-
             } else {
-                holder.AnsTv.setVisibility(View.GONE);
-                holder.ReviewTv.setVisibility(View.GONE);
-                holder.linAns.setVisibility(View.GONE);
-                holder.linQues.setVisibility(View.GONE);
-
+                try {
+                    holder.AnsTv.setVisibility(View.GONE);
+                    holder.ReviewTv.setVisibility(View.GONE);
+                    holder.linAns.setVisibility(View.GONE);
+                    holder.linQues.setVisibility(View.GONE);
+                }catch (Exception e)
+                {e.printStackTrace();}
             }
-
-
         }
         return convertView;
-
     }
 
 
     public static class ViewHolder {
-        public TextView   QaTv, AnsTv, ReviewTv,dateNTv,dateATv;
+        public TextView QaTv, AnsTv, ReviewTv, dateNTv, dateATv;
         LinearLayout linAns, linQues;
     }
 

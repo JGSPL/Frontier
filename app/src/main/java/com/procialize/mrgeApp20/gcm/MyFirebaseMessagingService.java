@@ -174,15 +174,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 if (msgTye.contains("chat_")) {
 
-
+                    String[] message = remoteMessage.getData().get("message").split("-");
                     ActivityBuddyChat.SpotChat = "chat";
                     ActivityBuddyChat.chat_id = msgTye;
+                    ActivityBuddyChat.chat_message = message[1];
 
                     if (msgTye.contains("chat_")) {
                         msgTye = msgTye.replace("chat_", "");
                     }
 
-                    String[] message = remoteMessage.getData().get("message").split("-");
+
                     chat_list_db UsersList = new chat_list_db();
                     UsersList.setIs_read("0");
                     UsersList.setId("");
