@@ -780,7 +780,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                     Toast.makeText(getApplicationContext(), "Please enter something", Toast.LENGTH_SHORT).show();
                 } else {
                     commentbtn.setEnabled(false);
-                    PostComment(eventid, feedid, StringEscapeUtils.escapeJava(postMsg), apikey);
+                    PostComment(eventid, feedid, StringEscapeUtils.escapeJava(postMsg), apikey,"1");
                 }
             }
         });
@@ -1090,9 +1090,9 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
     }
 
 
-    public void PostComment(String eventid, String feedid, String comments, String accesskey) {
+    public void PostComment(String eventid, String feedid, String comments, String accesskey,String type) {
         showProgress();
-        mAPIService.postComment(eventid, feedid, comments, accesskey).enqueue(new Callback<PostComment>() {
+        mAPIService.postComment(eventid, feedid, comments, accesskey,type).enqueue(new Callback<PostComment>() {
             @Override
             public void onResponse(Call<PostComment> call, Response<PostComment> response) {
 
@@ -1794,8 +1794,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
     @Override
     public void onGifSelected(Result result) {
 
-
-        PostComment(eventid, feedid, result.getMedia().get(0).getGif().getUrl(), apikey);
+        PostComment(eventid, feedid, result.getMedia().get(0).getGif().getUrl(), apikey,"2");
         action_container.setVisibility(View.VISIBLE);
         container2.setVisibility(View.GONE);
         try {
