@@ -9,6 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
@@ -26,7 +29,7 @@ import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class AttendeeChatAdapter extends BaseAdapter {
+public class AttendeeChatAdapterRecycler extends RecyclerView.Adapter<AttendeeChatAdapterRecycler.MyViewHolder> {
 
     String token, message;
     String QA_like_question, QA_reply_question;
@@ -41,7 +44,7 @@ public class AttendeeChatAdapter extends BaseAdapter {
     private String att_id;
     String size = "5";
 
-    public AttendeeChatAdapter(Context context, List<chat_list> directQuestionLists, String att_id) {
+    public AttendeeChatAdapterRecycler(Context context, List<chat_list> directQuestionLists, String att_id) {
         this.directQuestionLists = directQuestionLists;
         if(size.equalsIgnoreCase(String.valueOf(directQuestionLists.size()))){
             //ActivityBuddyChat.chat_id = directQuestionLists.get(0).getId();
@@ -58,34 +61,23 @@ public class AttendeeChatAdapter extends BaseAdapter {
 
     }
 
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView QaTv, AnsTv, ReviewTv, dateNTv, dateATv;
+        LinearLayout linAns, linQues;
 
-    @Override
-    public int getCount() {
-        return directQuestionLists.size();
-    }
+        public MyViewHolder(View convertView) {
+            super(convertView);
 
-    @Override
-    public Object getItem(int position) {
-        return directQuestionLists.get(position);
-    }
 
-   /* @Override
-    public int getViewTypeCount() {
-        return getCount();
-    }*/
 
-    @Override
-    public int getViewTypeCount() {
-        if (getCount() > 0) {
-            return getCount();
-        } else {
-            return super.getViewTypeCount();
+            QaTv = convertView.findViewById(R.id.QaTv);
+            AnsTv = convertView.findViewById(R.id.AnsTv);
+            ReviewTv = convertView.findViewById(R.id.ReviewTv);
+            linAns = convertView.findViewById(R.id.linAns);
+            linQues = convertView.findViewById(R.id.linQues);
+            dateNTv = convertView.findViewById(R.id.dateNTv);
+            dateATv = convertView.findViewById(R.id.dateATv);
         }
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return position;
     }
 
     @Override
@@ -94,37 +86,29 @@ public class AttendeeChatAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        final ViewHolder holder;
-        chat_list question;
+    public int getItemViewType(int position) {
+        return position;
+    }
 
-        inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.chat_row, parent, false);
 
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.chat_row,
-                    null);
+        return new MyViewHolder(itemView);
+    }
 
-            holder = new ViewHolder();
+    @Override
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+        chat_list question = directQuestionLists.get(position);
+        if (question.getReceiver_id().equalsIgnoreCase(att_id)) {
+            try {
+                holder.AnsTv.setText(StringEscapeUtils.unescapeJava(question.getMessage()));
+            } catch (IllegalArgumentException e) {
 
-            holder.QaTv = convertView.findViewById(R.id.QaTv);
-            holder.AnsTv = convertView.findViewById(R.id.AnsTv);
-            holder.ReviewTv = convertView.findViewById(R.id.ReviewTv);
-            holder.linAns = convertView.findViewById(R.id.linAns);
-            holder.linQues = convertView.findViewById(R.id.linQues);
-            holder.dateNTv = convertView.findViewById(R.id.dateNTv);
-
-            holder.dateATv = convertView.findViewById(R.id.dateATv);
-            question = directQuestionLists.get(position);
-
-
-            //if (question.geta()!=null && QA_reply_question.equalsIgnoreCase("1")) {
-            if (question.getReceiver_id().equalsIgnoreCase(att_id)) {
-                try {
-                    holder.AnsTv.setText(StringEscapeUtils.unescapeJava(question.getMessage()));
-                }catch (IllegalArgumentException e){
-
-                }
+            }
+            try {
                 holder.linAns.setVisibility(View.VISIBLE);
                 holder.ReviewTv.setVisibility(View.GONE);
                 holder.linQues.setVisibility(View.GONE);
@@ -154,14 +138,16 @@ public class AttendeeChatAdapter extends BaseAdapter {
                         e.printStackTrace();
                     }
                 }
+            } catch (Exception e) {
+            }
 
+        } else if (question.getSender_id().equalsIgnoreCase(att_id)) {
+            try {
+                holder.QaTv.setText(StringEscapeUtils.unescapeJava(question.getMessage()));
+            } catch (IllegalArgumentException e) {
 
-            } else if (question.getSender_id().equalsIgnoreCase(att_id)) {
-                try {
-                    holder.QaTv.setText(StringEscapeUtils.unescapeJava(question.getMessage()));
-                }catch (IllegalArgumentException e){
-
-                }
+            }
+            try {
                 //holder.nameTv.setText(question.get());
                 if (question.getTimestamp() != null) {
                     SimpleDateFormat formatter = null;
@@ -194,26 +180,23 @@ public class AttendeeChatAdapter extends BaseAdapter {
                 holder.ReviewTv.setVisibility(View.GONE);
                 holder.linAns.setVisibility(View.GONE);
                 holder.linQues.setVisibility(View.VISIBLE);
+            } catch (Exception e) {
 
-
-            } else {
+            }
+        } else {
+            try {
                 holder.AnsTv.setVisibility(View.GONE);
                 holder.ReviewTv.setVisibility(View.GONE);
                 holder.linAns.setVisibility(View.GONE);
                 holder.linQues.setVisibility(View.GONE);
-
-            }
-
-
+            }catch (Exception e)
+            {e.printStackTrace();}
         }
-        return convertView;
-
     }
 
-
-    public static class ViewHolder {
-        public TextView QaTv, AnsTv, ReviewTv,dateNTv,dateATv;
-        LinearLayout linAns, linQues;
+    @Override
+    public int getItemCount() {
+        return directQuestionLists.size();
     }
 
 }

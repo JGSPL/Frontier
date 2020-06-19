@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -100,6 +101,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
     EmojIconActions emojIcon;
     private String userId, chat_with_id, attendeeid, name, city, country, company, designation, description, totalrating, profile, mobile;
     private APIService mAPIService;
+    boolean isRefreshing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -305,7 +307,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
             public void onRefresh() {
                 // String chat_id = chat_lists.get(0).getId();
                 pageNO = Integer.parseInt(page);
-
+                isRefreshing = true;
                 pageNumber = pageNumber + 1;
                 if (pageNumber <= pageNO) {
                     UserChatHistory(eventid, token, attendeeid, String.valueOf(pageNumber));
@@ -571,11 +573,19 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 qaRv.setAdapter(liveChatAdapter);
                 liveChatAdapter.notifyDataSetChanged();*/
 
-                setAdapter(chat_lists);
+
                 // qaRv.scheduleLayoutAnimation();
                 txtEmpty.setVisibility(View.GONE);
                 //qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
-                qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
+                if (isRefreshing) {
+                    if (liveChatAdapter != null) {
+                        liveChatAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    setAdapter(chat_lists);
+                    qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
+                }
+
                 SharedPreferences prefs = getSharedPreferences("chat", MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("sender_id", chat_lists.get(0).getReceiver_id());
@@ -616,7 +626,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             /*chat_id.replace("chat_","");
             String BuddyId = chat_id;*/
-            String BuddyId = chat_id.replace("chat_", "");
+            /*String BuddyId = chat_id.replace("chat_", "");
             Log.d("service end", "service end");
             if (BuddyId.equalsIgnoreCase(attendeeid)) {
                 if (SpotChat != null) {
@@ -639,16 +649,82 @@ public class ActivityBuddyChat extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                       /// if (liveChatAdapter != null) {
+                        if (liveChatAdapter != null) {
                             liveChatAdapter.notifyDataSetChanged();
-                        /*} else {
+                            qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
+                        } else {
                             setAdapter(chat_lists);
-                        }*/
+                        }
                         qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
                         procializeDB.setBuddyChatUnreadMessageCountToZero(attendeeid);
                     }
                 }
-            }
+            }*/
+            new getMessage().execute();
+
+            procializeDB.setBuddyChatUnreadMessageCountToZero(attendeeid);
         }
     }
+
+    private class getMessage extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... f_url) {
+            try {
+                String BuddyId = chat_id.replace("chat_", "");
+                Log.d("service end", "service end");
+                if (BuddyId.equalsIgnoreCase(attendeeid)) {
+                    if (SpotChat != null) {
+                        if (SpotChat.equalsIgnoreCase("chat")) {
+
+                            SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            Date now = new Date();
+                            String strDate = sdfDate.format(now);
+                            try {
+                                chat_list chat_list1 = new chat_list();
+                                chat_list1.setStatus("1");
+                                chat_list1.setId(chat_id);
+                                chat_list1.setSender_id(BuddyId);
+                                chat_list1.setReceiver_id(userId);
+                                chat_list1.setMessage(chat_message);
+                                chat_list1.setTimestamp(strDate);
+
+                                chat_lists.add(chat_list1);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+                }
+                return "success";
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
+            }
+
+            return "Something went wrong";
+        }
+
+        @Override
+        protected void onPostExecute(String message) {
+
+            if (liveChatAdapter != null) {
+                liveChatAdapter.notifyDataSetChanged();
+                qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
+            } else {
+                setAdapter(chat_lists);
+            }
+            qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
+
+
+        }
+    }
+
+
 }
