@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -29,6 +30,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
@@ -41,6 +45,8 @@ import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.AttendeeChat.Adapter.AttendeeChatAdapter;
+import com.procialize.mrgeApp20.AttendeeChat.Adapter.AttendeeChatAdapterRecycler;
+import com.procialize.mrgeApp20.BuddyList.Adapter.LiveChatAdapterRecycler;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
@@ -51,8 +57,10 @@ import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -69,13 +77,13 @@ public class AttendeeChatActivity extends AppCompatActivity {
             buddy_status;
     ImageView iv_buddy_details,profileIV;
     TextView title, sub_title;
-    public AttendeeChatAdapter liveChatAdapter;
+    public AttendeeChatAdapterRecycler liveChatAdapter;
     String token,userId;
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid, colorActive;
     SwipeRefreshLayout qaRvrefresh;
     ProgressBar progressBar;
-    ListView qaRv;
+    RecyclerView qaRv;
     ImageView headerlogoIv;
     TextView txtEmpty, nmtxt,pullrefresh;
     private APIService mAPIService;
@@ -83,6 +91,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
     //EditText commentEt;
     ImageView commentBt;
     public static String chat_id = "0";
+    public static String attendee_chat_message = "";
     List<chat_list> chat_lists = new ArrayList<>();
     List<chat_list> chat_NewAdd = new ArrayList<>();
     public static String SpotEventChat="";
@@ -101,6 +110,8 @@ public class AttendeeChatActivity extends AppCompatActivity {
     ImageView emojiImageView;
     View rootView;
     EmojIconActions emojIcon;
+    boolean isRefreshing = false;
+    boolean isComplete = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -232,14 +243,11 @@ public class AttendeeChatActivity extends AppCompatActivity {
         } else {
             List<chat_list> chat_lists1 = procializeDB.getAttendeeChat(chat_with_id, userId);
             //Collections.reverse(chat_lists1);
-            liveChatAdapter = new AttendeeChatAdapter(AttendeeChatActivity.this, chat_lists1,attendeeid);
-            liveChatAdapter.notifyDataSetChanged();
-            qaRv.setAdapter(liveChatAdapter);
-            liveChatAdapter.notifyDataSetChanged();
+            setAdapter(chat_lists1);
 
             // qaRv.scheduleLayoutAnimation();
             txtEmpty.setVisibility(View.GONE);
-            qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
+            qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
         }
 
         try {
@@ -297,16 +305,22 @@ public class AttendeeChatActivity extends AppCompatActivity {
             public void onRefresh() {
                 // String chat_id = chat_lists.get(0).getId();
                 pageNO = Integer.parseInt(page);
-
+                isRefreshing = true;
                 pageNumber= pageNumber+1;
                 if(pageNumber<=pageNO){
+
+                    if (chat_lists.size() > 0) {
+                        chat_lists.clear();
+                    }
+                    if(!isComplete)
                     UserChatHistory(eventid, token, attendeeid, String.valueOf(pageNumber));
                 }else{
                     if (qaRvrefresh.isRefreshing()) {
                         qaRvrefresh.setRefreshing(false);
                     }
+                    isComplete = true;
                     Toast.makeText(AttendeeChatActivity.this, "Chat loading complete", Toast.LENGTH_SHORT).show();
-                    pageNumber = 1;
+                    /*pageNumber = 1;*/
                 }
             }
         });
@@ -319,33 +333,6 @@ public class AttendeeChatActivity extends AppCompatActivity {
         getUserActivityReport.userActivityReport();
     }
 
-    private class SpotChatReciever extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            /*chat_id.replace("chat_","");
-            String BuddyId = chat_id;*/
-            String BuddyId = chat_id.replace("eventchat_", "");
-            Log.d("service end", "service end");
-            if(BuddyId.equalsIgnoreCase(attendeeid)) {
-                if (SpotEventChat != null) {
-                    if (SpotEventChat.equalsIgnoreCase("Eventchat")) {
-                       /* new Handler().postDelayed(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                UserChatHistoryRefresh(eventid, token, attendeeid, "1");
-                            }
-                        }, 300);*/
-
-                    UserChatHistoryRefresh(eventid, token, attendeeid, "1");
-                        SpotEventChat = "S";
-                        pageNumber = 1;
-
-                    }
-                }
-            }
-        }
-    }
 
 
     private void PostChat(final String eventid, final String token, String budd_id,String msg) {
@@ -429,14 +416,9 @@ public class AttendeeChatActivity extends AppCompatActivity {
                 pageNumber = 1;
 
 
-                liveChatAdapter = new AttendeeChatAdapter(AttendeeChatActivity.this, chat_lists,attendeeid);
-                liveChatAdapter.notifyDataSetChanged();
-                qaRv.setAdapter(liveChatAdapter);
-                liveChatAdapter.notifyDataSetChanged();
-
-                // qaRv.scheduleLayoutAnimation();
+                setAdapter(chat_lists);
                 txtEmpty.setVisibility(View.GONE);
-                qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
+                qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
 
                 procializeDB.deleteAttendeeChat(chat_with_id,userId);
                 procializeDB.insertAttendeeChat(chat_lists, db);
@@ -468,16 +450,14 @@ public class AttendeeChatActivity extends AppCompatActivity {
                 Collections.reverse(chat_lists);
                 pageNumber = 1;
 
+                if (liveChatAdapter != null) {
+                    liveChatAdapter.notifyDataSetChanged();
+                    qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
+                } else {
+                    setAdapter(chat_lists);
+                }
 
-                liveChatAdapter = new AttendeeChatAdapter(AttendeeChatActivity.this, chat_lists,attendeeid);
-                liveChatAdapter.notifyDataSetChanged();
-                qaRv.setAdapter(liveChatAdapter);
-                liveChatAdapter.notifyDataSetChanged();
-
-                // qaRv.scheduleLayoutAnimation();
                 txtEmpty.setVisibility(View.GONE);
-                qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
-
                 procializeDB.deleteAttendeeChat(chat_with_id,userId);
                 procializeDB.insertAttendeeChat(chat_lists, db);
 
@@ -559,15 +539,15 @@ public class AttendeeChatActivity extends AppCompatActivity {
                 }
 
 
-
-                liveChatAdapter = new AttendeeChatAdapter(AttendeeChatActivity.this, chat_lists,attendeeid);
-                liveChatAdapter.notifyDataSetChanged();
-                qaRv.setAdapter(liveChatAdapter);
-                liveChatAdapter.notifyDataSetChanged();
-
-                // qaRv.scheduleLayoutAnimation();
                 txtEmpty.setVisibility(View.GONE);
-                qaRv.smoothScrollToPosition(liveChatAdapter.getCount());
+                if (isRefreshing) {
+                    if (liveChatAdapter != null) {
+                        liveChatAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    setAdapter(chat_lists);
+                    qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
+                }
 
                 procializeDB.deleteAttendeeChat(chat_with_id,userId);
                 procializeDB.insertAttendeeChat(chat_lists, db);
@@ -580,4 +560,103 @@ public class AttendeeChatActivity extends AppCompatActivity {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(spotChatReciever);
     }
+
+    public void setAdapter(List<chat_list> chat_lists) {
+        liveChatAdapter = new AttendeeChatAdapterRecycler(AttendeeChatActivity.this, chat_lists, attendeeid);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(AttendeeChatActivity.this);
+        qaRv.setLayoutManager(mLayoutManager);
+        qaRv.setItemAnimator(new DefaultItemAnimator());
+        qaRv.setAdapter(liveChatAdapter);
+    }
+
+    private class SpotChatReciever extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            /*chat_id.replace("chat_","");
+            String BuddyId = chat_id;*/
+            /*String BuddyId = chat_id.replace("eventchat_", "");
+            Log.d("service end", "service end");
+            if(BuddyId.equalsIgnoreCase(attendeeid)) {
+                if (SpotEventChat != null) {
+                    if (SpotEventChat.equalsIgnoreCase("Eventchat")) {
+                       *//* new Handler().postDelayed(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                UserChatHistoryRefresh(eventid, token, attendeeid, "1");
+                            }
+                        }, 300);*//*
+
+                        UserChatHistoryRefresh(eventid, token, attendeeid, "1");
+                        SpotEventChat = "S";
+                        pageNumber = 1;
+
+                    }
+                }
+            }*/
+            new getMessage().execute();
+            procializeDB.setAttendeeChatUnreadMessageCountToZero(attendeeid);
+        }
+    }
+
+
+    private class getMessage extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... f_url) {
+            try {
+                String BuddyId = chat_id.replace("eventchat_", "");
+                Log.d("service end", "service end");
+                if (BuddyId.equalsIgnoreCase(attendeeid)) {
+                    if (SpotEventChat != null) {
+                        if (SpotEventChat.equalsIgnoreCase("eventchat")) {
+
+                            SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            Date now = new Date();
+                            String strDate = sdfDate.format(now);
+                            try {
+                                chat_list chat_list1 = new chat_list();
+                                chat_list1.setStatus("1");
+                                chat_list1.setId(chat_id);
+                                chat_list1.setSender_id(BuddyId);
+                                chat_list1.setReceiver_id(userId);
+                                chat_list1.setMessage(attendee_chat_message);
+                                chat_list1.setTimestamp(strDate);
+
+                                chat_lists.add(chat_list1);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+                return "success";
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
+            }
+
+            return "Something went wrong";
+        }
+
+        @Override
+        protected void onPostExecute(String message) {
+
+            if (liveChatAdapter != null) {
+                liveChatAdapter.notifyDataSetChanged();
+                qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
+            } else {
+                setAdapter(chat_lists);
+            }
+            qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
+
+
+        }
+    }
+
 }

@@ -586,13 +586,6 @@ public class ActivityBuddyChat extends AppCompatActivity {
                     qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
                 }
 
-                SharedPreferences prefs = getSharedPreferences("chat", MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("sender_id", chat_lists.get(0).getReceiver_id());
-                editor.commit();
-
-                SharedPreferences prefs1 = getSharedPreferences("chat", MODE_PRIVATE);
-                String sender_id = prefs1.getString("sender_id", "");
                 procializeDB.deleteBuddyChat(chat_with_id, userId);
                 procializeDB.insertBuddyChat(chat_NewAdd, db);
 
