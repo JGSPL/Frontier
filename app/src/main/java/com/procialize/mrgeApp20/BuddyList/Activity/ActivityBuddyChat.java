@@ -102,7 +102,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
     private String userId, chat_with_id, attendeeid, name, city, country, company, designation, description, totalrating, profile, mobile;
     private APIService mAPIService;
     boolean isRefreshing = false;
-
+    boolean isComplete = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -310,13 +310,15 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 isRefreshing = true;
                 pageNumber = pageNumber + 1;
                 if (pageNumber <= pageNO) {
+                    if(!isComplete)
                     UserChatHistory(eventid, token, attendeeid, String.valueOf(pageNumber));
                 } else {
                     if (qaRvrefresh.isRefreshing()) {
                         qaRvrefresh.setRefreshing(false);
                     }
+                    isComplete = true;
                     Toast.makeText(ActivityBuddyChat.this, "Chat loading complete", Toast.LENGTH_SHORT).show();
-                    pageNumber = 1;
+                    //pageNumber = 1;
                 }
             }
         });

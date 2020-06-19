@@ -81,7 +81,7 @@ public class AttendeeChatAdapterRecycler extends RecyclerView.Adapter<AttendeeCh
     @Override
     public AttendeeChatAdapterRecycler.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.chat_row, parent, false);
+                .inflate(R.layout.chat_row_attendee, parent, false);
       /*  View view;
         if (viewType == 1) { // for call layout
             view = LayoutInflater.from(context).inflate(R.layout.chat_row1, parent, false);
