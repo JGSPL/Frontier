@@ -170,7 +170,8 @@ public interface APIService {
     Call<PostComment> postComment(@Field("event_id") String eventId,
                                   @Field("news_feed_id") String news_feed_id,
                                   @Field("comment_data") String comment_data,
-                                  @Field("api_access_token") String api_access_token);
+                                  @Field("api_access_token") String api_access_token,
+                                  @Field("type") String type);
 
     @POST("SendNotification")
     @FormUrlEncoded

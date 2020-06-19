@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -80,6 +81,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
     String MY_PREFS_NAME = "ProcializeInfo";
     String img = "";
     RecyclerView recyclerView;
+    LinearLayout btnlayout;
     RelativeLayout relative;
     TextView tv_name, tv_like;
     ImageView likeIv;
@@ -139,6 +141,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
         firstLevelFilters = (List<SelfieList>) getIntent().getExtras().getSerializable("gallerylist");
         mAPIService = ApiUtils.getAPIService();
         recyclerView = findViewById(R.id.listrecycler);
+        btnlayout = findViewById(R.id.btnlayout);
         pager = findViewById(R.id.pager);
         right = findViewById(R.id.right);
         left = findViewById(R.id.left);
@@ -512,6 +515,14 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
         }
         //----------------------------------------------------------------------------------
 
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            recyclerView.setVisibility(View.VISIBLE);
+            btnlayout.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.GONE);
+            btnlayout.setVisibility(View.GONE);
+        }
 
     }
 

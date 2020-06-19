@@ -604,7 +604,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MrgeHomeActivity.this, EventInfoActivity.class));
-
             }
         });
 
@@ -613,7 +612,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             public void onClick(View v) {
                 Intent main = new Intent(getApplicationContext(), NotificationActivity.class);
                 startActivity(main);
-
             }
         });
 

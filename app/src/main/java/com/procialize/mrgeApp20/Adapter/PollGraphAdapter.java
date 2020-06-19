@@ -127,7 +127,12 @@ public class PollGraphAdapter extends RecyclerView.Adapter<PollGraphAdapter.MyVi
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
 
