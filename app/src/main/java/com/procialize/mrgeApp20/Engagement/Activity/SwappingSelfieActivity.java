@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.Engagement.Activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
@@ -91,9 +93,13 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
     private APIService mAPIService;
 
     static public void shareImage(String url, final Context context) {
+        final Dialog dialog = new Dialog(context);
+
         Picasso.with(context).load(url).into(new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                dialog.dismiss();
+
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("image/*");
                 // i.putExtra(Intent.EXTRA_SUBJECT, data);
@@ -107,6 +113,10 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.dialog_progress);
+                dialog.show();
             }
         });
     }

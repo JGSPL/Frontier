@@ -172,6 +172,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String OBJECT_TYPE = "OBJECT_TYPE";
 
     public static final String READ = "READ";
+    public static final String NOTIFICATION_MEDIA = "NOTIFICATION_MEDIA";
 
     public static final String NOTIFICATION_CONTENT = "NOTIFICATION_CONTENT";
     public static final String MESSAGE_ID = "MESSAGE_ID";
@@ -466,7 +467,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 + OBJECT_ID + " text, " + OBJECT_TYPE + " text, " + READ + " text, "
                 + NOTIFICATION_CONTENT + " text, " + MESSAGE_ID + " text, " + EVENT_ID + " text, " + NOTIFICATION_DATE + " text, " + NOTIATTENDEE_ID + " text,"
                 + NOTIATTENDEE_FIRST_NAME + " text, " + NOTIATTENDEE_LAST_NAME + " text, " + COMPANY_NAME + " text, " + DESIGNATION + " text, " + PROFILE_PIC + " text,"
-                + EVENT_NAME + " text, " + NOTIFICATION_POST_ID + " text)");
+                + EVENT_NAME + " text, "
+                + NOTIFICATION_MEDIA + " text, "
+                + NOTIFICATION_POST_ID + " text)");
 
         db.execSQL("create table " + EX_NOTIFICATION_LIST + "(" + EX_NOTIFICATION_ID
                 + " text, " + EX_NOTIFICATION_TYPE + " text, " + EX_SUBJECT_ID + " text, " + EX_SUBJECT_TYPE + " text, "
@@ -1923,6 +1926,11 @@ db.execSQL("create table " + BUDDY_CHAT_COUNT_TABLE_NAME + "("
                 if (evname != null && evname.length() > 0) {
                     contentValues.put(EVENT_NAME, evname);
                 }
+
+                String NOTY_MEDIA = agendasList.get(i).getMedia_file();
+                if (NOTY_MEDIA != null && NOTY_MEDIA.length() > 0) {
+                    contentValues.put(NOTIFICATION_MEDIA, NOTY_MEDIA);
+                }
                 String postid = agendasList.get(i).getNotificationPostId();
                 if (postid != null && postid.length() > 0) {
                     contentValues.put(NOTIFICATION_POST_ID, postid);
@@ -2959,7 +2967,8 @@ db.execSQL("create table " + BUDDY_CHAT_COUNT_TABLE_NAME + "("
                 newsfeedsList.setDesignation(cursor.getString(15));
                 newsfeedsList.setProfilePic(cursor.getString(16));
                 newsfeedsList.setEventName(cursor.getString(17));
-                newsfeedsList.setNotificationPostId(cursor.getString(18));
+                newsfeedsList.setMedia_file(cursor.getString(18));
+                newsfeedsList.setNotificationPostId(cursor.getString(19));
 
                 newsFeedList.add(newsfeedsList);
             } while (cursor.moveToNext());

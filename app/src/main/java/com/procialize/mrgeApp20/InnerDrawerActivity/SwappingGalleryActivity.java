@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.InnerDrawerActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -74,9 +76,13 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
     private ConnectionDetector cd;
 
     static public void shareImage(String url, final Context context) {
+        final Dialog dialog = new Dialog(context);
+
         Picasso.with(context).load(url).into(new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                dialog.dismiss();
+
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("image/*");
                 i.putExtra(Intent.EXTRA_SUBJECT, "Shared via MRGE app");
@@ -91,6 +97,10 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.dialog_progress);
+                dialog.show();
             }
         });
     }
@@ -167,19 +177,6 @@ public class SwappingGalleryActivity extends AppCompatActivity implements SwipeI
         HashMap<String, String> user = sessionManager.getUserDetails();
         token = user.get(SessionManager.KEY_TOKEN);
 
-        /*try {
-
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/Procialize/" + "background.jpg");
-            Resources res = getResources();
-            Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
-            BitmapDrawable bd = new BitmapDrawable(res, bitmap);
-            linear.setBackgroundDrawable(bd);
-
-            Log.e("PATH", String.valueOf(mypath));
-        } catch (Exception e) {
-            e.printStackTrace();
-            linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
-        }*/
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
 

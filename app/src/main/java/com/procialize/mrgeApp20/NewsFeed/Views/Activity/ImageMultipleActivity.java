@@ -436,6 +436,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
                                 builder.show();
                             }
                         } else {
+
                             shareImage( ApiConstant.newsfeedwall + news_feed_media.get(shareOrSaveImagePosition).getMediaFile(), ImageMultipleActivity.this);
                         }
                     } else {

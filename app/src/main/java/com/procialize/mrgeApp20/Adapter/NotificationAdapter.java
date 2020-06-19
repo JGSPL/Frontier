@@ -130,7 +130,24 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }).into(holder.gifiv);
             } else {
                 holder.messageTV.setVisibility(View.VISIBLE);
-                holder.gifiv.setVisibility(View.GONE);
+                if (notificationList.getMedia_file() != null) {
+                    holder.gifiv.setVisibility(View.VISIBLE);
+                    Glide.with(context).load(notificationList.getMedia_file())
+                            .apply(RequestOptions.skipMemoryCacheOf(true))
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            return false;
+                        }
+                    }).into(holder.gifiv);
+                } else{
+                    holder.gifiv.setVisibility(View.GONE);
+            }
                 try{
                 holder.testdata.setText(StringEscapeUtils.unescapeJava(notificationList.getNotificationContent()));
                 }catch (IllegalArgumentException e){
@@ -271,7 +288,25 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         if (notificationList.getNotificationType().equalsIgnoreCase("Like")) {
             holder.txt_msg.setText("Liked Your Post");
             holder.messageTV.setVisibility(View.GONE);
-            String lName = notificationList.getAttendeeLastName();
+            String lName = notificationList.getAttendeeLastName();if (notificationList.getMedia_file() != null) {
+                holder.gifiv.setVisibility(View.VISIBLE);
+                Glide.with(context).load(notificationList.getMedia_file())
+                        .apply(RequestOptions.skipMemoryCacheOf(true))
+                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
+                    }
+                }).into(holder.gifiv);
+            } else{
+                holder.gifiv.setVisibility(View.GONE);
+            }
+
             if (lName != null) {
                 holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
             } else {
@@ -280,6 +315,25 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         } else if (notificationList.getNotificationType().equalsIgnoreCase("Cmnt")) {
             holder.txt_msg.setText("commented on your post");
             String lName = notificationList.getAttendeeLastName();
+            if (notificationList.getMedia_file() != null && !(notificationList.getMedia_file().equalsIgnoreCase(""))&&
+            !(notificationList.getMedia_file().isEmpty())) {
+                holder.gifiv.setVisibility(View.VISIBLE);
+                Glide.with(context).load(notificationList.getMedia_file())
+                        .apply(RequestOptions.skipMemoryCacheOf(true))
+                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
+                    }
+                }).into(holder.gifiv);
+            } else{
+                holder.gifiv.setVisibility(View.GONE);
+            }
             if (lName != null) {
                 holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
             } else {
@@ -289,6 +343,25 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.txt_msg.setText("");
             holder.txt_msg.setVisibility(View.GONE);
             String lName = notificationList.getAttendeeLastName();
+            if (notificationList.getMedia_file() != null && !(notificationList.getMedia_file().equalsIgnoreCase(""))&&
+                    !(notificationList.getMedia_file().isEmpty())) {
+                holder.gifiv.setVisibility(View.VISIBLE);
+                Glide.with(context).load(notificationList.getMedia_file())
+                        .apply(RequestOptions.skipMemoryCacheOf(true))
+                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
+                    }
+                }).into(holder.gifiv);
+            } else{
+                holder.gifiv.setVisibility(View.GONE);
+            }
             if (lName != null) {
                 holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
             } else {
@@ -297,6 +370,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         } else if (notificationList.getNotificationType().equalsIgnoreCase("T")) {
             holder.txt_msg.setText("");
             holder.txt_msg.setVisibility(View.GONE);
+            holder.gifiv.setVisibility(View.GONE);
+
             String lName = notificationList.getAttendeeLastName();
             if (lName != null) {
                 holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
@@ -307,12 +382,34 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.txt_msg.setText("");
             holder.txt_msg.setVisibility(View.GONE);
             String lName = notificationList.getAttendeeLastName();
+            holder.gifiv.setVisibility(View.GONE);
+
             if (lName != null) {
                 holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
             } else {
                 holder.nameTv.setText(notificationList.getAttendeeFirstName());
             }
         } else {
+            if (notificationList.getMedia_file() != null && !(notificationList.getMedia_file().equalsIgnoreCase(""))&&
+                    !(notificationList.getMedia_file().isEmpty())) {
+                holder.gifiv.setVisibility(View.VISIBLE);
+                Glide.with(context).load(notificationList.getMedia_file())
+                        .apply(RequestOptions.skipMemoryCacheOf(true))
+                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
+                    }
+                }).into(holder.gifiv);
+            } else{
+                holder.gifiv.setVisibility(View.GONE);
+            }
+
             String lName = notificationList.getAttendeeLastName();
             if (lName != null) {
                 holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
@@ -367,10 +464,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.ivtype.setImageResource(R.drawable.notifycoment);
             holder.arrowIv.setVisibility(View.VISIBLE);
             holder.arrowIv.setImageResource(R.drawable.ic_rightarrow);
+            if(notificationList.getMedia_file().equalsIgnoreCase("")){
+                holder.gifiv.setVisibility(View.GONE);
+
+            }
         } else if (notificationList.getNotificationType().equalsIgnoreCase("Like")) {
             holder.txt_msg.setVisibility(View.VISIBLE);
             holder.arrowIv.setVisibility(View.VISIBLE);
+            if(notificationList.getMedia_file().equalsIgnoreCase("")){
+                holder.gifiv.setVisibility(View.GONE);
 
+            }
             holder.arrowIvmsg.setVisibility(View.GONE);
 
             holder.ivtype.setImageResource(R.drawable.notifylike);
@@ -378,7 +482,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         } else if (notificationList.getNotificationType().equalsIgnoreCase("Msg")) {
             holder.txt_msg.setVisibility(View.VISIBLE);
             holder.arrowIvmsg.setVisibility(View.VISIBLE);
+            if(notificationList.getMedia_file().equalsIgnoreCase("")){
+                holder.gifiv.setVisibility(View.GONE);
 
+            }
             holder.ivtype.setImageResource(R.drawable.notifymessage);
             holder.arrowIv.setVisibility(View.GONE);
             holder.arrowIvmsg.setImageResource(R.drawable.messageiv);
@@ -387,6 +494,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         } else if (notificationList.getNotificationType().equalsIgnoreCase("Quiz")) {
             holder.txt_msg.setVisibility(View.GONE);
             holder.arrowIv.setVisibility(View.VISIBLE);
+            holder.gifiv.setVisibility(View.GONE);
 
             holder.arrowIvmsg.setVisibility(View.GONE);
 
@@ -401,6 +509,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         } else if (notificationList.getNotificationType().equalsIgnoreCase("T")) {
             holder.txt_msg.setVisibility(View.GONE);
             holder.arrowIv.setVisibility(View.VISIBLE);
+            holder.gifiv.setVisibility(View.GONE);
 
             holder.arrowIvmsg.setVisibility(View.GONE);
 
@@ -410,6 +519,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         } else if (notificationList.getNotificationType().equalsIgnoreCase("Live_poll")) {
             holder.txt_msg.setVisibility(View.GONE);
             holder.arrowIv.setVisibility(View.VISIBLE);
+            holder.gifiv.setVisibility(View.GONE);
 
             holder.arrowIvmsg.setVisibility(View.GONE);
 
@@ -421,7 +531,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.arrowIv.setVisibility(View.GONE);
             holder.arrowIvmsg.setVisibility(View.GONE);
             holder.arrowIvmsg.setVisibility(View.GONE);
+            if(notificationList.getMedia_file().equalsIgnoreCase("")){
+                holder.gifiv.setVisibility(View.GONE);
 
+            }
 
             holder.ivtype.setImageResource(R.drawable.notifyadmin);
             holder.arrowIv.setVisibility(View.GONE);
