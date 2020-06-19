@@ -777,7 +777,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 hideTv.setVisibility(View.VISIBLE);
                 reportTv.setVisibility(View.VISIBLE);
                 reportuserTv.setVisibility(View.VISIBLE);
-                blockuserTv.setVisibility(View.VISIBLE);
+                blockuserTv.setVisibility(View.GONE);
             }
 
         }

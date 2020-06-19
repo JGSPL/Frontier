@@ -68,6 +68,20 @@ public class NotificationList {
     @Expose
     private String notificationPostId;
 
+
+
+    @SerializedName("media_file")
+    @Expose
+    private String media_file;
+
+    public String getMedia_file() {
+        return media_file;
+    }
+
+    public void setMedia_file(String media_file) {
+        this.media_file = media_file;
+    }
+
     public String getNotificationId() {
         return notificationId;
     }
