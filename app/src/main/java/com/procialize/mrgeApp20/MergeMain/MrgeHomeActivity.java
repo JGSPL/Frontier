@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
@@ -82,6 +83,7 @@ import com.procialize.mrgeApp20.Background.WallPostService;
 import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyList;
 import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.CustomTools.CustomViewPager;
+import com.procialize.mrgeApp20.CustomTools.MyJzvdStd;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
@@ -313,7 +315,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merge_home);
 
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+      // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
         if (CheckingPermissionIsEnabledOrNot()) {
@@ -622,15 +624,16 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         // activity_spring_indicator_indicator_default = findViewById(R.id.activity_spring_indicator_indicator_default);
 
-      //  viewPager.setPagingEnabled(false);
+        viewPager.setPagingEnabled(false);
         setupViewPager(viewPager);
 
-       // Subviewpager.setPagingEnabled(false);
-        //Subviewpager3.setPagingEnabled(false);
-        viewPager.setPageTransformer(false, new NoPageTransformer());
+        Subviewpager.setPagingEnabled(false);
+        Subviewpager2.setPagingEnabled(false);
+        Subviewpager3.setPagingEnabled(false);
+     /*   viewPager.setPageTransformer(false, new NoPageTransformer());
         Subviewpager.setPageTransformer(false, new NoPageTransformer());
         Subviewpager2.setPageTransformer(false, new NoPageTransformer());
-        Subviewpager3.setPageTransformer(false, new NoPageTransformer());
+        Subviewpager3.setPageTransformer(false, new NoPageTransformer());*/
 
 
         Sub2setupViewPager(Subviewpager);
@@ -748,7 +751,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         eula = navigationView.findViewById(R.id.eula);
 
         if (ApiConstant.baseUrl.contains("stage")) {
-            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(7)");
+            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(8)");
         } else {
             txt_version.setText("Version : " + BuildConfig.VERSION_NAME);
         }
@@ -4257,15 +4260,18 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     }
 */
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(spotLivePollReciever);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(spotQuizReciever);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(spotLivePollReciever);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
 
         procializeDB.close();
         dbHelper.close();
-        finishAffinity();
+
+       // finishAffinity();
     }
 
 

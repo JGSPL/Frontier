@@ -21,6 +21,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
+import com.procialize.mrgeApp20.CustomTools.MyJzvdStd;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
 import com.procialize.mrgeApp20.R;
@@ -37,7 +38,7 @@ import cn.jzvd.JzvdStd;
 public class SwipeMultimediaAdapter extends PagerAdapter {
 
     public ImageView myImage;
-    public JzvdStd videoview;
+    public MyJzvdStd videoview;
     public TextView name;
     String MY_PREFS_NAME = "ProcializeInfo";
     ImageView imgplay, thumbimg;
@@ -121,7 +122,7 @@ public class SwipeMultimediaAdapter extends PagerAdapter {
                     , JzvdStd.SCREEN_WINDOW_NORMAL, "");*/
             videoview.setUp(firstLevelFilter,""
                     , JzvdStd.SCREEN_NORMAL);
-            Jzvd.setVideoImageDisplayType(Jzvd.VIDEO_IMAGE_DISPLAY_TYPE_FILL_SCROP);
+            MyJzvdStd.setVideoImageDisplayType(Jzvd.VIDEO_IMAGE_DISPLAY_TYPE_FILL_SCROP);
 
                       /*HttpProxyCacheServer proxy = getProxy(context);
             String proxyUrl = proxy.getProxyUrl(firstLevelFilter);

@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <cn.jzvd.JzvdStd
+    <com.procialize.mrgeApp20.CustomTools.MyJzvdStd
         android:id="@+id/videoview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

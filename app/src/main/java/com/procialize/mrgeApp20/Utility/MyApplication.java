@@ -57,7 +57,6 @@ public class MyApplication extends Application  implements LifecycleObserver {
     private String speakerName;
     private String eventId = "";
 
-    public static boolean isAppDestoryed = false;
     public static Context getmContext() {
         return mContext;
     }
@@ -130,23 +129,7 @@ public class MyApplication extends Application  implements LifecycleObserver {
 
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public void onAppBackgrounded() {
-        //App in background
-        isAppDestoryed = false;
-    }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void onAppForegrounded() {
-        // App in foreground
-        isAppDestoryed = false;
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public void onAppDestryed()
-    {
-        isAppDestoryed = true;
-    }
 
     @Override
     protected void attachBaseContext(Context base) {
