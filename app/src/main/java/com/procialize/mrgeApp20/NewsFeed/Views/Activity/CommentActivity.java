@@ -1467,6 +1467,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                                 swipableAdapterPosition = position1;
                                 JzvdStd.releaseAllVideos();
                                 setupPagerIndidcatorDots(position1, ll_dots, imagesSelectednew.size());
+
                             }
 
                             @Override

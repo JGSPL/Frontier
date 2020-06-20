@@ -93,7 +93,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
     ImageView headerlogoIv;
     List<EventSettingList> eventSettingLists;
     String news_feed_share,
-            news_feed_comment,
+            news_feed_comment="1",
             news_feed_like="1";
     private APIService mAPIService;
     private DBHelper procializeDB;
@@ -262,17 +262,20 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
     private void applysetting(List<EventSettingList> eventSettingLists) {
 
         for (int i = 0; i < eventSettingLists.size(); i++) {
-
-           /* if (eventSettingLists.get(i).getFieldName().equals("news_feed_like")) {
-                news_feed_like = eventSettingLists.get(i).getFieldValue();
-            }*/
-
-            if (eventSettingLists.get(i).getFieldName().equals("news_feed_comment")) {
-                news_feed_comment = eventSettingLists.get(i).getFieldValue();
-            }
-
-            if (eventSettingLists.get(i).getFieldName().equals("news_feed_share")) {
-                news_feed_share = eventSettingLists.get(i).getFieldValue();
+            if (eventSettingLists.get(i).getFieldName().equals("news_feed")) {
+                if (eventSettingLists.get(i).getSub_menuList() != null) {
+                    if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                        for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                             if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_comment")) {
+                                news_feed_comment = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_like")) {
+                                news_feed_like = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_share")) {
+                                news_feed_share = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }
+                        }
+                    }
+                }
             }
         }
     }

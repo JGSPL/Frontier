@@ -153,7 +153,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                /* Intent intent = new Intent(QuizActivity.this, FolderQuizActivity.class);
                 startActivity(intent);
                 finish();*/
-               onBackPressed();
+                onBackPressed();
 
             }
         });
@@ -208,7 +208,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         submit.setBackgroundColor(Color.parseColor(colorActive));
 
         try {
-         File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -296,24 +296,19 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
 
        /* progressBarCircle.setMax(timerForQuiz);
         progressBarCircle.setProgress(10);
-
        //int timeFQ = time*1000;
         int timeFQ = time*1000;
-
         timercountdown = new CountDownTimer(timeFQ, 1000) {
             public void onTick(long millisUntilFinished) {
                 if (time == 0) {
                     time = timerForQuiz;
                     //time = 10;
                 }
-
                 txt_time.setText("" + ":" + checkdigit(time));
                 textViewTime.setText(String.valueOf(time));
                 progressBarCircle.setProgress(time);
-
                 time--;
             }
-
            public void onFinish() {
                time = 0;
                timercountdown.cancel();
@@ -713,7 +708,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 Log.e("valid_id", question_id.toString());
                 Log.e("valid_string", valid.toString());
 
-               // if (valid == true && submitflag == true) {
+                // if (valid == true && submitflag == true) {
                 if (submitflag == true) {
                     quiz_question_id = question_id[0];
                     quiz_options_id = question_ans[0];
@@ -875,7 +870,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         /*Intent intent = new Intent(QuizActivity.this, FolderQuizActivity.class);
         startActivity(intent);
         finish();*/
-getSupportFragmentManager().popBackStack();
+        getSupportFragmentManager().popBackStack();
 
     }
 

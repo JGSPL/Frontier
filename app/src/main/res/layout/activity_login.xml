@@ -342,7 +342,8 @@
             android:text=""
             android:textAlignment="center"
             android:textColor="@color/colorwhite"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:visibility="gone"/>
 
 
     </LinearLayout>
