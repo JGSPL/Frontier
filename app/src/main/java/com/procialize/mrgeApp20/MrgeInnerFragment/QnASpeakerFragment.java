@@ -121,8 +121,8 @@ public class QnASpeakerFragment extends Fragment implements QASpeakerAdapter.QAS
         GradientDrawable shape = setgradientDrawable(5, colorActive);
         postbtn.setBackground(shape);
 
-        DialogQnADirect dialogQna = new DialogQnADirect();
-        dialogQna.welcomeQnADialog(getContext());
+       // DialogQnADirect dialogQna = new DialogQnADirect();
+       // dialogQna.welcomeQnADialog(getContext());
 
         qaRvrefresh = rootView.findViewById(R.id.qaRvrefresh);
         spinner = rootView.findViewById(R.id.spinner);
