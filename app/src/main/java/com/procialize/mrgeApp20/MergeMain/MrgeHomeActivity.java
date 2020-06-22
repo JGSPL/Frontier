@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.DisplayMetrics;
@@ -148,7 +149,9 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -299,6 +302,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     private DBHelper dbHelper;
     private YouTubePlayerSupportFragment youTubePlayerFragment;
     private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
+    Context contextnoti;
 
 
 
@@ -4283,7 +4287,6 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
 
 
-
     public static class NotificationCountReciever extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -4295,7 +4298,10 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             ll_notification_count.setVisibility(View.VISIBLE);
             tv_notification.setText(notificationCount);*/
            try {
-               setNotification(context, tv_notification, ll_notification_count);
+               new getNotiCount().execute(context);
+
+               //setNotification(context, tv_notification, ll_notification_count);
+
            }catch (Exception e)
            {}
 
@@ -4311,6 +4317,32 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         }
     }
+
+    static class getNotiCount extends AsyncTask<Context, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(Context... f_url) {
+            try {
+                setNotification(f_url[0], tv_notification, ll_notification_count);
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
+            }
+
+            return "Something went wrong";
+        }
+
+        @Override
+        protected void onPostExecute(String message) {
+
+        }
+    }
+
 
     class ViewPagerAdapterSub extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
