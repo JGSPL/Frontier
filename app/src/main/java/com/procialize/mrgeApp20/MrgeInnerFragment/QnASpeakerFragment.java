@@ -359,7 +359,7 @@ public class QnASpeakerFragment extends Fragment implements QASpeakerAdapter.QAS
 
         nametv.setTextColor(Color.parseColor(colorActive));
 
-        title.setText("Post Question");
+        title.setText("Ask Question");
 
         nametv.setText("To " + Selectedspeaker);
 

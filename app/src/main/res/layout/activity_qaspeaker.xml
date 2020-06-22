@@ -120,7 +120,9 @@
     <RelativeLayout
         android:id="@+id/linUpper"
         android:layout_width="match_parent"
+        android:layout_marginTop="2dp"
         android:layout_height="match_parent"
+        android:paddingBottom="80dp"
         android:orientation="vertical">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

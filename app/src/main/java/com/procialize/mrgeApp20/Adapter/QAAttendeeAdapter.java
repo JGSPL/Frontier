@@ -84,21 +84,23 @@ public class QAAttendeeAdapter extends RecyclerView.Adapter<QAAttendeeAdapter.My
         holder.nameTv.setText(agendaListsfilter.get(position).getFirst_name() + " " + agendaListsfilter.get(position).getLast_name());
 
         try{
-        holder.QaTv.setText(StringEscapeUtils.unescapeJava(question.getQuestion()));
+        holder.QaTv.setText("Q. "+StringEscapeUtils.unescapeJava(question.getQuestion()));
         }catch (IllegalArgumentException e){
             e.printStackTrace();
 
         }
-        if (question.getAnswer() != null) {
-            if (!question.getAnswer().equalsIgnoreCase("null")) {
+        if (question.getReply() != null) {
+            if (!question.getReply().equalsIgnoreCase("null") &&
+                    !question.getReply().equalsIgnoreCase("")) {
                 try{
-                    holder.AnsTv.setText("Ans :- " + StringEscapeUtils.unescapeJava(question.getAnswer()));
+                    holder.AnsTv.setText("A. " + StringEscapeUtils.unescapeJava(question.getReply()));
                 }catch (IllegalArgumentException e){
                     e.printStackTrace();
 
                 }
             } else {
-                holder.AnsTv.setVisibility(View.GONE);
+                holder.AnsTv.setText("Awaiting Answer");
+                holder.AnsTv.setVisibility(View.VISIBLE);
             }
         }
         holder.countTv.setText(question.getTotalLikes() + " Likes");

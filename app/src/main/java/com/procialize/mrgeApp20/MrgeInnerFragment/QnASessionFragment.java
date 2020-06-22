@@ -436,7 +436,7 @@ public class QnASessionFragment extends Fragment implements QAAttendeeAdapter.QA
         nametv.setTextColor(Color.parseColor(colorActive));
 
 
-        title.setText("Post Question");
+        title.setText("Ask Question");
 
 
         nametv.setText("To " + Selectedspeaker);

@@ -30,7 +30,7 @@
                 android:layout_weight="8.5"
                 android:paddingLeft="10dp"
                 android:text="@string/sendmsg"
-                android:textColor="@color/activetab"
+                android:textColor="@color/colorwhite"
                 android:textSize="@dimen/textsizenormal"
                 android:layout_marginLeft="10dp"/>
 

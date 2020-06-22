@@ -81,22 +81,25 @@ public class QASpeakerAdapter extends RecyclerView.Adapter<QASpeakerAdapter.MyVi
 
         holder.nameTv.setText(question.getFirstName() + " " + question.getLastName());
         try{
-        holder.QaTv.setText(StringEscapeUtils.unescapeJava(question.getQuestion()));
+        holder.QaTv.setText("Q. "+StringEscapeUtils.unescapeJava(question.getQuestion()));
         }catch (IllegalArgumentException e){
             e.printStackTrace();
 
         }
 
-        if (question.getAnswer() != null) {
-            if (!question.getAnswer().equalsIgnoreCase("null")) {
+        if (question.getReply() != null) {
+            if (!question.getReply().equalsIgnoreCase("null") &&
+                    !question.getReply().equalsIgnoreCase("")) {
                 try{
-                    holder.AnsTv.setText("Ans :- " + StringEscapeUtils.unescapeJava(question.getAnswer()));
+                    holder.AnsTv.setText("A. " + StringEscapeUtils.unescapeJava(question.getReply()));
                 }catch (IllegalArgumentException e){
                     e.printStackTrace();
 
                 }
             } else {
-                holder.AnsTv.setVisibility(View.GONE);
+                holder.AnsTv.setText("Awaiting Answer");
+
+                holder.AnsTv.setVisibility(View.VISIBLE);
             }
         }
 
