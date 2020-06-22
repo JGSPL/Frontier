@@ -4,15 +4,25 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
@@ -161,6 +171,30 @@ public class QAAttendeeAdapter extends RecyclerView.Adapter<QAAttendeeAdapter.My
 
         }
 
+        if (question.getProfile_pic() != null) {
+
+
+            Glide.with(context).load(ApiConstant.profilepic + question.getProfile_pic())
+                    .apply(RequestOptions.skipMemoryCacheOf(false))
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            holder.profileIV.setImageResource(R.drawable.profilepic_placeholder);
+
+                            holder.progressBar.setVisibility(View.GONE);
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            holder.progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    }).into(holder.profileIV);
+
+        }
+
 
     }
 
@@ -201,9 +235,11 @@ public class QAAttendeeAdapter extends RecyclerView.Adapter<QAAttendeeAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView nameTv, dateTv, QaTv, countTv, AnsTv;
-        public ImageView likeIv;
+        /*public ImageView likeIv;
+        LinearLayout likeLL;*/
+        public ImageView likeIv, profileIV;
         LinearLayout likeLL;
-
+        ProgressBar progressBar;
         public MyViewHolder(View view) {
             super(view);
             nameTv = view.findViewById(R.id.nameTv);
@@ -213,7 +249,9 @@ public class QAAttendeeAdapter extends RecyclerView.Adapter<QAAttendeeAdapter.My
             countTv = view.findViewById(R.id.countTv);
 
             likeLL = view.findViewById(R.id.likeLL);
-
+            progressBar= view.findViewById(R.id.progressBar);
+            //likeIv = view.findViewById(R.id.likeIv);
+            profileIV = view.findViewById(R.id.profileIV);
             likeIv = view.findViewById(R.id.likeIv);
 
             itemView.setOnClickListener(new View.OnClickListener() {
