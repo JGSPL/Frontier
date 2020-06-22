@@ -1021,6 +1021,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
             }
             Comments = String.valueOf(count);
 
+
         } catch (Exception e) {
             e.printStackTrace();
         }

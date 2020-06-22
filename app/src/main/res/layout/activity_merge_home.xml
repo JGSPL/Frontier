@@ -41,6 +41,7 @@
                         android:gravity="center"
                         android:orientation="horizontal">
 
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -75,7 +76,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right|center"
-                            android:layout_marginRight="10dp"
+                            android:layout_marginRight="5dp"
                             android:contentDescription=" "
                             android:layout_weight="3"
                             android:src="@drawable/active_grid_view" />
@@ -86,7 +87,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
                             android:layout_gravity="right|center"
-                            android:layout_marginRight="10dp"
+                            android:layout_marginRight="5dp"
                             android:contentDescription=" "
                             android:src="@drawable/active_list_view" />
 
@@ -94,8 +95,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="3"
-                            android:layout_marginRight="10dp"
-                            android:gravity="center">
+                            android:layout_marginRight="5dp"
+                            android:gravity="center"
+                            android:layout_gravity="center">
 
                             <ImageView
                                 android:id="@+id/notificationlogoIv"
@@ -110,7 +112,6 @@
                                 android:layout_height="15dp"
                                 android:orientation="horizontal"
                                 android:layout_marginLeft="10dp"
-                                android:layout_marginBottom="20dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/count_circle"
                                 android:gravity="center"
