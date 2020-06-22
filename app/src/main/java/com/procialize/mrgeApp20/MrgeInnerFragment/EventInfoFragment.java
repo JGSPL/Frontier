@@ -106,7 +106,8 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     private List<EventList> eventDBList;
     private List<SponsorsList> sponsorDBList;
     Boolean isVisible = false;
-
+    SharedPreferences prefs2;
+    SharedPreferences.Editor editor2;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -118,6 +119,10 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         colorActive = prefs.getString("colorActive", "");
         relative_head = view2.findViewById(R.id.relative_head);
         sessionManager = new SessionManager(getContext());
+
+
+        prefs2 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        editor2 = prefs2.edit();
 
         // get user data from session
         HashMap<String, String> user = sessionManager.getUserDetails();
@@ -285,10 +290,10 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
             sponsorList = response.body().getSponsor_list();
             filePath = response.body().getSponsor_file_path();
 
-            SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("sponsor_filePath", filePath);
-            editor.commit();
+            /*SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();*/
+            editor2.putString("sponsor_filePath", filePath);
+            editor2.commit();
 
             SponsorAdapter sponsorAdapter = new SponsorAdapter(getActivity(), sponsorList, filePath);
             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
@@ -530,10 +535,10 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                 dbHelper.insertSponsorInfo(sponsorList, db);
                 filePath = response.body().getSponsor_file_path();
 
-                SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("sponsor_filePath", filePath);
-                editor.commit();
+               /* SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();*/
+                editor2.putString("sponsor_filePath", filePath);
+                editor2.commit();
 
                 SponsorAdapter sponsorAdapter = new SponsorAdapter(getActivity(), sponsorList, filePath);
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
