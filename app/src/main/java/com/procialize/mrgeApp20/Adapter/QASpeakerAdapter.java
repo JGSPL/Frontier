@@ -4,15 +4,25 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
@@ -162,7 +172,28 @@ public class QASpeakerAdapter extends RecyclerView.Adapter<QASpeakerAdapter.MyVi
 
 
         }
+        if (question.getProfilePic() != null) {
+            Glide.with(context).load((ApiConstant.profilepic + question.getProfilePic()))
+                    .placeholder(R.drawable.profilepic_placeholder)
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            holder.progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
 
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            holder.progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    }).into(holder.profileIv);
+
+        } else {
+            holder.progressBar.setVisibility(View.GONE);
+            holder.profileIv.setImageResource(R.drawable.profilepic_placeholder);
+        }
 
     }
 
@@ -202,7 +233,8 @@ public class QASpeakerAdapter extends RecyclerView.Adapter<QASpeakerAdapter.MyVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView nameTv, dateTv, QaTv, AnsTv, countTv;
-        public ImageView likeIv;
+        public ImageView likeIv,profileIv;
+        ProgressBar progressBar;
         LinearLayout likeLL;
 
         public MyViewHolder(View view) {
@@ -213,7 +245,8 @@ public class QASpeakerAdapter extends RecyclerView.Adapter<QASpeakerAdapter.MyVi
             AnsTv = view.findViewById(R.id.AnsTv);
             countTv = view.findViewById(R.id.countTv);
             likeLL = view.findViewById(R.id.likeLL);
-
+            profileIv = view.findViewById(R.id.profileIV);
+            progressBar = view.findViewById(R.id.progressBar);
             likeIv = view.findViewById(R.id.likeIv);
 
             itemView.setOnClickListener(new View.OnClickListener() {

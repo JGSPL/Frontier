@@ -60,6 +60,7 @@
                 android:padding="@dimen/album_dp_10"/>-->
 
             <RelativeLayout
+                android:id="@+id/rl_notification"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
