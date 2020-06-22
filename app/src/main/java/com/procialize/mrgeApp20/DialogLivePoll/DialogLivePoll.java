@@ -40,6 +40,7 @@ import com.procialize.mrgeApp20.CustomTools.CustomViewPager;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.DialogQuiz.adapter.QuizPagerDialogAdapter;
+import com.procialize.mrgeApp20.Fonts.RobotoButton;
 import com.procialize.mrgeApp20.GetterSetter.LivePollFetch;
 import com.procialize.mrgeApp20.GetterSetter.LivePollList;
 import com.procialize.mrgeApp20.GetterSetter.LivePollOptionList;
@@ -70,7 +71,8 @@ public class DialogLivePoll implements View.OnClickListener{
     public static MyApplication appDelegate;
     public static String quiz_question_id;
     public static ListView recyclerView;
-    public static Button submit, btnNext;
+    //public static com.procialize.mrgeApp20.Fonts..
+    RobotoButton submit, btnNext;
     public static LinearLayoutManager llm;
     public static int count1 = 1;
     public static boolean submitflag = false;
@@ -225,8 +227,8 @@ public class DialogLivePoll implements View.OnClickListener{
 
         // Session Manager
         cd = new ConnectionDetector(context);
-        submit = (Button) Detaildialog.findViewById(R.id.submit);
-        btnNext = (Button) Detaildialog.findViewById(R.id.btnNext);
+        submit = (RobotoButton) Detaildialog.findViewById(R.id.submit);
+        btnNext = (RobotoButton) Detaildialog.findViewById(R.id.btnNext);
         txt_time = (TextView) Detaildialog.findViewById(R.id.txt_time);
         test = (TextView) Detaildialog.findViewById(R.id.test);
 

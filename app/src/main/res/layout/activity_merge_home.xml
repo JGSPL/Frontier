@@ -286,11 +286,11 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:background="#686868"
-                        android:text="Participate"
+                        android:text="Participate via Video"
                         android:textAllCaps="false"
                         android:textColor="@color/colorwhite"
-                        android:textSize="@dimen/textsizesmall" />
-
+                        android:textSize="12sp" />
+0
                 </LinearLayout>
                 </LinearLayout>
 

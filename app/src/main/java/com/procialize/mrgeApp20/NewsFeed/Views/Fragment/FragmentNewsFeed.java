@@ -1070,7 +1070,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 MrgeHomeActivity.txt_zoom.setBackgroundColor(Color.parseColor(colorActive));
                 MrgeHomeActivity.img_zoom.setBackgroundColor(Color.parseColor(colorActive));
 
-                MrgeHomeActivity.txt_zoom.setText("Participate");
+                MrgeHomeActivity.txt_zoom.setText("Participate via Video");
                 Animation anim = new AlphaAnimation(0.0f, 1.0f);
                 anim.setDuration(500); //You can manage the blinking time with this parameter
                 anim.setStartOffset(20);
@@ -1086,7 +1086,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 MrgeHomeActivity.txt_zoom.setBackgroundColor(Color.parseColor("#686868"));
                 MrgeHomeActivity.img_zoom.setBackgroundColor(Color.parseColor("#686868"));
                 // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
-                MrgeHomeActivity.txt_zoom.setText("Participate");
+                MrgeHomeActivity.txt_zoom.setText("Participate via Video");
             }
         }
 
