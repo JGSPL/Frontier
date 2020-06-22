@@ -281,8 +281,8 @@ public class DialogLivePoll implements View.OnClickListener{
         accessToken = user.get(SessionManager.KEY_TOKEN);
         eventid = prefs.getString("eventid", "1");
         questionId = pollListsNew.getId();
-        submit.setOnClickListener(this);
-        /*submit.setOnClickListener(new View.OnClickListener() {
+        //submit.setOnClickListener(this);
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (replyFlag.equalsIgnoreCase("1")) {
@@ -290,14 +290,13 @@ public class DialogLivePoll implements View.OnClickListener{
                 } else {
                     if (quiz_options_id != null) {
                         Detaildialog.dismiss();
-                        thankYouDialog(context2, pollListsNew.getQuestion(), questionId, optionLists);
-                       // LivePollSubmitFetch(accessToken, eventid, questionId, quiz_options_id);
+                        submitLivePoll(accessToken, eventid, questionId, quiz_options_id);
                     } else {
                         Toast.makeText(context2, "Please select something", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
-        });*/
+        });
 
 
         pager = Detaildialog.findViewById(R.id.pager);
@@ -371,7 +370,26 @@ public class DialogLivePoll implements View.OnClickListener{
                     rdbtn.setText(StringEscapeUtils.unescapeJava(optionLists.get(i - 1).getOption()));
                     rdbtn.setTextColor(Color.BLACK);
 //                rdbtn.setTypeface(typeFace);
-                    rdbtn.setOnClickListener(this);
+                   // rdbtn.setOnClickListener(this);
+                    rdbtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String option = rdbtn.getText().toString();
+                            for (RadioButton radio : radios) {
+                                if (!radio.getText().equals(option)) {
+                                    radio.setChecked(false);
+                                }
+                            }
+
+                            for (int i = 0; i < optionLists.size(); i++) {
+                                test.setText(StringEscapeUtils.unescapeJava(optionLists.get(i).getOption()));
+                                if (option.equalsIgnoreCase(test.getText().toString())) {
+                                    quiz_options_id = optionLists.get(i)
+                                            .getOptionId();
+                                }
+                            }
+                        }
+                    });
 
 
 
@@ -835,7 +853,7 @@ public class DialogLivePoll implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if (v == submit) {
+       /*  if (v == submit) {
             if (replyFlag.equalsIgnoreCase("1")) {
                 Toast.makeText(context2, "You Already Submited This Poll", Toast.LENGTH_SHORT).show();
             } else {
@@ -846,7 +864,7 @@ public class DialogLivePoll implements View.OnClickListener{
                     Toast.makeText(context2, "Please select something", Toast.LENGTH_SHORT).show();
                 }
             }
-        } else {
+        }else {
             String option = ((RadioButton) v).getText().toString();
             for (RadioButton radio : radios) {
                 if (!radio.getText().equals(option)) {
@@ -861,6 +879,6 @@ public class DialogLivePoll implements View.OnClickListener{
                             .getOptionId();
                 }
             }
-        }
+        }*/
     }
 }
