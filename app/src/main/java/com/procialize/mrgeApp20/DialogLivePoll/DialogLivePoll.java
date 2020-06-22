@@ -246,7 +246,7 @@ public class DialogLivePoll implements View.OnClickListener{
         //recyclerView = (ListView) Detaildialog.findViewById(R.id.quiz_list);
         questionTv = (TextView) Detaildialog.findViewById(R.id.questionTv);
         radios = new ArrayList<RadioButton>();
-        questionTv.setText(pollListsNew.getQuestion());
+        questionTv.setText(StringEscapeUtils.unescapeJava(pollListsNew.getQuestion()));
         questionId = pollListsNew.getId();
         replyFlag = pollListsNew.getReplied();
         if (totalOptionLists.size() != 0) {
