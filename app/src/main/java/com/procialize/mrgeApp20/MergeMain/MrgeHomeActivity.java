@@ -733,7 +733,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         eula = navigationView.findViewById(R.id.eula);
 
         if (ApiConstant.baseUrl.contains("stage")) {
-            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(9)");
+            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(10)");
         } else {
             txt_version.setText("Version : " + BuildConfig.VERSION_NAME);
         }

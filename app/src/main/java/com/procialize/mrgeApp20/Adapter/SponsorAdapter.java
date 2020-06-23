@@ -69,7 +69,7 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
             holder.tv_name.setText(sponsorsList.getName());
             Glide.with(context).load(file)
                     .placeholder(R.drawable.profilepic_placeholder)
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop().centerCrop()
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
