@@ -232,6 +232,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             QnA_reply_question = "0", QnA_direct_question = "0", engagement_selfie_contest = "0",
             engagement_video_contest = "0", quiz = "0", live_poll = "0", engagement = "0";
     private String folder = "0", image_gallery = "0", document_download = "0", video_gallery = "0";
+    private String live_streaming= "0", youtube = "0",zoom = "0";
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private CustomViewPager viewPager;
@@ -403,6 +404,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         } else {
         }
 
+
         linear_livestream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -545,6 +547,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             eventMenuSettingLists = SessionManager.loadMenuEventList();
             Setting(eventSettingLists);
         }
+
+
 
         /*if(sub3tabLayout.getVisibility() == View.VISIBLE && linTab3.getVisibility() == View.VISIBLE )
         {
@@ -1607,6 +1611,41 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                 } /*else if (eventSettingLists.get(i).getFieldName().equals("news_feed_video")) {
                     news_feed_video = eventSettingLists.get(i).getFieldValue();
                 }*/
+                else if (eventSettingLists.get(i).getFieldName().equals("live_streaming")) {
+                    live_streaming = eventSettingLists.get(i).getFieldValue();
+                    if(live_streaming.equalsIgnoreCase("1")){
+                        linear_livestream.setVisibility(View.VISIBLE);
+                    }else{
+                        linear_livestream.setVisibility(View.GONE);
+
+                    }
+
+                    if (eventSettingLists.get(i).getSub_menuList() != null) {
+                        if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                            for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                                if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("youtube")) {
+                                    youtube = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("zoom")) {
+                                    zoom = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                                }
+                            }
+                        }
+                    }
+                    if(youtube.equalsIgnoreCase("1")){
+                        linear_changeView.setVisibility(View.VISIBLE);
+                    }else{
+                        linear_changeView.setVisibility(View.GONE);
+
+                    }
+                    if(zoom.equalsIgnoreCase("1")){
+                        linear_zoom.setVisibility(View.VISIBLE);
+                    }else{
+                        linear_zoom.setVisibility(View.GONE);
+
+                    }
+
+                }
+
                 else if (eventSettingLists.get(i).getFieldName().equals("news_feed")) {
                     news_feed = eventSettingLists.get(i).getFieldValue();
                     if (eventSettingLists.get(i).getSub_menuList() != null) {
@@ -2478,7 +2517,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
 
-                            linear_livestream.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
 
                         }
 
@@ -2576,7 +2615,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                            linear_livestream.setVisibility(View.VISIBLE);
+                            linear_livestream.setVisibility(View.GONE);
 
 
                         }
@@ -2690,7 +2729,13 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                            linear_livestream.setVisibility(View.VISIBLE);
+                            //linear_livestream.setVisibility(View.VISIBLE);
+                            if(live_streaming.equalsIgnoreCase("1")){
+                                linear_livestream.setVisibility(View.VISIBLE);
+                            }else{
+                                linear_livestream.setVisibility(View.GONE);
+
+                            }
 
 
                             Util.logomethodwithText(MrgeHomeActivity.this, false, "", txtMainHeader, headerlogoIv);
@@ -2704,8 +2749,13 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                            linear_livestream.setVisibility(View.VISIBLE);
+                           // linear_livestream.setVisibility(View.VISIBLE);
+                            if(live_streaming.equalsIgnoreCase("1")){
+                                linear_livestream.setVisibility(View.VISIBLE);
+                            }else{
+                                linear_livestream.setVisibility(View.GONE);
 
+                            }
                         }
                     }
 
@@ -2805,8 +2855,13 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                            linear_livestream.setVisibility(View.VISIBLE);
+                          //  linear_livestream.setVisibility(View.VISIBLE);
+                            if(live_streaming.equalsIgnoreCase("1")){
+                                linear_livestream.setVisibility(View.VISIBLE);
+                            }else{
+                                linear_livestream.setVisibility(View.GONE);
 
+                            }
                         }
 
                     }
@@ -2911,8 +2966,13 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                            linear_livestream.setVisibility(View.VISIBLE);
+                          //  linear_livestream.setVisibility(View.VISIBLE);
+                            if(live_streaming.equalsIgnoreCase("1")){
+                                linear_livestream.setVisibility(View.VISIBLE);
+                            }else{
+                                linear_livestream.setVisibility(View.GONE);
 
+                            }
                         }
 
                     }
@@ -3010,8 +3070,13 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                            linear_livestream.setVisibility(View.VISIBLE);
+                           // linear_livestream.setVisibility(View.VISIBLE);
+                            if(live_streaming.equalsIgnoreCase("1")){
+                                linear_livestream.setVisibility(View.VISIBLE);
+                            }else{
+                                linear_livestream.setVisibility(View.GONE);
 
+                            }
                         }
                     }
                 });
@@ -3119,8 +3184,13 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                            linear_livestream.setVisibility(View.VISIBLE);
+                          //  linear_livestream.setVisibility(View.VISIBLE);
+                            if(live_streaming.equalsIgnoreCase("1")){
+                                linear_livestream.setVisibility(View.VISIBLE);
+                            }else{
+                                linear_livestream.setVisibility(View.GONE);
 
+                            }
                         }
                     }
 
@@ -3217,8 +3287,13 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                            linear_livestream.setVisibility(View.VISIBLE);
+                            //linear_livestream.setVisibility(View.VISIBLE);
+                            if(live_streaming.equalsIgnoreCase("1")){
+                                linear_livestream.setVisibility(View.VISIBLE);
+                            }else{
+                                linear_livestream.setVisibility(View.GONE);
 
+                            }
                         }
                     }
                 });
@@ -3320,8 +3395,13 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                            linear_livestream.setVisibility(View.VISIBLE);
+                          //  linear_livestream.setVisibility(View.VISIBLE);
+                            if(live_streaming.equalsIgnoreCase("1")){
+                                linear_livestream.setVisibility(View.VISIBLE);
+                            }else{
+                                linear_livestream.setVisibility(View.GONE);
 
+                            }
                         }
                     }
 
