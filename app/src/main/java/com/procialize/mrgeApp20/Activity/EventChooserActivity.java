@@ -133,7 +133,7 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
         platform = "android";
         device = Build.MODEL;
         os_version = Build.VERSION.RELEASE;
-        app_version = "Version" + BuildConfig.VERSION_NAME;
+        app_version =  BuildConfig.VERSION_NAME;
         eventrecycler = findViewById(R.id.eventrecycler);
         eventrefresh = findViewById(R.id.eventrefresh);
         progressBar = findViewById(R.id.progressBar);

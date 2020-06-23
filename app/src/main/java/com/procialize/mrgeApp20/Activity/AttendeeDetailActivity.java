@@ -120,6 +120,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
     private List<AttendeeList> attendeesDBList;
     private DBHelper dbHelper;
     private RelativeLayout layoutTop;
+    RelativeLayout relSendmsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,6 +225,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         linMsg = findViewById(R.id.linMsg);
         linsave = findViewById(R.id.linsave);
         imgBuddy = findViewById(R.id.imgBuddy);
+        relSendmsg = findViewById(R.id.relSendmsg);
         tv_description.setMovementMethod(new ScrollingMovementMethod());
 
         if (buddy_status.equalsIgnoreCase("send_request")) {
@@ -386,10 +388,13 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         if (attendeemsg.equalsIgnoreCase("1")) {
             linMsg.setVisibility(View.VISIBLE);
             posttextEt.setVisibility(View.VISIBLE);
+            relSendmsg.setVisibility(View.VISIBLE);
             // linCoounter.setVisibility(View.VISIBLE);
         } else {
             linMsg.setVisibility(View.GONE);
             posttextEt.setVisibility(View.GONE);
+            relSendmsg.setVisibility(View.GONE);
+
             // linCoounter.setVisibility(View.GONE);
 
         }
