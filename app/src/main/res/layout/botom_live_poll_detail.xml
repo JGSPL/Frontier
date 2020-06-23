@@ -9,14 +9,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp">
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:gravity="center">
 
 
         <RelativeLayout
             android:id="@+id/rel1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:weightSum="10">
+
 
 
             <LinearLayout
@@ -35,7 +39,17 @@
                     android:text="@string/livepol"
                     android:textColor="@color/activetab"
                     android:textSize="@dimen/textsizenormal"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                 <com.procialize.mrgeApp20.Fonts.RobotoTextview
                     android:id="@+id/questionTv"
@@ -47,11 +61,9 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="5dp"
                     android:padding="10dp"
+                    android:text="dhgsfhzgsfsdhgfsgfjhfgAjhfdjhAJKdhsjdhKD ksdfhkgdhjgdzf zdfzsughzkfsd sdfhgzsfjgsdf"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
-                <androidx.core.widget.NestedScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -88,7 +100,7 @@
                     <com.procialize.mrgeApp20.Fonts.RobotoButton
                         android:id="@+id/submit"
                         android:layout_width="200dp"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:layout_below="@+id/pollGraph"
 
                         android:layout_alignParentBottom="true"
@@ -96,6 +108,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@color/activetab"
                         android:gravity="center"
                         android:text="Submit"
@@ -103,12 +116,10 @@
                         android:textColor="@color/colorwhite"
                         android:textSize="@dimen/textsizesmall"
                         android:visibility="visible" />
-
+                </LinearLayout>
                 </LinearLayout>
                 </androidx.core.widget.NestedScrollView>
-
             </LinearLayout>
-
             <com.procialize.mrgeApp20.Fonts.RobotoButton
                 android:id="@+id/btnNext"
                 android:layout_width="300dp"

@@ -172,20 +172,15 @@ public class QASpeakerAdapter extends RecyclerView.Adapter<QASpeakerAdapter.MyVi
 
 
         }
-
         if (question.getProfilePic() != null) {
-
-
-            Glide.with(context).load(ApiConstant.profilepic + question.getProfilePic())
-                    .apply(RequestOptions.skipMemoryCacheOf(false))
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
+            Glide.with(context).load((ApiConstant.profilepic + question.getProfilePic()))
+                    .placeholder(R.drawable.profilepic_placeholder)
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            holder.profileIV.setImageResource(R.drawable.profilepic_placeholder);
-
                             holder.progressBar.setVisibility(View.GONE);
-                            return true;
+                            return false;
                         }
 
                         @Override
@@ -193,10 +188,12 @@ public class QASpeakerAdapter extends RecyclerView.Adapter<QASpeakerAdapter.MyVi
                             holder.progressBar.setVisibility(View.GONE);
                             return false;
                         }
-                    }).into(holder.profileIV);
+                    }).into(holder.profileIv);
 
+        } else {
+            holder.progressBar.setVisibility(View.GONE);
+            holder.profileIv.setImageResource(R.drawable.profilepic_placeholder);
         }
-
 
     }
 
@@ -236,11 +233,10 @@ public class QASpeakerAdapter extends RecyclerView.Adapter<QASpeakerAdapter.MyVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView nameTv, dateTv, QaTv, AnsTv, countTv;
-        /*public ImageView likeIv;
-        LinearLayout likeLL;*/
-        public ImageView likeIv, profileIV;
-        LinearLayout likeLL;
+        public ImageView likeIv,profileIv;
         ProgressBar progressBar;
+        LinearLayout likeLL;
+
         public MyViewHolder(View view) {
             super(view);
             nameTv = view.findViewById(R.id.nameTv);
@@ -249,9 +245,8 @@ public class QASpeakerAdapter extends RecyclerView.Adapter<QASpeakerAdapter.MyVi
             AnsTv = view.findViewById(R.id.AnsTv);
             countTv = view.findViewById(R.id.countTv);
             likeLL = view.findViewById(R.id.likeLL);
-            progressBar= view.findViewById(R.id.progressBar);
-            //likeIv = view.findViewById(R.id.likeIv);
-            profileIV = view.findViewById(R.id.profileIV);
+            profileIv = view.findViewById(R.id.profileIV);
+            progressBar = view.findViewById(R.id.progressBar);
             likeIv = view.findViewById(R.id.likeIv);
 
             itemView.setOnClickListener(new View.OnClickListener() {

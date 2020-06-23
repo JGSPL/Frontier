@@ -135,7 +135,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
     public ImageView profileIv, iv_like;
     public ProgressBar progressView, feedprogress;
     public PixabayImageView feedimageIv;
-    String fname, lname, name, company, designation, heading, date, Likes, Likeflag, Comments, profileurl, noti_profileurl, feedurl, flag, type, feedid, apikey, thumbImg, videourl, noti_type;
+    String fname, lname, name, company, designation, heading, date, Likes, Likeflag, Comments, profileurl, noti_profileurl, feedurl, flag, type, feed_pos="",feedid, apikey, thumbImg, videourl, noti_type;
     ProgressDialog progress;
     RecyclerView commentrecycler;
     ProgressBar progressBar, emojibar;
@@ -294,7 +294,10 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
                 type = intent.getStringExtra("type");
                 feedid = intent.getStringExtra("feedid");
+                feed_pos = intent.getStringExtra("feed_pos");
                 p1 = intent.getFloatExtra("AspectRatio", (float) 0.000);
+
+
 
                 try {
                     myList = (ArrayList<news_feed_media>) getIntent().getSerializableExtra("media_list");
@@ -1020,7 +1023,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                 commentTv.setText(count + " Comments");
             }
             Comments = String.valueOf(count);
-
+           /// myList.set(Integer.parseInt(feed_pos)).set;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1126,6 +1129,8 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
             getComment(eventid, feedid);
 
             Commentcount();
+
+
 
         } else {
 

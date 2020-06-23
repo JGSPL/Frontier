@@ -609,6 +609,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
         comment.putExtra("AspectRatio", p1);
         comment.putExtra("noti_type", "Wall_Post");
+        comment.putExtra("feed_pos", feed_pos);
 
         news_feed_media = feed.getNews_feed_media();
        // if (news_feed_media.size() >= 1) {

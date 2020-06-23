@@ -99,6 +99,28 @@ public class QAAttendeeAdapter extends RecyclerView.Adapter<QAAttendeeAdapter.My
             e.printStackTrace();
 
         }
+        if (question.getProfile_pic() != null) {
+            Glide.with(context).load((ApiConstant.profilepic + question.getProfile_pic()))
+                    .placeholder(R.drawable.profilepic_placeholder)
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            holder.progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            holder.progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    }).into(holder.profileIv);
+
+        } else {
+            holder.progressBar.setVisibility(View.GONE);
+            holder.profileIv.setImageResource(R.drawable.profilepic_placeholder);
+        }
         if (question.getReply() != null) {
             if (!question.getReply().equalsIgnoreCase("null") &&
                     !question.getReply().equalsIgnoreCase("")) {
@@ -171,30 +193,6 @@ public class QAAttendeeAdapter extends RecyclerView.Adapter<QAAttendeeAdapter.My
 
         }
 
-        if (question.getProfile_pic() != null) {
-
-
-            Glide.with(context).load(ApiConstant.profilepic + question.getProfile_pic())
-                    .apply(RequestOptions.skipMemoryCacheOf(false))
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            holder.profileIV.setImageResource(R.drawable.profilepic_placeholder);
-
-                            holder.progressBar.setVisibility(View.GONE);
-                            return true;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            holder.progressBar.setVisibility(View.GONE);
-                            return false;
-                        }
-                    }).into(holder.profileIV);
-
-        }
-
 
     }
 
@@ -235,11 +233,10 @@ public class QAAttendeeAdapter extends RecyclerView.Adapter<QAAttendeeAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView nameTv, dateTv, QaTv, countTv, AnsTv;
-        /*public ImageView likeIv;
-        LinearLayout likeLL;*/
-        public ImageView likeIv, profileIV;
-        LinearLayout likeLL;
+        public ImageView likeIv,profileIv;
         ProgressBar progressBar;
+        LinearLayout likeLL;
+
         public MyViewHolder(View view) {
             super(view);
             nameTv = view.findViewById(R.id.nameTv);
@@ -249,10 +246,10 @@ public class QAAttendeeAdapter extends RecyclerView.Adapter<QAAttendeeAdapter.My
             countTv = view.findViewById(R.id.countTv);
 
             likeLL = view.findViewById(R.id.likeLL);
-            progressBar= view.findViewById(R.id.progressBar);
-            //likeIv = view.findViewById(R.id.likeIv);
-            profileIV = view.findViewById(R.id.profileIV);
+
             likeIv = view.findViewById(R.id.likeIv);
+            profileIv = view.findViewById(R.id.profileIV);
+            progressBar = view.findViewById(R.id.progressBar);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

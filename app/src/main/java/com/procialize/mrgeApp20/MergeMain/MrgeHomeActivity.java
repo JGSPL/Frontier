@@ -759,7 +759,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         eula = navigationView.findViewById(R.id.eula);
 
         if (ApiConstant.baseUrl.contains("stage")) {
-            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(8)");
+            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(9)");
         } else {
             txt_version.setText("Version : " + BuildConfig.VERSION_NAME);
         }
@@ -1326,6 +1326,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         TextView compantyTv = outer.findViewById(R.id.compantyTv);
         final ImageView profileIV = outer.findViewById(R.id.profileIV);
         final ImageView iv_close = outer.findViewById(R.id.iv_close);
+        final RelativeLayout rl_notification = outer.findViewById(R.id.rl_notification);
         final ProgressBar progressView = outer.findViewById(R.id.progressView);
         ll_notification_count_drawer = outer.findViewById(R.id.ll_notification_count_drawer);
         tv_notification_drawer = outer.findViewById(R.id.tv_notification_drawer);
@@ -1344,7 +1345,13 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         eventname.setTextColor(Color.parseColor(colorActive));
         // headerRel.setBackgroundColor(Color.parseColor(colorActive));
         //outer.setBackgroundColor(Color.parseColor(colorActive));
-
+        rl_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(main);
+            }
+        });
 
         eventname.setText(eventnamestr);
 

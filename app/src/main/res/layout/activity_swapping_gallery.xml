@@ -89,7 +89,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:foregroundGravity="center"
-                        android:src="@drawable/ic_notification" />
+                        android:src="@drawable/ic_notification"
+                        android:tint="@color/colorwhite"/>
 
                     <LinearLayout
                         android:id="@+id/ll_notification_count"
