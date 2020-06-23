@@ -203,20 +203,26 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         if (cd.isConnectingToInternet()) {
             fetchEventInfo(token, eventid);
         }
-
-        db = dbHelper.getReadableDatabase();
-        sponsorDBList = dbHelper.getSponsorList();
-        if (!cd.isConnectingToInternet()) {
-            if (sponsorDBList.size() != 0) {
-                String sponsor_filePath = prefs.getString("sponsor_filePath", "");
-                SponsorAdapter sponsorAdapter1 = new SponsorAdapter(getActivity(), sponsorDBList, sponsor_filePath);
-                RecyclerView.LayoutManager mLayoutManager1 = new GridLayoutManager(getActivity(), 3);
-                rv_sponsors.setNestedScrollingEnabled(false);
-                rv_sponsors.setLayoutManager(mLayoutManager1);
-                rv_sponsors.setItemAnimator(new DefaultItemAnimator());
-                rv_sponsors.setAdapter(sponsorAdapter1);
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("service end", "service end");
+                db = dbHelper.getReadableDatabase();
+                sponsorDBList = dbHelper.getSponsorList();
+                if (!cd.isConnectingToInternet()) {
+                    if (sponsorDBList.size() != 0) {
+                        String sponsor_filePath = prefs.getString("sponsor_filePath", "");
+                        SponsorAdapter sponsorAdapter1 = new SponsorAdapter(getActivity(), sponsorDBList, sponsor_filePath);
+                        RecyclerView.LayoutManager mLayoutManager1 = new GridLayoutManager(getActivity(), 3);
+                        rv_sponsors.setNestedScrollingEnabled(false);
+                        rv_sponsors.setLayoutManager(mLayoutManager1);
+                        rv_sponsors.setItemAnimator(new DefaultItemAnimator());
+                        rv_sponsors.setAdapter(sponsorAdapter1);
+                    }
+                }
             }
-        }
+        });
+
 
 
         /*GetUserActivityReport getUserActivityReport = new GetUserActivityReport(getActivity(), token,
@@ -302,104 +308,107 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
             rv_sponsors.setAdapter(sponsorAdapter);
 
             db = dbHelper.getReadableDatabase();
-            eventDBList = dbHelper.getEventListDetail();
-            sponsorDBList = dbHelper.getSponsorList();
-            if (eventDBList.size() != 0) {
-                String startTime = "", endTime = "";
-                SimpleDateFormat sdf = new SimpleDateFormat(ApiConstant.dateformat + " HH:mm");
-                String currentDateandTime = sdf.format(new Date());
-                try {
-                    if (eventDBList.get(0).getEventStart().equals("null") && eventDBList.get(0).getEventStart() != null && !eventDBList.get(0).getEventStart().isEmpty()) {
-                        startTime = currentDateandTime;
-                    } else {
-                        startTime = eventDBList.get(0).getEventStart();
-                    }
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    eventDBList = dbHelper.getEventListDetail();
+                    sponsorDBList = dbHelper.getSponsorList();
+                    if (eventDBList.size() != 0) {
+                        String startTime = "", endTime = "";
+                        SimpleDateFormat sdf = new SimpleDateFormat(ApiConstant.dateformat + " HH:mm");
+                        String currentDateandTime = sdf.format(new Date());
+                        try {
+                            if (eventDBList.get(0).getEventStart().equals("null") && eventDBList.get(0).getEventStart() != null && !eventDBList.get(0).getEventStart().isEmpty()) {
+                                startTime = currentDateandTime;
+                            } else {
+                                startTime = eventDBList.get(0).getEventStart();
+                            }
 
-                    if (eventDBList.get(0).getEventEnd().equals("null") && eventDBList.get(0).getEventEnd() != null && eventDBList.get(0).getEventEnd().isEmpty()) {
-                        endTime = currentDateandTime;
-                    } else {
-                        endTime = eventDBList.get(0).getEventEnd();
-                    }
-                } catch (Exception e) {
-                    startTime = currentDateandTime;
-                    endTime = currentDateandTime;
-                }
+                            if (eventDBList.get(0).getEventEnd().equals("null") && eventDBList.get(0).getEventEnd() != null && eventDBList.get(0).getEventEnd().isEmpty()) {
+                                endTime = currentDateandTime;
+                            } else {
+                                endTime = eventDBList.get(0).getEventEnd();
+                            }
+                        } catch (Exception e) {
+                            startTime = currentDateandTime;
+                            endTime = currentDateandTime;
+                        }
 
-                // SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
+                        // SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
 
-                SimpleDateFormat formatter = null;
+                        SimpleDateFormat formatter = null;
 
-                String formate1 = ApiConstant.dateformat;
-                String formate2 = ApiConstant.dateformat1;
+                        String formate1 = ApiConstant.dateformat;
+                        String formate2 = ApiConstant.dateformat1;
 
-                if (Utility.isValidFormat(formate1, startTime, Locale.UK)) {
-                    formatter = new SimpleDateFormat(ApiConstant.dateformat);
-                } else if (Utility.isValidFormat(formate2, startTime, Locale.UK)) {
-                    formatter = new SimpleDateFormat(ApiConstant.dateformat1);
-                }
-                try {
-                    d1 = formatter.parse(startTime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                        if (Utility.isValidFormat(formate1, startTime, Locale.UK)) {
+                            formatter = new SimpleDateFormat(ApiConstant.dateformat);
+                        } else if (Utility.isValidFormat(formate2, startTime, Locale.UK)) {
+                            formatter = new SimpleDateFormat(ApiConstant.dateformat1);
+                        }
+                        try {
+                            d1 = formatter.parse(startTime);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
 
-                long millisecondsStart = d1.getTime();
+                        long millisecondsStart = d1.getTime();
 
-                try {
-                    d2 = formatter.parse(endTime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                        try {
+                            d2 = formatter.parse(endTime);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
 
-                long millisecondsEnd = d2.getTime();
+                        long millisecondsEnd = d2.getTime();
 
-                SimpleDateFormat formatter1 = new SimpleDateFormat("dd MMM yyyy");
+                        SimpleDateFormat formatter1 = new SimpleDateFormat("dd MMM yyyy");
 
-                String finalStartTime = formatter1.format(new Date(millisecondsStart));
-                String finalEndTime = formatter1.format(new Date(millisecondsEnd));
+                        String finalStartTime = formatter1.format(new Date(millisecondsStart));
+                        String finalEndTime = formatter1.format(new Date(millisecondsEnd));
 
-                try {
-                    nameTv.setText(eventDBList.get(0).getEventName());
-                    if (finalStartTime.equalsIgnoreCase(finalEndTime)) {
-                        dateTv.setText(finalStartTime);
+                        try {
+                            nameTv.setText(eventDBList.get(0).getEventName());
+                            if (finalStartTime.equalsIgnoreCase(finalEndTime)) {
+                                dateTv.setText(finalStartTime);
 
-                    } else {
-                        dateTv.setText(finalStartTime + " - " + finalEndTime);
-                    }
-                    cityTv.setText(eventDBList.get(0).getEventCity());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                            } else {
+                                dateTv.setText(finalStartTime + " - " + finalEndTime);
+                            }
+                            cityTv.setText(eventDBList.get(0).getEventCity());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
 
-                try {
+                        try {
 
-                    event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
-                    //event_desc.setText(eventDBList.get(0).getEventDescription());
-                    event_desc.setVisibility(View.VISIBLE);
-                    //event_desc.setText("\n" + eventDBList.get(0).getEventDescription());
+                            event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                            //event_desc.setText(eventDBList.get(0).getEventDescription());
+                            event_desc.setVisibility(View.VISIBLE);
+                            //event_desc.setText("\n" + eventDBList.get(0).getEventDescription());
 
-                    SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-                    String logoImg = prefs1.getString("logoImg", "");
+                            SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                            String logoImg = prefs1.getString("logoImg", "");
 
-                    String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" +logoImg;
+                            String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" +logoImg;
 
-                    Glide.with(getContext()).load(image_final_url)
-                            .placeholder(R.drawable.profilepic_placeholder)
-                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
-                            .listener(new RequestListener<Drawable>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    logoIv.setImageResource(R.drawable.app_icon);
-                                    return false;
-                                }
+                            Glide.with(getContext()).load(image_final_url)
+                                    .placeholder(R.drawable.profilepic_placeholder)
+                                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
+                                    .listener(new RequestListener<Drawable>() {
+                                        @Override
+                                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                            logoIv.setImageResource(R.drawable.app_icon);
+                                            return false;
+                                        }
 
-                                @Override
-                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                    logoIv.setImageResource(R.drawable.app_icon);
-                                    return false;
-                                }
-                            }).into(logoIv);
+                                        @Override
+                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                            logoIv.setImageResource(R.drawable.app_icon);
+                                            return false;
+                                        }
+                                    }).into(logoIv);
 
                    /* Glide.with(getContext()).load(image_final_url)
                             .apply(RequestOptions.skipMemoryCacheOf(true)).circleCrop()
@@ -416,13 +425,13 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                                     return false;
                                 }
                             }).into(logoIv);*/
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-                linMap.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                        linMap.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
                    /* String label = "ABC Label";
                     String uriBegin = "geo:" + response.body().getEventList().get(0).getEventLatitude() + "," + response.body().getEventList().get(0).getEventLongitude();
@@ -432,17 +441,17 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                     Uri uri = Uri.parse(uriString);
                     Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
                     startActivity(intent);*/
-                        String label = eventDBList.get(0).getEventName();
-                        String strUri = "http://maps.google.com/maps?q=loc:" + eventDBList.get(0).getEventLatitude() + "," + eventDBList.get(0).getEventLongitude() + " (" + label + ")";
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(strUri));
+                                String label = eventDBList.get(0).getEventName();
+                                String strUri = "http://maps.google.com/maps?q=loc:" + eventDBList.get(0).getEventLatitude() + "," + eventDBList.get(0).getEventLongitude() + " (" + label + ")";
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(strUri));
 
-                        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
 
-                        startActivity(intent);
+                                startActivity(intent);
 
 
-                    }
-                });
+                            }
+                        });
 
 /*
                 try {
@@ -481,7 +490,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 */
 
 
-            } else {
+                    } else {
                 /*setContentView(R.layout.activity_empty_view);
                 ImageView imageView = findViewById(R.id.back);
                 TextView text_empty = findViewById(R.id.text_empty);
@@ -494,21 +503,31 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                         finish();
                     }
                 });*/
-            }
-            if (sponsorDBList.size() != 0) {
-                SponsorAdapter sponsorAdapter1 = new SponsorAdapter(getActivity(), sponsorDBList, filePath);
-                RecyclerView.LayoutManager mLayoutManager1 = new GridLayoutManager(getActivity(), 3);
-                rv_sponsors.setNestedScrollingEnabled(false);
-                rv_sponsors.setLayoutManager(mLayoutManager1);
-                rv_sponsors.setItemAnimator(new DefaultItemAnimator());
-                rv_sponsors.setAdapter(sponsorAdapter1);
-            }
+                    }
+                    if (sponsorDBList.size() != 0) {
+                        SponsorAdapter sponsorAdapter1 = new SponsorAdapter(getActivity(), sponsorDBList, filePath);
+                        RecyclerView.LayoutManager mLayoutManager1 = new GridLayoutManager(getActivity(), 3);
+                        rv_sponsors.setNestedScrollingEnabled(false);
+                        rv_sponsors.setLayoutManager(mLayoutManager1);
+                        rv_sponsors.setItemAnimator(new DefaultItemAnimator());
+                        rv_sponsors.setAdapter(sponsorAdapter1);
+                    }
+                }
+            });
+
+
         } else {
             if (response.body().getStatus().equalsIgnoreCase("success")) {
                 eventList = response.body().getEventList();
-                dbHelper.clearEventListTable();
-                dbHelper.clearSponsorTable();
-                dbHelper.insertEventInfo(eventList, db);
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        dbHelper.clearEventListTable();
+                        dbHelper.clearSponsorTable();
+                        dbHelper.insertEventInfo(eventList, db);
+                    }
+                });
+
 
                 String startTime = "", endTime = "";
                 SimpleDateFormat sdf = new SimpleDateFormat(ApiConstant.dateformat + " HH:mm");
@@ -531,8 +550,13 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                 }
 
                 sponsorList = response.body().getSponsor_list();
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        dbHelper.insertSponsorInfo(sponsorList, db);
+                    }
+                });
 
-                dbHelper.insertSponsorInfo(sponsorList, db);
                 filePath = response.body().getSponsor_file_path();
 
                /* SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -706,121 +730,121 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
             fetchEventInfo(token, eventid);
         } else {
             db = dbHelper.getReadableDatabase();
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    eventDBList = dbHelper.getEventListDetail();
+                    if (eventDBList.size() != 0) {
+                        String startTime = "", endTime = "";
+                        SimpleDateFormat sdf = new SimpleDateFormat(ApiConstant.dateformat + " HH:mm");
+                        String currentDateandTime = sdf.format(new Date());
+                        try {
+                            if (eventDBList.get(0).getEventStart().equals("null") && eventDBList.get(0).getEventStart() != null && !eventDBList.get(0).getEventStart().isEmpty()) {
+                                startTime = currentDateandTime;
+                            } else {
+                                startTime = eventDBList.get(0).getEventStart();
+                            }
 
-            eventDBList = dbHelper.getEventListDetail();
-
-
-            if (eventDBList.size() != 0) {
-                String startTime = "", endTime = "";
-                SimpleDateFormat sdf = new SimpleDateFormat(ApiConstant.dateformat + " HH:mm");
-                String currentDateandTime = sdf.format(new Date());
-                try {
-                    if (eventDBList.get(0).getEventStart().equals("null") && eventDBList.get(0).getEventStart() != null && !eventDBList.get(0).getEventStart().isEmpty()) {
-                        startTime = currentDateandTime;
-                    } else {
-                        startTime = eventDBList.get(0).getEventStart();
-                    }
-
-                    if (eventDBList.get(0).getEventEnd().equals("null") && eventDBList.get(0).getEventEnd() != null && eventDBList.get(0).getEventEnd().isEmpty()) {
-                        endTime = currentDateandTime;
-                    } else {
-                        endTime = eventDBList.get(0).getEventEnd();
-                    }
-                } catch (Exception e) {
-                    startTime = currentDateandTime;
-                    endTime = currentDateandTime;
-                }
-
-
-                // SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
-
-                SimpleDateFormat formatter = null;
-
-                String formate1 = ApiConstant.dateformat;
-                String formate2 = ApiConstant.dateformat1;
-
-                if (Utility.isValidFormat(formate1, startTime, Locale.UK)) {
-                    formatter = new SimpleDateFormat(ApiConstant.dateformat);
-                } else if (Utility.isValidFormat(formate2, startTime, Locale.UK)) {
-                    formatter = new SimpleDateFormat(ApiConstant.dateformat1);
-                }
-                try {
-                    d1 = formatter.parse(startTime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                long millisecondsStart = d1.getTime();
-
-                try {
-                    d2 = formatter.parse(endTime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                long millisecondsEnd = d2.getTime();
-
-                SimpleDateFormat formatter1 = new SimpleDateFormat("dd MMM yyyy");
-
-                String finalStartTime = formatter1.format(new Date(millisecondsStart));
-                String finalEndTime = formatter1.format(new Date(millisecondsEnd));
-
-                try {
-                    nameTv.setText(eventDBList.get(0).getEventName());
-                    if (finalStartTime.equalsIgnoreCase(finalEndTime)) {
-                        dateTv.setText(finalStartTime);
-
-                    } else {
-                        dateTv.setText(finalStartTime + " - " + finalEndTime);
-                    }
-                    cityTv.setText(eventDBList.get(0).getEventCity());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                            if (eventDBList.get(0).getEventEnd().equals("null") && eventDBList.get(0).getEventEnd() != null && eventDBList.get(0).getEventEnd().isEmpty()) {
+                                endTime = currentDateandTime;
+                            } else {
+                                endTime = eventDBList.get(0).getEventEnd();
+                            }
+                        } catch (Exception e) {
+                            startTime = currentDateandTime;
+                            endTime = currentDateandTime;
+                        }
 
 
-                try {
-                    if (event_info_description.equalsIgnoreCase("1") && eventDBList.get(0).getEventDescription() != null) {
+                        // SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
 
-                        event_desc.setVisibility(View.VISIBLE);
+                        SimpleDateFormat formatter = null;
+
+                        String formate1 = ApiConstant.dateformat;
+                        String formate2 = ApiConstant.dateformat1;
+
+                        if (Utility.isValidFormat(formate1, startTime, Locale.UK)) {
+                            formatter = new SimpleDateFormat(ApiConstant.dateformat);
+                        } else if (Utility.isValidFormat(formate2, startTime, Locale.UK)) {
+                            formatter = new SimpleDateFormat(ApiConstant.dateformat1);
+                        }
+                        try {
+                            d1 = formatter.parse(startTime);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        long millisecondsStart = d1.getTime();
+
+                        try {
+                            d2 = formatter.parse(endTime);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        long millisecondsEnd = d2.getTime();
+
+                        SimpleDateFormat formatter1 = new SimpleDateFormat("dd MMM yyyy");
+
+                        String finalStartTime = formatter1.format(new Date(millisecondsStart));
+                        String finalEndTime = formatter1.format(new Date(millisecondsEnd));
+
+                        try {
+                            nameTv.setText(eventDBList.get(0).getEventName());
+                            if (finalStartTime.equalsIgnoreCase(finalEndTime)) {
+                                dateTv.setText(finalStartTime);
+
+                            } else {
+                                dateTv.setText(finalStartTime + " - " + finalEndTime);
+                            }
+                            cityTv.setText(eventDBList.get(0).getEventCity());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                        try {
+                            if (event_info_description.equalsIgnoreCase("1") && eventDBList.get(0).getEventDescription() != null) {
+
+                                event_desc.setVisibility(View.VISIBLE);
 //                        eventvenu.setVisibility(View.VISIBLE);
 //                        view.setVisibility(View.VISIBLE);
 
-                    } else {
-                        // event_desc.setVisibility(View.GONE);
+                            } else {
+                                // event_desc.setVisibility(View.GONE);
 //                        eventvenu.setVisibility(View.GONE);
-                        //    view.setVisibility(View.GONE);
-                    }
+                                //    view.setVisibility(View.GONE);
+                            }
 
-                    String eventDescription = eventDBList.get(0).getEventDescription();
-                    event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
-                    // event_desc.setText(eventDescription);
-                    String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
+                            String eventDescription = eventDBList.get(0).getEventDescription();
+                            event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                            // event_desc.setText(eventDescription);
+                            String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
-                    Glide.with(getContext()).load(image_final_url)
-                            .placeholder(R.drawable.profilepic_placeholder)
-                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
-                            .listener(new RequestListener<Drawable>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    logoIv.setImageResource(R.drawable.app_icon);
-                                    return false;
-                                }
+                            Glide.with(getContext()).load(image_final_url)
+                                    .placeholder(R.drawable.profilepic_placeholder)
+                                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
+                                    .listener(new RequestListener<Drawable>() {
+                                        @Override
+                                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                            logoIv.setImageResource(R.drawable.app_icon);
+                                            return false;
+                                        }
 
-                                @Override
-                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                    logoIv.setImageResource(R.drawable.app_icon);
-                                    return false;
-                                }
-                            }).into(logoIv);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                                        @Override
+                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                            logoIv.setImageResource(R.drawable.app_icon);
+                                            return false;
+                                        }
+                                    }).into(logoIv);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-                linMap.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                        linMap.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
                    /* String label = "ABC Label";
                     String uriBegin = "geo:" + response.body().getEventList().get(0).getEventLatitude() + "," + response.body().getEventList().get(0).getEventLongitude();
@@ -830,56 +854,55 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                     Uri uri = Uri.parse(uriString);
                     Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
                     startActivity(intent);*/
-                        String label = eventDBList.get(0).getEventName();
-                        String strUri = "http://maps.google.com/maps?q=loc:" + eventDBList.get(0).getEventLatitude() + "," + eventDBList.get(0).getEventLongitude() + " (" + label + ")";
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(strUri));
+                                String label = eventDBList.get(0).getEventName();
+                                String strUri = "http://maps.google.com/maps?q=loc:" + eventDBList.get(0).getEventLatitude() + "," + eventDBList.get(0).getEventLongitude() + " (" + label + ")";
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(strUri));
 
-                        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
 
-                        startActivity(intent);
-
-
-                    }
-                });
+                                startActivity(intent);
 
 
-                try {
-                    if (map != null && event_info_display_map.equalsIgnoreCase("1")) {
-
-                        fm.getView().setVisibility(View.VISIBLE);
-                        position = new LatLng(Double.parseDouble(eventDBList.get(0).getEventLatitude()), Double.parseDouble(eventDBList.get(0).getEventLongitude()));
-
-                        CameraUpdate updatePosition1 = CameraUpdateFactory.newLatLng(position);
-
-                        map.moveCamera(updatePosition1);
-
-                        // Instantiating MarkerOptions class
-                        options = new MarkerOptions();
-
-                        // Setting position for the MarkerOptions
-                        options.position(position);
-
-                        // Setting title for the MarkerOptions
+                            }
+                        });
 
 
-                        // Setting snippet for the MarkerOptions
-                        options.snippet(eventDBList.get(0).getEventLocation());
+                        try {
+                            if (map != null && event_info_display_map.equalsIgnoreCase("1")) {
+
+                                fm.getView().setVisibility(View.VISIBLE);
+                                position = new LatLng(Double.parseDouble(eventDBList.get(0).getEventLatitude()), Double.parseDouble(eventDBList.get(0).getEventLongitude()));
+
+                                CameraUpdate updatePosition1 = CameraUpdateFactory.newLatLng(position);
+
+                                map.moveCamera(updatePosition1);
+
+                                // Instantiating MarkerOptions class
+                                options = new MarkerOptions();
+
+                                // Setting position for the MarkerOptions
+                                options.position(position);
+
+                                // Setting title for the MarkerOptions
 
 
-                        // Adding Marker on the Google Map
-                        map.addMarker(options);
+                                // Setting snippet for the MarkerOptions
+                                options.snippet(eventDBList.get(0).getEventLocation());
 
 
-                        moveToCurrentLocation(position);
+                                // Adding Marker on the Google Map
+                                map.addMarker(options);
+
+
+                                moveToCurrentLocation(position);
+                            } else {
+                                fm.getView().setVisibility(View.GONE);
+                            }
+                        } catch (Exception e) {
+                        }
+
+
                     } else {
-                        fm.getView().setVisibility(View.GONE);
-                    }
-                } catch (Exception e) {
-                }
-
-
-            } else {
-
                /* setContentView(R.layout.activity_empty_view);
                 ImageView imageView = findViewById(R.id.back);
                 TextView text_empty = findViewById(R.id.text_empty);
@@ -892,12 +915,10 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                         finish();
                     }
                 });*/
-            }
-
-
+                    }
+                }
+            });
         }
-
-
     }
 
     public void showProgress() {

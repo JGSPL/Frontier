@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -157,6 +158,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     private List<news_feed_media> news_feed_media;
     private List<AttendeeList> attendeeList;
     Dialog myDialog;
+    private Handler mHandler;
 
     public FragmentNewsFeed() {
         // Required empty public constructor
@@ -233,7 +235,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         session = new SessionManager(getActivity());
         user = session.getUserDetails();
         token = user.get(SessionManager.KEY_TOKEN);
-
+        mHandler= new Handler();
         profileIV = rootView.findViewById(R.id.profilestatus);
         progressView = rootView.findViewById(R.id.progressView);
 
@@ -298,8 +300,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         newsFeedPostMultimediaList = procializeDB.getNotUploadedMultiMedia();
         // insertMediaToLocalDb();
 
-        List<news_feed_media> mediafeedDetails = procializeDB.getBuzzMediaFeedDetails();
-        List<news_feed_media> mediafeedDetails1 = mediafeedDetails;
+
         //ArrayList<NewsFeedPostMultimedia> newsFeedPostMultimediaList = dbHelper.getNotUploadedMultiMedia();
 
         if (newsFeedPostMultimediaList.size() > 0) {
@@ -406,9 +407,20 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
         // specify an adapter (see also next example)
         attendeeList = response.body().getAttendeeList();
-        procializeDB.clearAttendeesTable();
-        procializeDB.insertAttendeesInfo(attendeeList, db);
-        //attendeesDBList = dbHelper.getAttendeeDetails();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                    //Update the value background thread to UI thread
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            procializeDB.clearAttendeesTable();
+                            procializeDB.insertAttendeesInfo(attendeeList, db);
+                            //attendeesDBList = dbHelper.getAttendeeDetails();
+                        }
+                    });
+            }
+        }).start();
 
 
     }
@@ -424,32 +436,34 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     }
 
     public void getDataFromLocalDB() {
-        db = procializeDB.getReadableDatabase();
-        // news_feed_mediaDBB = procializeDB.getBuzzMediaFeedDetails();
-        //newsfeedsDBList = dbHelper.getBuzzFeedDetails();
-        newsfeedsDBList = procializeDB.getNewsFeedDetails();
-
-//        if (newsfeedsDBList.size() > 0) {
-//            post_layout.setVisibility(View.GONE);
-//        } else {
-//            post_layout.setVisibility(View.VISIBLE);
-//        }
-
-        if (newsfeedsDBList.size() == 0) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Update the value background thread to UI thread
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        db = procializeDB.getReadableDatabase();
+                        newsfeedsDBList = procializeDB.getNewsFeedDetails();
+                        if (newsfeedsDBList.size() == 0) {
 //            NewsFeedList newsFeedList = new NewsFeedList();
 //            newsfeedsDBList.add(newsFeedList);
-            //buzzDBAdapter = new BuzzDBAdapter(getActivity(), newsfeedsDBList, BuzzFragment.this, false);
-            setAdapter(newsfeedsDBList);
-        } else {
-            NewsFeedList newsFeedList = new NewsFeedList();
-            newsfeedsDBList.add(newsFeedList);
-            setAdapter(newsfeedsDBList);
+                            //buzzDBAdapter = new BuzzDBAdapter(getActivity(), newsfeedsDBList, BuzzFragment.this, false);
+                            setAdapter(newsfeedsDBList);
+                        } else {
+                            NewsFeedList newsFeedList = new NewsFeedList();
+                            newsfeedsDBList.add(newsFeedList);
+                            setAdapter(newsfeedsDBList);
 
-        }
+                        }
+                        if (newsfeedrefresh.isRefreshing()) {
+                            newsfeedrefresh.setRefreshing(false);
+                        }
+                    }
+                });
+            }
+        }).start();
 
-        if (newsfeedrefresh.isRefreshing()) {
-            newsfeedrefresh.setRefreshing(false);
-        }
     }
 
     public void setAdapter(List<NewsFeedList> newsfeedsList) {
@@ -1153,10 +1167,22 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     }
 
     public void saveFeedToDb(Response<FetchFeed> response) {
-        newsfeedList = response.body().getNewsFeedList();
-        procializeDB.clearNewsFeedTable();
-        procializeDB.clearBuzzMediaFeedTable();
-        procializeDB.insertNEwsFeedInfo(response.body().getNewsFeedList(), db);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                    //Update the value background thread to UI thread
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            newsfeedList = response.body().getNewsFeedList();
+                            procializeDB.clearNewsFeedTable();
+                            procializeDB.clearBuzzMediaFeedTable();
+                            procializeDB.insertNEwsFeedInfo(response.body().getNewsFeedList(), db);
+
+                        }
+                    });
+            }
+        }).start();
         newsfeedsDBList = response.body().getNewsFeedList();
         if (newsfeedsDBList != null) {
             for (int i = 0; i < newsfeedsDBList.size(); i++) {
@@ -1180,6 +1206,8 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             }
         }
     }
+
+
 
 
     public void PostDelete(String eventid, String feedid, String token, final int position) {

@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -49,8 +49,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
@@ -71,12 +69,11 @@ import com.pipvideo.youtubepipvideoplayer.TaskCoffeeVideo;
 import com.procialize.mrgeApp20.Activity.EULAActivity;
 import com.procialize.mrgeApp20.Activity.EventChooserActivity;
 import com.procialize.mrgeApp20.Activity.ExhibitorAnalytics;
-import com.procialize.mrgeApp20.Activity.ExhibitorListingActivity;
 import com.procialize.mrgeApp20.Activity.LoginActivity;
 import com.procialize.mrgeApp20.Activity.PrivacyPolicy;
 import com.procialize.mrgeApp20.Activity.ProfileActivity;
 import com.procialize.mrgeApp20.Activity.WebViewActivity;
-import com.procialize.mrgeApp20.Adapter.CustomMenuAdapter;
+//import com.procialize.mrgeApp20.Adapter.CustomMenuAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
@@ -84,15 +81,12 @@ import com.procialize.mrgeApp20.Background.WallPostService;
 import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyList;
 import com.procialize.mrgeApp20.BuildConfig;
 import com.procialize.mrgeApp20.CustomTools.CustomViewPager;
-import com.procialize.mrgeApp20.CustomTools.MyJzvdStd;
 import com.procialize.mrgeApp20.CustomTools.PicassoTrustAll;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.DialogLivePoll.DialogLivePoll;
 import com.procialize.mrgeApp20.DialogQuiz.DialogQuiz;
-import com.procialize.mrgeApp20.Downloads.DocumentsActivity;
 import com.procialize.mrgeApp20.Downloads.DownloadsFragment;
-import com.procialize.mrgeApp20.EmptyViewActivity;
 import com.procialize.mrgeApp20.Engagement.Fragment.EngagementFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFolderFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFragment;
@@ -106,26 +100,9 @@ import com.procialize.mrgeApp20.GetterSetter.FetchAgenda;
 import com.procialize.mrgeApp20.GetterSetter.FetchFeed;
 import com.procialize.mrgeApp20.GetterSetter.ProfileSave;
 import com.procialize.mrgeApp20.GetterSetter.YouTubeApiList;
-import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.AgendaVacationActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.AttendeeActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.EventInfoActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.ExhibitorSideMenu;
-import com.procialize.mrgeApp20.InnerDrawerActivity.FeedBackActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.FolderQuizActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.GeneralInfoActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.LeaderboardActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.LivePollActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.MyTravelActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationExhibitorActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.QAAttendeeActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.QADirectActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.QASpeakerActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.QRGeneratorActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.QRScanActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.SpeakerActivity;
-import com.procialize.mrgeApp20.InnerDrawerActivity.SponsorActivity;
 import com.procialize.mrgeApp20.MrgeInnerFragment.BlankFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.EmergencyFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.EventInfoFragment;
@@ -139,7 +116,6 @@ import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Speaker.Views.SpeakerFragment;
 import com.procialize.mrgeApp20.Utility.KeyboardUtility;
-import com.procialize.mrgeApp20.Utility.CustomViewPagerTab;
 import com.procialize.mrgeApp20.Utility.PlayerConfig;
 import com.procialize.mrgeApp20.Utility.Res;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -149,9 +125,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -172,7 +146,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 
-public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAdapter.CustomMenuAdapterListner {
+public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenuAdapter.CustomMenuAdapterListner {
 
     public static final int RequestPermissionCode = 8;
     public static String logoImg = "", colorActive = "", eventback = "";
@@ -193,7 +167,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     public static IntentFilter notificationCountFilter;
     public static LinearLayout ll_notification_count_drawer;
     public static TextView tv_notification_drawer;
-    RecyclerView menurecycler;
+    //RecyclerView menurecycler;
     SessionManager session;
     List<EventSettingList> eventSettingLists;
     List<EventMenuSettingList> eventMenuSettingLists;
@@ -216,7 +190,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     String MY_EVENT = "EventId";
     String eventid, token;
     String email, password, exhibitorstatus, exhibitorid;
-    CustomMenuAdapter customMenuAdapter;
+    //CustomMenuAdapter customMenuAdapter;
     TextView logout, buddyList, editProfile, home, contactus, eventname, switchbt, chatbt, eula, privacy_policy, eventInfo, notification, exh_analytics, txt_version;
     String eventnamestr;
     LinearLayout linear;
@@ -303,7 +277,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
     private YouTubePlayerSupportFragment youTubePlayerFragment;
     private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
     Context contextnoti;
-
+    private Handler mHandler;
 
 
     @Override
@@ -392,7 +366,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
 
         // token
         token = user1.get(SessionManager.KEY_TOKEN);
-
+        mHandler= new Handler();
         firbaseAnalytics();
 
         exhibitorid = user.get(SessionManager.EXHIBITOR_ID);
@@ -734,7 +708,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) navigationView.getLayoutParams();
         params.width = metrics.widthPixels;
         navigationView.setLayoutParams(params);
-        menurecycler = navigationView.findViewById(R.id.menurecycler);
+       // menurecycler = navigationView.findViewById(R.id.menurecycler);
         logout = navigationView.findViewById(R.id.logout);
         home = navigationView.findViewById(R.id.home);
         editProfile = navigationView.findViewById(R.id.editProfile);
@@ -991,11 +965,11 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         });
 
 
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+     /*   LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         menurecycler.setLayoutManager(mLayoutManager);
+*/
 
-
-        List<EventMenuSettingList> anotherList = new ArrayList<EventMenuSettingList>();
+     /*   List<EventMenuSettingList> anotherList = new ArrayList<EventMenuSettingList>();
         anotherList.addAll(eventMenuSettingLists);
 
 
@@ -1003,7 +977,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             customMenuAdapter = new CustomMenuAdapter(this, eventMenuSettingLists, this, side_menu_agenda);
             menurecycler.setAdapter(customMenuAdapter);
             customMenuAdapter.notifyDataSetChanged();
-        }
+        }*/
 
 
         profiledetails();
@@ -1878,7 +1852,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         }
     }
 
-    @Override
+   /* @Override
     public void onContactSelected(EventMenuSettingList menuSettingList) {
 
         if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_my_travel")) {
@@ -1916,12 +1890,12 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             Toast.makeText(MrgeHomeActivity.this, "Comming Soon...", Toast.LENGTH_SHORT).show();
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_gallery_video")) {
-         /*   Intent video = new Intent(this, VideoFragment.class);
-            startActivity(video);*/
+         *//*   Intent video = new Intent(this, VideoFragment.class);
+            startActivity(video);*//*
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_image_gallery")) {
-            /*Intent gallery = new Intent(this, GalleryFragment.class);
-            startActivity(gallery);*/
+            *//*Intent gallery = new Intent(this, GalleryFragment.class);
+            startActivity(gallery);*//*
 
         } else if (menuSettingList.getFieldName().equalsIgnoreCase("side_menu_document")) {
 
@@ -2003,7 +1977,7 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         }
 
 
-    }
+    }*/
 
     public boolean CheckingPermissionIsEnabledOrNot() {
 
@@ -4389,16 +4363,26 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            Log.d("service end", "service end");
-            if (spot_quiz != null) {
-                if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
-                    DialogQuiz dialogquiz = new DialogQuiz();
-                    dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this);
-                    spot_quiz = "S";
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //Update the value background thread to UI thread
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.d("service end", "service end");
+                            if (spot_quiz != null) {
+                                if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
+                                    DialogQuiz dialogquiz = new DialogQuiz();
+                                    dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this);
+                                    spot_quiz = "S";
 
+                                }
+                            }
+                        }
+                    });
                 }
-            }
-
+            }).start();
 
         }
     }
@@ -4409,16 +4393,26 @@ public class MrgeHomeActivity extends AppCompatActivity implements CustomMenuAda
             // progressbarForSubmit.setVisibility(View.GONE);
 
             // setupViewPager(viewPager);
-
-            Log.d("service end", "service end");
-            if (spot_poll != null) {
-                if (spot_poll.equalsIgnoreCase("spot_poll")) {
-                    DialogLivePoll dialogLivePoll = new DialogLivePoll();
-                    dialogLivePoll.welcomeLivePollDialog(MrgeHomeActivity.this);
-                    spot_poll = "S";
-
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //Update the value background thread to UI thread
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.d("service end", "service end");
+                            if (spot_poll != null) {
+                                if (spot_poll.equalsIgnoreCase("spot_poll")) {
+                                    DialogLivePoll dialogLivePoll = new DialogLivePoll();
+                                    dialogLivePoll.welcomeLivePollDialog(MrgeHomeActivity.this);
+                                    spot_poll = "S";
+                                }
+                            }
+                        }
+                    });
                 }
-            }
+            }).start();
+
 
            /* DialogLivePoll dialogLivePoll = new DialogLivePoll();
             dialogLivePoll.welcomeLivePollDialog(MrgeHomeActivity.this);

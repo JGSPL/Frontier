@@ -93,7 +93,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="70dp"/>
+            android:paddingBottom="70dp"
+            android:nestedScrollingEnabled="false"/>
 
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
