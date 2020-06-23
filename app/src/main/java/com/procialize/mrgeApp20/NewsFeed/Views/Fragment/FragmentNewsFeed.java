@@ -71,6 +71,7 @@ import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.Analytic;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
 import com.procialize.mrgeApp20.GetterSetter.DeletePost;
+import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.FetchAttendee;
 import com.procialize.mrgeApp20.GetterSetter.FetchFeed;
 import com.procialize.mrgeApp20.GetterSetter.LikePost;
@@ -157,10 +158,13 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     private List<news_feed_media> news_feed_media;
     private List<AttendeeList> attendeeList;
     Dialog myDialog;
+    private String live_streaming= "0", youtube = "0",zoom = "0";
+    List<EventSettingList> eventSettingLists;
 
     public FragmentNewsFeed() {
         // Required empty public constructor
     }
+
 
     static public Uri getLocalBitmapUri(Bitmap bmp, Context context) {
         Uri bmpUri = null;
@@ -260,6 +264,8 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             profileIV.setImageResource(R.drawable.profilepic_placeholder);
             progressView.setVisibility(View.GONE);
         }
+        eventSettingLists = new ArrayList<>();
+
         mReceiver = new BackgroundReceiver();
         // Creating an IntentFilter with action
         mFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION);
@@ -270,6 +276,11 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         user = sessionManager.getUserDetails();
         //progressbar = rootView.findViewById(R.id.progressbar);
         cd = new ConnectionDetector(getActivity());
+        eventSettingLists = SessionManager.loadEventList();
+
+        if (eventSettingLists.size() != 0) {
+            applysetting(eventSettingLists);
+        }
 
 
         mAPIService = ApiUtils.getAPIService();
@@ -1056,7 +1067,13 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                  MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
                  MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));
                  MrgeHomeActivity.img_view.startAnimation(anim);
-                 MrgeHomeActivity.linear_livestream.setVisibility(View.VISIBLE);
+                 if(live_streaming.equalsIgnoreCase("1")){
+                     MrgeHomeActivity.linear_livestream.setVisibility(View.VISIBLE);
+                 }else{
+                     MrgeHomeActivity.linear_livestream.setVisibility(View.GONE);
+
+                 }
+                // MrgeHomeActivity.linear_livestream.setVisibility(View.VISIBLE);
                  MrgeHomeActivity.linear_layout.setVisibility(View.GONE);
 
              }
@@ -1655,5 +1672,47 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             }
         });
     }
+
+    private void applysetting(List<EventSettingList> eventSettingLists) {
+
+        for (int i = 0; i < eventSettingLists.size(); i++) {
+            if (eventSettingLists.get(i).getFieldName().equals("live_streaming")) {
+                live_streaming = eventSettingLists.get(i).getFieldValue();
+                if(live_streaming.equalsIgnoreCase("1")){
+                    MrgeHomeActivity.linear_livestream.setVisibility(View.VISIBLE);
+                }else{
+                    MrgeHomeActivity.linear_livestream.setVisibility(View.GONE);
+
+                }
+
+                if (eventSettingLists.get(i).getSub_menuList() != null) {
+                    if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                        for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                            if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("youtube")) {
+                                youtube = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("zoom")) {
+                                zoom = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }
+                        }
+                    }
+                }
+                if(youtube.equalsIgnoreCase("1")){
+                    MrgeHomeActivity.linear_changeView.setVisibility(View.VISIBLE);
+                }else{
+                    MrgeHomeActivity.linear_changeView.setVisibility(View.GONE);
+
+                }
+                if(zoom.equalsIgnoreCase("1")){
+                    MrgeHomeActivity.linear_zoom.setVisibility(View.VISIBLE);
+                }else{
+                    MrgeHomeActivity.linear_zoom.setVisibility(View.GONE);
+
+                }
+
+            }
+
+        }
+    }
+
 
 }
