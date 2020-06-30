@@ -116,8 +116,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                // holder.messageTV.setText("GIF");
 
                     Glide.with(context).load(notificationList.getNotificationContent())
-                            .apply(RequestOptions.skipMemoryCacheOf(true))
-                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                             return true;
@@ -133,8 +132,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 if (notificationList.getMedia_file() != null) {
                     holder.gifiv.setVisibility(View.VISIBLE);
                     Glide.with(context).load(notificationList.getMedia_file())
-                            .apply(RequestOptions.skipMemoryCacheOf(true))
-                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                             return true;
@@ -288,7 +286,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         if (notificationList.getNotificationType().equalsIgnoreCase("Like")) {
             holder.txt_msg.setText("Liked Your Post");
             holder.messageTV.setVisibility(View.GONE);
-            String lName = notificationList.getAttendeeLastName();if (notificationList.getMedia_file() != null) {
+            String lName = notificationList.getAttendeeLastName();
+            if (notificationList.getMedia_file() != null) {
                 holder.gifiv.setVisibility(View.VISIBLE);
                 Glide.with(context).load(notificationList.getMedia_file())
                         .apply(RequestOptions.skipMemoryCacheOf(true))
@@ -436,8 +435,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         if (notificationList.getProfilePic() != null) {
 
             Glide.with(context).load(ApiConstant.profilepic + notificationList.getProfilePic())
-                    .apply(RequestOptions.skipMemoryCacheOf(true)).circleCrop().centerCrop()
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                    .circleCrop().centerCrop()
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     holder.progressView.setVisibility(View.GONE);
@@ -531,9 +530,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.arrowIv.setVisibility(View.GONE);
             holder.arrowIvmsg.setVisibility(View.GONE);
             holder.arrowIvmsg.setVisibility(View.GONE);
-            if(notificationList.getMedia_file().equalsIgnoreCase("")){
-                holder.gifiv.setVisibility(View.GONE);
+            if(notificationList.getMedia_file()!=null) {
+                if (notificationList.getMedia_file().equalsIgnoreCase("")) {
+                    holder.gifiv.setVisibility(View.GONE);
 
+                }
             }
 
             holder.ivtype.setImageResource(R.drawable.notifyadmin);

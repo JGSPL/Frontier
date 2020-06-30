@@ -428,8 +428,11 @@
                     android:hint="Email Id"
                     android:inputType="textEmailAddress"
                     android:padding="5dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textsizesmall" />
+                    android:textColor="@color/textcolorLight"
+                    android:textSize="@dimen/textsizesmall"
+                    android:editable="false"
+                    android:clickable="false"
+                    android:focusableInTouchMode="false"/>
 
                 <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
                     android:id="@+id/Etmobile"
@@ -444,8 +447,11 @@
                     android:hint="@string/mobile"
                     android:inputType="number"
                     android:padding="5dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textsizesmall" />
+                    android:textColor="@color/textcolorLight"
+                    android:textSize="@dimen/textsizesmall"
+                    android:editable="false"
+                    android:clickable="false"
+                    android:focusableInTouchMode="false"/>
 
                 <!--     </com.google.android.material.textfield.TextInputLayout>-->
 

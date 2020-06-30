@@ -1195,33 +1195,33 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                             procializeDB.clearNewsFeedTable();
                             procializeDB.clearBuzzMediaFeedTable();
                             procializeDB.insertNEwsFeedInfo(response.body().getNewsFeedList(), db);
+                            newsfeedsDBList = response.body().getNewsFeedList();
+                            if (newsfeedsDBList != null) {
+                                for (int i = 0; i < newsfeedsDBList.size(); i++) {
+                                    news_feed_mediaDB = new ArrayList<>();
+                                    if (newsfeedsDBList.get(i).getNews_feed_media().size() > 0) {
+                                        for (int j = 0; j < newsfeedsDBList.get(i).getNews_feed_media().size(); j++) {
+                                            news_feed_media nb_media = new news_feed_media();
 
+                                            nb_media.setNews_feed_id(newsfeedsDBList.get(i).getNews_feed_media().get(j).getNews_feed_id());
+                                            nb_media.setMedia_type(newsfeedsDBList.get(i).getNews_feed_media().get(j).getMedia_type());
+                                            nb_media.setMediaFile(newsfeedsDBList.get(i).getNews_feed_media().get(j).getMediaFile());
+                                            nb_media.setThumb_image(newsfeedsDBList.get(i).getNews_feed_media().get(j).getThumb_image());
+                                            nb_media.setWidth(newsfeedsDBList.get(i).getNews_feed_media().get(j).getWidth());
+                                            nb_media.setHeight(newsfeedsDBList.get(i).getNews_feed_media().get(j).getHeight());
+                                            nb_media.setMedia_id(newsfeedsDBList.get(i).getNews_feed_media().get(j).getMedia_id());
+
+                                            news_feed_mediaDB.add(nb_media);
+                                        }
+                                        procializeDB.insertBuzzMediaInfo(news_feed_mediaDB, db);
+                                    }
+                                }
+                            }
                         }
                     });
             }
         }).start();
-        newsfeedsDBList = response.body().getNewsFeedList();
-        if (newsfeedsDBList != null) {
-            for (int i = 0; i < newsfeedsDBList.size(); i++) {
-                news_feed_mediaDB = new ArrayList<>();
-                if (newsfeedsDBList.get(i).getNews_feed_media().size() > 0) {
-                    for (int j = 0; j < newsfeedsDBList.get(i).getNews_feed_media().size(); j++) {
-                        news_feed_media nb_media = new news_feed_media();
 
-                        nb_media.setNews_feed_id(newsfeedsDBList.get(i).getNews_feed_media().get(j).getNews_feed_id());
-                        nb_media.setMedia_type(newsfeedsDBList.get(i).getNews_feed_media().get(j).getMedia_type());
-                        nb_media.setMediaFile(newsfeedsDBList.get(i).getNews_feed_media().get(j).getMediaFile());
-                        nb_media.setThumb_image(newsfeedsDBList.get(i).getNews_feed_media().get(j).getThumb_image());
-                        nb_media.setWidth(newsfeedsDBList.get(i).getNews_feed_media().get(j).getWidth());
-                        nb_media.setHeight(newsfeedsDBList.get(i).getNews_feed_media().get(j).getHeight());
-                        nb_media.setMedia_id(newsfeedsDBList.get(i).getNews_feed_media().get(j).getMedia_id());
-
-                        news_feed_mediaDB.add(nb_media);
-                    }
-                    procializeDB.insertBuzzMediaInfo(news_feed_mediaDB, db);
-                }
-            }
-        }
     }
 
 

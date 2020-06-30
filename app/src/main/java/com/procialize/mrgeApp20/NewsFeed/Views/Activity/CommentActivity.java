@@ -238,6 +238,14 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
        /* headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);*/
 
+
+        procializeDB = new DBHelper(CommentActivity.this);
+        db = procializeDB.getReadableDatabase();
+        dbHelper = new DBHelper(CommentActivity.this);
+        customers = new ArrayList<AttendeeList>();
+        userList = procializeDB.getAttendeeDetails();
+        procializeDB.getReadableDatabase();
+
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
@@ -297,13 +305,13 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                 feed_pos = intent.getStringExtra("feed_pos");
                 p1 = intent.getFloatExtra("AspectRatio", (float) 0.000);
 
+                myList = (ArrayList<news_feed_media>)  dbHelper.getNewsFeedMedia(feedid);
 
-
-                try {
+                /*try {
                     myList = (ArrayList<news_feed_media>) getIntent().getSerializableExtra("media_list");
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
                 if (type.equalsIgnoreCase("Image")) {
                     feedurl = intent.getStringExtra("url");
 
@@ -320,12 +328,6 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         }
 
         initializeview();
-        procializeDB = new DBHelper(CommentActivity.this);
-        db = procializeDB.getReadableDatabase();
-        dbHelper = new DBHelper(CommentActivity.this);
-        customers = new ArrayList<AttendeeList>();
-        userList = procializeDB.getAttendeeDetails();
-        procializeDB.getReadableDatabase();
         // attendeesList = (ListView)
         // CommentActivity.this.findViewById(R.id.speakers_list);
         customers = dbHelper.getAttendeeDetails();

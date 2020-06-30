@@ -550,9 +550,53 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                 startActivity(intent);*/
 
             } else if (notification.getNotificationType().equalsIgnoreCase("Post") && news_feed_like != null) {
-                Intent intent = new Intent(NotificationActivity.this, MrgeHomeActivity.class);
+               /* Intent intent = new Intent(NotificationActivity.this, MrgeHomeActivity.class);
                 intent.putExtra("notification_post_id", notification.getNotificationPostId());
-                startActivity(intent);
+                startActivity(intent);*/
+
+                newsfeedsDBList = dbHelper.getNewsFeedLikeandComment(notification.getNotificationPostId());
+                    //Intent likedetail = new Intent(this, LikeDetailActivity.class);
+                    Intent postdetail = new Intent(this, CommentActivity.class);
+                    postdetail.putExtra("feedid", notification.getNotificationPostId());
+                    postdetail.putExtra("type", notification.getNotificationType());
+
+                postdetail.putExtra("noti_type", "Notification");
+                    try {
+                        float width = Float.parseFloat(newsfeedsDBList.get(0).getWidth());
+                        float height = Float.parseFloat(newsfeedsDBList.get(0).getHeight());
+
+                        float p1 = height / width;
+                        postdetail.putExtra("heading", newsfeedsDBList.get(0).getPostStatus());
+                        postdetail.putExtra("company", newsfeedsDBList.get(0).getCompanyName());
+                        postdetail.putExtra("fname", newsfeedsDBList.get(0).getFirstName());
+                        postdetail.putExtra("lname", newsfeedsDBList.get(0).getLastName());
+                        postdetail.putExtra("profilepic", newsfeedsDBList.get(0).getProfilePic());
+                        postdetail.putExtra("Likes", newsfeedsDBList.get(0).getTotalLikes());
+                        postdetail.putExtra("Comments", newsfeedsDBList.get(0).getTotalComments());
+                        postdetail.putExtra("designation", newsfeedsDBList.get(0).getDesignation());
+                        postdetail.putExtra("Likeflag", newsfeedsDBList.get(0).getLikeFlag());
+                        postdetail.putExtra("date", newsfeedsDBList.get(0).getPostDate());
+
+                        postdetail.putExtra("AspectRatio", p1);
+                        news_feed_media = newsfeedsDBList.get(0).getNews_feed_media();
+                        if (news_feed_media.size() > 1) {
+                            postdetail.putExtra("media_list", (Serializable) news_feed_media);
+                        } else if (news_feed_media.size() > 0) {
+                            postdetail.putExtra("type", news_feed_media.get(0).getMedia_type());
+                            if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Image")) {
+                                postdetail.putExtra("url", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
+                            } else if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Video")) {
+                                postdetail.putExtra("videourl", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
+                                postdetail.putExtra("thumbImg", ApiConstant.newsfeedwall + news_feed_media.get(0).getThumb_image());
+                            }
+                        } else {
+                            postdetail.putExtra("type", "status");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    startActivity(postdetail);
+
 
             } else if (notification.getNotificationType().equalsIgnoreCase("Live_poll") && news_feed_like != null) {
                 Intent intent = new Intent(NotificationActivity.this, LivePollActivity.class);

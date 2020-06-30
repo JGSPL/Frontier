@@ -259,7 +259,6 @@ public class ImageMultipleActivity extends AppCompatActivity {
         //card_view = findViewById(R.id.card_view);
         rvp_slide = findViewById(R.id.rvp_slide);
         ll_dots = findViewById(R.id.ll_dots);
-        progressBar = findViewById(R.id.progressBar);
 
         GradientDrawable shape = setgradientDrawable(5, colorActive);
         savebtn.setBackground(shape);

@@ -1198,4 +1198,5 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
         }
     }
+
 }

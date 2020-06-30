@@ -667,9 +667,9 @@ public class ProfileActivity extends AppCompatActivity {
                 Etmobile = findViewById(R.id.Etmobile);
                 Etemail = findViewById(R.id.Etemail);
 
-                if (Etemail.getVisibility() == View.VISIBLE && Etemail.getText().toString().isEmpty()) {
+                /*if (Etemail.getVisibility() == View.VISIBLE && Etemail.getText().toString().isEmpty()) {
                     Toast.makeText(ProfileActivity.this, "Enter Email Id", Toast.LENGTH_SHORT).show();
-                } else if (Etfirstname.getVisibility() == View.VISIBLE && Etfirstname.getText().toString().isEmpty()) {
+                } else */if (Etfirstname.getVisibility() == View.VISIBLE && Etfirstname.getText().toString().isEmpty()) {
                     Toast.makeText(ProfileActivity.this, "Enter First Name", Toast.LENGTH_SHORT).show();
                 }
                 else if (Etlastname.getVisibility() == View.VISIBLE && Etlastname.getText().toString().isEmpty()) {
@@ -678,9 +678,9 @@ public class ProfileActivity extends AppCompatActivity {
                     Toast.makeText(ProfileActivity.this, "Enter Designation", Toast.LENGTH_SHORT).show();
                 } else if (Etcompany.getVisibility() == View.VISIBLE && Etcompany.getText().toString().isEmpty()) {
                     Toast.makeText(ProfileActivity.this, "Enter Company Name", Toast.LENGTH_SHORT).show();
-                } else if (Etmobile.getVisibility() == View.VISIBLE && Etmobile.getText().toString().isEmpty()) {
+                } /*else if (Etmobile.getVisibility() == View.VISIBLE && Etmobile.getText().toString().isEmpty()) {
                     Toast.makeText(ProfileActivity.this, "Enter Mobile Number", Toast.LENGTH_SHORT).show();
-                } else if (Etcity.getVisibility() == View.VISIBLE && Etcity.getText().toString().isEmpty()) {
+                }*/ else if (Etcity.getVisibility() == View.VISIBLE && Etcity.getText().toString().isEmpty()) {
                     Toast.makeText(ProfileActivity.this, "Enter City Name", Toast.LENGTH_SHORT).show();
                 } else {
                     if (profilepic == null) {
