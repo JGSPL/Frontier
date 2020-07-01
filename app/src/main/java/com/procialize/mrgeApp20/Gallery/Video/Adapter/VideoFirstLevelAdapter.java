@@ -29,6 +29,7 @@ import com.procialize.mrgeApp20.R;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_FOLDER_IMAGE_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.getYoutubeVideoIdFromUrl;
 
 /**
@@ -93,9 +94,11 @@ public class VideoFirstLevelAdapter extends RecyclerView.Adapter<VideoFirstLevel
                 }
             }).into(holder.imageIv);
         } else {
+            SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+           String picPath = prefs.getString(KEY_FOLDER_IMAGE_PATH, "");
 
 
-            Glide.with(context).load(ApiConstant.folderimage + videoList.getVideo_thumb())
+            Glide.with(context).load(/*ApiConstant.folderimage*/picPath + videoList.getVideo_thumb())
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).listener(new RequestListener<Drawable>() {
                 @Override

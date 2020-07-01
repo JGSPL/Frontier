@@ -18,6 +18,7 @@ import com.procialize.mrgeApp20.R;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_DOCUMENTS_PIC_PATH;
 
 /**
  * Created by Naushad on 10/31/2017.
@@ -27,7 +28,7 @@ public class DocumentsGridAdapter extends RecyclerView.Adapter<DocumentsGridAdap
 
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
-    String colorActive;
+    String colorActive,picPath;
     private List<DocumentList> docLists;
     private Context context;
     private DocumentsAdapterListner listener;
@@ -38,6 +39,7 @@ public class DocumentsGridAdapter extends RecyclerView.Adapter<DocumentsGridAdap
         this.context = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
+        picPath = prefs.getString(KEY_DOCUMENTS_PIC_PATH, "");
 
     }
 

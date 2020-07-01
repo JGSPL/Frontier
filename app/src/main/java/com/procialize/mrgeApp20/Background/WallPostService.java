@@ -28,6 +28,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PROFILE_PATH;
+import static com.procialize.mrgeApp20.Session.SessionManager.MY_PREFS_NAME;
+
 public class WallPostService extends IntentService {
 
     Bitmap bitmap_image;
@@ -119,6 +123,20 @@ public class WallPostService extends IntentService {
             procializeDB.clearBuzzMediaFeedTable();
             procializeDB.insertNEwsFeedInfo(response.body().getNewsFeedList(), db);
             newsfeedsDBList = response.body().getNewsFeedList();
+
+            String newsFeedUrlPath = response.body().getNews_feed_url_path();
+            String profilePicUrlPath = response.body().getProfile_pic_url_path();
+
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_NEWSFEED_PATH, newsFeedUrlPath);
+            editor.putString(KEY_NEWSFEED_PROFILE_PATH, profilePicUrlPath);
+            editor.commit();
+
+            SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String newsFeedPath = prefs1.getString(KEY_NEWSFEED_PATH, "");
+            String newsFeedProfilePath = prefs1.getString(KEY_NEWSFEED_PROFILE_PATH, "");
+
             if (newsfeedsDBList != null) {
                 for (int i = 0; i < newsfeedsDBList.size(); i++) {
                     news_feed_mediaDB = new ArrayList<>();
@@ -136,7 +154,7 @@ public class WallPostService extends IntentService {
                             ImageView imageView = new ImageView(getApplicationContext());
                             if (newsfeedsDBList.get(i).getNews_feed_media().get(j).getMedia_type().equalsIgnoreCase("image")) {
                                 ImageLoader imageLoader = new ImageLoader(getApplicationContext());
-                                imageLoader.DisplayImage(ApiConstant.newsfeedwall + newsfeedsDBList.get(i).getNews_feed_media().get(j).getMediaFile(),imageView);
+                                imageLoader.DisplayImage(newsFeedPath/*ApiConstant.newsfeedwall*/ + newsfeedsDBList.get(i).getNews_feed_media().get(j).getMediaFile(),imageView);
                                /* Bitmap original = getBitmapFromURL(ApiConstant.newsfeedwall + newsfeedsDBList.get(i).getNews_feed_media().get(j).getMediaFile());
                                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                                 original.compress(Bitmap.CompressFormat.PNG, 30, out);
@@ -144,7 +162,7 @@ public class WallPostService extends IntentService {
                                 bitmap_image = decoded;*/
                             } else {
                                 ImageLoader imageLoader = new ImageLoader(getApplicationContext());
-                                imageLoader.DisplayImage(ApiConstant.newsfeedwall + newsfeedsDBList.get(i).getNews_feed_media().get(j).getThumb_image(),imageView);
+                                imageLoader.DisplayImage(newsFeedPath/*ApiConstant.newsfeedwall*/ + newsfeedsDBList.get(i).getNews_feed_media().get(j).getThumb_image(),imageView);
                                /* Bitmap original = getBitmapFromURL(ApiConstant.newsfeedwall + newsfeedsDBList.get(i).getNews_feed_media().get(j).getThumb_image());
                                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                                 original.compress(Bitmap.CompressFormat.PNG, 30, out);

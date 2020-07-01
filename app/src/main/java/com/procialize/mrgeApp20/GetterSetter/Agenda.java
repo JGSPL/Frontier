@@ -16,6 +16,18 @@ public class Agenda implements Serializable {
     @Expose
     private List<AgendaMediaList> agenda_vacation_media_list = null;
 
+    public String getAgenda_media_url_path() {
+        return agenda_media_url_path;
+    }
+
+    public void setAgenda_media_url_path(String agenda_media_url_path) {
+        this.agenda_media_url_path = agenda_media_url_path;
+    }
+
+    @SerializedName("agenda_media_url_path")
+    @Expose
+    private String agenda_media_url_path = null;
+
     public List<AgendaVacationList> getAgenda_vacation_list() {
         return agenda_vacation_list;
     }

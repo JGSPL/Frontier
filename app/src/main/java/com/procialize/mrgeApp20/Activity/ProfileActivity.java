@@ -88,6 +88,7 @@ import retrofit2.Response;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_PROFILE_PIC_PATH;
 import static com.procialize.mrgeApp20.Session.SessionManager.MY_PREFS_NAME;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
@@ -569,7 +570,9 @@ public class ProfileActivity extends AppCompatActivity {
             rl_update_pic.setVisibility(View.VISIBLE);
             relative.setVisibility(View.VISIBLE);
             if (profilepic != null) {
-                Glide.with(this).load(ApiConstant.profilepic + profilepic)
+                SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                String profilePicPath  = prefs1.getString(KEY_PROFILE_PIC_PATH,"");
+                Glide.with(this).load(profilePicPath/*ApiConstant.profilepic*/ + profilepic)
                         .apply(RequestOptions.skipMemoryCacheOf(true))
                         .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
                         .listener(new RequestListener<Drawable>() {
@@ -592,7 +595,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
         } else {
             if (profilepic != null) {
-                Glide.with(this).load(ApiConstant.profilepic + profilepic)
+                SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                String profilePicPath  = prefs1.getString(KEY_PROFILE_PIC_PATH,"");
+                Glide.with(this).load(profilePicPath/*ApiConstant.profilepic*/ + profilepic)
                         .apply(RequestOptions.skipMemoryCacheOf(true))
                         .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
                         .listener(new RequestListener<Drawable>() {
@@ -765,6 +770,12 @@ public class ProfileActivity extends AppCompatActivity {
                     String attendee_status = response.body().getUserData().getAttendee_status();
                     String exhibitor_status = response.body().getUserData().getExhibitor_status();
                     String exhibitor_id = response.body().getUserData().getExhibitor_id();
+                    String profilePicPath = response.body().getProfile_pic_url_path();
+
+                    SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    SharedPreferences.Editor edit = prefs.edit();
+                    edit.putString(KEY_PROFILE_PIC_PATH,profilePicPath);
+                    edit.commit();
 
                     SharedPreferences.Editor pref = getSharedPreferences("PROFILE_PICTURE", MODE_PRIVATE).edit();
                     pref.clear();
@@ -1149,7 +1160,11 @@ public class ProfileActivity extends AppCompatActivity {
             }
         } else {
             if (profilepic != null) {
-                Glide.with(this).load(ApiConstant.profilepic + profilepic)
+
+                SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                String profilePicPath  = prefs.getString(KEY_PROFILE_PIC_PATH,"");
+
+                Glide.with(this).load(profilePicPath/*ApiConstant.profilepic*/ + profilepic)
                         .apply(RequestOptions.skipMemoryCacheOf(true))
                         .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
                         .listener(new RequestListener<Drawable>() {

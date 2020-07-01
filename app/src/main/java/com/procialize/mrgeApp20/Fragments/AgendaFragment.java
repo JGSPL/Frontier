@@ -57,6 +57,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_AGENDA_PIC_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -84,6 +85,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.AgendaAdap
     private SQLiteDatabase db;
     private ConnectionDetector cd;
     private List<AgendaList> agendaList;
+    String picPath="";
     private List<AgendaList> agendaDBList;
     private DBHelper dbHelper;
     LinearLayout linear;
@@ -360,6 +362,14 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.AgendaAdap
 
 
         agendaList = response.body().getAgendaList();
+        String profile_pic_path = response.body().getAgenda_media_url_path();
+
+
+        SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString(KEY_AGENDA_PIC_PATH,profile_pic_path);
+        edit.commit();
+
         procializeDB.clearAgendaTable();
         procializeDB.insertAgendaInfo(agendaList, db);
 

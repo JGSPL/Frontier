@@ -39,6 +39,8 @@ import java.util.Date;
 
 import cn.jzvd.JzvdStd;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_FOLDER_IMAGE_PATH;
+
 
 /**
  * Created by HP-PC on 11-08-2016.
@@ -126,7 +128,10 @@ public class ExoVideoActivity extends AppCompatActivity {
 
 
         if (page.equalsIgnoreCase("videoMain")) {
-            setupVideoView(ApiConstant.folderimage + videoUrl);
+            SharedPreferences prefs1 = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String picPath = prefs1.getString(KEY_FOLDER_IMAGE_PATH, "");
+
+            setupVideoView(/*ApiConstant.folderimage*/picPath + videoUrl);
 
         } else if (page.equalsIgnoreCase("travel")) {
             setupVideoView(ApiConstant.imgURL + "uploads/travel_gallery/" + videoUrl);
@@ -148,7 +153,9 @@ public class ExoVideoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                shareTextUrl(title, ApiConstant.selfievideo + videoUrl);
-                downloadFile(ApiConstant.folderimage + videoUrl, file);
+                SharedPreferences prefs1 = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                String picPath = prefs1.getString(KEY_FOLDER_IMAGE_PATH, "");
+                downloadFile(/*ApiConstant.folderimage*/picPath + videoUrl, file);
                 shareVideo(file.getAbsolutePath());
             }
         });

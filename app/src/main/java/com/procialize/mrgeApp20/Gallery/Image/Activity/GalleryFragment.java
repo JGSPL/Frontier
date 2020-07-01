@@ -56,6 +56,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_FOLDER_IMAGE_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -67,7 +68,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
     SwipeRefreshLayout galleryRvrefresh;
     RecyclerView galleryRv;
     ProgressBar progressBar;
-    String MY_PREFS_NAME = "ProcializeInfo";
+    String MY_PREFS_NAME = "ProcializeInfo",picPath="";
     String eventid, colorActive;
     ImageView headerlogoIv;
     RelativeLayout linear;
@@ -202,10 +203,14 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
 
             galleryLists = response.body().getGalleryList();
             folderLists = response.body().getFolderList();
+           String folderImageUrlPath = response.body().getFolder_image_url_path();
 
-
+            SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putString(KEY_FOLDER_IMAGE_PATH,folderImageUrlPath);
+            edit.commit();
             List<FirstLevelFilter> filtergallerylists = new ArrayList<>();
-
+            picPath = prefs.getString(KEY_FOLDER_IMAGE_PATH,"");
             if (response.body().getGalleryList().size() != 0 || response.body().getFolderList().size() != 0) {
 
                 if (response.body().getFolderList().size() != 0) {
@@ -217,7 +222,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
                                 firstLevelFilter.setFolderName(response.body().getFolderList().get(i).getFolderName());
                                 firstLevelFilter.setTitle(response.body().getFolderList().get(i).getFolderName());
                                 firstLevelFilter.setFolder_id(response.body().getFolderList().get(i).getFolder_id());
-                                firstLevelFilter.setFileName(ApiConstant.galleryimage + response.body().getFolderList().get(i).getFolderImage());
+                                firstLevelFilter.setFileName(/*ApiConstant.galleryimage*/picPath + response.body().getFolderList().get(i).getFolderImage());
 
                                 filtergallerylists.add(firstLevelFilter);
                             }
@@ -230,7 +235,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
                         FirstLevelFilter firstLevelFilter = new FirstLevelFilter();
 
                         firstLevelFilter.setTitle(response.body().getGalleryList().get(i).getTitle());
-                        firstLevelFilter.setFileName(ApiConstant.galleryimage + response.body().getGalleryList().get(i).getFileName());
+                        firstLevelFilter.setFileName(/*ApiConstant.galleryimage*/picPath + response.body().getGalleryList().get(i).getFileName());
                         firstLevelFilter.setFolderName(response.body().getGalleryList().get(i).getFolderName());
                         firstLevelFilter.setFolder_id(response.body().getGalleryList().get(i).getFolder_id());
 

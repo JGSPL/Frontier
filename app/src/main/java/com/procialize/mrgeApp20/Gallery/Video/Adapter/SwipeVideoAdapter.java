@@ -1,6 +1,7 @@
 package com.procialize.mrgeApp20.Gallery.Video.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -38,6 +39,8 @@ import javax.net.ssl.X509TrustManager;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_FOLDER_VIDEO_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.getYoutubeVideoIdFromUrl;
 
 /**
@@ -52,6 +55,7 @@ public class SwipeVideoAdapter extends RecyclerView.Adapter<SwipeVideoAdapter.My
     private SwipeVideoAdapterListner listener;
     private SparseBooleanArray selectedItems;
 
+    String MY_PREFS_NAME = "ProcializeInfo";
 
     TrustManager[] trustAllCerts = new TrustManager[]{
             new X509TrustManager() {
@@ -126,8 +130,11 @@ public class SwipeVideoAdapter extends RecyclerView.Adapter<SwipeVideoAdapter.My
                 }
             }).into(holder.imageIv);
         } else {
+
+            SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String picPath = prefs.getString(KEY_FOLDER_VIDEO_PATH,"");
             Glide.with(context)
-                    .load(ApiConstant.folderimage + galleryList.getVideo_thumb())
+                    .load(/*ApiConstant.folderimage*/picPath + galleryList.getVideo_thumb())
                     .placeholder(R.drawable.gallery_placeholder)
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).centerCrop()
                     .listener(new RequestListener<Drawable>() {

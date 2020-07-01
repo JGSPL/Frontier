@@ -351,10 +351,6 @@
             android:name=".Activity.WebViewActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".InnerDrawerActivity.AttendeeActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
         <!--
 <provider
             android:name="androidx.core.content.FileProvider"

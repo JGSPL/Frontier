@@ -85,13 +85,12 @@ public class BackgroundService extends IntentService {
     List<news_feed_media> news_feed_mediaDB = new ArrayList<news_feed_media>();
     String is_completed = "0";
     String news_feed_id1="";
-    private String media_file, media_file_thumb, api_access_token, event_id, status;
+    private String media_file, media_file_thumb, api_access_token, event_id, status,media_type="";
     private DBHelper dbHelper;
     private ArrayList<NewsFeedPostMultimedia> arrayListNewsFeedMultiMedia;
     private FFmpeg ffmpeg;
     private DBHelper procializeDB;
     private SQLiteDatabase db;
-
 
     public BackgroundService() {
         super("");
@@ -99,7 +98,7 @@ public class BackgroundService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
+        com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed.isFinishedService = false;
         loadFFMpegBinary();
         procializeDB = new DBHelper(getApplicationContext());
         db = procializeDB.getWritableDatabase();
@@ -133,14 +132,18 @@ public class BackgroundService extends IntentService {
                         String strPath = arrayListNewsFeedMultiMedia.get(videoPositionArray.get(0)).getMedia_file();
                         executeCutVideoCommand(startMsForVideoCutting, endMsForVideoCutting, Uri.parse(strPath), videoPositionArray.get(0));
                     } else {
+                        status = arrayListNewsFeedMultiMedia.get(0).getPostText();
                         media_file = arrayListNewsFeedMultiMedia.get(0).getMedia_file();
                         media_file_thumb = arrayListNewsFeedMultiMedia.get(0).getMedia_file_thumb();
-                        uploadToServer(media_file, media_file_thumb, arrayListNewsFeedMultiMedia.get(0).getFolderUniqueId());
+                        media_type = arrayListNewsFeedMultiMedia.get(0).getMedia_type();
+                        uploadToServer(media_type,media_file, media_file_thumb, arrayListNewsFeedMultiMedia.get(0).getFolderUniqueId());
                     }
                 } else {
+                    status = arrayListNewsFeedMultiMedia.get(0).getPostText();
                     media_file = arrayListNewsFeedMultiMedia.get(0).getMedia_file();
                     media_file_thumb = arrayListNewsFeedMultiMedia.get(0).getMedia_file_thumb();
-                    uploadToServer(media_file, media_file_thumb, arrayListNewsFeedMultiMedia.get(0).getFolderUniqueId());
+                    media_type = arrayListNewsFeedMultiMedia.get(0).getMedia_type();
+                    uploadToServer(media_type,media_file, media_file_thumb, arrayListNewsFeedMultiMedia.get(0).getFolderUniqueId());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -253,7 +256,6 @@ public class BackgroundService extends IntentService {
                         int pos = videoPositionArray.get(0);
                         String thumbPath = arrayListNewsFeedMultiMedia.get(pos).getMedia_file_thumb();
                         String originalPath = arrayListNewsFeedMultiMedia.get(pos).getMedia_file();
-
                         if (arrayListNewsFeedMultiMedia.get(pos).getMedia_type().equals("video")) {
                             arrayListNewsFeedMultiMedia.get(pos).setCompressedPath(outputPath);
                             dbHelper.getReadableDatabase();
@@ -282,7 +284,7 @@ public class BackgroundService extends IntentService {
                             @Override
                             public void run() {
                                 try {
-                                    uploadToServer(media_file, media_file_thumb, arrayListNewsFeedMultiMedia.get(0).getFolderUniqueId());
+                                    uploadToServer("video", media_file, media_file_thumb, arrayListNewsFeedMultiMedia.get(0).getFolderUniqueId());
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -386,8 +388,9 @@ public class BackgroundService extends IntentService {
 
     }
 
-    public void uploadToServer(String media_file, String media_file_thumb, String folderUniqueId) {
+    public void uploadToServer(String media_type, String media_file, String media_file_thumb, String folderUniqueId) {
 
+        String ext = "";
         if (media_file.contains("jpg") || media_file.contains("jpeg") || media_file.contains("png")) {
             try {
                 Uri myUri = Uri.parse(media_file);
@@ -427,12 +430,19 @@ public class BackgroundService extends IntentService {
         }
         //int countOfUploadedFilesForPerticularNewsFeedId = dbHelper.getCountOfUploadedMultiMediaForNewsFeedId(news_feed_id);
         int countOfUploadedFilesForPerticularNewsFeedId = dbHelper.getCountOfUploadedMultiMediaForFolderUniqueId(folderUniqueId);
+
+        Log.d("uploadToServer1====>", "" + countOfUploadedFilesForPerticularNewsFeedId + "____folderUniqueId===>" + folderUniqueId);
         String news_feed_id = dbHelper.getNewsFeedIdFromFolderUniqueId(folderUniqueId);
         if (countOfUploadedFilesForPerticularNewsFeedId == 1) {
             is_completed = "1";
         } else {
             is_completed = "0";
         }
+
+        String fileName = media_file;
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+            ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+
 
         File file = new File(media_file);
         if (media_file.contains("mp4")) {
@@ -478,7 +488,7 @@ public class BackgroundService extends IntentService {
         OkHttpClient client = null;
         try {
             URL url = new URL(ApiConstant.baseUrl + "PostNewsFeedMultiple");//"PostNewsFeedMultiple");
-            HttpURLConnection conn = ( HttpURLConnection ) url.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(7000);
             client = getUnsafeOkHttpClient().newBuilder().build();
         } catch (Exception e) {
@@ -491,6 +501,10 @@ public class BackgroundService extends IntentService {
         if (media_file != null && !(media_file.equalsIgnoreCase(""))) {
             builder.addFormDataPart("media_file", file.getName() + "." + extension, RequestBody.create(MEDIA_TYPE_PNG, file));
         }
+        else
+        {
+            builder.addFormDataPart("media_file", "");
+        }
 
         if (media_file.contains(".mp4")) {
             if (media_file_thumb != null && !(media_file_thumb.equalsIgnoreCase(""))) {
@@ -499,18 +513,14 @@ public class BackgroundService extends IntentService {
         }
         builder.addFormDataPart("api_access_token", api_access_token);
         builder.addFormDataPart("event_id", event_id);
-
-        if(news_feed_id.equalsIgnoreCase("false")||news_feed_id.equalsIgnoreCase("")){
-            builder.addFormDataPart("news_feed_id", news_feed_id1);
-        }else{
-            builder.addFormDataPart("news_feed_id", news_feed_id);
-        }
-
+        builder.addFormDataPart("news_feed_id", news_feed_id);
         builder.addFormDataPart("status", status);
         builder.addFormDataPart("is_completed", is_completed);
         // builder.addFormDataPart("isDebug", "1");
 
         RequestBody requestBody = builder.build();
+
+        Log.d("Request Body", requestBody.toString());
 
         Request request = new Request.Builder()
                 .url(ApiConstant.baseUrl + "PostNewsFeedMultiple")
@@ -539,16 +549,14 @@ public class BackgroundService extends IntentService {
 
         try {
             json = new JSONObject(result);
-            Log.d("response", result);
+            Log.d("Response Body", json.toString());
             try {
                 error = json.getString("status");
                 message = json.getString("msg");
-
                 news_feed_id1 = json.getString("news_feed_id");
-                if (news_feed_id1 == null || news_feed_id1.equalsIgnoreCase("false")) {
+                if (news_feed_id1 == null) {
                     news_feed_id1 = "";
                 }
-
                 if (error.equalsIgnoreCase("success")) {
                     dbHelper.getReadableDatabase();
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -556,10 +564,6 @@ public class BackgroundService extends IntentService {
                     dbHelper.updateMultimediaInfo(media_file, news_feed_id1, db, media_file_thumb, folderUniqueId);
                     message = json.getString("msg");
                     getFileToUpload();
-                    /*if(is_completed.equalsIgnoreCase("1"))
-                    {
-                        Toast.makeText(this, "Post Uploaded successfully", Toast.LENGTH_SHORT).show();
-                    }*/
                 } else {
                     dbHelper.getReadableDatabase();
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -568,7 +572,7 @@ public class BackgroundService extends IntentService {
                     getFileToUpload();
                 }
             } catch (Exception e) {
-                if (news_feed_id1 == null || news_feed_id1.equalsIgnoreCase("false")) {
+                if (news_feed_id1 == null) {
                     news_feed_id1 = "";
                 }
                 dbHelper.getReadableDatabase();
@@ -579,9 +583,6 @@ public class BackgroundService extends IntentService {
                 getFileToUpload();
             }
         } catch (JSONException e) {
-            if (news_feed_id1 == null || news_feed_id1.equalsIgnoreCase("false")) {
-                news_feed_id1 = "";
-            }
             dbHelper.getReadableDatabase();
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             dbHelper.updateNewsFeedId(news_feed_id1, folderUniqueId, db);
@@ -623,7 +624,9 @@ public class BackgroundService extends IntentService {
             else
                 media_file1 = arrayListNewsFeedMultiMedia.get(successfullUploadedMediaCount).getMedia_file();
 
-            uploadToServer(media_file1, media_file_thumb1, folderUniqueId);
+            media_type = arrayListNewsFeedMultiMedia.get(successfullUploadedMediaCount).getMedia_type();
+            status = arrayListNewsFeedMultiMedia.get(successfullUploadedMediaCount).getPostText();
+            uploadToServer(media_type,media_file1, media_file_thumb1, folderUniqueId);
         } else {
             // Creating an intent for broadcastreceiver
             Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION);

@@ -46,16 +46,17 @@ public class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.MyViewHo
     List<EventSettingList> eventSettingLists;
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
-    String colorActive;
+    String colorActive,profile_pic_path;
     private List<SpeakerList> speakerLists;
     private Context context;
     private List<SpeakerList> speakerListFiltered;
     private SpeakerAdapterListner listener;
 
 
-    public SpeakerAdapter(Context context, List<SpeakerList> speakerLists, SpeakerAdapterListner listener) {
+    public SpeakerAdapter(Context context, List<SpeakerList> speakerLists, String profile_pic_path,SpeakerAdapterListner listener) {
         this.speakerLists = speakerLists;
         this.speakerListFiltered = speakerLists;
+        this.profile_pic_path = profile_pic_path;
         this.listener = listener;
         this.context = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -131,7 +132,7 @@ public class SpeakerAdapter extends RecyclerView.Adapter<SpeakerAdapter.MyViewHo
         if (speaker.getProfilePic() != null) {
 
 
-            Glide.with(context).load(ApiConstant.profilepic + speaker.getProfilePic())
+            Glide.with(context).load(profile_pic_path/*ApiConstant.profilepic*/ + speaker.getProfilePic())
                     .apply(RequestOptions.skipMemoryCacheOf(false))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
                     .listener(new RequestListener<Drawable>() {

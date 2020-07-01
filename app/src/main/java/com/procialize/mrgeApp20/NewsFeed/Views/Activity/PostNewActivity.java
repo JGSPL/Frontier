@@ -97,6 +97,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import static com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed.isFinishedService;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_PROFILE_PIC_PATH;
 import static com.procialize.mrgeApp20.Session.SessionManager.MY_PREFS_NAME;
 import static com.procialize.mrgeApp20.UnsafeOkHttpClient.getUnsafeOkHttpClient;
 import static org.apache.http.HttpVersion.HTTP_1_1;
@@ -139,7 +141,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     private List<EventSettingList> eventSettingLists;
     String news_feed_post = "1", news_feed_images = "1", news_feed_video = "1", news_feed_gif = "0", designatio = "1";
     String news_feed_like = "0", news_feed_comment = "0", news_feed_share = "0";
-
+    boolean isTextPost;
     public static HttpResponse transformResponse(Response response) {
 
         BasicHttpResponse httpResponse = null;
@@ -312,7 +314,10 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         HashMap<String, String> user = session.getUserDetails();
         String profilepic = user.get(SessionManager.KEY_PIC);
         if (profilepic != null) {
-            Glide.with(this).load(ApiConstant.profilepic + profilepic).circleCrop()
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String profilePicPath  = prefs.getString(KEY_PROFILE_PIC_PATH,"");
+
+            Glide.with(this).load(profilePicPath/*ApiConstant.profilepic*/ + profilepic).circleCrop()
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -364,7 +369,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.postbtn:
 
-                folderUniqueId = insertMultimediaDataToDB();
+                /*folderUniqueId = insertMultimediaDataToDB();
                 if (cd.isConnectingToInternet()) {
                     postMsg = posttextEt.getText().toString().trim();
                     final Comment comment = new Comment();
@@ -393,6 +398,59 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                             postbtn.setEnabled(false);
                             postbtn.setClickable(false);
                             new SubmitPostTask().execute("", "");
+                        }
+                    }
+                } else {
+                    Toast.makeText(PostNewActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }*/
+                if (cd.isConnectingToInternet()) {
+                    postMsg = posttextEt.getText().toString().trim();
+                    final Comment comment = new Comment();
+                    comment.setComment(postMsg);
+                    comment.setMentions(mentions.getInsertedMentions());
+                    textData.setText(postMsg);
+
+                    postMsg = highlightMentions(textData, comment.getMentions());
+                    if(postMsg.length()>0)
+                    {isTextPost=true;}
+                    else
+                    {isTextPost=false;}
+                    folderUniqueId = insertMultimediaDataToDB(isTextPost);
+
+                    if (resultList.size() != 0) {
+                        postbtn.setEnabled(false);
+                        postbtn.setClickable(false);
+                        if (resultList.size() > 0) {
+                            postbtn.setEnabled(false);
+                            postbtn.setClickable(false);
+
+                            picturePath = resultList.get(0).getmPath();
+                            videothumbpath = resultList.get(0).getmThumbPath();
+                            if( isFinishedService) {
+                                new SubmitPostTask().execute("", "");
+                            }else
+                            {
+                                Intent MainIntent = new Intent(PostNewActivity.this, MrgeHomeActivity.class);
+                                startActivity(MainIntent);
+                                finish();
+                            }
+
+                        }
+                    } else {
+                        //folderUniqueId = insertMultimediaDataToDB();
+                        if (postMsg.isEmpty()) {
+                            Toast.makeText(PostNewActivity.this, "Please Enter your Post", Toast.LENGTH_SHORT).show();
+                        } else {
+                            is_completed = "1";
+
+                            if( isFinishedService) {
+                                new SubmitPostTask().execute("", "");
+                            }else
+                            {
+                                Intent MainIntent = new Intent(PostNewActivity.this, MrgeHomeActivity.class);
+                                startActivity(MainIntent);
+                                finish();
+                            }
                         }
                     }
                 } else {
@@ -643,7 +701,59 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    public String insertMultimediaDataToDB() {
+
+    public String insertMultimediaDataToDB(boolean isTextPost) {
+        ArrayList<NewsFeedPostMultimedia> arrayListNewsFeedMultiMedia = new ArrayList<>();
+        Date date = new Date();
+        long time = date.getTime();
+        Timestamp ts = new Timestamp(time);
+        if(isTextPost)
+        {
+            NewsFeedPostMultimedia newsFeedPostMultimedia = new NewsFeedPostMultimedia();
+            newsFeedPostMultimedia.setMedia_file("");
+            newsFeedPostMultimedia.setMedia_file_thumb("");
+            newsFeedPostMultimedia.setNews_feed_id("");
+            newsFeedPostMultimedia.setCompressedPath("");
+            newsFeedPostMultimedia.setMedia_type("text");
+            newsFeedPostMultimedia.setFolderUniqueId(ts.toString());
+            newsFeedPostMultimedia.setPostText(postMsg);
+            arrayListNewsFeedMultiMedia.add(newsFeedPostMultimedia);
+           /* NewsFeedPostMultimedia newsFeedPostMultimedia = new NewsFeedPostMultimedia();
+            newsFeedPostMultimedia.setMedia_type("text");
+            newsFeedPostMultimedia.setFolderUniqueId(ts.toString());
+            newsFeedPostMultimedia.setPostText(data);
+            arrayListNewsFeedMultiMedia.add(newsFeedPostMultimedia);*/
+        }
+        if(resultList.size()>0) {
+            for (int i = 0; i < resultList.size(); i++) {
+                picturePath = resultList.get(i).getmPath();
+                videothumbpath = resultList.get(i).getmThumbPath();
+                NewsFeedPostMultimedia newsFeedPostMultimedia = new NewsFeedPostMultimedia();
+                newsFeedPostMultimedia.setMedia_file(picturePath);
+                newsFeedPostMultimedia.setMedia_file_thumb(videothumbpath);
+                newsFeedPostMultimedia.setNews_feed_id(news_feed_id1);
+                newsFeedPostMultimedia.setCompressedPath("");
+                newsFeedPostMultimedia.setMedia_type(resultList.get(i).getmMediaType());
+                newsFeedPostMultimedia.setFolderUniqueId(ts.toString());
+                //if(resultList.get(i).getmMediaType().equalsIgnoreCase("text")) {
+                newsFeedPostMultimedia.setPostText(postMsg);
+                /*}else
+                {
+                    newsFeedPostMultimedia.setPostText("");
+                }*/
+                arrayListNewsFeedMultiMedia.add(newsFeedPostMultimedia);
+            }
+        }
+
+
+        SQLiteDatabase db = procializeDB.getWritableDatabase();
+        procializeDB.insertUploadMultimediaInfo(arrayListNewsFeedMultiMedia, news_feed_id1, db);
+
+        return ts.toString();
+    }
+
+
+ /*   public String insertMultimediaDataToDB() {
 
         ArrayList<NewsFeedPostMultimedia> arrayListNewsFeedMultiMedia = new ArrayList<>();
 
@@ -667,7 +777,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         procializeDB.insertUploadMultimediaInfo(arrayListNewsFeedMultiMedia, news_feed_id1, db);
 
         return ts.toString();
-    }
+    }*/
 
     private void setupMentionsList() {
         final RecyclerView mentionsList = findViewById(R.id.mentions_list);

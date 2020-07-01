@@ -143,6 +143,7 @@ import retrofit2.Response;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_PROFILE_PIC_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 
@@ -1399,7 +1400,9 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
 
         if (profilepic != null) {
-            Glide.with(this).load(ApiConstant.profilepic + profilepic).circleCrop()
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String profilePicPath  = prefs.getString(KEY_PROFILE_PIC_PATH,"");
+            Glide.with(this).load(profilePicPath/*ApiConstant.profilepic*/ + profilepic).circleCrop()
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -2185,6 +2188,12 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     String exhibitor_id = response.body().getUserData().getExhibitor_id();
                     String exhibitor_status = response.body().getUserData().getExhibitor_status();
 
+                    String profilePicPath = response.body().getProfile_pic_url_path();
+
+                    SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    SharedPreferences.Editor edit = prefs.edit();
+                    edit.putString(KEY_PROFILE_PIC_PATH,profilePicPath);
+                    edit.commit();
 
                     SessionManager sessionManager = new SessionManager(MrgeHomeActivity.this);
                     if (sessionManager != null) {

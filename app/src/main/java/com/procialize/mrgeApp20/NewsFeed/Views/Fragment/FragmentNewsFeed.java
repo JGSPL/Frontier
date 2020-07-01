@@ -122,6 +122,9 @@ import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.procialize.mrgeApp20.NewsFeed.Views.Adapter.NewsFeedAdapterRecycler.swipableAdapterPosition;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PROFILE_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_PROFILE_PIC_PATH;
 import static com.procialize.mrgeApp20.Session.SessionManager.MY_PREFS_NAME;
 
 /**
@@ -131,6 +134,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
     public static SwipeRefreshLayout newsfeedrefresh;
     public static List<NewsFeedList> newsfeedList;
+    public static boolean isFinishedService = false;
     HashMap<String, String> user;
     BottomSheetDialog dialog;
     //ProgressBar progressbar;
@@ -152,16 +156,16 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     IntentFilter mFilter;
     ImageView profileIV;
     ProgressBar progressView;
+    Dialog myDialog;
+    List<EventSettingList> eventSettingLists;
     private DBHelper procializeDB;
     private List<NewsFeedList> newsfeedsDBList;
     private APIService mAPIService;
     private ConnectionDetector cd;
     private List<news_feed_media> news_feed_media;
     private List<AttendeeList> attendeeList;
-    Dialog myDialog;
     private Handler mHandler;
-    private String live_streaming= "0", youtube = "0",zoom = "0";
-    List<EventSettingList> eventSettingLists;
+    private String live_streaming = "0", youtube = "0", zoom = "0";
 
     public FragmentNewsFeed() {
         // Required empty public constructor
@@ -239,14 +243,17 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         session = new SessionManager(getActivity());
         user = session.getUserDetails();
         token = user.get(SessionManager.KEY_TOKEN);
-        mHandler= new Handler();
+        mHandler = new Handler();
         profileIV = rootView.findViewById(R.id.profilestatus);
         progressView = rootView.findViewById(R.id.progressView);
 
         HashMap<String, String> user = session.getUserDetails();
         String profilepic = user.get(SessionManager.KEY_PIC);
         if (profilepic != null) {
-            Glide.with(this).load(ApiConstant.profilepic + profilepic).circleCrop()
+            SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String profilePicPath = prefs.getString(KEY_PROFILE_PIC_PATH, "");
+
+            Glide.with(this).load(profilePicPath/*ApiConstant.profilepic*/ + profilepic).circleCrop()
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Drawable> target, boolean isFirstResource) {
@@ -318,6 +325,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             Intent intent = new Intent(getActivity(), BackgroundService.class);
             PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, intent, PendingIntent.FLAG_NO_CREATE);
             if (pendingIntent == null) {
+                isFinishedService = true;
                 // progressbarForSubmit.setVisibility(View.VISIBLE);
                 tv_uploading.setVisibility(View.VISIBLE);
                 Animation anim = new AlphaAnimation(0.0f, 1.0f);
@@ -337,6 +345,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             intent.putExtra("status", "");
             getActivity().startService(intent);
         } else {
+            isFinishedService = false;
             tv_uploading.clearAnimation();
             tv_uploading.setVisibility(View.GONE);
             if (procializeDB.getCountOfNotUploadedMultiMedia() == 0) {
@@ -421,15 +430,15 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                    //Update the value background thread to UI thread
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            procializeDB.clearAttendeesTable();
-                            procializeDB.insertAttendeesInfo(attendeeList, db);
-                            //attendeesDBList = dbHelper.getAttendeeDetails();
-                        }
-                    });
+                //Update the value background thread to UI thread
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        procializeDB.clearAttendeesTable();
+                        procializeDB.insertAttendeesInfo(attendeeList, db);
+                        //attendeesDBList = dbHelper.getAttendeeDetails();
+                    }
+                });
             }
         }).start();
 
@@ -502,12 +511,16 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onContactSelected(NewsFeedList feed, ImageView imageView, int position) {
+        SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String newsFeedPath = prefs.getString(KEY_NEWSFEED_PATH, "");
+        String newsFeedProfilePath = prefs.getString(KEY_NEWSFEED_PROFILE_PATH, "");
+
         List<news_feed_media> news_feed_mediaC = new ArrayList<news_feed_media>();
         news_feed_mediaC = feed.getNews_feed_media();
         if (news_feed_mediaC.size() == 1) {
             if (news_feed_mediaC.get(0).getMedia_type().equals("Image")) {
                 Intent imageview = new Intent(getContext(), ImageViewActivity.class);
-                imageview.putExtra("url", ApiConstant.newsfeedwall + news_feed_mediaC.get(0).getMediaFile());
+                imageview.putExtra("url", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_mediaC.get(0).getMediaFile());
                 startActivity(imageview);
             }
         }
@@ -607,6 +620,10 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         feedrecycler.smoothScrollToPosition(feed_pos);
         Intent comment = new Intent(getContext(), CommentActivity.class);
 
+        SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String profilePicPath = prefs.getString(KEY_PROFILE_PIC_PATH, "");
+
+
         comment.putExtra("fname", feed.getFirstName());
         comment.putExtra("lname", feed.getLastName());
         comment.putExtra("company", feed.getCompanyName());
@@ -617,7 +634,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         comment.putExtra("Likes", feed.getTotalLikes());
         comment.putExtra("Likeflag", feed.getLikeFlag());
         comment.putExtra("Comments", feed.getTotalComments());
-        comment.putExtra("profilepic", ApiConstant.profilepic + feed.getProfilePic());
+        comment.putExtra("profilepic", profilePicPath/*ApiConstant.profilepic*/ + feed.getProfilePic());
         comment.putExtra("type", feed.getType());
         comment.putExtra("feedid", feed.getNewsFeedId());
 
@@ -626,8 +643,8 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         comment.putExtra("feed_pos", feed_pos);
 
         news_feed_media = feed.getNews_feed_media();
-       // if (news_feed_media.size() >= 1) {
-            comment.putExtra("media_list", (Serializable) news_feed_media);
+        // if (news_feed_media.size() >= 1) {
+        comment.putExtra("media_list", (Serializable) news_feed_media);
         /*} else if (news_feed_media.size() > 0) {
             comment.putExtra("type", news_feed_media.get(0).getMedia_type());
 
@@ -685,7 +702,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
                                                             int which) {
-                                            new DownloadFile().execute(ApiConstant.newsfeedwall + newsFeedMedia.get(swipableAdapterPosition).getMediaFile());
+                                            SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                                            String newsFeedPath = prefs.getString(KEY_NEWSFEED_PATH, "");
+                                            new DownloadFile().execute(/*ApiConstant.newsfeedwall*/newsFeedPath + newsFeedMedia.get(swipableAdapterPosition).getMediaFile());
                                         }
                                     });
                             builder.show();
@@ -716,7 +735,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                             startActivity(Intent.createChooser(sharingIntent, "Shared via MRGE app"));
                         }
                     } else {
-                        shareImage(feedList.getPostDate() + "\n" + feedList.getPostStatus(), ApiConstant.newsfeedwall + newsFeedMedia.get(swipableAdapterPosition).getMediaFile(), getContext());
+                        SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                        String newsFeedPath = prefs.getString(KEY_NEWSFEED_PATH, "");
+                        shareImage(feedList.getPostDate() + "\n" + feedList.getPostStatus(), /*ApiConstant.newsfeedwall*/newsFeedPath + newsFeedMedia.get(swipableAdapterPosition).getMediaFile(), getContext());
                     }
                 } else {
                     shareTextUrl(feedList.getPostDate() + "\n" + feedList.getPostStatus(), StringEscapeUtils.unescapeJava(feedList.getPostStatus()));
@@ -865,6 +886,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         float width = Float.parseFloat(feed.getWidth());
         float height = Float.parseFloat(feed.getHeight());
 
+        SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String profilePicPath = prefs.getString(KEY_PROFILE_PIC_PATH, "");
+        String newsFeedPath = prefs.getString(KEY_NEWSFEED_PATH, "");
         float p1 = height / width;
 
         Intent intent = new Intent(getActivity(), LikeDetailActivity.class);
@@ -878,7 +902,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         intent.putExtra("Likes", feed.getTotalLikes());
         intent.putExtra("Likeflag", feed.getLikeFlag());
         intent.putExtra("Comments", feed.getTotalComments());
-        intent.putExtra("profilepic", ApiConstant.profilepic + feed.getProfilePic());
+        intent.putExtra("profilepic", profilePicPath/*ApiConstant.profilepic*/ + feed.getProfilePic());
 //        intent.putExtra("type", feed.getType());
         intent.putExtra("feedid", feed.getNewsFeedId());
         intent.putExtra("AspectRatio", p1);
@@ -888,19 +912,19 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         if (news_feed_media.size() >= 1) {
             intent.putExtra("media_list", (Serializable) news_feed_media);
         } else if (news_feed_media.size() > 0) {
+
             intent.putExtra("type", news_feed_media.get(0).getMedia_type());
             if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Image")) {
-                intent.putExtra("url", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
+                intent.putExtra("url", /*ApiConstant.newsfeedwall*/newsFeedPath + news_feed_media.get(0).getMediaFile());
             } else if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Video")) {
-                intent.putExtra("videourl", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
-                intent.putExtra("thumbImg", ApiConstant.newsfeedwall + news_feed_media.get(0).getThumb_image());
+                intent.putExtra("videourl", /*ApiConstant.newsfeedwall*/newsFeedPath + news_feed_media.get(0).getMediaFile());
+                intent.putExtra("thumbImg", /*ApiConstant.newsfeedwall*/newsFeedPath + news_feed_media.get(0).getThumb_image());
             }
         } else {
             intent.putExtra("type", "status");
         }
         intent.putExtra("flag", "noti");
         startActivity(intent);
-
     }
 
     @Override
@@ -1014,13 +1038,13 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             MrgeHomeActivity.zoom_status = response.body().getLive_steaming_info().getZoom_status();
 
             MrgeHomeActivity.zoom_time = response.body().getLive_steaming_info().getZoom_datetime();
-            if(MrgeHomeActivity.youTubeApiLists.size()>0){
+            if (MrgeHomeActivity.youTubeApiLists.size() > 0) {
                 MrgeHomeActivity.youTubeApiLists.clear();
             }
 
-             if (response.body().getYoutube_info().size() > 0) {
-                MrgeHomeActivity. youTubeApiLists = response.body().getYoutube_info();
-                if(MrgeHomeActivity.youTubeApiLists.size()>0) {
+            if (response.body().getYoutube_info().size() > 0) {
+                MrgeHomeActivity.youTubeApiLists = response.body().getYoutube_info();
+                if (MrgeHomeActivity.youTubeApiLists.size() > 0) {
 
                     if (MrgeHomeActivity.youTubeApiLists.get(0).getStream_status().equalsIgnoreCase("1")) {
                         MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor(colorActive));
@@ -1057,7 +1081,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                         // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
                         MrgeHomeActivity.txt_change.setText("Change View");
                     }
-                }else {
+                } else {
                     MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
                     MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
                     MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));
@@ -1068,33 +1092,34 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                     // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
                     MrgeHomeActivity.txt_change.setText("Change View");
                 }
-            }else { MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor("#686868"));
-                 MrgeHomeActivity.txt_streaming.setBackgroundColor(Color.parseColor("#686868"));
-                 MrgeHomeActivity.img_stream.setBackgroundColor(Color.parseColor("#686868"));
-                 MrgeHomeActivity.txt_streaming.setText("Nothing Streaming Currently");
-                 Animation anim = new AlphaAnimation(0.0f, 0.0f);
-                 anim.setDuration(0); //You can manage the blinking time with this parameter
-                 anim.setStartOffset(0);
+            } else {
+                MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor("#686868"));
+                MrgeHomeActivity.txt_streaming.setBackgroundColor(Color.parseColor("#686868"));
+                MrgeHomeActivity.img_stream.setBackgroundColor(Color.parseColor("#686868"));
+                MrgeHomeActivity.txt_streaming.setText("Nothing Streaming Currently");
+                Animation anim = new AlphaAnimation(0.0f, 0.0f);
+                anim.setDuration(0); //You can manage the blinking time with this parameter
+                anim.setStartOffset(0);
                 // anim.setRepeatMode(Animation.REVERSE);
                 // anim.setRepeatCount(Animation.INFINITE);
-                 MrgeHomeActivity.img_stream.startAnimation(anim);
-                 MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
-                 MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
-                 MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));
-                 MrgeHomeActivity.img_view.startAnimation(anim);
-                 if(live_streaming.equalsIgnoreCase("1")){
-                     MrgeHomeActivity.linear_livestream.setVisibility(View.VISIBLE);
-                 }else{
-                     MrgeHomeActivity.linear_livestream.setVisibility(View.GONE);
+                MrgeHomeActivity.img_stream.startAnimation(anim);
+                MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
+                MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+                MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));
+                MrgeHomeActivity.img_view.startAnimation(anim);
+                if (live_streaming.equalsIgnoreCase("1")) {
+                    MrgeHomeActivity.linear_livestream.setVisibility(View.VISIBLE);
+                } else {
+                    MrgeHomeActivity.linear_livestream.setVisibility(View.GONE);
 
-                 }
+                }
                 // MrgeHomeActivity.linear_livestream.setVisibility(View.VISIBLE);
-                 MrgeHomeActivity.linear_layout.setVisibility(View.GONE);
+                MrgeHomeActivity.linear_layout.setVisibility(View.GONE);
 
-             }
+            }
 
             //}
-            if ( MrgeHomeActivity.zoom_status.equalsIgnoreCase("1")) {
+            if (MrgeHomeActivity.zoom_status.equalsIgnoreCase("1")) {
 //                            countDownzoom();
 
 
@@ -1130,12 +1155,20 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 //            } else {
 //                post_layout.setVisibility(View.VISIBLE);
 //            }
-            if(response.body().getNewsFeedList().size()>0) {
+            if (response.body().getNewsFeedList().size() > 0) {
 
                 news_feed_mediaDB = response.body().getNewsFeedList().get(0).getNews_feed_media();
+                String newsFeedUrlPath = response.body().getNews_feed_url_path();
+                String profilePicUrlPath = response.body().getProfile_pic_url_path();
+
+                SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(KEY_NEWSFEED_PATH, newsFeedUrlPath);
+                editor.putString(KEY_NEWSFEED_PROFILE_PATH, profilePicUrlPath);
+                editor.commit();
             }
 
-        /*    List<news_feed_list> newsFeedLists = new ArrayList<>();
+            /*List<news_feed_list> newsFeedLists = new ArrayList<>();
             newsFeedLists = response.body().getNews_feed_list();*/
 
             if (newsfeedList.size() > 0) {
@@ -1187,44 +1220,42 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                    //Update the value background thread to UI thread
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            newsfeedList = response.body().getNewsFeedList();
-                            procializeDB.clearNewsFeedTable();
-                            procializeDB.clearBuzzMediaFeedTable();
-                            procializeDB.insertNEwsFeedInfo(response.body().getNewsFeedList(), db);
-                            newsfeedsDBList = response.body().getNewsFeedList();
-                            if (newsfeedsDBList != null) {
-                                for (int i = 0; i < newsfeedsDBList.size(); i++) {
-                                    news_feed_mediaDB = new ArrayList<>();
-                                    if (newsfeedsDBList.get(i).getNews_feed_media().size() > 0) {
-                                        for (int j = 0; j < newsfeedsDBList.get(i).getNews_feed_media().size(); j++) {
-                                            news_feed_media nb_media = new news_feed_media();
+                //Update the value background thread to UI thread
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        newsfeedList = response.body().getNewsFeedList();
+                        procializeDB.clearNewsFeedTable();
+                        procializeDB.clearBuzzMediaFeedTable();
+                        procializeDB.insertNEwsFeedInfo(response.body().getNewsFeedList(), db);
+                        newsfeedsDBList = response.body().getNewsFeedList();
+                        if (newsfeedsDBList != null) {
+                            for (int i = 0; i < newsfeedsDBList.size(); i++) {
+                                news_feed_mediaDB = new ArrayList<>();
+                                if (newsfeedsDBList.get(i).getNews_feed_media().size() > 0) {
+                                    for (int j = 0; j < newsfeedsDBList.get(i).getNews_feed_media().size(); j++) {
+                                        news_feed_media nb_media = new news_feed_media();
 
-                                            nb_media.setNews_feed_id(newsfeedsDBList.get(i).getNews_feed_media().get(j).getNews_feed_id());
-                                            nb_media.setMedia_type(newsfeedsDBList.get(i).getNews_feed_media().get(j).getMedia_type());
-                                            nb_media.setMediaFile(newsfeedsDBList.get(i).getNews_feed_media().get(j).getMediaFile());
-                                            nb_media.setThumb_image(newsfeedsDBList.get(i).getNews_feed_media().get(j).getThumb_image());
-                                            nb_media.setWidth(newsfeedsDBList.get(i).getNews_feed_media().get(j).getWidth());
-                                            nb_media.setHeight(newsfeedsDBList.get(i).getNews_feed_media().get(j).getHeight());
-                                            nb_media.setMedia_id(newsfeedsDBList.get(i).getNews_feed_media().get(j).getMedia_id());
+                                        nb_media.setNews_feed_id(newsfeedsDBList.get(i).getNews_feed_media().get(j).getNews_feed_id());
+                                        nb_media.setMedia_type(newsfeedsDBList.get(i).getNews_feed_media().get(j).getMedia_type());
+                                        nb_media.setMediaFile(newsfeedsDBList.get(i).getNews_feed_media().get(j).getMediaFile());
+                                        nb_media.setThumb_image(newsfeedsDBList.get(i).getNews_feed_media().get(j).getThumb_image());
+                                        nb_media.setWidth(newsfeedsDBList.get(i).getNews_feed_media().get(j).getWidth());
+                                        nb_media.setHeight(newsfeedsDBList.get(i).getNews_feed_media().get(j).getHeight());
+                                        nb_media.setMedia_id(newsfeedsDBList.get(i).getNews_feed_media().get(j).getMedia_id());
 
-                                            news_feed_mediaDB.add(nb_media);
-                                        }
-                                        procializeDB.insertBuzzMediaInfo(news_feed_mediaDB, db);
+                                        news_feed_mediaDB.add(nb_media);
                                     }
+                                    procializeDB.insertBuzzMediaInfo(news_feed_mediaDB, db);
                                 }
                             }
                         }
-                    });
+                    }
+                });
             }
         }).start();
 
     }
-
-
 
 
     public void PostDelete(String eventid, String feedid, String token, final int position) {
@@ -1356,12 +1387,12 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
-             myDialog.dismiss();
+            myDialog.dismiss();
 
         } else {
             Log.e("post", "fail");
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-              myDialog.dismiss();
+            myDialog.dismiss();
         }
     }
 
@@ -1399,12 +1430,12 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
-           myDialog.dismiss();
+            myDialog.dismiss();
 
         } else {
             Log.e("post", "fail");
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-             myDialog.dismiss();
+            myDialog.dismiss();
         }
     }
 
@@ -1469,6 +1500,144 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.navmenudownloads, menu);
         menu.removeGroup(R.id.downloads);
+    }
+
+    private void showratedialouge(final String from, final String id) {
+
+        myDialog = new Dialog(getActivity());
+        myDialog.setContentView(R.layout.dialouge_msg_layout);
+        myDialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme; //style id
+
+        myDialog.show();
+
+        TextView title = myDialog.findViewById(R.id.title);
+        if (from.equalsIgnoreCase("reportPost")) {
+            title.setText("Report Post");
+        } else if (from.equalsIgnoreCase("reportUser")) {
+            title.setText("Report User");
+
+        }
+
+
+        Button cancelbtn = myDialog.findViewById(R.id.canclebtn);
+        Button ratebtn = myDialog.findViewById(R.id.ratebtn);
+        ratebtn.setText("Send");
+
+        final EditText etmsg = myDialog.findViewById(R.id.etmsg);
+
+        final TextView counttv = myDialog.findViewById(R.id.counttv);
+        final TextView nametv = myDialog.findViewById(R.id.nametv);
+
+        nametv.setText("To " + "Admin");
+
+        ImageView imgCancel = myDialog.findViewById(R.id.imgCancel);
+        imgCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+
+        etmsg.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                count = 250 - s.length();
+                counttv.setText(count + "");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        cancelbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+
+        ratebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (etmsg.getText().toString().length() > 0) {
+
+                    String msg = StringEscapeUtils.escapeJava(etmsg.getText().toString());
+                    dialog.dismiss();
+                    if (from.equalsIgnoreCase("reportPost")) {
+                        ReportPost(eventid, id, token, msg);
+                    } else if (from.equalsIgnoreCase("reportUser")) {
+                        ReportUser(eventid, id, token, msg);
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "Enter Something", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+  /*  private class BackgroundReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // progressbarForSubmit.setVisibility(View.GONE);
+            Log.d("service end", "service end");
+            fetchFeed(token, eventid);
+            tv_uploading.clearAnimation();
+            tv_uploading.setVisibility(View.GONE);
+            Toast.makeText(context, "Post uploaded successfully..!!", Toast.LENGTH_SHORT).show();
+            // progressbarForSubmit.setProgress(Integer.parseInt(String.valueOf(progress)));
+            *//* mTvCapital.setText("Capital : " + capital);*//*
+        }
+    }*/
+
+    private void applysetting(List<EventSettingList> eventSettingLists) {
+
+        for (int i = 0; i < eventSettingLists.size(); i++) {
+            if (eventSettingLists.get(i).getFieldName().equals("live_streaming")) {
+                live_streaming = eventSettingLists.get(i).getFieldValue();
+                if (live_streaming.equalsIgnoreCase("1")) {
+                    MrgeHomeActivity.linear_livestream.setVisibility(View.VISIBLE);
+                } else {
+                    MrgeHomeActivity.linear_livestream.setVisibility(View.GONE);
+
+                }
+
+                if (eventSettingLists.get(i).getSub_menuList() != null) {
+                    if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
+                        for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
+                            if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("youtube")) {
+                                youtube = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("zoom")) {
+                                zoom = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                            }
+                        }
+                    }
+                }
+                if (youtube.equalsIgnoreCase("1")) {
+                    MrgeHomeActivity.linear_changeView.setVisibility(View.VISIBLE);
+                } else {
+                    MrgeHomeActivity.linear_changeView.setVisibility(View.GONE);
+
+                }
+                if (zoom.equalsIgnoreCase("1")) {
+                    MrgeHomeActivity.linear_zoom.setVisibility(View.VISIBLE);
+                } else {
+                    MrgeHomeActivity.linear_zoom.setVisibility(View.GONE);
+
+                }
+
+            }
+
+        }
     }
 
     private class DownloadFile extends AsyncTask<String, String, String> {
@@ -1605,6 +1774,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         }
     }
 
+    // Defining a BroadcastReceiver
     private class BackgroundReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -1613,133 +1783,52 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             fetchFeed(token, eventid);
             tv_uploading.clearAnimation();
             tv_uploading.setVisibility(View.GONE);
-            Toast.makeText(context, "Post uploaded successfully..!!", Toast.LENGTH_SHORT).show();
             // progressbarForSubmit.setProgress(Integer.parseInt(String.valueOf(progress)));
             /* mTvCapital.setText("Capital : " + capital);*/
-        }
-    }
+            fetchFeed(token, eventid);
+            newsFeedPostMultimediaList = procializeDB.getNotUploadedMultiMedia();
+            // insertMediaToLocalDb();
 
-    private void showratedialouge(final String from, final String id) {
+            List<news_feed_media> mediafeedDetails = procializeDB.getBuzzMediaFeedDetails();
+            List<news_feed_media> mediafeedDetails1 = mediafeedDetails;
+            //ArrayList<NewsFeedPostMultimedia> newsFeedPostMultimediaList = dbHelper.getNotUploadedMultiMedia();
 
-        myDialog = new Dialog(getActivity());
-        myDialog.setContentView(R.layout.dialouge_msg_layout);
-        myDialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme; //style id
-
-        myDialog.show();
-
-        TextView title = myDialog.findViewById(R.id.title);
-        if (from.equalsIgnoreCase("reportPost")) {
-            title.setText("Report Post");
-        } else if (from.equalsIgnoreCase("reportUser")) {
-            title.setText("Report User");
-
-        }
-
-
-        Button cancelbtn = myDialog.findViewById(R.id.canclebtn);
-        Button ratebtn = myDialog.findViewById(R.id.ratebtn);
-        ratebtn.setText("Send");
-
-        final EditText etmsg = myDialog.findViewById(R.id.etmsg);
-
-        final TextView counttv = myDialog.findViewById(R.id.counttv);
-        final TextView nametv = myDialog.findViewById(R.id.nametv);
-
-        nametv.setText("To " + "Admin");
-
-        ImageView imgCancel = myDialog.findViewById(R.id.imgCancel);
-        imgCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myDialog.dismiss();
-            }
-        });
-
-        etmsg.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                count = 250 - s.length();
-                counttv.setText(count + "");
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-
-        cancelbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myDialog.dismiss();
-            }
-        });
-
-        ratebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (etmsg.getText().toString().length() > 0) {
-
-                    String msg = StringEscapeUtils.escapeJava(etmsg.getText().toString());
-                    dialog.dismiss();
-                    if (from.equalsIgnoreCase("reportPost")) {
-                        ReportPost(eventid, id, token, msg);
-                    } else if (from.equalsIgnoreCase("reportUser")) {
-                        ReportUser(eventid, id, token, msg);
-                    }
-                } else {
-                    Toast.makeText(getActivity(), "Enter Something", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private void applysetting(List<EventSettingList> eventSettingLists) {
-
-        for (int i = 0; i < eventSettingLists.size(); i++) {
-            if (eventSettingLists.get(i).getFieldName().equals("live_streaming")) {
-                live_streaming = eventSettingLists.get(i).getFieldValue();
-                if(live_streaming.equalsIgnoreCase("1")){
-                    MrgeHomeActivity.linear_livestream.setVisibility(View.VISIBLE);
-                }else{
-                    MrgeHomeActivity.linear_livestream.setVisibility(View.GONE);
-
+            if (newsFeedPostMultimediaList.size() > 0) {
+                Intent intent1 = new Intent(getActivity(), BackgroundService.class);
+                PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, intent1, PendingIntent.FLAG_NO_CREATE);
+                if (pendingIntent == null) {
+                    isFinishedService = true;
+                    // progressbarForSubmit.setVisibility(View.VISIBLE);
+                    tv_uploading.setVisibility(View.VISIBLE);
+                    Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                    anim.setDuration(1000); //You can manage the blinking time with this parameter
+                    anim.setStartOffset(20);
+                    anim.setRepeatMode(Animation.REVERSE);
+                    anim.setRepeatCount(Animation.INFINITE);
+                    tv_uploading.startAnimation(anim);
                 }
 
-                if (eventSettingLists.get(i).getSub_menuList() != null) {
-                    if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
-                        for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
-                            if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("youtube")) {
-                                youtube = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
-                            } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("zoom")) {
-                                zoom = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
+                intent1.putExtra("arrayListNewsFeedMultiMedia", newsFeedPostMultimediaList);
+                intent1.putExtra("api_access_token", token);
+                intent1.putExtra("event_id", eventid);
+                intent1.putExtra("status", "");
+                getActivity().startService(intent1);
+            } else {
+                isFinishedService = false;
+                tv_uploading.clearAnimation();
+                tv_uploading.setVisibility(View.GONE);
+                if (procializeDB.getCountOfNotUploadedMultiMedia() == 0) {
+                    File dir = new File(Environment.getExternalStorageDirectory() + "/AlbumCache");
+                    if (dir.isDirectory()) {
+                        String[] children = dir.list();
+                        if (children != null) {
+                            for (int i = 0; i < children.length; i++) {
+                                new File(dir, children[i]).delete();
                             }
                         }
                     }
                 }
-                if(youtube.equalsIgnoreCase("1")){
-                    MrgeHomeActivity.linear_changeView.setVisibility(View.VISIBLE);
-                }else{
-                    MrgeHomeActivity.linear_changeView.setVisibility(View.GONE);
-
-                }
-                if(zoom.equalsIgnoreCase("1")){
-                    MrgeHomeActivity.linear_zoom.setVisibility(View.VISIBLE);
-                }else{
-                    MrgeHomeActivity.linear_zoom.setVisibility(View.GONE);
-
-                }
-
             }
-
         }
     }
 

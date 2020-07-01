@@ -68,6 +68,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_ATTENDEE_PIC_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -95,6 +96,8 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
     String eventid,colorActive;
     TextView pullrefresh;
     String MY_PREFS_NAME = "ProcializeInfo";
+    String picPath="";
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -154,6 +157,9 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+        SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+
         attendeerecycler = view.findViewById(R.id.attendeerecycler);
         searchEt = view.findViewById(R.id.searchEt);
         attendeefeedrefresh = view.findViewById(R.id.attendeefeedrefresh);
@@ -203,7 +209,7 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
 
             attendeesDBList = dbHelper.getAttendeeDetails();
 
-            attendeeAdapter = new AttendeeAdapter(getActivity(), attendeesDBList, this);
+            attendeeAdapter = new AttendeeAdapter(getActivity(), attendeesDBList,picPath, this);
             attendeeAdapter.notifyDataSetChanged();
             attendeerecycler.setAdapter(attendeeAdapter);
             attendeerecycler.scheduleLayoutAnimation();
@@ -217,7 +223,7 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
                 } else {
                     attendeesDBList = dbHelper.getAttendeeDetails();
 
-                    attendeeAdapter = new AttendeeAdapter(getActivity(), attendeesDBList, AttendeeFragment.this);
+                    attendeeAdapter = new AttendeeAdapter(getActivity(), attendeesDBList, picPath,AttendeeFragment.this);
                     attendeeAdapter.notifyDataSetChanged();
                     attendeerecycler.setAdapter(attendeeAdapter);
                     attendeerecycler.scheduleLayoutAnimation();
@@ -342,12 +348,17 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
 
         // specify an adapter (see also next example)
         attendeeList = response.body().getAttendeeList();
+        String picPath = response.body().getProfile_pic_url_path();
+        SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString(KEY_ATTENDEE_PIC_PATH,picPath);
+        edit.commit();
         procializeDB.clearAttendeesTable();
         procializeDB.insertAttendeesInfo(attendeeList, db);
         //attendeesDBList = dbHelper.getAttendeeDetails();
 
 
-        attendeeAdapter = new AttendeeAdapter(getActivity(), response.body().getAttendeeList(), this);
+        attendeeAdapter = new AttendeeAdapter(getActivity(), response.body().getAttendeeList(),picPath, this);
         attendeeAdapter.notifyDataSetChanged();
         attendeerecycler.setAdapter(attendeeAdapter);
         attendeerecycler.scheduleLayoutAnimation();
@@ -464,7 +475,10 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
 
             attendeesDBList = dbHelper.getAttendeeDetails();
 
-            attendeeAdapter = new AttendeeAdapter(getActivity(), attendeesDBList, this);
+            SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+
+            attendeeAdapter = new AttendeeAdapter(getActivity(), attendeesDBList,picPath, this);
             attendeeAdapter.notifyDataSetChanged();
             attendeerecycler.setAdapter(attendeeAdapter);
             attendeerecycler.scheduleLayoutAnimation();

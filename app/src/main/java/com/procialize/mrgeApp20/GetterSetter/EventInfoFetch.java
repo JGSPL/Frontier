@@ -19,9 +19,20 @@ public class EventInfoFetch {
     @SerializedName("msg")
     @Expose
     private String msg;
+    @SerializedName("event_logo_url_path")
+    @Expose
+    private String event_logo_url_path;
     @SerializedName("sponsor_file_path")
     @Expose
     private String sponsor_file_path;
+
+    public String getEvent_logo_url_path() {
+        return event_logo_url_path;
+    }
+
+    public void setEvent_logo_url_path(String event_logo_url_path) {
+        this.event_logo_url_path = event_logo_url_path;
+    }
 
     @SerializedName("sponsor_list")
     @Expose

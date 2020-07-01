@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_LIKE_PROFILE_PATH;
 
 /**
  * Created by Sneha on 10/31/2017.
@@ -41,7 +42,7 @@ public class LikeAdapter  extends RecyclerView.Adapter<LikeAdapter.MyViewHolder>
     //    private LikeAdapterListner listener;
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
-    String colorActive;
+    String colorActive,profilePath;
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -66,7 +67,7 @@ public class LikeAdapter  extends RecyclerView.Adapter<LikeAdapter.MyViewHolder>
         this.context = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
-
+        profilePath = prefs.getString(KEY_NEWSFEED_LIKE_PROFILE_PATH, "");
     }
 
     @Override
@@ -82,7 +83,7 @@ public class LikeAdapter  extends RecyclerView.Adapter<LikeAdapter.MyViewHolder>
         AttendeeList attendeeList = attendeeListList.get(position);
 
         if (attendeeListList.get(position).getProfilePic() != null) {
-            Glide.with(context).load(ApiConstant.profilepic + attendeeListList.get(position).getProfilePic()).listener(new RequestListener<Drawable>() {
+            Glide.with(context).load(/*ApiConstant.profilepic*/profilePath + attendeeListList.get(position).getProfilePic()).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     holder.imageIv.setImageResource(R.drawable.profilepic_placeholder);

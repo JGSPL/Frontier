@@ -72,6 +72,8 @@ import java.util.Locale;
 import cn.jzvd.JzvdStd;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PROFILE_PATH;
 
 //import com.procialize.mrgeApp20.widget.ReactionView;
 
@@ -94,7 +96,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
     Boolean value;
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
-    String colorActive;
+    String colorActive,newsFeedPath,newsFeedProfilePath;
     ConnectionDetector cd;
     String substring;
     String device = Build.MODEL;
@@ -125,6 +127,8 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             topMgmtFlag = sessionManager.getSkipFlag();
             SharedPreferences prefs = con.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
             colorActive = prefs.getString("colorActive", "");
+            newsFeedPath = prefs.getString(KEY_NEWSFEED_PATH, "");
+            newsFeedProfilePath = prefs.getString(KEY_NEWSFEED_PROFILE_PATH, "");
             cd = new ConnectionDetector(context);
         }
 
@@ -599,7 +603,8 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
 
         if (feed.getProfilePic() != null) {
-            Glide.with(context).load((ApiConstant.profilepic + feed.getProfilePic()))
+            Glide.with(context).load((
+                    newsFeedProfilePath/*ApiConstant.profilepic*/ + feed.getProfilePic()))
                     .placeholder(R.drawable.profilepic_placeholder)
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
                     .listener(new RequestListener<Drawable>() {
@@ -639,9 +644,9 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                     final ArrayList<String> imagesSelectednew1 = new ArrayList<>();
                     final ImageView[] ivArrayDotsPager;
                     for (int i = 0; i < news_feed_media1.size(); i++) {
-                        imagesSelectednew.add(ApiConstant.newsfeedwall + news_feed_media1.get(i).getMediaFile());
+                        imagesSelectednew.add(newsFeedPath /*ApiConstant.newsfeedwall*/ + news_feed_media1.get(i).getMediaFile());
                         if (news_feed_media1.get(i).getMediaFile().contains("mp4")) {
-                            imagesSelectednew1.add(ApiConstant.newsfeedwall + news_feed_media1.get(i).getThumb_image());
+                            imagesSelectednew1.add(newsFeedPath /*ApiConstant.newsfeedwall*/ + news_feed_media1.get(i).getThumb_image());
                         } else {
                             imagesSelectednew1.add("");
                         }

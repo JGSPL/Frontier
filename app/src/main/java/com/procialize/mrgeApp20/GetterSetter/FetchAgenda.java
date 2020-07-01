@@ -17,6 +17,17 @@ public class FetchAgenda {
     @SerializedName("msg")
     @Expose
     private String msg;
+    @SerializedName("agenda_media_url_path")
+    @Expose
+    private String agenda_media_url_path;
+
+    public String getAgenda_media_url_path() {
+        return agenda_media_url_path;
+    }
+
+    public void setAgenda_media_url_path(String agenda_media_url_path) {
+        this.agenda_media_url_path = agenda_media_url_path;
+    }
 
     public List<AgendaList> getAgendaList() {
         return agendaList;

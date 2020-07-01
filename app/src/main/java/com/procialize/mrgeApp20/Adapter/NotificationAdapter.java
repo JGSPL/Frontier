@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NOTIFICATION_PROFILE_PIC_PATH;
 
 /**
  * Created by Naushad on 10/31/2017.//preeti
@@ -60,7 +61,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
-    String colorActive;
+    String colorActive,picPath;
     private List<NotificationList> notificationLists;
     private Context context;
     private NotificationAdapterListner listener;
@@ -76,10 +77,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         this.context = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
-
+        picPath = prefs.getString(KEY_NOTIFICATION_PROFILE_PIC_PATH,"");
         procializeDB = new DBHelper(context);
         db = procializeDB.getWritableDatabase();
         dbHelper = new DBHelper(context);
+
     }
 
     @Override
@@ -434,7 +436,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         if (notificationList.getProfilePic() != null) {
 
-            Glide.with(context).load(ApiConstant.profilepic + notificationList.getProfilePic())
+            Glide.with(context).load(picPath/*ApiConstant.profilepic*/ + notificationList.getProfilePic())
                     .circleCrop().centerCrop()
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
                 @Override

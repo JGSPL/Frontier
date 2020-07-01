@@ -19,6 +19,18 @@ public class VideoFetchListFetch {
     @Expose
     private List<VideoList> videoList = null;
 
+    @SerializedName("folder_video_url_path")
+    @Expose
+    private String folder_video_url_path;
+
+    public String getFolder_video_url_path() {
+        return folder_video_url_path;
+    }
+
+    public void setFolder_video_url_path(String folder_video_url_path) {
+        this.folder_video_url_path = folder_video_url_path;
+    }
+
     public List<VideoFolderList> getVideoFolderList() {
         return videoFolderList;
     }

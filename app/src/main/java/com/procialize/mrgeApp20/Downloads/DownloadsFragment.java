@@ -60,6 +60,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_DOCUMENTS_PIC_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_PROFILE_PIC_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -191,6 +193,12 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
         if (response.body().getStatus().equalsIgnoreCase("success")) {
             if (!(response.body().getDocumentList().isEmpty())) {
                  documentsList = response.body().getDocumentList();
+
+                SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor edit = prefs.edit();
+                edit.putString(KEY_DOCUMENTS_PIC_PATH,response.body().getDocument_url_path());
+                edit.commit();
+
                  if(listType.equalsIgnoreCase("grid") || listType.equalsIgnoreCase("")) {
                      MrgeHomeActivity.grid_image_view.setImageDrawable(getResources().getDrawable(R.drawable.active_grid_view));
                      MrgeHomeActivity.list_image_view.setImageDrawable(getResources().getDrawable(R.drawable.inactive_list_view));
@@ -242,9 +250,12 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
 
     @Override
     public void onContactSelected(DocumentList document) {
+        SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String picPath = prefs.getString(KEY_DOCUMENTS_PIC_PATH, "");
+
         Intent pdfview = new Intent(getActivity(), DownloadPdfActivity.class);
-        pdfview.putExtra("url", "https://docs.google.com/gview?embedded=true&url=" + ApiConstant.imgURL + "uploads/documents/" + document.getFileName());
-        pdfview.putExtra("url1", ApiConstant.imgURL + "uploads/documents/" + document.getFileName());
+        pdfview.putExtra("url", "https://docs.google.com/gview?embedded=true&url=" + picPath/*ApiConstant.imgURL+ "uploads/documents/"*/  + document.getFileName());
+        pdfview.putExtra("url1", picPath/*ApiConstant.imgURL + "uploads/documents/"*/ + document.getFileName());
         pdfview.putExtra("doc_name",  document.getTitle());
         pdfview.putExtra("page_id",  "24");
         pdfview.putExtra("file_id",  document.getId());

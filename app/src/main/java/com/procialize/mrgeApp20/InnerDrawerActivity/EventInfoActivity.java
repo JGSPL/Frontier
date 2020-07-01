@@ -79,6 +79,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_LOGO_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 
@@ -103,7 +104,7 @@ public class EventInfoActivity extends AppCompatActivity implements OnMapReadyCa
     ImageView headerlogoIv;
     RelativeLayout relative_head;
     List<SponsorsList> sponsorList;
-    String filePath;
+    String filePath,eventLogoPath;
     LinearLayout linShare;
     RecyclerView rv_sponsors;
     private APIService mAPIService;
@@ -333,10 +334,16 @@ public class EventInfoActivity extends AppCompatActivity implements OnMapReadyCa
 
             sponsorList = response.body().getSponsor_list();
             filePath = response.body().getSponsor_file_path();
+            eventLogoPath = response.body().getEvent_logo_url_path();
+
+
+
+
 
             SharedPreferences prefs = EventInfoActivity.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("sponsor_filePath", filePath);
+            editor.putString(KEY_EVENT_LOGO_PATH, eventLogoPath);
             editor.commit();
 
             SponsorAdapter sponsorAdapter = new SponsorAdapter(EventInfoActivity.this, sponsorList, filePath);
@@ -425,8 +432,9 @@ public class EventInfoActivity extends AppCompatActivity implements OnMapReadyCa
 
                     SharedPreferences prefs1 = EventInfoActivity.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
                     String logoImg = prefs1.getString("logoImg", "");
+                    String eventLogoPath = prefs1.getString(KEY_EVENT_LOGO_PATH, "");
 
-                    String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" +logoImg;
+                    String image_final_url = /*ApiConstant.imgURL + "uploads/app_logo/"*/eventLogoPath +logoImg;
 
                     Glide.with(this).load(image_final_url)
                             .placeholder(R.drawable.profilepic_placeholder)

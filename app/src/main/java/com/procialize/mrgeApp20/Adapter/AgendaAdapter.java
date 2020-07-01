@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_AGENDA_PIC_PATH;
 
 /**
  * Created by Naushad on 10/31/2017.
@@ -41,13 +42,16 @@ public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.MyViewHold
     private List<AgendaList> tempagendaList = new ArrayList<AgendaList>();
     private Context context;
     private AgendaAdapterListner listener;
-
+    String pic_path;
 
     public AgendaAdapter(Context context, List<AgendaList> agendaLists, AgendaAdapterListner listener) {
         this.agendaLists = agendaLists;
         this.context = context;
         this.listener = listener;
 //        this.tempagendaList = tempagendaList;
+
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        pic_path = prefs.getString(KEY_AGENDA_PIC_PATH,"");
     }
 
     @Override

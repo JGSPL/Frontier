@@ -269,6 +269,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String UPLOAD_MULTIMEDIA_TABLE = "TABLE_UPLOAD_MULTIMEDIA";
     public static final String MULTIMEDIA_ID = "MULTIMEDIA_ID";
+    public static final String MULTIMEDIA_TEXT = "MULTIMEDIA_TEXT";
     public static final String MULTIMEDIA_FILE = "MULTIMEDIA_FILE";
     public static final String MULTIMEDIA_COMPRESSED_FILE = "MULTIMEDIA_COMPRESSED_FILE";
     public static final String MULTIMEDIA_THUMB = "MULTIMEDIA_THUMB";
@@ -498,6 +499,7 @@ public class DBHelper extends SQLiteOpenHelper {
             // UPLOAD Multimedia Table
             db.execSQL("create table " + UPLOAD_MULTIMEDIA_TABLE + "(" +
                     MULTIMEDIA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    MULTIMEDIA_TEXT + " text, " +
                     MULTIMEDIA_FILE + " text, " +
                     MULTIMEDIA_THUMB + " text, " +
                     MULTIMEDIA_COMPRESSED_FILE + " text, " +
@@ -2240,6 +2242,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 contentValues.put(MULTIMEDIA_COMPRESSED_FILE, newsFeedPostMultimedia.get(i).getCompressedPath());
                 contentValues.put(MULTIMEDIA_TYPE, newsFeedPostMultimedia.get(i).getMedia_type());
                 contentValues.put(FOLDER_UNIQUE_ID, newsFeedPostMultimedia.get(i).getFolderUniqueId());
+                contentValues.put(MULTIMEDIA_TEXT,newsFeedPostMultimedia.get(i).getPostText());
+                contentValues.put(MULTIMEDIA_TEXT,newsFeedPostMultimedia.get(i).getPostText());
                 db.insert(UPLOAD_MULTIMEDIA_TABLE, null, contentValues);
             }
 
@@ -3242,7 +3246,37 @@ public class DBHelper extends SQLiteOpenHelper {
         return newsFeedList;
     }
 
+
     public ArrayList<NewsFeedPostMultimedia> getNotUploadedMultiMedia() {
+        String selectQuery = "select * from " + UPLOAD_MULTIMEDIA_TABLE + " where IS_UPLOADED='false'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        ArrayList<NewsFeedPostMultimedia> newsFeedPostMultimediaList = new ArrayList<NewsFeedPostMultimedia>();
+
+        if (cursor.moveToFirst()) {
+            do {
+
+                NewsFeedPostMultimedia newsFeedPostMultimedia = new NewsFeedPostMultimedia();
+                newsFeedPostMultimedia.setPostText(cursor.getString(1));
+                newsFeedPostMultimedia.setMedia_file(cursor.getString(2));
+                newsFeedPostMultimedia.setMedia_file_thumb(cursor.getString(3));
+                newsFeedPostMultimedia.setCompressedPath(cursor.getString(4));
+                newsFeedPostMultimedia.setMedia_type(cursor.getString(5));
+                newsFeedPostMultimedia.setNews_feed_id(cursor.getString(6));
+                newsFeedPostMultimedia.setFolderUniqueId(cursor.getString(7));
+                newsFeedPostMultimedia.setIs_uploaded(cursor.getString(8));
+
+                newsFeedPostMultimediaList.add(newsFeedPostMultimedia);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return newsFeedPostMultimediaList;
+    }
+
+
+
+    /*  public ArrayList<NewsFeedPostMultimedia> getNotUploadedMultiMedia() {
         String selectQuery = "select * from " + UPLOAD_MULTIMEDIA_TABLE + " where IS_UPLOADED='false'";
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -3267,7 +3301,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return newsFeedPostMultimediaList;
     }
-
+*/
     public int getCountOfNotUploadedMultiMedia() {
         String selectQuery = "select * from " + UPLOAD_MULTIMEDIA_TABLE + " where IS_UPLOADED='false'";
 
@@ -3297,7 +3331,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return;
     }
 
-    public void updateMultimediaInfo(String strPath, String news_feed_id, SQLiteDatabase
+/*    public void updateMultimediaInfo(String strPath, String news_feed_id, SQLiteDatabase
             db, String media_file_thumb, String folderUniqueId) {
 
         db = this.getWritableDatabase();
@@ -3325,7 +3359,43 @@ public class DBHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
         return;
+    }*/
+
+    public void updateMultimediaInfo(String strPath, String news_feed_id, SQLiteDatabase db, String media_file_thumb, String folderUniqueId) {
+
+        db = this.getWritableDatabase();
+        db.beginTransaction();
+        try {
+
+            String whereCondition;
+            if (strPath != null) {
+                if (strPath.contains("mp4")) {
+                    if (news_feed_id.isEmpty())
+                        whereCondition = MULTIMEDIA_COMPRESSED_FILE + " ='" + strPath + "' AND " + FOLDER_UNIQUE_ID + "='" + folderUniqueId + "'";
+                    else
+                        whereCondition = MULTIMEDIA_COMPRESSED_FILE + " ='" + strPath + "' AND " + NEWS_FEED_ID + "='" + news_feed_id + "'";
+                } else {
+                    if (news_feed_id.isEmpty())
+                        whereCondition = " MULTIMEDIA_FILE='" + strPath + "' AND FOLDER_UNIQUE_ID='" + folderUniqueId + "'";
+                    else
+                        whereCondition = " MULTIMEDIA_FILE='" + strPath + "' AND NEWS_FEED_ID='" + news_feed_id + "'";
+                }
+            }else
+            {
+                whereCondition =  " MULTIMEDIA_TYPE='text' AND  NEWS_FEED_ID='" + news_feed_id + "'";
+            }
+
+            String sql = "UPDATE TABLE_UPLOAD_MULTIMEDIA set IS_UPLOADED='true' where " + whereCondition;
+            db.execSQL(sql);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
+        return;
     }
+
 
     public String getNewsFeedIdFromFolderUniqueId(String folderUniqueId) {
         String selectQuery = "select " + NEWS_FEED_ID + " from " + UPLOAD_MULTIMEDIA_TABLE + " where " + FOLDER_UNIQUE_ID + "='" + folderUniqueId + "'";

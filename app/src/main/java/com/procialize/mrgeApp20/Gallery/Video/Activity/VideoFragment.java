@@ -60,6 +60,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_FOLDER_VIDEO_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -197,12 +198,21 @@ View rootView;
             msg_txt.setVisibility(View.GONE);
             videoLists = response.body().getVideoList();
             folderLists = response.body().getVideoFolderList();
+           String folderVideoUrlPath = response.body().getFolder_video_url_path();
 
+            SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putString(KEY_FOLDER_VIDEO_PATH,folderVideoUrlPath);
+            edit.commit();
 
             List<FirstLevelFilter> filtergallerylists = new ArrayList<>();
             Log.d("Video Response", String.valueOf(response.body().getVideoFolderList()));
 
+
             if (response.body().getVideoList().size() != 0 || response.body().getVideoFolderList().size() != 0) {
+
+
+                String picPath = prefs.getString(KEY_FOLDER_VIDEO_PATH,"");
 
                 if (response.body().getVideoFolderList().size() != 0) {
                     for (int i = 0; i < response.body().getVideoFolderList().size(); i++) {
@@ -213,7 +223,7 @@ View rootView;
                                 firstLevelFilter.setFolderName(response.body().getVideoFolderList().get(i).getFolderName());
                                 firstLevelFilter.setTitle(response.body().getVideoFolderList().get(i).getFolderName());
                                 firstLevelFilter.setFolder_id(response.body().getVideoFolderList().get(i).getFolder_id());
-                                firstLevelFilter.setFileName(ApiConstant.folderimage + response.body().getVideoFolderList().get(i).getFolderImage());
+                                firstLevelFilter.setFileName(/*ApiConstant.folderimage*/ picPath+ response.body().getVideoFolderList().get(i).getFolderImage());
 
                                 filtergallerylists.add(firstLevelFilter);
                             }

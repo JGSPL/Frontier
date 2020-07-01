@@ -14,15 +14,6 @@ public class FetchFeed {
     @SerializedName("youtube_info")
     @Expose
     private List<YouTubeApiList> youtube_info = null;
-
-    public List<YouTubeApiList> getYoutube_info() {
-        return youtube_info;
-    }
-
-    public void setYoutube_info(List<YouTubeApiList> youtube_info) {
-        this.youtube_info = youtube_info;
-    }
-
     @SerializedName("news_feed_list")
     @Expose
     private List<NewsFeedList> newsFeedList = null;
@@ -33,6 +24,39 @@ public class FetchFeed {
     @Expose
     private String msg;
 
+    public String getNews_feed_url_path() {
+        return news_feed_url_path;
+    }
+
+    public void setNews_feed_url_path(String news_feed_url_path) {
+        this.news_feed_url_path = news_feed_url_path;
+    }
+
+    public String getProfile_pic_url_path() {
+        return profile_pic_url_path;
+    }
+
+    public void setProfile_pic_url_path(String profile_pic_url_path) {
+        this.profile_pic_url_path = profile_pic_url_path;
+    }
+
+    @SerializedName("news_feed_url_path")
+    @Expose
+    private String news_feed_url_path;
+    @SerializedName("profile_pic_url_path")
+    @Expose
+    private String profile_pic_url_path;
+    @SerializedName("live_streaming_info")
+    @Expose
+    private com.procialize.mrgeApp20.GetterSetter.live_steaming_info live_steaming_info;
+
+    public List<YouTubeApiList> getYoutube_info() {
+        return youtube_info;
+    }
+
+    public void setYoutube_info(List<YouTubeApiList> youtube_info) {
+        this.youtube_info = youtube_info;
+    }
 
     public com.procialize.mrgeApp20.GetterSetter.live_steaming_info getLive_steaming_info() {
         return live_steaming_info;
@@ -41,10 +65,6 @@ public class FetchFeed {
     public void setLive_steaming_info(com.procialize.mrgeApp20.GetterSetter.live_steaming_info live_steaming_info) {
         this.live_steaming_info = live_steaming_info;
     }
-
-    @SerializedName("live_streaming_info")
-    @Expose
-    private com.procialize.mrgeApp20.GetterSetter.live_steaming_info live_steaming_info;
 
     public List<NewsFeedList> getNewsFeedList() {
         return newsFeedList;

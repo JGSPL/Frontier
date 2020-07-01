@@ -69,6 +69,7 @@ import javax.net.ssl.X509TrustManager;
 
 import cn.jzvd.JzvdStd;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_FOLDER_VIDEO_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 
 public class VideoViewGalleryActivity extends AppCompatActivity implements SwipeVideoAdapter.SwipeVideoAdapterListner, SwipeVideoPagerAdapter.onItemClick {
@@ -305,8 +306,10 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
                                                             int which) {
+                                            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                                            String picPath = prefs.getString(KEY_FOLDER_VIDEO_PATH,"");
 
-                                            new DownloadFile().execute(ApiConstant.folderimage + UrlfileName);
+                                            new DownloadFile().execute(/*ApiConstant.folderimage */picPath+ UrlfileName);
                                         }
                                     });
                             builder.show();
@@ -326,7 +329,9 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
                                                             int which) {
-                                            new DownloadFile().execute(ApiConstant.folderimage + UrlfileName);
+                                            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                                            String picPath = prefs.getString(KEY_FOLDER_VIDEO_PATH,"");
+                                            new DownloadFile().execute(/*ApiConstant.folderimage*/picPath + UrlfileName);
                                         }
                                     });
                             builder.show();
@@ -355,7 +360,9 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
                 String UrlfileName = firstLevelFilters.get(rvposition).getFileName();
                 if (UrlfileName.contains("youtu")) {
                 } else {
-                    new DownloadFile().execute(ApiConstant.folderimage + UrlfileName);
+                    SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    String picPath = prefs.getString(KEY_FOLDER_VIDEO_PATH,"");
+                    new DownloadFile().execute(/*ApiConstant.folderimage*/picPath + UrlfileName);
                 }
             }
         });

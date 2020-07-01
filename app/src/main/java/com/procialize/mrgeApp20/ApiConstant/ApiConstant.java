@@ -49,8 +49,8 @@ public class ApiConstant {
     public static String eventpic = imgURL + "uploads/app_logo/";
     public static String newsfeedwall = imgURL + "uploads/news_feed_media_file/";
     public static String speaker = imgURL + "uploads/speaker/";
-    public static String galleryimage = imgURL + "uploads/gallery/";
-    public static String folderimage = imgURL + "uploads/folder_video/";
+    //public static String galleryimage = imgURL + "uploads/gallery/";
+    //public static String folderimage = imgURL + "uploads/folder_video/";
     public static String selfieimage = imgURL + "uploads/selfie/";
     public static String selfievideo = imgURL + "uploads/video_contest/";
     public static String INDEPENDENT_AGENDA = imgURL + "uploads/AgendaVacationSeprateFetch";

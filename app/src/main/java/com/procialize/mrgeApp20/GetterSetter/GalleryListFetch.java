@@ -23,6 +23,17 @@ public class GalleryListFetch {
     @SerializedName("msg")
     @Expose
     private String msg;
+    @SerializedName("folder_image_url_path")
+    @Expose
+    private String folder_image_url_path;
+
+    public String getFolder_image_url_path() {
+        return folder_image_url_path;
+    }
+
+    public void setFolder_image_url_path(String folder_image_url_path) {
+        this.folder_image_url_path = folder_image_url_path;
+    }
 
     public List<FolderList> getFolderList() {
         return folderList;

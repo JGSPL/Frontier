@@ -66,6 +66,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_LOGO_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_LIKE_PROFILE_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PROFILE_PATH;
+
 /**
  * A login screen that offers login via email/password.
  */
@@ -74,7 +79,7 @@ public class LikeDetailActivity extends AppCompatActivity {
     String token;
     HashMap<String, String> user;
     String MY_PREFS_NAME = "ProcializeInfo";
-    String eventid;
+    String eventid,profilePath;
     LikeAdapter likeAdapter;
     List<AttendeeList> attendeeLists;
     RecyclerView like_list;
@@ -84,7 +89,7 @@ public class LikeDetailActivity extends AppCompatActivity {
     JzvdStd videoplayer;
     String fname, lname, name, company, designation, heading, date, Likes, Likeflag, Comments, profileurl, noti_profileurl, feedurl, flag, type, feedid, apikey, thumbImg, videourl, noti_type;
     float p1 = 0;
-    String colorActive;
+    String colorActive,newsFeedPath,newsFeedProfilePath;
     LinearLayout relative;
     TextView testdata;
     String substring;
@@ -128,6 +133,8 @@ public class LikeDetailActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
+        newsFeedPath = prefs.getString(KEY_NEWSFEED_PATH, "");
+        newsFeedProfilePath = prefs.getString(KEY_NEWSFEED_PROFILE_PATH, "");
 
         // headerlogoIv = findViewById(R.id.headerlogoIv);
         profileIV = findViewById(R.id.profileIV);
@@ -437,9 +444,9 @@ public class LikeDetailActivity extends AppCompatActivity {
                 final ArrayList<String> imagesSelectednew1 = new ArrayList<>();
                 final ImageView[] ivArrayDotsPager;
                 for (int i = 0; i < myList.size(); i++) {
-                    imagesSelectednew.add(ApiConstant.newsfeedwall + myList.get(i).getMediaFile());
+                    imagesSelectednew.add(newsFeedPath/*ApiConstant.newsfeedwall*/ + myList.get(i).getMediaFile());
                     if (myList.get(i).getMediaFile().contains("mp4")) {
-                        imagesSelectednew1.add(ApiConstant.newsfeedwall + myList.get(i).getThumb_image());
+                        imagesSelectednew1.add(newsFeedPath/*ApiConstant.newsfeedwall*/ + myList.get(i).getThumb_image());
                     } else {
                         imagesSelectednew1.add("");
                     }
@@ -581,6 +588,13 @@ public class LikeDetailActivity extends AppCompatActivity {
             attendeeLists = new ArrayList<>();
 
             attendeeLists = response.body().getAttendeeList();
+            profilePath = response.body().getProfile_pic_url_path();
+
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_NEWSFEED_LIKE_PROFILE_PATH, profilePath);
+            editor.commit();
+
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             likeAdapter = new LikeAdapter(LikeDetailActivity.this, attendeeLists);
             like_list.setLayoutManager(layoutManager);

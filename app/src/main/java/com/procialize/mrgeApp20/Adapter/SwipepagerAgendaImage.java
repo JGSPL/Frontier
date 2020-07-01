@@ -1,6 +1,7 @@
 package com.procialize.mrgeApp20.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,9 @@ import java.util.List;
 
 import cn.jzvd.JzvdStd;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_AGENDA_MEDIA_PIC_PATH;
+
 
 /**
  * Created by Rahul on 13-06-2018.
@@ -40,6 +44,7 @@ public class SwipepagerAgendaImage extends PagerAdapter {
     private Context context;
     // public static EMVideoView videoplayer;
     // ProgressDialog pDialog;
+    String MY_PREFS_NAME = "ProcializeInfo",picPath="";
 
     public SwipepagerAgendaImage(Context context, List<AgendaMediaList> images) {
         this.context = context;
@@ -47,6 +52,9 @@ public class SwipepagerAgendaImage extends PagerAdapter {
         inflater = LayoutInflater.from(context);
 
         deviceMan = Build.MANUFACTURER;
+
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        picPath = prefs.getString(KEY_AGENDA_MEDIA_PIC_PATH,"");
 
     }
 
@@ -80,9 +88,9 @@ public class SwipepagerAgendaImage extends PagerAdapter {
         progressBar.setVisibility(View.GONE);
 
 
-        image_url = ApiConstant.GALLERY_IMAGE
+        image_url = picPath/*ApiConstant.GALLERY_IMAGE*/
                 + firstLevelFilter.getMedia_name();
-        thumb_image_url = ApiConstant.GALLERY_IMAGE
+        thumb_image_url =picPath/* ApiConstant.GALLERY_IMAGE*/
                 + firstLevelFilter.getMedia_thumbnail();
 
         String imageType = firstLevelFilter.getMedia_type();

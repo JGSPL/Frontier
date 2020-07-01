@@ -53,6 +53,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_FOLDER_VIDEO_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 
 public class VideoFirstLevelActivity extends AppCompatActivity implements VideoFirstLevelAdapter.VideoFirstLevelAdapterListner {
@@ -376,6 +377,12 @@ public class VideoFirstLevelActivity extends AppCompatActivity implements VideoF
 
             videoLists = response.body().getVideoList();
             folderLists = response.body().getVideoFolderList();
+            String folderVideoUrlPath = response.body().getFolder_video_url_path();
+
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putString(KEY_FOLDER_VIDEO_PATH,folderVideoUrlPath);
+            edit.commit();
 
 
             Object[] params = {this, videoLists, folderLists, filtergallerylists};
@@ -446,7 +453,8 @@ public class VideoFirstLevelActivity extends AppCompatActivity implements VideoF
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
+                SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                String picPath = prefs.getString(KEY_FOLDER_VIDEO_PATH,"");
 
                 if (folderLists.size() != 0 || videoLists.size() != 0) {
                     if (folderLists.size() != 0) {
@@ -457,7 +465,7 @@ public class VideoFirstLevelActivity extends AppCompatActivity implements VideoF
 
                                     firstLevelFilter.setTitle(folderLists.get(i).getFolderName());
                                     firstLevelFilter.setFolderName(folderLists.get(i).getFolderName());
-                                    firstLevelFilter.setFileName(ApiConstant.folderimage + folderLists.get(i).getFolderImage());
+                                    firstLevelFilter.setFileName(/*ApiConstant.folderimage*/picPath + folderLists.get(i).getFolderImage());
                                     filtergallerylists.add(firstLevelFilter);
                                 }
                             }

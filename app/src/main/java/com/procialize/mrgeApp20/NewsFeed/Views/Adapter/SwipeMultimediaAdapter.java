@@ -2,6 +2,7 @@ package com.procialize.mrgeApp20.NewsFeed.Views.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,13 +35,17 @@ import java.util.List;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PROFILE_PATH;
+
 
 public class SwipeMultimediaAdapter extends PagerAdapter {
 
     public ImageView myImage;
     public MyJzvdStd videoview;
     public TextView name;
-    String MY_PREFS_NAME = "ProcializeInfo";
+    String MY_PREFS_NAME = "ProcializeInfo",newsFeedPath,newsFeedProfilePath;
     ImageView imgplay, thumbimg;
     private List<String> images;
     private List<String> thumbImages;
@@ -55,6 +60,10 @@ public class SwipeMultimediaAdapter extends PagerAdapter {
         this.thumbImages = thumbImages;
         this.news_feed_media = news_feed_media;
         inflater = LayoutInflater.from(context);
+
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        newsFeedPath = prefs.getString(KEY_NEWSFEED_PATH, "");
+        newsFeedProfilePath = prefs.getString(KEY_NEWSFEED_PROFILE_PATH, "");
 
     }
 

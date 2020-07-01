@@ -20,6 +20,17 @@ public class DocumentsListFetch {
     @SerializedName("msg")
     @Expose
     private String msg;
+    @SerializedName("document_url_path")
+    @Expose
+    private String document_url_path;
+
+    public String getDocument_url_path() {
+        return document_url_path;
+    }
+
+    public void setDocument_url_path(String document_url_path) {
+        this.document_url_path = document_url_path;
+    }
 
     public List<DocumentList> getDocumentList() {
         return documentList;

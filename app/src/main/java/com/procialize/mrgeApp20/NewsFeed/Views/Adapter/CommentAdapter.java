@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_COMMENT_PROFILE_PATH;
 
 
 /**
@@ -60,7 +61,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
     public List<CommentDataList> commentLists;
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
-    String colorActive;
+    String colorActive,picPath;
     String flag;
     private Context context;
     private CommentAdapterListner listener;
@@ -77,7 +78,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         this.flag = flag;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
-
+        picPath = prefs.getString(KEY_NEWSFEED_COMMENT_PROFILE_PATH,"");
         procializeDB = new DBHelper(context);
         db = procializeDB.getWritableDatabase();
         dbHelper = new DBHelper(context);
@@ -148,7 +149,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
 
         if (comment.getProfilePic() != null) {
-            Glide.with(context).load(ApiConstant.profilepic + comment.getProfilePic())
+            Glide.with(context).load(/*ApiConstant.profilepic*/picPath + comment.getProfilePic())
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
                 @Override

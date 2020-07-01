@@ -126,6 +126,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed.getLocalBitmapUri;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_COMMENT_PROFILE_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_COMMENT_URL_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PROFILE_PATH;
 
 public class CommentActivity extends AppCompatActivity implements CommentAdapter.CommentAdapterListner, GifEmojiAdapter.GifEmojiAdapterListner, QueryListener, SuggestionsListener {
 
@@ -163,7 +167,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
     String news_feed_like = "", news_feed_comment = "", news_feed_share = "";
     ImageView headerlogoIv;
     ArrayList<news_feed_media> myList;
-    String colorActive;
+    String colorActive,newsFeedPath,newsFeedProfilePath;
     TextView textData;
     List<AttendeeList> customers = null;
     TextView testdata;
@@ -249,6 +253,8 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
+        newsFeedPath = prefs.getString(KEY_NEWSFEED_PATH, "");
+        newsFeedProfilePath = prefs.getString(KEY_NEWSFEED_PROFILE_PATH, "");
 
         Intent intent = getIntent();
         mAPIService = ApiUtils.getAPIService();
@@ -736,7 +742,6 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         });
 
         searchEt.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -752,7 +757,6 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                 if (s.length() != 0) {
                     Search(s.toString(), API_KEY, id);
                 }
-
             }
         });
 
@@ -838,10 +842,10 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                 } else if (news_feed_media.size() > 0) {
                     intent.putExtra("type", news_feed_media.get(0).getMedia_type());
                     if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Image")) {
-                        intent.putExtra("url", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
+                        intent.putExtra("url", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getMediaFile());
                     } else if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Video")) {
-                        intent.putExtra("videourl", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
-                        intent.putExtra("thumbImg", ApiConstant.newsfeedwall + news_feed_media.get(0).getThumb_image());
+                        intent.putExtra("videourl", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getMediaFile());
+                        intent.putExtra("thumbImg", newsFeedPath/*ApiConstant.newsfeedwall */+ news_feed_media.get(0).getThumb_image());
                     }
                 } else {
                     intent.putExtra("type", "status");
@@ -910,7 +914,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog,
                                                                 int which) {
-                                                new DownloadFile().execute(ApiConstant.newsfeedwall + newsFeedMedia.get(swipableAdapterPosition).getMediaFile());
+                                                new DownloadFile().execute(newsFeedPath/*ApiConstant.newsfeedwall*/ + newsFeedMedia.get(swipableAdapterPosition).getMediaFile());
                                             }
                                         });
                                 builder.show();
@@ -941,7 +945,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                                 startActivity(Intent.createChooser(sharingIntent, "Share Video"));
                             }
                         } else {
-                            shareImage(date + "\n" + heading, ApiConstant.newsfeedwall + newsFeedMedia.get(swipableAdapterPosition).getMediaFile(), CommentActivity.this);
+                            shareImage(date + "\n" + heading, newsFeedPath/*ApiConstant.newsfeedwall*/ + newsFeedMedia.get(swipableAdapterPosition).getMediaFile(), CommentActivity.this);
                         }
                     } else {
                         shareTextUrl(date + "\n" + heading, StringEscapeUtils.unescapeJava(heading));
@@ -1009,8 +1013,6 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
             }
         }
     }
-
-
     public void Commentcount() {
 
         try {
@@ -1036,10 +1038,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
     public void CommentcountDec() {
 
         try {
-
             int count = Integer.parseInt(Comments);
-
-
             count = count - 1;
             if (count == 1) {
                 commentTv.setText(count + " Comment");
@@ -1048,11 +1047,9 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
             }
             //commentTv.setText(count + " Comments");
             Comments = String.valueOf(count);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void getComment(String eventid, String feedid) {
@@ -1085,12 +1082,14 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
         if (response.body().toString().length() > 0) {
 
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_NEWSFEED_COMMENT_PROFILE_PATH, response.body().getProfile_pic_url_path());
+            editor.commit();
             // specify an adapter (see also next example)
             commentAdapter = new CommentAdapter(CommentActivity.this, response.body().getCommentDataList(), this, noti_type);
             commentrecycler.setAdapter(commentAdapter);
             commentAdapter.notifyDataSetChanged();
-
-
         } else {
         }
     }
@@ -1425,6 +1424,11 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
             //  feedurl = response.body().getNewsFeedList().get(0).getMediaFile();
             feedid = response.body().getNewsFeedList().get(0).getNewsFeedId();
 
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_NEWSFEED_COMMENT_URL_PATH,  response.body().getNews_feed_url_path());
+            editor.putString(KEY_NEWSFEED_COMMENT_PROFILE_PATH, response.body().getProfile_pic_url_path());
+            editor.commit();
 
             float width = Float.parseFloat(response.body().getNewsFeedList().get(0).getWidth());
             float height = Float.parseFloat(response.body().getNewsFeedList().get(0).getHeight());
@@ -1449,9 +1453,9 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                     final ArrayList<String> imagesSelectednew1 = new ArrayList<>();
                     final ImageView[] ivArrayDotsPager;
                     for (int i = 0; i < myList.size(); i++) {
-                        imagesSelectednew.add(ApiConstant.newsfeedwall + myList.get(i).getMediaFile());
+                        imagesSelectednew.add(newsFeedPath/*ApiConstant.newsfeedwall*/ + myList.get(i).getMediaFile());
                         if (myList.get(i).getMediaFile().contains("mp4")) {
-                            imagesSelectednew1.add(ApiConstant.newsfeedwall + myList.get(i).getThumb_image());
+                            imagesSelectednew1.add(newsFeedPath/*ApiConstant.newsfeedwall*/ + myList.get(i).getThumb_image());
                         } else {
                             imagesSelectednew1.add("");
                         }
@@ -1487,14 +1491,14 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
                 }
             } else if (type.equalsIgnoreCase("Image")) {
                 card_view.setVisibility(View.GONE);
-                feedurl = ApiConstant.newsfeedwall + response.body().getNewsFeedList().get(0).getMediaFile();
+                feedurl = newsFeedPath/*ApiConstant.newsfeedwall*/ + response.body().getNewsFeedList().get(0).getMediaFile();
             } else if (type.equalsIgnoreCase("Video")) {
                 card_view.setVisibility(View.GONE);
-                thumbImg = ApiConstant.newsfeedwall + response.body().getNewsFeedList().get(0).getThumbImage();
-                videourl = ApiConstant.newsfeedwall + response.body().getNewsFeedList().get(0).getMediaFile();
+                thumbImg = newsFeedPath/*ApiConstant.newsfeedwall*/ + response.body().getNewsFeedList().get(0).getThumbImage();
+                videourl = newsFeedPath/*ApiConstant.newsfeedwall*/ + response.body().getNewsFeedList().get(0).getMediaFile();
             } else if (type.equalsIgnoreCase("Gif")) {
                 card_view.setVisibility(View.GONE);
-                feedurl = ApiConstant.newsfeedwall + response.body().getNewsFeedList().get(0).getMediaFile();
+                feedurl = newsFeedPath/*ApiConstant.newsfeedwall*/ + response.body().getNewsFeedList().get(0).getMediaFile();
             }
 
 

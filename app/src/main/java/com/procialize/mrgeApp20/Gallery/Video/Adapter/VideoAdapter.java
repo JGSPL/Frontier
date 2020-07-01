@@ -32,11 +32,12 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_FOLDER_VIDEO_PATH;
 
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder> {
 
-    String MY_PREFS_NAME = "ProcializeInfo";
+    String MY_PREFS_NAME = "ProcializeInfo",picPath;
     SharedPreferences prefs;
     String colorActive;
     private List<FirstLevelFilter> galleryLists;
@@ -49,6 +50,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
         this.videoList = videoList;
         this.listener = listener;
         this.context = context;
+
+
+
     }
 
     @Override
@@ -59,7 +63,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
 
         prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
-
+        picPath = prefs.getString(KEY_FOLDER_VIDEO_PATH,"");
         int color = Color.parseColor(colorActive);
         holder.img.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
        // holder.nameTv.setTextColor(Color.parseColor(colorActive));

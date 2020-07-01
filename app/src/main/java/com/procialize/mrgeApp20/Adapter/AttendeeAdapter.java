@@ -57,11 +57,13 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
     private AttendeeAdapterListner listener;
     private DBHelper procializeDB;
     private SQLiteDatabase db;
+    private String picPath;
 
 
-    public AttendeeAdapter(Context context, List<AttendeeList> attendeeLists, AttendeeAdapterListner listener) {
+    public AttendeeAdapter(Context context, List<AttendeeList> attendeeLists,String picPath, AttendeeAdapterListner listener) {
         this.attendeeLists = attendeeLists;
         this.attendeeListFiltered = attendeeLists;
+        this.picPath = picPath;
         this.listener = listener;
         this.context = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -172,7 +174,7 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
         if (attendee.getProfilePic() != null) {
 
 
-            Glide.with(context).load(ApiConstant.profilepic + attendee.getProfilePic())
+            Glide.with(context).load(picPath/*ApiConstant.profilepic*/ + attendee.getProfilePic())
                     .apply(RequestOptions.skipMemoryCacheOf(false))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
                     .listener(new RequestListener<Drawable>() {

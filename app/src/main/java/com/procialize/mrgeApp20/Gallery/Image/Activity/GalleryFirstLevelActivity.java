@@ -41,6 +41,7 @@ import java.util.List;
 
 import cn.jzvd.JzvdStd;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_FOLDER_IMAGE_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 
 public class GalleryFirstLevelActivity extends AppCompatActivity implements GalleryFirstLevelAdapter.GalleryFirstLevelAdapterListener {
@@ -53,7 +54,7 @@ public class GalleryFirstLevelActivity extends AppCompatActivity implements Gall
     List<FolderList> folderLists;
     List<FirstLevelFilter> filtergallerylists;
     String MY_PREFS_NAME = "ProcializeInfo";
-    String eventid, colorActive;
+    String eventid, colorActive,picPath;
     ImageView headerlogoIv;
     RelativeLayout linear;
 
@@ -85,6 +86,7 @@ public class GalleryFirstLevelActivity extends AppCompatActivity implements Gall
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
+        picPath = prefs.getString(KEY_FOLDER_IMAGE_PATH, "");
 
 
         foldername = getIntent().getExtras().getString("foldername");
@@ -134,7 +136,7 @@ public class GalleryFirstLevelActivity extends AppCompatActivity implements Gall
 
                             firstLevelFilter.setTitle(folderLists.get(i).getFolderName());
                             firstLevelFilter.setFolderName(folderLists.get(i).getFolderName());
-                            firstLevelFilter.setFileName(ApiConstant.folderimage + folderLists.get(i).getFolderImage());
+                            firstLevelFilter.setFileName(/*ApiConstant.folderimage */picPath+ folderLists.get(i).getFolderImage());
                             filtergallerylists.add(firstLevelFilter);
                         }
                     }
@@ -151,7 +153,7 @@ public class GalleryFirstLevelActivity extends AppCompatActivity implements Gall
                             firstLevelFilter.setFolderName(galleryLists.get(i).getFolderName());
                             firstLevelFilter.setFolder_id(galleryLists.get(i).getFolder_id());
                             firstLevelFilter.setId(galleryLists.get(i).getId());
-                            firstLevelFilter.setFileName(ApiConstant.galleryimage + galleryLists.get(i).getFileName());
+                            firstLevelFilter.setFileName(/*ApiConstant.galleryimage*/picPath + galleryLists.get(i).getFileName());
                             filtergallerylists.add(firstLevelFilter);
                         }
                     }

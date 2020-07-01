@@ -32,6 +32,8 @@ import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_DOCUMENTS_PIC_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_FOLDER_VIDEO_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.getYoutubeVideoIdFromUrl;
 
 /**
@@ -120,9 +122,11 @@ public class SwipeVideoPagerAdapter extends PagerAdapter {
             rl_image.setVisibility(View.GONE);
 
             name.setTextColor(Color.parseColor(colorActive));
+            SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String picPath = prefs.getString(KEY_FOLDER_VIDEO_PATH,"");
 
             Glide.with(context)
-                    .load(ApiConstant.folderimage + firstLevelFilter.getVideo_thumb())
+                    .load(/*ApiConstant.folderimage*/picPath + firstLevelFilter.getVideo_thumb())
                     .placeholder(R.drawable.gallery_placeholder)
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).centerCrop()
                     .listener(new RequestListener<Drawable>() {
@@ -137,7 +141,8 @@ public class SwipeVideoPagerAdapter extends PagerAdapter {
                         }
                     }).into(video_view.thumbImageView);
 
-            video_view.setUp(ApiConstant.folderimage + firstLevelFilter.getFileName(), ""
+
+            video_view.setUp(/*ApiConstant.folderimage*/picPath + firstLevelFilter.getFileName(), ""
                     , JzvdStd.SCREEN_NORMAL);
             Jzvd.setVideoImageDisplayType(Jzvd.VIDEO_IMAGE_DISPLAY_TYPE_ADAPTER);
             name.setText(firstLevelFilter.getTitle());

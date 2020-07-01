@@ -53,6 +53,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_SPEAKER_PIC_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -82,12 +83,13 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
     private SQLiteDatabase db;
     private ConnectionDetector cd;
     private List<SpeakerList> speakerList;
-    String pdf_file_path;
+    String pdf_file_path,profile_pic_path;
     private List<PdfList> pdfList;
     private List<SpeakerList> speakersDBList;
     private DBHelper dbHelper;
     LinearLayout linear;
     Boolean isVisible = false;
+    String picPath="";
 
 
     public SpeakerFragment() {
@@ -186,8 +188,9 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
             db = procializeDB.getReadableDatabase();
 
             speakersDBList = dbHelper.getSpeakerDetails();
-
-            speakerAdapter = new SpeakerAdapter(getActivity(), speakersDBList, this);
+            SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            picPath =  prefs1.getString(KEY_SPEAKER_PIC_PATH,"");
+            speakerAdapter = new SpeakerAdapter(getActivity(), speakersDBList,picPath, this);
             speakerAdapter.notifyDataSetChanged();
             speakerrecycler.setAdapter(speakerAdapter);
             speakerrecycler.scheduleLayoutAnimation();
@@ -203,8 +206,9 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
                     db = procializeDB.getReadableDatabase();
 
                     speakersDBList = dbHelper.getSpeakerDetails();
-
-                    speakerAdapter = new SpeakerAdapter(getActivity(), speakersDBList, SpeakerFragment.this);
+                    SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    picPath =  prefs1.getString(KEY_SPEAKER_PIC_PATH,"");
+                    speakerAdapter = new SpeakerAdapter(getActivity(), speakersDBList, picPath,SpeakerFragment.this);
                     speakerAdapter.notifyDataSetChanged();
                     speakerrecycler.setAdapter(speakerAdapter);
                     speakerrecycler.scheduleLayoutAnimation();
@@ -318,12 +322,16 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
     public void showResponse(Response<FetchSpeaker> response) {
 
         speakerList = response.body().getSpeakerList();
-        pdf_file_path = response.body().getPdf_file_path();
+        pdf_file_path = response.body().getSpeaker_pdf_url_path();
+        profile_pic_path = response.body().getProfile_pic_url_path();
         procializeDB.clearSpeakersTable();
         procializeDB.insertSpeakersInfo(speakerList, db);
-
+        SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString(KEY_SPEAKER_PIC_PATH,profile_pic_path);
+        edit.commit();
         // specify an adapter (see also next example)
-        speakerAdapter = new SpeakerAdapter(getActivity(), response.body().getSpeakerList(), this);
+        speakerAdapter = new SpeakerAdapter(getActivity(), response.body().getSpeakerList(),profile_pic_path, this);
         speakerAdapter.notifyDataSetChanged();
         speakerrecycler.setAdapter(speakerAdapter);
         speakerrecycler.scheduleLayoutAnimation();

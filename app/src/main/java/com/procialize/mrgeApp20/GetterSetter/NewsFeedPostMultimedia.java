@@ -12,6 +12,16 @@ public class NewsFeedPostMultimedia implements Serializable {
     String compressedPath;
     String folderUniqueId;
 
+    String postText;
+
+    public String getPostText() {
+        return postText;
+    }
+
+    public void setPostText(String postText) {
+        this.postText = postText;
+    }
+
     public String getFolderUniqueId() {
         return folderUniqueId;
     }

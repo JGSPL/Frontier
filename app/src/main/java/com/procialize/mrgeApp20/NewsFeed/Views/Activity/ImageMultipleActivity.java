@@ -78,6 +78,8 @@ import java.util.Random;
 
 import cn.jzvd.JzvdStd;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PROFILE_PATH;
 import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
 
 public class ImageMultipleActivity extends AppCompatActivity {
@@ -86,7 +88,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
     String url;
     ImageView headerlogoIv;
     String MY_PREFS_NAME = "ProcializeInfo";
-    String imgname, colorActive;
+    String imgname, colorActive,newsFeedPath,newsFeedProfilePath;
     // CardView card_view;
     ViewPager rvp_slide;
     LinearLayout ll_dots;
@@ -235,6 +237,9 @@ public class ImageMultipleActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
+        newsFeedPath = prefs.getString(KEY_NEWSFEED_PATH, "");
+        newsFeedProfilePath = prefs.getString(KEY_NEWSFEED_PROFILE_PATH, "");
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Loading");
         progressDialog.setCancelable(false);
@@ -286,11 +291,11 @@ public class ImageMultipleActivity extends AppCompatActivity {
 
                             // addImageToGallery(url,ImageMultipleActivity.this);
 
-                            url = ApiConstant.newsfeedwall + news_feed_media.get(shareOrSaveImagePosition).getMediaFile();
+                            url = newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(shareOrSaveImagePosition).getMediaFile();
                             if (url.contains("mp4")) {
                                 new DownloadFile().execute(url);
                             } else {
-                                url = ApiConstant.newsfeedwall + news_feed_media.get(shareOrSaveImagePosition).getMediaFile();
+                                url = newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(shareOrSaveImagePosition).getMediaFile();
                                 //String root = Environment.getExternalStorageDirectory().toString();
                                 PicassoTrustAll.getInstance(ImageMultipleActivity.this)
                                         .load(url)
@@ -351,8 +356,8 @@ public class ImageMultipleActivity extends AppCompatActivity {
         final ArrayList<String> imagesSelectednew1 = new ArrayList<>();
         final ImageView[] ivArrayDotsPager;
         for (int i = 0; i < news_feed_media.size(); i++) {
-            imagesSelectednew.add(ApiConstant.newsfeedwall + news_feed_media.get(i).getMediaFile());
-            imagesSelectednew1.add(ApiConstant.newsfeedwall + news_feed_media.get(i).getThumb_image());
+            imagesSelectednew.add(newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(i).getMediaFile());
+            imagesSelectednew1.add(newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(i).getThumb_image());
         }
 
         sharebtn.setOnClickListener(new View.OnClickListener() {
@@ -409,7 +414,7 @@ public class ImageMultipleActivity extends AppCompatActivity {
                                             public void onClick(DialogInterface dialog,
                                                                 int which) {
 
-                                                new DownloadFile().execute(ApiConstant.newsfeedwall + news_feed_media.get(shareOrSaveImagePosition).getMediaFile());
+                                                new DownloadFile().execute(newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(shareOrSaveImagePosition).getMediaFile());
                                             }
                                         });
                                 builder.show();
@@ -429,14 +434,13 @@ public class ImageMultipleActivity extends AppCompatActivity {
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog,
                                                                 int which) {
-                                                new DownloadFile().execute(ApiConstant.newsfeedwall + news_feed_media.get(shareOrSaveImagePosition).getMediaFile());
+                                                new DownloadFile().execute(newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(shareOrSaveImagePosition).getMediaFile());
                                             }
                                         });
                                 builder.show();
                             }
                         } else {
-
-                            shareImage( ApiConstant.newsfeedwall + news_feed_media.get(shareOrSaveImagePosition).getMediaFile(), ImageMultipleActivity.this);
+                            shareImage( newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(shareOrSaveImagePosition).getMediaFile(), ImageMultipleActivity.this);
                         }
                     } else {
                        // shareTextUrl(date + "\n" + heading, StringEscapeUtils.unescapeJava(heading));

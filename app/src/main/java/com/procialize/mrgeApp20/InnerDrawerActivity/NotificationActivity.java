@@ -79,6 +79,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PROFILE_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NOTIFICATION_PROFILE_PIC_PATH;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
@@ -89,7 +92,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
     RecyclerView notificationRv;
     //    ProgressBar progressBar;
     String MY_PREFS_NAME = "ProcializeInfo";
-    String eventid, logoImg, colorActive;
+    String eventid, logoImg, colorActive,newsFeedPath,newsFeedProfilePath;
     ImageView headerlogoIv;
     List<EventSettingList> eventSettingLists;
     String news_feed_share,
@@ -128,6 +131,8 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
         eventid = prefs.getString("eventid", "1");
         logoImg = prefs.getString("logoImg", "");
         colorActive = prefs.getString("colorActive", "");
+        newsFeedPath = prefs.getString(KEY_NEWSFEED_PATH, "");
+        newsFeedProfilePath = prefs.getString(KEY_NEWSFEED_PROFILE_PATH, "");
 
 
         procializeDB = new DBHelper(NotificationActivity.this);
@@ -326,6 +331,14 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                 dbHelper.insertNotificationList(response.body().getNotificationList(), db);
                 notificationRv.setVisibility(View.VISIBLE);
                 msg.setVisibility(View.GONE);
+
+
+                SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor edit = prefs.edit();
+                edit.putString(KEY_NOTIFICATION_PROFILE_PIC_PATH,response.body().getProfile_pic_url_path());
+                edit.commit();
+
+
                 NotificationAdapter notificationAdapter = new NotificationAdapter(this, response.body().getNotificationList(), this);
                 notificationAdapter.notifyDataSetChanged();
                 notificationRv.setAdapter(notificationAdapter);
@@ -387,10 +400,10 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                         } else if (news_feed_media.size() > 0) {
                             comment.putExtra("type", news_feed_media.get(0).getMedia_type());
                             if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Image")) {
-                                comment.putExtra("url", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
+                                comment.putExtra("url", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getMediaFile());
                             } else if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Video")) {
-                                comment.putExtra("videourl", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
-                                comment.putExtra("thumbImg", ApiConstant.newsfeedwall + news_feed_media.get(0).getThumb_image());
+                                comment.putExtra("videourl", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getMediaFile());
+                                comment.putExtra("thumbImg", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getThumb_image());
                             }
                         } else {
                             comment.putExtra("type", "status");
@@ -475,10 +488,10 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                         } else if (news_feed_media.size() > 0) {
                             likedetail.putExtra("type", news_feed_media.get(0).getMedia_type());
                             if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Image")) {
-                                likedetail.putExtra("url", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
+                                likedetail.putExtra("url", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getMediaFile());
                             } else if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Video")) {
-                                likedetail.putExtra("videourl", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
-                                likedetail.putExtra("thumbImg", ApiConstant.newsfeedwall + news_feed_media.get(0).getThumb_image());
+                                likedetail.putExtra("videourl", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getMediaFile());
+                                likedetail.putExtra("thumbImg", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getThumb_image());
                             }
                         } else {
                             likedetail.putExtra("type", "status");
@@ -526,10 +539,10 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                     } else if (news_feed_media.size() > 0) {
                         comment.putExtra("type", news_feed_media.get(0).getMedia_type());
                         if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Image")) {
-                            comment.putExtra("url", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
+                            comment.putExtra("url", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getMediaFile());
                         } else if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Video")) {
-                            comment.putExtra("videourl", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
-                            comment.putExtra("thumbImg", ApiConstant.newsfeedwall + news_feed_media.get(0).getThumb_image());
+                            comment.putExtra("videourl", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getMediaFile());
+                            comment.putExtra("thumbImg", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getThumb_image());
                         }
                     } else {
                         comment.putExtra("type", "status");
@@ -584,10 +597,10 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                         } else if (news_feed_media.size() > 0) {
                             postdetail.putExtra("type", news_feed_media.get(0).getMedia_type());
                             if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Image")) {
-                                postdetail.putExtra("url", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
+                                postdetail.putExtra("url", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getMediaFile());
                             } else if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Video")) {
-                                postdetail.putExtra("videourl", ApiConstant.newsfeedwall + news_feed_media.get(0).getMediaFile());
-                                postdetail.putExtra("thumbImg", ApiConstant.newsfeedwall + news_feed_media.get(0).getThumb_image());
+                                postdetail.putExtra("videourl", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getMediaFile());
+                                postdetail.putExtra("thumbImg", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getThumb_image());
                             }
                         } else {
                             postdetail.putExtra("type", "status");

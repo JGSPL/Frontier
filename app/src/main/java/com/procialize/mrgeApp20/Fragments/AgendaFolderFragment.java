@@ -64,6 +64,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_AGENDA_MEDIA_PIC_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -848,6 +849,13 @@ public class AgendaFolderFragment extends Fragment implements SwipeAgendaImageAd
 
         agendaList = response.body().getAgenda_vacation_list();
         agendaFolderList = response.body().getAgenda_vacation_media_list();
+        String agendaMediaUrl = response.body().getAgenda_media_url_path();
+
+        SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString(KEY_AGENDA_MEDIA_PIC_PATH,agendaMediaUrl);
+        edit.commit();
+
         procializeDB.insertAgendaVacationInfo(agendaList, db);
         procializeDB.insertAgendaMediaInfo(agendaFolderList, db);
 
