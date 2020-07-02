@@ -2,6 +2,7 @@ package com.procialize.mrgeApp20.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -32,17 +33,24 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.List;
 
-public class SelfieAdapter_Grid extends BaseAdapter {
+import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_SELFIE_URL_PATH;
 
+public class SelfieAdapter_Grid extends BaseAdapter {
+    String MY_PREFS_NAME = "ProcializeInfo";
     List<SelfieList> selfieList;
     Activity activity;
     Constants constant = new Constants();
     private LayoutInflater inflater;
     private SelfieAdapterListner listener;
+    String picPath;
 
     public SelfieAdapter_Grid(Activity c, List<SelfieList> selfieList) {
         activity = c;
         this.selfieList = selfieList;
+
+        SharedPreferences prefs = activity.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        picPath = prefs.getString(KEY_SELFIE_URL_PATH, "");
     }
 
     public static String getEmojiFromString(String emojiString) {
@@ -137,7 +145,7 @@ public class SelfieAdapter_Grid extends BaseAdapter {
         SelfieList selfie = selfieList.get(position);
         holder.dataTv.setText(StringEscapeUtils.unescapeJava(selfie.getTitle()));
         holder.countTv.setText(selfie.getTotalLikes());
-        Glide.with(activity).load(ApiConstant.selfieimage + selfie.getFileName())
+        Glide.with(activity).load(/*ApiConstant.selfieimage*/ picPath+ selfie.getFileName())
                 .apply(RequestOptions.skipMemoryCacheOf(false))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
             @Override

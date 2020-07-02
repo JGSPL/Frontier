@@ -126,6 +126,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed.getLocalBitmapUri;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_ATTENDEE_PIC_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_COMMENT_PROFILE_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_COMMENT_URL_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PATH;
@@ -1918,7 +1919,9 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
             if (noti_profileurl != null) {
 
-                Glide.with(this).load(ApiConstant.profilepic + noti_profileurl).listener(new RequestListener<Drawable>() {
+                SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                String picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+                Glide.with(this).load(/*ApiConstant.profilepic*/picPath + noti_profileurl).listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         progressView.setVisibility(View.GONE);
@@ -1938,8 +1941,9 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
 
         } else if (noti_type.equalsIgnoreCase("Wall_Post")) {
             if (profileurl != null) {
-
-                Glide.with(this).load(ApiConstant.profilepic + profileurl).listener(new RequestListener<Drawable>() {
+                SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                String picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+                Glide.with(this).load(/*ApiConstant.profilepic*/picPath + profileurl).listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         progressView.setVisibility(View.GONE);

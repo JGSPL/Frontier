@@ -78,6 +78,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_ATTENDEE_PIC_PATH;
+
 public class PostEditActivityOld extends AppCompatActivity implements ProgressRequestBodyImage.UploadCallbacks, ProgressRequestBodyVideo.UploadCallbacks {
 
     private static final int REQUEST_VIDEO_CAPTURE = 300;
@@ -190,7 +192,9 @@ public class PostEditActivityOld extends AppCompatActivity implements ProgressRe
 
 
         if (profilepic != null) {
-            Glide.with(this).load(ApiConstant.profilepic + profilepic).listener(new RequestListener<Drawable>() {
+            SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+            Glide.with(this).load(/*ApiConstant.profilepic*/picPath + profilepic).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     profileIV.setImageResource(R.drawable.profilepic_placeholder);

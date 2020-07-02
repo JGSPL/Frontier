@@ -66,6 +66,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_COMMENT_PROFILE_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_COMMENT_URL_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_SPEAKER_PROFILE_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
@@ -246,6 +249,12 @@ public class QnASpeakerFragment extends Fragment implements QASpeakerAdapter.QAS
                 change = false;
 
                 agendaLisQAS = response.body().getQuestionSpeakerList();
+
+
+                SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(KEY_SPEAKER_PROFILE_PATH, response.body().getProfile_pic_url_path());
+                editor.commit();
 
                 for (int i = 0; i < response.body().getQuestionSpeakerList().size(); i++) {
                     list.add(response.body().getQuestionSpeakerList().get(i).getFirstName() + " " + response.body().getQuestionSpeakerList().get(i).getLastName());

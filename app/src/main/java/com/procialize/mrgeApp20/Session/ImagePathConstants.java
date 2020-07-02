@@ -17,4 +17,12 @@ public class ImagePathConstants {
     public static final String  KEY_NEWSFEED_LIKE_PROFILE_PATH = "likeprofilePicUrlPath";
     public static final String  KEY_NEWSFEED_COMMENT_PROFILE_PATH = "commentProfilePicUrlPath";
     public static final String  KEY_NEWSFEED_COMMENT_URL_PATH = "newsFeedUrl";
+    public static final String  KEY_BUDDYLIST_PATH = "buddyListUrlPath";
+    public static final String  KEY_SELFIE_URL_PATH = "selfieListUrlPath";
+    public static final String  KEY_VIDEO_URL_PATH = "videoListUrlPath";
+    public static final String  KEY_SPEAKER_PROFILE_PATH = "speakerProfileUrlPath";
+    public static final String  KEY_QNA_PROFILE_PATH = "qnaProfileUrlPath";
+    public static final String  KEY_QNA_DIRECT_PROFILE_PATH = "qnaDirectProfileUrlPath";
+    public static final String  KEY_EVENT_PROFILE_PATH = "eventProfileUrlPath";
+    public static final String  KEY_EVENT_LIST_LOGO_PATH = "eventLogoUrlPath";
 }

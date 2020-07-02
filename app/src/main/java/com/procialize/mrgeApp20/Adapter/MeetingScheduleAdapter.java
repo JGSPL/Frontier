@@ -51,6 +51,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_ATTENDEE_PIC_PATH;
 
 public class MeetingScheduleAdapter extends RecyclerView.Adapter<MeetingScheduleAdapter.MyViewHolder> {
 
@@ -108,8 +109,9 @@ public class MeetingScheduleAdapter extends RecyclerView.Adapter<MeetingSchedule
 
 
         if (travel.getProfile_pic() != null) {
-
-            Glide.with(context).load(ApiConstant.profilepic + travel.getProfile_pic())
+            SharedPreferences prefs1 = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+            Glide.with(context).load(/*ApiConstant.profilepic*/picPath + travel.getProfile_pic())
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
                 @Override

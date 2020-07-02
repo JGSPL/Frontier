@@ -33,6 +33,7 @@ import com.procialize.mrgeApp20.Session.SessionManager;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_ATTENDEE_PIC_PATH;
 
 public class ExhibitorAttendeeAdapter extends RecyclerView.Adapter<ExhibitorAttendeeAdapter.MyViewHolder> {
 
@@ -114,8 +115,9 @@ public class ExhibitorAttendeeAdapter extends RecyclerView.Adapter<ExhibitorAtte
 
         if (attendee.getProfile_pic() != null) {
 
-
-            Glide.with(context).load(ApiConstant.profilepic + attendee.getProfile_pic())
+            SharedPreferences prefs1 = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+            Glide.with(context).load(/*ApiConstant.profilepic*/picPath + attendee.getProfile_pic())
                     .apply(RequestOptions.skipMemoryCacheOf(false))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
                 @Override

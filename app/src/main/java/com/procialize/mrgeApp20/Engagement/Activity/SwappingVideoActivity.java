@@ -80,6 +80,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_VIDEO_URL_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 
 public class SwappingVideoActivity extends AppCompatActivity implements SwipeEngagmentVideoAdapter.SwipeImageSelfieAdapterListner {
@@ -315,8 +316,9 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
                                                             int which) {
-
-                                            new DownloadFile().execute(ApiConstant.selfievideo + UrlfileName);
+                                            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                                            String videoUrl = prefs.getString(KEY_VIDEO_URL_PATH, "");
+                                            new DownloadFile().execute(videoUrl/*ApiConstant.selfievideo*/ + UrlfileName);
                                         }
                                     });
                             builder.show();
@@ -336,7 +338,9 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
                                                             int which) {
-                                            new DownloadFile().execute(ApiConstant.selfievideo + UrlfileName);
+                                            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                                            String videoUrl = prefs.getString(KEY_VIDEO_URL_PATH, "");
+                                            new DownloadFile().execute(videoUrl/*ApiConstant.selfievideo*/ + UrlfileName);
                                         }
                                     });
                             builder.show();
@@ -364,7 +368,10 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
                             firstLevelFilters.get(rvposition).getId());
                     getUserActivityReport.userActivityReport();
                     //---------------------------------------------------------------------------------------------
-                    new DownloadFile().execute(ApiConstant.selfievideo + UrlfileName);
+                    SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    String videoUrl = prefs.getString(KEY_VIDEO_URL_PATH, "");
+
+                    new DownloadFile().execute(videoUrl/*ApiConstant.selfievideo*/ + UrlfileName);
                 }
             }
         });

@@ -22,6 +22,17 @@ public class QASpeakerFetch {
     @SerializedName("msg")
     @Expose
     private String msg;
+    @SerializedName("profile_pic_url_path")
+    @Expose
+    private String profile_pic_url_path;
+
+    public String getProfile_pic_url_path() {
+        return profile_pic_url_path;
+    }
+
+    public void setProfile_pic_url_path(String profile_pic_url_path) {
+        this.profile_pic_url_path = profile_pic_url_path;
+    }
 
     public List<SpeakerQuestionList> getSpeakerQuestionList() {
         return speakerQuestionList;

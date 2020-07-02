@@ -77,6 +77,9 @@ import retrofit2.Response;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_LIST_LOGO_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_PROFILE_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_QNA_PROFILE_PATH;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
@@ -266,9 +269,23 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
             eventrecycler.setAdapter(eventAdapter);
             eventrecycler.scheduleLayoutAnimation();
 
+
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_EVENT_PROFILE_PATH,response.body().getProfile_pic_url_path());
+            editor.putString(KEY_EVENT_LIST_LOGO_PATH,response.body().getEvent_logo_url_path());
+            editor.commit();
+
+
+            SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+           String profilePic = prefs1.getString(KEY_EVENT_PROFILE_PATH,"");
+           String eventLogo = prefs1.getString(KEY_EVENT_LIST_LOGO_PATH,"");
+
+
+
             for (int i = 0; i < response.body().getUserEventList().size(); i++) {
                 PicassoTrustAll.getInstance(EventChooserActivity.this)
-                        .load(ApiConstant.eventpic + response.body().getUserEventList().get(i).getBackground_image())
+                        .load(eventLogo/*ApiConstant.eventpic*/ + response.body().getUserEventList().get(i).getBackground_image())
                         .into(new Target() {
                             @Override
                             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -350,6 +367,10 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
         colorActive = eventList.getPrimary_color_code();
         background = eventList.getBackground_image();
 
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+       String profilePath = prefs.getString(KEY_EVENT_PROFILE_PATH,"");
+       String logoPath = prefs.getString(KEY_EVENT_LIST_LOGO_PATH,"");
+
         Log.d("event_id", eventid);
 //        mProgressDialog = new ProgressDialog(EventChooserActivity.this);
 //        mProgressDialog.setIndeterminate(true);
@@ -361,7 +382,7 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
 //        mProgressDialog.setMessage("Please wait, we are downloading your image file...");
 
         // Initialize a new click listener for positive button widget
-        url = ApiConstant.eventpic + eventList.getBackground_image();
+        url =logoPath/* ApiConstant.eventpic*/ + eventList.getBackground_image();
         Glide.with(this).load(url)
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
@@ -388,7 +409,7 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
                 if (CheckingPermissionIsEnabledOrNot()) {*/
 
                     PicassoTrustAll.getInstance(EventChooserActivity.this)
-                            .load(ApiConstant.eventpic + eventList.getBackground_image())
+                            .load(logoPath/*ApiConstant.eventpic*/ + eventList.getBackground_image())
                             .into(new Target() {
                                 @Override
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {

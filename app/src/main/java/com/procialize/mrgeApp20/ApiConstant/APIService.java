@@ -399,10 +399,7 @@ public interface APIService {
     Call<DocumentsListFetch> DocumentsListFetch(@Field("api_access_token") String api_access_token,
                                                 @Field("event_id") String event_id);
 
-    @POST("TravelGalleryFetch")
-    @FormUrlEncoded
-    Call<TravelListFetch> TravelListFetch(@Field("api_access_token") String api_access_token,
-                                          @Field("event_id") String event_id);
+
 
     @POST("NotificationListFetch")
     @FormUrlEncoded

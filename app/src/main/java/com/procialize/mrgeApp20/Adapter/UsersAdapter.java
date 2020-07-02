@@ -1,6 +1,7 @@
 package com.procialize.mrgeApp20.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
@@ -20,6 +21,9 @@ import com.procialize.mrgeApp20.R;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Locale;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_ATTENDEE_PIC_PATH;
 
 /**
  * Adapter to the mentions list shown to display the result of an '@' mention.
@@ -42,6 +46,7 @@ public class UsersAdapter extends RecyclerArrayAdapter<AttendeeList, UsersAdapte
      */
     private final ForegroundColorSpan colorSpan;
     ApiConstant constant = new ApiConstant();
+    String MY_PREFS_NAME = "ProcializeInfo";
     public UsersAdapter(final Context context) {
         this.context = context;
         final int orange = ContextCompat.getColor(context, R.color.mentions_default_color);
@@ -74,7 +79,10 @@ public class UsersAdapter extends RecyclerArrayAdapter<AttendeeList, UsersAdapte
         final AttendeeList mentionsUser = getItem(position);
 
         if (mentionsUser != null && StringUtils.isNotBlank(mentionsUser.getFirstName())) {
-            holder.image_url = constant.profilepic + mentionsUser.getProfilePic();
+
+            SharedPreferences prefs1 = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+            holder.image_url = /*constant.profilepic*/picPath + mentionsUser.getProfilePic();
             holder.name.setText(mentionsUser.getFirstName() + " " + mentionsUser.getLastName(), TextView.BufferType.SPANNABLE);
             highlightSearchQueryInUserName(holder.name.getText());
 

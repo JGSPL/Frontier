@@ -1,6 +1,7 @@
 package com.procialize.mrgeApp20.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -40,6 +41,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_LIST_LOGO_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_PROFILE_PATH;
+
 
 /**
  * //Created by Naushad on 10/31/2017.
@@ -52,13 +57,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     private List<UserEventList> eventListfilter;
     private Context context;
     private EventAdapterListner listener;
-
-
+    String MY_PREFS_NAME = "ProcializeInfo";
+    String logoPath;
     public EventAdapter(Context context, List<UserEventList> eventList, EventAdapterListner listener) {
         this.eventListfilter = eventList;
         this.eventList = eventList;
         this.listener = listener;
         this.context = context;
+
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        logoPath = prefs.getString(KEY_EVENT_LIST_LOGO_PATH,"");
     }
 
     @Override
@@ -116,7 +124,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
 
         if (evnt.getLogo() != null) {
 
-            Glide.with(context).load(ApiConstant.eventpic + evnt.getLogo())
+            Glide.with(context).load(logoPath/*ApiConstant.eventpic*/ + evnt.getLogo())
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
                     .listener(new RequestListener<Drawable>() {

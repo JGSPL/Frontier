@@ -35,6 +35,8 @@ import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_SELFIE_URL_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_VIDEO_URL_PATH;
 
 /**
  * Created by gauravnaik309 on 01/03/18.
@@ -74,13 +76,16 @@ public class SwipePagerVideoAdapter extends PagerAdapter {
 
         VideoContest firstLevelFilter = images.get(position);
 
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String picPath = prefs.getString(KEY_VIDEO_URL_PATH, "");
+
         JzvdStd video_view = myImageLayout.findViewById(R.id.video_view);
         TextView name = myImageLayout.findViewById(R.id.name);
         final ProgressBar progressBar = myImageLayout.findViewById(R.id.progressbar);
 
         try {
             Glide.with(context)
-                    .load(ApiConstant.selfievideo + firstLevelFilter.getThumbName())
+                    .load(picPath/*ApiConstant.selfievideo*/ + firstLevelFilter.getThumbName())
                     .placeholder(R.drawable.gallery_placeholder)
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).centerCrop()
                     .listener(new RequestListener<Drawable>() {
@@ -95,7 +100,7 @@ public class SwipePagerVideoAdapter extends PagerAdapter {
                         }
                     }).into(video_view.thumbImageView);
 
-            video_view.setUp(ApiConstant.selfievideo + firstLevelFilter.getFileName(), ""
+            video_view.setUp(picPath/*ApiConstant.selfievideo*/ + firstLevelFilter.getFileName(), ""
                     , JzvdStd.SCREEN_NORMAL);
             Jzvd.setVideoImageDisplayType(Jzvd.VIDEO_IMAGE_DISPLAY_TYPE_ADAPTER);
         }catch (Exception e)

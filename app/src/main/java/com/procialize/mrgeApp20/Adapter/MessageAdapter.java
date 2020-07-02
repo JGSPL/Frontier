@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_ATTENDEE_PIC_PATH;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder> {
 
@@ -94,8 +95,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
 
         if (travel.getProfilePic() != null) {
-
-            Glide.with(context).load(ApiConstant.profilepic + travel.getProfilePic())
+            SharedPreferences prefs1 = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+            Glide.with(context).load(/*ApiConstant.profilepic*/picPath + travel.getProfilePic())
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
                 @Override

@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_BUDDYLIST_PATH;
 
 
 /**
@@ -51,7 +52,7 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
     String attendee_design, attendee_company, attendee_location, attendee_mobile, attendee_save_contact;
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
-    String colorActive;
+    String colorActive,picPath;
     private List<Buddy> attendeeLists;
     private Context context;
     private List<Buddy> attendeeListFiltered;
@@ -66,7 +67,7 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
         this.context = context;
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
-
+        picPath = prefs.getString(KEY_BUDDYLIST_PATH, "");
         procializeDB = new DBHelper(context);
         db = procializeDB.getWritableDatabase();
     }
@@ -132,7 +133,7 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
         if (attendee.getProfilePic() != null) {
 
 
-            Glide.with(context).load(ApiConstant.profilepic + attendee.getProfilePic())
+            Glide.with(context).load(picPath/*ApiConstant.profilepic*/ + attendee.getProfilePic())
                     .apply(RequestOptions.skipMemoryCacheOf(false))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
                     .listener(new RequestListener<Drawable>() {

@@ -21,6 +21,17 @@ public class VideoContestListFetch {
     @Expose
     private String msg;
 
+    @SerializedName("video_url_path")
+    @Expose
+    private String video_url_path;
+
+    public String getVideo_url_path() {
+        return video_url_path;
+    }
+
+    public void setVideo_url_path(String video_url_path) {
+        this.video_url_path = video_url_path;
+    }
 
     @SerializedName("video_title")
     @Expose

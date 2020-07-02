@@ -66,6 +66,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_ATTENDEE_PIC_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_LOGO_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_LIKE_PROFILE_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PATH;
@@ -392,8 +393,9 @@ public class LikeDetailActivity extends AppCompatActivity {
         if (noti_type.equalsIgnoreCase("Notification")) {
 
             if (noti_profileurl != null) {
-
-                Glide.with(this).load(ApiConstant.profilepic + noti_profileurl).listener(new RequestListener<Drawable>() {
+                SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                String picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+                Glide.with(this).load(/*ApiConstant.profilepic */picPath+ noti_profileurl).listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         progressView.setVisibility(View.GONE);

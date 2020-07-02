@@ -28,6 +28,17 @@ public class SelfieListFetch {
     @SerializedName("selfie_description")
     @Expose
     private String selfie_description;
+    @SerializedName("selfie_url_path")
+    @Expose
+    private String selfie_url_path;
+
+    public String getSelfie_url_path() {
+        return selfie_url_path;
+    }
+
+    public void setSelfie_url_path(String selfie_url_path) {
+        this.selfie_url_path = selfie_url_path;
+    }
 
     public String getSelfie_title() {
         return selfie_title;

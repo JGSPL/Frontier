@@ -1,6 +1,7 @@
 package com.procialize.mrgeApp20.Engagement.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,9 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_SELFIE_URL_PATH;
+
 /**
  * Created by Naushad on 10/31/2017.
  */
@@ -38,13 +42,17 @@ public class SwipeImageSelfieAdapter extends RecyclerView.Adapter<SwipeImageSelf
     private List<SelfieList> filtergallerylists;
     private Context context;
     private SwipeImageSelfieAdapterListner listener;
-
+    String picPath;
+    String MY_PREFS_NAME = "ProcializeInfo";
 
     public SwipeImageSelfieAdapter(Context context, List<SelfieList> filtergallerylists, SwipeImageSelfieAdapterListner listener) {
 
         this.filtergallerylists = filtergallerylists;
         this.listener = listener;
         this.context = context;
+
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        picPath = prefs.getString(KEY_SELFIE_URL_PATH, "");
     }
 
     @Override
@@ -66,7 +74,7 @@ public class SwipeImageSelfieAdapter extends RecyclerView.Adapter<SwipeImageSelf
 
         }
 
-        Glide.with(context).load(ApiConstant.selfieimage + galleryList.getFileName())
+        Glide.with(context).load(picPath/*ApiConstant.selfieimage*/ + galleryList.getFileName())
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
             @Override

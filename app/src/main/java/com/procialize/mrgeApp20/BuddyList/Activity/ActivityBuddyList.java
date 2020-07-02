@@ -9,10 +9,25 @@ import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -24,24 +39,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.Environment;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
@@ -51,7 +48,6 @@ import com.procialize.mrgeApp20.BuddyList.DataModel.FetchBuddyList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchSendRequest;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
-import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
 import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -69,7 +65,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyChat.SpotChat;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_BUDDYLIST_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -77,8 +73,9 @@ import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAdapter.AttendeeAdapterListner{
+public class ActivityBuddyList extends AppCompatActivity implements BuddyListAdapter.AttendeeAdapterListner {
 
+    public static String chat_id = "0";
     ConnectionDetector cd;
     RecyclerView attendeerecycler;
     SwipeRefreshLayout attendeefeedrefresh;
@@ -87,18 +84,16 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid, colorActive;
     ImageView headerlogoIv;
+    LinearLayout ll_empty_view;
+    String token;
+    SpotChatReciever spotChatReciever;
+    IntentFilter spotChatFilter;
     private APIService mAPIService;
     private ProgressBar progressBar;
     private DBHelper dbHelper;
     private DBHelper procializeDB;
     private SQLiteDatabase db;
     private List<Buddy> buddyDBList;
-    LinearLayout ll_empty_view;
-    String token;
-    SpotChatReciever spotChatReciever;
-    IntentFilter spotChatFilter;
-    public static String chat_id = "0";
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,8 +105,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         initView();
     }
 
-    public void initView()
-    {
+    public void initView() {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -133,7 +127,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // onBackPressed();
+                // onBackPressed();
                 KeyboardUtility.hideSoftKeyboard(ActivityBuddyList.this);
 
                 finish();
@@ -144,7 +138,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
             dbHelper = new DBHelper(this);
             procializeDB = new DBHelper(this);
             db = procializeDB.getWritableDatabase();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -169,7 +163,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         });
 
         try {
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ ApiConstant.folderName+"/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/" + ApiConstant.folderName + "/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -200,9 +194,9 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
         HashMap<String, String> user = sessionManager.getUserDetails();
 
         // token
-         token = user.get(SessionManager.KEY_TOKEN);
-        crashlytics("Attendee",token);
-        firbaseAnalytics(this,"Attendee",token);
+        token = user.get(SessionManager.KEY_TOKEN);
+        crashlytics("Attendee", token);
+        firbaseAnalytics(this, "Attendee", token);
         if (cd.isConnectingToInternet()) {
             fetchFeed(token, eventid);
         } else {
@@ -246,7 +240,6 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
                 }
             }
         });
-
 
 
         searchEt.addTextChangedListener(new TextWatcher() {
@@ -303,7 +296,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
 
     public void fetchFeed(String token, String eventid) {
         progressBar.setVisibility(View.VISIBLE);
-        mAPIService.getBuddyList(eventid,token).enqueue(new Callback<FetchBuddyList>() {
+        mAPIService.getBuddyList(eventid, token).enqueue(new Callback<FetchBuddyList>() {
             @Override
             public void onResponse(Call<FetchBuddyList> call, Response<FetchBuddyList> response) {
 
@@ -340,21 +333,25 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
     public void showResponse(Response<FetchBuddyList> response) {
 
         // specify an adapter (see also next example)
-        if (response.body().getBuddyList()!= null) {
+        if (response.body().getBuddyList() != null) {
             //if (!(response.body().getBuddyList().isEmpty())) {
 
-                ll_empty_view.setVisibility(View.GONE);
-                attendeerecycler.setVisibility(View.VISIBLE);
+            ll_empty_view.setVisibility(View.GONE);
+            attendeerecycler.setVisibility(View.VISIBLE);
 
             dbHelper.clearBuddyTable();
             dbHelper.insertBuddyInfo(response.body().getBuddyList(), db);
 
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(KEY_BUDDYLIST_PATH, response.body().getProfile_pic_url_path());
+            editor.commit();
 
-                attendeeAdapter = new BuddyListAdapter(ActivityBuddyList.this, response.body().getBuddyList(), this);
-                attendeeAdapter.notifyDataSetChanged();
-                attendeerecycler.setAdapter(attendeeAdapter);
+            attendeeAdapter = new BuddyListAdapter(ActivityBuddyList.this, response.body().getBuddyList(), this);
+            attendeeAdapter.notifyDataSetChanged();
+            attendeerecycler.setAdapter(attendeeAdapter);
             //}
-        }else {
+        } else {
 
             ll_empty_view.setVisibility(View.VISIBLE);
             attendeerecycler.setVisibility(View.GONE);
@@ -371,8 +368,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
 
     }
 
-    public void openDisclaimerDialog()
-    {
+    public void openDisclaimerDialog() {
         LayoutInflater factory = LayoutInflater.from(this);
         final View deleteDialogView = factory.inflate(R.layout.buddy_list_disclaimer_dialog, null);
         final AlertDialog deleteDialog = new AlertDialog.Builder(this).create();
@@ -385,10 +381,10 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
             @Override
             public void onClick(View v) {
                 //your business logic
-                if(checkBox.isChecked()){
+                if (checkBox.isChecked()) {
                     deleteDialog.dismiss();
 
-                }else{
+                } else {
                     Toast.makeText(ActivityBuddyList.this, "Please agree with terms and conditions to continue", Toast.LENGTH_SHORT).show();
 
                 }
@@ -415,23 +411,23 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
 
     @Override
     public void onAcceptSelected(Buddy attendee) {
-        AccectRejectMethod(eventid,token,attendee.getFriend_id(),"1");
+        AccectRejectMethod(eventid, token, attendee.getFriend_id(), "1");
     }
 
     @Override
     public void onRejectSelected(Buddy attendee) {
-        AccectRejectMethod(eventid,token,attendee.getFriend_id(),"2");
+        AccectRejectMethod(eventid, token, attendee.getFriend_id(), "2");
 
     }
 
     @Override
     public void onCancelSelected(Buddy attendee) {
-        CancelMethod(eventid,token,attendee.getFriend_id());
+        CancelMethod(eventid, token, attendee.getFriend_id());
     }
 
     public void CancelMethod(String eventid, String toke, String Buddy_id) {
         progressBar.setVisibility(View.VISIBLE);
-        mAPIService.cancelFriendRequest(eventid,toke, Buddy_id).enqueue(new Callback<FetchSendRequest>() {
+        mAPIService.cancelFriendRequest(eventid, toke, Buddy_id).enqueue(new Callback<FetchSendRequest>() {
             @Override
             public void onResponse(Call<FetchSendRequest> call, Response<FetchSendRequest> response) {
 
@@ -467,7 +463,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
 
     public void AccectRejectMethod(String eventid, String toke, String Buddy_id, String response) {
         progressBar.setVisibility(View.VISIBLE);
-        mAPIService.respondToFriendRequest(eventid,toke, Buddy_id, response).enqueue(new Callback<FetchSendRequest>() {
+        mAPIService.respondToFriendRequest(eventid, toke, Buddy_id, response).enqueue(new Callback<FetchSendRequest>() {
             @Override
             public void onResponse(Call<FetchSendRequest> call, Response<FetchSendRequest> response) {
 
@@ -512,6 +508,7 @@ public class ActivityBuddyList extends AppCompatActivity  implements BuddyListAd
             Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();

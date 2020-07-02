@@ -1,6 +1,7 @@
 package com.procialize.mrgeApp20.Engagement.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,9 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_VIDEO_URL_PATH;
+
 /**
  * Created by Naushad on 10/31/2017.
  */
@@ -38,13 +42,17 @@ public class SwipeEngagmentVideoAdapter extends RecyclerView.Adapter<SwipeEngagm
     private List<VideoContest> filtergallerylists;
     private Context context;
     private SwipeImageSelfieAdapterListner listener;
-
+    String videoUrl;
+    String MY_PREFS_NAME = "ProcializeInfo";
 
     public SwipeEngagmentVideoAdapter(Context context, List<VideoContest> filtergallerylists, SwipeImageSelfieAdapterListner listener) {
 
         this.filtergallerylists = filtergallerylists;
         this.listener = listener;
         this.context = context;
+
+        SharedPreferences prefs1 = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        videoUrl = prefs1.getString(KEY_VIDEO_URL_PATH, "");
     }
 
     @Override
@@ -61,7 +69,7 @@ public class SwipeEngagmentVideoAdapter extends RecyclerView.Adapter<SwipeEngagm
 
        // holder.nameTv.setText(StringEscapeUtils.unescapeJava(galleryList.getTitle()));
 
-        Glide.with(context).load(ApiConstant.selfievideo + galleryList.getThumbName())
+        Glide.with(context).load(videoUrl/*ApiConstant.selfievideo*/ + galleryList.getThumbName())
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
             @Override

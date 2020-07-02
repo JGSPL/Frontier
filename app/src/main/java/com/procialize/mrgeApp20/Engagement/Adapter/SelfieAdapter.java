@@ -32,6 +32,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_SELFIE_URL_PATH;
 
 /**
  * Created by Naushad on 10/31/2017.
@@ -45,6 +46,7 @@ public class SelfieAdapter extends RecyclerView.Adapter<SelfieAdapter.MyViewHold
     String MY_PREFS_NAME = "ProcializeInfo";
     private Context context;
     private SelfieAdapterListner listener;
+    String picPath;
 
 
     public SelfieAdapter(Context context, List<SelfieList> selfieList, SelfieAdapterListner listener) {
@@ -52,6 +54,11 @@ public class SelfieAdapter extends RecyclerView.Adapter<SelfieAdapter.MyViewHold
         this.selfieList = selfieList;
         this.listener = listener;
         this.context = context;
+
+
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        picPath = prefs.getString(KEY_SELFIE_URL_PATH, "");
+
     }
 
     @Override
@@ -87,7 +94,7 @@ public class SelfieAdapter extends RecyclerView.Adapter<SelfieAdapter.MyViewHold
 //                .fit()
 //                .placeholder(R.drawable.gallery_placeholder)
 //                .into(holder.imageIv);
-        Glide.with(context).load(ApiConstant.selfieimage + galleryList.getFileName())
+        Glide.with(context).load(picPath/*ApiConstant.selfieimage*/ + galleryList.getFileName())
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
             @Override

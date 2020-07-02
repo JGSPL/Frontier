@@ -32,6 +32,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_VIDEO_URL_PATH;
 
 /**
  * Created by Naushad on 10/31/2017.
@@ -42,7 +43,7 @@ public class VideoContestAdapter extends RecyclerView.Adapter<VideoContestAdapte
 
     public List<VideoContest> videoContestList;
     String MY_PREFS_NAME = "ProcializeInfo";
-    String colorActive;
+    String colorActive,videoUrl;
     private Context context;
     private VideoContestAdapterListner listener;
 
@@ -72,7 +73,7 @@ public class VideoContestAdapter extends RecyclerView.Adapter<VideoContestAdapte
 
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
-
+        videoUrl = prefs.getString(KEY_VIDEO_URL_PATH, "");
         try {
             holder.dataTv.setText(StringEscapeUtils.unescapeJava(galleryList.getTitle()));
         }catch (IllegalArgumentException e){
@@ -85,7 +86,7 @@ public class VideoContestAdapter extends RecyclerView.Adapter<VideoContestAdapte
 //        holder.videoPlayerStandard.setUp(ApiConstant.selfievideo+galleryList.getFileName()
 //                , JzvdStd.SCREEN_WINDOW_LIST, "");
 
-        String url = ApiConstant.selfievideo + galleryList.getThumbName();
+        String url = videoUrl/*ApiConstant.selfievideo*/ + galleryList.getThumbName();
 
         Glide.with(context).load(url)
                 .apply(RequestOptions.skipMemoryCacheOf(true))

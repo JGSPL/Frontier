@@ -547,6 +547,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+
+
+    @Override
     public int getItemCount() {
         return notificationLists.size();
     }

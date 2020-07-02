@@ -60,6 +60,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_SELFIE_URL_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_VIDEO_URL_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -247,6 +249,11 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
             try {
                 if (!(response.body().getVideo_description().equalsIgnoreCase(null))) {
                     seldescription.setText(response.body().getVideo_description());
+
+                    SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString(KEY_VIDEO_URL_PATH, response.body().getVideo_url_path());
+                    editor.commit();
                     //seldescription.setVisibility(View.VISIBLE);
                 } else {
                     seldescription.setVisibility(View.GONE);
@@ -418,7 +425,9 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
 
     @Override
     public void onShareListner(View v, VideoContest videoContest, int position) {
-        shareTextUrl(videoContest.getTitle(), ApiConstant.selfievideo + videoContest.getFileName());
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String videoUrl = prefs.getString(KEY_VIDEO_URL_PATH, "");
+        shareTextUrl(videoContest.getTitle(), /*ApiConstant.selfievideo */videoUrl+ videoContest.getFileName());
     }
 
 

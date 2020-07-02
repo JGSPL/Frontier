@@ -65,6 +65,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_ATTENDEE_PIC_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
 
@@ -317,7 +318,9 @@ public class SpeakerDetailsActivity extends AppCompatActivity implements PdfList
 
         }*/
         if (profile != null) {
-            Glide.with(this).load(ApiConstant.profilepic + profile).listener(new RequestListener<Drawable>() {
+            SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+            Glide.with(this).load(/*ApiConstant.profilepic*/picPath + profile).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     progressBar.setVisibility(View.GONE);
@@ -553,7 +556,10 @@ public class SpeakerDetailsActivity extends AppCompatActivity implements PdfList
         dialog.setContentView(R.layout.imagepopulayout);
         ImageView image = (ImageView) dialog.findViewById(R.id.image);
 //        String imgae = dbManager.GetimageUrl(datamodel.get(position).getProdcutid());
-        String imageUrl = ApiConstant.profilepic + profile;
+
+        SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+        String imageUrl = /*ApiConstant.profilepic*/picPath + profile;
         Picasso.with(SpeakerDetailsActivity.this).load(imageUrl).into(image);
         dialog.show();
     }

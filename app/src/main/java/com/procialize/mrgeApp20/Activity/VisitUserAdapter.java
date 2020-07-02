@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_ATTENDEE_PIC_PATH;
 
 public class VisitUserAdapter extends RecyclerView.Adapter<VisitUserAdapter.MyViewHolder> implements Filterable {
 
@@ -76,7 +77,9 @@ public class VisitUserAdapter extends RecyclerView.Adapter<VisitUserAdapter.MyVi
         ExhibitorView_User_List ExhibitorView_User_List = attendeeListFiltered.get(position);
 
         if (attendeeListFiltered.get(position).getProfile_pic() != null) {
-            Glide.with(context).load(ApiConstant.profilepic + attendeeListFiltered.get(position).getProfile_pic()).listener(new RequestListener<Drawable>() {
+            SharedPreferences prefs1 = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+            Glide.with(context).load(/*ApiConstant.profilepic*/picPath + attendeeListFiltered.get(position).getProfile_pic()).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                     holder.imageIv.setImageResource(R.drawable.profilepic_placeholder);

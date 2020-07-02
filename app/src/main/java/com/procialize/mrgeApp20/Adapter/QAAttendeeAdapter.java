@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_QNA_PROFILE_PATH;
 
 /**
  * Created by Naushad on 10/31/2017.
@@ -62,7 +63,7 @@ public class QAAttendeeAdapter extends RecyclerView.Adapter<QAAttendeeAdapter.My
     private List<AgendaLisQA> agendaListsqa;
     private Context context;
     private QAAdapterListner listener;
-    private String speakername;
+    private String speakername,pic_path;
     private APIService mAPIService;
 
     public QAAttendeeAdapter(Context context, List<AgendaQuestion> agendaLists, List<AgendaLisQA> agendaListsqa, QAAdapterListner listener, String speakername) {
@@ -75,7 +76,7 @@ public class QAAttendeeAdapter extends RecyclerView.Adapter<QAAttendeeAdapter.My
 
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
-
+        pic_path = prefs.getString(KEY_QNA_PROFILE_PATH, "");
     }
 
     @Override
@@ -100,7 +101,7 @@ public class QAAttendeeAdapter extends RecyclerView.Adapter<QAAttendeeAdapter.My
 
         }
         if (question.getProfile_pic() != null) {
-            Glide.with(context).load((ApiConstant.profilepic + question.getProfile_pic()))
+            Glide.with(context).load((pic_path/*ApiConstant.profilepic*/ + question.getProfile_pic()))
                     .placeholder(R.drawable.profilepic_placeholder)
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
                     .listener(new RequestListener<Drawable>() {

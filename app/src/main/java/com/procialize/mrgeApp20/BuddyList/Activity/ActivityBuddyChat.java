@@ -65,6 +65,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_ATTENDEE_PIC_PATH;
+
 public class ActivityBuddyChat extends AppCompatActivity {
 
     public static String chat_id = "0";
@@ -147,7 +149,9 @@ public class ActivityBuddyChat extends AppCompatActivity {
 
         profileIV = findViewById(R.id.profileIV);
         if (profile != null) {
-            Glide.with(this).load(ApiConstant.profilepic + profile).circleCrop()
+            SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+            Glide.with(this).load(/*ApiConstant.profilepic*/picPath + profile).circleCrop()
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {

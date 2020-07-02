@@ -1,6 +1,7 @@
 package com.procialize.mrgeApp20.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,10 +27,13 @@ import com.procialize.mrgeApp20.R;
 
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_AGENDA_MEDIA_PIC_PATH;
+
 
 public class SwipeAgendaImageAdapter extends RecyclerView.Adapter<SwipeAgendaImageAdapter.MyViewHolder> {
 
-
+    String MY_PREFS_NAME = "ProcializeInfo";
     ApiConstant constant;
     String image_url;
     private List<AgendaFolder> filtergallerylists;
@@ -57,8 +61,11 @@ public class SwipeAgendaImageAdapter extends RecyclerView.Adapter<SwipeAgendaIma
 
         constant = new ApiConstant();
 
-        image_url = ApiConstant.GALLERY_IMAGE
-                + filtergallerylists.get(position).getFolder_image();
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String picPath = prefs.getString(KEY_AGENDA_MEDIA_PIC_PATH,"");
+
+        image_url = /*ApiConstant.GALLERY_IMAGE*/
+                picPath + filtergallerylists.get(position).getFolder_image();
 
         //holder.nameTv.setText(galleryList.getName());
         Glide.with(context).load(image_url)

@@ -63,6 +63,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_QNA_PROFILE_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -265,6 +266,12 @@ public class QnASessionFragment extends Fragment implements QAAttendeeAdapter.QA
                 change = false;
 
                 agendaLisQAS = response.body().getAgendaList();
+
+                SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(KEY_QNA_PROFILE_PATH, response.body().getProfile_pic_url_path());
+                editor.commit();
+
 
                 for (int i = 0; i < response.body().getAgendaList().size(); i++) {
                     list.add(response.body().getAgendaList().get(i).getSessionName());

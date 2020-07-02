@@ -30,6 +30,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_SELFIE_URL_PATH;
 
 /**
  * Created by gauravnaik309 on 01/03/18.
@@ -38,7 +39,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class SwipepagerSelfieAdapter extends PagerAdapter {
 
     String MY_PREFS_NAME = "ProcializeInfo";
-    String colorActive;
+    String colorActive,picPath;
     private List<SelfieList> images;
     private LayoutInflater inflater;
     private Context context;
@@ -50,6 +51,7 @@ public class SwipepagerSelfieAdapter extends PagerAdapter {
 
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
+        picPath = prefs.getString(KEY_SELFIE_URL_PATH, "");
 
     }
 
@@ -74,7 +76,7 @@ public class SwipepagerSelfieAdapter extends PagerAdapter {
         TextView name = myImageLayout.findViewById(R.id.name);
         final ProgressBar progressBar = myImageLayout.findViewById(R.id.progressbar);
 
-        Glide.with(context).load(ApiConstant.selfieimage + firstLevelFilter.getFileName())
+        Glide.with(context).load(picPath/*ApiConstant.selfieimage*/ + firstLevelFilter.getFileName())
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
             @Override

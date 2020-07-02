@@ -40,6 +40,7 @@ import java.util.Date;
 import cn.jzvd.JzvdStd;
 
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_FOLDER_IMAGE_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_VIDEO_URL_PATH;
 
 
 /**
@@ -122,7 +123,9 @@ public class ExoVideoActivity extends AppCompatActivity {
         btn_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareTextUrl(title, ApiConstant.selfievideo + videoUrl);
+                SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                String videoUrl = prefs.getString(KEY_VIDEO_URL_PATH, "");
+                shareTextUrl(title, /*ApiConstant.selfievideo*/videoUrl + videoUrl);
             }
         });
 
@@ -137,7 +140,9 @@ public class ExoVideoActivity extends AppCompatActivity {
             setupVideoView(ApiConstant.imgURL + "uploads/travel_gallery/" + videoUrl);
 
         } else {
-            setupVideoView(ApiConstant.selfievideo + videoUrl);
+            SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String videoUrl1 = prefs1.getString(KEY_VIDEO_URL_PATH, "");
+            setupVideoView(/*ApiConstant.selfievideo*/ videoUrl1+ videoUrl);
 
         }
 

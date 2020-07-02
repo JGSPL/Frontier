@@ -143,6 +143,8 @@ import retrofit2.Response;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_LIST_LOGO_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_PROFILE_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_PROFILE_PIC_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
@@ -490,9 +492,11 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 //        editor.apply();
 
         imgname = "background";//url.substring(58, 60);
-
+        SharedPreferences prefs2 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String profilePic = prefs2.getString(KEY_EVENT_PROFILE_PATH,"");
+        String eventLogo = prefs2.getString(KEY_EVENT_LIST_LOGO_PATH,"");
         PicassoTrustAll.getInstance(MrgeHomeActivity.this)
-                .load(ApiConstant.eventpic + eventback)
+                .load(/*ApiConstant.eventpic*/eventLogo + eventback)
                 .into(new com.squareup.picasso.Target() {
                           @Override
                           public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -734,7 +738,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         eula = navigationView.findViewById(R.id.eula);
 
         if (ApiConstant.baseUrl.contains("stage")) {
-            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(11)");
+            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(12)");
         } else {
             txt_version.setText("Version : " + BuildConfig.VERSION_NAME);
         }

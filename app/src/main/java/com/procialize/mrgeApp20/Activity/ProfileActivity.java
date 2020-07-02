@@ -88,6 +88,8 @@ import retrofit2.Response;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_LIST_LOGO_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_PROFILE_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_PROFILE_PIC_PATH;
 import static com.procialize.mrgeApp20.Session.SessionManager.MY_PREFS_NAME;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
@@ -181,8 +183,11 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         mAPIService = ApiUtils.getAPIService();
+        SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String profilePic = prefs1.getString(KEY_EVENT_PROFILE_PATH,"");
+        String eventLogo = prefs1.getString(KEY_EVENT_LIST_LOGO_PATH,"");
         PicassoTrustAll.getInstance(ProfileActivity.this)
-                .load(ApiConstant.eventpic + eventback)
+                .load(/*ApiConstant.eventpic*/eventLogo + eventback)
                 .into(new com.squareup.picasso.Target() {
                           @Override
                           public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -230,8 +235,9 @@ public class ProfileActivity extends AppCompatActivity {
             Log.e("PATH", String.valueOf(mypath));
         } catch (Exception e) {
             e.printStackTrace();
+
             PicassoTrustAll.getInstance(ProfileActivity.this)
-                    .load(ApiConstant.eventpic + eventback)
+                    .load(eventLogo/*ApiConstant.eventpic*/ + eventback)
                     .into(new com.squareup.picasso.Target() {
                               @Override
                               public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {

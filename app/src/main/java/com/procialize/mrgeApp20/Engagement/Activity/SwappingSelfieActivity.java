@@ -68,6 +68,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_SELFIE_URL_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 
 public class SwappingSelfieActivity extends AppCompatActivity implements SwipeImageSelfieAdapter.SwipeImageSelfieAdapterListner {
@@ -79,7 +80,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
     ViewPager pager;
     ImageView right, left, backIv;
     ImageView headerlogoIv;
-    String colorActive, eventid, user_id, token;
+    String colorActive, eventid, user_id, token,picPath;
     String MY_PREFS_NAME = "ProcializeInfo";
     String img = "";
     RecyclerView recyclerView;
@@ -165,6 +166,8 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
         eventid = prefs.getString("eventid", "1");
+        picPath = prefs.getString(KEY_SELFIE_URL_PATH, "");
+
 
         SessionManager sessionManager = new SessionManager(this);
         HashMap<String, String> user = sessionManager.getUserDetails();
@@ -300,7 +303,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
 
                             // new myAsyncTask().execute();
                             PicassoTrustAll.getInstance(SwappingSelfieActivity.this)
-                                    .load(ApiConstant.selfieimage + firstLevelFilters.get(rvposition).getFileName())
+                                    .load(picPath/*ApiConstant.selfieimage*/ + firstLevelFilters.get(rvposition).getFileName())
                                     .into(new com.squareup.picasso.Target() {
                                               @Override
                                               public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -352,7 +355,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
 
                         //new myAsyncTask().execute();
                         PicassoTrustAll.getInstance(SwappingSelfieActivity.this)
-                                .load(ApiConstant.selfieimage + firstLevelFilters.get(rvposition).getFileName())
+                                .load(picPath/*ApiConstant.selfieimage*/ + firstLevelFilters.get(rvposition).getFileName())
                                 .into(new com.squareup.picasso.Target() {
                                           @Override
                                           public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -402,7 +405,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
         linShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareImage(ApiConstant.selfieimage + firstLevelFilters.get(rvposition).getFileName(), SwappingSelfieActivity.this);
+                shareImage(picPath/*ApiConstant.selfieimage*/ + firstLevelFilters.get(rvposition).getFileName(), SwappingSelfieActivity.this);
             }
         });
 

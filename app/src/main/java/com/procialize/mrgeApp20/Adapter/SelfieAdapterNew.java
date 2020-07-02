@@ -36,6 +36,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_SELFIE_URL_PATH;
 
 public class SelfieAdapterNew extends BaseAdapter {
 
@@ -43,12 +44,16 @@ public class SelfieAdapterNew extends BaseAdapter {
     Activity activity;
     Constants constant = new Constants();
     String MY_PREFS_NAME = "ProcializeInfo";
-    String colorActive;
+    String colorActive,picPath;
     private LayoutInflater inflater;
 
     public SelfieAdapterNew(Activity context, List<SelfieList> selfieList) {
         activity = context;
         this.selfieList = selfieList;
+
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        colorActive = prefs.getString("colorActive", "");
+        picPath = prefs.getString(KEY_SELFIE_URL_PATH, "");
     }
 
     public static String getEmojiFromString(String emojiString) {
@@ -144,7 +149,7 @@ public class SelfieAdapterNew extends BaseAdapter {
 
         holder.dataTv.setText(StringEscapeUtils.unescapeJava(selfie.getTitle()));
         holder.countTv.setText(selfie.getTotalLikes());
-        Glide.with(activity).load(ApiConstant.selfieimage + selfie.getFileName())
+        Glide.with(activity).load(picPath/*ApiConstant.selfieimage*/ + selfie.getFileName())
                 .apply(RequestOptions.skipMemoryCacheOf(false))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
             @Override

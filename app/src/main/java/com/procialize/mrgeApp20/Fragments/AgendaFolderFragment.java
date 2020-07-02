@@ -65,6 +65,7 @@ import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_AGENDA_MEDIA_PIC_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_AGENDA_PIC_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -195,7 +196,10 @@ public class AgendaFolderFragment extends Fragment implements SwipeAgendaImageAd
 
         // // Locate fragment1.xml to create FragmentTabHost
         //agendaTabHost.setup(getActivity(), getChildFragmentManager(), R.id.tabcontent);
-        updateAgendaUrl = ApiConstant.INDEPENDENT_AGENDA;
+
+        SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        updateAgendaUrl= prefs1.getString(KEY_AGENDA_PIC_PATH,"");
+        //updateAgendaUrl = ApiConstant.INDEPENDENT_AGENDA;
 //
 //        for(int i=0;i<agendaTabHost.getTabWidget().getChildCount();i++)
 //            agendaTabHost.getTabWidget().getChildAt(i).setBackgroundColor(Color.parseColor("#FFFFFF")); //unselected

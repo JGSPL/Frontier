@@ -56,7 +56,7 @@ public class QASpeakerAdapter extends RecyclerView.Adapter<QASpeakerAdapter.MyVi
     List<EventSettingList> eventSettingLists;
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
-    String colorActive;
+    String colorActive,picPath;
     private List<SpeakerQuestionList> speakerQuestionLists;
     private List<QuestionSpeakerList> questionSpeakerLists;
     private Context context;
@@ -73,6 +73,7 @@ public class QASpeakerAdapter extends RecyclerView.Adapter<QASpeakerAdapter.MyVi
 
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
+        picPath = prefs.getString("KEY_SPEAKER_PROFILE_PATH", "");
 
     }
 
@@ -173,7 +174,7 @@ public class QASpeakerAdapter extends RecyclerView.Adapter<QASpeakerAdapter.MyVi
 
         }
         if (question.getProfilePic() != null) {
-            Glide.with(context).load((ApiConstant.profilepic + question.getProfilePic()))
+            Glide.with(context).load((picPath/*ApiConstant.profilepic*/ + question.getProfilePic()))
                     .placeholder(R.drawable.profilepic_placeholder)
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.RESOURCE)).circleCrop().centerCrop()
                     .listener(new RequestListener<Drawable>() {

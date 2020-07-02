@@ -106,6 +106,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_ATTENDEE_PIC_PATH;
 import static org.apache.http.HttpVersion.HTTP_1_1;
 
 public class PostActivityVideo extends AppCompatActivity implements ProgressRequestBodyImage.UploadCallbacks, ProgressRequestBodyVideo.UploadCallbacks {
@@ -230,8 +231,9 @@ public class PostActivityVideo extends AppCompatActivity implements ProgressRequ
 //                    return false;
 //                }
 //            }).into(profileIV).onLoadStarted(getDrawable(R.drawable.profilepic_placeholder));
-
-            Picasso.with(getBaseContext()).load(ApiConstant.profilepic + profilepic).placeholder(R.drawable.profilepic_placeholder).into(profileIV);
+            SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+            Picasso.with(getBaseContext()).load(/*ApiConstant.profilepic*/picPath + profilepic).placeholder(R.drawable.profilepic_placeholder).into(profileIV);
 
         } else {
             profileIV.setImageResource(R.drawable.profilepic_placeholder);

@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_QNA_DIRECT_PROFILE_PATH;
 
 public class QADirectAdapter extends RecyclerView.Adapter<QADirectAdapter.MyViewHolder> {
 
@@ -51,7 +52,7 @@ public class QADirectAdapter extends RecyclerView.Adapter<QADirectAdapter.MyView
     List<EventSettingList> eventSettingLists;
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
-    String colorActive;
+    String colorActive,picPath;
     private List<DirectQuestion> directQuestionLists;
     private Context context;
     private QADirectAdapterListner listener;
@@ -66,7 +67,7 @@ public class QADirectAdapter extends RecyclerView.Adapter<QADirectAdapter.MyView
 
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
-
+        picPath = prefs.getString(KEY_QNA_DIRECT_PROFILE_PATH, "");
 
     }
 
@@ -145,7 +146,7 @@ public class QADirectAdapter extends RecyclerView.Adapter<QADirectAdapter.MyView
         if (question.getProfile_pic() != null) {
 
 
-            Glide.with(context).load(ApiConstant.profilepic + question.getProfile_pic())
+            Glide.with(context).load(picPath/*ApiConstant.profilepic*/ + question.getProfile_pic())
                     .apply(RequestOptions.skipMemoryCacheOf(false))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
                     .listener(new RequestListener<Drawable>() {
