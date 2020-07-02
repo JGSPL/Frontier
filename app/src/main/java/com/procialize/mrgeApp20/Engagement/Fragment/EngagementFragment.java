@@ -53,10 +53,10 @@ public class EngagementFragment extends Fragment {
     LinearLayout linear;
     View rootView;
     ProgressBar progressBar;
-    private List<EventSettingList> eventSettingLists;
     APIService mAPIService;
-    TextView selfieTv,tv_selfie_total_items,tv_selfie_desc,videoTv,video_total_items,tv_video_desc;
+    TextView selfieTv, tv_selfie_total_items, tv_selfie_desc, videoTv, video_total_items, tv_video_desc;
     ConnectionDetector cd;
+    private List<EventSettingList> eventSettingLists;
 
     @Nullable
     @Override
@@ -75,12 +75,12 @@ public class EngagementFragment extends Fragment {
             e.printStackTrace();
         }
 
-        selfieTv = (TextView)rootView.findViewById(R.id.selfieTv);
-        tv_selfie_total_items = (TextView)rootView.findViewById(R.id.tv_selfie_total_items);
-        tv_selfie_desc = (TextView)rootView.findViewById(R.id.tv_selfie_desc);
-        videoTv = (TextView)rootView.findViewById(R.id.videoTv);
-        video_total_items = (TextView)rootView.findViewById(R.id.video_total_items);
-        tv_video_desc = (TextView)rootView.findViewById(R.id.tv_video_desc);
+        selfieTv = (TextView) rootView.findViewById(R.id.selfieTv);
+        tv_selfie_total_items = (TextView) rootView.findViewById(R.id.tv_selfie_total_items);
+        tv_selfie_desc = (TextView) rootView.findViewById(R.id.tv_selfie_desc);
+        videoTv = (TextView) rootView.findViewById(R.id.videoTv);
+        video_total_items = (TextView) rootView.findViewById(R.id.video_total_items);
+        tv_video_desc = (TextView) rootView.findViewById(R.id.tv_video_desc);
 
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
@@ -104,8 +104,8 @@ public class EngagementFragment extends Fragment {
         SessionManager sessionManager = new SessionManager(getActivity());
 
         user = sessionManager.getUserDetails();
-      String token= user.get(SessionManager.KEY_TOKEN);
-        String  event_id = prefs.getString("eventid", "1");
+        String token = user.get(SessionManager.KEY_TOKEN);
+        String event_id = prefs.getString("eventid", "1");
 
 
         crashlytics("Engagement", user.get(SessionManager.KEY_TOKEN));
@@ -146,10 +146,9 @@ public class EngagementFragment extends Fragment {
         });
 
         cd = new ConnectionDetector(getActivity());
-        if(cd.isConnectingToInternet()) {
+        if (cd.isConnectingToInternet()) {
             getEngagementData(event_id, token);
-        }else
-        {
+        } else {
             Toast.makeText(getActivity(), "No Internet Connection..!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -207,17 +206,17 @@ public class EngagementFragment extends Fragment {
 
     public void showResponse(Response<FetchEngagementData> response) {
         if (response.body().getStatus().equals("success")) {
-          String selfieTitle=  response.body().getSelfie_engagement().getSelfie_title();
-          String selfieDescription =  response.body().getSelfie_engagement().getSelfie_description();
-          String selfieTotalItem=  response.body().getSelfie_engagement().getTotal_items();
+            String selfieTitle = response.body().getSelfie_engagement().getSelfie_title();
+            String selfieDescription = response.body().getSelfie_engagement().getSelfie_description();
+            String selfieTotalItem = response.body().getSelfie_engagement().getTotal_items();
 
             selfieTv.setText(selfieTitle);
             tv_selfie_total_items.setText(selfieTotalItem);
             tv_selfie_desc.setText(selfieDescription);
 
-          String videoTitle=  response.body().getVideo_engagement().getVideo_title();
-          String videoDescription=  response.body().getVideo_engagement().getVideo_description();
-          String videoTotalItems=  response.body().getVideo_engagement().getTotal_items();
+            String videoTitle = response.body().getVideo_engagement().getVideo_title();
+            String videoDescription = response.body().getVideo_engagement().getVideo_description();
+            String videoTotalItems = response.body().getVideo_engagement().getTotal_items();
 
             videoTv.setText(videoTitle);
             video_total_items.setText(videoTotalItems);
@@ -244,9 +243,6 @@ public class EngagementFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-
         JzvdStd.releaseAllVideos();
-
     }
-
 }

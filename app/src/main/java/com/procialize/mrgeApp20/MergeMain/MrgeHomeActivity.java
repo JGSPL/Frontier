@@ -740,7 +740,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         if (ApiConstant.baseUrl.contains("stage")) {
             txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(12)");
         } else {
-            txt_version.setText("Version : " + BuildConfig.VERSION_NAME);
+            txt_version.setText("Version : " + BuildConfig.VERSION_NAME+ "(12)");
         }
 
 

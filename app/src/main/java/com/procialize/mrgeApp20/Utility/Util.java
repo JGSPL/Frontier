@@ -37,9 +37,13 @@ import static com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity.ll_notificatio
 import static com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity.notificationCountFilter;
 import static com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity.notificationCountReciever;
 import static com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity.tv_notification_drawer;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_LIST_LOGO_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_PROFILE_PATH;
 
 
 public class Util {
+
+
     public static void setTextViewDrawableColor(TextView textView, String color) {
         for (Drawable drawable : textView.getCompoundDrawables()) {
             if (drawable != null) {
@@ -54,8 +58,11 @@ public class Util {
             headerlogoIv.setImageResource(R.drawable.header_logo);
 
         } else {
-
-            Glide.with(context).load(ApiConstant.imgURL + "uploads/app_logo/" + MrgeHomeActivity.logoImg).listener(new RequestListener<Drawable>() {
+            String MY_PREFS_NAME = "ProcializeInfo";
+            SharedPreferences prefs1 = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String profilePic = prefs1.getString(KEY_EVENT_PROFILE_PATH,"");
+            String eventLogo = prefs1.getString(KEY_EVENT_LIST_LOGO_PATH,"");
+            Glide.with(context).load(/*ApiConstant.imgURL + "uploads/app_logo/"*/eventLogo + MrgeHomeActivity.logoImg).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 //                    headerlogoIv.setImageResource(R.drawable.header_logo);
@@ -78,7 +85,11 @@ public class Util {
         } else {
             tv_header.setVisibility(View.GONE);
             header_logo.setVisibility(View.VISIBLE);
-            Glide.with(context).load(ApiConstant.imgURL + "uploads/app_logo/" + MrgeHomeActivity.logoImg).listener(new RequestListener<Drawable>() {
+            String MY_PREFS_NAME = "ProcializeInfo";
+            SharedPreferences prefs1 = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String profilePic = prefs1.getString(KEY_EVENT_PROFILE_PATH,"");
+            String eventLogo = prefs1.getString(KEY_EVENT_LIST_LOGO_PATH,"");
+            Glide.with(context).load(/*ApiConstant.imgURL + "uploads/app_logo/"*/eventLogo + MrgeHomeActivity.logoImg).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 //                    headerlogoIv.setImageResource(R.drawable.header_logo);

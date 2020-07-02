@@ -2243,7 +2243,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 contentValues.put(MULTIMEDIA_TYPE, newsFeedPostMultimedia.get(i).getMedia_type());
                 contentValues.put(FOLDER_UNIQUE_ID, newsFeedPostMultimedia.get(i).getFolderUniqueId());
                 contentValues.put(MULTIMEDIA_TEXT,newsFeedPostMultimedia.get(i).getPostText());
-                contentValues.put(MULTIMEDIA_TEXT,newsFeedPostMultimedia.get(i).getPostText());
                 db.insert(UPLOAD_MULTIMEDIA_TABLE, null, contentValues);
             }
 

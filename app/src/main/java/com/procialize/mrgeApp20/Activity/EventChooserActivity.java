@@ -264,12 +264,6 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
 
         if (response.body().getStatus().equals("success")) {
 
-            eventAdapter = new EventAdapter(EventChooserActivity.this, response.body().getUserEventList(), this);
-            eventAdapter.notifyDataSetChanged();
-            eventrecycler.setAdapter(eventAdapter);
-            eventrecycler.scheduleLayoutAnimation();
-
-
             SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString(KEY_EVENT_PROFILE_PATH,response.body().getProfile_pic_url_path());
@@ -278,8 +272,16 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
 
 
             SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-           String profilePic = prefs1.getString(KEY_EVENT_PROFILE_PATH,"");
-           String eventLogo = prefs1.getString(KEY_EVENT_LIST_LOGO_PATH,"");
+            String profilePic = prefs1.getString(KEY_EVENT_PROFILE_PATH,"");
+            String eventLogo = prefs1.getString(KEY_EVENT_LIST_LOGO_PATH,"");
+
+
+            eventAdapter = new EventAdapter(EventChooserActivity.this, response.body().getUserEventList(), this);
+            eventAdapter.notifyDataSetChanged();
+            eventrecycler.setAdapter(eventAdapter);
+            eventrecycler.scheduleLayoutAnimation();
+
+
 
 
 

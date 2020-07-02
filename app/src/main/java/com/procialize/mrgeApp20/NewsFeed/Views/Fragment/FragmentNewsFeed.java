@@ -1785,13 +1785,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             tv_uploading.setVisibility(View.GONE);
             // progressbarForSubmit.setProgress(Integer.parseInt(String.valueOf(progress)));
             /* mTvCapital.setText("Capital : " + capital);*/
-            fetchFeed(token, eventid);
+            //fetchFeed(token, eventid);
             newsFeedPostMultimediaList = procializeDB.getNotUploadedMultiMedia();
             // insertMediaToLocalDb();
-
-            List<news_feed_media> mediafeedDetails = procializeDB.getBuzzMediaFeedDetails();
-            List<news_feed_media> mediafeedDetails1 = mediafeedDetails;
-            //ArrayList<NewsFeedPostMultimedia> newsFeedPostMultimediaList = dbHelper.getNotUploadedMultiMedia();
 
             if (newsFeedPostMultimediaList.size() > 0) {
                 Intent intent1 = new Intent(getActivity(), BackgroundService.class);

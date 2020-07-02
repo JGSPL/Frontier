@@ -587,9 +587,11 @@ public class EventInfoActivity extends AppCompatActivity implements OnMapReadyCa
                 dbHelper.insertSponsorInfo(sponsorList, db);
                 filePath = response.body().getSponsor_file_path();
 
+
                 SharedPreferences prefs = EventInfoActivity.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("sponsor_filePath", filePath);
+                editor.putString(KEY_EVENT_LOGO_PATH, eventLogoPath);
                 editor.commit();
 
                 SponsorAdapter sponsorAdapter = new SponsorAdapter(EventInfoActivity.this, sponsorList, filePath);
@@ -659,9 +661,14 @@ public class EventInfoActivity extends AppCompatActivity implements OnMapReadyCa
                         //   view.setVisibility(View.GONE);
                     }
 
+
+                    SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    String logoImg = prefs1.getString("logoImg", "");
+                    String eventLogoPath = prefs1.getString(KEY_EVENT_LOGO_PATH, "");
+
                     event_desc.setText(StringEscapeUtils.unescapeJava(response.body().getEventList().get(0).getEventLocation() + "\n\n" + response.body().getEventList().get(0).getEventDescription()));
                     // event_desc.setText(response.body().getEventList().get(0).getEventDescription());
-                    String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + response.body().getEventList().get(0).getLogo();
+                    String image_final_url = /*ApiConstant.imgURL + "uploads/app_logo/"*/eventLogoPath + response.body().getEventList().get(0).getLogo();
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
                     Glide.with(this).load(image_final_url)
@@ -847,7 +854,10 @@ public class EventInfoActivity extends AppCompatActivity implements OnMapReadyCa
                     String eventDescription = eventDBList.get(0).getEventDescription();
                     event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
                     // event_desc.setText(eventDescription);
-                    String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
+                    SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    String logoImg = prefs1.getString("logoImg", "");
+                    String eventLogoPath = prefs1.getString(KEY_EVENT_LOGO_PATH, "");
+                    String image_final_url = /*ApiConstant.imgURL + "uploads/app_logo/"*/eventLogoPath + eventDBList.get(0).getLogo();
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
                     Glide.with(this).load(image_final_url)

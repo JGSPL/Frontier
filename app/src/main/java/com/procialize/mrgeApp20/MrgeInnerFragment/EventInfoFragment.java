@@ -564,11 +564,14 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                 });
 
                 filePath = response.body().getSponsor_file_path();
+                eventLogoPath = response.body().getEvent_logo_url_path();
 
                /* SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();*/
                 editor2.putString("sponsor_filePath", filePath);
+                editor2.putString(KEY_EVENT_LOGO_PATH, eventLogoPath);
                 editor2.commit();
+
 
                 SponsorAdapter sponsorAdapter = new SponsorAdapter(getActivity(), sponsorList, filePath);
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
@@ -639,7 +642,11 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
                     event_desc.setText(StringEscapeUtils.unescapeJava(response.body().getEventList().get(0).getEventLocation() + "\n\n" + response.body().getEventList().get(0).getEventDescription()));
                     // event_desc.setText(response.body().getEventList().get(0).getEventDescription());
-                    String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + response.body().getEventList().get(0).getLogo();
+                    SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    String logoImg = prefs1.getString("logoImg", "");
+                    String eventLogoPath = prefs1.getString(KEY_EVENT_LOGO_PATH, "");
+
+                    String image_final_url = /*ApiConstant.imgURL + "uploads/app_logo/"*/eventLogoPath + response.body().getEventList().get(0).getLogo();
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
                     Glide.with(getContext()).load(image_final_url)
@@ -825,7 +832,12 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                             String eventDescription = eventDBList.get(0).getEventDescription();
                             event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
                             // event_desc.setText(eventDescription);
-                            String image_final_url = ApiConstant.imgURL + "uploads/app_logo/" + eventDBList.get(0).getLogo();
+
+                            SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                            String logoImg = prefs1.getString("logoImg", "");
+                            String eventLogoPath = prefs1.getString(KEY_EVENT_LOGO_PATH, "");
+
+                            String image_final_url = /*ApiConstant.imgURL + "uploads/app_logo/"*/eventLogoPath + eventDBList.get(0).getLogo();
 
 //                Glide.with(getApplicationContext()).load(image_final_url).into(logoIv).onLoadStarted(getDrawable(R.drawable.logo));
                             Glide.with(getContext()).load(image_final_url)
