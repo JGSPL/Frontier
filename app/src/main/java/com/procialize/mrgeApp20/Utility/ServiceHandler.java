@@ -168,8 +168,8 @@ public class ServiceHandler {
             OkHttpClient client = null;
             try {
 
-                URL url = new URL(baseURL);
-                SSLSocketFactory NoSSLv3Factory = new NoSSLv3SocketFactory(url);
+               // URL url = new URL(baseURL);
+              //  SSLSocketFactory NoSSLv3Factory = new NoSSLv3SocketFactory(url);
 
 //				client = new OkHttpClient.Builder()
 //						.connectTimeout(10, TimeUnit.SECONDS)
