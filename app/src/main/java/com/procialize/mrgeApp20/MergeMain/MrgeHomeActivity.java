@@ -86,6 +86,7 @@ import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.DialogLivePoll.DialogLivePoll;
 import com.procialize.mrgeApp20.DialogQuiz.DialogQuiz;
+import com.procialize.mrgeApp20.DialogQuiz.DialogQuizREsult;
 import com.procialize.mrgeApp20.Downloads.DownloadsFragment;
 import com.procialize.mrgeApp20.Engagement.Fragment.EngagementFragment;
 import com.procialize.mrgeApp20.Fragments.AgendaFolderFragment;
@@ -98,7 +99,12 @@ import com.procialize.mrgeApp20.GetterSetter.EventMenuSettingList;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.FetchAgenda;
 import com.procialize.mrgeApp20.GetterSetter.FetchFeed;
+import com.procialize.mrgeApp20.GetterSetter.LivePollFetch;
+import com.procialize.mrgeApp20.GetterSetter.LivePollList;
 import com.procialize.mrgeApp20.GetterSetter.ProfileSave;
+import com.procialize.mrgeApp20.GetterSetter.Quiz;
+import com.procialize.mrgeApp20.GetterSetter.QuizFolder;
+import com.procialize.mrgeApp20.GetterSetter.QuizOptionList;
 import com.procialize.mrgeApp20.GetterSetter.YouTubeApiList;
 import com.procialize.mrgeApp20.InnerDrawerActivity.EventInfoActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
@@ -112,16 +118,23 @@ import com.procialize.mrgeApp20.MrgeInnerFragment.QnADirectFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.QnASessionFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.QnASpeakerFragment;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
+import com.procialize.mrgeApp20.Parser.QuizFolderParser;
+import com.procialize.mrgeApp20.Parser.QuizParser;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Speaker.Views.SpeakerFragment;
 import com.procialize.mrgeApp20.Utility.KeyboardUtility;
 import com.procialize.mrgeApp20.Utility.PlayerConfig;
 import com.procialize.mrgeApp20.Utility.Res;
+import com.procialize.mrgeApp20.Utility.ServiceHandler;
 import com.procialize.mrgeApp20.Utility.Util;
 import com.procialize.mrgeApp20.Zoom.ui.InitAuthSDKActivity;
 import com.procialize.mrgeApp20.util.GetUserActivityReport;
 import com.squareup.picasso.Picasso;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -282,7 +295,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
     Context contextnoti;
     private Handler mHandler;
-
+    List<LivePollList> pollLists;
 
     @Override
     public Resources getResources() {
@@ -356,9 +369,167 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         } catch (Exception e) {
             e.printStackTrace();
         }*/
-
+        if(MrgeHomeActivity.spot_poll.equalsIgnoreCase("spot_poll"))
+        {
+            fetchPoll(token, eventid);
+        }if(MrgeHomeActivity.spot_quiz.equalsIgnoreCase("spot_quiz"))
+        {
+            new getQuizList().execute();
+        }
 
     }
+
+    //-----------------------------------Live Poll-----------------------------------
+    public void fetchPoll(String token, String eventid) {
+        //showProgress();
+        mAPIService.SpotLivePollFetch(token, eventid).enqueue(new Callback<LivePollFetch>() {
+            @Override
+            public void onResponse(Call<LivePollFetch> call, Response<LivePollFetch> response) {
+
+                if (response.isSuccessful()) {
+                    Log.i("hit", "post submitted to API." + response.body().toString());
+
+                    showResponseSpotLivePoll(response);
+                } else {
+
+                    Toast.makeText(MrgeHomeActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LivePollFetch> call, Throwable t) {
+                Toast.makeText(MrgeHomeActivity.this, "Low network or no network", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showResponseSpotLivePoll(Response<LivePollFetch> response) {
+        pollLists = response.body().getLivePollList();
+        if (response.body().getLivePollOptionList().size() != 0) {
+            //empty.setVisibility(View.GONE);
+            for (int i = 0; i < pollLists.size(); i++) {
+                String replied = pollLists.get(i).getReplied();
+
+                if(replied.equalsIgnoreCase("0"))
+                {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Update the value background thread to UI thread
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.d("service end", "service end");
+                                    if (spot_poll != null) {
+                                        if (spot_poll.equalsIgnoreCase("spot_poll")) {
+                                            DialogLivePoll dialogLivePoll = new DialogLivePoll();
+                                            dialogLivePoll.welcomeLivePollDialog(MrgeHomeActivity.this);
+                                            spot_poll = "S";
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }).start();
+                }
+                return;
+            }
+        }
+    }
+    //--------------------------------------------------------------------------------
+    //----------------------------------Live Quiz---------------------------------
+    private class getQuizList extends AsyncTask<Void, Void, Void> {
+        private QuizFolderParser quizFolderParser;
+        private ArrayList<QuizFolder> quizFolders = new ArrayList<QuizFolder>();
+        String status = "";
+        String message = "";
+        String jsonStrLiveQuiz="";
+        private ArrayList<Quiz> quizList = new ArrayList<Quiz>();
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Dismiss the progress dialog
+
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            // Creating service handler class instance
+            ServiceHandler sh = new ServiceHandler();
+
+            List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
+
+            nameValuePair.add(new BasicNameValuePair("api_access_token",
+                    accesstoken));
+
+
+            nameValuePair.add(new BasicNameValuePair("event_id",
+                    eventid));
+            // Making a request to url and getting response
+            jsonStrLiveQuiz = sh.makeServiceCall(ApiConstant.baseUrl + ApiConstant.Spotquizlist,
+                    ServiceHandler.POST, nameValuePair);
+            if (jsonStrLiveQuiz != null) {
+                try {
+                    JSONObject jsonResult = new JSONObject(jsonStrLiveQuiz);
+                    status = jsonResult.getString("status");
+                    message = jsonResult.getString("msg");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (status.equalsIgnoreCase("success")) {
+                quizFolderParser = new QuizFolderParser();
+                quizFolders = quizFolderParser.QuizFolder_Parser2(jsonStrLiveQuiz);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (quizFolders.size() > 0) {
+                String quiz = quizFolders.get(0).getFolder_id();
+                String Foldername = quizFolders.get(0).getFolder_name();
+                if (quiz != null) {
+                    if (quiz != null && !quiz.equalsIgnoreCase("null")) {
+                        if (jsonStrLiveQuiz != null) {
+                            QuizParser quizParser = new QuizParser();
+                            quizList = new ArrayList<>();
+                            quizList = quizParser.Quiz_Parser2(jsonStrLiveQuiz, quiz);
+                            if ( quizList.size() > 0) {
+                                if (quizList.get(0).getReplied().equals("1")) {
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            //Update the value background thread to UI thread
+                                            mHandler.post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Log.d("service end", "service end");
+                                                    if (spot_quiz != null) {
+                                                        if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
+                                                            DialogQuiz dialogquiz = new DialogQuiz();
+                                                            dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this);
+                                                            spot_quiz = "S";
+
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }).start();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    //--------------------------------------------------------
 
     private void initializeView() {
 

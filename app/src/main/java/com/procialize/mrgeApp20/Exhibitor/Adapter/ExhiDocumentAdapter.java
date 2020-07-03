@@ -1,4 +1,4 @@
-package com.procialize.mrgeApp20.Adapter;
+package com.procialize.mrgeApp20.Exhibitor.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;

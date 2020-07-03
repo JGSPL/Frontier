@@ -183,17 +183,30 @@
 
         </LinearLayout>
 
-
+        <RelativeLayout
+            android:id="@+id/rl_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center">
         <ImageView
             android:id="@+id/gifiv"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_margin="@dimen/elevation"
-            android:visibility="gone"
+            android:visibility="visible"
             android:contentDescription="TODO"
             android:paddingLeft="5dp" />
 
+            <ProgressBar
+                android:id="@+id/progressViewImage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/loader"
+                android:visibility="visible" />
+
+        </RelativeLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

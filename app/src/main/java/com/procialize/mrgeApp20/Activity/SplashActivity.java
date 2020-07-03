@@ -23,6 +23,10 @@ public class SplashActivity extends AppCompatActivity {
         //  overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
+        if (getIntent().getExtras() != null) {
+
+        }
+
       //  Crashlytics.getInstance().crash();
 
         new Handler().postDelayed(new Runnable() {

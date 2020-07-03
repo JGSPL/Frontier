@@ -369,25 +369,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
        }
        else
         {
+           /* if (messageType.equalsIgnoreCase("spot_poll")) {
+                MrgeHomeActivity.spot_poll = "spot_poll";
+            }
+
+            if (messageType.equalsIgnoreCase("spot_quiz")) {
+
+                MrgeHomeActivity.spot_quiz = "spot_quiz";
+            }*/
             Intent notificationIntent = new Intent(getApplicationContext(),
                     SplashActivity.class);
             notificationIntent.putExtra("fromNotification", "fromNotification");
-            notificationIntent.putExtra("type", "");
+            notificationIntent.putExtra("type", messageType);
             notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                     | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             contentIntent = PendingIntent.getActivity(
                     getApplicationContext(), new Random().nextInt(),
                     notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
-     /*  Intent notificationIntent = new Intent(getApplicationContext(),
-                SplashActivity.class);
-        notificationIntent.putExtra("fromNotification", "fromNotification");
-        notificationIntent.putExtra("type", "");
-        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        contentIntent = PendingIntent.getActivity(
-                getApplicationContext(), new Random().nextInt(),
-                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);*/
+
 
         Uri alarmSound = RingtoneManager
                 .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

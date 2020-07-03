@@ -33,7 +33,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.procialize.mrgeApp20.Adapter.ExhibitorNotificationAdapter;
+import com.procialize.mrgeApp20.Exhibitor.Adapter.ExhibitorNotificationAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;

@@ -53,7 +53,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.tabs.TabLayout;
-import com.procialize.mrgeApp20.Adapter.ExhibitorEditDocumentAdapter;
+import com.procialize.mrgeApp20.Exhibitor.Adapter.ExhibitorEditDocumentAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;

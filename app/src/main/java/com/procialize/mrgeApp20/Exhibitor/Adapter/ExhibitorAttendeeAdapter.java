@@ -1,4 +1,4 @@
-package com.procialize.mrgeApp20.Adapter;
+package com.procialize.mrgeApp20.Exhibitor.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,7 +24,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.GetterSetter.EventSettingList;
 import com.procialize.mrgeApp20.GetterSetter.ExhibitorAttendeeList;
 import com.procialize.mrgeApp20.R;

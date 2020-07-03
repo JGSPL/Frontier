@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.procialize.mrgeApp20.Activity.ExhibitorDetailActivity;
 import com.procialize.mrgeApp20.Activity.LoginActivity;
-import com.procialize.mrgeApp20.Adapter.ExhibitorAdapter;
+import com.procialize.mrgeApp20.Exhibitor.Adapter.ExhibitorAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.BuildConfig;

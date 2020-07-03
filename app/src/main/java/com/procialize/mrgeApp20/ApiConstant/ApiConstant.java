@@ -29,7 +29,6 @@ public class ApiConstant {
 
 
     //imag&Video prod
-    // public static String imgURL = "https://www.procialize.live/stage/mrge/";
     public static String imgURL = webUrl;//"https://www.procialize.live/stage/baseapp/";
 
 

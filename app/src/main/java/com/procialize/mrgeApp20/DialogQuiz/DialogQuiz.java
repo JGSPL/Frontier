@@ -171,7 +171,6 @@ public class DialogQuiz implements View.OnClickListener {
        // Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
         Quizcard.setAlpha(0.9f);
 
-
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,7 +181,6 @@ public class DialogQuiz implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 new getQuizList().execute();
-
             }
         });
 
@@ -302,7 +300,6 @@ public class DialogQuiz implements View.OnClickListener {
 
         Detaildialog.show();
     }
-
 
     private class getQuizList extends AsyncTask<Void, Void, Void> {
 
@@ -720,6 +717,7 @@ public class DialogQuiz implements View.OnClickListener {
             }
         }
     }
+
     private class postQuizQuestion extends AsyncTask<Void, Void, Void> {
 
         String error = "";
@@ -822,6 +820,5 @@ public class DialogQuiz implements View.OnClickListener {
 
         }
     }
-
 
 }

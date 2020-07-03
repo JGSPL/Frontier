@@ -198,7 +198,7 @@ View rootView;
             msg_txt.setVisibility(View.GONE);
             videoLists = response.body().getVideoList();
             folderLists = response.body().getVideoFolderList();
-           String folderVideoUrlPath = response.body().getFolder_video_url_path();
+            String folderVideoUrlPath = response.body().getFolder_video_url_path();
 
             SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
             SharedPreferences.Editor edit = prefs.edit();
@@ -232,7 +232,8 @@ View rootView;
                 }
 
                 for (int i = 0; i < response.body().getVideoList().size(); i++) {
-                    if (response.body().getVideoList().get(i).getFolderName() == null || response.body().getVideoList().get(i).getFolderName().equalsIgnoreCase("null")) {
+                    if (response.body().getVideoList().get(i).getFolderName() == null ||
+                            response.body().getVideoList().get(i).getFolderName().equalsIgnoreCase("null")) {
                         FirstLevelFilter firstLevelFilter = new FirstLevelFilter();
 
                         firstLevelFilter.setTitle(response.body().getVideoList().get(i).getTitle());

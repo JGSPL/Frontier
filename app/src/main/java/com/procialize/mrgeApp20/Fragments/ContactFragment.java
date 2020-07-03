@@ -20,7 +20,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.Activity.ExhibitorDetailActivity;
 import com.procialize.mrgeApp20.Activity.LoginActivity;
-import com.procialize.mrgeApp20.Adapter.ExhibitorAttendeeAdapter;
+import com.procialize.mrgeApp20.Exhibitor.Adapter.ExhibitorAttendeeAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;

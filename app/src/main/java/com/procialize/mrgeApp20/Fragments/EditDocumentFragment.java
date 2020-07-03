@@ -54,7 +54,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.procialize.mrgeApp20.Activity.ExhibitorDetailActivity;
-import com.procialize.mrgeApp20.Adapter.ExhibitorEditDocumentAdapter;
+import com.procialize.mrgeApp20.Exhibitor.Adapter.ExhibitorEditDocumentAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.BuildConfig;

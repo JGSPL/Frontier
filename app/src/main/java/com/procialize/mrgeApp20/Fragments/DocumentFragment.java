@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.procialize.mrgeApp20.Activity.DocumentDetailActivity;
 import com.procialize.mrgeApp20.Activity.ExhibitorDetailActivity;
 import com.procialize.mrgeApp20.Activity.LoginActivity;
-import com.procialize.mrgeApp20.Adapter.ExhiDocumentAdapter;
+import com.procialize.mrgeApp20.Exhibitor.Adapter.ExhiDocumentAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
