@@ -1828,5 +1828,4 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         }
     }
 
-
 }

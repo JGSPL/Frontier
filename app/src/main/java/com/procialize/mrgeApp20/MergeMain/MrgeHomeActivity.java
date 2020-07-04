@@ -371,12 +371,22 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         }*/
         if(MrgeHomeActivity.spot_poll.equalsIgnoreCase("spot_poll"))
         {
-            fetchPoll(token, eventid);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //Update the value background thread to UI thread
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            fetchPoll(token, eventid);
+                        }
+                    });
+                }
+            }).start();
         }if(MrgeHomeActivity.spot_quiz.equalsIgnoreCase("spot_quiz"))
         {
             new getQuizList().execute();
         }
-
     }
 
     //-----------------------------------Live Poll-----------------------------------
@@ -909,9 +919,9 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         eula = navigationView.findViewById(R.id.eula);
 
         if (ApiConstant.baseUrl.contains("stage")) {
-            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(12)");
+            txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(13)");
         } else {
-            txt_version.setText("Version : " + BuildConfig.VERSION_NAME+ "(12)");
+            txt_version.setText("Version : " + BuildConfig.VERSION_NAME+ "(13)");
         }
 
 
