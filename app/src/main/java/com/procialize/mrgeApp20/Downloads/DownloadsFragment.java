@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.Downloads;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -45,6 +46,7 @@ import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.GetterSetter.DocumentList;
 import com.procialize.mrgeApp20.GetterSetter.DocumentsListFetch;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
+import com.procialize.mrgeApp20.MrgeInnerFragment.EventInfoFragment;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.util.GetUserActivityReport;
@@ -81,6 +83,17 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
     List<DocumentList> documentsList = new ArrayList<>();
     private APIService mAPIService;
     String listType="";
+
+    public static Activity activity;
+
+    public DownloadsFragment(Activity activity) {
+        this.activity=activity;
+    }
+
+    public static DownloadsFragment newInstance() {
+        DownloadsFragment fragment = new DownloadsFragment(activity);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -300,5 +313,11 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
                 }
                 break;
         }
+    }
+
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
     }
 }

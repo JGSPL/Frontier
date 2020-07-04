@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.MrgeInnerFragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -73,8 +74,15 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
     LinearLayout linear;
      String token;
 
-    public LivePollListFragment() {
-        // Required empty public constructor
+    public static Activity activity;
+
+    public LivePollListFragment(Activity activity) {
+        this.activity=activity;
+    }
+
+    public static LivePollListFragment newInstance() {
+        LivePollListFragment fragment = new LivePollListFragment(activity);
+        return fragment;
     }
 
 
@@ -276,5 +284,9 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
         }
     }
 
+    public void onBackpressed() {
 
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
+    }
 }

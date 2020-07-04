@@ -1,6 +1,7 @@
 package com.procialize.mrgeApp20.Gallery.Video.Activity;
 
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,6 +45,7 @@ import com.procialize.mrgeApp20.GetterSetter.VideoFolderList;
 import com.procialize.mrgeApp20.GetterSetter.VideoList;
 import com.procialize.mrgeApp20.InnerDrawerActivity.ExoVideoActivity;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
+import com.procialize.mrgeApp20.MrgeInnerFragment.EventInfoFragment;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -79,6 +81,17 @@ public class VideoFragment extends Fragment implements VideoAdapter.VideoAdapter
     RelativeLayout linear;
     TextView msg_txt,pullrefresh;
 View rootView;
+
+    public static Activity activity;
+
+    public VideoFragment(Activity activity) {
+        this.activity=activity;
+    }
+
+    public static VideoFragment newInstance() {
+        VideoFragment fragment = new VideoFragment(activity);
+        return fragment;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -391,5 +404,11 @@ View rootView;
 
         JzvdStd.releaseAllVideos();
 
+    }
+
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.MrgeInnerFragment;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -88,6 +89,16 @@ public class FolderQuizFragment extends Fragment {
     SwipeRefreshLayout quizrefresher;
     TextView empty, pullrefresh;
     LinearLayout linear;
+    public static Activity activity;
+
+    public FolderQuizFragment(Activity activity) {
+        this.activity=activity;
+    }
+
+    public static FolderQuizFragment newInstance() {
+        FolderQuizFragment fragment = new FolderQuizFragment(activity);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -353,6 +364,12 @@ public class FolderQuizFragment extends Fragment {
             }
 
         }
+    }
+
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
     }
 
 

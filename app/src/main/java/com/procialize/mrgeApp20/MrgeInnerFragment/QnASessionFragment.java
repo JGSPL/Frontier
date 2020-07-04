@@ -1,7 +1,9 @@
 package com.procialize.mrgeApp20.MrgeInnerFragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -92,8 +94,15 @@ public class QnASessionFragment extends Fragment implements QAAttendeeAdapter.QA
     LinearLayout linear;
     TextView txt_header;
 
-    public QnASessionFragment() {
-        // Required empty public constructor
+    public static Activity activity;
+
+    public QnASessionFragment(Activity activity) {
+        this.activity=activity;
+    }
+
+    public static QnASessionFragment newInstance() {
+        QnASessionFragment fragment = new QnASessionFragment(activity);
+        return fragment;
     }
 
 
@@ -619,6 +628,12 @@ public class QnASessionFragment extends Fragment implements QAAttendeeAdapter.QA
 
         JzvdStd.releaseAllVideos();
 
+    }
+
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
     }
 }
 
