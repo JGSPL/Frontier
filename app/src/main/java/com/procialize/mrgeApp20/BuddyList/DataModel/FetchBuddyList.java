@@ -16,6 +16,18 @@ public class FetchBuddyList {
     @Expose
     private String profile_pic_url_path;
 
+    public String getBuddy_accept_terms() {
+        return buddy_accept_terms;
+    }
+
+    public void setBuddy_accept_terms(String buddy_accept_terms) {
+        this.buddy_accept_terms = buddy_accept_terms;
+    }
+
+    @SerializedName("buddy_accept_terms")
+    @Expose
+    private String buddy_accept_terms;
+
     public String getProfile_pic_url_path() {
         return profile_pic_url_path;
     }

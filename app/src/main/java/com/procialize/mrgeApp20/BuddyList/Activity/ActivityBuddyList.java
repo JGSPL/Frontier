@@ -94,13 +94,13 @@ public class ActivityBuddyList extends AppCompatActivity implements BuddyListAda
     private DBHelper procializeDB;
     private SQLiteDatabase db;
     private List<Buddy> buddyDBList;
-
+    String is_tc_accepted = "0";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buddy_list);
 
-        openDisclaimerDialog();
+
         ll_empty_view = findViewById(R.id.ll_empty_view);
         initView();
     }
@@ -339,6 +339,11 @@ public class ActivityBuddyList extends AppCompatActivity implements BuddyListAda
             ll_empty_view.setVisibility(View.GONE);
             attendeerecycler.setVisibility(View.VISIBLE);
 
+            is_tc_accepted = response.body().getBuddy_accept_terms();
+
+            if(is_tc_accepted.equalsIgnoreCase("0"))
+            { openDisclaimerDialog();}
+
             dbHelper.clearBuddyTable();
             dbHelper.insertBuddyInfo(response.body().getBuddyList(), db);
 
@@ -350,6 +355,8 @@ public class ActivityBuddyList extends AppCompatActivity implements BuddyListAda
             attendeeAdapter = new BuddyListAdapter(ActivityBuddyList.this, response.body().getBuddyList(), this);
             attendeeAdapter.notifyDataSetChanged();
             attendeerecycler.setAdapter(attendeeAdapter);
+
+
             //}
         } else {
 
