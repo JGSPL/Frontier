@@ -151,6 +151,7 @@ public class QuizFolderAdapter extends BaseAdapter {
             holder.textViewTime.setVisibility(View.VISIBLE);
             holder.video_status.setText("Completed");
 
+            holder.textViewTime.setTextColor(Color.parseColor(colorActive));
             holder.textViewTime.setText(Integer.parseInt(quizList.get(position).getTotal_correct())+"/"+
                     Integer.parseInt(quizList.get(position).getTotal_quiz()));
 
