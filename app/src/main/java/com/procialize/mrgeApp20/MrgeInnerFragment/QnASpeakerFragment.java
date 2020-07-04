@@ -1,7 +1,9 @@
 package com.procialize.mrgeApp20.MrgeInnerFragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -98,8 +100,15 @@ public class QnASpeakerFragment extends Fragment implements QASpeakerAdapter.QAS
     LinearLayout linear;
     ConnectionDetector cd;
 
-    public QnASpeakerFragment() {
-        // Required empty public constructor
+    public static Activity activity;
+
+    public QnASpeakerFragment(Activity activity) {
+        this.activity=activity;
+    }
+
+    public static QnASpeakerFragment newInstance() {
+        QnASpeakerFragment fragment = new QnASpeakerFragment(activity);
+        return fragment;
     }
 
 
@@ -593,6 +602,12 @@ public class QnASpeakerFragment extends Fragment implements QASpeakerAdapter.QAS
 
         JzvdStd.releaseAllVideos();
 
+    }
+
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
     }
    
 }

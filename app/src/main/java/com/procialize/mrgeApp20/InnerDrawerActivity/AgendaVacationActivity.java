@@ -1,12 +1,13 @@
 package com.procialize.mrgeApp20.InnerDrawerActivity;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.procialize.mrgeApp20.Fragments.AgendaFolderFragment;
 import com.procialize.mrgeApp20.R;
@@ -46,7 +47,7 @@ public class AgendaVacationActivity extends AppCompatActivity {
                 finish();
             }
         });
-        Fragment fragment = new AgendaFolderFragment();
+        Fragment fragment = new AgendaFolderFragment(AgendaVacationActivity.this);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.myFrame, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
 

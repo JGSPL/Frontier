@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.MrgeInnerFragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -111,6 +112,19 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     SharedPreferences.Editor editor2;
     TextView event_venue;
     View view_venue;
+
+    public static Activity activity;
+
+    public EventInfoFragment(Activity activity) {
+        this.activity=activity;
+    }
+
+    public static EventInfoFragment newInstance() {
+        EventInfoFragment fragment = new EventInfoFragment(activity);
+        return fragment;
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -405,7 +419,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
                             if(eventDBList.get(0).getEventDescription()!=null) {
 
-                               // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                                // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
                                 event_desc.setText(eventDBList.get(0).getEventDescription());
                                 event_desc.setVisibility(View.VISIBLE);
                             }else{
@@ -677,13 +691,13 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                     if(response.body().getEventList().get(0).getEventDescription()!=null) {
                         try{
 
-                        // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
-                        event_desc.setText(StringEscapeUtils.unescapeJava(response.body().getEventList().get(0).getEventDescription()));
-                        event_desc.setVisibility(View.VISIBLE);
-                    } catch (IllegalArgumentException e) {
-                        e.printStackTrace();
+                            // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                            event_desc.setText(StringEscapeUtils.unescapeJava(response.body().getEventList().get(0).getEventDescription()));
+                            event_desc.setVisibility(View.VISIBLE);
+                        } catch (IllegalArgumentException e) {
+                            e.printStackTrace();
 
-                    }
+                        }
                     }else{
                         view_venue.setVisibility(View.GONE);
 
@@ -879,7 +893,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                             }
 
                             String eventDescription = eventDBList.get(0).getEventDescription();
-                           // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                            // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
                             if (eventDBList.get(0).getEventLocation() != null) {
 
                                 event_venue.setText(eventDBList.get(0).getEventLocation());
@@ -1048,6 +1062,12 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
             }, 500);
 
         }
+    }
+
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
     }
 
 }

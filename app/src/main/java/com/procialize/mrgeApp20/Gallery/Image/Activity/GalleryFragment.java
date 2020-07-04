@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.Gallery.Image.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -40,6 +41,7 @@ import com.procialize.mrgeApp20.GetterSetter.GalleryList;
 import com.procialize.mrgeApp20.GetterSetter.GalleryListFetch;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SwappingGalleryActivity;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
+import com.procialize.mrgeApp20.MrgeInnerFragment.EventInfoFragment;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -75,6 +77,17 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
     TextView msg_txt, pullrefresh;
     View rootView;
     private APIService mAPIService;
+
+    public static Activity activity;
+
+    public GalleryFragment(Activity activity) {
+        this.activity=activity;
+    }
+
+    public static GalleryFragment newInstance() {
+        GalleryFragment fragment = new GalleryFragment(activity);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -325,8 +338,12 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
     @Override
     public void onPause() {
         super.onPause();
-
         JzvdStd.releaseAllVideos();
+    }
 
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
     }
 }

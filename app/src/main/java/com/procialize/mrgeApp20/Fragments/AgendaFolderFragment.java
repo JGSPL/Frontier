@@ -1,7 +1,9 @@
 package com.procialize.mrgeApp20.Fragments;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
@@ -117,6 +119,19 @@ public class AgendaFolderFragment extends Fragment implements SwipeAgendaImageAd
     SwipeRefreshLayout swipe_refresh;
     LinearLayout linear;
 
+
+    public static Activity activity;
+
+    public AgendaFolderFragment(Activity activity) {
+        // Required empty public constructor
+        this.activity=activity;
+    }
+
+    // TODO: Rename and change types and number of parameters
+    public static AgendaFolderFragment newInstance() {
+        AgendaFolderFragment fragment = new AgendaFolderFragment(activity);
+        return fragment;
+    }
     private static View createTabView(final Context context, final String text, final String text1) {
         View view = LayoutInflater.from(context).inflate(R.layout.agenda_tabs_bg, null);
 
@@ -889,5 +904,11 @@ public class AgendaFolderFragment extends Fragment implements SwipeAgendaImageAd
 //        else
 //            agendaTabHost.getTabWidget().getChildAt(agendaTabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#FFFFFF")); //2nd tab selected
 //    }
+
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
+    }
 
 }

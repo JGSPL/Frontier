@@ -1,26 +1,15 @@
 package com.procialize.mrgeApp20.Fragments;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -36,6 +25,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.Activity.LoginActivity;
 import com.procialize.mrgeApp20.Adapter.AttendeeAdapter;
@@ -43,9 +38,7 @@ import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.AttendeeChat.AttendeeChatActivity;
-import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
-import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
@@ -54,11 +47,7 @@ import com.procialize.mrgeApp20.GetterSetter.FetchAttendee;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
-import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -116,26 +105,17 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
     SpotChatReciever spotChatReciever;
     IntentFilter spotChatFilter;
     Boolean isVisible = false;
+    public static Activity activity;
 
-    public AttendeeFragment() {
-        // Required empty public constructor
+    public AttendeeFragment(Activity activity) {
+        this.activity=activity;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AttendeeFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
-    public static AttendeeFragment newInstance(String param1, String param2) {
-        AttendeeFragment fragment = new AttendeeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+    public static AttendeeFragment newInstance() {
+        AttendeeFragment fragment = new AttendeeFragment(activity);
+
         return fragment;
     }
 
@@ -499,5 +479,12 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
+    }
+
 
 }
