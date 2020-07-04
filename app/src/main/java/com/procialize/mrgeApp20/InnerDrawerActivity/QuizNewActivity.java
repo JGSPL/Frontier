@@ -100,7 +100,7 @@ public class QuizNewActivity extends AppCompatActivity implements View.OnClickLi
     LinearLayoutManager recyclerLayoutManager;
     String MY_PREFS_NAME = "ProcializeInfo";
     ViewPager pager;
-    TextView questionTv, txt_count;
+    TextView questionTv, txt_count,QuizHeader;
     Button btnNext;
     RelativeLayout relative;
 
@@ -162,16 +162,17 @@ public class QuizNewActivity extends AppCompatActivity implements View.OnClickLi
         btnNext = (Button) findViewById(R.id.btnNext);
         submit.setOnClickListener(this);
         txt_count = (TextView) findViewById(R.id.txt_count);
+        QuizHeader = (TextView) findViewById(R.id.QuizHeader);
 //        txt_count.setVisibility(View.GONE);
         quizNameList = (RecyclerView) findViewById(R.id.quiz_list);
         btnNext = (Button) findViewById(R.id.btnNext);
         relative = (RelativeLayout) findViewById(R.id.relative);
         recyclerLayoutManager = new LinearLayoutManager(this);
         quizNameList.setLayoutManager(recyclerLayoutManager);
-        //questionTv.setBackgroundColor(Color.parseColor(colorActive));
         submit.setBackgroundColor(Color.parseColor(colorActive));
         btnNext.setBackgroundColor(Color.parseColor(colorActive));
-       // txt_count.setTextColor(Color.parseColor(colorActive));
+        txt_count.setTextColor(Color.parseColor(colorActive));
+        QuizHeader.setTextColor(Color.parseColor(colorActive));
 //		quizNameList.setItemViewCacheSize(0);
         quizNameList.setAnimationCacheEnabled(true);
         quizNameList.setDrawingCacheEnabled(true);

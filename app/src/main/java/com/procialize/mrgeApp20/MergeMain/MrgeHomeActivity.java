@@ -169,7 +169,6 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     public static int flag = 0;
     public static String spot_poll = "S";
     public static String spot_quiz = "SQ";
-
     public static ImageView headerlogoIv, notificationlogoIv, grid_image_view, list_image_view;
     public static TextView txtMainHeader;
     public static LinearLayout linear_livestream, linear_zoom, linear_layout, linear_changeView;
@@ -182,6 +181,13 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     public static IntentFilter notificationCountFilter;
     public static LinearLayout ll_notification_count_drawer;
     public static TextView tv_notification_drawer;
+    public static String zoom_meeting_id = "", zoom_password, zoom_status, zoom_time;//,youtube_stream_url,  stream_status, stream_time
+    public static LinearLayout linChange, linzoom, linStream;
+    public static ImageView img_view;
+    public static TextView txt_change;
+    public static List<YouTubeApiList> youTubeApiLists = new ArrayList<>();
+    int x;
+    int y;
     //RecyclerView menurecycler;
     SessionManager session;
     List<EventSettingList> eventSettingLists;
@@ -192,14 +198,13 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             side_menu_feedback = "0", side_menu_gallery_video = "0", gallery_video_native = "0", gallery_video_youtube = "0",
             side_menu_image_gallery = "0", selfie_contest = "0", video_contest = "0",
             side_menu_event_info = "0", side_menu_document = "0", side_menu_engagement = "0",
-             QA_speaker = "0", QA_direct = "0", QA_session = "0", side_menu_attendee = "0", side_menu_speaker = "0", side_menu_agenda = "0",
+            QA_speaker = "0", QA_direct = "0", QA_session = "0", side_menu_attendee = "0", side_menu_speaker = "0", side_menu_agenda = "0",
             side_menu_general_info = "0", edit_profile_company = "0", edit_profile_designation = "0",
             side_menu_contact = "0", side_menu_email = "0", side_menu_leaderboard = "0", side_menu_exhibitor = "0",
             side_menu_sponsor = "0";
     String news_feed = "0", edit_profile = "0", general_ifo = "0", main_tab_exhibitor = "0";
-
     String news_feed_post = "0", news_feed_images = "0", news_feed_video = "0", news_feed_comment = "0",
-            news_feed_like="0", news_feed_share="0", news_feed_gif="0";
+            news_feed_like = "0", news_feed_share = "0", news_feed_gif = "0";
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
     String MY_EVENT = "EventId";
@@ -218,11 +223,9 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     IntentFilter mFilter;
     IntentFilter spotLivePollFilter;
     IntentFilter spotQuizFilter;
-
     String catcnt;
     LinearLayout linTab4, linTab3, linTab2;
-    public static String zoom_meeting_id = "", zoom_password, zoom_status, zoom_time;//,youtube_stream_url,  stream_status, stream_time
-     ImageView float_icon;
+    ImageView float_icon;
     String YouvideoId;
     YouTubePlayerTracker mTracker = null;
     YouTubePlayer youTubePlayer;
@@ -231,11 +234,9 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     ViewPagerAdapterSub viewPagerAdapterSub3;
     ViewPagerAdapterSub viewPagerAdapterSub2;
     ViewPagerAdapterSub viewPagerAdapterSub4;
-    public static LinearLayout linChange, linzoom, linStream;
-    public static ImageView img_view;
-    public static TextView txt_change;
-    public static List<YouTubeApiList> youTubeApiLists = new ArrayList<>();
     int youTubeLinkPosition = -1;
+    Context contextnoti;
+    List<LivePollList> pollLists;
     private String event_details = "0", attendee = "0", attendee_designation = "0", attendee_company = "0",
             attendee_location = "0", attendee_mobile = "0", attendee_save_contact = "0", speaker = "0",
             speaker_rating = "0", speaker_designation = "0", speaker_company = "0", speaker_location = "0",
@@ -247,11 +248,11 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             QnA_reply_question = "0", QnA_direct_question = "0", engagement_selfie_contest = "0",
             engagement_video_contest = "0", quiz = "0", live_poll = "0", engagement = "0";
     private String folder = "0", image_gallery = "0", document_download = "0", video_gallery = "0";
-    private String live_streaming= "0", youtube = "0",zoom = "0";
+    private String live_streaming = "0", youtube = "0", zoom = "0";
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private CustomViewPager viewPager;
-    private CustomViewPager  Subviewpager, Subviewpager2, Subviewpager3;
+    private CustomViewPager Subviewpager, Subviewpager2, Subviewpager3;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private APIService mAPIService;
@@ -292,10 +293,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     private DBHelper dbHelper;
     private YouTubePlayerSupportFragment youTubePlayerFragment;
     private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
-    Context contextnoti;
     private Handler mHandler;
-    List<LivePollList> pollLists;
-    private int color;
+
 
     @Override
     public Resources getResources() {
@@ -310,7 +309,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merge_home);
 
-      // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
         if (CheckingPermissionIsEnabledOrNot()) {
@@ -369,8 +368,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         } catch (Exception e) {
             e.printStackTrace();
         }*/
-        if(MrgeHomeActivity.spot_poll.equalsIgnoreCase("spot_poll"))
-        {
+        if (MrgeHomeActivity.spot_poll.equalsIgnoreCase("spot_poll")) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -383,8 +381,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     });
                 }
             }).start();
-        }if(MrgeHomeActivity.spot_quiz.equalsIgnoreCase("spot_quiz"))
-        {
+        }
+        if (MrgeHomeActivity.spot_quiz.equalsIgnoreCase("spot_quiz")) {
             new getQuizList().execute();
         }
     }
@@ -420,8 +418,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             for (int i = 0; i < pollLists.size(); i++) {
                 String replied = pollLists.get(i).getReplied();
 
-                if(replied.equalsIgnoreCase("0"))
-                {
+                if (replied.equalsIgnoreCase("0")) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -446,100 +443,6 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             }
         }
     }
-    //--------------------------------------------------------------------------------
-    //----------------------------------Live Quiz---------------------------------
-    private class getQuizList extends AsyncTask<Void, Void, Void> {
-        private QuizFolderParser quizFolderParser;
-        private ArrayList<QuizFolder> quizFolders = new ArrayList<QuizFolder>();
-        String status = "";
-        String message = "";
-        String jsonStrLiveQuiz="";
-        private ArrayList<Quiz> quizList = new ArrayList<Quiz>();
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Dismiss the progress dialog
-
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            // Creating service handler class instance
-            ServiceHandler sh = new ServiceHandler();
-
-            List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
-
-            nameValuePair.add(new BasicNameValuePair("api_access_token",
-                    accesstoken));
-
-
-            nameValuePair.add(new BasicNameValuePair("event_id",
-                    eventid));
-            // Making a request to url and getting response
-            jsonStrLiveQuiz = sh.makeServiceCall(ApiConstant.baseUrl + ApiConstant.Spotquizlist,
-                    ServiceHandler.POST, nameValuePair);
-            if (jsonStrLiveQuiz != null) {
-                try {
-                    JSONObject jsonResult = new JSONObject(jsonStrLiveQuiz);
-                    status = jsonResult.getString("status");
-                    message = jsonResult.getString("msg");
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (status.equalsIgnoreCase("success")) {
-                quizFolderParser = new QuizFolderParser();
-                quizFolders = quizFolderParser.QuizFolder_Parser2(jsonStrLiveQuiz);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            if (quizFolders.size() > 0) {
-                String quiz = quizFolders.get(0).getFolder_id();
-                String Foldername = quizFolders.get(0).getFolder_name();
-                if (quiz != null) {
-                    if (quiz != null && !quiz.equalsIgnoreCase("null")) {
-                        if (jsonStrLiveQuiz != null) {
-                            QuizParser quizParser = new QuizParser();
-                            quizList = new ArrayList<>();
-                            quizList = quizParser.Quiz_Parser2(jsonStrLiveQuiz, quiz);
-                            if ( quizList.size() > 0) {
-                                if (quizList.get(0).getReplied().equals("1")) {
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            //Update the value background thread to UI thread
-                                            mHandler.post(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    Log.d("service end", "service end");
-                                                    if (spot_quiz != null) {
-                                                        if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
-                                                            DialogQuiz dialogquiz = new DialogQuiz();
-                                                            dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this);
-                                                            spot_quiz = "S";
-
-                                                        }
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }).start();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    //--------------------------------------------------------
 
     private void initializeView() {
 
@@ -551,7 +454,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
         // token
         token = user1.get(SessionManager.KEY_TOKEN);
-        mHandler= new Handler();
+        mHandler = new Handler();
         firbaseAnalytics();
 
         exhibitorid = user.get(SessionManager.EXHIBITOR_ID);
@@ -595,7 +498,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                 /*if(youTubeLinkPosition <= youTubeApiLists.size()) {
                     initializeYoutubePlayer(youTubeLinkPosition);
                 }*/
-                if(youTubeApiLists.size()>0) {
+                if (youTubeApiLists.size() > 0) {
                     FlyingVideo.get(MrgeHomeActivity.this).close();
                     linear_layout.setVisibility(View.VISIBLE);
                     linear_livestream.setVisibility(View.GONE);
@@ -607,7 +510,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         linear_changeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(youTubeApiLists.size()>0) {
+                if (youTubeApiLists.size() > 0) {
                     if (youTubeLinkPosition < youTubeApiLists.size() - 1) {
                         youTubeLinkPosition = youTubeLinkPosition + 1;
                         initializeYoutubePlayer(youTubeLinkPosition);
@@ -674,8 +577,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
         imgname = "background";//url.substring(58, 60);
         SharedPreferences prefs2 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        String profilePic = prefs2.getString(KEY_EVENT_PROFILE_PATH,"");
-        String eventLogo = prefs2.getString(KEY_EVENT_LIST_LOGO_PATH,"");
+        String profilePic = prefs2.getString(KEY_EVENT_PROFILE_PATH, "");
+        String eventLogo = prefs2.getString(KEY_EVENT_LIST_LOGO_PATH, "");
         PicassoTrustAll.getInstance(MrgeHomeActivity.this)
                 .load(/*ApiConstant.eventpic*/eventLogo + eventback)
                 .into(new com.squareup.picasso.Target() {
@@ -751,6 +654,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         }*/
 
     }
+    //--------------------------------------------------------
 
     private void afterSettingView() {
         toolbar = findViewById(R.id.toolbar);
@@ -809,7 +713,6 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         Sub4setupViewPager(Subviewpager3);
 
 
-
         if (flag == 0) {
             viewPager.setCurrentItem(0);
         } else if (flag == 1) {
@@ -865,9 +768,15 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             //Subviewpager2.setBackgroundDrawable(bd);
             //Subviewpager3.setBackgroundDrawable(bd);
             drawerLayout.setBackgroundDrawable(bd);
-
-
-            Log.e("PATH", String.valueOf(mypath));
+           /* int[] location = new int[2];
+            toolbar.getLocationOnScreen(location);
+            x = location[0];
+            y = location[1];
+            int bgColor = getDominantColor(bitmap);
+            int iconColor = getComplementaryColor(bgColor);
+            String hexColor = String.format("#%06X", (0xFFFFFF & iconColor));
+            String hexColor1 = hexColor;
+            notificationlogoIv.setColorFilter(Color.parseColor(hexColor));*/
         } catch (Exception e) {
             e.printStackTrace();
             viewPager.setBackgroundColor(Color.parseColor("#f1f1f1"));
@@ -898,7 +807,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) navigationView.getLayoutParams();
         params.width = metrics.widthPixels;
         navigationView.setLayoutParams(params);
-       // menurecycler = navigationView.findViewById(R.id.menurecycler);
+        // menurecycler = navigationView.findViewById(R.id.menurecycler);
         logout = navigationView.findViewById(R.id.logout);
         home = navigationView.findViewById(R.id.home);
         editProfile = navigationView.findViewById(R.id.editProfile);
@@ -921,7 +830,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         if (ApiConstant.baseUrl.contains("stage")) {
             txt_version.setText("Stage Version : " + BuildConfig.VERSION_NAME + "(13)");
         } else {
-            txt_version.setText("Version : " + BuildConfig.VERSION_NAME+ "(13)");
+            txt_version.setText("Version : " + BuildConfig.VERSION_NAME + "(13)");
         }
 
 
@@ -1586,7 +1495,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
         if (profilepic != null) {
             SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            String profilePicPath  = prefs.getString(KEY_PROFILE_PIC_PATH,"");
+            String profilePicPath = prefs.getString(KEY_PROFILE_PIC_PATH, "");
             Glide.with(this).load(profilePicPath/*ApiConstant.profilepic*/ + profilepic).circleCrop()
                     .listener(new RequestListener<Drawable>() {
                         @Override
@@ -1798,12 +1707,11 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     side_menu_document = eventSettingLists.get(i).getFieldValue();
                 } /*else if (eventSettingLists.get(i).getFieldName().equals("news_feed_video")) {
                     news_feed_video = eventSettingLists.get(i).getFieldValue();
-                }*/
-                else if (eventSettingLists.get(i).getFieldName().equals("live_streaming")) {
+                }*/ else if (eventSettingLists.get(i).getFieldName().equals("live_streaming")) {
                     live_streaming = eventSettingLists.get(i).getFieldValue();
-                    if(live_streaming.equalsIgnoreCase("1")){
+                    if (live_streaming.equalsIgnoreCase("1")) {
                         linear_livestream.setVisibility(View.VISIBLE);
-                    }else{
+                    } else {
                         linear_livestream.setVisibility(View.GONE);
 
                     }
@@ -1819,22 +1727,20 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             }
                         }
                     }
-                    if(youtube.equalsIgnoreCase("1")){
+                    if (youtube.equalsIgnoreCase("1")) {
                         linear_changeView.setVisibility(View.VISIBLE);
-                    }else{
+                    } else {
                         linear_changeView.setVisibility(View.GONE);
 
                     }
-                    if(zoom.equalsIgnoreCase("1")){
+                    if (zoom.equalsIgnoreCase("1")) {
                         linear_zoom.setVisibility(View.VISIBLE);
-                    }else{
+                    } else {
                         linear_zoom.setVisibility(View.GONE);
 
                     }
 
-                }
-
-                else if (eventSettingLists.get(i).getFieldName().equals("news_feed")) {
+                } else if (eventSettingLists.get(i).getFieldName().equals("news_feed")) {
                     news_feed = eventSettingLists.get(i).getFieldValue();
                     if (eventSettingLists.get(i).getSub_menuList() != null) {
                         if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
@@ -2040,7 +1946,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         afterSettingView();
     }
 
-    @Override
+   @Override
     public void onBackPressed() {
         if (Jzvd.backPress()) {
             return;
@@ -2157,6 +2063,16 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
             }
         }
+    }
+
+    public boolean CheckingPermissionIsEnabledOrNot() {
+
+        int ForthPermissionResult = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
+        int FifthPermissionResult = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
+
+        return
+                ForthPermissionResult == PackageManager.PERMISSION_GRANTED &&
+                        FifthPermissionResult == PackageManager.PERMISSION_GRANTED;
     }
 
    /* @Override
@@ -2285,16 +2201,6 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
 
     }*/
-
-    public boolean CheckingPermissionIsEnabledOrNot() {
-
-        int ForthPermissionResult = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
-        int FifthPermissionResult = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
-
-        return
-                ForthPermissionResult == PackageManager.PERMISSION_GRANTED &&
-                        FifthPermissionResult == PackageManager.PERMISSION_GRANTED;
-    }
 
     private void RequestMultiplePermission() {
 
@@ -2457,12 +2363,12 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
                     SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
                     SharedPreferences.Editor edit = prefs.edit();
-                    edit.putString(KEY_PROFILE_PIC_PATH,profilePicPath);
-                    edit.putString("buddy_tc_accepted",response.body().getUserData().getBuddy_accept_terms());
+                    edit.putString(KEY_PROFILE_PIC_PATH, profilePicPath);
+                    edit.putString("buddy_tc_accepted", response.body().getUserData().getBuddy_accept_terms());
                     edit.commit();
                     SessionManager sessionManager = new SessionManager(MrgeHomeActivity.this);
                     if (sessionManager != null) {
-                        sessionManager.createProfileSession(id,name, company, designation, pic, lastname, city, description, country, email, mobno, attendee_status, exhibitor_id, exhibitor_status);
+                        sessionManager.createProfileSession(id, name, company, designation, pic, lastname, city, description, country, email, mobno, attendee_status, exhibitor_id, exhibitor_status);
                     }
 
                 } catch (Exception e) {
@@ -2537,7 +2443,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             img_view.startAnimation(anim);
                             //-----------------------------------
                         }
-                    }else {
+                    } else {
                         linChange.setBackgroundColor(Color.parseColor("#686868"));
                         img_view.setBackgroundColor(Color.parseColor("#686868"));
                         txt_change.setBackgroundColor(Color.parseColor("#686868"));
@@ -2748,6 +2654,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             if (pageTitle.equalsIgnoreCase("DOWNLOADS")) {
                                 grid_image_view.setVisibility(View.VISIBLE);
                                 list_image_view.setVisibility(View.VISIBLE);
+
                             } else {
                                 grid_image_view.setVisibility(View.INVISIBLE);
                                 list_image_view.setVisibility(View.INVISIBLE);
@@ -3004,9 +2911,9 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
                             //linear_livestream.setVisibility(View.VISIBLE);
-                            if(live_streaming.equalsIgnoreCase("1")){
+                            if (live_streaming.equalsIgnoreCase("1")) {
                                 linear_livestream.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 linear_livestream.setVisibility(View.GONE);
 
                             }
@@ -3023,10 +2930,10 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                           // linear_livestream.setVisibility(View.VISIBLE);
-                            if(live_streaming.equalsIgnoreCase("1")){
+                            // linear_livestream.setVisibility(View.VISIBLE);
+                            if (live_streaming.equalsIgnoreCase("1")) {
                                 linear_livestream.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 linear_livestream.setVisibility(View.GONE);
 
                             }
@@ -3129,10 +3036,10 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                          //  linear_livestream.setVisibility(View.VISIBLE);
-                            if(live_streaming.equalsIgnoreCase("1")){
+                            //  linear_livestream.setVisibility(View.VISIBLE);
+                            if (live_streaming.equalsIgnoreCase("1")) {
                                 linear_livestream.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 linear_livestream.setVisibility(View.GONE);
 
                             }
@@ -3240,10 +3147,10 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                          //  linear_livestream.setVisibility(View.VISIBLE);
-                            if(live_streaming.equalsIgnoreCase("1")){
+                            //  linear_livestream.setVisibility(View.VISIBLE);
+                            if (live_streaming.equalsIgnoreCase("1")) {
                                 linear_livestream.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 linear_livestream.setVisibility(View.GONE);
 
                             }
@@ -3344,10 +3251,10 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                           // linear_livestream.setVisibility(View.VISIBLE);
-                            if(live_streaming.equalsIgnoreCase("1")){
+                            // linear_livestream.setVisibility(View.VISIBLE);
+                            if (live_streaming.equalsIgnoreCase("1")) {
                                 linear_livestream.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 linear_livestream.setVisibility(View.GONE);
 
                             }
@@ -3458,10 +3365,10 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                          //  linear_livestream.setVisibility(View.VISIBLE);
-                            if(live_streaming.equalsIgnoreCase("1")){
+                            //  linear_livestream.setVisibility(View.VISIBLE);
+                            if (live_streaming.equalsIgnoreCase("1")) {
                                 linear_livestream.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 linear_livestream.setVisibility(View.GONE);
 
                             }
@@ -3562,9 +3469,9 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
                             //linear_livestream.setVisibility(View.VISIBLE);
-                            if(live_streaming.equalsIgnoreCase("1")){
+                            if (live_streaming.equalsIgnoreCase("1")) {
                                 linear_livestream.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 linear_livestream.setVisibility(View.GONE);
 
                             }
@@ -3669,10 +3576,10 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Subviewpager2.setVisibility(View.GONE);
                             Subviewpager3.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
-                          //  linear_livestream.setVisibility(View.VISIBLE);
-                            if(live_streaming.equalsIgnoreCase("1")){
+                            //  linear_livestream.setVisibility(View.VISIBLE);
+                            if (live_streaming.equalsIgnoreCase("1")) {
                                 linear_livestream.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 linear_livestream.setVisibility(View.GONE);
 
                             }
@@ -4590,16 +4497,6 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         return true;
     }
 
-/*
-    private void showQuizDialouge() {
-        myDialog = new Dialog(MrgeHomeActivity.this);
-        myDialog.setContentView(R.layout.dialog_rate_layout);
-        myDialog.setCancelable(false);
-        myDialog.show();
-    }
-*/
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -4610,10 +4507,202 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         procializeDB.close();
         dbHelper.close();
 
-       // finishAffinity();
+        // finishAffinity();
     }
 
+/*
+    private void showQuizDialouge() {
+        myDialog = new Dialog(MrgeHomeActivity.this);
+        myDialog.setContentView(R.layout.dialog_rate_layout);
+        myDialog.setCancelable(false);
+        myDialog.show();
+    }
+*/
 
+    public void callAttendeeFragment() {
+        //------------------------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(MrgeHomeActivity.this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "9",
+                "");
+        getUserActivityReport.userActivityReport();
+        //---------------------------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
+    }
+
+    public void callEventInfoFragment() {
+        //------------------------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(MrgeHomeActivity.this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "48",
+                "");
+        getUserActivityReport.userActivityReport();
+        //---------------------------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
+    }
+
+    public void callSpeakerFragment() {
+        //------------------------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "12",
+                "");
+        getUserActivityReport.userActivityReport();
+        //---------------------------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
+    }
+
+    public void callScheduleFragment() {
+        //------------------------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "14",
+                "");
+        getUserActivityReport.userActivityReport();
+        //---------------------------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
+    }
+
+    public void callEmergencyFragment() {
+        //------------------------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "16",
+                "");
+        getUserActivityReport.userActivityReport();
+        //---------------------------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
+    }
+
+    public void callGalleryFragment() {
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "17",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
+        grid_image_view.setVisibility(View.INVISIBLE);
+        list_image_view.setVisibility(View.INVISIBLE);
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
+    }
+
+    public void callVideoFragment() {
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "20",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
+        grid_image_view.setVisibility(View.INVISIBLE);
+        list_image_view.setVisibility(View.INVISIBLE);
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
+    }
+
+    public void callDownloadsFragment() {
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "23",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
+        grid_image_view.setVisibility(View.VISIBLE);
+        list_image_view.setVisibility(View.VISIBLE);
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
+    }
+
+    public void callQuizFolderFragment() {
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "25",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
+    }
+
+    public void callLivePollFragment() {
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "28",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
+    }
+
+    public void callQnAFragment() {
+        if (QnA_session.equalsIgnoreCase("1")) {
+            //--------------------------------------------------------------------------------------
+            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                    eventid,
+                    ApiConstant.pageVisited,
+                    "32",
+                    "");
+            getUserActivityReport.userActivityReport();
+            //--------------------------------------------------------------------------------------
+        } else if (QnA_speaker.equalsIgnoreCase("1")) {
+            //--------------------------------------------------------------------------------------
+            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                    eventid,
+                    ApiConstant.pageVisited,
+                    "31",
+                    "");
+            getUserActivityReport.userActivityReport();
+            //--------------------------------------------------------------------------------------
+        } else {
+            //--------------------------------------------------------------------------------------
+            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                    eventid,
+                    ApiConstant.pageVisited,
+                    "30",
+                    "");
+            getUserActivityReport.userActivityReport();
+            //--------------------------------------------------------------------------------------
+        }
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
+    }
+
+    public void callEngagementFragment() {
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                eventid,
+                ApiConstant.pageVisited,
+                "30",
+                "");
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
+        Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
+    }
+
+    public int getDominantColor(Bitmap bitmap) {
+        Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, 30, 30, true);
+        final int color = newBitmap.getPixel(x, y);
+        newBitmap.recycle();
+        return color;
+    }
+
+    public int getComplementaryColor(int colorToInvert) {
+        float[] hsv = new float[3];
+        Color.RGBToHSV(Color.red(colorToInvert), Color.green(colorToInvert),
+                Color.blue(colorToInvert), hsv);
+        hsv[0] = (hsv[0] + 180) % 360;
+        return Color.HSVToColor(hsv);
+    }
 
     public static class NotificationCountReciever extends BroadcastReceiver {
         @Override
@@ -4625,13 +4714,13 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             tv_notification.setVisibility(View.VISIBLE);
             ll_notification_count.setVisibility(View.VISIBLE);
             tv_notification.setText(notificationCount);*/
-           try {
-               new getNotiCount().execute(context);
+            try {
+                new getNotiCount().execute(context);
 
-               //setNotification(context, tv_notification, ll_notification_count);
+                //setNotification(context, tv_notification, ll_notification_count);
 
-           }catch (Exception e)
-           {}
+            } catch (Exception e) {
+            }
 
 
             try {
@@ -4671,6 +4760,112 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         }
     }
 
+    private static class NoPageTransformer implements ViewPager.PageTransformer {
+        public void transformPage(View view, float position) {
+            if (position < 0) {
+                view.setScrollX((int) ((float) (view.getWidth()) * position));
+            } else if (position > 0) {
+                view.setScrollX(-(int) ((float) (view.getWidth()) * -position));
+            } else {
+                view.setScrollX(0);
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------
+    //----------------------------------Live Quiz---------------------------------
+    private class getQuizList extends AsyncTask<Void, Void, Void> {
+        String status = "";
+        String message = "";
+        String jsonStrLiveQuiz = "";
+        private QuizFolderParser quizFolderParser;
+        private ArrayList<QuizFolder> quizFolders = new ArrayList<QuizFolder>();
+        private ArrayList<Quiz> quizList = new ArrayList<Quiz>();
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Dismiss the progress dialog
+
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            // Creating service handler class instance
+            ServiceHandler sh = new ServiceHandler();
+
+            List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
+
+            nameValuePair.add(new BasicNameValuePair("api_access_token",
+                    accesstoken));
+
+
+            nameValuePair.add(new BasicNameValuePair("event_id",
+                    eventid));
+            // Making a request to url and getting response
+            jsonStrLiveQuiz = sh.makeServiceCall(ApiConstant.baseUrl + ApiConstant.Spotquizlist,
+                    ServiceHandler.POST, nameValuePair);
+            if (jsonStrLiveQuiz != null) {
+                try {
+                    JSONObject jsonResult = new JSONObject(jsonStrLiveQuiz);
+                    status = jsonResult.getString("status");
+                    message = jsonResult.getString("msg");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (status.equalsIgnoreCase("success")) {
+                quizFolderParser = new QuizFolderParser();
+                quizFolders = quizFolderParser.QuizFolder_Parser2(jsonStrLiveQuiz);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (quizFolders.size() > 0) {
+                String quiz = quizFolders.get(0).getFolder_id();
+                String Foldername = quizFolders.get(0).getFolder_name();
+                if (quiz != null) {
+                    if (quiz != null && !quiz.equalsIgnoreCase("null")) {
+                        if (jsonStrLiveQuiz != null) {
+                            QuizParser quizParser = new QuizParser();
+                            quizList = new ArrayList<>();
+                            quizList = quizParser.Quiz_Parser2(jsonStrLiveQuiz, quiz);
+                            if (quizList.size() > 0) {
+                                if (quizList.get(0).getReplied().equals("1")) {
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            //Update the value background thread to UI thread
+                                            mHandler.post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Log.d("service end", "service end");
+                                                    if (spot_quiz != null) {
+                                                        if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
+                                                            DialogQuiz dialogquiz = new DialogQuiz();
+                                                            dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this);
+                                                            spot_quiz = "S";
+
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }).start();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     class ViewPagerAdapterSub extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -4807,185 +5002,4 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         }
     }
 
-    public void callAttendeeFragment() {
-        //------------------------------------------------------------------------------------------------------
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(MrgeHomeActivity.this, token,
-                eventid,
-                ApiConstant.pageVisited,
-                "9",
-                "");
-        getUserActivityReport.userActivityReport();
-        //---------------------------------------------------------------------------------------------------------
-        Util.logomethodwithText(MrgeHomeActivity.this, true, "Attendees", txtMainHeader, headerlogoIv);
-    }
-
-    public void callEventInfoFragment() {
-        //------------------------------------------------------------------------------------------------------
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(MrgeHomeActivity.this, token,
-                eventid,
-                ApiConstant.pageVisited,
-                "48",
-                "");
-        getUserActivityReport.userActivityReport();
-        //---------------------------------------------------------------------------------------------------------
-        Util.logomethodwithText(MrgeHomeActivity.this, true, "Event Info", txtMainHeader, headerlogoIv);
-    }
-
-    public void callSpeakerFragment() {
-        //------------------------------------------------------------------------------------------------------
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
-                eventid,
-                ApiConstant.pageVisited,
-                "12",
-                "");
-        getUserActivityReport.userActivityReport();
-        //---------------------------------------------------------------------------------------------------------
-        Util.logomethodwithText(MrgeHomeActivity.this, true, "Speakers", txtMainHeader, headerlogoIv);
-    }
-
-    public void callScheduleFragment() {
-        //------------------------------------------------------------------------------------------------------
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
-                eventid,
-                ApiConstant.pageVisited,
-                "14",
-                "");
-        getUserActivityReport.userActivityReport();
-        //---------------------------------------------------------------------------------------------------------
-        Util.logomethodwithText(MrgeHomeActivity.this, true, "Schedule", txtMainHeader, headerlogoIv);
-    }
-
-    public void callEmergencyFragment() {
-        //------------------------------------------------------------------------------------------------------
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
-                eventid,
-                ApiConstant.pageVisited,
-                "16",
-                "");
-        getUserActivityReport.userActivityReport();
-        //---------------------------------------------------------------------------------------------------------
-        Util.logomethodwithText(MrgeHomeActivity.this, true, "Emergency Contact", txtMainHeader, headerlogoIv);
-    }
-
-    public void callGalleryFragment() {
-        //--------------------------------------------------------------------------------------
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
-                eventid,
-                ApiConstant.pageVisited,
-                "17",
-                "");
-        getUserActivityReport.userActivityReport();
-        //--------------------------------------------------------------------------------------
-        grid_image_view.setVisibility(View.INVISIBLE);
-        list_image_view.setVisibility(View.INVISIBLE);
-        Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
-    }
-
-    public void callVideoFragment() {
-        //--------------------------------------------------------------------------------------
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
-                eventid,
-                ApiConstant.pageVisited,
-                "20",
-                "");
-        getUserActivityReport.userActivityReport();
-        //--------------------------------------------------------------------------------------
-    grid_image_view.setVisibility(View.INVISIBLE);
-    list_image_view.setVisibility(View.INVISIBLE);
-    Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
-    }
-
-    public void callDownloadsFragment() {
-        //--------------------------------------------------------------------------------------
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
-                eventid,
-                ApiConstant.pageVisited,
-                "23",
-                "");
-        getUserActivityReport.userActivityReport();
-        //--------------------------------------------------------------------------------------
-        grid_image_view.setVisibility(View.VISIBLE);
-        list_image_view.setVisibility(View.VISIBLE);
-        Util.logomethodwithText(MrgeHomeActivity.this, true, "Downloads", txtMainHeader, headerlogoIv);
-    }
-
-    public void callQuizFolderFragment() {
-        //--------------------------------------------------------------------------------------
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
-                eventid,
-                ApiConstant.pageVisited,
-                "25",
-                "");
-        getUserActivityReport.userActivityReport();
-        //--------------------------------------------------------------------------------------
-        Util.logomethodwithText(MrgeHomeActivity.this, true, "Quiz", txtMainHeader, headerlogoIv);
-    }
-
-    public void callLivePollFragment() {
-        //--------------------------------------------------------------------------------------
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
-                eventid,
-                ApiConstant.pageVisited,
-                "28",
-                "");
-        getUserActivityReport.userActivityReport();
-        //--------------------------------------------------------------------------------------
-        Util.logomethodwithText(MrgeHomeActivity.this, true, "Live Poll", txtMainHeader, headerlogoIv);
-    }
-
-    public void callQnAFragment() {
-        if (QnA_session.equalsIgnoreCase("1")) {
-            //--------------------------------------------------------------------------------------
-            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
-                    eventid,
-                    ApiConstant.pageVisited,
-                    "32",
-                    "");
-            getUserActivityReport.userActivityReport();
-            //--------------------------------------------------------------------------------------
-        } else if (QnA_speaker.equalsIgnoreCase("1")) {
-            //--------------------------------------------------------------------------------------
-            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
-                    eventid,
-                    ApiConstant.pageVisited,
-                    "31",
-                    "");
-            getUserActivityReport.userActivityReport();
-            //--------------------------------------------------------------------------------------
-        } else {
-            //--------------------------------------------------------------------------------------
-            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
-                    eventid,
-                    ApiConstant.pageVisited,
-                    "30",
-                    "");
-            getUserActivityReport.userActivityReport();
-            //--------------------------------------------------------------------------------------
-        }
-        Util.logomethodwithText(MrgeHomeActivity.this, true, "Q&A", txtMainHeader, headerlogoIv);
-    }
-
-    public void callEngagementFragment() {
-        //--------------------------------------------------------------------------------------
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
-                eventid,
-                ApiConstant.pageVisited,
-                "30",
-                "");
-        getUserActivityReport.userActivityReport();
-        //--------------------------------------------------------------------------------------
-        Util.logomethodwithText(MrgeHomeActivity.this, true, "Engagement", txtMainHeader, headerlogoIv);
-    }
-
-    private static class NoPageTransformer implements ViewPager.PageTransformer {
-        public void transformPage(View view, float position) {
-            if (position < 0) {
-                view.setScrollX((int)((float)(view.getWidth()) * position));
-            } else if (position > 0) {
-                view.setScrollX(-(int) ((float) (view.getWidth()) * -position));
-            } else {
-                view.setScrollX(0);
-            }
-        }
-    }
 }

@@ -190,6 +190,8 @@ public class EventInfoActivity extends AppCompatActivity implements OnMapReadyCa
         cityTv = findViewById(R.id.cityTv);
         rv_sponsors = findViewById(R.id.rv_sponsors);
         linShare = findViewById(R.id.linShare);
+
+        linShare.setBackgroundColor(Color.parseColor(colorActive));
         linShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

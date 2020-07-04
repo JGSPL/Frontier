@@ -103,6 +103,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
         MrgeHomeActivity.grid_image_view.setImageDrawable(getResources().getDrawable(R.drawable.active_grid_view));
         MrgeHomeActivity.list_image_view.setImageDrawable(getResources().getDrawable(R.drawable.inactive_list_view));
 
+
         initView(rootView);
         return rootView;
     }
@@ -119,6 +120,8 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
         eventid = prefs.getString("eventid", "1");
         logoImg = prefs.getString("logoImg", "");
         colorActive = prefs.getString("colorActive", "");
+
+        MrgeHomeActivity.grid_image_view.setColorFilter(Color.parseColor(colorActive));
 
         docRv = rootView.findViewById(R.id.docRv);
 
@@ -215,6 +218,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
                  if(listType.equalsIgnoreCase("grid") || listType.equalsIgnoreCase("")) {
                      MrgeHomeActivity.grid_image_view.setImageDrawable(getResources().getDrawable(R.drawable.active_grid_view));
                      MrgeHomeActivity.list_image_view.setImageDrawable(getResources().getDrawable(R.drawable.inactive_list_view));
+                     MrgeHomeActivity.grid_image_view.setColorFilter(Color.parseColor(colorActive));
                      DocumentsGridAdapter docAdapterGrid = new DocumentsGridAdapter(getActivity(), documentsList, this);
                      docRv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
                      docAdapterGrid.notifyDataSetChanged();
@@ -226,6 +230,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
                  {
                      MrgeHomeActivity.grid_image_view.setImageDrawable(getResources().getDrawable(R.drawable.inactive_grid_view));
                      MrgeHomeActivity.list_image_view.setImageDrawable(getResources().getDrawable(R.drawable.active_list_view));
+                     MrgeHomeActivity.list_image_view.setColorFilter(Color.parseColor(colorActive));
                      DocumentsListAdapter docAdapter = new DocumentsListAdapter(getActivity(), documentsList, this);
                      LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
                      docRv.setLayoutManager(mLayoutManager);
@@ -289,6 +294,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
                 if(documentsList.size() > 0) {
                     listType = "grid";
                     MrgeHomeActivity.grid_image_view.setImageDrawable(getResources().getDrawable(R.drawable.active_grid_view));
+                    MrgeHomeActivity.grid_image_view.setColorFilter(Color.parseColor(colorActive));
                     MrgeHomeActivity.list_image_view.setImageDrawable(getResources().getDrawable(R.drawable.inactive_list_view));
                     DocumentsGridAdapter docAdapterGrid = new DocumentsGridAdapter(getActivity(), documentsList, this);
                     docRv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -303,6 +309,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
                     listType = "list";
                     MrgeHomeActivity.grid_image_view.setImageDrawable(getResources().getDrawable(R.drawable.inactive_grid_view));
                     MrgeHomeActivity.list_image_view.setImageDrawable(getResources().getDrawable(R.drawable.active_list_view));
+                    MrgeHomeActivity.list_image_view.setColorFilter(Color.parseColor(colorActive));
                     DocumentsListAdapter docAdapter = new DocumentsListAdapter(getActivity(), documentsList, this);
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
                     docRv.setLayoutManager(mLayoutManager);

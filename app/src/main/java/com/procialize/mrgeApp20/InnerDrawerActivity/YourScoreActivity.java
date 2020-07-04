@@ -36,7 +36,7 @@ import java.util.HashMap;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 
 public class YourScoreActivity extends AppCompatActivity {
-    TextView txt_count, questionTv, viewResult;
+    TextView txt_count, questionTv, viewResult,QuizHeader;
     Button txt_title;
     Button btn_ok;
     String MY_PREFS_NAME = "ProcializeInfo";
@@ -79,6 +79,7 @@ public class YourScoreActivity extends AppCompatActivity {
 
 
         txt_count = findViewById(R.id.txt_count);
+        QuizHeader = findViewById(R.id.QuizHeader);
         questionTv = findViewById(R.id.questionTv);
         btn_ok = findViewById(R.id.btn_ok);
         linear = findViewById(R.id.linear);
@@ -90,6 +91,7 @@ public class YourScoreActivity extends AppCompatActivity {
         Util.logomethod(this, headerlogoIv);
         btn_ok.setBackgroundColor(Color.parseColor(colorActive));
         txt_count.setTextColor(Color.parseColor(colorActive));
+        QuizHeader.setTextColor(Color.parseColor(colorActive));
         progressBarCircle = findViewById(R.id.progressBarCircle);
 
         viewResult.setTextColor(Color.parseColor(colorActive));

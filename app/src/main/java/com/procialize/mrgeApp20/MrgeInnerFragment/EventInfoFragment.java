@@ -172,6 +172,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
         rv_sponsors = view2.findViewById(R.id.rv_sponsors);
         linShare = view2.findViewById(R.id.linShare);
+        linShare.setBackgroundColor(Color.parseColor(colorActive));
         linShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

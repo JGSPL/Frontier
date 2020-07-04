@@ -102,7 +102,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
     public static String foldername = "null",strTimer="0";
     public static Button submit, btnNext;
     ImageView headerlogoIv;
-    TextView questionTv, txt_time,txtSkip;
+    TextView questionTv, txt_time,txtSkip,txtHeaderQ;
     public static TextView txt_count;
     CustomViewPager pager;
     //    QuizPagerAdapter pagerAdapter;
@@ -191,7 +191,9 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         btnNext = (Button) findViewById(R.id.btnNext);
         txt_time = (TextView) findViewById(R.id.txt_time);
         txtSkip = (TextView) findViewById(R.id.txtSkip);
+        txtHeaderQ = (TextView) findViewById(R.id.txtHeaderQ);
         txtSkip.setOnClickListener(this);
+        txtSkip.setTextColor(Color.parseColor(colorActive));
         progressBarCircle = (ProgressBar) findViewById(R.id.progressBarCircle);
         textViewTime = (TextView) findViewById(R.id.textViewTime);
 
@@ -206,6 +208,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         quizNameList.setLayoutFrozen(true);
         btnNext.setBackgroundColor(Color.parseColor(colorActive));
         submit.setBackgroundColor(Color.parseColor(colorActive));
+        txtHeaderQ.setTextColor(Color.parseColor(colorActive));
 
         try {
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
