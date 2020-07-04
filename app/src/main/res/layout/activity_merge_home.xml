@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
+
             android:background="@android:color/transparent"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:elevation="0dp">
@@ -27,11 +28,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:weightSum="10"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
+                    app:navigationIcon="@drawable/menuicon"
                     android:layout_height="?attr/actionBarSize"
                     android:background="@android:color/transparent">
 
@@ -39,25 +42,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
+                        android:weightSum="10"
                         android:orientation="horizontal">
 
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
                             android:orientation="horizontal"
-                            android:layout_weight="1">
+                            android:layout_weight="7.5">
                         <com.procialize.mrgeApp20.Fonts.RobotoTextview
                             android:id="@+id/txtMainHeader"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="7.5"
                             android:gravity="left"
                             android:padding="@dimen/padding"
                             android:text=""
                             android:textColor="@color/activetab"
                             android:textSize="@dimen/textsizenormal"
-                            android:visibility="visible" />
+                            android:visibility="gone" />
 
 
                         <ImageView
@@ -65,36 +71,42 @@
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="-10dp"
-                            android:layout_weight="1"
+                            android:layout_weight="7.5"
                             android:contentDescription=" " />
                     </LinearLayout>
 
-
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="2.5">
                         <ImageView
                             android:id="@+id/grid_image_view"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right|center"
                             android:layout_marginRight="5dp"
                             android:contentDescription=" "
-                            android:layout_weight="3"
+                            android:layout_weight="1"
                             android:src="@drawable/active_grid_view" />
 
                         <ImageView
                             android:id="@+id/list_image_view"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
+                            android:layout_weight="1"
                             android:layout_gravity="right|center"
                             android:layout_marginRight="5dp"
                             android:contentDescription=" "
                             android:src="@drawable/active_list_view" />
 
                         <RelativeLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="3"
+                            android:layout_weight="1"
                             android:layout_marginRight="5dp"
                             android:gravity="center"
                             android:layout_gravity="center">
@@ -127,6 +139,7 @@
                                     android:textSize="8dp" />
                             </LinearLayout>
                         </RelativeLayout>
+                    </LinearLayout>
                     </LinearLayout>
                 </androidx.appcompat.widget.Toolbar>
 

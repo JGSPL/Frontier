@@ -2611,8 +2611,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
 
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -2659,8 +2659,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                 grid_image_view.setVisibility(View.VISIBLE);
                                 list_image_view.setVisibility(View.VISIBLE);
                             } else {
-                                grid_image_view.setVisibility(View.GONE);
-                                list_image_view.setVisibility(View.GONE);
+                                grid_image_view.setVisibility(View.INVISIBLE);
+                                list_image_view.setVisibility(View.INVISIBLE);
                             }
                             String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
                             Log.e("PageTitle", pageTitle1);
@@ -2759,8 +2759,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                 grid_image_view.setVisibility(View.VISIBLE);
                                 list_image_view.setVisibility(View.VISIBLE);
                             } else {
-                                grid_image_view.setVisibility(View.GONE);
-                                list_image_view.setVisibility(View.GONE);
+                                grid_image_view.setVisibility(View.INVISIBLE);
+                                list_image_view.setVisibility(View.INVISIBLE);
                             }
                             String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
                             Log.e("PageTitle", pageTitle1);
@@ -2808,8 +2808,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     }
                 });
             } else if (i == 4) {
-                grid_image_view.setVisibility(View.GONE);
-                list_image_view.setVisibility(View.GONE);
+                grid_image_view.setVisibility(View.INVISIBLE);
+                list_image_view.setVisibility(View.INVISIBLE);
 
                 tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
                 tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
@@ -2820,8 +2820,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -2871,8 +2871,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                 grid_image_view.setVisibility(View.VISIBLE);
                                 list_image_view.setVisibility(View.VISIBLE);
                             } else {
-                                grid_image_view.setVisibility(View.GONE);
-                                list_image_view.setVisibility(View.GONE);
+                                grid_image_view.setVisibility(View.INVISIBLE);
+                                list_image_view.setVisibility(View.INVISIBLE);
                             }
 
                             String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
@@ -2996,8 +2996,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                 grid_image_view.setVisibility(View.VISIBLE);
                                 list_image_view.setVisibility(View.VISIBLE);
                             } else {
-                                grid_image_view.setVisibility(View.GONE);
-                                list_image_view.setVisibility(View.GONE);
+                                grid_image_view.setVisibility(View.INVISIBLE);
+                                list_image_view.setVisibility(View.INVISIBLE);
                             }
                             String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
                             Log.e("PageTitle", pageTitle1);
@@ -3051,8 +3051,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     }
                 });
             } else if (i == 3) {
-                grid_image_view.setVisibility(View.GONE);
-                list_image_view.setVisibility(View.GONE);
+                grid_image_view.setVisibility(View.INVISIBLE);
+                list_image_view.setVisibility(View.INVISIBLE);
 
                 tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
                 tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
@@ -3061,8 +3061,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3111,8 +3111,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                 grid_image_view.setVisibility(View.VISIBLE);
                                 list_image_view.setVisibility(View.VISIBLE);
                             } else {
-                                grid_image_view.setVisibility(View.GONE);
-                                list_image_view.setVisibility(View.GONE);
+                                grid_image_view.setVisibility(View.INVISIBLE);
+                                list_image_view.setVisibility(View.INVISIBLE);
                             }
                             String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
                             Log.e("PageTitle", pageTitle1);
@@ -3215,8 +3215,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                 grid_image_view.setVisibility(View.VISIBLE);
                                 list_image_view.setVisibility(View.VISIBLE);
                             } else {
-                                grid_image_view.setVisibility(View.GONE);
-                                list_image_view.setVisibility(View.GONE);
+                                grid_image_view.setVisibility(View.INVISIBLE);
+                                list_image_view.setVisibility(View.INVISIBLE);
                             }
                             String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
                             Log.e("PageTitle", pageTitle1);
@@ -3268,8 +3268,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 //               tabLayout.getTabAt(0).setIcon(tabIcons[0]);
 //               tabLayout.getTabAt(1).setIcon(tabIcons[1]);
 
-                grid_image_view.setVisibility(View.GONE);
-                list_image_view.setVisibility(View.GONE);
+                grid_image_view.setVisibility(View.INVISIBLE);
+                list_image_view.setVisibility(View.INVISIBLE);
 
                 tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
                 tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
@@ -3278,8 +3278,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3327,8 +3327,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                 grid_image_view.setVisibility(View.VISIBLE);
                                 list_image_view.setVisibility(View.VISIBLE);
                             } else {
-                                grid_image_view.setVisibility(View.GONE);
-                                list_image_view.setVisibility(View.GONE);
+                                grid_image_view.setVisibility(View.INVISIBLE);
+                                list_image_view.setVisibility(View.INVISIBLE);
                             }
                             String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
                             Log.e("PageTitle", pageTitle1);
@@ -3432,8 +3432,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                 grid_image_view.setVisibility(View.VISIBLE);
                                 list_image_view.setVisibility(View.VISIBLE);
                             } else {
-                                grid_image_view.setVisibility(View.GONE);
-                                list_image_view.setVisibility(View.GONE);
+                                grid_image_view.setVisibility(View.INVISIBLE);
+                                list_image_view.setVisibility(View.INVISIBLE);
                             }
                             String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
                             Log.e("PageTitle", pageTitle1);
@@ -3482,8 +3482,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     }
                 });
             } else if (i == 1) {
-                grid_image_view.setVisibility(View.GONE);
-                list_image_view.setVisibility(View.GONE);
+                grid_image_view.setVisibility(View.INVISIBLE);
+                list_image_view.setVisibility(View.INVISIBLE);
 
                 tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
 
@@ -3491,8 +3491,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
 
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3539,8 +3539,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                 grid_image_view.setVisibility(View.VISIBLE);
                                 list_image_view.setVisibility(View.VISIBLE);
                             } else {
-                                grid_image_view.setVisibility(View.GONE);
-                                list_image_view.setVisibility(View.GONE);
+                                grid_image_view.setVisibility(View.INVISIBLE);
+                                list_image_view.setVisibility(View.INVISIBLE);
                             }
                             String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
                             Log.e("PageTitle", pageTitle1);
@@ -3637,8 +3637,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                 grid_image_view.setVisibility(View.VISIBLE);
                                 list_image_view.setVisibility(View.VISIBLE);
                             } else {
-                                grid_image_view.setVisibility(View.GONE);
-                                list_image_view.setVisibility(View.GONE);
+                                grid_image_view.setVisibility(View.INVISIBLE);
+                                list_image_view.setVisibility(View.INVISIBLE);
                             }
                             String pageTitle1 = pageTitle.substring(0, 1).toUpperCase() + pageTitle.substring(1).toLowerCase();
                             Log.e("PageTitle", pageTitle1);
@@ -3705,8 +3705,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                 sub2tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3743,8 +3743,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     public void onTabReselected(TabLayout.Tab tab) {
                         sub2tabLayout.setVisibility(View.GONE);
                         linTab2.setVisibility(View.GONE);
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
                             callEventInfoFragment();
@@ -3772,8 +3772,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                 sub2tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3811,8 +3811,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
                         sub2tabLayout.setVisibility(View.GONE);
                         linTab2.setVisibility(View.GONE);
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
                             callEventInfoFragment();
@@ -3836,8 +3836,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                 sub2tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3875,8 +3875,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     public void onTabReselected(TabLayout.Tab tab) {
                         sub2tabLayout.setVisibility(View.GONE);
                         linTab2.setVisibility(View.GONE);
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
                             callEventInfoFragment();
@@ -3900,8 +3900,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                 sub2tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3940,8 +3940,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     public void onTabReselected(TabLayout.Tab tab) {
                         sub2tabLayout.setVisibility(View.GONE);
                         linTab2.setVisibility(View.GONE);
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
                             callEventInfoFragment();
@@ -3964,8 +3964,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
 
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -3997,8 +3997,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     public void onTabReselected(TabLayout.Tab tab) {
                         sub2tabLayout.setVisibility(View.GONE);
                         linTab2.setVisibility(View.GONE);
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         if (tab.getText().equals("EVENT INFO")) {
                             callEventInfoFragment();
@@ -4044,8 +4044,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                         InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         sub3tabLayout.setVisibility(View.GONE);
                         linTab3.setVisibility(View.GONE);
@@ -4064,8 +4064,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         sub3tabLayout.setVisibility(View.GONE);
                         linTab3.setVisibility(View.GONE);
@@ -4123,8 +4123,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         sub3tabLayout.setVisibility(View.GONE);
                         linTab3.setVisibility(View.GONE);
@@ -4177,8 +4177,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         sub3tabLayout.setVisibility(View.GONE);
                         linTab3.setVisibility(View.GONE);
@@ -4200,8 +4200,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
 
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -4227,8 +4227,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         sub3tabLayout.setVisibility(View.GONE);
                         linTab3.setVisibility(View.GONE);
@@ -4266,8 +4266,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                         InputMethodManager imm = (InputMethodManager) MrgeHomeActivity.this.getSystemService(INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(tabLayout.getWindowToken(), 0);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         sub4tabLayout.setVisibility(View.GONE);
                         linTab4.setVisibility(View.GONE);
@@ -4296,8 +4296,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         sub4tabLayout.setVisibility(View.GONE);
                         linTab4.setVisibility(View.GONE);
@@ -4321,8 +4321,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                 sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -4356,8 +4356,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         sub4tabLayout.setVisibility(View.GONE);
                         linTab4.setVisibility(View.GONE);
@@ -4381,8 +4381,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                 sub4tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -4425,8 +4425,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         sub4tabLayout.setVisibility(View.GONE);
                         linTab4.setVisibility(View.GONE);
@@ -4440,8 +4440,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
 
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         String string = colorActive;
                         int color = Color.parseColor(string);
@@ -4469,8 +4469,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        grid_image_view.setVisibility(View.GONE);
-                        list_image_view.setVisibility(View.GONE);
+                        grid_image_view.setVisibility(View.INVISIBLE);
+                        list_image_view.setVisibility(View.INVISIBLE);
                         JzvdStd.releaseAllVideos();
                         sub4tabLayout.setVisibility(View.GONE);
                         linTab4.setVisibility(View.GONE);
@@ -4786,8 +4786,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                 "");
         getUserActivityReport.userActivityReport();
         //--------------------------------------------------------------------------------------
-        grid_image_view.setVisibility(View.GONE);
-        list_image_view.setVisibility(View.GONE);
+        grid_image_view.setVisibility(View.INVISIBLE);
+        list_image_view.setVisibility(View.INVISIBLE);
         Util.logomethodwithText(MrgeHomeActivity.this, true, "Image", txtMainHeader, headerlogoIv);
     }
 
@@ -4800,8 +4800,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                 "");
         getUserActivityReport.userActivityReport();
         //--------------------------------------------------------------------------------------
-    grid_image_view.setVisibility(View.GONE);
-    list_image_view.setVisibility(View.GONE);
+    grid_image_view.setVisibility(View.INVISIBLE);
+    list_image_view.setVisibility(View.INVISIBLE);
     Util.logomethodwithText(MrgeHomeActivity.this, true, "Video", txtMainHeader, headerlogoIv);
     }
 
