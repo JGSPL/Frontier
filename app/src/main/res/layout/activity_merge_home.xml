@@ -90,14 +90,14 @@
                             android:layout_gravity="right|center"
                             android:layout_marginRight="5dp"
                             android:contentDescription=" "
-                            android:layout_weight="1"
+                            android:layout_weight="0.90"
                             android:src="@drawable/active_grid_view" />
 
                         <ImageView
                             android:id="@+id/list_image_view"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="0.90"
                             android:layout_gravity="right|center"
                             android:layout_marginRight="5dp"
                             android:contentDescription=" "
@@ -106,8 +106,8 @@
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:layout_marginRight="5dp"
+                            android:layout_weight="1.2"
+                            android:layout_marginRight="0dp"
                             android:gravity="center"
                             android:layout_gravity="center">
 

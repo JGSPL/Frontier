@@ -222,7 +222,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
     String catcnt;
     LinearLayout linTab4, linTab3, linTab2;
-    public static String zoom_meeting_id, zoom_password, zoom_status, zoom_time;//,youtube_stream_url,  stream_status, stream_time
+    public static String zoom_meeting_id = "", zoom_password, zoom_status, zoom_time;//,youtube_stream_url,  stream_status, stream_time
      ImageView float_icon;
     String YouvideoId;
     YouTubePlayerTracker mTracker = null;
