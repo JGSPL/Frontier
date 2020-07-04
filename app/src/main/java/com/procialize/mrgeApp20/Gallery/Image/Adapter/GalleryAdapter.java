@@ -74,7 +74,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
         } else {
             holder.tv_count.setText(String.valueOf(count) + " items");
         }
-        //holder.nameTv.setTextColor(Color.parseColor(colorActive));
+        holder.nameTv.setTextColor(Color.parseColor(colorActive));
 
         Glide.with(context).load(galleryList.getFileName())
                 .apply(RequestOptions.skipMemoryCacheOf(true))

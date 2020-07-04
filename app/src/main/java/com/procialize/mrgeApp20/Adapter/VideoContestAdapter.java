@@ -80,9 +80,9 @@ public class VideoContestAdapter extends RecyclerView.Adapter<VideoContestAdapte
             e.printStackTrace();
 
         }
-//        holder.dataTv.setTextColor(Color.parseColor(colorActive));
+        holder.dataTv.setTextColor(Color.parseColor(colorActive));
         holder.countTv.setText(galleryList.getTotalLikes());
-//        holder.countTv.setTextColor(Color.parseColor(colorActive));
+        holder.countTv.setTextColor(Color.parseColor(colorActive));
 //        holder.videoPlayerStandard.setUp(ApiConstant.selfievideo+galleryList.getFileName()
 //                , JzvdStd.SCREEN_WINDOW_LIST, "");
 

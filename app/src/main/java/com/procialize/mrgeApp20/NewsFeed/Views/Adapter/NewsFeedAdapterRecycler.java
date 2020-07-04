@@ -328,7 +328,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             }
         }
 
-        //holder.nameTv.setTextColor(Color.parseColor(colorActive));
+        holder.nameTv.setTextColor(Color.parseColor(colorActive));
         feed = feedLists.get(position);
         if (feed.getLastName() == null) {
             holder.nameTv.setText(feed.getFirstName());
