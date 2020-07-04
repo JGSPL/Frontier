@@ -275,13 +275,18 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
             String profilePic = prefs1.getString(KEY_EVENT_PROFILE_PATH,"");
             String eventLogo = prefs1.getString(KEY_EVENT_LIST_LOGO_PATH,"");
 
-
             eventAdapter = new EventAdapter(EventChooserActivity.this, response.body().getUserEventList(), this);
             eventAdapter.notifyDataSetChanged();
             eventrecycler.setAdapter(eventAdapter);
             eventrecycler.scheduleLayoutAnimation();
+            if(response.body().getUserData()!=null)
+            {
+                SharedPreferences prefs2 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor1 = prefs2.edit();
+                editor1.putString("buddy_tc_accepted",response.body().getUserData().getBuddy_accept_terms());
+                editor1.commit();
 
-
+            }
 
 
 
@@ -551,10 +556,16 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
             SessionManager.saveSharedPreferencesEventList(response.body().getEventSettingList());
             SessionManager.saveSharedPreferencesMenuEventList(response.body().getEventMenuSettingList());
 
-
             SharedPreferences prefs = getSharedPreferences(MY_PREFS_LOGIN, MODE_PRIVATE);
             String login = prefs.getString("loginfirst", "");
 
+
+            if(response.body().getUserData()!=null) {
+                SharedPreferences prefs2 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor2 = prefs2.edit();
+                editor2.putString("buddy_tc_accepted", response.body().getUserData().getBuddy_accept_terms());
+                editor2.commit();
+            }
 
             SharedPreferences.Editor editor1 = getSharedPreferences(MY_PREFS_CATEGORY, MODE_PRIVATE).edit();
             editor1.putString("categorycnt", response.body().getCategory_count()).commit();

@@ -781,6 +781,7 @@ public class ProfileActivity extends AppCompatActivity {
                     SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
                     SharedPreferences.Editor edit = prefs.edit();
                     edit.putString(KEY_PROFILE_PIC_PATH,profilePicPath);
+                    edit.putString("buddy_tc_accepted",response.body().getUserData().getBuddy_accept_terms());
                     edit.commit();
 
                     SharedPreferences.Editor pref = getSharedPreferences("PROFILE_PICTURE", MODE_PRIVATE).edit();
@@ -1009,6 +1010,11 @@ public class ProfileActivity extends AppCompatActivity {
 
                             sessionManager.createProfileSession(id,name, company, designation, pic, lastname, city, description, country, email, mobno, attendee_status, exhibitor_id, exhibitor_status);
 //                      initializeView();
+
+                            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                            SharedPreferences.Editor edit = prefs.edit();
+                            edit.putString("buddy_tc_accepted",response.body().getUserData().getBuddy_accept_terms());
+                            edit.commit();
 
                             Intent home = new Intent(getApplicationContext(), MrgeHomeActivity.class);
                             startActivity(home);

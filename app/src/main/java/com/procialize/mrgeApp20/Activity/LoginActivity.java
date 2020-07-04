@@ -2,6 +2,7 @@ package com.procialize.mrgeApp20.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.net.Uri;
@@ -47,6 +48,8 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.VIBRATE;
 import static android.Manifest.permission.WRITE_CONTACTS;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_LIST_LOGO_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_PROFILE_PATH;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
@@ -68,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     Button otp_submit_btn, otp_resubmit_btn;
     String passwordOtp, mobilenumber, accessToken;
     private APIService mAPIService;
-
+    String MY_PREFS_NAME = "ProcializeInfo";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -329,15 +332,17 @@ public class LoginActivity extends AppCompatActivity {
                     accessToken = response.body().getUserData().getApiAccessToken();
                     Log.d("Password Key==>", passwordOtp);
 
+                    SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    SharedPreferences.Editor editor =  prefs1.edit();
+                    editor.putString("buddy_tc_accepted",response.body().getUserData().getBuddy_accept_terms());
+                    editor.commit();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-
             linearLayout2.setVisibility(View.GONE);
             rel2.setVisibility(View.VISIBLE);
-
-
         } else {
             Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
         }

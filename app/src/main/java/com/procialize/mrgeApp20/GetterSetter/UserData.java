@@ -55,6 +55,16 @@ public class UserData {
     @Expose
     private String attendee_status;
 
+    @SerializedName("buddy_accept_terms")
+    @Expose
+    private String buddy_accept_terms;
+    public String getBuddy_accept_terms() {
+        return buddy_accept_terms;
+    }
+
+    public void setBuddy_accept_terms(String buddy_accept_terms) {
+        this.buddy_accept_terms = buddy_accept_terms;
+    }
 
 
     public String getExhibitor_id() {

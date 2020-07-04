@@ -835,4 +835,9 @@ public interface APIService {
                                              @Field("event_type") String event_type,
                                              @Field("page_id") String page_id,
                                              @Field("file_id") String file_id);
+
+    @POST("acceptBuddyTerms")
+    @FormUrlEncoded
+    Call<BaseResponse> acceptBuddyTerms(@Field("api_access_token") String api_access_token,
+                                             @Field("event_id") String event_id);
 }

@@ -48,6 +48,7 @@ import com.procialize.mrgeApp20.BuddyList.DataModel.FetchBuddyList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.FetchSendRequest;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
+import com.procialize.mrgeApp20.GetterSetter.BaseResponse;
 import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -66,6 +67,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_BUDDYLIST_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_PROFILE_PIC_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -95,6 +97,7 @@ public class ActivityBuddyList extends AppCompatActivity implements BuddyListAda
     private SQLiteDatabase db;
     private List<Buddy> buddyDBList;
     String is_tc_accepted = "0";
+    AlertDialog deleteDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +144,7 @@ public class ActivityBuddyList extends AppCompatActivity implements BuddyListAda
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
 
         buddyDBList = new ArrayList<>();
@@ -195,6 +199,14 @@ public class ActivityBuddyList extends AppCompatActivity implements BuddyListAda
 
         // token
         token = user.get(SessionManager.KEY_TOKEN);
+
+        SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        is_tc_accepted = prefs1.getString("buddy_tc_accepted","");
+
+
+        if(is_tc_accepted.equalsIgnoreCase("0"))
+        { openDisclaimerDialog();}
+
         crashlytics("Attendee", token);
         firbaseAnalytics(this, "Attendee", token);
         if (cd.isConnectingToInternet()) {
@@ -339,18 +351,16 @@ public class ActivityBuddyList extends AppCompatActivity implements BuddyListAda
             ll_empty_view.setVisibility(View.GONE);
             attendeerecycler.setVisibility(View.VISIBLE);
 
-            is_tc_accepted = response.body().getBuddy_accept_terms();
 
-            if(is_tc_accepted.equalsIgnoreCase("0"))
-            { openDisclaimerDialog();}
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putString(KEY_BUDDYLIST_PATH, response.body().getProfile_pic_url_path());
+            edit.putString("buddy_tc_accepted",response.body().getBuddy_accept_terms());
+            edit.commit();
+
 
             dbHelper.clearBuddyTable();
             dbHelper.insertBuddyInfo(response.body().getBuddyList(), db);
-
-            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(KEY_BUDDYLIST_PATH, response.body().getProfile_pic_url_path());
-            editor.commit();
 
             attendeeAdapter = new BuddyListAdapter(ActivityBuddyList.this, response.body().getBuddyList(), this);
             attendeeAdapter.notifyDataSetChanged();
@@ -378,7 +388,7 @@ public class ActivityBuddyList extends AppCompatActivity implements BuddyListAda
     public void openDisclaimerDialog() {
         LayoutInflater factory = LayoutInflater.from(this);
         final View deleteDialogView = factory.inflate(R.layout.buddy_list_disclaimer_dialog, null);
-        final AlertDialog deleteDialog = new AlertDialog.Builder(this).create();
+        deleteDialog = new AlertDialog.Builder(this).create();
         deleteDialog.setView(deleteDialogView);
         deleteDialog.setCancelable(false);
         CheckBox checkBox = deleteDialogView.findViewById(R.id.checkBox);
@@ -389,8 +399,8 @@ public class ActivityBuddyList extends AppCompatActivity implements BuddyListAda
             public void onClick(View v) {
                 //your business logic
                 if (checkBox.isChecked()) {
-                    deleteDialog.dismiss();
 
+                    acceptTnc(token,eventid);
                 } else {
                     Toast.makeText(ActivityBuddyList.this, "Please agree with terms and conditions to continue", Toast.LENGTH_SHORT).show();
 
@@ -533,4 +543,46 @@ public class ActivityBuddyList extends AppCompatActivity implements BuddyListAda
             attendeeAdapter.notifyDataSetChanged();
         }
     }
+
+    public void acceptTnc(String token, String eventid) {
+        progressBar.setVisibility(View.VISIBLE);
+        mAPIService.acceptBuddyTerms(token,eventid ).enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+
+                if (response.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
+                    showResponseAcceptTC(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                Log.e("hit", "Unable to submit post to API.");
+                Toast.makeText(ActivityBuddyList.this, "Low network or no network", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+
+                if (attendeefeedrefresh.isRefreshing()) {
+                    attendeefeedrefresh.setRefreshing(false);
+                }
+            }
+        });
+    }
+
+    public void showResponseAcceptTC(Response<BaseResponse> response) {
+
+        // specify an adapter (see also next example)
+        if (response.body().getStatus() != null) {
+            deleteDialog.dismiss();
+
+
+            SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs1.edit();
+            editor.putString("buddy_tc_accepted","1");
+            editor.commit();
+        } else {
+
+        }
+    }
+
 }

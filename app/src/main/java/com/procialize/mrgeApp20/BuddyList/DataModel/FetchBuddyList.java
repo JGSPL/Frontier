@@ -15,6 +15,12 @@ public class FetchBuddyList {
     @SerializedName("profile_pic_url_path")
     @Expose
     private String profile_pic_url_path;
+    @SerializedName("buddy_accept_terms")
+    @Expose
+    private String buddy_accept_terms;
+    @SerializedName("buddy_list")
+    @Expose
+    private List<Buddy> BuddyList = null;
 
     public String getBuddy_accept_terms() {
         return buddy_accept_terms;
@@ -24,10 +30,6 @@ public class FetchBuddyList {
         this.buddy_accept_terms = buddy_accept_terms;
     }
 
-    @SerializedName("buddy_accept_terms")
-    @Expose
-    private String buddy_accept_terms;
-
     public String getProfile_pic_url_path() {
         return profile_pic_url_path;
     }
@@ -35,10 +37,6 @@ public class FetchBuddyList {
     public void setProfile_pic_url_path(String profile_pic_url_path) {
         this.profile_pic_url_path = profile_pic_url_path;
     }
-
-    @SerializedName("buddy_list")
-    @Expose
-    private List<Buddy> BuddyList = null;
 
     public String getStatus() {
         return status;

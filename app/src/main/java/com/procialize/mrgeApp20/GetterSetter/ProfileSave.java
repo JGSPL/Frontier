@@ -22,6 +22,8 @@ public class ProfileSave {
     @Expose
     private String profile_pic_url_path;
 
+
+
     public String getProfile_pic_url_path() {
         return profile_pic_url_path;
     }
