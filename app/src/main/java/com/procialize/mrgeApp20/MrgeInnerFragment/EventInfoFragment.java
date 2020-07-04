@@ -109,6 +109,8 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
     Boolean isVisible = false;
     SharedPreferences prefs2;
     SharedPreferences.Editor editor2;
+    TextView event_venue;
+    View view_venue;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -145,11 +147,15 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         cd = new ConnectionDetector(getContext());
         mAPIService = ApiUtils.getAPIService();
         dbHelper = new DBHelper(getContext());
+
         sessionManager = new SessionManager(getContext());
         logoIv = view2.findViewById(R.id.logoIv);
         nameTv = view2.findViewById(R.id.nameTv);
         dateTv = view2.findViewById(R.id.dateTv);
         cityTv = view2.findViewById(R.id.cityTv);
+        event_venue = view2.findViewById(R.id.event_venue);
+        view_venue = view2.findViewById(R.id.view_venue);
+
         rv_sponsors = view2.findViewById(R.id.rv_sponsors);
         linShare = view2.findViewById(R.id.linShare);
         linShare.setOnClickListener(new View.OnClickListener() {
@@ -387,10 +393,26 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
 
                         try {
+                            if (eventDBList.get(0).getEventLocation() != null) {
 
-                            event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
-                            //event_desc.setText(eventDBList.get(0).getEventDescription());
-                            event_desc.setVisibility(View.VISIBLE);
+                                event_venue.setText(eventDBList.get(0).getEventLocation());
+                            }else{
+                                event_venue.setVisibility(View.GONE);
+                                view_venue.setVisibility(View.GONE);
+
+                            }
+
+                            if(eventDBList.get(0).getEventDescription()!=null) {
+
+                               // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                                event_desc.setText(eventDBList.get(0).getEventDescription());
+                                event_desc.setVisibility(View.VISIBLE);
+                            }else{
+                                event_desc.setVisibility(View.GONE);
+                                view_venue.setVisibility(View.GONE);
+
+
+                            }
                             //event_desc.setText("\n" + eventDBList.get(0).getEventDescription());
 
                             SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -636,12 +658,38 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
 
                     } else {
                         event_desc.setVisibility(View.GONE);
+                        view_venue.setVisibility(View.GONE);
+
 //                        eventvenu.setVisibility(View.GONE);
                         //   view.setVisibility(View.GONE);
                     }
 
-                    event_desc.setText(StringEscapeUtils.unescapeJava(response.body().getEventList().get(0).getEventLocation() + "\n\n" + response.body().getEventList().get(0).getEventDescription()));
-                    // event_desc.setText(response.body().getEventList().get(0).getEventDescription());
+                    if (response.body().getEventList().get(0).getEventLocation() != null) {
+
+                        event_venue.setText(response.body().getEventList().get(0).getEventLocation());
+                    }else{
+                        event_venue.setVisibility(View.GONE);
+                        view_venue.setVisibility(View.GONE);
+
+                    }
+
+                    if(response.body().getEventList().get(0).getEventDescription()!=null) {
+                        try{
+
+                        // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                        event_desc.setText(StringEscapeUtils.unescapeJava(response.body().getEventList().get(0).getEventDescription()));
+                        event_desc.setVisibility(View.VISIBLE);
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+
+                    }
+                    }else{
+                        view_venue.setVisibility(View.GONE);
+
+                        event_desc.setVisibility(View.GONE);
+
+                    }
+                    // event_desc.setText(StringEscapeUtils.unescapeJava(response.body().getEventList().get(0).getEventLocation() + "\n\n" + response.body().getEventList().get(0).getEventDescription()));
                     SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
                     String logoImg = prefs1.getString("logoImg", "");
                     String eventLogoPath = prefs1.getString(KEY_EVENT_LOGO_PATH, "");
@@ -830,8 +878,26 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                             }
 
                             String eventDescription = eventDBList.get(0).getEventDescription();
-                            event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
-                            // event_desc.setText(eventDescription);
+                           // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                            if (eventDBList.get(0).getEventLocation() != null) {
+
+                                event_venue.setText(eventDBList.get(0).getEventLocation());
+                            }else{
+                                event_venue.setVisibility(View.GONE);
+                                view_venue.setVisibility(View.GONE);
+
+                            }
+
+                            if(eventDBList.get(0).getEventDescription()!=null) {
+
+                                // event_desc.setText(eventDBList.get(0).getEventLocation() + "\n\n" + eventDBList.get(0).getEventDescription());
+                                event_desc.setText(eventDBList.get(0).getEventDescription());
+                                event_desc.setVisibility(View.VISIBLE);
+                            }else{
+                                event_desc.setVisibility(View.GONE);
+                                view_venue.setVisibility(View.GONE);
+
+                            }
 
                             SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
                             String logoImg = prefs1.getString("logoImg", "");
