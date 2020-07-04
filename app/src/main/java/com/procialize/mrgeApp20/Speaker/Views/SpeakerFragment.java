@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.Speaker.Views;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -90,27 +91,18 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
     LinearLayout linear;
     Boolean isVisible = false;
     String picPath="";
+    public static Activity activity;
 
 
-    public SpeakerFragment() {
-        // Required empty public constructor
+    public SpeakerFragment(Activity activity) {
+        this.activity=activity;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SpeakerFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
-    public static SpeakerFragment newInstance(String param1, String param2) {
-        SpeakerFragment fragment = new SpeakerFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+    public static SpeakerFragment newInstance() {
+        SpeakerFragment fragment = new SpeakerFragment(activity);
+
         return fragment;
     }
 
@@ -419,5 +411,12 @@ public class SpeakerFragment extends Fragment implements SpeakerAdapter.SpeakerA
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
+    }
+
 
 }

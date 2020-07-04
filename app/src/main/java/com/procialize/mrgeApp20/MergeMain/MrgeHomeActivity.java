@@ -295,6 +295,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
     private Handler mHandler;
 
+
     @Override
     public Resources getResources() {
         if (res == null) {
@@ -947,7 +948,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
                /* Intent main = new Intent(getApplicationContext(), EventInfoActivity.class);
                 startActivity(main);*/
-                fragment = new SpeakerFragment();
+                fragment = new SpeakerFragment(MrgeHomeActivity.this);
 
                 /* Fragment fragment2 = new MainFragment();
                  *//*getSupportFragmentManager().beginTransaction()
@@ -1212,24 +1213,24 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
         viewPagerAdapterSub2 = new ViewPagerAdapterSub(getSupportFragmentManager());
         if (event_info.equalsIgnoreCase("1")) {
-            viewPagerAdapterSub2.addFragment(new EventInfoFragment(), "EVENT INFO");
+            viewPagerAdapterSub2.addFragment(new EventInfoFragment(MrgeHomeActivity.this), "EVENT INFO");
         }
         if (attendee.equalsIgnoreCase("1")) {
-            viewPagerAdapterSub2.addFragment(new AttendeeFragment(), "ATTENDEES");
+            viewPagerAdapterSub2.addFragment(new AttendeeFragment(MrgeHomeActivity.this), "ATTENDEES");
         }
         if (speaker.equalsIgnoreCase("1")) {
-            viewPagerAdapterSub2.addFragment(new SpeakerFragment(), "SPEAKERS");
+            viewPagerAdapterSub2.addFragment(new SpeakerFragment(MrgeHomeActivity.this), "SPEAKERS");
         }
         if (agenda.equalsIgnoreCase("1")) {
             if (agenda_conference.equalsIgnoreCase("1")) {
-                viewPagerAdapterSub2.addFragment(new AgendaFragment(), "SCHEDULE");
+                viewPagerAdapterSub2.addFragment(new AgendaFragment(MrgeHomeActivity.this), "SCHEDULE");
 
             } else {
-                viewPagerAdapterSub2.addFragment(new AgendaFolderFragment(), "SCHEDULE");
+                viewPagerAdapterSub2.addFragment(new AgendaFolderFragment(MrgeHomeActivity.this), "SCHEDULE");
             }
         }
         if (emergency_contact.equalsIgnoreCase("1")) {
-            viewPagerAdapterSub2.addFragment(new EmergencyFragment(), "EMERGENCY");
+            viewPagerAdapterSub2.addFragment(new EmergencyFragment(MrgeHomeActivity.this), "EMERGENCY");
         }
 
 
@@ -1290,13 +1291,13 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
         viewPagerAdapterSub3 = new ViewPagerAdapterSub(getSupportFragmentManager());
         if (image_gallery.equalsIgnoreCase("1")) {
-            viewPagerAdapterSub3.addFragment(new GalleryFragment(), "IMAGE");
+            viewPagerAdapterSub3.addFragment(new GalleryFragment(MrgeHomeActivity.this), "IMAGE");
         }
         if (video_gallery.equalsIgnoreCase("1")) {
-            viewPagerAdapterSub3.addFragment(new VideoFragment(), "VIDEO");
+            viewPagerAdapterSub3.addFragment(new VideoFragment(MrgeHomeActivity.this), "VIDEO");
         }
         if (document_download.equalsIgnoreCase("1")) {
-            viewPagerAdapterSub3.addFragment(new DownloadsFragment(), "DOWNLOADS");
+            viewPagerAdapterSub3.addFragment(new DownloadsFragment(MrgeHomeActivity.this), "DOWNLOADS");
         }
         Subviewpager2.setAdapter(viewPagerAdapterSub3);
     }
@@ -1358,25 +1359,25 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             engagement_video_contest = "0",quiz = "0", live_poll = "0", engagement = "0";*/
         viewPagerAdapterSub4 = new ViewPagerAdapterSub(getSupportFragmentManager());
         if (quiz.equalsIgnoreCase("1")) {
-            viewPagerAdapterSub4.addFragment(new FolderQuizFragment(), "QUIZ");
+            viewPagerAdapterSub4.addFragment(new FolderQuizFragment(MrgeHomeActivity.this), "QUIZ");
 
         }
         if (live_poll.equalsIgnoreCase("1")) {
-            viewPagerAdapterSub4.addFragment(new LivePollListFragment(), "LIVE POLL");
+            viewPagerAdapterSub4.addFragment(new LivePollListFragment(MrgeHomeActivity.this), "LIVE POLL");
 
         }
         if (QnA.equalsIgnoreCase("1")) {
             if (QnA_session.equalsIgnoreCase("1")) {
-                viewPagerAdapterSub4.addFragment(new QnASessionFragment(), "Q&A");
+                viewPagerAdapterSub4.addFragment(new QnASessionFragment(MrgeHomeActivity.this), "Q&A");
             } else if (QnA_speaker.equalsIgnoreCase("1")) {
-                viewPagerAdapterSub4.addFragment(new QnASpeakerFragment(), "Q&A");
+                viewPagerAdapterSub4.addFragment(new QnASpeakerFragment(MrgeHomeActivity.this), "Q&A");
             } else {
-                viewPagerAdapterSub4.addFragment(new QnADirectFragment(), "Q&A");
+                viewPagerAdapterSub4.addFragment(new QnADirectFragment(MrgeHomeActivity.this), "Q&A");
             }
         }
 
         if (engagement.equalsIgnoreCase("1")) {
-            viewPagerAdapterSub4.addFragment(new EngagementFragment(), "ENGAGEMENT");
+            viewPagerAdapterSub4.addFragment(new EngagementFragment(MrgeHomeActivity.this), "ENGAGEMENT");
         }
 
         Subviewpager3.setAdapter(viewPagerAdapterSub4);
@@ -1945,7 +1946,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         afterSettingView();
     }
 
-    @Override
+   @Override
     public void onBackPressed() {
         if (Jzvd.backPress()) {
             return;
@@ -1953,34 +1954,114 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         boolean check = JzvdStd.backPress();
 
         if (check == true) {
-            if (youTubePlayer != null) {
+            if(youTubePlayer!=null) {
                 youTubePlayer.release();
             }
             JzvdStd.goOnPlayOnPause();
 
         } else {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(MrgeHomeActivity.this);
-            builder.setTitle("Exit");
-            builder.setMessage("Are you sure you want to exit?");
-            builder.setNegativeButton("NO",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,
-                                            int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            builder.setPositiveButton("YES",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,
-                                            int which) {
-                            if (youTubePlayer != null) {
-                                youTubePlayer.release();
+            if (viewPager.getCurrentItem() == 0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MrgeHomeActivity.this);
+                builder.setTitle("Exit");
+                builder.setMessage("Are you sure you want to exit?");
+                builder.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                                dialog.dismiss();
                             }
-                            ActivityCompat.finishAffinity(MrgeHomeActivity.this);
+                        });
+                builder.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                                if (youTubePlayer != null) {
+                                    youTubePlayer.release();
+                                }
+                                ActivityCompat.finishAffinity(MrgeHomeActivity.this);
+                            }
+                        });
+                builder.show();
+            } else {
+                if (event_details.equalsIgnoreCase("1")) {
+                    if (event_info.equalsIgnoreCase("1")) {
+                        EventInfoFragment fragment = EventInfoFragment.newInstance();
+                        fragment.onBackpressed();
+                    }
+                    if (attendee.equalsIgnoreCase("1")) {
+                        AttendeeFragment fragment = AttendeeFragment.newInstance();
+                        fragment.onBackpressed();
+                    }
+                    if (speaker.equalsIgnoreCase("1")) {
+                        SpeakerFragment fragment = SpeakerFragment.newInstance();
+                        fragment.onBackpressed();
+                    }
+                    if (agenda.equalsIgnoreCase("1")) {
+                        if (agenda_conference.equalsIgnoreCase("1")) {
+                            AgendaFragment fragment = AgendaFragment.newInstance();
+                            fragment.onBackpressed();
+
+                        } else {
+                            AgendaFolderFragment fragment = AgendaFolderFragment.newInstance();
+                            fragment.onBackpressed();
                         }
-                    });
-            builder.show();
+                    }
+                    if (emergency_contact.equalsIgnoreCase("1")) {
+                        EmergencyFragment fragment = EmergencyFragment.newInstance();
+                        fragment.onBackpressed();
+                    }
+
+                }
+                if (folder.equalsIgnoreCase("1")) {
+                    if (image_gallery.equalsIgnoreCase("1")) {
+
+                        GalleryFragment fragment = GalleryFragment.newInstance();
+                        fragment.onBackpressed();
+                    }
+                    if (video_gallery.equalsIgnoreCase("1")) {
+                        VideoFragment fragment = VideoFragment.newInstance();
+                        fragment.onBackpressed();
+                    }
+                    if (document_download.equalsIgnoreCase("1")) {
+                        DownloadsFragment fragment = DownloadsFragment.newInstance();
+                        fragment.onBackpressed();
+
+
+                    }
+                }
+
+                if (interact.equalsIgnoreCase("1")) {
+                    if (quiz.equalsIgnoreCase("1")) {
+                        FolderQuizFragment fragment = FolderQuizFragment.newInstance();
+                        fragment.onBackpressed();
+
+
+                    }
+                    if (live_poll.equalsIgnoreCase("1")) {
+                        LivePollListFragment fragment = LivePollListFragment.newInstance();
+                        fragment.onBackpressed();
+                    }
+                    if (QnA.equalsIgnoreCase("1")) {
+                        if (QnA_session.equalsIgnoreCase("1")) {
+                            QnASessionFragment fragment = QnASessionFragment.newInstance();
+                            fragment.onBackpressed();
+                        } else if (QnA_speaker.equalsIgnoreCase("1")) {
+                            QnASpeakerFragment fragment = QnASpeakerFragment.newInstance();
+                            fragment.onBackpressed();
+
+                        } else {
+                            QnADirectFragment fragment = QnADirectFragment.newInstance();
+                            fragment.onBackpressed();
+                        }
+                    }
+
+                    if (engagement.equalsIgnoreCase("1")) {
+                        EngagementFragment fragment = EngagementFragment.newInstance();
+                        fragment.onBackpressed();
+                    }
+                }
+
+            }
         }
     }
 

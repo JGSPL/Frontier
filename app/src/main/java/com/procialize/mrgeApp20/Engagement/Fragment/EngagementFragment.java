@@ -1,5 +1,6 @@
 package com.procialize.mrgeApp20.Engagement.Fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -57,6 +58,16 @@ public class EngagementFragment extends Fragment {
     TextView selfieTv, tv_selfie_total_items, tv_selfie_desc, videoTv, video_total_items, tv_video_desc;
     ConnectionDetector cd;
     private List<EventSettingList> eventSettingLists;
+    public static Activity activity;
+
+    public EngagementFragment(Activity activity) {
+        this.activity = activity;
+    }
+
+    public static EngagementFragment newInstance() {
+        EngagementFragment fragment = new EngagementFragment(activity);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -245,4 +256,11 @@ public class EngagementFragment extends Fragment {
         super.onPause();
         JzvdStd.releaseAllVideos();
     }
+
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
+    }
+
 }

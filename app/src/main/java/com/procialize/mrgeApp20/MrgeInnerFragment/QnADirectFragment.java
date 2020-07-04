@@ -1,7 +1,9 @@
 package com.procialize.mrgeApp20.MrgeInnerFragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -82,10 +84,15 @@ public class QnADirectFragment extends Fragment implements QADirectAdapter.QADir
     TextView txtEmpty, nmtxt,pullrefresh;
     private APIService mAPIService;
     LinearLayout linear;
+    public static Activity activity;
 
+    public QnADirectFragment(Activity activity) {
+        this.activity=activity;
+    }
 
-    public QnADirectFragment() {
-        // Required empty public constructor
+    public static QnADirectFragment newInstance() {
+        QnADirectFragment fragment = new QnADirectFragment(activity);
+        return fragment;
     }
 
 
@@ -479,6 +486,12 @@ public class QnADirectFragment extends Fragment implements QADirectAdapter.QADir
         } else {
             Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
     }
    
 }

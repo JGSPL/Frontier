@@ -1,16 +1,12 @@
 package com.procialize.mrgeApp20.MrgeInnerFragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +26,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
+import com.procialize.mrgeApp20.Fragments.AgendaFolderFragment;
 import com.procialize.mrgeApp20.GetterSetter.Contact;
 import com.procialize.mrgeApp20.GetterSetter.ContactListFetch;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
@@ -37,7 +34,6 @@ import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -64,11 +60,17 @@ public class EmergencyFragment extends Fragment {
     ConnectionDetector cd;
     LinearLayout linear;
     TextView headertxt;
+    public static Activity activity;
 
-    public EmergencyFragment() {
+    public EmergencyFragment(Activity activity) {
         // Required empty public constructor
+        this.activity = activity;
     }
 
+    public static EmergencyFragment newInstance() {
+        EmergencyFragment fragment = new EmergencyFragment(activity);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -291,6 +293,11 @@ public class EmergencyFragment extends Fragment {
         super.onResume();
     }
 
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
+    }
 
 
 }

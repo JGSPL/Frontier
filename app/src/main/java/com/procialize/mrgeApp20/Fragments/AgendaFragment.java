@@ -1,6 +1,7 @@
 package com.procialize.mrgeApp20.Fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -90,25 +91,16 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.AgendaAdap
     private DBHelper dbHelper;
     LinearLayout linear;
     Boolean isVisible = false;
+    public static Activity activity;
 
-    public AgendaFragment() {
+    public AgendaFragment(Activity activity) {
         // Required empty public constructor
+        this.activity=activity;
     }
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AgendaFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
-    public static AgendaFragment newInstance(String param1, String param2) {
-        AgendaFragment fragment = new AgendaFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+    public static AgendaFragment newInstance() {
+        AgendaFragment fragment = new AgendaFragment(activity);
         return fragment;
     }
 
@@ -460,6 +452,12 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.AgendaAdap
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
     }
 
 }
