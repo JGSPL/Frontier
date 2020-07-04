@@ -4669,13 +4669,11 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage());
             }
-
             return "Something went wrong";
         }
 
         @Override
         protected void onPostExecute(String message) {
-
         }
     }
 

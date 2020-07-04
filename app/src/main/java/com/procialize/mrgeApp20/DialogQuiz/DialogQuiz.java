@@ -563,7 +563,7 @@ public class DialogQuiz implements View.OnClickListener {
         TextView txtViewResult = ThankyouDialog.findViewById(R.id.txtViewResult);
         CardView Quizcard = ThankyouDialog.findViewById(R.id.Quizcard);
         Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
-        Quizcard.setAlpha(0.8f);
+        Quizcard.setAlpha(0.9f);
         txtViewResult.setTextColor(Color.parseColor(colorActive));
 
 
