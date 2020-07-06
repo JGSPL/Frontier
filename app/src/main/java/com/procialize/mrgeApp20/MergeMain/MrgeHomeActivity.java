@@ -519,7 +519,6 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                         initializeYoutubePlayer(youTubeLinkPosition);
                     }
                 }else if(youTubeApiLists.size()==1){
-                    initializeYoutubePlayer(0);
 
                 }
             }
