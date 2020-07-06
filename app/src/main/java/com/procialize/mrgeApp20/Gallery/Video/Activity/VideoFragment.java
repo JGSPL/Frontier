@@ -35,6 +35,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.Gallery.Video.Adapter.VideoAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
@@ -69,8 +70,8 @@ import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
 public class VideoFragment extends Fragment implements VideoAdapter.VideoAdapterListner {
 
-    private static List<VideoList> videoLists;
-    private static List<VideoFolderList> folderLists;
+    private static List<VideoList> videoLists = new ArrayList<>();
+    private static List<VideoFolderList> folderLists = new ArrayList<>();
     SwipeRefreshLayout videoRvrefresh;
     RecyclerView videoRv;
     ProgressBar progressBar;
@@ -81,6 +82,7 @@ public class VideoFragment extends Fragment implements VideoAdapter.VideoAdapter
     RelativeLayout linear;
     TextView msg_txt,pullrefresh;
 View rootView;
+ConnectionDetector cd;
 
     public static Activity activity;
 
@@ -111,7 +113,7 @@ View rootView;
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
-
+        cd = new ConnectionDetector(getContext());
 
         videoRv = rootView.findViewById(R.id.videoRv);
         progressBar = rootView.findViewById(R.id.progressBar);
@@ -146,13 +148,28 @@ View rootView;
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getActivity(), resId);
         // videoRv.setLayoutAnimation(animation);
 
+        if(cd.isConnectingToInternet()) {
+            fetchVideo(token, eventid);
+        }else{
+            if (videoRvrefresh.isRefreshing()) {
+                videoRvrefresh.setRefreshing(false);
+            }
 
-        fetchVideo(token, eventid);
+        }
 
         videoRvrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fetchVideo(token, eventid);
+                if(cd.isConnectingToInternet()) {
+
+                    if(cd.isConnectingToInternet()) {
+                        fetchVideo(token, eventid);
+                    }else{
+                        if (videoRvrefresh.isRefreshing()) {
+                            videoRvrefresh.setRefreshing(false);
+                        }
+
+                    }                }
             }
         });
 
@@ -209,6 +226,12 @@ View rootView;
         if (response.body().getVideoList().size() != 0) {
             videoRv.setVisibility(View.VISIBLE);
             msg_txt.setVisibility(View.GONE);
+            if(videoLists.size()>0){
+                videoLists.clear();
+            }
+            if(folderLists.size()>0){
+                folderLists.clear();
+            }
             videoLists = response.body().getVideoList();
             folderLists = response.body().getVideoFolderList();
             String folderVideoUrlPath = response.body().getFolder_video_url_path();
