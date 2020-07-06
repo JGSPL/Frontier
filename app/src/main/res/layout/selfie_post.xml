@@ -21,6 +21,8 @@
             android:background="@color/colortoolbar"
             android:contentInsetLeft="0dp"
             android:contentInsetStart="0dp"
+            app:navigationIcon="@drawable/back_global"
+
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
             android:contentInsetRight="0dp"

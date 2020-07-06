@@ -110,7 +110,7 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
                 finish();
             }
         });
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+     //   toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);

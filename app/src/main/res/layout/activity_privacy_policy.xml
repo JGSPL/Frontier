@@ -26,8 +26,9 @@
             android:contentInsetEnd="0dp"
             android:contentInsetRight="0dp"
             android:elevation="0dp"
+            app:navigationIcon="@drawable/back_global"
+
             android:minHeight="?attr/actionBarSize"
-            app:navigationIcon="@drawable/back_white"
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"

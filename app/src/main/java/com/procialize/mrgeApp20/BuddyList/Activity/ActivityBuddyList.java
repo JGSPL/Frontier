@@ -125,7 +125,7 @@ public class ActivityBuddyList extends AppCompatActivity implements BuddyListAda
 //        eventid=intent.getStringExtra("eventId");
 //        eventnamestr=intent.getStringExtra("eventnamestr");
         cd = new ConnectionDetector(ActivityBuddyList.this);
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorwhite), PorterDuff.Mode.SRC_ATOP);
+       // toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorwhite), PorterDuff.Mode.SRC_ATOP);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

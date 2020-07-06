@@ -22,7 +22,7 @@
             android:background="@color/activetab"
             android:contentInsetEnd="0dp"
             android:contentInsetLeft="0dp"
-            app:navigationIcon="@drawable/ic_back"
+            app:navigationIcon="@drawable/back_global"
             android:contentInsetRight="0dp"
             android:contentInsetStart="0dp"
             android:minHeight="?attr/actionBarSize"

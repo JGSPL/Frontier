@@ -28,6 +28,8 @@
                 android:contentInsetEnd="0dp"
                 android:contentInsetLeft="0dp"
                 android:contentInsetRight="0dp"
+                app:navigationIcon="@drawable/back_global"
+
                 android:contentInsetStart="0dp"
                 android:elevation="@dimen/elevation"
                 android:minHeight="?attr/actionBarSize"

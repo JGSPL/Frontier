@@ -122,7 +122,7 @@ public class SpeakerDetailsActivity extends AppCompatActivity implements PdfList
             }
         });
 
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+       // toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
 
         headerlogoIv = findViewById(R.id.headerlogoIv);

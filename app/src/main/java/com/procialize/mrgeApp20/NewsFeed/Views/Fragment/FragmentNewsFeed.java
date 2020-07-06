@@ -1060,15 +1060,27 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                         MrgeHomeActivity.img_stream.startAnimation(anim);
 
                         //-------------------------------------
-                        MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor(colorActive));
 
-                        MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor(colorActive));
-                        MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor(colorActive));
 
                         MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor(colorActive));
 
-                        MrgeHomeActivity.txt_change.setText("Change View");
-                        MrgeHomeActivity.img_view.startAnimation(anim);
+                        if(MrgeHomeActivity.youTubeApiLists.size()>1){
+                            MrgeHomeActivity.linChange.setEnabled(true);
+                            MrgeHomeActivity.linChange.setClickable(true);
+                            MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor(colorActive));
+                            MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor(colorActive));
+                            MrgeHomeActivity.txt_change.setText("Change View");
+                            MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor(colorActive));
+                            MrgeHomeActivity.img_view.startAnimation(anim);
+
+                        }else{
+                            MrgeHomeActivity.linChange.setEnabled(false);
+                            MrgeHomeActivity.linChange.setClickable(false);
+                            MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
+                            MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+
+                        }
+
                         //-----------------------------------
                     } else {
                         MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
@@ -1081,7 +1093,12 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                         // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
                         MrgeHomeActivity.txt_change.setText("Change View");
                     }
-                } else {
+                }else if(MrgeHomeActivity.youTubeApiLists.size()==1){
+                    MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
+                    MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+
+                }
+                else {
                     MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
                     MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
                     MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));

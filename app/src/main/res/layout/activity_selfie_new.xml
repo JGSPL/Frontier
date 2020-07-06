@@ -19,6 +19,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colortoolbar"
             android:contentInsetEnd="0dp"
+            app:navigationIcon="@drawable/back_global"
+
             android:contentInsetLeft="0dp"
             android:contentInsetRight="0dp"
             android:contentInsetStart="0dp"

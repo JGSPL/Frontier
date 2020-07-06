@@ -150,7 +150,7 @@ public class ImageViewActivity extends AppCompatActivity {
 
         cd = new ConnectionDetector(getApplicationContext());
 
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+       // toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

@@ -510,7 +510,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         linear_changeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (youTubeApiLists.size() > 0) {
+                if (youTubeApiLists.size() > 1) {
                     if (youTubeLinkPosition < youTubeApiLists.size() - 1) {
                         youTubeLinkPosition = youTubeLinkPosition + 1;
                         initializeYoutubePlayer(youTubeLinkPosition);
@@ -518,6 +518,9 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                         youTubeLinkPosition = 0;
                         initializeYoutubePlayer(youTubeLinkPosition);
                     }
+                }else if(youTubeApiLists.size()==1){
+                    initializeYoutubePlayer(0);
+
                 }
             }
         });
@@ -2416,6 +2419,9 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     zoom_time = response.body().getLive_steaming_info().getZoom_datetime();
 
                     if (response.body().getYoutube_info().size() > 0) {
+                        if(youTubeApiLists.size()>0) {
+                            youTubeApiLists.clear();
+                        }
                         youTubeApiLists = response.body().getYoutube_info();
 
                         if (youTubeApiLists.get(0).getStream_status().equalsIgnoreCase("1")) {
@@ -2432,18 +2438,39 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             img_stream.startAnimation(anim);
 
                             //-------------------------------------
-                            linChange.setBackgroundColor(Color.parseColor(colorActive));
+                           // linChange.setBackgroundColor(Color.parseColor(colorActive));
 
-                            img_view.setBackgroundColor(Color.parseColor(colorActive));
-                            txt_change.setBackgroundColor(Color.parseColor(colorActive));
+                            //img_view.setBackgroundColor(Color.parseColor(colorActive));
+                           // txt_change.setBackgroundColor(Color.parseColor(colorActive));
 
                             linStream.setBackgroundColor(Color.parseColor(colorActive));
 
-                            txt_change.setText("Change View");
-                            img_view.startAnimation(anim);
+                           // txt_change.setText("Change View");
+                            //img_view.startAnimation(anim);
                             //-----------------------------------
+
+                            if(youTubeApiLists.size()>1){
+                                linChange.setEnabled(true);
+                                linChange.setClickable(true);
+                                linChange.setBackgroundColor(Color.parseColor(colorActive));
+                               txt_change.setBackgroundColor(Color.parseColor(colorActive));
+                               txt_change.setText("Change View");
+                                img_view.setBackgroundColor(Color.parseColor(colorActive));
+                                img_view.startAnimation(anim);
+
+                            }else{
+                                linChange.setEnabled(false);
+                                linChange.setClickable(false);
+                               linChange.setBackgroundColor(Color.parseColor("#686868"));
+                               img_view.setBackgroundColor(Color.parseColor("#686868"));
+
+                            }
                         }
-                    } else {
+                    }else if(youTubeApiLists.size()==1){
+                        linChange.setBackgroundColor(Color.parseColor("#686868"));
+                        img_view.setBackgroundColor(Color.parseColor("#686868"));
+
+                    }   else{
                         linChange.setBackgroundColor(Color.parseColor("#686868"));
                         img_view.setBackgroundColor(Color.parseColor("#686868"));
                         txt_change.setBackgroundColor(Color.parseColor("#686868"));
@@ -4498,9 +4525,9 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy(){
         super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(spotLivePollReciever);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(spotQuizReciever);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(spotLivePollReciever);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
 
