@@ -26,6 +26,7 @@ import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.NewsFeedPostMultimedia;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -514,7 +515,7 @@ public class BackgroundService extends IntentService {
         builder.addFormDataPart("api_access_token", api_access_token);
         builder.addFormDataPart("event_id", event_id);
         builder.addFormDataPart("news_feed_id", news_feed_id);
-        builder.addFormDataPart("status", status);
+        builder.addFormDataPart("status", StringEscapeUtils.escapeJava(status));
         builder.addFormDataPart("is_completed", is_completed);
         // builder.addFormDataPart("isDebug", "1");
 
