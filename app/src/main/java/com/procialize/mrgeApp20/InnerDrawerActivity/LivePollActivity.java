@@ -90,7 +90,7 @@ public class LivePollActivity extends AppCompatActivity implements PollNewAdapte
             public void onClick(View v) {
                 onBackPressed();
                 finish();
-            }
+            }                                                
         });
 
         cd = new ConnectionDetector(getApplicationContext());

@@ -63,7 +63,7 @@ public class YourScoreActivity extends AppCompatActivity {
         colorActive = prefs.getString("colorActive", "");
 
 
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+       // toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
 
 

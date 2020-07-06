@@ -128,7 +128,7 @@ public class QuizNewActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+       // toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
         quizQuestionUrl = constant.baseUrl + constant.quizsubmit;
 
         dbHelper = new DBHelper(QuizNewActivity.this);
