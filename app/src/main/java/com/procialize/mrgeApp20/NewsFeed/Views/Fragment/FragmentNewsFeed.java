@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -607,6 +608,8 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         } else {
             feed.setLikeFlag("1");
             likeimage.setImageDrawable(getResources().getDrawable(R.drawable.ic_afterlike));
+            int color = Color.parseColor(colorActive);
+            likeimage.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
             //setTextViewDrawableColor(likeimage, colorActive);
             reaction_type = "0";
 //            likeimage.setBackgroundResource(R.drawable.ic_afterlike);

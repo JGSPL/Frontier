@@ -34,6 +34,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
+import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.Gallery.Image.Adapter.GalleryAdapter;
 import com.procialize.mrgeApp20.GetterSetter.FirstLevelFilter;
 import com.procialize.mrgeApp20.GetterSetter.FolderList;
@@ -65,8 +66,8 @@ import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
 public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryAdapterListner {
 
-    private static List<GalleryList> galleryLists;
-    private static List<FolderList> folderLists;
+    private static List<GalleryList> galleryLists = new ArrayList<>();
+    private static List<FolderList> folderLists = new ArrayList<>();
     SwipeRefreshLayout galleryRvrefresh;
     RecyclerView galleryRv;
     ProgressBar progressBar;
@@ -77,7 +78,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
     TextView msg_txt, pullrefresh;
     View rootView;
     private APIService mAPIService;
-
+    ConnectionDetector cd;
     public static Activity activity;
 
     public GalleryFragment(Activity activity) {
@@ -144,6 +145,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
 
 
         mAPIService = ApiUtils.getAPIService();
+        cd = new ConnectionDetector(getContext());
 
         SessionManager sessionManager = new SessionManager(getActivity());
 
@@ -162,13 +164,26 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
         //galleryRv.setLayoutAnimation(animation);
 
 
+        if(cd.isConnectingToInternet()) {
+            fetchGallery(token, eventid);
+        }else{
+            if (galleryRvrefresh.isRefreshing()) {
+                galleryRvrefresh.setRefreshing(false);
+            }
 
-        fetchGallery(token, eventid);
+        }
 
         galleryRvrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fetchGallery(token, eventid);
+                if(cd.isConnectingToInternet()) {
+                    fetchGallery(token, eventid);
+                }else{
+                    if (galleryRvrefresh.isRefreshing()) {
+                        galleryRvrefresh.setRefreshing(false);
+                    }
+
+                }
             }
         });
     }
@@ -214,6 +229,12 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryA
         // specify an adapter (see also next example)
         if (response.body().getStatus().equalsIgnoreCase("success")) {
 
+            if(galleryLists.size()>0){
+                galleryLists.clear();
+            }
+            if(folderLists.size()>0){
+                folderLists.clear();
+            }
             galleryLists = response.body().getGalleryList();
             folderLists = response.body().getFolderList();
            String folderImageUrlPath = response.body().getFolder_image_url_path();

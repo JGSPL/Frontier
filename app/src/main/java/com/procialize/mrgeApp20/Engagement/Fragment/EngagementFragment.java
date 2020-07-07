@@ -59,6 +59,8 @@ public class EngagementFragment extends Fragment {
     ConnectionDetector cd;
     private List<EventSettingList> eventSettingLists;
     public static Activity activity;
+    String token;
+    String event_id;
 
     public EngagementFragment(Activity activity) {
         this.activity = activity;
@@ -115,8 +117,8 @@ public class EngagementFragment extends Fragment {
         SessionManager sessionManager = new SessionManager(getActivity());
 
         user = sessionManager.getUserDetails();
-        String token = user.get(SessionManager.KEY_TOKEN);
-        String event_id = prefs.getString("eventid", "1");
+        token = user.get(SessionManager.KEY_TOKEN);
+         event_id = prefs.getString("eventid", "1");
 
 
         crashlytics("Engagement", user.get(SessionManager.KEY_TOKEN));
@@ -261,6 +263,18 @@ public class EngagementFragment extends Fragment {
 
         Intent intent = new Intent(activity, MrgeHomeActivity.class);
         activity.startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (cd.isConnectingToInternet()) {
+            getEngagementData(event_id, token);
+        } else {
+            Toast.makeText(getActivity(), "No Internet Connection..!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 }

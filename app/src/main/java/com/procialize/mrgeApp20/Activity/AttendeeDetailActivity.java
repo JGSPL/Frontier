@@ -276,7 +276,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         });
 
 
-        // attendeetitle.setTextColor(Color.parseColor(colorActive));
+         attendeetitle.setTextColor(Color.parseColor(colorActive));
         // tvname.setTextColor(Color.parseColor(colorActive));
         sendbtn = findViewById(R.id.sendMsg);
 
@@ -311,10 +311,14 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         final GradientDrawable shapeunactive = setgradientDrawable(5, "#4D4D4D");
         final GradientDrawable shapeunactivelayout = setgradientDrawable(10, "#4D4D4D");
 //
-        // linsave.setBackground(shapelayout);
-//        linMsg.setBackground(shapelayout);
-//        sendbtn.setBackground(shape);
-        //  saveContact.setBackground(shape);
+         linsave.setBackground(shapelayout);
+        linMsg.setBackground(shapelayout);
+        sendbtn.setBackground(shape);
+          saveContact.setTextColor(Color.parseColor(colorActive));
+         // imgBuddy.setT
+        int color = Color.parseColor(colorActive);
+        imgBuddy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
 //        posttextEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 //            @Override
 //            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
