@@ -155,6 +155,7 @@ import retrofit2.Response;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static com.procialize.mrgeApp20.ApiConstant.ApiConstant.pageSize;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_LIST_LOGO_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_PROFILE_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_PROFILE_PIC_PATH;
@@ -2409,7 +2410,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
     public void fetchFeed(String token, String eventid) {
 
-        mAPIService.FeedFetchPost(token, eventid).enqueue(new Callback<FetchFeed>() {
+        mAPIService.FeedFetchPost(token, eventid,"1",pageSize).enqueue(new Callback<FetchFeed>() {
             @Override
             public void onResponse(Call<FetchFeed> call, Response<FetchFeed> response) {
 

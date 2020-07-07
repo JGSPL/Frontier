@@ -25,4 +25,8 @@ public class ImagePathConstants {
     public static final String  KEY_QNA_DIRECT_PROFILE_PATH = "qnaDirectProfileUrlPath";
     public static final String  KEY_EVENT_PROFILE_PATH = "eventProfileUrlPath";
     public static final String  KEY_EVENT_LIST_LOGO_PATH = "eventLogoUrlPath";
+    public static final String  KEY_LIVE_POLL_LOGO_PATH = "livePollLogoUrlPath";
+    public static final String  KEY_LIVE_POLL_LOGO = "livePollLogo";
+    public static final String  KEY_DIALOG_LIVE_POLL_LOGO_PATH = "dialogLivePollLogoUrlPath";
+    public static final String  KEY_DIALOG_LIVE_POLL_LOGO = "dialogLivePollLogo";
 }

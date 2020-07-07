@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/relative"
@@ -37,16 +38,23 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="-40dp"
             android:adjustViewBounds="true">
-
+            <androidx.cardview.widget.CardView
+                android:id="@+id/myCardView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="@dimen/album_dp_0">
             <ImageView
                 android:id="@+id/profileIV"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_centerInParent="true"
                 android:contentDescription="TODO"
-                android:src="@drawable/live_poll_logo" />
+                android:src="@drawable/live_poll_logo_bk" />
 
-
+            </androidx.cardview.widget.CardView>
         </RelativeLayout>
     </RelativeLayout>
 

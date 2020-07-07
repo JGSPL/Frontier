@@ -624,6 +624,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.ivtype.setImageResource(R.drawable.notifyadmin);
             holder.arrowIv.setVisibility(View.GONE);
         }
+
+        /*if ((position >= getItemCount() - 1))
+            listener.load();*/
     }
 
     @Override
@@ -641,6 +644,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         void onContactSelected(NotificationList notification, Context context);
 
         void onReplyClick(NotificationList notification, Context context);
+        void load();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

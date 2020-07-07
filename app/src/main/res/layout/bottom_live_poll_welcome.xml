@@ -1,44 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_marginBottom="55dp"
-    android:layout_marginRight="20dp"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/Quizcard"
-    android:background="@color/colorwhite"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
     android:layout_marginLeft="10dp"
-    android:layout_height="250dp">
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="55dp"
+    android:background="@color/colorwhite">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/imgClose"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_close"
             android:layout_gravity="right"
-            android:id="@+id/imgClose"
-            android:padding="10dp">
-        </ImageView>
+            android:padding="10dp"
+            android:src="@drawable/ic_close"></ImageView>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/live_poll_logo"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/myCardView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:paddingTop="15dp">
-        </ImageView>
+            app:cardCornerRadius="40dp"
+            app:cardElevation="@dimen/album_dp_0">
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:src="@drawable/live_poll_logo_bk"/>
+
+        </androidx.cardview.widget.CardView>
+
         <com.procialize.mrgeApp20.Fonts.RobotoTextview
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/textsizenormal"
-            android:text="Live Poll"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="@color/black">
+            android:text="Live Poll"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsizenormal"
+            android:layout_marginTop="20dp">
 
         </com.procialize.mrgeApp20.Fonts.RobotoTextview>
 

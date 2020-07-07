@@ -3,6 +3,8 @@ package com.procialize.mrgeApp20.GetterSetter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -23,6 +25,24 @@ public class LivePollFetch {
     @SerializedName("msg")
     @Expose
     private String msg;
+
+    @SerializedName("logo_url_path")
+    @Expose
+    private String logo_url_path;
+
+    @SerializedName("live_poll_logo")
+    @Expose
+    private LivePollLogo live_poll_logo;
+
+    public String getLogo_url_path() {
+        return logo_url_path;
+    }
+
+    public LivePollLogo getLive_poll_logo() {
+        return live_poll_logo;
+    }
+
+
 
     public List<LivePollList> getLivePollList() {
         return livePollList;

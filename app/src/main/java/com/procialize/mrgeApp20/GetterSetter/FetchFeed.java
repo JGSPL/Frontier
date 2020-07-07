@@ -24,6 +24,18 @@ public class FetchFeed {
     @Expose
     private String msg;
 
+    @SerializedName("totalRecords")
+    @Expose
+    private String totalRecords;
+
+    public String getTotalRecords() {
+        return totalRecords;
+    }
+
+    public void setTotalRecords(String totalRecords) {
+        this.totalRecords = totalRecords;
+    }
+
     public String getNews_feed_url_path() {
         return news_feed_url_path;
     }

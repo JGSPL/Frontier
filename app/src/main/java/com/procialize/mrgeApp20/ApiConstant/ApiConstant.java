@@ -18,6 +18,7 @@ public class ApiConstant {
     public static String pageVisited = "1";
     public static String fileViewed = "2";
     public static String fileDownloaded = "3";
+    public static String pageSize = "3";
     //Production URL
 
     public static String webUrl = "https://www.procialize.live/stage/mrge/";
