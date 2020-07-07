@@ -18,6 +18,7 @@ public class QuizFolderParser {
 
     // JSON Node names
     private static final String TAG_QUIZ_LIST = "quiz_folder_list";
+
     JSONObject jsonObj = null;
     JSONObject userJsonObject = null;
     // JSONArray
