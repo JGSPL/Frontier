@@ -96,6 +96,7 @@ public class GalleryFirstLevelActivity extends AppCompatActivity implements Gall
         /*Util.logomethodwithText( this, true,foldername, MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);*/
         TextView title = findViewById(R.id.title);
         title.setText(foldername);
+        title.setTextColor(Color.parseColor(colorActive));
         try {
             File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/"+ "background.jpg");
             Resources res = getResources();

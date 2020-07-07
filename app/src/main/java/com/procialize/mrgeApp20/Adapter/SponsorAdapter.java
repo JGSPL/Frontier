@@ -42,11 +42,13 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
     private Context context;
     private String filePath;
 
+    private SponsorAdapterListner listener;
 
-    public SponsorAdapter(Context context, List<SponsorsList> sponsorsLists,String filePath) {
+    public SponsorAdapter(Context context, List<SponsorsList> sponsorsLists,String filePath, SponsorAdapterListner listener) {
        this.sponsorsLists = sponsorsLists;
        this.filePath = filePath;
         this.context = context;
+        this.listener = listener;
     }
 
     @Override
@@ -69,7 +71,7 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
             holder.tv_name.setText(sponsorsList.getName());
             Glide.with(context).load(file)
                     .placeholder(R.drawable.profilepic_placeholder)
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop().centerCrop()
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -84,6 +86,13 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
                         }
                     }).into(holder.iv_sponsor_logo);
 
+
+            holder.iv_sponsor_logo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onContactSelected(sponsorsList,context);
+                }
+            });
            /* Glide.with(context).load(file)
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
@@ -125,5 +134,10 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
             progress_bar = view.findViewById(R.id.progress_bar);
             tv_name = view.findViewById(R.id.tv_name);
         }
+    }
+
+    public interface SponsorAdapterListner {
+        void onContactSelected(SponsorsList sponsorsList, Context context);
+
     }
 }

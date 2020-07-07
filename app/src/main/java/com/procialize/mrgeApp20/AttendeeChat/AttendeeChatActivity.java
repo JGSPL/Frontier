@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -51,6 +52,7 @@ import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.util.GetUserActivityReport;
@@ -133,7 +135,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                onBackPressed();
+                //onBackPressed();
                 finish();
             }
         });
@@ -223,6 +225,9 @@ public class AttendeeChatActivity extends AppCompatActivity {
         //commentEt = findViewById(R.id.commentEt);
         commentBt = findViewById(R.id.commentBt);
         commentBt = findViewById(R.id.commentBt);
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        colorActive = prefs.getString("colorActive", "");
+        //commentBt.setColorFilter(Color.parseColor(colorActive));
         rootView = findViewById(R.id.root_view);
         commentEt = (EmojiconEditText) findViewById(R.id.commentEt);
         emojiImageView = (ImageView) findViewById(R.id.emoji_btn);
@@ -662,5 +667,6 @@ public class AttendeeChatActivity extends AppCompatActivity {
 
         }
     }
+
 
 }

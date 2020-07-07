@@ -38,7 +38,11 @@
         <activity android:name=".Gallery.Video.Activity.VideoViewGalleryActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".AttendeeChat.AttendeeChatActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MergeMain.MrgeHomeActivity">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity"/></activity>
         <activity android:name=".AttendeeChat.AttendeeDetailChat"
             android:screenOrientation="portrait"/>
 

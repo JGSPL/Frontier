@@ -238,6 +238,25 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
         pager.setAdapter(swipepagerAdapter);
         swipepagerAdapter.notifyDataSetChanged();
 
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                JzvdStd.goOnPlayOnPause();
+            }
+
+            @Override
+            public void onPageSelected(int position1) {
+                JzvdStd.goOnPlayOnPause();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                JzvdStd.goOnPlayOnPause();
+//                                WallFragment_POST.newsfeedrefresh.setEnabled(false);
+
+            }
+        });
+
 
         LinearLayout linShare = findViewById(R.id.linShare);
         LinearLayout linSave = findViewById(R.id.linSave);

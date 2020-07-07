@@ -384,8 +384,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 if(pageCount>=pageNumber)
                 {
                     pageNumber++;
-                    fetchFeed(token, eventid,""+pageNumber,
-                            pageSize);
+                    //fetchFeed(token, eventid,""+pageNumber, pageSize);
                 }
 
                 try {

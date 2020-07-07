@@ -102,15 +102,15 @@ public class VideoFirstLevelActivity extends AppCompatActivity implements VideoF
         folderLists = new ArrayList<>();
         filtergallerylists = new ArrayList<>();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         progressDialog = new ProgressDialog(this);
 
-
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-       // toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+        // toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,6 +127,7 @@ public class VideoFirstLevelActivity extends AppCompatActivity implements VideoF
 
         TextView title = findViewById(R.id.title);
         title.setText(foldername);
+        title.setTextColor(Color.parseColor(colorActive));
         videoRv = findViewById(R.id.videoRv);
         tvname = findViewById(R.id.tvname);
         progressBar = findViewById(R.id.progressBar);

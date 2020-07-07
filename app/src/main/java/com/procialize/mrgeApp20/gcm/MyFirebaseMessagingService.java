@@ -17,6 +17,7 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -29,6 +30,7 @@ import com.procialize.mrgeApp20.BuddyList.DataModel.Buddy;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list_db;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
+import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -308,11 +310,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                notificationIntent.putExtra("profile",  attendeeInfoList.get(0).getProfilePic());
                notificationIntent.putExtra("mobile",  attendeeInfoList.get(0).getMobile());
                notificationIntent.putExtra("buddy_status",  attendeeInfoList.get(0).getBuddy_status());
-               notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+               /*notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                        | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                contentIntent = PendingIntent.getActivity(
                        getApplicationContext(), new Random().nextInt(),
-                       notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                       notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);*/
+               TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+// Adds the back stackResultActivity
+               stackBuilder.addParentStack(MrgeHomeActivity.class);
+// Adds the Intent to the top of the stack
+               stackBuilder.addNextIntent(notificationIntent);
+// Gets a PendingIntent containing the entire back stack
+               contentIntent =
+                       stackBuilder.getPendingIntent(new Random().nextInt(), PendingIntent.FLAG_UPDATE_CURRENT);
            }
            else
            {
@@ -348,11 +358,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                notificationIntent.putExtra("description",  "");
                notificationIntent.putExtra("profile",  attendeeInfoList.get(0).getProfilePic());
                notificationIntent.putExtra("mobile",  "");
-               notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                       | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-               contentIntent = PendingIntent.getActivity(
+               /*notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                       | Intent.FLAG_ACTIVITY_CLEAR_TOP);*/
+               TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+// Adds the back stackResultActivity
+               stackBuilder.addParentStack(MrgeHomeActivity.class);
+// Adds the Intent to the top of the stack
+               stackBuilder.addNextIntent(notificationIntent);
+// Gets a PendingIntent containing the entire back stack
+               contentIntent =
+                       stackBuilder.getPendingIntent(new Random().nextInt(), PendingIntent.FLAG_UPDATE_CURRENT);
+
+               /*contentIntent = PendingIntent.getActivity(
                        getApplicationContext(), new Random().nextInt(),
-                       notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                       notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);*/
            }
            else
            {
@@ -378,7 +397,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 MrgeHomeActivity.spot_quiz = "spot_quiz";
             }*/
             Intent notificationIntent = new Intent(getApplicationContext(),
-                    SplashActivity.class);
+                    NotificationActivity.class);
             notificationIntent.putExtra("fromNotification", "fromNotification");
             notificationIntent.putExtra("type", messageType);
             notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK

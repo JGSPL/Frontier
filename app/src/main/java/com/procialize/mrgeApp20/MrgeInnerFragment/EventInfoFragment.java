@@ -1,6 +1,7 @@
 package com.procialize.mrgeApp20.MrgeInnerFragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -76,7 +77,7 @@ import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_EVENT_LOGO
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 
-public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
+public class EventInfoFragment extends Fragment implements OnMapReadyCallback , SponsorAdapter.SponsorAdapterListner {
     ImageView logoIv;
     TextView nameTv, dateTv, cityTv, event_desc;
     View view;
@@ -234,7 +235,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                 if (!cd.isConnectingToInternet()) {
                     if (sponsorDBList.size() != 0) {
                         String sponsor_filePath = prefs.getString("sponsor_filePath", "");
-                        SponsorAdapter sponsorAdapter1 = new SponsorAdapter(getActivity(), sponsorDBList, sponsor_filePath);
+                        SponsorAdapter sponsorAdapter1 = new SponsorAdapter(getActivity(), sponsorDBList, sponsor_filePath,EventInfoFragment.this);
                         RecyclerView.LayoutManager mLayoutManager1 = new GridLayoutManager(getActivity(), 3);
                         rv_sponsors.setNestedScrollingEnabled(false);
                         rv_sponsors.setLayoutManager(mLayoutManager1);
@@ -327,7 +328,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
             editor2.putString(KEY_EVENT_LOGO_PATH, eventLogoPath);
             editor2.commit();
 
-            SponsorAdapter sponsorAdapter = new SponsorAdapter(getActivity(), sponsorList, filePath);
+            SponsorAdapter sponsorAdapter = new SponsorAdapter(getActivity(), sponsorList, filePath,EventInfoFragment.this);
             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
             rv_sponsors.setLayoutManager(mLayoutManager);
             rv_sponsors.setItemAnimator(new DefaultItemAnimator());
@@ -548,7 +549,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                 });*/
                     }
                     if (sponsorDBList.size() != 0) {
-                        SponsorAdapter sponsorAdapter1 = new SponsorAdapter(getActivity(), sponsorDBList, filePath);
+                        SponsorAdapter sponsorAdapter1 = new SponsorAdapter(getActivity(), sponsorDBList, filePath,EventInfoFragment.this);
                         RecyclerView.LayoutManager mLayoutManager1 = new GridLayoutManager(getActivity(), 3);
                         rv_sponsors.setNestedScrollingEnabled(false);
                         rv_sponsors.setLayoutManager(mLayoutManager1);
@@ -610,7 +611,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
                 editor2.commit();
 
 
-                SponsorAdapter sponsorAdapter = new SponsorAdapter(getActivity(), sponsorList, filePath);
+                SponsorAdapter sponsorAdapter = new SponsorAdapter(getActivity(), sponsorList, filePath,EventInfoFragment.this);
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
                 rv_sponsors.setNestedScrollingEnabled(false);
                 rv_sponsors.setLayoutManager(mLayoutManager);
@@ -1070,4 +1071,9 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback {
         activity.startActivity(intent);
     }
 
+    @Override
+    public void onContactSelected(SponsorsList sponsorsList, Context context) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sponsorsList.getUrl()));
+        startActivity(browserIntent);
+    }
 }
