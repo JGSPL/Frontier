@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Html;
@@ -542,7 +543,11 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_like));
         } else if (feed.getLike_type().equals("0")) {
             //holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.like_0));
+
             holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_afterlike));
+            int color = Color.parseColor(colorActive);
+            holder.img_like.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
         }/* else if (feed.getLike_type().equals("1")) {
             holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.love_1));
         } else if (feed.getLike_type().equals("2")) {
