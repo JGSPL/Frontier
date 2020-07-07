@@ -418,7 +418,7 @@ public class FolderQuizActivity extends AppCompatActivity {
             empty.setTextColor(Color.parseColor(colorActive));
             if (quizFolders.size() != 0) {
                 empty.setVisibility(View.GONE);
-                adapter = new QuizFolderAdapter(FolderQuizActivity.this, quizFolders);
+                adapter = new QuizFolderAdapter(FolderQuizActivity.this, quizFolders,"");
                 quizNameList.setAdapter(adapter);
             } else {
                 empty.setVisibility(View.VISIBLE);

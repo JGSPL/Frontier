@@ -102,6 +102,7 @@ import com.procialize.mrgeApp20.GetterSetter.LivePollList;
 import com.procialize.mrgeApp20.GetterSetter.ProfileSave;
 import com.procialize.mrgeApp20.GetterSetter.Quiz;
 import com.procialize.mrgeApp20.GetterSetter.QuizFolder;
+import com.procialize.mrgeApp20.GetterSetter.QuizLogo;
 import com.procialize.mrgeApp20.GetterSetter.YouTubeApiList;
 import com.procialize.mrgeApp20.InnerDrawerActivity.EventInfoActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
@@ -116,6 +117,7 @@ import com.procialize.mrgeApp20.MrgeInnerFragment.QnASessionFragment;
 import com.procialize.mrgeApp20.MrgeInnerFragment.QnASpeakerFragment;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
 import com.procialize.mrgeApp20.Parser.QuizFolderParser;
+import com.procialize.mrgeApp20.Parser.QuizLogoParser;
 import com.procialize.mrgeApp20.Parser.QuizParser;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -168,7 +170,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     public static int activetab;
     public static int flag = 0;
     public static String spot_poll = "S";
-    public static String spot_quiz = "SQ";
+    public static String spot_quiz = "spot_quiz";
     public static ImageView headerlogoIv, notificationlogoIv, grid_image_view, list_image_view;
     public static TextView txtMainHeader;
     public static LinearLayout linear_livestream, linear_zoom, linear_layout, linear_changeView;
@@ -294,8 +296,9 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     private YouTubePlayerSupportFragment youTubePlayerFragment;
     private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
     private Handler mHandler;
-
-
+    private QuizLogoParser quizLogoParser;
+    QuizLogo quizlogo;
+    String finalLogourl;
     @Override
     public Resources getResources() {
         if (res == null) {
@@ -385,6 +388,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         if (MrgeHomeActivity.spot_quiz.equalsIgnoreCase("spot_quiz")) {
             new getQuizList().execute();
         }
+       // new getQuizList().execute();
+
     }
 
     //-----------------------------------Live Poll-----------------------------------
@@ -4802,6 +4807,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         String status = "";
         String message = "";
         String jsonStrLiveQuiz = "";
+        String logoUrl = "";
+
         private QuizFolderParser quizFolderParser;
         private ArrayList<QuizFolder> quizFolders = new ArrayList<QuizFolder>();
         private ArrayList<Quiz> quizList = new ArrayList<Quiz>();
@@ -4835,6 +4842,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     JSONObject jsonResult = new JSONObject(jsonStrLiveQuiz);
                     status = jsonResult.getString("status");
                     message = jsonResult.getString("msg");
+                    logoUrl = jsonResult.getString("logo_url_path");
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -4844,6 +4852,9 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             if (status.equalsIgnoreCase("success")) {
                 quizFolderParser = new QuizFolderParser();
                 quizFolders = quizFolderParser.QuizFolder_Parser2(jsonStrLiveQuiz);
+
+                quizLogoParser = new QuizLogoParser();
+                quizlogo = quizLogoParser.QuizLogo_Parser(jsonStrLiveQuiz);
             }
             return null;
         }
@@ -4854,6 +4865,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             if (quizFolders.size() > 0) {
                 String quiz = quizFolders.get(0).getFolder_id();
                 String Foldername = quizFolders.get(0).getFolder_name();
+                String Logoname = quizlogo.getApp_quiz_logo();
+                 finalLogourl = logoUrl + Logoname;
                 if (quiz != null) {
                     if (quiz != null && !quiz.equalsIgnoreCase("null")) {
                         if (jsonStrLiveQuiz != null) {
@@ -4873,7 +4886,29 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                                     if (spot_quiz != null) {
                                                         if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
                                                             DialogQuiz dialogquiz = new DialogQuiz();
-                                                            dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this);
+                                                            dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this,finalLogourl);
+                                                            spot_quiz = "S";
+
+
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }).start();
+                                }else{
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            //Update the value background thread to UI thread
+                                            mHandler.post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Log.d("service end", "service end");
+                                                    if (spot_quiz != null) {
+                                                        if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
+                                                            DialogQuiz dialogquiz = new DialogQuiz();
+                                                            dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this,finalLogourl);
                                                             spot_quiz = "S";
 
                                                         }
@@ -4882,6 +4917,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                             });
                                         }
                                     }).start();
+
                                 }
                             }
                         }
@@ -4946,10 +4982,10 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             Log.d("service end", "service end");
                             if (spot_quiz != null) {
                                 if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
-                                    DialogQuiz dialogquiz = new DialogQuiz();
-                                    dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this);
-                                    spot_quiz = "S";
-
+                                    /*DialogQuiz dialogquiz = new DialogQuiz();
+                                    dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this,finalLogourl);
+                                    spot_quiz = "S";*/
+                                    new getQuizList().execute();
                                 }
                             }
                         }

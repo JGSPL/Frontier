@@ -14,13 +14,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.CustomTools.CircleDisplay;
 import com.procialize.mrgeApp20.GetterSetter.QuizFolder;
 import com.procialize.mrgeApp20.R;
@@ -38,10 +47,12 @@ public class QuizFolderAdapter extends BaseAdapter {
     String MY_PREFS_NAME = "ProcializeInfo";
     String MY_PREFS_LOGIN = "ProcializeLogin";
     String colorActive;
+    String logoUrl ;
 
-    public QuizFolderAdapter(Activity activity, List<QuizFolder> quizList) {
+    public QuizFolderAdapter(Activity activity, List<QuizFolder> quizList, String logoUrl) {
         this.activity = activity;
         this.quizList = quizList;
+        this.logoUrl = logoUrl;
         SharedPreferences prefs = activity.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
 
@@ -114,11 +125,13 @@ public class QuizFolderAdapter extends BaseAdapter {
                     .findViewById(R.id.relative);
             holder.textViewTime = (TextView) convertView
                     .findViewById(R.id.textViewTime);
+            holder.profileIV = (ImageView)convertView.findViewById(R.id.profileIV);
 
 
 
             holder.progressBarCircle = (ProgressBar) convertView.findViewById(R.id.progressBarCircle);
 
+            holder.progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
 
             holder.linQuiz = (LinearLayout)convertView.findViewById(R.id.linQuiz);
 
@@ -142,6 +155,34 @@ public class QuizFolderAdapter extends BaseAdapter {
             e.printStackTrace();
 
         }
+        if (logoUrl != null) {
+
+
+            Glide.with(activity).load(logoUrl)
+                    .apply(RequestOptions.skipMemoryCacheOf(false))
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            holder.profileIV.setImageResource(R.drawable.quizlogo);
+
+                            holder.progressBar.setVisibility(View.GONE);
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            holder.progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    }).into(holder.profileIV);
+
+        } else {
+            holder.progressBar.setVisibility(View.GONE);
+
+        }
+
+
         if(quizList.get(position).getAnswered().equalsIgnoreCase("0")){
             holder.progressBarCircle.setVisibility(View.INVISIBLE);
             holder.textViewTime.setVisibility(View.INVISIBLE);
@@ -172,7 +213,8 @@ public class QuizFolderAdapter extends BaseAdapter {
         TextView quiz_title_txt,video_status,textViewTime;
         LinearLayout linQuiz;
         RelativeLayout relative;
-        ProgressBar progressBarCircle;
+        ProgressBar progressBarCircle,progressBar;
+        ImageView profileIV;
 
     }
 

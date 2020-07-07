@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.os.Environment;
@@ -25,12 +26,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -137,7 +146,7 @@ public class DialogQuiz implements View.OnClickListener {
     public int time = 10;
     public static int countpage = 1;
 
-    public void welcomeQuizDialog(Context context) {
+    public void welcomeQuizDialog(Context context, String logourl) {
 
         // dialog = new BottomSheetDialog(context);
         dialog = new BottomSheetDialog(context, R.style.SheetDialog);
@@ -168,8 +177,32 @@ public class DialogQuiz implements View.OnClickListener {
         ImageView imgClose = dialog.findViewById(R.id.imgClose);
         Button btnQuizStart = dialog.findViewById(R.id.btnQuizStart);
         CardView Quizcard = dialog.findViewById(R.id.Quizcard);
+        ImageView logoIv = dialog.findViewById(R.id.logoIv);
        // Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
         Quizcard.setAlpha(0.9f);
+        if (logourl != null) {
+
+
+            Glide.with(context2).load(logourl)
+                    .apply(RequestOptions.skipMemoryCacheOf(false))
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop()
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            logoIv.setImageResource(R.drawable.quizlogo);
+
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            return false;
+                        }
+                    }).into(logoIv);
+
+        } else {
+
+        }
 
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override

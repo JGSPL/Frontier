@@ -33,11 +33,13 @@ import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DialogLivePoll.DialogLivePoll;
 import com.procialize.mrgeApp20.GetterSetter.Quiz;
 import com.procialize.mrgeApp20.GetterSetter.QuizFolder;
+import com.procialize.mrgeApp20.GetterSetter.QuizLogo;
 import com.procialize.mrgeApp20.GetterSetter.QuizOptionList;
 import com.procialize.mrgeApp20.InnerDrawerActivity.QuizActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.QuizNewActivity;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.Parser.QuizFolderParser;
+import com.procialize.mrgeApp20.Parser.QuizLogoParser;
 import com.procialize.mrgeApp20.Parser.QuizOptionParser;
 import com.procialize.mrgeApp20.Parser.QuizParser;
 import com.procialize.mrgeApp20.R;
@@ -82,6 +84,9 @@ public class FolderQuizFragment extends Fragment {
     private QuizFolderAdapter adapter;
     private QuizParser quizParser;
     private QuizFolderParser quizFolderParser;
+    private QuizLogoParser quizLogoParser;
+    QuizLogo quizlogo;
+
     private ArrayList<Quiz> quizList = new ArrayList<Quiz>();
     private ArrayList<QuizFolder> quizFolders = new ArrayList<QuizFolder>();
     private QuizOptionParser quizOptionParser;
@@ -272,6 +277,7 @@ public class FolderQuizFragment extends Fragment {
 
         String status = "";
         String message = "";
+        String logoUrl = "";
 
         @Override
         protected void onPreExecute() {
@@ -321,6 +327,7 @@ public class FolderQuizFragment extends Fragment {
                     JSONObject jsonResult = new JSONObject(jsonStr);
                     status = jsonResult.getString("status");
                     message = jsonResult.getString("msg");
+                    logoUrl = jsonResult.getString("logo_url_path");
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -334,6 +341,9 @@ public class FolderQuizFragment extends Fragment {
                 //Get Folder Parser
                 quizFolderParser = new QuizFolderParser();
                 quizFolders = quizFolderParser.QuizFolder_Parser(jsonStr);
+                quizLogoParser = new QuizLogoParser();
+                quizlogo = quizLogoParser.QuizLogo_Parser(jsonStr);
+
 
                 appDelegate.setQuizOptionList(quizOptionList);
 
@@ -353,11 +363,13 @@ public class FolderQuizFragment extends Fragment {
                 pDialog.dismiss();
                 pDialog = null;
             }
+            String Logoname = quizlogo.getApp_quiz_logo();
+            String finalLogourl = logoUrl + Logoname;
 
             empty.setTextColor(Color.parseColor(colorActive));
             if (quizFolders.size() != 0) {
                 empty.setVisibility(View.GONE);
-                adapter = new QuizFolderAdapter(getActivity(), quizFolders);
+                adapter = new QuizFolderAdapter(getActivity(), quizFolders,finalLogourl);
                 quizNameList.setAdapter(adapter);
             } else {
                 empty.setVisibility(View.VISIBLE);
