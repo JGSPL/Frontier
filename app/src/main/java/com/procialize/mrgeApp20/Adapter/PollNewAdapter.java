@@ -3,6 +3,7 @@ package com.procialize.mrgeApp20.Adapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.GetterSetter.LivePollList;
 import com.procialize.mrgeApp20.GetterSetter.LivePollOptionList;
 import com.procialize.mrgeApp20.R;
@@ -23,6 +33,8 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_LIVE_POLL_LOGO;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_LIVE_POLL_LOGO_PATH;
 
 public class PollNewAdapter extends BaseAdapter {
     String MY_PREFS_NAME = "ProcializeInfo";
@@ -87,6 +99,7 @@ public class PollNewAdapter extends BaseAdapter {
             int totalwidth = dispDefault.getWidth();
             holder.nameTv = convertView.findViewById(R.id.nameTv);
             holder.imageIv = convertView.findViewById(R.id.imageIv);
+            holder.profileIV = convertView.findViewById(R.id.profileIV);
             holder.mainLL = convertView.findViewById(R.id.mainLL);
             holder.linMain = convertView.findViewById(R.id.linMain);
             holder.ivewComplete = convertView.findViewById(R.id.ivewComplete);
@@ -128,6 +141,24 @@ public class PollNewAdapter extends BaseAdapter {
 
         if(position==0){
             holder.relative.setVisibility(View.VISIBLE);
+            SharedPreferences prefs1 = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String logoPath = prefs1.getString(KEY_LIVE_POLL_LOGO_PATH,"");
+            String strAppLivePollLogo =  prefs1.getString(KEY_LIVE_POLL_LOGO,"");
+
+            Glide.with(context).load(logoPath + strAppLivePollLogo)
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop().centerCrop().listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    //progressBar.setVisibility(View.GONE);
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    // progressBar.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(holder.profileIV);
         }else{
             holder.relative.setVisibility(View.GONE);
 
@@ -145,7 +176,7 @@ public class PollNewAdapter extends BaseAdapter {
 
     static class ViewHolder {
         public TextView nameTv,statusTv;
-        public ImageView imageIv;
+        public ImageView imageIv,profileIV;
         public LinearLayout mainLL,linMain;
         RelativeLayout relative;
         View ivewComplete;

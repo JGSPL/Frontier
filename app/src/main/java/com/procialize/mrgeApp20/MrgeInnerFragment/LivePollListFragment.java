@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -24,9 +25,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.google.gson.JsonObject;
 import com.procialize.mrgeApp20.Activity.PollDetailActivity;
 import com.procialize.mrgeApp20.Adapter.PollNewAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
@@ -35,11 +45,15 @@ import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DialogLivePoll.DialogLivePoll;
 import com.procialize.mrgeApp20.GetterSetter.LivePollFetch;
 import com.procialize.mrgeApp20.GetterSetter.LivePollList;
+import com.procialize.mrgeApp20.GetterSetter.LivePollLogo;
 import com.procialize.mrgeApp20.GetterSetter.LivePollOptionList;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.Serializable;
@@ -53,6 +67,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_LIVE_POLL_LOGO;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_LIVE_POLL_LOGO_PATH;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
@@ -73,6 +89,7 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
     TextView empty, pullrefresh;
     LinearLayout linear;
      String token;
+     ImageView iv_live_poll_logo;
 
     public static Activity activity;
 
@@ -111,6 +128,7 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
         pollRv = rootView.findViewById(R.id.pollRv);
 
         empty = rootView.findViewById(R.id.empty);
+        iv_live_poll_logo = rootView.findViewById(R.id.iv_live_poll_logo);
 
         TextView header = rootView.findViewById(R.id.title);
         header.setTextColor(Color.parseColor(colorActive));
@@ -206,6 +224,20 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
         // specify an adapter (see also next example)
 
         optionLists = response.body().getLivePollOptionList();
+        String logoPath = response.body().getLogo_url_path();
+
+        LivePollLogo logo = response.body().getLive_poll_logo();
+        try {
+            String strAppLivePollLogo = logo.getApp_livepoll_logo();
+            SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor =prefs1.edit();
+           editor.putString(KEY_LIVE_POLL_LOGO_PATH,logoPath);
+           editor.putString(KEY_LIVE_POLL_LOGO,strAppLivePollLogo);
+            editor.commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         empty.setTextColor(Color.parseColor(colorActive));
         if (response.body().getLivePollOptionList().size() != 0) {
 

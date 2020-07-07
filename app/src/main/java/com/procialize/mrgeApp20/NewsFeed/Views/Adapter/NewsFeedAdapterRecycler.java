@@ -328,6 +328,11 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             }
         }
 
+        //---------------For Pagination------------------------
+        if ((position >= getItemCount() - 1))
+            listener.load();
+        //-------------------------------------------------------
+
         holder.nameTv.setTextColor(Color.parseColor(colorActive));
         feed = feedLists.get(position);
         if (feed.getLastName() == null) {
@@ -1111,6 +1116,8 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
         void moreLikeListOnClick(View v, NewsFeedList feed, int position);
 
         void FeedEditOnClick(View v, NewsFeedList feed, int position);
+
+        void load();
 
     }
 

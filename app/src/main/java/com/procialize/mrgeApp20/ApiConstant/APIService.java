@@ -310,7 +310,9 @@ public interface APIService {
     @POST("NewsFeedFetchMultiple")
     @FormUrlEncoded
     Call<FetchFeed> FeedFetchPost(@Field("api_access_token") String api_access_token,
-                                  @Field("event_id") String event_id);
+                                  @Field("event_id") String event_id,
+                                  @Field("pageNumber") String pageNo,
+                                  @Field("pageSize") String pageSize);
 
     @POST("NewsFeedReaction")
     @FormUrlEncoded
@@ -404,7 +406,9 @@ public interface APIService {
     @POST("NotificationListFetch")
     @FormUrlEncoded
     Call<NotificationListFetch> NotificationListFetch(@Field("api_access_token") String api_access_token,
-                                                      @Field("event_id") String event_id);
+                                                      @Field("event_id") String event_id,
+                                                      @Field("pageNumber") String pageNo,
+                                                      @Field("pageSize") String pageSize);
 
     @POST("leaderboard")
     @FormUrlEncoded

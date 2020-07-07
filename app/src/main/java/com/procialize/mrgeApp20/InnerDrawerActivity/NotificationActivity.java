@@ -17,6 +17,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+
+import androidx.annotation.NonNull;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,6 +49,7 @@ import com.procialize.mrgeApp20.NewsFeed.Views.Activity.LikeDetailActivity;
 import com.procialize.mrgeApp20.Adapter.NotificationAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
+import com.procialize.mrgeApp20.ApiConstant.ApiConstant.*;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
@@ -79,6 +82,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.ApiConstant.ApiConstant.pageSize;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PROFILE_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NOTIFICATION_PROFILE_PIC_PATH;
@@ -87,7 +91,8 @@ import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
 public class NotificationActivity extends AppCompatActivity implements NotificationAdapter.NotificationAdapterListner {
 
-
+    List<NotificationList> notificationList;
+    NotificationAdapter notificationAdapter;
     SwipeRefreshLayout notificationRvrefresh;
     RecyclerView notificationRv;
     //    ProgressBar progressBar;
@@ -115,6 +120,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
     private List<NotificationList> notificationDBList = new ArrayList<>();
     ConnectionDetector cd;
     List<news_feed_media> news_feed_media = new ArrayList<>();
+    int pageNumber=1,pageCount=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,7 +224,8 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
 
 
         if (cd.isConnectingToInternet()) {
-            fetchNotification(token, eventid);
+            fetchNotification(token, eventid,"1",
+                    pageSize);
         } else {
             notificationDBList.clear();
             notificationDBList = dbHelper.getNotificationDetails();
@@ -236,10 +243,39 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
             }
         }
 
+        notificationRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(pageCount>=pageNumber)
+                {
+                    pageNumber++;
+                    fetchNotification(token, eventid,""+pageNumber,
+                            pageSize);
+                }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+            }
+        });
+        /*notificationRv.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if(pageCount>=pageNumber)
+                {
+                    pageNumber++;
+                    fetchNotification(token, eventid,""+pageNumber,
+                            pageSize);
+                }
+            }
+        });*/
         notificationRvrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fetchNotification(token, eventid);
+                fetchNotification(token, eventid,"1",pageSize);
             }
         });
 
@@ -286,9 +322,10 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
     }
 
 
-    public void fetchNotification(String token, String eventid) {
+    public void fetchNotification(String token, String eventid,String pageNumber,
+            String pageSize) {
 //        showProgress();
-        mAPIService.NotificationListFetch(token, eventid).enqueue(new Callback<NotificationListFetch>() {
+        mAPIService.NotificationListFetch(token, eventid,pageNumber,pageSize).enqueue(new Callback<NotificationListFetch>() {
             @Override
             public void onResponse(Call<NotificationListFetch> call, Response<NotificationListFetch> response) {
 
@@ -326,30 +363,45 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
 
         // specify an adapter (see also next example)
         if (response.body().getStatus().equalsIgnoreCase("success")) {
-            if ((!response.body().getNotificationList().isEmpty())) {
-                dbHelper.clearNotificationTable();
-                dbHelper.insertNotificationList(response.body().getNotificationList(), db);
-                notificationRv.setVisibility(View.VISIBLE);
-                msg.setVisibility(View.GONE);
 
+            if(pageCount>=pageNumber) {
+                if ((!response.body().getNotificationList().isEmpty())) {
+                    dbHelper.clearNotificationTable();
+                    dbHelper.insertNotificationList(response.body().getNotificationList(), db);
+                    notificationRv.setVisibility(View.VISIBLE);
+                    msg.setVisibility(View.GONE);
 
-                SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-                SharedPreferences.Editor edit = prefs.edit();
-                edit.putString(KEY_NOTIFICATION_PROFILE_PIC_PATH,response.body().getProfile_pic_url_path());
-                edit.commit();
+                    SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    SharedPreferences.Editor edit = prefs.edit();
+                    edit.putString(KEY_NOTIFICATION_PROFILE_PIC_PATH, response.body().getProfile_pic_url_path());
+                    edit.commit();
 
+                    String totalRecords = response.body().getTotalRecords();
 
-                NotificationAdapter notificationAdapter = new NotificationAdapter(this, response.body().getNotificationList(), this);
-                notificationAdapter.notifyDataSetChanged();
-                notificationRv.setAdapter(notificationAdapter);
-            } else {
-                notificationRv.setVisibility(View.GONE);
-                msg.setVisibility(View.VISIBLE);
+                    if (Integer.parseInt(totalRecords) % Integer.parseInt(pageSize) == 0) {
+                        pageCount = Integer.parseInt(totalRecords) / Integer.parseInt(pageSize);
+                    } else {
+                        pageCount = Integer.parseInt(totalRecords) / Integer.parseInt(pageSize) + 1;
+                    }
 
+                    if (pageNumber == 1) {
+                        notificationList = response.body().getNotificationList();
+                        notificationAdapter = new NotificationAdapter(this, notificationList, this);
+                        notificationRv.setAdapter(notificationAdapter);
+                    } else {
+                        List<NotificationList> motificationList_new = response.body().getNotificationList();
+                        for (int i = 0; i < motificationList_new.size(); i++) {
+                            notificationList.add(motificationList_new.get(i));
+                        }
+                        notificationAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    notificationRv.setVisibility(View.GONE);
+                    msg.setVisibility(View.VISIBLE);
+                }
             }
         } else {
             Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-
         }
     }
 
@@ -658,6 +710,12 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
             startActivity(attendeetail);
         }
 
+    }
+
+    @Override
+    public void load() {
+        pageNumber++;
+        fetchNotification(token,eventid,""+pageNumber,pageSize);
     }
 
     @Override

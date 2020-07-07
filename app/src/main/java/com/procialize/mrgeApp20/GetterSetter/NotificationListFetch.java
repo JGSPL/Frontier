@@ -33,6 +33,18 @@ public class NotificationListFetch {
     @Expose
     private String profile_pic_url_path;
 
+    public String getTotalRecords() {
+        return totalRecords;
+    }
+
+    public void setTotalRecords(String totalRecords) {
+        this.totalRecords = totalRecords;
+    }
+
+    @SerializedName("totalRecords")
+    @Expose
+    private String totalRecords;
+
     public List<NotificationList> getNotificationList() {
         return notificationList;
     }

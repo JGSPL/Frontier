@@ -61,6 +61,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.procialize.mrgeApp20.Activity.LoginActivity;
+import com.procialize.mrgeApp20.Adapter.NotificationAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
@@ -78,6 +79,7 @@ import com.procialize.mrgeApp20.GetterSetter.FetchFeed;
 import com.procialize.mrgeApp20.GetterSetter.LikePost;
 import com.procialize.mrgeApp20.GetterSetter.NewsFeedList;
 import com.procialize.mrgeApp20.GetterSetter.NewsFeedPostMultimedia;
+import com.procialize.mrgeApp20.GetterSetter.NotificationList;
 import com.procialize.mrgeApp20.GetterSetter.ReportPost;
 import com.procialize.mrgeApp20.GetterSetter.ReportPostHide;
 import com.procialize.mrgeApp20.GetterSetter.ReportUser;
@@ -121,6 +123,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.ApiConstant.ApiConstant.pageSize;
 import static com.procialize.mrgeApp20.NewsFeed.Views.Adapter.NewsFeedAdapterRecycler.swipableAdapterPosition;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PROFILE_PATH;
@@ -133,7 +136,7 @@ import static com.procialize.mrgeApp20.Session.SessionManager.MY_PREFS_NAME;
 public class FragmentNewsFeed extends Fragment implements View.OnClickListener, NewsFeedAdapterRecycler.FeedAdapterListner, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     public static SwipeRefreshLayout newsfeedrefresh;
-    public static List<NewsFeedList> newsfeedList;
+    public List<NewsFeedList> newsfeedList;
     public static boolean isFinishedService = false;
     HashMap<String, String> user;
     BottomSheetDialog dialog;
@@ -166,7 +169,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     private List<AttendeeList> attendeeList;
     private Handler mHandler;
     private String live_streaming = "0", youtube = "0", zoom = "0";
-
+    int pageNumber=1,pageCount=1;
     public FragmentNewsFeed() {
         // Required empty public constructor
     }
@@ -306,6 +309,8 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         feedrecycler = rootView.findViewById(R.id.recycler_view);
         relative = rootView.findViewById(R.id.relative);
 
+
+
         tv_uploading = rootView.findViewById(R.id.tv_uploading);
         try {
             procializeDB = new DBHelper(getActivity());
@@ -362,7 +367,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         }
 
         if (cd.isConnectingToInternet()) {
-            fetchFeed(token, eventid);
+            fetchFeed(token, eventid,""+pageNumber,pageSize);
         } else {
             Toast.makeText(getContext(), "No Internet Connection..!!", Toast.LENGTH_SHORT).show();
             if (newsfeedrefresh.isRefreshing()) {
@@ -370,6 +375,34 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             }
         }
 
+        //---------------For Pagination------------------------
+        feedrecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(pageCount>=pageNumber)
+                {
+                    pageNumber++;
+                    fetchFeed(token, eventid,""+pageNumber,
+                            pageSize);
+                }
+
+                try {
+                    JzvdStd.goOnPlayOnPause();
+                    MyJzvdStd.releaseAllVideos();
+                    JzvdStd.releaseAllVideos();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+            }
+        });
+//------------------------------------------------------------
         mAPIService.AttendeeFetchPost(token, eventid).enqueue(new Callback<FetchAttendee>() {
             @Override
             public void onResponse(Call<FetchAttendee> call, Response<FetchAttendee> response) {
@@ -405,7 +438,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
                 //fetchFeed(token,eventid);
                 if (cd.isConnectingToInternet()) {
-                    fetchFeed(token, eventid);
+                    fetchFeed(token, eventid,""+pageNumber,pageSize);
                 } else {
                     Toast.makeText(getContext(), "No Internet Connection..!!", Toast.LENGTH_SHORT).show();
                     if (newsfeedrefresh.isRefreshing()) {
@@ -932,6 +965,13 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
     }
 
+    //---------------For Pagination------------------------
+    @Override
+    public void load() {
+        pageNumber++;
+        fetchFeed(token,eventid,""+pageNumber,pageSize);
+    }
+//---------------------------------------------------------------
     public void PostLike(String reaction_type, String eventid, String feedid, String token) {
 //        showProgress();
         mAPIService.postLike(eventid, feedid, token).enqueue(new Callback<LikePost>() {
@@ -971,11 +1011,11 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         }
     }
 
-    public void fetchFeed(String token, String eventid) {
+    public void fetchFeed(String token, String eventid,String pageNumber,String pageSize) {
 
         /// showProgress();
 
-        mAPIService.FeedFetchPost(token, eventid).enqueue(new Callback<FetchFeed>() {
+        mAPIService.FeedFetchPost(token, eventid,pageNumber,pageSize).enqueue(new Callback<FetchFeed>() {
             @Override
             public void onResponse(Call<FetchFeed> call, Response<FetchFeed> response) {
 
@@ -1166,7 +1206,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
         try {
             Log.d("Newseed", response.toString());
-            newsfeedList = response.body().getNewsFeedList();
+
 //            if (newsfeedList.size() > 0) {
 //                post_layout.setVisibility(View.GONE);
 //            } else {
@@ -1187,11 +1227,29 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
             /*List<news_feed_list> newsFeedLists = new ArrayList<>();
             newsFeedLists = response.body().getNews_feed_list();*/
+            String totalRecords = response.body().getTotalRecords();
 
-            if (newsfeedList.size() > 0) {
-                setAdapter(newsfeedList);
+            if (Integer.parseInt(totalRecords) % Integer.parseInt(pageSize) == 0) {
+                pageCount = Integer.parseInt(totalRecords) / Integer.parseInt(pageSize);
+            } else {
+                pageCount = Integer.parseInt(totalRecords) / Integer.parseInt(pageSize) + 1;
             }
 
+            if (pageNumber == 1) {
+                newsfeedList = response.body().getNewsFeedList();
+                feedAdapter = new NewsFeedAdapterRecycler(getActivity(), newsfeedList, FragmentNewsFeed.this, true, relative);
+                feedrecycler.setAdapter(feedAdapter);
+            } else {
+                List<NewsFeedList> motificationList_new = response.body().getNewsFeedList();
+                for (int i = 0; i < motificationList_new.size(); i++) {
+                    newsfeedList.add(motificationList_new.get(i));
+                }
+                feedAdapter.notifyDataSetChanged();
+            }
+            /*if (newsfeedList.size() > 0) {
+                setAdapter(newsfeedList);
+            }*/
+/*
             feedrecycler.setOnScrollChangeListener(new View.OnScrollChangeListener() {
                 @Override
                 public void onScrollChange(View view, int i, int i1, int i2, int i3) {
@@ -1205,6 +1263,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                     }
                 }
             });
+*/
 
             saveFeedToDb(response);
             SubmitAnalytics(token, eventid, "", "", "newsfeed");
@@ -1489,7 +1548,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
-            fetchFeed(token, eventid);
+            fetchFeed(token, eventid,""+pageNumber,pageSize);
 
 
         } else {
@@ -1797,7 +1856,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         public void onReceive(Context context, Intent intent) {
             // progressbarForSubmit.setVisibility(View.GONE);
             Log.d("service end", "service end");
-            fetchFeed(token, eventid);
+            fetchFeed(token, eventid,""+pageNumber,pageSize);
             tv_uploading.clearAnimation();
             tv_uploading.setVisibility(View.GONE);
             // progressbarForSubmit.setProgress(Integer.parseInt(String.valueOf(progress)));
@@ -1844,5 +1903,4 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             }
         }
     }
-
 }

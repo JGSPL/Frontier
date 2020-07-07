@@ -355,7 +355,7 @@ public class ReactionView extends View {
             feed.setTotalLikes(String.valueOf(count));
 
             // String likeFlag = String.valueOf(response.body().getLikeFlag());
-            FragmentNewsFeed.newsfeedList.set(position, feed);
+          //  FragmentNewsFeed.newsfeedList.set(position, feed);
             Log.e("post", "success");
 /*
             if (device.equalsIgnoreCase("vivo V3")) {

@@ -28,6 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.procialize.mrgeApp20.ApiConstant.ApiConstant.pageSize;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PROFILE_PATH;
 import static com.procialize.mrgeApp20.Session.SessionManager.MY_PREFS_NAME;
@@ -92,7 +93,7 @@ public class WallPostService extends IntentService {
     public void fetchFeed(String token, String eventid) {
         procializeDB.getReadableDatabase();
 
-        mAPIService.FeedFetchPost(token, eventid).enqueue(new Callback<FetchFeed>() {
+        mAPIService.FeedFetchPost(token, eventid,"1",pageSize).enqueue(new Callback<FetchFeed>() {
             @Override
             public void onResponse(Call<FetchFeed> call, Response<FetchFeed> response) {
 

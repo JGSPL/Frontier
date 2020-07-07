@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -27,10 +28,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.procialize.mrgeApp20.Adapter.PollGraphAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
@@ -43,6 +52,7 @@ import com.procialize.mrgeApp20.DialogQuiz.adapter.QuizPagerDialogAdapter;
 import com.procialize.mrgeApp20.Fonts.RobotoButton;
 import com.procialize.mrgeApp20.GetterSetter.LivePollFetch;
 import com.procialize.mrgeApp20.GetterSetter.LivePollList;
+import com.procialize.mrgeApp20.GetterSetter.LivePollLogo;
 import com.procialize.mrgeApp20.GetterSetter.LivePollOptionList;
 import com.procialize.mrgeApp20.GetterSetter.LivePollSubmitFetch;
 import com.procialize.mrgeApp20.GetterSetter.QuizFolder;
@@ -66,6 +76,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_DIALOG_LIVE_POLL_LOGO;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_DIALOG_LIVE_POLL_LOGO_PATH;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_LIVE_POLL_LOGO;
+import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_LIVE_POLL_LOGO_PATH;
 
 public class DialogLivePoll implements View.OnClickListener{
     public static MyApplication appDelegate;
@@ -130,7 +144,7 @@ public class DialogLivePoll implements View.OnClickListener{
     private DBHelper procializeDB;
     private SQLiteDatabase db;
     RecyclerView pollGraph;
-
+    ImageView iv_logo;
 
     public void welcomeLivePollDialog(Context context) {
 
@@ -161,6 +175,7 @@ public class DialogLivePoll implements View.OnClickListener{
 
         ImageView imgClose = dialog.findViewById(R.id.imgClose);
         Button btnQuizStart = dialog.findViewById(R.id.btnQuizStart);
+        iv_logo = dialog.findViewById(R.id.iv_logo);
 
 
         imgClose.setOnClickListener(new View.OnClickListener() {
@@ -170,6 +185,7 @@ public class DialogLivePoll implements View.OnClickListener{
                 dialog.cancel();
             }
         });
+        fetchPollLogo(accessToken, eventid);
         btnQuizStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -620,6 +636,63 @@ public class DialogLivePoll implements View.OnClickListener{
     }
 */
 
+    public void fetchPollLogo(String token, String eventid) {
+        //showProgress();
+        mAPIService.SpotLivePollFetch(token, eventid).enqueue(new Callback<LivePollFetch>() {
+            @Override
+            public void onResponse(Call<LivePollFetch> call, Response<LivePollFetch> response) {
+
+                if (response.isSuccessful()) {
+                    Log.i("hit", "post submitted to API." + response.body().toString());
+
+                    showResponseLogo(response);
+                } else {
+
+                    Toast.makeText(context2, response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LivePollFetch> call, Throwable t) {
+                Toast.makeText(context2, "Low network or no network", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showResponseLogo(Response<LivePollFetch> response) {
+
+
+        String logoPath = response.body().getLogo_url_path();
+
+        LivePollLogo logo = response.body().getLive_poll_logo();
+        String strAppLivePollLogo = logo.getApp_livepoll_logo();
+
+        SharedPreferences prefs1 = context2.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor =prefs1.edit();
+        editor.putString(KEY_DIALOG_LIVE_POLL_LOGO_PATH,logoPath);
+        editor.putString(KEY_DIALOG_LIVE_POLL_LOGO,strAppLivePollLogo);
+        editor.commit();
+
+
+        String logoPath1 = prefs1.getString(KEY_LIVE_POLL_LOGO_PATH,"");
+        String strAppLivePollLogo1 =  prefs1.getString(KEY_LIVE_POLL_LOGO,"");
+
+        Glide.with(context2).load(logoPath1 + strAppLivePollLogo1)
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                //progressBar.setVisibility(View.GONE);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                // progressBar.setVisibility(View.GONE);
+                return false;
+            }
+        }).into(iv_logo);
+    }
+
     public void fetchPoll(String token, String eventid) {
         //showProgress();
         mAPIService.SpotLivePollFetch(token, eventid).enqueue(new Callback<LivePollFetch>() {
@@ -645,9 +718,24 @@ public class DialogLivePoll implements View.OnClickListener{
 
     public void showResponse(Response<LivePollFetch> response) {
 
+        if(totalOptionLists!=null)
+        {totalOptionLists.clear();}
+        if(pollLists!=null)
+        {pollLists.clear();}
         // specify an adapter (see also next example)
         totalOptionLists = response.body().getLivePollOptionList();
         pollLists = response.body().getLivePollList();
+        String logoPath = response.body().getLogo_url_path();
+
+        LivePollLogo logo = response.body().getLive_poll_logo();
+        String strAppLivePollLogo = logo.getApp_livepoll_logo();
+
+        SharedPreferences prefs1 = context2.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor =prefs1.edit();
+        editor.putString(KEY_DIALOG_LIVE_POLL_LOGO_PATH,logoPath);
+        editor.putString(KEY_DIALOG_LIVE_POLL_LOGO,strAppLivePollLogo);
+        editor.commit();
+
         //empty.setTextColor(Color.parseColor(colorActive));
         if (response.body().getLivePollOptionList().size() != 0) {
             //empty.setVisibility(View.GONE);
@@ -686,6 +774,24 @@ public class DialogLivePoll implements View.OnClickListener{
         } else {
             // empty.setVisibility(View.VISIBLE);
         }
+
+        String logoPath1 = prefs1.getString(KEY_LIVE_POLL_LOGO_PATH,"");
+        String strAppLivePollLogo1 =  prefs1.getString(KEY_LIVE_POLL_LOGO,"");
+
+        Glide.with(context2).load(logoPath1 + strAppLivePollLogo1)
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                //progressBar.setVisibility(View.GONE);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                // progressBar.setVisibility(View.GONE);
+                return false;
+            }
+        }).into(iv_logo);
     }
 
     public void submitLivePoll(String token, String eventid, String pollid, String polloptionid) {

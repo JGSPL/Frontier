@@ -108,12 +108,11 @@
             android:adjustViewBounds="true">
 
             <ImageView
-                android:id="@+id/profileIV"
+                android:id="@+id/iv_live_poll_logo"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
                 android:layout_centerInParent="true"
-                android:contentDescription="TODO"
-                android:src="@drawable/live_poll_logo" />
+                android:contentDescription="TODO" />
 
 
         </RelativeLayout>
