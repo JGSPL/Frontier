@@ -171,7 +171,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     public static int activetab;
     public static int flag = 0;
     public static String spot_poll = "S";
-    public static String spot_quiz = "spot_quiz";
+    public static String spot_quiz = "SQ";
     public static ImageView headerlogoIv, notificationlogoIv, grid_image_view, list_image_view;
     public static TextView txtMainHeader;
     public static LinearLayout linear_livestream, linear_zoom, linear_layout, linear_changeView;
