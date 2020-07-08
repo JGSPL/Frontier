@@ -12,6 +12,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
 
@@ -20,14 +21,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/transparent"
             android:contentInsetStart="0dp"
             android:contentInsetLeft="0dp"
             android:contentInsetEnd="0dp"
             android:contentInsetRight="0dp"
-            android:elevation="@dimen/elevation"
-            app:navigationIcon="@drawable/back_global"
-
             android:minHeight="?attr/actionBarSize"
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
@@ -41,11 +38,11 @@
                 android:layout_gravity="left"
                 android:layout_margin="10dp"
                 android:contentDescription=" "
-                android:src="@drawable/ic_back"
-                android:tint="@color/black"
+                android:src="@drawable/back_global"
                 android:visibility="visible" />
 
             <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/tv_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"

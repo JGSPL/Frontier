@@ -215,7 +215,16 @@ public class VideoFirstLevelActivity extends AppCompatActivity implements VideoF
                 String url2 = parts2[0];
 
                 Log.e("video", firstLevelFilter.getFileName());
-
+                SessionManager sessionManager = new SessionManager(this);
+                HashMap<String, String> user = sessionManager.getUserDetails();
+                final String token = user.get(SessionManager.KEY_TOKEN);
+                String fileId = firstLevelFilter.getId();
+                GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                        eventid,
+                        ApiConstant.fileViewed,
+                        "22",
+                        fileId);
+                getUserActivityReport.userActivityReport();
                 try {
 //                    Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse( videoUrl));
                     Intent webIntent = new Intent(Intent.ACTION_VIEW,
@@ -294,7 +303,9 @@ public class VideoFirstLevelActivity extends AppCompatActivity implements VideoF
                 String url2 = parts2[0];
 
                 Log.e("video", firstLevelFilter.getFileName());
-
+                SessionManager sessionManager = new SessionManager(this);
+                HashMap<String, String> user = sessionManager.getUserDetails();
+                final String token = user.get(SessionManager.KEY_TOKEN);
                 try {
 //                    Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse( videoUrl));
                     Intent webIntent = new Intent(Intent.ACTION_VIEW,
@@ -305,9 +316,21 @@ public class VideoFirstLevelActivity extends AppCompatActivity implements VideoF
 //                    } catch (ActivityNotFoundException ex) {
 //                        startActivity(webIntent);
 //                    }
-
+                    String fileId = firstLevelFilter.getId();
+                    GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                            eventid,
+                            ApiConstant.fileViewed,
+                            "22",
+                            fileId);
+                    getUserActivityReport.userActivityReport();
                 } catch (ActivityNotFoundException e) {
-
+                    String fileId = firstLevelFilter.getId();
+                    GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                            eventid,
+                            ApiConstant.fileViewed,
+                            "22",
+                            fileId);
+                    getUserActivityReport.userActivityReport();
                     // youtube is not installed.Will be opened in other
                     // available apps
                     Intent videoIntent = new Intent(Intent.ACTION_VIEW);
@@ -331,7 +354,6 @@ public class VideoFirstLevelActivity extends AppCompatActivity implements VideoF
                     startActivity(intent);
                 }
             }
-
         }
     }
 
@@ -480,6 +502,7 @@ public class VideoFirstLevelActivity extends AppCompatActivity implements VideoF
                                 if (videoLists.get(i).getFolderName().equals(foldername)) {
                                     FirstLevelFilter firstLevelFilter = new FirstLevelFilter();
 
+                                    firstLevelFilter.setId(videoLists.get(i).getId());
                                     firstLevelFilter.setTitle(videoLists.get(i).getTitle());
                                     firstLevelFilter.setFolderName(videoLists.get(i).getFolderName());
                                     firstLevelFilter.setFileName(videoLists.get(i).getVideoUrl());

@@ -45,6 +45,7 @@ import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.util.GetUserActivityReport;
@@ -88,7 +89,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
     ImageView commentBt;
     List<chat_list> chat_lists = new ArrayList<>();
     List<chat_list> chat_NewAdd = new ArrayList<>();
-    String buddy_status;
+    String buddy_status,from="";
     String page = "0";
     int pageNO, pageNumber = 1;
     DBHelper procializeDB;
@@ -101,7 +102,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
     ImageView emojiImageView;
     View rootView;
     EmojIconActions emojIcon;
-    private String userId, chat_with_id, attendeeid, name, city, country, company, designation, description, totalrating, profile, mobile;
+    private String userId, chat_with_id, attendeeid, name, city, country, company, designation, description, totalrating, profile, mobile,email;
     private APIService mAPIService;
     boolean isRefreshing = false;
     boolean isComplete = false;
@@ -124,8 +125,8 @@ public class ActivityBuddyChat extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                onBackPressed();
-                finish();
+              onBackPressed();
+                //                 finish();
             }
         });
 
@@ -141,7 +142,9 @@ public class ActivityBuddyChat extends AppCompatActivity {
             totalrating = getIntent().getExtras().getString("totalrating");
             profile = getIntent().getExtras().getString("profile");
             mobile = getIntent().getExtras().getString("mobile");
+            email = getIntent().getExtras().getString("email");
             buddy_status = getIntent().getExtras().getString("buddy_status");
+            from = getIntent().getExtras().getString("from");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -204,6 +207,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
                 attendeetail.putExtra("profile", profile);
                 attendeetail.putExtra("mobile", mobile);
                 attendeetail.putExtra("buddy_status", buddy_status);
+                attendeetail.putExtra("email", email);
 
 //                speakeretail.putExtra("totalrate",attendee.getTotalRating());
                 startActivity(attendeetail);
@@ -725,5 +729,15 @@ public class ActivityBuddyChat extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if(from.equalsIgnoreCase("noti"))
+        {
+            startActivity(new Intent(ActivityBuddyChat.this, MrgeHomeActivity.class));
+        }
+        else
+        {
+            finish();
+        }
+    }
 }

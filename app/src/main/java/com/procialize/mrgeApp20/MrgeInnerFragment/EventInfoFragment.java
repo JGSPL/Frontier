@@ -111,7 +111,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback , 
     Boolean isVisible = false;
     SharedPreferences prefs2;
     SharedPreferences.Editor editor2;
-    TextView event_venue;
+    TextView event_venue,tv_sponsor_header;
     View view_venue;
 
     public static Activity activity;
@@ -169,6 +169,7 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback , 
         dateTv = view2.findViewById(R.id.dateTv);
         cityTv = view2.findViewById(R.id.cityTv);
         event_venue = view2.findViewById(R.id.event_venue);
+        tv_sponsor_header = view2.findViewById(R.id.tv_sponsor_header);
         view_venue = view2.findViewById(R.id.view_venue);
 
         rv_sponsors = view2.findViewById(R.id.rv_sponsors);
@@ -242,6 +243,8 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback , 
                         rv_sponsors.setItemAnimator(new DefaultItemAnimator());
                         rv_sponsors.setAdapter(sponsorAdapter1);
                     }
+                    else
+                    {tv_sponsor_header.setVisibility(View.GONE);}
                 }
             }
         });
@@ -556,6 +559,8 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback , 
                         rv_sponsors.setItemAnimator(new DefaultItemAnimator());
                         rv_sponsors.setAdapter(sponsorAdapter1);
                     }
+                    else
+                    {tv_sponsor_header.setVisibility(View.GONE);}
                 }
             });
 
@@ -610,6 +615,10 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback , 
                 editor2.putString(KEY_EVENT_LOGO_PATH, eventLogoPath);
                 editor2.commit();
 
+                if(sponsorList.size()==0)
+                {tv_sponsor_header.setVisibility(View.GONE);}
+                else
+                {tv_sponsor_header.setVisibility(View.VISIBLE);}
 
                 SponsorAdapter sponsorAdapter = new SponsorAdapter(getActivity(), sponsorList, filePath,EventInfoFragment.this);
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);

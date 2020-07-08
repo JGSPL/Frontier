@@ -1,6 +1,8 @@
 package com.procialize.mrgeApp20.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,12 +38,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHolder> {
 
     private List<SponsorsList> sponsorsLists;
     private Context context;
     private String filePath;
 
+    String MY_PREFS_NAME = "ProcializeInfo";
     private SponsorAdapterListner listener;
 
     public SponsorAdapter(Context context, List<SponsorsList> sponsorsLists,String filePath, SponsorAdapterListner listener) {
@@ -69,6 +74,9 @@ public class SponsorAdapter extends RecyclerView.Adapter<SponsorAdapter.MyViewHo
             String file = filePath + sponsorsList.getLogo();
 
             holder.tv_name.setText(sponsorsList.getName());
+            SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String colorActive = prefs.getString("colorActive", "");
+            holder.tv_name.setTextColor(Color.parseColor(colorActive));
             Glide.with(context).load(file)
                     .placeholder(R.drawable.profilepic_placeholder)
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))

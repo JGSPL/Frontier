@@ -41,6 +41,7 @@ import com.procialize.mrgeApp20.GetterSetter.ReportSelfieHide;
 import com.procialize.mrgeApp20.GetterSetter.SelfieLike;
 import com.procialize.mrgeApp20.GetterSetter.SelfieList;
 import com.procialize.mrgeApp20.GetterSetter.SelfieListFetch;
+import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.SelfieUploadActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -81,7 +82,7 @@ public class SelfieContestActivity extends AppCompatActivity implements SelfieAd
     String eventid;
     String user_id, colorActive;
     ImageView headerlogoIv;
-    TextView header, seldescription;
+    TextView header, seldescription,tv_header;
     private APIService mAPIService;
     LinearLayout linear;
     TextView pullrefresh;
@@ -117,6 +118,7 @@ public class SelfieContestActivity extends AppCompatActivity implements SelfieAd
         });
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
+        tv_header = findViewById(R.id.tv_header);
         Util.logomethod(this, headerlogoIv);
         uploadbtn = findViewById(R.id.uploadbtn);
         linear = findViewById(R.id.linear);
@@ -125,9 +127,19 @@ public class SelfieContestActivity extends AppCompatActivity implements SelfieAd
         header = findViewById(R.id.title);
         pullrefresh = findViewById(R.id.pullrefresh);
         seldescription = findViewById(R.id.seldescription);
-        header.setTextColor(Color.parseColor(colorActive));
+        tv_header.setTextColor(Color.parseColor(colorActive));
         pullrefresh.setTextColor(Color.parseColor(colorActive));
         uploadbtn.setBackgroundColor(Color.parseColor(colorActive));
+
+        ImageView notificationlogoIv = findViewById(R.id.notificationlogoIv);
+        notificationlogoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(main);
+                //finish();
+            }
+        });
 
         try {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);

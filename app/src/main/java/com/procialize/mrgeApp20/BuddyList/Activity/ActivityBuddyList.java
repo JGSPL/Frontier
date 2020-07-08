@@ -417,11 +417,13 @@ public class ActivityBuddyList extends AppCompatActivity implements BuddyListAda
         attendeetail.putExtra("name", attendee.getFirstName() + " " + attendee.getLastName());
         attendeetail.putExtra("city", attendee.getCity());
         attendeetail.putExtra("country", attendee.getDesignation());
-        attendeetail.putExtra("company", attendee.getDesignation());
+        attendeetail.putExtra("company", attendee.getCompany_name());
         attendeetail.putExtra("designation", attendee.getDesignation());
         attendeetail.putExtra("description", attendee.getDesignation());
         attendeetail.putExtra("profile", attendee.getProfilePic());
         attendeetail.putExtra("mobile", attendee.getDesignation());
+        attendeetail.putExtra("from", "buddyList");
+        attendeetail.putExtra("email", attendee.getEmail());
 //                speakeretail.putExtra("totalrate",attendee.getTotalRating());
         startActivity(attendeetail);
     }

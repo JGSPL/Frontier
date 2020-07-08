@@ -56,6 +56,8 @@ public class EngagementFragment extends Fragment {
     ProgressBar progressBar;
     APIService mAPIService;
     TextView selfieTv, tv_selfie_total_items, tv_selfie_desc, videoTv, video_total_items, tv_video_desc;
+    String selfieTitle="";
+    String videoTitle ="";
     ConnectionDetector cd;
     private List<EventSettingList> eventSettingLists;
     public static Activity activity;
@@ -143,6 +145,7 @@ public class EngagementFragment extends Fragment {
             public void onClick(View v) {
 
                 Intent selfie = new Intent(getActivity(), SelfieContestActivity.class);
+                selfie.putExtra("header",selfieTitle);
                 startActivity(selfie);
 //                finish();
             }
@@ -153,6 +156,7 @@ public class EngagementFragment extends Fragment {
             public void onClick(View v) {
 
                 Intent videocontest = new Intent(getActivity(), VideoContestActivity.class);
+                videocontest.putExtra("header",videoTitle);
                 startActivity(videocontest);
 //                finish();
             }
@@ -219,7 +223,7 @@ public class EngagementFragment extends Fragment {
 
     public void showResponse(Response<FetchEngagementData> response) {
         if (response.body().getStatus().equals("success")) {
-            String selfieTitle = response.body().getSelfie_engagement().getSelfie_title();
+            selfieTitle = response.body().getSelfie_engagement().getSelfie_title();
             String selfieDescription = response.body().getSelfie_engagement().getSelfie_description();
             String selfieTotalItem = response.body().getSelfie_engagement().getTotal_items();
 
@@ -227,7 +231,7 @@ public class EngagementFragment extends Fragment {
             tv_selfie_total_items.setText(selfieTotalItem);
             tv_selfie_desc.setText(selfieDescription);
 
-            String videoTitle = response.body().getVideo_engagement().getVideo_title();
+            videoTitle = response.body().getVideo_engagement().getVideo_title();
             String videoDescription = response.body().getVideo_engagement().getVideo_description();
             String videoTotalItems = response.body().getVideo_engagement().getTotal_items();
 

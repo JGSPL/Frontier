@@ -1030,4 +1030,18 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
         finish();
 
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                cameraTask();
+            } else {
+                Toast.makeText(this, "No permission to read external storage.",
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        }
+    }
 }

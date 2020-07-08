@@ -310,6 +310,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                notificationIntent.putExtra("profile",  attendeeInfoList.get(0).getProfilePic());
                notificationIntent.putExtra("mobile",  attendeeInfoList.get(0).getMobile());
                notificationIntent.putExtra("buddy_status",  attendeeInfoList.get(0).getBuddy_status());
+               notificationIntent.putExtra("fromPage",  "noti");
                /*notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                        | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                contentIntent = PendingIntent.getActivity(
@@ -358,6 +359,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                notificationIntent.putExtra("description",  "");
                notificationIntent.putExtra("profile",  attendeeInfoList.get(0).getProfilePic());
                notificationIntent.putExtra("mobile",  "");
+               notificationIntent.putExtra("from",  "noti");
                /*notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                        | Intent.FLAG_ACTIVITY_CLEAR_TOP);*/
                TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -385,6 +387,29 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                        getApplicationContext(), new Random().nextInt(),
                        notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
            }
+       }
+       else if(messageType.contains("spot_quiz"))
+       {
+           Intent notificationIntent = new Intent(getApplicationContext(),
+                   MrgeHomeActivity.class);
+           notificationIntent.putExtra("fromNotification", "fromNotification");
+           notificationIntent.putExtra("type", messageType);
+           notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                   | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+           contentIntent = PendingIntent.getActivity(
+                   getApplicationContext(), new Random().nextInt(),
+                   notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+       } else if(messageType.contains("spot_poll"))
+       {
+           Intent notificationIntent = new Intent(getApplicationContext(),
+                   MrgeHomeActivity.class);
+           notificationIntent.putExtra("fromNotification", "fromNotification");
+           notificationIntent.putExtra("type", messageType);
+           notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                   | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+           contentIntent = PendingIntent.getActivity(
+                   getApplicationContext(), new Random().nextInt(),
+                   notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
        }
        else
         {

@@ -47,6 +47,7 @@ import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.GetterSetter.SelfieLike;
 import com.procialize.mrgeApp20.GetterSetter.SelfieList;
 import com.procialize.mrgeApp20.GetterSetter.SelfieListFetch;
+import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.ImageMultipleActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -200,6 +201,16 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
+
+        ImageView notificationlogoIv = findViewById(R.id.notificationlogoIv);
+        notificationlogoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(main);
+                //finish();
+            }
+        });
 
 
         int resId = R.anim.layout_animation_slide_right;

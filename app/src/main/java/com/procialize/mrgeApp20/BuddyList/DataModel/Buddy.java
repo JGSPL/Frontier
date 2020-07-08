@@ -28,6 +28,21 @@ public class Buddy {
     @Expose
     private String profilePic;
 
+    @SerializedName("email")
+    @Expose
+    private String email;
+    @SerializedName("company_name")
+    @Expose
+    private String company_name;
+
+    public String getCompany_name() {
+        return company_name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public String getProfilePic() {
         return profilePic;
     }

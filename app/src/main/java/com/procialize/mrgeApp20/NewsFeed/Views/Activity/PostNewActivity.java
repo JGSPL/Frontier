@@ -253,8 +253,12 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         txtcount = findViewById(R.id.txtcount);
         textData = findViewById(R.id.textData);
         tv_name = findViewById(R.id.tv_name);
+        TextView tv_header = findViewById(R.id.tv_header);
         progressView = findViewById(R.id.progressView);
         // get user data from session
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        String colorActive = prefs.getString("colorActive", "");
+        tv_header.setTextColor(Color.parseColor(colorActive));
 
         final TextWatcher txwatcher = new TextWatcher() {
             @Override
@@ -275,7 +279,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
 
                 if (s.length() > 0) {
                     postbtn.setTextColor(getResources().getColor(R.color.colorwhite));
-                    postbtn.setBackgroundColor(getResources().getColor(R.color.orange));
+                    postbtn.setBackgroundColor(Color.parseColor(colorActive));
                 } else {
                     postbtn.setTextColor(getResources().getColor(R.color.orange));
                     postbtn.setBackgroundColor(getResources().getColor(R.color.colorwhite));
@@ -314,8 +318,8 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         HashMap<String, String> user = session.getUserDetails();
         String profilepic = user.get(SessionManager.KEY_PIC);
         if (profilepic != null) {
-            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            String profilePicPath  = prefs.getString(KEY_PROFILE_PIC_PATH,"");
+            SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String profilePicPath  = prefs1.getString(KEY_PROFILE_PIC_PATH,"");
 
             Glide.with(this).load(profilePicPath/*ApiConstant.profilepic*/ + profilepic).circleCrop()
                     .listener(new RequestListener<Drawable>() {
@@ -341,8 +345,8 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         apikey = user.get(SessionManager.KEY_TOKEN);
 
         tv_name.setText(user.get(SessionManager.KEY_NAME) + " " + user.get(SessionManager.KEY_LNAME));
-        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        eventId = prefs.getString("eventid", "1");
+        SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        eventId = prefs1.getString("eventid", "1");
 
         setupMentionsList();
 

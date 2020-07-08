@@ -136,23 +136,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/textsizesmall" />
 
-                <View
-                    android:id="@+id/viewtwo"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/linecolor" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                    android:id="@+id/tvcompany"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin"
-                    android:drawableLeft="@drawable/att_designa"
-                    android:drawablePadding="5dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textsizesmall" />
 
                 <View
                     android:id="@+id/viewthree"
@@ -171,7 +155,23 @@
                     android:drawablePadding="5dp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/textsizesmall" />
+                <View
+                    android:id="@+id/viewtwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/linecolor" />
 
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/tvcompany"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin"
+                    android:drawableLeft="@drawable/att_designa"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall" />
                 <View
                     android:id="@+id/viewtfour"
                     android:layout_width="match_parent"
@@ -185,7 +185,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin"
-                    android:drawableLeft="@drawable/att_mobile"
+                    android:drawableLeft="@drawable/att_email"
                     android:drawablePadding="5dp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/textsizesmall" />
@@ -208,6 +208,26 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/textsizesmall"
                     android:visibility="gone"/>
+
+
+
+                <View
+                    android:id="@+id/view_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/linecolor" />
+
+                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    android:id="@+id/tv_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin"
+                    android:drawableLeft="@drawable/att_email"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsizesmall"/>
 
             </LinearLayout>
 

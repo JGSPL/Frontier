@@ -42,6 +42,7 @@ import com.procialize.mrgeApp20.GetterSetter.VideoContest;
 import com.procialize.mrgeApp20.GetterSetter.VideoContestLikes;
 import com.procialize.mrgeApp20.GetterSetter.VideoContestListFetch;
 import com.procialize.mrgeApp20.InnerDrawerActivity.ExoVideoActivity;
+import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.InnerDrawerActivity.VideoContestUploadActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -80,7 +81,7 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
     String eventid;
     String user_id, colorActive;
     ImageView headerlogoIv;
-    TextView header, seldescription;
+    TextView header, seldescription,tv_header;
     private APIService mAPIService;
     LinearLayout liner;
     TextView pullrefresh;
@@ -116,11 +117,22 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
         videofeedrefresh = findViewById(R.id.videofeedrefresh);
         videorecycler = findViewById(R.id.videorecycler);
         header = findViewById(R.id.title);
-        header.setTextColor(Color.parseColor(colorActive));
+        tv_header = findViewById(R.id.tv_header);
+        tv_header.setTextColor(Color.parseColor(colorActive));
         seldescription = findViewById(R.id.seldescription);
         liner = findViewById(R.id.liner);
         pullrefresh = findViewById(R.id.pullrefresh);
         pullrefresh.setTextColor(Color.parseColor(colorActive));
+
+        ImageView notificationlogoIv = findViewById(R.id.notificationlogoIv);
+        notificationlogoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(main);
+                //finish();
+            }
+        });
 
         int columns = 2;
         videorecycler.setLayoutManager(new GridLayoutManager(this, columns));
