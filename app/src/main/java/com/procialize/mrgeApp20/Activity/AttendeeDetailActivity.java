@@ -227,11 +227,19 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         linsave = findViewById(R.id.linsave);
         imgBuddy = findViewById(R.id.imgBuddy);
         relSendmsg = findViewById(R.id.relSendmsg);
+        sendbtn = findViewById(R.id.sendMsg);
+
         tv_description.setMovementMethod(new ScrollingMovementMethod());
 
         if (buddy_status.equalsIgnoreCase("send_request")) {
             saveContact.setText("Add to buddy list");
+            final GradientDrawable shape = setgradientDrawable(5, colorActive);
 
+            sendbtn.setBackground(shape);
+             saveContact.setTextColor(Color.parseColor(colorActive));
+            // imgBuddy.setT
+            int color = Color.parseColor(colorActive);
+            imgBuddy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
             imgBuddy.setVisibility(View.VISIBLE);
 
         } else if (buddy_status.equalsIgnoreCase("friends")) {
@@ -279,7 +287,6 @@ public class AttendeeDetailActivity extends AppCompatActivity {
 
          attendeetitle.setTextColor(Color.parseColor(colorActive));
         // tvname.setTextColor(Color.parseColor(colorActive));
-        sendbtn = findViewById(R.id.sendMsg);
 
         try {
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
@@ -306,19 +313,15 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
-
         final GradientDrawable shape = setgradientDrawable(5, colorActive);
+
         final GradientDrawable shapelayout = setgradientDrawable(10, colorActive);
         final GradientDrawable shapeunactive = setgradientDrawable(5, "#4D4D4D");
         final GradientDrawable shapeunactivelayout = setgradientDrawable(10, "#4D4D4D");
 //
          linsave.setBackground(shapelayout);
         linMsg.setBackground(shapelayout);
-        sendbtn.setBackground(shape);
-         // saveContact.setTextColor(Color.parseColor(colorActive));
-         // imgBuddy.setT
-        int color = Color.parseColor(colorActive);
-        imgBuddy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
 
 //        posttextEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 //            @Override
