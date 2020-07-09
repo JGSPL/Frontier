@@ -21,7 +21,13 @@ public class VideoList implements Serializable {
     private String folderName;
     @SerializedName("folder_id")
     @Expose
-    private String folder_id;
+    private String folder_id;  @SerializedName("id")
+    @Expose
+    private String id;
+
+    public String getId() {
+        return id;
+    }
 
     public String getFolder_id() {
         return folder_id;

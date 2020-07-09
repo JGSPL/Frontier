@@ -381,7 +381,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
         posttextEt.addTextChangedListener(txwatcher);
 
 
-        linMsg.setVisibility(View.GONE);
+       // linMsg.setVisibility(View.GONE);
         if (attendeeid.equalsIgnoreCase(getattendee)) {
             linMsg.setVisibility(View.GONE);
             linearsaveandsend.setVisibility(View.GONE);
@@ -683,6 +683,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
                 attendeetail.putExtra("profile", profile);
                 attendeetail.putExtra("mobile", mobile);
                 attendeetail.putExtra("buddy_status", buddy_status);
+                attendeetail.putExtra("fromPage", "Detail");
 
 //                speakeretail.putExtra("totalrate",attendee.getTotalRating());
                 startActivity(attendeetail);

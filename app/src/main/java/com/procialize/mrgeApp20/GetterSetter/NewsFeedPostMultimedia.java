@@ -8,9 +8,18 @@ public class NewsFeedPostMultimedia implements Serializable {
     String media_file_thumb;
     String news_feed_id;
     String is_uploaded;
+    String is_uploading_started;
     String media_type;
     String compressedPath;
     String folderUniqueId;
+
+    public String getIs_uploading_started() {
+        return is_uploading_started;
+    }
+
+    public void setIs_uploading_started(String is_uploading_started) {
+        this.is_uploading_started = is_uploading_started;
+    }
 
     String postText;
 

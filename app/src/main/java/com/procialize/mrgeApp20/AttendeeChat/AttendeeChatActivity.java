@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,6 +53,7 @@ import com.procialize.mrgeApp20.BuddyList.DataModel.FetchChatList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
+import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.util.GetUserActivityReport;
@@ -76,7 +79,7 @@ import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_ATTENDEE_P
 public class AttendeeChatActivity extends AppCompatActivity {
 
     private String chat_with_id,attendeeid, name, city, country, company, designation, description, totalrating, profile, mobile,
-            buddy_status;
+            buddy_status,from="";
     ImageView iv_buddy_details,profileIV;
     TextView title, sub_title;
     public AttendeeChatAdapterRecycler liveChatAdapter;
@@ -117,7 +120,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_buddy_chat);
+        setContentView(R.layout.activity_attendee_chat);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -133,8 +136,8 @@ public class AttendeeChatActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                onBackPressed();
-                finish();
+                onBackPressed();
+                ///finish();
             }
         });
 
@@ -151,6 +154,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
             profile = getIntent().getExtras().getString("profile");
             mobile = getIntent().getExtras().getString("mobile");
             buddy_status = getIntent().getExtras().getString("buddy_status");
+            from = getIntent().getExtras().getString("fromPage");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -223,10 +227,16 @@ public class AttendeeChatActivity extends AppCompatActivity {
         //commentEt = findViewById(R.id.commentEt);
         commentBt = findViewById(R.id.commentBt);
         commentBt = findViewById(R.id.commentBt);
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        colorActive = prefs.getString("colorActive", "");
+        //commentBt.setColorFilter(Color.parseColor(colorActive));
         rootView = findViewById(R.id.root_view);
         commentEt = (EmojiconEditText) findViewById(R.id.commentEt);
         emojiImageView = (ImageView) findViewById(R.id.emoji_btn);
         mAPIService = ApiUtils.getAPIService();
+
+      /* CardView myCardView1 = (CardView)findViewById(R.id.myCardView1);
+        myCardView1.setBackgroundColor(Color.parseColor(colorActive));*/
 
         SessionManager sessionManager = new SessionManager(AttendeeChatActivity.this);
 
@@ -324,7 +334,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
                     }
                     isComplete = true;
                     Toast.makeText(AttendeeChatActivity.this, "Chat loading complete", Toast.LENGTH_SHORT).show();
-                    /*pageNumber = 1;*/
+                    pageNumber = 1;
                 }
             }
         });
@@ -663,4 +673,15 @@ public class AttendeeChatActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if(from.equalsIgnoreCase("noti"))
+        {
+            startActivity(new Intent(AttendeeChatActivity.this,MrgeHomeActivity.class));
+        }
+        else
+        {
+            finish();
+        }
+    }
 }

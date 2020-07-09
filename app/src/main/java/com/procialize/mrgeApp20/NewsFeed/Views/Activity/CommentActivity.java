@@ -190,7 +190,7 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
     private SQLiteDatabase db;
     private UsersAdapter usersAdapter;
     private List<AttendeeList> attendeeDBList;
-
+TextView commentHeader;
     static public void shareImage(final String data, String url, final Context context) {
         Picasso.with(context).load(url).into(new com.squareup.picasso.Target() {
             @Override
@@ -257,6 +257,9 @@ public class CommentActivity extends AppCompatActivity implements CommentAdapter
         newsFeedPath = prefs.getString(KEY_NEWSFEED_PATH, "");
         newsFeedProfilePath = prefs.getString(KEY_NEWSFEED_PROFILE_PATH, "");
 
+
+        commentHeader = findViewById(R.id.commentHeader);
+        commentHeader.setTextColor(Color.parseColor(colorActive));
         Intent intent = getIntent();
         mAPIService = ApiUtils.getAPIService();
         mAPItenorService = ApiUtils.getTenorAPIService();

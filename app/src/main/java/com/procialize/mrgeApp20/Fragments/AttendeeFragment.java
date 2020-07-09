@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -71,7 +73,7 @@ import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
  * create an instance of this fragment.
  */
 public class AttendeeFragment extends Fragment implements AttendeeAdapter.AttendeeAdapterListner {
-
+    private Handler mHandler;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -134,7 +136,7 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_attendee, container, false);
 
-
+        mHandler = new Handler();
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         SharedPreferences prefs1 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -333,16 +335,32 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString(KEY_ATTENDEE_PIC_PATH,picPath);
         edit.commit();
-        procializeDB.clearAttendeesTable();
-        procializeDB.insertAttendeesInfo(attendeeList, db);
-        //attendeesDBList = dbHelper.getAttendeeDetails();
 
 
-        attendeeAdapter = new AttendeeAdapter(getActivity(), response.body().getAttendeeList(),picPath, this);
-        attendeeAdapter.notifyDataSetChanged();
+
+        attendeeAdapter = new AttendeeAdapter(getActivity(), attendeeList,picPath, this);
+        //attendeeAdapter.notifyDataSetChanged();
+        attendeerecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         attendeerecycler.setAdapter(attendeeAdapter);
-        attendeerecycler.scheduleLayoutAnimation();
+        attendeerecycler.smoothScrollToPosition(0);
+        //attendeerecycler.scheduleLayoutAnimation();
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Update the value background thread to UI thread
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("service end", "service end");
+                        procializeDB.clearAttendeesTable();
+                        procializeDB.insertAttendeesInfo(attendeeList, db);
+                    }
+                });
+            }
+        }).start();
+
+        //attendeesDBList = dbHelper.getAttendeeDetails();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -385,6 +403,7 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
             attendeetail.putExtra("profile", attendee.getProfilePic());
             attendeetail.putExtra("mobile", attendee.getMobile());
             attendeetail.putExtra("buddy_status", attendee.getBuddy_status());
+            attendeetail.putExtra("fromPage", "Attendee");
 
 //                speakeretail.putExtra("totalrate",attendee.getTotalRating());
             startActivity(attendeetail);
@@ -392,46 +411,13 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
        // UserChatHistory(eventid,token,attendeeTmp.getAttendeeId(),"1");;
 
     }
-    private void UserChatHistory(final String eventid, final String token, String budd_id,String msg) {
-        mAPIService.EventChatHistory(eventid,token,budd_id,msg).enqueue(new Callback<FetchChatList>() {
-            @Override
-            public void onResponse(Call<FetchChatList> call, Response<FetchChatList> response) {
-
-                if (response.isSuccessful()) {
-                    Log.i("hit", "post submitted to API." + response.body().toString());
-
-                    showResponseChat(response);
-
-                } else {
-
-                    Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-
-            @Override
-            public void onFailure(Call<FetchChatList> call, Throwable t) {
-                Toast.makeText(getContext(), "Low network or no network", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-
-
-    public void showResponseChat(Response<FetchChatList> response) {
-
-        // specify an adapter (see also next example)
-        if (response.body().getStatus().equalsIgnoreCase("success")) {
-
-
-        }
-    }
-
 
     private class SpotChatReciever extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             attendeeAdapter.notifyDataSetChanged();
+            attendeerecycler.smoothScrollToPosition(0);
         }
     }
 
@@ -444,7 +430,7 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
 
     }
 
-    @Override
+  /*  @Override
     public void onResume() {
         super.onResume();
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -463,7 +449,7 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
             attendeerecycler.setAdapter(attendeeAdapter);
             attendeerecycler.scheduleLayoutAnimation();
         }
-    }
+    }*/
 
     /**
      * This interface must be implemented by activities that contain this

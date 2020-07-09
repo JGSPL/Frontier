@@ -1,43 +1,28 @@
 package com.procialize.mrgeApp20.BuddyList.Activity;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.Contacts;
-import android.provider.ContactsContract;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -57,9 +42,6 @@ import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
-import org.apache.commons.lang3.StringEscapeUtils;
-
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -70,13 +52,14 @@ import retrofit2.Response;
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.WRITE_CONTACTS;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_ATTENDEE_PIC_PATH;
-import static com.procialize.mrgeApp20.Utility.Utility.setgradientDrawable;
 
 public class ActivityBuddyDetails extends AppCompatActivity {
 
     public static final int RequestPermissionCode = 8;
-    String attendeeid, city, country, company, designation, description, totalrating, name, profile, mobile;
-    TextView tvname, tvcompany, tvdesignation, tvcity, tvmob,  tv_description;
+    String attendeeid, city, country, company, designation, description, totalrating, name, profile, mobile, email;
+    TextView tvname, tvcompany, tvdesignation, tvcity, tvmob, tv_description, tv_email;
+    View view_email;
+
     Dialog myDialog;
     APIService mAPIService;
     SessionManager sessionManager;
@@ -92,7 +75,8 @@ public class ActivityBuddyDetails extends AppCompatActivity {
     View viewtwo, viewthree, viewone, viewtfour, viewtfive;
     ProgressDialog progressDialog;
     ImageView headerlogoIv;
-   // RelativeLayout linear;
+    TextView txtRemove;
+    // RelativeLayout linear;
     private DBHelper procializeDB;
     private SQLiteDatabase db;
     private ConnectionDetector cd;
@@ -100,7 +84,6 @@ public class ActivityBuddyDetails extends AppCompatActivity {
     private List<AttendeeList> attendeesDBList;
     private DBHelper dbHelper;
     private RelativeLayout layoutTop;
-            TextView txtRemove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +111,8 @@ public class ActivityBuddyDetails extends AppCompatActivity {
                 attendeetail.putExtra("description", description);
                 attendeetail.putExtra("profile", profile);
                 attendeetail.putExtra("mobile", mobile);
+                attendeetail.putExtra("from", "buddyDetails");
+                attendeetail.putExtra("email", email);
                 startActivity(attendeetail);
                 finish();
             }
@@ -180,6 +165,7 @@ public class ActivityBuddyDetails extends AppCompatActivity {
             totalrating = getIntent().getExtras().getString("totalrating");
             profile = getIntent().getExtras().getString("profile");
             mobile = getIntent().getExtras().getString("mobile");
+            email = getIntent().getExtras().getString("email");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -201,17 +187,19 @@ public class ActivityBuddyDetails extends AppCompatActivity {
         //linear = findViewById(R.id.linear);
         tvmob = findViewById(R.id.tvmob);
         layoutTop = findViewById(R.id.layoutTop);
+
+        view_email = findViewById(R.id.view_email);
+        tv_email = findViewById(R.id.tv_email);
+
         tv_description.setMovementMethod(new ScrollingMovementMethod());
-        
+
         txtRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AccectRejectMethod(eventid,apikey,attendeeid,"03");
+                AccectRejectMethod(eventid, apikey, attendeeid, "03");
 
             }
         });
-
-
 
 
         if (name.equalsIgnoreCase("N A")) {
@@ -223,10 +211,11 @@ public class ActivityBuddyDetails extends AppCompatActivity {
         }
 
         try {
-            if (company.equalsIgnoreCase("N A")) {
+            /*if (company.equalsIgnoreCase("N A")) {
                 tvcompany.setVisibility(View.GONE);
                 viewthree.setVisibility(View.GONE);
-            } else if (company != null && attendee_company.equalsIgnoreCase("1")) {
+            } else*/
+            if (company != null) {
                 if (company.equalsIgnoreCase("")) {
                     tvcompany.setVisibility(View.GONE);
                     viewthree.setVisibility(View.GONE);
@@ -280,6 +269,17 @@ public class ActivityBuddyDetails extends AppCompatActivity {
         }
 
         try {
+            if (!email.isEmpty()) {
+                tv_email.setText(email);
+                tv_email.setVisibility(View.VISIBLE);
+                view_email.setVisibility(View.VISIBLE);
+            } else {
+                tv_email.setVisibility(View.GONE);
+                view_email.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+        }
+        try {
             if (city.equalsIgnoreCase("N A")) {
                 tvcity.setVisibility(View.GONE);
                 viewtfour.setVisibility(View.GONE);
@@ -332,7 +332,7 @@ public class ActivityBuddyDetails extends AppCompatActivity {
 
         if (profile != null) {
             SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            String picPath =  prefs1.getString(KEY_ATTENDEE_PIC_PATH,"");
+            String picPath = prefs1.getString(KEY_ATTENDEE_PIC_PATH, "");
             Glide.with(this).load(/*ApiConstant.profilepic*/picPath + profile).circleCrop()
                     .listener(new RequestListener<Drawable>() {
                         @Override
@@ -419,8 +419,9 @@ public class ActivityBuddyDetails extends AppCompatActivity {
             }
         }
     }
+
     public void AccectRejectMethod(String eventid, String toke, String Buddy_id, String response) {
-        mAPIService.removeBuddy(eventid,toke, Buddy_id).enqueue(new Callback<FetchSendRequest>() {
+        mAPIService.removeBuddy(eventid, toke, Buddy_id).enqueue(new Callback<FetchSendRequest>() {
             @Override
             public void onResponse(Call<FetchSendRequest> call, Response<FetchSendRequest> response) {
 
@@ -438,10 +439,11 @@ public class ActivityBuddyDetails extends AppCompatActivity {
             public void onFailure(Call<FetchSendRequest> call, Throwable t) {
                 Log.e("hit", "Unable to submit post to API.");
                 Toast.makeText(ActivityBuddyDetails.this, "No network", Toast.LENGTH_SHORT).show();
-                
+
             }
         });
     }
+
     public void showResponseBuddy(Response<FetchSendRequest> response) {
 
         if (response.body().getStatus().equalsIgnoreCase("success")) {

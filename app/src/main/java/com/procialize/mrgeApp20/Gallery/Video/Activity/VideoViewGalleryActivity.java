@@ -238,6 +238,25 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
         pager.setAdapter(swipepagerAdapter);
         swipepagerAdapter.notifyDataSetChanged();
 
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                JzvdStd.goOnPlayOnPause();
+            }
+
+            @Override
+            public void onPageSelected(int position1) {
+                JzvdStd.goOnPlayOnPause();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                JzvdStd.goOnPlayOnPause();
+//                                WallFragment_POST.newsfeedrefresh.setEnabled(false);
+
+            }
+        });
+
 
         LinearLayout linShare = findViewById(R.id.linShare);
         LinearLayout linSave = findViewById(R.id.linSave);
@@ -252,14 +271,7 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
         SessionManager sessionManager = new SessionManager(VideoViewGalleryActivity.this);
         HashMap<String, String> user = sessionManager.getUserDetails();
         final String token = user.get(SessionManager.KEY_TOKEN);
-        //------------------------------------------------------------------
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(VideoViewGalleryActivity.this, token,
-                eventid,
-                ApiConstant.fileViewed,
-                "22",
-                firstLevelFilters.get(rvposition).getId());
-        getUserActivityReport.userActivityReport();
-        //------------------------------------------------------------------
+
 
         linShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -392,6 +404,8 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
 //                        if(pager.getCurrentItem()==position) {
 //                            recyclerView.setBackgroundColor(Color.parseColor(colorActive));
 //                        }
+                        String fileId = firstLevelFilters.get(position).getId();
+
                         recyclerView.getItemDecorationAt(position);
                     }
 
@@ -413,6 +427,7 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
                     if (position >= 0) {
                         pager.setCurrentItem(position);
                         recyclerView.scrollToPosition(position);
+                        String fileId = firstLevelFilters.get(position).getId();
 
 //                        if(pager.getCurrentItem()==position) {
 //                            recyclerView.setBackgroundColor(Color.parseColor(colorActive));
@@ -450,7 +465,13 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
 
             @Override
             public void onPageSelected(int position) {
-
+                String fileId = firstLevelFilters.get(position).getId();
+                GetUserActivityReport getUserActivityReport = new GetUserActivityReport(VideoViewGalleryActivity.this, token,
+                        eventid,
+                        ApiConstant.fileViewed,
+                        "22",
+                        fileId);
+                getUserActivityReport.userActivityReport();
             }
 
             @Override
@@ -476,6 +497,18 @@ public class VideoViewGalleryActivity extends AppCompatActivity implements Swipe
             recyclerView.setVisibility(View.GONE);
             btnlayout.setVisibility(View.GONE);
         }
+
+        int pos = pager.getCurrentItem();
+        //------------------------------------------------------------------
+        String fileId = firstLevelFilters.get(pos).getId();
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(VideoViewGalleryActivity.this, token,
+                eventid,
+                ApiConstant.fileViewed,
+                "22",
+                fileId);
+        getUserActivityReport.userActivityReport();
+        //------------------------------------------------------------------
+
     }
 
     @Override

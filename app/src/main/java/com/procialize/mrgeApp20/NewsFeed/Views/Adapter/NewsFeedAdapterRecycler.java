@@ -330,7 +330,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
         }
 
         //---------------For Pagination------------------------
-       /* if ((position >= getItemCount() - 1))
+        /*if ((position >= getItemCount() - 1))
             listener.load();*/
         //-------------------------------------------------------
 

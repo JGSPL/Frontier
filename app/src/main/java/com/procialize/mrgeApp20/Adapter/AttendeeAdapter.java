@@ -262,13 +262,17 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.MyView
 
                             // name match condition. this might differ depending on your requirement
                             // here we are looking for name or phone number match
-                            String name = row.getFirstName().toLowerCase() /*+ " " + row.getLastName().toLowerCase()*/;
-
+                            String name="";
+                            if(row.getLastName()!=null) {
+                                 name = row.getFirstName().toLowerCase() + " " + row.getLastName().toLowerCase();
+                            }else
+                            {
+                                 name = row.getFirstName().toLowerCase();
+                            }
                             if (name.contains(charString.toLowerCase())) {
                                 filteredList.add(row);
                             }
                         }
-
                         attendeeListFiltered = filteredList;
                     }
                 }

@@ -54,6 +54,7 @@ import com.procialize.mrgeApp20.GetterSetter.SelfieLike;
 import com.procialize.mrgeApp20.GetterSetter.VideoContest;
 import com.procialize.mrgeApp20.GetterSetter.VideoContestLikes;
 import com.procialize.mrgeApp20.GetterSetter.VideoContestListFetch;
+import com.procialize.mrgeApp20.InnerDrawerActivity.NotificationActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -199,6 +200,17 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
         int resId = R.anim.layout_animation_slide_right;
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(this, resId);
         recyclerView.setLayoutAnimation(animation);
+
+        ImageView notificationlogoIv = findViewById(R.id.notificationlogoIv);
+        notificationlogoIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent main = new Intent(getApplicationContext(), NotificationActivity.class);
+                startActivity(main);
+                //finish();
+            }
+        });
+
 
         swipeImageAdapter = new SwipeEngagmentVideoAdapter(this, firstLevelFilters, this);
         swipeImageAdapter.notifyDataSetChanged();

@@ -18,7 +18,7 @@ public class ApiConstant {
     public static String pageVisited = "1";
     public static String fileViewed = "2";
     public static String fileDownloaded = "3";
-    public static String pageSize = "50";
+    public static String pageSize = "10";
     //Production URL
 
     public static String webUrl = "https://www.procialize.live/stage/mrge/";
@@ -45,7 +45,7 @@ public class ApiConstant {
     public static String doc = "https://www.procialize.info/";
     //    public static String doc = "https://www.procialize.live/stage/baseapp/";
     public static String Leaderboard_IMAGE = imgURL + "uploads/attendee/";
-   // public static String profilepic = imgURL + "uploads/attendee/";
+    //public static String profilepic = imgURL + "uploads/attendee/";
    // public static String eventpic = imgURL + "uploads/app_logo/";
     public static String newsfeedwall = imgURL + "uploads/news_feed_media_file/";
    // public static String speaker = imgURL + "uploads/speaker/";

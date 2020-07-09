@@ -1,6 +1,9 @@
 package com.procialize.mrgeApp20.Background;
 
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,6 +18,7 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
@@ -26,6 +30,7 @@ import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.NewsFeedPostMultimedia;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
+import com.procialize.mrgeApp20.R;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.HttpEntity;
@@ -181,6 +186,7 @@ public class BackgroundService extends IntentService {
         while (dest.exists()) {
             fileNo++;
             dest = new File(moviesDir, filePrefix + fileNo + fileExtn);
+
         }*/
         String fileExtn = ".mp4";
         String filePrefix = path.replace(".mp4", "");
@@ -577,8 +583,11 @@ public class BackgroundService extends IntentService {
                                     .setSmallIcon(R.drawable.notification_icon)
                                     .setContentTitle("My notification")
                                     .setContentText("Hello World!");
+
                     NotificationManager mNotificationManager =
+
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
                             mNotificationManager.notify(001, mBuilder.build());
 */
 

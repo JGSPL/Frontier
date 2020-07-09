@@ -240,6 +240,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     int youTubeLinkPosition = -1;
     Context contextnoti;
     List<LivePollList> pollLists;
+    QuizLogo quizlogo;
+    String finalLogourl;
     private String event_details = "0", attendee = "0", attendee_designation = "0", attendee_company = "0",
             attendee_location = "0", attendee_mobile = "0", attendee_save_contact = "0", speaker = "0",
             speaker_rating = "0", speaker_designation = "0", speaker_company = "0", speaker_location = "0",
@@ -298,8 +300,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     private TabLayout sub2tabLayout, sub3tabLayout, sub4tabLayout;
     private Handler mHandler;
     private QuizLogoParser quizLogoParser;
-    QuizLogo quizlogo;
-    String finalLogourl;
+
     @Override
     public Resources getResources() {
         if (res == null) {
@@ -389,7 +390,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         if (MrgeHomeActivity.spot_quiz.equalsIgnoreCase("spot_quiz")) {
             new getQuizList().execute();
         }
-       // new getQuizList().execute();
+        // new getQuizList().execute();
 
     }
 
@@ -524,7 +525,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                         youTubeLinkPosition = 0;
                         initializeYoutubePlayer(youTubeLinkPosition);
                     }
-                }else if(youTubeApiLists.size()==1){
+                } else if (youTubeApiLists.size() == 1) {
 
                 }
             }
@@ -1954,123 +1955,132 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         afterSettingView();
     }
 
-   @Override
+    @Override
     public void onBackPressed() {
-        if (Jzvd.backPress()) {
-            return;
-        }
-        boolean check = JzvdStd.backPress();
 
-        if (check == true) {
-            if(youTubePlayer!=null) {
-                youTubePlayer.release();
-            }
-            JzvdStd.goOnPlayOnPause();
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            KeyboardUtility.hideSoftKeyboard(MrgeHomeActivity.this);
 
         } else {
-            if (viewPager.getCurrentItem() == 0) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MrgeHomeActivity.this);
-                builder.setTitle("Exit");
-                builder.setMessage("Are you sure you want to exit?");
-                builder.setNegativeButton("NO",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                builder.setPositiveButton("YES",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                if (youTubePlayer != null) {
-                                    youTubePlayer.release();
-                                }
-                                ActivityCompat.finishAffinity(MrgeHomeActivity.this);
-                            }
-                        });
-                builder.show();
+
+            if (Jzvd.backPress()) {
+                return;
+            }
+            boolean check = JzvdStd.backPress();
+
+            if (check == true) {
+                if (youTubePlayer != null) {
+                    youTubePlayer.release();
+                }
+                JzvdStd.goOnPlayOnPause();
+
             } else {
-                if (event_details.equalsIgnoreCase("1")) {
-                    if (event_info.equalsIgnoreCase("1")) {
-                        EventInfoFragment fragment = EventInfoFragment.newInstance();
-                        fragment.onBackpressed();
+                if (viewPager.getCurrentItem() == 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MrgeHomeActivity.this);
+                    builder.setTitle("Exit");
+                    builder.setMessage("Are you sure you want to exit?");
+                    builder.setNegativeButton("NO",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.setPositiveButton("YES",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    if (youTubePlayer != null) {
+                                        youTubePlayer.release();
+                                    }
+                                    ActivityCompat.finishAffinity(MrgeHomeActivity.this);
+                                }
+                            });
+                    builder.show();
+                } else {
+                    if (event_details.equalsIgnoreCase("1")) {
+                        if (event_info.equalsIgnoreCase("1")) {
+                            EventInfoFragment fragment = EventInfoFragment.newInstance();
+                            fragment.onBackpressed();
+                        }
+                        if (attendee.equalsIgnoreCase("1")) {
+                            AttendeeFragment fragment = AttendeeFragment.newInstance();
+                            fragment.onBackpressed();
+                        }
+                        if (speaker.equalsIgnoreCase("1")) {
+                            SpeakerFragment fragment = SpeakerFragment.newInstance();
+                            fragment.onBackpressed();
+                        }
+                        if (agenda.equalsIgnoreCase("1")) {
+                            if (agenda_conference.equalsIgnoreCase("1")) {
+                                AgendaFragment fragment = AgendaFragment.newInstance();
+                                fragment.onBackpressed();
+
+                            } else {
+                                AgendaFolderFragment fragment = AgendaFolderFragment.newInstance();
+                                fragment.onBackpressed();
+                            }
+                        }
+                        if (emergency_contact.equalsIgnoreCase("1")) {
+                            EmergencyFragment fragment = EmergencyFragment.newInstance();
+                            fragment.onBackpressed();
+                        }
+
                     }
-                    if (attendee.equalsIgnoreCase("1")) {
-                        AttendeeFragment fragment = AttendeeFragment.newInstance();
-                        fragment.onBackpressed();
-                    }
-                    if (speaker.equalsIgnoreCase("1")) {
-                        SpeakerFragment fragment = SpeakerFragment.newInstance();
-                        fragment.onBackpressed();
-                    }
-                    if (agenda.equalsIgnoreCase("1")) {
-                        if (agenda_conference.equalsIgnoreCase("1")) {
-                            AgendaFragment fragment = AgendaFragment.newInstance();
+                    if (folder.equalsIgnoreCase("1")) {
+                        if (image_gallery.equalsIgnoreCase("1")) {
+
+                            GalleryFragment fragment = GalleryFragment.newInstance();
+                            fragment.onBackpressed();
+                        }
+                        if (video_gallery.equalsIgnoreCase("1")) {
+                            VideoFragment fragment = VideoFragment.newInstance();
+                            fragment.onBackpressed();
+                        }
+                        if (document_download.equalsIgnoreCase("1")) {
+                            DownloadsFragment fragment = DownloadsFragment.newInstance();
                             fragment.onBackpressed();
 
-                        } else {
-                            AgendaFolderFragment fragment = AgendaFolderFragment.newInstance();
+
+                        }
+                    }
+
+                    if (interact.equalsIgnoreCase("1")) {
+                        if (quiz.equalsIgnoreCase("1")) {
+                            FolderQuizFragment fragment = FolderQuizFragment.newInstance();
+                            fragment.onBackpressed();
+
+
+                        }
+                        if (live_poll.equalsIgnoreCase("1")) {
+                            LivePollListFragment fragment = LivePollListFragment.newInstance();
+                            fragment.onBackpressed();
+                        }
+                        if (QnA.equalsIgnoreCase("1")) {
+                            if (QnA_session.equalsIgnoreCase("1")) {
+                                QnASessionFragment fragment = QnASessionFragment.newInstance();
+                                fragment.onBackpressed();
+                            } else if (QnA_speaker.equalsIgnoreCase("1")) {
+                                QnASpeakerFragment fragment = QnASpeakerFragment.newInstance();
+                                fragment.onBackpressed();
+
+                            } else {
+                                QnADirectFragment fragment = QnADirectFragment.newInstance();
+                                fragment.onBackpressed();
+                            }
+                        }
+
+                        if (engagement.equalsIgnoreCase("1")) {
+                            EngagementFragment fragment = EngagementFragment.newInstance();
                             fragment.onBackpressed();
                         }
                     }
-                    if (emergency_contact.equalsIgnoreCase("1")) {
-                        EmergencyFragment fragment = EmergencyFragment.newInstance();
-                        fragment.onBackpressed();
-                    }
 
                 }
-                if (folder.equalsIgnoreCase("1")) {
-                    if (image_gallery.equalsIgnoreCase("1")) {
-
-                        GalleryFragment fragment = GalleryFragment.newInstance();
-                        fragment.onBackpressed();
-                    }
-                    if (video_gallery.equalsIgnoreCase("1")) {
-                        VideoFragment fragment = VideoFragment.newInstance();
-                        fragment.onBackpressed();
-                    }
-                    if (document_download.equalsIgnoreCase("1")) {
-                        DownloadsFragment fragment = DownloadsFragment.newInstance();
-                        fragment.onBackpressed();
-
-
-                    }
-                }
-
-                if (interact.equalsIgnoreCase("1")) {
-                    if (quiz.equalsIgnoreCase("1")) {
-                        FolderQuizFragment fragment = FolderQuizFragment.newInstance();
-                        fragment.onBackpressed();
-
-
-                    }
-                    if (live_poll.equalsIgnoreCase("1")) {
-                        LivePollListFragment fragment = LivePollListFragment.newInstance();
-                        fragment.onBackpressed();
-                    }
-                    if (QnA.equalsIgnoreCase("1")) {
-                        if (QnA_session.equalsIgnoreCase("1")) {
-                            QnASessionFragment fragment = QnASessionFragment.newInstance();
-                            fragment.onBackpressed();
-                        } else if (QnA_speaker.equalsIgnoreCase("1")) {
-                            QnASpeakerFragment fragment = QnASpeakerFragment.newInstance();
-                            fragment.onBackpressed();
-
-                        } else {
-                            QnADirectFragment fragment = QnADirectFragment.newInstance();
-                            fragment.onBackpressed();
-                        }
-                    }
-
-                    if (engagement.equalsIgnoreCase("1")) {
-                        EngagementFragment fragment = EngagementFragment.newInstance();
-                        fragment.onBackpressed();
-                    }
-                }
-
             }
         }
+
     }
 
     public boolean CheckingPermissionIsEnabledOrNot() {
@@ -2410,7 +2420,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
     public void fetchFeed(String token, String eventid) {
 
-        mAPIService.FeedFetchPost(token, eventid,"1",pageSize).enqueue(new Callback<FetchFeed>() {
+        mAPIService.FeedFetchPost(token, eventid, "1", pageSize).enqueue(new Callback<FetchFeed>() {
             @Override
             public void onResponse(Call<FetchFeed> call, Response<FetchFeed> response) {
 
@@ -2423,8 +2433,35 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
                     zoom_time = response.body().getLive_steaming_info().getZoom_datetime();
 
+                     /*if(zoom_status.equalsIgnoreCase("1") || response.body().getYoutube_info().size() > 0)
+                     {
+                         linStream.setBackgroundColor(Color.parseColor(colorActive));
+                         txt_streaming.setBackgroundColor(Color.parseColor(colorActive));
+                         img_stream.setBackgroundColor(Color.parseColor(colorActive));
+                         linear_livestream.setBackgroundColor(Color.parseColor(colorActive));
+                         txt_streaming.setText("Live Streaming! Tap to view ");
+                         Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                         anim.setDuration(500); //You can manage the blinking time with this parameter
+                         anim.setStartOffset(20);
+                         anim.setRepeatMode(Animation.REVERSE);
+                         anim.setRepeatCount(Animation.INFINITE);
+                         img_stream.startAnimation(anim);
+
+                         linStream.setBackgroundColor(Color.parseColor(colorActive));
+                     }
+
+
+                    if(zoom_status.equalsIgnoreCase("0") && response.body().getYoutube_info().size() == 0)
+                    {
+                        linStream.setBackgroundColor(Color.parseColor(colorActive));
+                        txt_streaming.setBackgroundColor(Color.parseColor(colorActive));
+                        img_stream.setBackgroundColor(Color.parseColor(colorActive));
+                        linear_livestream.setBackgroundColor(Color.parseColor(colorActive));
+                        txt_streaming.setText("Nothing Streaming Currently");
+                    }*/
+
                     if (response.body().getYoutube_info().size() > 0) {
-                        if(youTubeApiLists.size()>0) {
+                        if (youTubeApiLists.size() > 0) {
                             youTubeApiLists.clear();
                         }
                         youTubeApiLists = response.body().getYoutube_info();
@@ -2433,7 +2470,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             linStream.setBackgroundColor(Color.parseColor(colorActive));
                             txt_streaming.setBackgroundColor(Color.parseColor(colorActive));
                             img_stream.setBackgroundColor(Color.parseColor(colorActive));
-
+                            //linear_livestream.setBackgroundColor(Color.parseColor(colorActive));
                             txt_streaming.setText("Live Streaming! Tap to view ");
                             Animation anim = new AlphaAnimation(0.0f, 1.0f);
                             anim.setDuration(500); //You can manage the blinking time with this parameter
@@ -2442,40 +2479,30 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             anim.setRepeatCount(Animation.INFINITE);
                             img_stream.startAnimation(anim);
 
-                            //-------------------------------------
-                           // linChange.setBackgroundColor(Color.parseColor(colorActive));
-
-                            //img_view.setBackgroundColor(Color.parseColor(colorActive));
-                           // txt_change.setBackgroundColor(Color.parseColor(colorActive));
-
                             linStream.setBackgroundColor(Color.parseColor(colorActive));
 
-                           // txt_change.setText("Change View");
-                            //img_view.startAnimation(anim);
-                            //-----------------------------------
-
-                            if(youTubeApiLists.size()>1){
+                            if (youTubeApiLists.size() > 1) {
                                 linChange.setEnabled(true);
                                 linChange.setClickable(true);
                                 linChange.setBackgroundColor(Color.parseColor(colorActive));
-                               txt_change.setBackgroundColor(Color.parseColor(colorActive));
-                               txt_change.setText("Change View");
+                                txt_change.setBackgroundColor(Color.parseColor(colorActive));
+                                txt_change.setText("Change View");
                                 img_view.setBackgroundColor(Color.parseColor(colorActive));
                                 img_view.startAnimation(anim);
 
-                            }else{
+                            } else {
                                 linChange.setEnabled(false);
                                 linChange.setClickable(false);
-                               linChange.setBackgroundColor(Color.parseColor("#686868"));
-                               img_view.setBackgroundColor(Color.parseColor("#686868"));
+                                linChange.setBackgroundColor(Color.parseColor("#686868"));
+                                img_view.setBackgroundColor(Color.parseColor("#686868"));
 
                             }
                         }
-                    }else if(youTubeApiLists.size()==1){
+                    } else if (youTubeApiLists.size() == 1) {
                         linChange.setBackgroundColor(Color.parseColor("#686868"));
                         img_view.setBackgroundColor(Color.parseColor("#686868"));
 
-                    }   else{
+                    } else {
                         linChange.setBackgroundColor(Color.parseColor("#686868"));
                         img_view.setBackgroundColor(Color.parseColor("#686868"));
                         txt_change.setBackgroundColor(Color.parseColor("#686868"));
@@ -2487,33 +2514,15 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                         txt_change.setText("Change View");
                     }
 
-                     /*  if (stream_status.equalsIgnoreCase("1")) {
-//                            countDownlivestream();
-                           // linear_livestream.setBackgroundColor(Color.parseColor("#Ff0000"));
-                            linStream.setBackgroundColor(Color.parseColor(colorActive));
-                            txt_streaming.setBackgroundColor(Color.parseColor(colorActive));
-                            img_stream.setBackgroundColor(Color.parseColor(colorActive));
 
-                            txt_streaming.setText("Live Streaming! Tap to view ");
-                            Animation anim = new AlphaAnimation(0.0f, 1.0f);
-                            anim.setDuration(500); //You can manage the blinking time with this parameter
-                            anim.setStartOffset(20);
-                            anim.setRepeatMode(Animation.REVERSE);
-                            anim.setRepeatCount(Animation.INFINITE);
-                            img_stream.startAnimation(anim);
-                        } else {
-
-                            linStream.setBackgroundColor(Color.parseColor("#686868"));
-                            txt_streaming.setBackgroundColor(Color.parseColor("#686868"));
-                            img_stream.setBackgroundColor(Color.parseColor("#686868"));
-                            //linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
-                            txt_streaming.setText("Nothing Streaming currently");
-                        }*/
-                    //}
                     if (zoom_status.equalsIgnoreCase("1")) {
 //                            countDownzoom();
 
-
+                        linStream.setBackgroundColor(Color.parseColor(colorActive));
+                        txt_streaming.setBackgroundColor(Color.parseColor(colorActive));
+                        img_stream.setBackgroundColor(Color.parseColor(colorActive));
+                        //linear_livestream.setBackgroundColor(Color.parseColor(colorActive));
+                        txt_streaming.setText("Live Streaming! Tap to view ");
                         linzoom.setBackgroundColor(Color.parseColor(colorActive));
                         txt_zoom.setBackgroundColor(Color.parseColor(colorActive));
                         img_zoom.setBackgroundColor(Color.parseColor(colorActive));
@@ -2526,17 +2535,13 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                         anim.setRepeatCount(Animation.INFINITE);
                         img_zoom.startAnimation(anim);
                     } else {
-                       /* linChange.setBackgroundColor(Color.parseColor("#686868"));
-                        img_view.setBackgroundColor(Color.parseColor("#686868"));
-                        txt_change.setBackgroundColor(Color.parseColor("#686868"));
-*/
+
                         linzoom.setBackgroundColor(Color.parseColor("#686868"));
                         txt_zoom.setBackgroundColor(Color.parseColor("#686868"));
                         img_zoom.setBackgroundColor(Color.parseColor("#686868"));
                         // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
                         txt_zoom.setText("Participate via Video");
                     }
-                } else {
                 }
             }
 
@@ -3302,7 +3307,6 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
 
                 tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
                 tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#4D4D4D"), PorterDuff.Mode.SRC_IN);
-
 
                 tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
@@ -4530,7 +4534,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(spotQuizReciever);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(spotLivePollReciever);
@@ -4866,15 +4870,8 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             if (quizFolders.size() > 0) {
                 String quiz = quizFolders.get(0).getFolder_id();
                 String Foldername = quizFolders.get(0).getFolder_name();
-                String Logoname ="";
-                try {
-                    if (quizlogo.getApp_quiz_logo() != null) {
-                        Logoname = quizlogo.getApp_quiz_logo();
-                    }
-                }catch(NullPointerException e){
-
-                }
-                 finalLogourl = logoUrl + Logoname;
+                String Logoname = quizlogo.getApp_quiz_logo();
+                finalLogourl = logoUrl + Logoname;
                 if (quiz != null) {
                     if (quiz != null && !quiz.equalsIgnoreCase("null")) {
                         if (jsonStrLiveQuiz != null) {
@@ -4894,7 +4891,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                                     if (spot_quiz != null) {
                                                         if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
                                                             DialogQuiz dialogquiz = new DialogQuiz();
-                                                            dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this,finalLogourl);
+                                                            dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this, finalLogourl);
                                                             spot_quiz = "S";
 
 
@@ -4904,7 +4901,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                             });
                                         }
                                     }).start();
-                                }else{
+                                } else {
                                     new Thread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -4916,7 +4913,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                                     if (spot_quiz != null) {
                                                         if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
                                                             DialogQuiz dialogquiz = new DialogQuiz();
-                                                            dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this,finalLogourl);
+                                                            dialogquiz.welcomeQuizDialog(MrgeHomeActivity.this, finalLogourl);
                                                             spot_quiz = "S";
 
                                                         }
@@ -5069,5 +5066,4 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             return mFragmentTitleList.get(position);
         }
     }
-
 }

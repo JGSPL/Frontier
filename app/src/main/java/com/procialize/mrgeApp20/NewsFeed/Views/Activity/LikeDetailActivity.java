@@ -105,7 +105,7 @@ public class LikeDetailActivity extends AppCompatActivity {
     private DBHelper dbHelper;
     private DBHelper procializeDB;
     private SQLiteDatabase db;
-
+TextView commentHeader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,11 +138,14 @@ public class LikeDetailActivity extends AppCompatActivity {
         newsFeedProfilePath = prefs.getString(KEY_NEWSFEED_PROFILE_PATH, "");
 
         // headerlogoIv = findViewById(R.id.headerlogoIv);
+
+
         profileIV = findViewById(R.id.profileIV);
         feedimageIv = findViewById(R.id.feedimageIv);
         playicon = findViewById(R.id.playicon);
         tv_header = findViewById(R.id.tv_header);
 
+        tv_header.setTextColor(Color.parseColor(colorActive));
         /*  Util.logomethod(this, headerlogoIv);*/
 
         progressView = findViewById(R.id.progressView);
