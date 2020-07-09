@@ -181,6 +181,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
         }
 
         title = findViewById(R.id.title);
+        title.setTextColor(Color.parseColor(colorActive));
         sub_title = findViewById(R.id.sub_title);
 
         title.setText(name);
@@ -229,7 +230,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
         commentBt = findViewById(R.id.commentBt);
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
-        //commentBt.setColorFilter(Color.parseColor(colorActive));
+        commentBt.setColorFilter(Color.parseColor(colorActive));
         rootView = findViewById(R.id.root_view);
         commentEt = (EmojiconEditText) findViewById(R.id.commentEt);
         emojiImageView = (ImageView) findViewById(R.id.emoji_btn);

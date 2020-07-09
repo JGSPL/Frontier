@@ -165,6 +165,8 @@ public class BuddyListAdapter extends RecyclerView.Adapter<BuddyListAdapter.MyVi
         }else if(attendee.getRequest_type().equalsIgnoreCase("request_received")){
             holder.btnCancel.setVisibility(View.GONE);
             holder.btnAccept.setVisibility(View.VISIBLE);
+            holder.btnAccept.setBackgroundColor(Color.parseColor(colorActive));
+            holder.btnAccept.setTextColor(Color.parseColor("#ffffff"));
             holder.btnReject.setVisibility(View.VISIBLE);
             holder.ic_rightarrow.setVisibility(View.GONE);
         }else if(attendee.getRequest_type().equalsIgnoreCase("friends")){

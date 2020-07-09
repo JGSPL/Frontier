@@ -142,6 +142,8 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
     String news_feed_post = "1", news_feed_images = "1", news_feed_video = "1", news_feed_gif = "0", designatio = "1";
     String news_feed_like = "0", news_feed_comment = "0", news_feed_share = "0";
     boolean isTextPost;
+
+    String colorActive;
     public static HttpResponse transformResponse(Response response) {
 
         BasicHttpResponse httpResponse = null;
@@ -191,7 +193,8 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                 .build()
         );
 
-
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        colorActive = prefs.getString("colorActive", "");
         init();
     }
 
@@ -220,8 +223,10 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
             linear.setBackgroundColor(Color.parseColor("#f1f1f1"));
         }
 
+
         cd = new ConnectionDetector(this);
         llUploadMedia = (LinearLayout) findViewById(R.id.llUploadMedia);
+
         ll_count = (LinearLayout) findViewById(R.id.ll_count);
         llUploadMedia.setOnClickListener(this);
 
@@ -256,9 +261,17 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         TextView tv_header = findViewById(R.id.tv_header);
         progressView = findViewById(R.id.progressView);
         // get user data from session
-        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        String colorActive = prefs.getString("colorActive", "");
+
         tv_header.setTextColor(Color.parseColor(colorActive));
+
+
+        ImageView imguploadimg = findViewById(R.id.imguploadimg);
+        TextView txtUploadImg = findViewById(R.id.txtUploadImg);
+        txtUploadImg.setTextColor(Color.parseColor(colorActive));
+        imguploadimg.setColorFilter(Color.parseColor(colorActive));
+        llUploadMedia.setBackgroundColor(Color.parseColor(colorActive));
+        postbtn.setTextColor(Color.parseColor(colorActive));
+
 
         final TextWatcher txwatcher = new TextWatcher() {
             @Override
@@ -281,7 +294,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                     postbtn.setTextColor(getResources().getColor(R.color.colorwhite));
                     postbtn.setBackgroundColor(Color.parseColor(colorActive));
                 } else {
-                    postbtn.setTextColor(getResources().getColor(R.color.orange));
+                    postbtn.setTextColor(Color.parseColor(colorActive));
                     postbtn.setBackgroundColor(getResources().getColor(R.color.colorwhite));
                 }
             }
@@ -498,9 +511,9 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                             mAlbumFiles = result;
                             if (result.size() > 0) {
                                 postbtn.setTextColor(getResources().getColor(R.color.colorwhite));
-                                postbtn.setBackgroundColor(getResources().getColor(R.color.orange));
+                                postbtn.setBackgroundColor(Color.parseColor(colorActive));
                             } else {
-                                postbtn.setTextColor(getResources().getColor(R.color.orange));
+                                postbtn.setTextColor(Color.parseColor(colorActive));
                                 postbtn.setBackgroundColor(getResources().getColor(R.color.colorwhite));
                             }
                             //Get Original paths from selected arraylist

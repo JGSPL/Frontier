@@ -178,6 +178,7 @@ public class DialogQuiz implements View.OnClickListener {
         Button btnQuizStart = dialog.findViewById(R.id.btnQuizStart);
         CardView Quizcard = dialog.findViewById(R.id.Quizcard);
         ImageView logoIv = dialog.findViewById(R.id.logoIv);
+        btnQuizStart.setBackgroundColor(Color.parseColor(colorActive));
        // Quizcard.setBackgroundColor(Color.parseColor("#ffffff"));
         Quizcard.setAlpha(0.9f);
         if (logourl != null) {

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -171,6 +172,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
         }
 
         title = findViewById(R.id.title);
+        title.setTextColor(Color.parseColor(colorActive));
         sub_title = findViewById(R.id.sub_title);
 
         title.setText(name);
@@ -224,6 +226,9 @@ public class ActivityBuddyChat extends AppCompatActivity {
         txtEmpty = findViewById(R.id.txtEmpty);
         //commentEt = findViewById(R.id.commentEt);
         commentBt = findViewById(R.id.commentBt);
+        commentBt.setColorFilter(Color.parseColor(colorActive));
+
+
         rootView = findViewById(R.id.root_view);
         commentEt = (EmojiconEditText) findViewById(R.id.commentEt);
         emojiImageView = (ImageView) findViewById(R.id.emoji_btn);
