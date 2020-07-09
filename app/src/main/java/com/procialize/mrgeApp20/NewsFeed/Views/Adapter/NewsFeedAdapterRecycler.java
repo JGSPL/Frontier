@@ -330,8 +330,8 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
         }
 
         //---------------For Pagination------------------------
-        if ((position >= getItemCount() - 1))
-            listener.load();
+       /* if ((position >= getItemCount() - 1))
+            listener.load();*/
         //-------------------------------------------------------
 
         holder.nameTv.setTextColor(Color.parseColor(colorActive));

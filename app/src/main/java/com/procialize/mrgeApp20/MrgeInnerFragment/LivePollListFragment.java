@@ -238,7 +238,7 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
         } catch (Exception e) {
             e.printStackTrace();
         }
-        empty.setTextColor(Color.parseColor(colorActive));
+        //empty.setTextColor(Color.parseColor(colorActive));
         if (response.body().getLivePollOptionList().size() != 0) {
 
             empty.setVisibility(View.GONE);
@@ -246,6 +246,8 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
             pollAdapter.notifyDataSetChanged();
             pollRv.setAdapter(pollAdapter);
         } else {
+            empty.setTextColor(Color.parseColor(colorActive));
+
             empty.setVisibility(View.VISIBLE);
         }
 

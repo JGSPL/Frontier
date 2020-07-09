@@ -231,6 +231,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
 
         if (buddy_status.equalsIgnoreCase("send_request")) {
             saveContact.setText("Add to buddy list");
+
             imgBuddy.setVisibility(View.VISIBLE);
 
         } else if (buddy_status.equalsIgnoreCase("friends")) {
@@ -314,7 +315,7 @@ public class AttendeeDetailActivity extends AppCompatActivity {
          linsave.setBackground(shapelayout);
         linMsg.setBackground(shapelayout);
         sendbtn.setBackground(shape);
-          saveContact.setTextColor(Color.parseColor(colorActive));
+         // saveContact.setTextColor(Color.parseColor(colorActive));
          // imgBuddy.setT
         int color = Color.parseColor(colorActive);
         imgBuddy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);

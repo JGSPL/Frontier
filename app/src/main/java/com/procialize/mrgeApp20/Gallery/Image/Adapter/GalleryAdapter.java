@@ -3,6 +3,7 @@ package com.procialize.mrgeApp20.Gallery.Image.Adapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,7 +94,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
         }).into(holder.imageIv).onLoadStarted(context.getDrawable(R.drawable.gallery_placeholder));
 
         int color = Color.parseColor(colorActive);
-        //  holder.img.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+          holder.img.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         holder.progressBar.setVisibility(View.GONE);
 

@@ -26,7 +26,6 @@
             android:contentInsetEnd="0dp"
             android:contentInsetRight="0dp"
             android:elevation="@dimen/elevation"
-            app:navigationIcon="@drawable/back_global"
 
             android:minHeight="?attr/actionBarSize"
             app:contentInsetEnd="0dp"
@@ -41,8 +40,7 @@
                 android:layout_gravity="left"
                 android:layout_margin="10dp"
                 android:contentDescription=" "
-                android:src="@drawable/ic_back"
-                android:tint="@color/black"
+                android:src="@drawable/back_global"
                 android:visibility="visible" />
 
             <com.procialize.mrgeApp20.Fonts.RobotoTextview

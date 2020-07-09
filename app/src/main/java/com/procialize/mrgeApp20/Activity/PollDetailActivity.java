@@ -129,6 +129,9 @@ public class PollDetailActivity extends AppCompatActivity implements View.OnClic
         relative = findViewById(R.id.relative);
         test = findViewById(R.id.test);
 
+        TextView title = findViewById(R.id.title);
+        title.setTextColor(Color.parseColor(colorActive));
+
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         pollGraph.setLayoutManager(mLayoutManager);
 

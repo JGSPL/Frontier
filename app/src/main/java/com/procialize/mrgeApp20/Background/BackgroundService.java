@@ -2,6 +2,7 @@ package com.procialize.mrgeApp20.Background;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -162,7 +163,7 @@ public class BackgroundService extends IntentService {
         );
 */
         String root = Environment.getExternalStorageDirectory().toString();
-        File moviesDir = new File(root + "/TheWeddingApp/Video");
+        File moviesDir = new File(root + "/MrgeApp/Video");
 
         if (!moviesDir.exists()) {
             moviesDir.mkdirs();
@@ -180,7 +181,6 @@ public class BackgroundService extends IntentService {
         while (dest.exists()) {
             fileNo++;
             dest = new File(moviesDir, filePrefix + fileNo + fileExtn);
-
         }*/
         String fileExtn = ".mp4";
         String filePrefix = path.replace(".mp4", "");
@@ -365,7 +365,7 @@ public class BackgroundService extends IntentService {
         super.onDestroy();
         isIntentServiceRunning = false;
         if (dbHelper.getCountOfNotUploadedMultiMedia() == 0) {
-            File dir = new File(Environment.getExternalStorageDirectory() + "AlbumCache");
+            File dir = new File(Environment.getExternalStorageDirectory() + "MrgeApp_cache");
             if (dir.isDirectory()) {
                 String[] children = dir.list();
                 for (int i = 0; i < children.length; i++) {
@@ -414,15 +414,18 @@ public class BackgroundService extends IntentService {
                 mat.postRotate(angle);
 
                 Bitmap bmp = BitmapFactory.decodeStream(new FileInputStream(auxFile), null, null);
-                Bitmap correctBmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), mat, true);
 
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                correctBmp.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
-                File f1 = new File(media_file);
-                f1.createNewFile();
-                FileOutputStream fo = new FileOutputStream(auxFile);
-                fo.write(bytes.toByteArray());
-                fo.close();
+                if(bmp!=null) {
+                    Bitmap correctBmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), mat, true);
+
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    correctBmp.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
+                    File f1 = new File(media_file);
+                    f1.createNewFile();
+                    FileOutputStream fo = new FileOutputStream(auxFile);
+                    fo.write(bytes.toByteArray());
+                    fo.close();
+                }
             } catch (IOException e) {
                 Log.w("TAG", "-- Error in setting image");
             } catch (OutOfMemoryError oom) {
@@ -439,6 +442,9 @@ public class BackgroundService extends IntentService {
         } else {
             is_completed = "0";
         }
+
+        //dbHelper.updateUplodingFlag(media_file, news_feed_id1, db, media_file_thumb, folderUniqueId);
+
 
         String fileName = media_file;
         if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
@@ -559,6 +565,23 @@ public class BackgroundService extends IntentService {
                     news_feed_id1 = "";
                 }
                 if (error.equalsIgnoreCase("success")) {
+
+
+                    SharedPreferences preferences = getSharedPreferences("BackgroundService",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("uploaded","true");
+                    editor.commit();
+
+                    /*NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(this)
+                                    .setSmallIcon(R.drawable.notification_icon)
+                                    .setContentTitle("My notification")
+                                    .setContentText("Hello World!");
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                            mNotificationManager.notify(001, mBuilder.build());
+*/
+
                     dbHelper.getReadableDatabase();
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
                     dbHelper.updateNewsFeedId(news_feed_id1, folderUniqueId, db);

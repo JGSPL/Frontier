@@ -363,7 +363,14 @@ public class FolderQuizFragment extends Fragment {
                 pDialog.dismiss();
                 pDialog = null;
             }
-            String Logoname = quizlogo.getApp_quiz_logo();
+            String Logoname = "";
+            try {
+                if (quizlogo.getApp_quiz_logo() != null) {
+                    Logoname = quizlogo.getApp_quiz_logo();
+                }
+            }catch(NullPointerException e){
+
+            }
             String finalLogourl = logoUrl + Logoname;
 
             empty.setTextColor(Color.parseColor(colorActive));

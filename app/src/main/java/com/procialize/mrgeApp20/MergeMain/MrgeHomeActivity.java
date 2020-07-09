@@ -4866,7 +4866,14 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             if (quizFolders.size() > 0) {
                 String quiz = quizFolders.get(0).getFolder_id();
                 String Foldername = quizFolders.get(0).getFolder_name();
-                String Logoname = quizlogo.getApp_quiz_logo();
+                String Logoname ="";
+                try {
+                    if (quizlogo.getApp_quiz_logo() != null) {
+                        Logoname = quizlogo.getApp_quiz_logo();
+                    }
+                }catch(NullPointerException e){
+
+                }
                  finalLogourl = logoUrl + Logoname;
                 if (quiz != null) {
                     if (quiz != null && !quiz.equalsIgnoreCase("null")) {
