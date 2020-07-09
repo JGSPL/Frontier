@@ -95,6 +95,7 @@ public class GalleryFirstLevelActivity extends AppCompatActivity implements Gall
 
         /*Util.logomethodwithText( this, true,foldername, MrgeHomeActivity.txtMainHeader,MrgeHomeActivity.headerlogoIv);*/
         TextView title = findViewById(R.id.title);
+        title.setTextColor(Color.parseColor(colorActive));
         title.setText(foldername);
         title.setTextColor(Color.parseColor(colorActive));
         try {
