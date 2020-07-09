@@ -4128,7 +4128,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                         String string = colorActive;
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                        Util.logomethodwithText(MrgeHomeActivity.this, true, "IMAGE", MrgeHomeActivity.txtMainHeader, MrgeHomeActivity.headerlogoIv);
+                        //Util.logomethodwithText(MrgeHomeActivity.this, true, "IMAGE", MrgeHomeActivity.txtMainHeader, MrgeHomeActivity.headerlogoIv);
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         linTab3.setVisibility(View.GONE);
 
@@ -4183,7 +4183,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                         int color = Color.parseColor(string);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-                        Util.logomethodwithText(MrgeHomeActivity.this, true, "VIDEO", MrgeHomeActivity.txtMainHeader, MrgeHomeActivity.headerlogoIv);
+                        //Util.logomethodwithText(MrgeHomeActivity.this, true, "VIDEO", MrgeHomeActivity.txtMainHeader, MrgeHomeActivity.headerlogoIv);
 // int tabIconColor = ContextCompat.getColor(MrgeHomeActivity.this, color); //tabselected color
                         tab.getIcon().setColorFilter(color, PorterDuff.Mode.SRC_IN);
                         sub3tabLayout.setVisibility(View.GONE);
@@ -4225,7 +4225,12 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     }
                 });
             } else if (i == 1) {
-                Util.logomethodwithText(this, true, "DOWNLOADS", MrgeHomeActivity.txtMainHeader, MrgeHomeActivity.headerlogoIv);
+                JzvdStd.releaseAllVideos();
+                String string = colorActive;
+                int color = Color.parseColor(string);
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                //Util.logomethodwithText(this, true, "DOWNLOADS", MrgeHomeActivity.txtMainHeader, MrgeHomeActivity.headerlogoIv);
 
                 sub3tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_IN);
 
@@ -4255,7 +4260,11 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     public void onTabUnselected(TabLayout.Tab tab) {
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+                        String string1 = "#4D4D4D";
+                        int color1 = Color.parseColor(string1);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+                        tab.getIcon().setColorFilter(color1, PorterDuff.Mode.SRC_IN);
                     }
 
                     @Override

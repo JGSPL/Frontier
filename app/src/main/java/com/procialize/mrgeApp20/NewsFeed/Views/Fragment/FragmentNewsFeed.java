@@ -156,7 +156,8 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     List<news_feed_media> news_feed_mediaDB = new ArrayList<news_feed_media>();
     String strPath;
     BackgroundReceiver mReceiver;
-    IntentFilter mFilter;
+    PostReceiver mPostReceiver;
+    IntentFilter mFilter,mPostFilter;
     ImageView profileIV;
     ProgressBar progressView;
     Dialog myDialog;
@@ -285,6 +286,13 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         // Registering BroadcastReceiver with this activity for the intent filter
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, mFilter);
 
+
+        mPostReceiver = new PostReceiver();
+        // Creating an IntentFilter with action
+        mPostFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_FOR_POST_NEWS_FEED);
+        // Registering BroadcastReceiver with this activity for the intent filter
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mPostReceiver, mPostFilter);
+
         sessionManager = new SessionManager(getContext());
         user = sessionManager.getUserDetails();
         //progressbar = rootView.findViewById(R.id.progressbar);
@@ -396,7 +404,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         }
 
         //---------------For Pagination------------------------
-        feedrecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+       /* feedrecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -419,7 +427,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 super.onScrolled(recyclerView, dx, dy);
 
             }
-        });
+        });*/
 //------------------------------------------------------------
         mAPIService.AttendeeFetchPost(token, eventid).enqueue(new Callback<FetchAttendee>() {
             @Override
@@ -1278,9 +1286,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
             setAdapter(newsfeedList);
 
-            if (pageNumber == 1) {
+            /*if (pageNumber == 1) {
                 feedrecycler.smoothScrollToPosition(0);
-            }
+            }*/
             /*} else {
                 List<NewsFeedList> motificationList_new = response.body().getNewsFeedList();
                 for (int i = 0; i < motificationList_new.size(); i++) {
@@ -1959,6 +1967,15 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                     }
                 }
             }, 1000);
+        }
+    }
+
+
+    private class PostReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // progressbarForSubmit.setVisibility(View.GONE);
+            fetchFeed(token,eventid,"1", pageSize);
         }
     }
 }

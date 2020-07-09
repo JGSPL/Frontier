@@ -9,6 +9,7 @@ public class ApiConstant {
     public static final String BROADCAST_ACTION_FOR_SPOT_LIVE_POLL = "com.procialize.eventsapp.BROADCAST.spot_live_poll";
     public static final String BROADCAST_ACTION_FOR_SPOT_Quiz = "com.procialize.eventsapp.BROADCAST.spot_Quiz";
     public static final String BROADCAST_ACTION_FOR_SPOT_ChatBuddy = "com.procialize.eventsapp.BROADCAST.spot_Chat";
+    public static final String BROADCAST_ACTION_FOR_POST_NEWS_FEED = "com.procialize.eventsapp.BROADCAST.NEWSFEED";
 
     public static final String BROADCAST_ACTION_FOR_NOTIFICATION_COUNT = "com.procialize.eventsapp.BROADCAST.notification_count";
     public static final String BROADCAST_ACTION = "com.procialize.eventsapp.BROADCAST";
@@ -18,7 +19,7 @@ public class ApiConstant {
     public static String pageVisited = "1";
     public static String fileViewed = "2";
     public static String fileDownloaded = "3";
-    public static String pageSize = "1000";
+    public static String pageSize = "5000";
     //Production URL
 
     //public static String webUrl = "https://www.procialize.live/stage/mrge/";

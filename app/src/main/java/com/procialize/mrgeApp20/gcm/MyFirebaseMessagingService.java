@@ -168,6 +168,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
                     //}
                 }
+                if (msgTye.equalsIgnoreCase("Post")) {
+                    Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION_FOR_POST_NEWS_FEED);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+                }
 
                 if (msgTye.contains("chat_")) {
 
