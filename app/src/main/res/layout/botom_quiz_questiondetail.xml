@@ -22,6 +22,7 @@
             android:layout_height="wrap_content">
 
             <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                android:id="@+id/tv_title"
                 android:layout_width="0dp"
                 android:layout_weight="8"
                 android:layout_height="wrap_content"

@@ -411,7 +411,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="8dp"
-                            android:background="@color/activetab"
                             android:drawableLeft="@drawable/messega"
                             android:drawablePadding="10dp"
                             android:gravity="center"

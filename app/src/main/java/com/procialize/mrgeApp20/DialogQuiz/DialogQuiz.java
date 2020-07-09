@@ -236,6 +236,8 @@ public class DialogQuiz implements View.OnClickListener {
         LinearLayout relative = Detaildialog.findViewById(R.id.relative);
         relative.setAlpha(0.9f);
 
+        TextView tv_title = (TextView)Detaildialog.findViewById(R.id.tv_title);
+
         ImageView ic_close = Detaildialog.findViewById(R.id.imgClose);
         ic_close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,6 +253,7 @@ public class DialogQuiz implements View.OnClickListener {
         getQuizUrl = ApiConstant.baseUrl + ApiConstant.quizlist;
 
         appDelegate = (MyApplication) context.getApplicationContext();
+        tv_title.setTextColor(Color.parseColor(colorActive));
 
         mAPIService = ApiUtils.getAPIService();
         sessionManager = new SessionManager(context);

@@ -484,6 +484,8 @@ TextView commentHeader;
 
 
         nameTv.setText(fname + " " + lname);
+
+        nameTv.setTextColor(Color.parseColor(colorActive));
         companyTv.setText(company);
         designationTv.setText(designation);
 
@@ -869,6 +871,8 @@ TextView commentHeader;
                     // setTextViewDrawableColor(likeTv, colorActive);
                     Likeflag = "1";
                     PostLike(eventid, feedid, apikey);
+                    int color = Color.parseColor(colorActive);
+                    iv_like.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
                     Likecount("Like");
                 } else {
                     //  likeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_like, 0);
@@ -1892,6 +1896,10 @@ TextView commentHeader;
         if (Likeflag != null) {
             if (Likeflag.equals("1")) {
                 iv_like.setImageDrawable(getResources().getDrawable(R.drawable.ic_afterlike));
+
+                int color = Color.parseColor(colorActive);
+                iv_like.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
                /*  likeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_afterlike, 0);
                setTextViewDrawableColor(likeTv, colorActive);*/
 //                if (attendeeList.getReaction().equals("0"))

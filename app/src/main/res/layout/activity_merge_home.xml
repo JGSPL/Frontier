@@ -145,7 +145,7 @@
 
             </LinearLayout>
 
-            <View
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="@color/linecolor"
@@ -636,7 +636,7 @@
                     android:textSize="@dimen/textsizesmall"
                     android:visibility="gone" />
 
-                <View
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/home"
@@ -664,7 +664,7 @@
                     android:textColor="@color/textcolorLight"
                     android:textSize="@dimen/textsizesmall" />
 
-                <View
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/home"
@@ -691,7 +691,7 @@
                     android:textColor="@color/textcolorLight"
                     android:textSize="@dimen/textsizesmall" />
 
-                <View
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/home"
@@ -718,7 +718,7 @@
                     android:textColor="@color/textcolorLight"
                     android:textSize="@dimen/textsizesmall" />
 
-                <View
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/home"
@@ -745,7 +745,7 @@
                     android:textColor="@color/textcolorLight"
                     android:textSize="@dimen/textsizesmall" />
 
-                <View
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/home"
@@ -773,7 +773,7 @@
                     android:textSize="@dimen/textsizesmall"
                     android:visibility="visible" />
 
-                <View
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/home"
@@ -800,7 +800,7 @@
                     android:textColor="@color/textcolorLight"
                     android:textSize="@dimen/textsizesmall" />
 
-                <View
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/home"

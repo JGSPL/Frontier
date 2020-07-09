@@ -567,21 +567,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             holder.img_like.setImageDrawable(context.getResources().getDrawable(R.drawable.angry_6));
         }
 */
-        holder.img_like.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                width = holder.root.getMeasuredWidth();
-                height = holder.root.getMeasuredHeight();
-                /*if (cd.isConnectingToInternet()) {
-                    ReactionView rvl = new ReactionView(context, feedLists.get(position), position, holder.img_like, holder.liketext, holder.root, relative,height);
-                    holder.root.addView(rvl);
-                } else {
-                    Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show();
-                }*/
 
-                return true;
-            }
-        });
 
         if (feed.getPostDate() != null) {
             SimpleDateFormat formatter = null;

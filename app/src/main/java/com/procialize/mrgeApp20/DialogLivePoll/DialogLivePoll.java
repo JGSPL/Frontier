@@ -883,6 +883,10 @@ public class DialogLivePoll implements View.OnClickListener{
 
         ImageView imgClose = dialogThankYou.findViewById(R.id.imgClose);
         TextView tv_view_result = dialogThankYou.findViewById(R.id.tv_view_result);
+        TextView txtTitle = dialogThankYou.findViewById(R.id.txtTitle);
+        txtTitle.setBackgroundColor(Color.parseColor(colorActive));
+        tv_view_result.setBackgroundColor(Color.parseColor(colorActive));
+
         if(show_result.equalsIgnoreCase("1"))
         {
             tv_view_result.setVisibility(View.GONE);
@@ -929,9 +933,16 @@ public class DialogLivePoll implements View.OnClickListener{
         Quizcard.setAlpha(0.9f);
 
         TextView tvQuestion = dialogResult.findViewById(R.id.tvQuestion);
+        TextView txtTitle = dialogResult.findViewById(R.id.txtTitle);
         TextView tvAlreadyAnswered = dialogResult.findViewById(R.id.tvAlreadyAnswered);
         ImageView imgClose = dialogResult.findViewById(R.id.imgClose);
         RecyclerView pollGraph = dialogResult.findViewById(R.id.pollGraph);
+
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        eventid = prefs.getString("eventid", "1");
+        colorActive = prefs.getString("colorActive", "");
+
+        txtTitle.setTextColor(Color.parseColor(colorActive));
 
         imgClose.setOnClickListener(new View.OnClickListener() {
             @Override

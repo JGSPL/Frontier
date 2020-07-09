@@ -226,7 +226,7 @@ public class ActivityBuddyChat extends AppCompatActivity {
         txtEmpty = findViewById(R.id.txtEmpty);
         //commentEt = findViewById(R.id.commentEt);
         commentBt = findViewById(R.id.commentBt);
-        commentBt.setColorFilter(Color.parseColor(colorActive));
+        //commentBt.setColorFilter(Color.parseColor(colorActive));
 
 
         rootView = findViewById(R.id.root_view);

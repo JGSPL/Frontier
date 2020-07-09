@@ -157,7 +157,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     String strPath;
     BackgroundReceiver mReceiver;
     PostReceiver mPostReceiver;
-    IntentFilter mFilter,mPostFilter;
+    IntentFilter mFilter, mPostFilter;
     ImageView profileIV;
     ProgressBar progressView;
     Dialog myDialog;
@@ -547,11 +547,19 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     public void setAdapter(List<NewsFeedList> newsfeedsList) {
         //Parcelable state = feedrecycler.onSaveInstanceState();
 
-        feedAdapter = new NewsFeedAdapterRecycler(getActivity(), newsfeedsList, FragmentNewsFeed.this, true, relative);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        feedrecycler.setLayoutManager(mLayoutManager);
-        feedrecycler.setItemAnimator(new DefaultItemAnimator());
-        feedrecycler.setAdapter(feedAdapter);
+        try {
+            //if(feedAdapter!=null) {
+            feedAdapter = new NewsFeedAdapterRecycler(getActivity(), newsfeedsList, FragmentNewsFeed.this, true, relative);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+            feedrecycler.setLayoutManager(mLayoutManager);
+            feedrecycler.setItemAnimator(new DefaultItemAnimator());
+            feedrecycler.setAdapter(feedAdapter);
+            /*}else {
+                feedAdapter.notifyDataSetChanged();
+            }*/
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 //        feedrecycler.setSelection(mCurrentX);
         //feedrecycler.onRestoreInstanceState(state);
 //        feedrecycler.scheduleLayoutAnimation();
@@ -1278,28 +1286,11 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
             //if (pageNumber == 1) {
             newsfeedList = response.body().getNewsFeedList();
-           /* feedAdapter = new NewsFeedAdapterRecycler(getActivity(), newsfeedList, FragmentNewsFeed.this, true, relative);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-            feedrecycler.setLayoutManager(mLayoutManager);
-            feedrecycler.setItemAnimator(new DefaultItemAnimator());
-            feedrecycler.setAdapter(feedAdapter);*/
+
 
             setAdapter(newsfeedList);
 
-            /*if (pageNumber == 1) {
-                feedrecycler.smoothScrollToPosition(0);
-            }*/
-            /*} else {
-                List<NewsFeedList> motificationList_new = response.body().getNewsFeedList();
-                for (int i = 0; i < motificationList_new.size(); i++) {
-                    newsfeedList.add(motificationList_new.get(i));
-                }
-                feedAdapter.notifyDataSetChanged();
-            }*/
-            /*if (newsfeedList.size() > 0) {
-                setAdapter(newsfeedList);
-            }*/
-/*
+
             feedrecycler.setOnScrollChangeListener(new View.OnScrollChangeListener() {
                 @Override
                 public void onScrollChange(View view, int i, int i1, int i2, int i3) {
@@ -1313,11 +1304,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                     }
                 }
             });
-*/
-
-            saveFeedToDb(response);
-            //SubmitAnalytics(token, eventid, "", "", "newsfeed");
-
+            if (response.body().getNewsFeedList().size() > 0) {
+                saveFeedToDb(response);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1376,6 +1365,8 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                                 }
                             }
                         }
+
+                        feedrecycler.smoothScrollToPosition(0);
                     }
                 });
             }
@@ -1975,7 +1966,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         @Override
         public void onReceive(Context context, Intent intent) {
             // progressbarForSubmit.setVisibility(View.GONE);
-            fetchFeed(token,eventid,"1", pageSize);
+            fetchFeed(token, eventid, "1", pageSize);
         }
     }
 }
