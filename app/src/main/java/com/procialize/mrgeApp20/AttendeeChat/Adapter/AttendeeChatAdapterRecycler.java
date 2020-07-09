@@ -2,6 +2,7 @@ package com.procialize.mrgeApp20.AttendeeChat.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,6 +108,10 @@ public class AttendeeChatAdapterRecycler extends RecyclerView.Adapter<AttendeeCh
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         chat_list question = directQuestionLists.get(position);
+        int color = Color.parseColor(colorActive); //The color u want
+       // holder.ll_msg.setBackgroundColor(color);
+
+
         if (getItemViewType(position) == 1) {
             try {
                 holder.AnsTv.setText(StringEscapeUtils.unescapeJava(question.getMessage()));
@@ -205,7 +210,7 @@ public class AttendeeChatAdapterRecycler extends RecyclerView.Adapter<AttendeeCh
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView QaTv, AnsTv, ReviewTv, dateNTv, dateATv;
-        LinearLayout linAns, linQues;
+        LinearLayout linAns, linQues,ll_msg;
 
         public MyViewHolder(View convertView) {
             super(convertView);
@@ -218,6 +223,7 @@ public class AttendeeChatAdapterRecycler extends RecyclerView.Adapter<AttendeeCh
             linQues = convertView.findViewById(R.id.linQues);
             dateNTv = convertView.findViewById(R.id.dateNTv);
             dateATv = convertView.findViewById(R.id.dateATv);
+            ll_msg = convertView.findViewById(R.id.ll_msg);
         }
     }
 

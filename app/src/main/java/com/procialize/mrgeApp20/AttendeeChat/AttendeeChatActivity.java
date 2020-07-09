@@ -235,8 +235,9 @@ public class AttendeeChatActivity extends AppCompatActivity {
         emojiImageView = (ImageView) findViewById(R.id.emoji_btn);
         mAPIService = ApiUtils.getAPIService();
 
-      /* CardView myCardView1 = (CardView)findViewById(R.id.myCardView1);
-        myCardView1.setBackgroundColor(Color.parseColor(colorActive));*/
+       CardView myCardView1 = (CardView)findViewById(R.id.myCardView1);
+       ImageView iv_background = findViewById(R.id.iv_background);
+        iv_background.setBackgroundColor(Color.parseColor(colorActive));
 
         SessionManager sessionManager = new SessionManager(AttendeeChatActivity.this);
 
@@ -606,6 +607,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
                         pageNumber = 1;
 
                     }
+
                 }
             }*/
             new getMessage().execute();

@@ -26,7 +26,7 @@
             android:contentInsetRight="0dp"
             android:elevation="0dp"
             android:minHeight="?attr/actionBarSize"
-            app:navigationIcon="@drawable/back_white"
+            app:navigationIcon="@drawable/back_global"
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
@@ -301,6 +301,7 @@
 
                     </LinearLayout>
                     <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                        android:id="@+id/tv_sponsor_header"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -394,7 +395,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_margin="4dp"
-                                android:background="@color/activetab"
                                 android:drawableLeft="@drawable/share_icon"
                                 android:drawablePadding="10dp"
                                 android:gravity="center"
@@ -406,22 +406,50 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/event_desc"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:autoLink="web"
                         android:background="@color/colorwhite"
                         android:gravity="left"
-                        android:padding="10dp"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textColorLink="@android:color/holo_blue_dark"
-                        android:textSize="@dimen/textsizesmall"
-                        android:textStyle="normal" />
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/event_venue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="0dp"
+                            android:autoLink="web"
+                            android:gravity="left"
+                            android:padding="10dp"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textColorLink="@android:color/holo_blue_dark"
+                            android:textSize="@dimen/textsizesmall"
+                            android:textStyle="normal" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:id="@+id/view_venue"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@color/linecolor" />
 
+                        <TextView
+                            android:id="@+id/event_desc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:autoLink="web"
+                            android:gravity="left"
+                            android:padding="10dp"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textColorLink="@android:color/holo_blue_dark"
+                            android:textSize="@dimen/textsizesmall"
+                            android:textStyle="normal" />
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
             <!-- </LinearLayout> -->

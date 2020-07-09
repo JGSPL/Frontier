@@ -886,6 +886,12 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
             @Override
             public void onClick(View v) {
 
+                SharedPreferences prefs1 = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs1.edit();
+                editor.putString("notificationCount", "0");
+                editor.commit();
+
+
                 session.logoutUser();
                 SharedPreferences.Editor pref = getSharedPreferences("PROFILE_PICTURE", MODE_PRIVATE).edit();
                 pref.clear();
