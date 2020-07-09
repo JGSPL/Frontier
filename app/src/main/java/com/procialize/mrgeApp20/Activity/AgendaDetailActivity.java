@@ -107,7 +107,7 @@ public class AgendaDetailActivity extends AppCompatActivity {
 
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
-        Util.logomethod(this, headerlogoIv);
+       // Util.logomethod(this, headerlogoIv);
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");

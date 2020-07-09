@@ -228,9 +228,20 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/login_btn_selected_bg"
+
+                android:background="@color/activetab"
                 android:gravity="center"
                 android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/llUploadMedia2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_marginBottom="10dp"
+                    android:layout_margin="1.5dp"
+                    android:background="@color/colorwhite"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/imguploadimg"
@@ -250,6 +261,7 @@
                     android:textColor="@color/orange">
 
                 </TextView>
+                </LinearLayout>
 
             </LinearLayout>
 

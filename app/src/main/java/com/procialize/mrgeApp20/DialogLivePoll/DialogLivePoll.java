@@ -175,6 +175,7 @@ public class DialogLivePoll implements View.OnClickListener{
 
         ImageView imgClose = dialog.findViewById(R.id.imgClose);
         Button btnQuizStart = dialog.findViewById(R.id.btnQuizStart);
+        btnQuizStart.setBackgroundColor(Color.parseColor(colorActive));
         iv_logo = dialog.findViewById(R.id.iv_logo);
 
 
@@ -244,9 +245,13 @@ public class DialogLivePoll implements View.OnClickListener{
         // Session Manager
         cd = new ConnectionDetector(context);
         submit = (RobotoButton) Detaildialog.findViewById(R.id.submit);
+        submit.setBackgroundColor(Color.parseColor(colorActive));
         btnNext = (RobotoButton) Detaildialog.findViewById(R.id.btnNext);
         txt_time = (TextView) Detaildialog.findViewById(R.id.txt_time);
         test = (TextView) Detaildialog.findViewById(R.id.test);
+
+        TextView txtTitle = (TextView)Detaildialog.findViewById(R.id.txtTitle);
+        txtTitle.setBackgroundColor(Color.parseColor(colorActive));
 
 //        btnNext.setOnClickListener(this);
 

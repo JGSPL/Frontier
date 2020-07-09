@@ -37,7 +37,7 @@
                     android:gravity="center"
                     android:padding="@dimen/padding"
                     android:text="@string/livepol"
-                    android:textColor="@color/activetab"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/textsizenormal"
                     android:visibility="visible" />
 
