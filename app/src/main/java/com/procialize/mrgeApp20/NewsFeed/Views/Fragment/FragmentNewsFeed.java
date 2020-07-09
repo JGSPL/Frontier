@@ -1270,8 +1270,14 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
             //if (pageNumber == 1) {
             newsfeedList = response.body().getNewsFeedList();
-            feedAdapter = new NewsFeedAdapterRecycler(getActivity(), newsfeedList, FragmentNewsFeed.this, true, relative);
-            feedrecycler.setAdapter(feedAdapter);
+           /* feedAdapter = new NewsFeedAdapterRecycler(getActivity(), newsfeedList, FragmentNewsFeed.this, true, relative);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+            feedrecycler.setLayoutManager(mLayoutManager);
+            feedrecycler.setItemAnimator(new DefaultItemAnimator());
+            feedrecycler.setAdapter(feedAdapter);*/
+
+            setAdapter(newsfeedList);
+
             if (pageNumber == 1) {
                 feedrecycler.smoothScrollToPosition(0);
             }
@@ -1302,7 +1308,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 */
 
             saveFeedToDb(response);
-            SubmitAnalytics(token, eventid, "", "", "newsfeed");
+            //SubmitAnalytics(token, eventid, "", "", "newsfeed");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1366,7 +1372,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 });
             }
         }).start();
-
     }
 
 
@@ -1908,45 +1913,52 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             // progressbarForSubmit.setProgress(Integer.parseInt(String.valueOf(progress)));
             /* mTvCapital.setText("Capital : " + capital);*/
             //fetchFeed(token, eventid);
-            newsFeedPostMultimediaList = procializeDB.getNotUploadedMultiMedia();
+            //newsFeedPostMultimediaList = procializeDB.getNotUploadedMultiMedia();
             // insertMediaToLocalDb();
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Do something after 5s = 5000ms
+                    newsFeedPostMultimediaList = procializeDB.getNotUploadedMultiMedia();
+                    if (newsFeedPostMultimediaList.size() > 0) {
+                        Intent intent1 = new Intent(getActivity(), BackgroundService.class);
+                        PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, intent1, PendingIntent.FLAG_NO_CREATE);
+                        if (pendingIntent == null) {
+                            isFinishedService = true;
+                            // progressbarForSubmit.setVisibility(View.VISIBLE);
+                            tv_uploading.setVisibility(View.VISIBLE);
+                            Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                            anim.setDuration(1000); //You can manage the blinking time with this parameter
+                            anim.setStartOffset(20);
+                            anim.setRepeatMode(Animation.REVERSE);
+                            anim.setRepeatCount(Animation.INFINITE);
+                            tv_uploading.startAnimation(anim);
+                        }
 
-            if (newsFeedPostMultimediaList.size() > 0) {
-                Intent intent1 = new Intent(getActivity(), BackgroundService.class);
-                PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, intent1, PendingIntent.FLAG_NO_CREATE);
-                if (pendingIntent == null) {
-                    isFinishedService = true;
-                    // progressbarForSubmit.setVisibility(View.VISIBLE);
-                    tv_uploading.setVisibility(View.VISIBLE);
-                    Animation anim = new AlphaAnimation(0.0f, 1.0f);
-                    anim.setDuration(1000); //You can manage the blinking time with this parameter
-                    anim.setStartOffset(20);
-                    anim.setRepeatMode(Animation.REVERSE);
-                    anim.setRepeatCount(Animation.INFINITE);
-                    tv_uploading.startAnimation(anim);
-                }
-
-                intent1.putExtra("arrayListNewsFeedMultiMedia", newsFeedPostMultimediaList);
-                intent1.putExtra("api_access_token", token);
-                intent1.putExtra("event_id", eventid);
-                intent1.putExtra("status", "");
-                getActivity().startService(intent1);
-            } else {
-                isFinishedService = false;
-                tv_uploading.clearAnimation();
-                tv_uploading.setVisibility(View.GONE);
-                if (procializeDB.getCountOfNotUploadedMultiMedia() == 0) {
-                    File dir = new File(Environment.getExternalStorageDirectory() + "/MrgeApp_cache");
-                    if (dir.isDirectory()) {
-                        String[] children = dir.list();
-                        if (children != null) {
-                            for (int i = 0; i < children.length; i++) {
-                                new File(dir, children[i]).delete();
+                        intent1.putExtra("arrayListNewsFeedMultiMedia", newsFeedPostMultimediaList);
+                        intent1.putExtra("api_access_token", token);
+                        intent1.putExtra("event_id", eventid);
+                        intent1.putExtra("status", "");
+                        getActivity().startService(intent1);
+                    } else {
+                        isFinishedService = false;
+                        tv_uploading.clearAnimation();
+                        tv_uploading.setVisibility(View.GONE);
+                        if (procializeDB.getCountOfNotUploadedMultiMedia() == 0) {
+                            File dir = new File(Environment.getExternalStorageDirectory() + "/MrgeApp_cache");
+                            if (dir.isDirectory()) {
+                                String[] children = dir.list();
+                                if (children != null) {
+                                    for (int i = 0; i < children.length; i++) {
+                                        new File(dir, children[i]).delete();
+                                    }
+                                }
                             }
                         }
                     }
                 }
-            }
+            }, 1000);
         }
     }
 }

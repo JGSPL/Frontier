@@ -18,11 +18,11 @@ public class ApiConstant {
     public static String pageVisited = "1";
     public static String fileViewed = "2";
     public static String fileDownloaded = "3";
-    public static String pageSize = "10";
+    public static String pageSize = "1000";
     //Production URL
 
-    public static String webUrl = "https://www.procialize.live/stage/mrge/";
-    // public static String webUrl = "http://admin.mrge.in/";
+    //public static String webUrl = "https://www.procialize.live/stage/mrge/";
+    public static String webUrl = "http://admin.mrge.in/";
     public static String baseUrl = webUrl + "API/event_api_call/";
 
     //buddy url

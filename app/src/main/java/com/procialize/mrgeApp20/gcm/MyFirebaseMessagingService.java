@@ -197,6 +197,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     //}
                 }
 
+                if(msgTye.equalsIgnoreCase("androidPost"))
+                {
+                    com.procialize.mrgeApp20.Background.BackgroundService.successfullUploadedMediaCount =com.procialize.mrgeApp20.Background.BackgroundService.successfullUploadedMediaCount++;
+                    String[] message = remoteMessage.getData().get("message").split("#");
+                    DBHelper dbHelper = new DBHelper(this);
+                    dbHelper.getReadableDatabase();
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+                    String news_feed_id =message[0];
+                    String media_file = message[1];
+                    String media_file_thumb = message[2];
+                    String folderUniqueId = message[3];
+                    dbHelper.updateNewsFeedId(news_feed_id, folderUniqueId, db);
+                    dbHelper.updateMultimediaInfo(media_file, news_feed_id, db, media_file_thumb, folderUniqueId);
+                    Log.e("n_media_file_id===>",news_feed_id);
+                    Log.e("n_media_file===>",media_file);
+                    Log.e("n_media_file_thumb===>",media_file_thumb);
+                    Log.e("n_media_file_UniqueId=>",folderUniqueId);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -260,9 +279,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             // Session Manager
             session = new SessionManager(getApplicationContext());
-            if (session.isLoggedIn()) {
-                bitmap = getBitmapfromUrl(imageUri);
-                sendNotification(remoteMessage.getData().get("message"),remoteMessage.getData().get("type"), bitmap);
+            if(!remoteMessage.getData().get("type").equalsIgnoreCase("androidPost")) {
+                if (session.isLoggedIn()) {
+                    bitmap = getBitmapfromUrl(imageUri);
+                    sendNotification(remoteMessage.getData().get("message"), remoteMessage.getData().get("type"), bitmap);
+                }
             }
         }
     }

@@ -83,7 +83,7 @@ public class BackgroundService extends IntentService {
     String msg = "";
     String result = "";
     File file1;
-    int successfullUploadedMediaCount = 0;
+    public static int successfullUploadedMediaCount = 0;
     ArrayList<Integer> videoPositionArray = new ArrayList<Integer>();
     int startMsForVideoCutting = 0;//Start time for cutting video
     int endMsForVideoCutting = 120000;//End TIme for cutting video
@@ -529,6 +529,11 @@ public class BackgroundService extends IntentService {
         builder.addFormDataPart("news_feed_id", news_feed_id);
         builder.addFormDataPart("status", StringEscapeUtils.escapeJava(status));
         builder.addFormDataPart("is_completed", is_completed);
+        builder.addFormDataPart("org_image_name", media_file+"#"+media_file_thumb+"#"+folderUniqueId);
+
+        Log.e("media_file===>",media_file);
+        Log.e("media_file_thumb===>",media_file_thumb);
+        Log.e("media_file_UniqueId===>",folderUniqueId);
         // builder.addFormDataPart("isDebug", "1");
 
         RequestBody requestBody = builder.build();
@@ -536,7 +541,8 @@ public class BackgroundService extends IntentService {
         Log.d("Request Body", requestBody.toString());
 
         Request request = new Request.Builder()
-                .url(ApiConstant.baseUrl + "PostNewsFeedMultiple")
+                //.url(ApiConstant.baseUrl + "PostNewsFeedMultiple")
+                .url(ApiConstant.baseUrl + "AndroidPostNewsFeedMultiple")
                 .post(requestBody)
                 .build();
 
@@ -585,7 +591,6 @@ public class BackgroundService extends IntentService {
                                     .setContentText("Hello World!");
 
                     NotificationManager mNotificationManager =
-
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
                             mNotificationManager.notify(001, mBuilder.build());

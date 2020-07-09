@@ -710,7 +710,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         ArrayList<NewsFeedPostMultimedia> arrayListNewsFeedMultiMedia = new ArrayList<>();
         Date date = new Date();
         long time = date.getTime();
-        Timestamp ts = new Timestamp(time);
+       //Timestamp ts = new Timestamp(time);
         if(isTextPost)
         {
             NewsFeedPostMultimedia newsFeedPostMultimedia = new NewsFeedPostMultimedia();
@@ -719,7 +719,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
             newsFeedPostMultimedia.setNews_feed_id("");
             newsFeedPostMultimedia.setCompressedPath("");
             newsFeedPostMultimedia.setMedia_type("text");
-            newsFeedPostMultimedia.setFolderUniqueId(ts.toString());
+            newsFeedPostMultimedia.setFolderUniqueId(time+"");
             newsFeedPostMultimedia.setPostText(postMsg);
             arrayListNewsFeedMultiMedia.add(newsFeedPostMultimedia);
            /* NewsFeedPostMultimedia newsFeedPostMultimedia = new NewsFeedPostMultimedia();
@@ -738,7 +738,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                 newsFeedPostMultimedia.setNews_feed_id(news_feed_id1);
                 newsFeedPostMultimedia.setCompressedPath("");
                 newsFeedPostMultimedia.setMedia_type(resultList.get(i).getmMediaType());
-                newsFeedPostMultimedia.setFolderUniqueId(ts.toString());
+                newsFeedPostMultimedia.setFolderUniqueId(time+"");
                 //if(resultList.get(i).getmMediaType().equalsIgnoreCase("text")) {
                 newsFeedPostMultimedia.setPostText(postMsg);
                 /*}else
@@ -753,7 +753,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         SQLiteDatabase db = procializeDB.getWritableDatabase();
         procializeDB.insertUploadMultimediaInfo(arrayListNewsFeedMultiMedia, news_feed_id1, db);
 
-        return ts.toString();
+        return time+"";
     }
 
 
