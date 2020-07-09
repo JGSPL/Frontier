@@ -193,7 +193,8 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                 .build()
         );
 
-
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        colorActive = prefs.getString("colorActive", "");
         init();
     }
 
@@ -260,8 +261,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         TextView tv_header = findViewById(R.id.tv_header);
         progressView = findViewById(R.id.progressView);
         // get user data from session
-        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-         colorActive = prefs.getString("colorActive", "");
+
         tv_header.setTextColor(Color.parseColor(colorActive));
 
 
@@ -270,6 +270,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
         txtUploadImg.setTextColor(Color.parseColor(colorActive));
         imguploadimg.setColorFilter(Color.parseColor(colorActive));
         llUploadMedia.setBackgroundColor(Color.parseColor(colorActive));
+        postbtn.setTextColor(Color.parseColor(colorActive));
 
 
         final TextWatcher txwatcher = new TextWatcher() {
@@ -293,7 +294,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                     postbtn.setTextColor(getResources().getColor(R.color.colorwhite));
                     postbtn.setBackgroundColor(Color.parseColor(colorActive));
                 } else {
-                    postbtn.setTextColor(getResources().getColor(R.color.orange));
+                    postbtn.setTextColor(Color.parseColor(colorActive));
                     postbtn.setBackgroundColor(getResources().getColor(R.color.colorwhite));
                 }
             }
@@ -512,7 +513,7 @@ public class PostNewActivity extends AppCompatActivity implements View.OnClickLi
                                 postbtn.setTextColor(getResources().getColor(R.color.colorwhite));
                                 postbtn.setBackgroundColor(Color.parseColor(colorActive));
                             } else {
-                                postbtn.setTextColor(getResources().getColor(R.color.orange));
+                                postbtn.setTextColor(Color.parseColor(colorActive));
                                 postbtn.setBackgroundColor(getResources().getColor(R.color.colorwhite));
                             }
                             //Get Original paths from selected arraylist
