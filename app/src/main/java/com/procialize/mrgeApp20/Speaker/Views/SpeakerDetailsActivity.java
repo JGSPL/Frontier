@@ -184,6 +184,11 @@ public class SpeakerDetailsActivity extends AppCompatActivity implements PdfList
         layoutTop = findViewById(R.id.layoutTop);
         linear = findViewById(R.id.linear);
         rv_pdf_list = findViewById(R.id.rv_pdf_list);
+        ratebtn = findViewById(R.id.ratebtn);
+
+        LinearLayout rate2 = findViewById(R.id.rate2);
+        rate2.setBackgroundColor(Color.parseColor(colorActive));
+        ratebtn.setTextColor(Color.parseColor(colorActive));
 
         progressBar = findViewById(R.id.progressBar);
 
@@ -197,7 +202,6 @@ public class SpeakerDetailsActivity extends AppCompatActivity implements PdfList
             }
         });
 
-        ratebtn = findViewById(R.id.ratebtn);
 
         pdfListAdapter = new PdfListAdapter(this,pdf_list,this);
         rv_pdf_list.setLayoutManager(new GridLayoutManager(this, 2));
