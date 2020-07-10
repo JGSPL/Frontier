@@ -352,14 +352,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center">
-
-                        <Button
-                            android:id="@+id/ratebtn"
+                        <LinearLayout
                             android:layout_width="80dp"
                             android:layout_height="35dp"
                             android:layout_gravity="center"
+                            android:id="@+id/rate2"
                             android:layout_margin="10dp"
-                            android:background="@drawable/button_background"
+                            android:background="@color/activetab"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/ratebtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_margin="1dp"
+                            android:background="@color/colorwhite"
                             android:gravity="center"
                             android:stateListAnimator="@null"
                             android:text="@string/rate"
@@ -367,6 +376,7 @@
                             android:textAllCaps="false"
                             android:textColor="@color/activetab"
                             android:textSize="@dimen/textsizesmall" />
+                        </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>

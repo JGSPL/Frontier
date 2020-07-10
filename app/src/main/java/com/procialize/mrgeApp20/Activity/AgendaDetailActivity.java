@@ -164,6 +164,10 @@ public class AgendaDetailActivity extends AppCompatActivity {
         msg = findViewById(R.id.msg);
         relative = findViewById(R.id.relative);
 
+        LinearLayout rate2 = findViewById(R.id.rate2);
+        rate2.setBackgroundColor(Color.parseColor(colorActive));
+        ratebtn.setTextColor(Color.parseColor(colorActive));
+
         ImageView notificationlogoIv = findViewById(R.id.notificationlogoIv);
         notificationlogoIv.setOnClickListener(new View.OnClickListener() {
             @Override
