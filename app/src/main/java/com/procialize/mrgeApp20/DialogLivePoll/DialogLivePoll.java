@@ -884,8 +884,8 @@ public class DialogLivePoll implements View.OnClickListener{
         ImageView imgClose = dialogThankYou.findViewById(R.id.imgClose);
         TextView tv_view_result = dialogThankYou.findViewById(R.id.tv_view_result);
         TextView txtTitle = dialogThankYou.findViewById(R.id.txtTitle);
-        txtTitle.setBackgroundColor(Color.parseColor(colorActive));
-        tv_view_result.setBackgroundColor(Color.parseColor(colorActive));
+        txtTitle.setTextColor(Color.parseColor(colorActive));
+        tv_view_result.setTextColor(Color.parseColor(colorActive));
 
         if(show_result.equalsIgnoreCase("1"))
         {
