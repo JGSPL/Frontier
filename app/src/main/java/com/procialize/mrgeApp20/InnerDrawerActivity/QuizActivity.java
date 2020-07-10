@@ -117,7 +117,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
     boolean flag = true;
     boolean flag1 = true;
     boolean flag2 = true;
-    public static boolean submitflag = false;
+    public static boolean submitflag = false,isBackePressed = false;
     Timer timer;
     public int time = 10,timerForQuiz;
     public static int countpage = 1;
@@ -453,9 +453,18 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                 public void onFinish() {
                     time = 0;
                     timercountdown.cancel();
-                    timercountdown.start();
+                    /*timercountdown.start();
                     txt_time.setText("" + ":" + checkdigit(time));
-                    submitQuiz();
+*/
+                    if(quizList.size() == pager.getCurrentItem() + 1){
+                        if(!isBackePressed) {
+                            submitflag = true;
+                            submitQuiz();
+                        }
+                    }
+                    else
+                    { timercountdown.start();
+                        txt_time.setText("" + ":" + checkdigit(time));}
                 }
             }.start();
 
@@ -864,6 +873,7 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
         count1 = 1;
         pagerAdapter.selectopt = 0;
         submitflag = false;
+        isBackePressed =true;
         try {
             timercountdown.cancel();
         } catch (Exception e) {

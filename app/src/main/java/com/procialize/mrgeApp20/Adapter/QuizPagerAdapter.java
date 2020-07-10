@@ -491,6 +491,7 @@ public class QuizPagerAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
+        com.procialize.mrgeApp20.InnerDrawerActivity.QuizActivity.submitflag = false;
     }
 
     public String[] getselectedData() {

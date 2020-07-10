@@ -22,8 +22,8 @@ public class ApiConstant {
     public static String pageSize = "5000";
     //Production URL
 
-    // public static String webUrl = "https://www.procialize.live/stage/mrge/";
-    public static String webUrl = "http://admin.mrge.in/";
+    public static String webUrl = "https://www.procialize.live/stage/mrge/";
+    // public static String webUrl = "http://admin.mrge.in/";
     public static String baseUrl = webUrl + "API/event_api_call/";
 
     //buddy url
