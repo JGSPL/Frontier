@@ -91,6 +91,7 @@ import com.procialize.mrgeApp20.NewsFeed.Views.Activity.ImageViewActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.LikeDetailActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.PostNewActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Adapter.NewsFeedAdapterRecycler;
+import com.procialize.mrgeApp20.NewsFeed.Views.PaginationUtils.PaginationScrollListener;
 import com.procialize.mrgeApp20.NewsFeed.Views.RecyclerItemTouchHelper;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
@@ -135,6 +136,8 @@ import static com.procialize.mrgeApp20.Session.SessionManager.MY_PREFS_NAME;
  */
 public class FragmentNewsFeed extends Fragment implements View.OnClickListener, NewsFeedAdapterRecycler.FeedAdapterListner, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
+    //---------------------Pagination -----------------------
+    private static final int PAGE_START = 1;
     public static SwipeRefreshLayout newsfeedrefresh;
     public static boolean isFinishedService = false;
     public List<NewsFeedList> newsfeedList;
@@ -163,6 +166,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     Dialog myDialog;
     List<EventSettingList> eventSettingLists;
     int pageNumber = 1, pageCount = 1;
+    LinearLayoutManager mLayoutManager;
     private DBHelper procializeDB;
     private List<NewsFeedList> newsfeedsDBList;
     private APIService mAPIService;
@@ -171,6 +175,12 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     private List<AttendeeList> attendeeList;
     private Handler mHandler;
     private String live_streaming = "0", youtube = "0", zoom = "0";
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+    // limiting to 5 for this tutorial, since total pages in actual API is very large. Feel free to modify.
+    private int TOTAL_PAGES = 50;
+    private int currentPage = PAGE_START;
+    //-------------------------------------------------------
 
     public FragmentNewsFeed() {
         // Required empty public constructor
@@ -394,40 +404,54 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             }
         }
 
-        if (cd.isConnectingToInternet()) {
+       /* if (cd.isConnectingToInternet()) {
             fetchFeed(token, eventid, "" + pageNumber, pageSize);
         } else {
             Toast.makeText(getContext(), "No Internet Connection..!!", Toast.LENGTH_SHORT).show();
             if (newsfeedrefresh.isRefreshing()) {
                 newsfeedrefresh.setRefreshing(false);
             }
-        }
+        }*/
 
         //---------------For Pagination------------------------
-       /* feedrecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (pageCount >= pageNumber) {
-                    pageNumber++;
-                    //fetchFeed(token, eventid,""+pageNumber, pageSize);
-                }
 
-                try {
-                    JzvdStd.goOnPlayOnPause();
-                    MyJzvdStd.releaseAllVideos();
-                    JzvdStd.releaseAllVideos();
-                } catch (Exception e) {
-                    e.printStackTrace();
+        feedAdapter = new NewsFeedAdapterRecycler(getActivity(), true,this);
+
+        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        feedrecycler.setLayoutManager(mLayoutManager);
+        feedrecycler.setItemAnimator(new DefaultItemAnimator());
+
+        feedrecycler.setAdapter(feedAdapter);
+        feedrecycler.addOnScrollListener(new PaginationScrollListener(mLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                if(cd.isConnectingToInternet()) {
+                    isLoading = true;
+                    currentPage += 1;
+
+                    loadNextPage();
                 }
             }
 
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
+            public int getTotalPageCount() {
+                return TOTAL_PAGES;
             }
-        });*/
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+        });
+
+        if(cd.isConnectingToInternet()) {
+            loadFirstPage();
+        }
 //------------------------------------------------------------
         mAPIService.AttendeeFetchPost(token, eventid).enqueue(new Callback<FetchAttendee>() {
             @Override
@@ -464,8 +488,20 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
                 //fetchFeed(token,eventid);
                 if (cd.isConnectingToInternet()) {
-                    pageNumber = 1;
-                    fetchFeed(token, eventid, "" + pageNumber, pageSize);
+
+                    if (mAPIService.FeedFetchPost(token, eventid, "" + currentPage, pageSize).isExecuted())
+                        mAPIService.FeedFetchPost(token, eventid, "" + currentPage, pageSize).cancel();
+
+                    // pageNumber = 1;
+                    isLastPage = false;
+                    feedAdapter.getNewsFeedList().clear();
+                    feedAdapter.notifyDataSetChanged();
+                    loadFirstPage();
+
+                    if (newsfeedrefresh.isRefreshing()) {
+                        newsfeedrefresh.setRefreshing(false);
+                    }
+                    //fetchFeed(token, eventid, "" + pageNumber, pageSize);
                 } else {
                     Toast.makeText(getContext(), "No Internet Connection..!!", Toast.LENGTH_SHORT).show();
                     if (newsfeedrefresh.isRefreshing()) {
@@ -523,17 +559,21 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                     public void run() {
                         db = procializeDB.getReadableDatabase();
                         newsfeedsDBList = procializeDB.getNewsFeedDetails();
-                        if (newsfeedsDBList.size() == 0) {
+                     /*   if (newsfeedsDBList.size() == 0) {
 //            NewsFeedList newsFeedList = new NewsFeedList();
 //            newsfeedsDBList.add(newsFeedList);
                             //buzzDBAdapter = new BuzzDBAdapter(getActivity(), newsfeedsDBList, BuzzFragment.this, false);
-                            setAdapter(newsfeedsDBList);
-                        } else {
-                            NewsFeedList newsFeedList = new NewsFeedList();
-                            newsfeedsDBList.add(newsFeedList);
-                            setAdapter(newsfeedsDBList);
+                           // setAdapter(newsfeedsDBList);
 
-                        }
+                            List<NewsFeedList> results = newsfeedsDBList;
+
+
+                            feedAdapter.addAll(results);
+
+                        } else {*/
+                            List<NewsFeedList> results = newsfeedsDBList;
+                            feedAdapter.addAll(results);
+                        //}
                         if (newsfeedrefresh.isRefreshing()) {
                             newsfeedrefresh.setRefreshing(false);
                         }
@@ -550,7 +590,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         try {
             //if(feedAdapter!=null) {
             feedAdapter = new NewsFeedAdapterRecycler(getActivity(), newsfeedsList, FragmentNewsFeed.this, true, relative);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+            mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             feedrecycler.setLayoutManager(mLayoutManager);
             feedrecycler.setItemAnimator(new DefaultItemAnimator());
             feedrecycler.setAdapter(feedAdapter);
@@ -1000,14 +1040,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
     }
 
-    //---------------For Pagination------------------------
-    @Override
-    public void load() {
-        pageNumber++;
-        fetchFeed(token, eventid, "" + pageNumber, pageSize);
-    }
 
-    //---------------------------------------------------------------
     public void PostLike(String reaction_type, String eventid, String feedid, String token) {
 //        showProgress();
         mAPIService.postLike(eventid, feedid, token).enqueue(new Callback<LikePost>() {
@@ -1037,9 +1070,10 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         if (response.body().getStatus().equals("Success")) {
             Log.e("post", "success");
 
-            /*if (cd.isConnectingToInternet()) {
-                fetchFeed(token, eventid);
-            }*/
+            if (cd.isConnectingToInternet()) {
+                //fetchFeed(token, eventid);
+                loadFirstPage();
+            }
 //            fetchFeed(token, eventid);
         } else {
             Log.e("post", "fail");
@@ -1340,8 +1374,8 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                     @Override
                     public void run() {
                         newsfeedList = response.body().getNewsFeedList();
-                        procializeDB.clearNewsFeedTable();
-                        procializeDB.clearBuzzMediaFeedTable();
+                       /* procializeDB.clearNewsFeedTable();
+                        procializeDB.clearBuzzMediaFeedTable();*/
                         procializeDB.insertNEwsFeedInfo(response.body().getNewsFeedList(), db);
                         newsfeedsDBList = response.body().getNewsFeedList();
                         if (newsfeedsDBList != null) {
@@ -1412,6 +1446,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             // remove the item from recycler view
             // feedAdapter.removeItem(viewHolder.getAdapterPosition());
             feedAdapter.notifyItemRemoved(position);
+            //feedAdapter.removeItem(position);
             //  feedAdapter.notifyDataSetChanged();
             if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
@@ -1588,7 +1623,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
             Toast.makeText(getContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
             dialog.dismiss();
-            fetchFeed(token, eventid, "" + pageNumber, pageSize);
+            // fetchFeed(token, eventid, "" + pageNumber, pageSize);
 
 
         } else {
@@ -1766,6 +1801,253 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         return false;
     }
 
+    private void loadFirstPage() {
+        Log.d("First Page", "loadFirstPage: ");
+
+
+        currentPage = PAGE_START;
+
+        mAPIService.FeedFetchPost(token, eventid, "" + currentPage, pageSize).enqueue(new Callback<FetchFeed>() {
+            @Override
+            public void onResponse(Call<FetchFeed> call, Response<FetchFeed> response) {
+
+                if (response.isSuccessful()) {
+                    dismissProgress();
+                    List<NewsFeedList> results = response.body().getNewsFeedList();
+
+                    String totalRecords = response.body().getTotalRecords();
+
+                    if (Integer.parseInt(totalRecords) % Integer.parseInt(pageSize) == 0) {
+                        TOTAL_PAGES = Integer.parseInt(totalRecords) / Integer.parseInt(pageSize);
+                    } else {
+                        TOTAL_PAGES = Integer.parseInt(totalRecords) / Integer.parseInt(pageSize) + 1;
+                    }
+
+                    feedAdapter.addAll(results);
+                    if (currentPage <= TOTAL_PAGES)
+                        feedAdapter.addLoadingFooter();
+                    else
+                        isLastPage = true;
+
+                    //-----------For Youtube and zoom-----------------------
+                    Log.i("hit", "post submitted to API." + response.body().toString());
+                    // for (int i = 0; i < response.body().getLive_steaming_info().size(); i++) {
+                    MrgeHomeActivity.zoom_meeting_id = response.body().getLive_steaming_info().getZoom_meeting_id();
+                    MrgeHomeActivity.zoom_password = response.body().getLive_steaming_info().getZoom_password();
+                    MrgeHomeActivity.zoom_status = response.body().getLive_steaming_info().getZoom_status();
+
+                    MrgeHomeActivity.zoom_time = response.body().getLive_steaming_info().getZoom_datetime();
+                    if (MrgeHomeActivity.youTubeApiLists.size() > 0) {
+                        MrgeHomeActivity.youTubeApiLists.clear();
+                    }
+
+                    if (response.body().getYoutube_info().size() > 0) {
+                        MrgeHomeActivity.youTubeApiLists = response.body().getYoutube_info();
+                        if (MrgeHomeActivity.youTubeApiLists.size() > 0) {
+
+                            if (MrgeHomeActivity.youTubeApiLists.get(0).getStream_status().equalsIgnoreCase("1")) {
+                                MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor(colorActive));
+                                MrgeHomeActivity.txt_streaming.setBackgroundColor(Color.parseColor(colorActive));
+                                MrgeHomeActivity.img_stream.setBackgroundColor(Color.parseColor(colorActive));
+
+                                MrgeHomeActivity.txt_streaming.setText("Live Streaming! Tap to view ");
+                                Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                                anim.setDuration(500); //You can manage the blinking time with this parameter
+                                anim.setStartOffset(20);
+                                anim.setRepeatMode(Animation.REVERSE);
+                                anim.setRepeatCount(Animation.INFINITE);
+                                MrgeHomeActivity.img_stream.startAnimation(anim);
+
+                                //-------------------------------------
+
+
+                                MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor(colorActive));
+
+                                if (MrgeHomeActivity.youTubeApiLists.size() > 1) {
+                                    MrgeHomeActivity.linear_changeView.setVisibility(View.VISIBLE);
+                                    MrgeHomeActivity.linChange.setEnabled(true);
+                                    MrgeHomeActivity.linChange.setClickable(true);
+                                    MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor(colorActive));
+                                    MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor(colorActive));
+                                    MrgeHomeActivity.txt_change.setText("Change View");
+                                    MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor(colorActive));
+                                    MrgeHomeActivity.img_view.startAnimation(anim);
+
+                                } else {
+                                    MrgeHomeActivity.linear_changeView.setVisibility(View.GONE);
+                                    MrgeHomeActivity.linChange.setEnabled(false);
+                                    MrgeHomeActivity.linChange.setClickable(false);
+                                    MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
+                                    MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+
+                                }
+
+                                //-----------------------------------
+                            } else {
+                                MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
+                                MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+                                MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));
+
+                                MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor("#686868"));
+                                MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));
+                                MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+                                // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
+                                MrgeHomeActivity.txt_change.setText("Change View");
+                            }
+                        } else if (MrgeHomeActivity.youTubeApiLists.size() == 1) {
+                            MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
+                            MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+
+                        } else {
+                            MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
+                            MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+                            MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));
+
+                            MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor("#686868"));
+                            MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));
+                            MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+                            // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
+                            MrgeHomeActivity.txt_change.setText("Change View");
+                        }
+                    } else {
+                        MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor("#686868"));
+                        MrgeHomeActivity.txt_streaming.setBackgroundColor(Color.parseColor("#686868"));
+                        MrgeHomeActivity.img_stream.setBackgroundColor(Color.parseColor("#686868"));
+                        MrgeHomeActivity.txt_streaming.setText("Nothing Streaming Currently");
+                        Animation anim = new AlphaAnimation(0.0f, 0.0f);
+                        anim.setDuration(0); //You can manage the blinking time with this parameter
+                        anim.setStartOffset(0);
+                        // anim.setRepeatMode(Animation.REVERSE);
+                        // anim.setRepeatCount(Animation.INFINITE);
+                        MrgeHomeActivity.img_stream.startAnimation(anim);
+                        MrgeHomeActivity.linChange.setBackgroundColor(Color.parseColor("#686868"));
+                        MrgeHomeActivity.img_view.setBackgroundColor(Color.parseColor("#686868"));
+                        MrgeHomeActivity.txt_change.setBackgroundColor(Color.parseColor("#686868"));
+                        MrgeHomeActivity.img_view.startAnimation(anim);
+                        if (live_streaming.equalsIgnoreCase("1")) {
+                            MrgeHomeActivity.linear_livestream.setVisibility(View.VISIBLE);
+                        } else {
+                            MrgeHomeActivity.linear_livestream.setVisibility(View.GONE);
+
+                        }
+                        // MrgeHomeActivity.linear_livestream.setVisibility(View.VISIBLE);
+                        MrgeHomeActivity.linear_layout.setVisibility(View.GONE);
+
+                    }
+                    if (MrgeHomeActivity.zoom_status.equalsIgnoreCase("1")) {
+//                            countDownzoom();
+                        MrgeHomeActivity.linStream.setBackgroundColor(Color.parseColor(colorActive));
+                        MrgeHomeActivity.txt_streaming.setBackgroundColor(Color.parseColor(colorActive));
+                        MrgeHomeActivity.img_stream.setBackgroundColor(Color.parseColor(colorActive));
+
+                        MrgeHomeActivity.txt_streaming.setText("Live Streaming! Tap to view ");
+                        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                        anim.setDuration(500); //You can manage the blinking time with this parameter
+                        anim.setStartOffset(20);
+                        anim.setRepeatMode(Animation.REVERSE);
+                        anim.setRepeatCount(Animation.INFINITE);
+                        MrgeHomeActivity.img_stream.startAnimation(anim);
+
+                        MrgeHomeActivity.linzoom.setBackgroundColor(Color.parseColor(colorActive));
+                        MrgeHomeActivity.txt_zoom.setBackgroundColor(Color.parseColor(colorActive));
+                        MrgeHomeActivity.img_zoom.setBackgroundColor(Color.parseColor(colorActive));
+
+                        MrgeHomeActivity.txt_zoom.setText("Participate via Video");
+               /* Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                anim.setDuration(500); //You can manage the blinking time with this parameter
+                anim.setStartOffset(20);
+                anim.setRepeatMode(Animation.REVERSE);
+                anim.setRepeatCount(Animation.INFINITE);*/
+                        MrgeHomeActivity.img_zoom.startAnimation(anim);
+                    } else {
+                       /* linChange.setBackgroundColor(Color.parseColor("#686868"));
+                        img_view.setBackgroundColor(Color.parseColor("#686868"));
+                        txt_change.setBackgroundColor(Color.parseColor("#686868"));
+*/
+                        MrgeHomeActivity.linzoom.setBackgroundColor(Color.parseColor("#686868"));
+                        MrgeHomeActivity.txt_zoom.setBackgroundColor(Color.parseColor("#686868"));
+                        MrgeHomeActivity.img_zoom.setBackgroundColor(Color.parseColor("#686868"));
+                        // linear_livestream.setBackgroundColor(Color.parseColor("#686868"));
+                        MrgeHomeActivity.txt_zoom.setText("Participate via Video");
+                        MrgeHomeActivity.linear_zoom.setVisibility(View.GONE);
+
+                    }
+                    //--------------------------------------
+                    procializeDB.clearNewsFeedTable();
+                    procializeDB.clearBuzzMediaFeedTable();
+                    if (response.body().getNewsFeedList().size() > 0) {
+                        saveFeedToDb(response);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FetchFeed> call, Throwable t) {
+                Log.e("hit", "Unable to submit post to API.");
+                //  Toast.makeText(getContext(), "Unable to process", Toast.LENGTH_SHORT).show();
+
+                dismissProgress();
+                if (newsfeedrefresh.isRefreshing()) {
+                    newsfeedrefresh.setRefreshing(false);
+                }
+                feedAdapter.showRetry(true, "Error in fetching record");
+            }
+        });
+
+    }
+
+    private void loadNextPage() {
+        Log.d("In Next Page", "loadNextPage: " + currentPage);
+
+        mAPIService.FeedFetchPost(token, eventid, "" + currentPage, pageSize).enqueue(new Callback<FetchFeed>() {
+            @Override
+            public void onResponse(Call<FetchFeed> call, Response<FetchFeed> response) {
+
+                if (response.isSuccessful()) {
+
+                    if (response.body().getMsg().equalsIgnoreCase("Invalid Token!")) {
+                        sessionManager.logoutUser();
+                        Intent main = new Intent(getContext(), MrgeHomeActivity.class);
+                        startActivity(main);
+                        getActivity().finish();
+
+                    } else {
+                        feedAdapter.removeLoadingFooter();
+                        isLoading = false;
+
+                        response.body().getTotalRecords();
+                        List<NewsFeedList> results = response.body().getNewsFeedList();
+                        feedAdapter.addAll(results);
+
+                        if (currentPage != TOTAL_PAGES)
+                            feedAdapter.addLoadingFooter();
+                        else
+                            isLastPage = true;
+
+                        dismissProgress();
+                        if (response.body().getNewsFeedList().size() > 0) {
+                            saveFeedToDb(response);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FetchFeed> call, Throwable t) {
+                Log.e("hit", "Unable to submit post to API.");
+                //  Toast.makeText(getContext(), "Unable to process", Toast.LENGTH_SHORT).show();
+
+                dismissProgress();
+                if (newsfeedrefresh.isRefreshing()) {
+                    newsfeedrefresh.setRefreshing(false);
+                }
+                feedAdapter.showRetry(true, "Error in fetching record");
+            }
+        });
+
+
+    }
+
     private class DownloadFile extends AsyncTask<String, String, String> {
 
         private ProgressDialog progressDialog;
@@ -1900,13 +2182,17 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         }
     }
 
+
+    //-----------------Pagination----------------------
+
     // Defining a BroadcastReceiver
     private class BackgroundReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             // progressbarForSubmit.setVisibility(View.GONE);
             Log.d("service end", "service end");
-            fetchFeed(token, eventid, "" + pageNumber, pageSize);
+            //  fetchFeed(token, eventid, "" + pageNumber, pageSize);
+            loadFirstPage();
             tv_uploading.clearAnimation();
             tv_uploading.setVisibility(View.GONE);
             // progressbarForSubmit.setProgress(Integer.parseInt(String.valueOf(progress)));
@@ -1961,12 +2247,15 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         }
     }
 
-
     private class PostReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             // progressbarForSubmit.setVisibility(View.GONE);
-            fetchFeed(token, eventid, "1", pageSize);
+            //  fetchFeed(token, eventid, "1", pageSize);
+            loadFirstPage();
         }
     }
+
+
+    //-------------------------------------------------
 }

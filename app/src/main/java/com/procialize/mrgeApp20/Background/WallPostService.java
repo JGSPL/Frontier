@@ -155,7 +155,7 @@ public class WallPostService extends IntentService {
                             ImageView imageView = new ImageView(getApplicationContext());
                             if (newsfeedsDBList.get(i).getNews_feed_media().get(j).getMedia_type().equalsIgnoreCase("image")) {
                                 ImageLoader imageLoader = new ImageLoader(getApplicationContext());
-                                imageLoader.DisplayImage(newsFeedPath/*ApiConstant.newsfeedwall*/ + newsfeedsDBList.get(i).getNews_feed_media().get(j).getMediaFile(),imageView);
+                                //imageLoader.DisplayImage(newsFeedPath/*ApiConstant.newsfeedwall*/ + newsfeedsDBList.get(i).getNews_feed_media().get(j).getMediaFile(),imageView);
                                /* Bitmap original = getBitmapFromURL(ApiConstant.newsfeedwall + newsfeedsDBList.get(i).getNews_feed_media().get(j).getMediaFile());
                                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                                 original.compress(Bitmap.CompressFormat.PNG, 30, out);
@@ -163,7 +163,7 @@ public class WallPostService extends IntentService {
                                 bitmap_image = decoded;*/
                             } else {
                                 ImageLoader imageLoader = new ImageLoader(getApplicationContext());
-                                imageLoader.DisplayImage(newsFeedPath/*ApiConstant.newsfeedwall*/ + newsfeedsDBList.get(i).getNews_feed_media().get(j).getThumb_image(),imageView);
+                                //imageLoader.DisplayImage(newsFeedPath/*ApiConstant.newsfeedwall*/ + newsfeedsDBList.get(i).getNews_feed_media().get(j).getThumb_image(),imageView);
                                /* Bitmap original = getBitmapFromURL(ApiConstant.newsfeedwall + newsfeedsDBList.get(i).getNews_feed_media().get(j).getThumb_image());
                                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                                 original.compress(Bitmap.CompressFormat.PNG, 30, out);

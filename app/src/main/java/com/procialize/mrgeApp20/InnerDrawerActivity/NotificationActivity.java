@@ -11,20 +11,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-
-import androidx.annotation.NonNull;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -41,16 +32,20 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
-import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
-import com.procialize.mrgeApp20.NewsFeed.Views.Activity.CommentActivity;
-import com.procialize.mrgeApp20.NewsFeed.Views.Activity.LikeDetailActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
 import com.procialize.mrgeApp20.Adapter.NotificationAdapter;
 import com.procialize.mrgeApp20.ApiConstant.APIService;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
-import com.procialize.mrgeApp20.ApiConstant.ApiConstant.*;
 import com.procialize.mrgeApp20.ApiConstant.ApiUtils;
+import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyList;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
@@ -60,6 +55,8 @@ import com.procialize.mrgeApp20.GetterSetter.NotificationList;
 import com.procialize.mrgeApp20.GetterSetter.NotificationListFetch;
 import com.procialize.mrgeApp20.GetterSetter.NotificationSend;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
+import com.procialize.mrgeApp20.NewsFeed.Views.Activity.CommentActivity;
+import com.procialize.mrgeApp20.NewsFeed.Views.PaginationUtils.PaginationScrollListener;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Util;
@@ -83,6 +80,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.procialize.mrgeApp20.ApiConstant.ApiConstant.pageSize;
+import static com.procialize.mrgeApp20.NewsFeed.Views.Adapter.PaginationListener.PAGE_START;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NEWSFEED_PROFILE_PATH;
 import static com.procialize.mrgeApp20.Session.ImagePathConstants.KEY_NOTIFICATION_PROFILE_PIC_PATH;
@@ -91,36 +89,41 @@ import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
 
 public class NotificationActivity extends AppCompatActivity implements NotificationAdapter.NotificationAdapterListner {
 
+    final long[] time = new long[1];
     List<NotificationList> notificationList;
     NotificationAdapter notificationAdapter;
     SwipeRefreshLayout notificationRvrefresh;
     RecyclerView notificationRv;
     //    ProgressBar progressBar;
     String MY_PREFS_NAME = "ProcializeInfo";
-    String eventid, logoImg, colorActive,newsFeedPath,newsFeedProfilePath;
+    String eventid, logoImg, colorActive, newsFeedPath, newsFeedProfilePath;
     ImageView headerlogoIv;
     List<EventSettingList> eventSettingLists;
     String news_feed_share,
-            news_feed_comment="1",
-            news_feed_like="1";
+            news_feed_comment = "1",
+            news_feed_like = "1";
+    Dialog myDialog;
+    int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+    String formatdate;
+    String token, attendee_status;
+    ImageView add_icon;
+    RelativeLayout linear;
+    TextView msg, pullrefresh;
+    ConnectionDetector cd;
+    List<news_feed_media> news_feed_media = new ArrayList<>();
+    int pageNumber = 1, pageCount = 1;
     private APIService mAPIService;
     private DBHelper procializeDB;
     private SQLiteDatabase db;
     private DBHelper dbHelper;
     private List<NewsFeedList> newsfeedsDBList;
     private List<AttendeeList> attendeeDBList;
-    Dialog myDialog;
-    int currentApiVersion = android.os.Build.VERSION.SDK_INT;
-    String formatdate;
-    final long[] time = new long[1];
-    String token, attendee_status;
-    ImageView add_icon;
-    RelativeLayout linear;
-    TextView msg, pullrefresh;
     private List<NotificationList> notificationDBList = new ArrayList<>();
-    ConnectionDetector cd;
-    List<news_feed_media> news_feed_media = new ArrayList<>();
-    int pageNumber=1,pageCount=1;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+    // limiting to 5 for this tutorial, since total pages in actual API is very large. Feel free to modify.
+    private int TOTAL_PAGES = 50;
+    private int currentPage = PAGE_START;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,7 +163,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                 onBackPressed();
             }
         });
-       // toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+        // toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
         Util.logomethod(this, headerlogoIv);
@@ -184,7 +187,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
         notificationRvrefresh = findViewById(R.id.notificationRvrefresh);
 
         try {
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ApiConstant.folderName+"/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/" + ApiConstant.folderName + "/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -207,7 +210,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
         attendee_status = user.get(SessionManager.ATTENDEE_STATUS);
 
         crashlytics("Notification", token);
-        firbaseAnalytics(this,"Notification", token);
+        firbaseAnalytics(this, "Notification", token);
         eventSettingLists = new ArrayList<>();
         eventSettingLists = SessionManager.loadEventList();
         applysetting(eventSettingLists);
@@ -223,8 +226,8 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
         // notificationRv.setLayoutAnimation(animation);
 
 
-        if (cd.isConnectingToInternet()) {
-            fetchNotification(token, eventid,"1",
+        /*if (cd.isConnectingToInternet()) {
+            fetchNotification(token, eventid, "1",
                     pageSize);
         } else {
             notificationDBList.clear();
@@ -241,26 +244,63 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                 notificationRv.setAdapter(notificationAdapter);
                 notificationRv.scheduleLayoutAnimation();
             }
-        }
+        }*/
 
-        notificationRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        //---------------For Pagination------------------------
+
+        notificationAdapter = new NotificationAdapter(NotificationActivity.this, this);
+
+        mLayoutManager = new LinearLayoutManager(NotificationActivity.this, LinearLayoutManager.VERTICAL, false);
+        notificationRv.setLayoutManager(mLayoutManager);
+        notificationRv.setItemAnimator(new DefaultItemAnimator());
+
+        notificationRv.setAdapter(notificationAdapter);
+        notificationRv.addOnScrollListener(new PaginationScrollListener(mLayoutManager) {
             @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if(pageCount>=pageNumber)
-                {
-                    pageNumber++;
-                    fetchNotification(token, eventid,""+pageNumber,
-                            pageSize);
+            protected void loadMoreItems() {
+                if (cd.isConnectingToInternet()) {
+                    isLoading = true;
+                    currentPage += 1;
+
+                    loadNextPage();
                 }
             }
 
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+            public int getTotalPageCount() {
+                return TOTAL_PAGES;
+            }
 
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
             }
         });
+
+        if (cd.isConnectingToInternet()) {
+            loadFirstPage();
+        } else {
+            notificationDBList.clear();
+            notificationDBList = dbHelper.getNotificationDetails();
+
+            if (notificationDBList.size() == 0) {
+                notificationRv.setVisibility(View.GONE);
+                msg.setVisibility(View.VISIBLE);
+            } else {
+                notificationRv.setVisibility(View.VISIBLE);
+                msg.setVisibility(View.GONE);
+                NotificationAdapter notificationAdapter = new NotificationAdapter(this, notificationDBList, this);
+                notificationAdapter.notifyDataSetChanged();
+                notificationRv.setAdapter(notificationAdapter);
+                notificationRv.scheduleLayoutAnimation();
+            }
+        }
+//------------------------------------------------------------
         /*notificationRv.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -275,7 +315,30 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
         notificationRvrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fetchNotification(token, eventid,"1",pageSize);
+                //fetchNotification(token, eventid, "1", pageSize);
+
+                //fetchFeed(token,eventid);
+                if (cd.isConnectingToInternet()) {
+
+                    if (mAPIService.NotificationListFetch(token, eventid, "" + currentPage, pageSize).isExecuted())
+                        mAPIService.NotificationListFetch(token, eventid, "" + currentPage, pageSize).cancel();
+
+                    // pageNumber = 1;
+                    isLastPage = false;
+                    notificationAdapter.getNotificationLists().clear();
+                    notificationAdapter.notifyDataSetChanged();
+                    loadFirstPage();
+
+                    if (notificationRvrefresh.isRefreshing()) {
+                        notificationRvrefresh.setRefreshing(false);
+                    }
+                    //fetchFeed(token, eventid, "" + pageNumber, pageSize);
+                } else {
+                    Toast.makeText(NotificationActivity.this, "No Internet Connection..!!", Toast.LENGTH_SHORT).show();
+                    if (notificationRvrefresh.isRefreshing()) {
+                        notificationRvrefresh.setRefreshing(false);
+                    }
+                }
             }
         });
 
@@ -307,7 +370,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                 if (eventSettingLists.get(i).getSub_menuList() != null) {
                     if (eventSettingLists.get(i).getSub_menuList().size() > 0) {
                         for (int k = 0; k < eventSettingLists.get(i).getSub_menuList().size(); k++) {
-                             if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_comment")) {
+                            if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_comment")) {
                                 news_feed_comment = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
                             } else if (eventSettingLists.get(i).getSub_menuList().get(k).getFieldName().contentEquals("news_feed_like")) {
                                 news_feed_like = eventSettingLists.get(i).getSub_menuList().get(k).getFieldValue();
@@ -322,10 +385,10 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
     }
 
 
-    public void fetchNotification(String token, String eventid,String pageNumber,
-            String pageSize) {
+    public void fetchNotification(String token, String eventid, String pageNumber,
+                                  String pageSize) {
 //        showProgress();
-        mAPIService.NotificationListFetch(token, eventid,pageNumber,pageSize).enqueue(new Callback<NotificationListFetch>() {
+        mAPIService.NotificationListFetch(token, eventid, pageNumber, pageSize).enqueue(new Callback<NotificationListFetch>() {
             @Override
             public void onResponse(Call<NotificationListFetch> call, Response<NotificationListFetch> response) {
 
@@ -364,7 +427,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
         // specify an adapter (see also next example)
         if (response.body().getStatus().equalsIgnoreCase("success")) {
 
-            if(pageCount>=pageNumber) {
+            if (pageCount >= pageNumber) {
                 if ((!response.body().getNotificationList().isEmpty())) {
                     dbHelper.clearNotificationTable();
                     dbHelper.insertNotificationList(response.body().getNotificationList(), db);
@@ -420,7 +483,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
             db = procializeDB.getReadableDatabase();
 
             newsfeedsDBList = dbHelper.getNewsFeedLikeandComment(notification.getNotificationPostId());
-           // if (notification.getNotificationType().equalsIgnoreCase("Cmnt") && news_feed_comment != null) {
+            // if (notification.getNotificationType().equalsIgnoreCase("Cmnt") && news_feed_comment != null) {
             if (notification.getNotificationType().equalsIgnoreCase("Cmnt") && news_feed_comment != null) {
 
                 if (!news_feed_comment.equalsIgnoreCase("0")) {
@@ -471,8 +534,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
 
                 }
 
-            }
-            else if (notification.getNotificationType().equalsIgnoreCase("Msg")) {
+            } else if (notification.getNotificationType().equalsIgnoreCase("Msg")) {
 
                 attendeeDBList = dbHelper.getAttendeeDetailsId(notification.getAttendeeId());
                 if (attendeeDBList.size() > 0) {
@@ -507,8 +569,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                 }
 
 
-            }
-            else if (notification.getNotificationType().equalsIgnoreCase("Like") && news_feed_like != null) {
+            } else if (notification.getNotificationType().equalsIgnoreCase("Like") && news_feed_like != null) {
                 newsfeedsDBList = dbHelper.getNewsFeedLikeandComment(notification.getNotificationPostId());
                 if (!news_feed_like.equalsIgnoreCase("0")) {
                     //Intent likedetail = new Intent(this, LikeDetailActivity.class);
@@ -557,8 +618,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
 
                     startActivity(likedetail);
                 }
-            }
-            else if (notification.getNotificationType().equalsIgnoreCase("T")) {
+            } else if (notification.getNotificationType().equalsIgnoreCase("T")) {
 
 //                Intent intent = new Intent(NotificationActivity.this, HomeActivity.class);
 //                startActivity(intent);
@@ -609,64 +669,64 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
                 startActivity(comment);
 
 
-            }
-            else if (notification.getNotificationType().equalsIgnoreCase("Quiz") && news_feed_like != null) {
+            } else if (notification.getNotificationType().equalsIgnoreCase("Quiz") && news_feed_like != null) {
                /* Intent intent = new Intent(NotificationActivity.this, FolderQuizActivity.class);
                 startActivity(intent);*/
-
             } else if (notification.getNotificationType().equalsIgnoreCase("Post") && news_feed_like != null) {
                /* Intent intent = new Intent(NotificationActivity.this, MrgeHomeActivity.class);
                 intent.putExtra("notification_post_id", notification.getNotificationPostId());
                 startActivity(intent);*/
 
                 newsfeedsDBList = dbHelper.getNewsFeedLikeandComment(notification.getNotificationPostId());
-                    //Intent likedetail = new Intent(this, LikeDetailActivity.class);
-                    Intent postdetail = new Intent(this, CommentActivity.class);
-                    postdetail.putExtra("feedid", notification.getNotificationPostId());
-                    postdetail.putExtra("type", notification.getNotificationType());
+                //Intent likedetail = new Intent(this, LikeDetailActivity.class);
+                Intent postdetail = new Intent(this, CommentActivity.class);
+                postdetail.putExtra("feedid", notification.getNotificationPostId());
+                postdetail.putExtra("type", notification.getNotificationType());
 
                 postdetail.putExtra("noti_type", "Notification");
-                    try {
-                        float width = Float.parseFloat(newsfeedsDBList.get(0).getWidth());
-                        float height = Float.parseFloat(newsfeedsDBList.get(0).getHeight());
+                try {
+                    float width = Float.parseFloat(newsfeedsDBList.get(0).getWidth());
+                    float height = Float.parseFloat(newsfeedsDBList.get(0).getHeight());
 
-                        float p1 = height / width;
-                        postdetail.putExtra("heading", newsfeedsDBList.get(0).getPostStatus());
-                        postdetail.putExtra("company", newsfeedsDBList.get(0).getCompanyName());
-                        postdetail.putExtra("fname", newsfeedsDBList.get(0).getFirstName());
-                        postdetail.putExtra("lname", newsfeedsDBList.get(0).getLastName());
-                        postdetail.putExtra("profilepic", newsfeedsDBList.get(0).getProfilePic());
-                        postdetail.putExtra("Likes", newsfeedsDBList.get(0).getTotalLikes());
-                        postdetail.putExtra("Comments", newsfeedsDBList.get(0).getTotalComments());
-                        postdetail.putExtra("designation", newsfeedsDBList.get(0).getDesignation());
-                        postdetail.putExtra("Likeflag", newsfeedsDBList.get(0).getLikeFlag());
-                        postdetail.putExtra("date", newsfeedsDBList.get(0).getPostDate());
+                    float p1 = height / width;
+                    postdetail.putExtra("heading", newsfeedsDBList.get(0).getPostStatus());
+                    postdetail.putExtra("company", newsfeedsDBList.get(0).getCompanyName());
+                    postdetail.putExtra("fname", newsfeedsDBList.get(0).getFirstName());
+                    postdetail.putExtra("lname", newsfeedsDBList.get(0).getLastName());
+                    postdetail.putExtra("profilepic", newsfeedsDBList.get(0).getProfilePic());
+                    postdetail.putExtra("Likes", newsfeedsDBList.get(0).getTotalLikes());
+                    postdetail.putExtra("Comments", newsfeedsDBList.get(0).getTotalComments());
+                    postdetail.putExtra("designation", newsfeedsDBList.get(0).getDesignation());
+                    postdetail.putExtra("Likeflag", newsfeedsDBList.get(0).getLikeFlag());
+                    postdetail.putExtra("date", newsfeedsDBList.get(0).getPostDate());
 
-                        postdetail.putExtra("AspectRatio", p1);
-                        news_feed_media = newsfeedsDBList.get(0).getNews_feed_media();
-                        if (news_feed_media.size() > 1) {
-                            postdetail.putExtra("media_list", (Serializable) news_feed_media);
-                        } else if (news_feed_media.size() > 0) {
-                            postdetail.putExtra("type", news_feed_media.get(0).getMedia_type());
-                            if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Image")) {
-                                postdetail.putExtra("url", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getMediaFile());
-                            } else if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Video")) {
-                                postdetail.putExtra("videourl", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getMediaFile());
-                                postdetail.putExtra("thumbImg", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getThumb_image());
-                            }
-                        } else {
-                            postdetail.putExtra("type", "status");
+                    postdetail.putExtra("AspectRatio", p1);
+                    news_feed_media = newsfeedsDBList.get(0).getNews_feed_media();
+                    if (news_feed_media.size() > 1) {
+                        postdetail.putExtra("media_list", (Serializable) news_feed_media);
+                    } else if (news_feed_media.size() > 0) {
+                        postdetail.putExtra("type", news_feed_media.get(0).getMedia_type());
+                        if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Image")) {
+                            postdetail.putExtra("url", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getMediaFile());
+                        } else if (news_feed_media.get(0).getMedia_type().equalsIgnoreCase("Video")) {
+                            postdetail.putExtra("videourl", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getMediaFile());
+                            postdetail.putExtra("thumbImg", newsFeedPath/*ApiConstant.newsfeedwall*/ + news_feed_media.get(0).getThumb_image());
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } else {
+                        postdetail.putExtra("type", "status");
                     }
-                    startActivity(postdetail);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                startActivity(postdetail);
 
 
             } else if (notification.getNotificationType().equalsIgnoreCase("Live_poll") && news_feed_like != null) {
                 Intent intent = new Intent(NotificationActivity.this, LivePollActivity.class);
                 startActivity(intent);
-
+            } else if (notification.getNotificationType().equalsIgnoreCase("accept") || notification.getNotificationType().equalsIgnoreCase("request")) {
+                Intent intent = new Intent(NotificationActivity.this, ActivityBuddyList.class);
+                startActivity(intent);
             }
         }
 
@@ -712,11 +772,6 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
 
     }
 
-    @Override
-    public void load() {
-        pageNumber++;
-        fetchNotification(token,eventid,""+pageNumber,pageSize);
-    }
 
     @Override
     public void onPause() {
@@ -906,6 +961,100 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
             Toast.makeText(NotificationActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    private void loadFirstPage() {
+        Log.d("First Page", "loadFirstPage: ");
+
+
+        currentPage = PAGE_START;
+
+        mAPIService.NotificationListFetch(token, eventid, "" + currentPage, pageSize).enqueue(new Callback<NotificationListFetch>() {
+            @Override
+            public void onResponse(Call<NotificationListFetch> call, Response<NotificationListFetch> response) {
+
+                if (response.isSuccessful()) {
+                    List<NotificationList> results = response.body().getNotificationList();
+
+                    String totalRecords = response.body().getTotalRecords();
+
+                    if (Integer.parseInt(totalRecords) % Integer.parseInt(pageSize) == 0) {
+                        TOTAL_PAGES = Integer.parseInt(totalRecords) / Integer.parseInt(pageSize);
+                    } else {
+                        TOTAL_PAGES = Integer.parseInt(totalRecords) / Integer.parseInt(pageSize) + 1;
+                    }
+
+                    notificationAdapter.addAll(results);
+                    if (currentPage <= TOTAL_PAGES)
+                        notificationAdapter.addLoadingFooter();
+                    else
+                        isLastPage = true;
+
+                    dbHelper.clearNotificationTable();
+                    dbHelper.insertNotificationList(response.body().getNotificationList(), db);
+                    notificationRv.setVisibility(View.VISIBLE);
+                    msg.setVisibility(View.GONE);
+
+                    SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    SharedPreferences.Editor edit = prefs.edit();
+                    edit.putString(KEY_NOTIFICATION_PROFILE_PIC_PATH, response.body().getProfile_pic_url_path());
+                    edit.commit();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotificationListFetch> call, Throwable t) {
+                Log.e("hit", "Unable to submit post to API.");
+                //  Toast.makeText(getContext(), "Unable to process", Toast.LENGTH_SHORT).show();
+
+                if (notificationRvrefresh.isRefreshing()) {
+                    notificationRvrefresh.setRefreshing(false);
+                }
+                notificationAdapter.showRetry(true, "Error in fetching record");
+            }
+        });
+
+    }
+
+    private void loadNextPage() {
+        Log.d("In Next Page", "loadNextPage: " + currentPage);
+
+        mAPIService.NotificationListFetch(token, eventid, "" + currentPage, pageSize).enqueue(new Callback<NotificationListFetch>() {
+            @Override
+            public void onResponse(Call<NotificationListFetch> call, Response<NotificationListFetch> response) {
+
+                if (response.isSuccessful()) {
+
+                    notificationAdapter.removeLoadingFooter();
+                    isLoading = false;
+
+
+                    List<NotificationList> results = response.body().getNotificationList();
+                    notificationAdapter.addAll(results);
+
+                    if (currentPage != TOTAL_PAGES)
+                        notificationAdapter.addLoadingFooter();
+                    else
+                        isLastPage = true;
+
+                    dbHelper.insertNotificationList(response.body().getNotificationList(), db);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotificationListFetch> call, Throwable t) {
+                Log.e("hit", "Unable to submit post to API.");
+                //  Toast.makeText(getContext(), "Unable to process", Toast.LENGTH_SHORT).show();
+
+                if (notificationRvrefresh.isRefreshing()) {
+                    notificationRvrefresh.setRefreshing(false);
+                }
+                notificationAdapter.showRetry(true, "Error in fetching record");
+            }
+        });
+
+
     }
 
 }

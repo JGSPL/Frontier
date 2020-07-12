@@ -34,16 +34,19 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.Activity.AttendeeDetailActivity;
+import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.GetterSetter.AttendeeList;
 import com.procialize.mrgeApp20.GetterSetter.NotificationList;
 import com.procialize.mrgeApp20.R;
+import com.procialize.mrgeApp20.Session.SessionManager;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -69,6 +72,26 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private SQLiteDatabase db;
     private DBHelper dbHelper;
 
+    //---------------------Pagination-------------
+    private boolean isLoadingAdded = false;
+    private boolean retryPageLoad = false;
+
+    //private PaginationAdapterCallback mCallback;
+
+    private String errorMsg;
+    //-----------------------------------------------
+
+    public NotificationAdapter(Context context, NotificationAdapterListner listener) {
+        this.notificationLists = new ArrayList<>();
+        this.listener = listener;
+        this.context = context;
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        colorActive = prefs.getString("colorActive", "");
+        picPath = prefs.getString(KEY_NOTIFICATION_PROFILE_PIC_PATH, "");
+        procializeDB = new DBHelper(context);
+        db = procializeDB.getWritableDatabase();
+        dbHelper = new DBHelper(context);
+    }
     public NotificationAdapter(Context context, List<NotificationList> notificationLists, NotificationAdapterListner listener) {
         this.notificationLists = notificationLists;
         this.listener = listener;
@@ -108,353 +131,346 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         DrawableCompat.setTintList(drawable1, csl);
         holder.arrowIvmsg.setImageDrawable(drawable1);*/
 
+       try {
 
-        if (notificationList.getNotificationContent() != null) {
-            if (notificationList.getNotificationContent().contains("gif")) {
-                holder.messageTV.setVisibility(View.GONE);
-                holder.gifiv.setVisibility(View.VISIBLE);
-                holder.rl_image.setVisibility(View.VISIBLE);
+           if (notificationList.getNotificationContent() != null) {
+               if (notificationList.getNotificationContent().contains("gif")) {
+                   holder.messageTV.setVisibility(View.GONE);
+                   holder.gifiv.setVisibility(View.VISIBLE);
+                   holder.rl_image.setVisibility(View.VISIBLE);
 
-                // holder.messageTV.setText("GIF");
+                   // holder.messageTV.setText("GIF");
 
-                Glide.with(context).load(notificationList.getNotificationContent())
-                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        holder.progressViewImage.setVisibility(View.GONE);
-                        return true;
-                    }
+                   Glide.with(context).load(notificationList.getNotificationContent())
+                           .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
+                       @Override
+                       public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                           holder.progressViewImage.setVisibility(View.GONE);
+                           return true;
+                       }
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        holder.progressViewImage.setVisibility(View.GONE);
-                        return false;
-                    }
-                }).into(holder.gifiv);
-            } else {
-                holder.messageTV.setVisibility(View.VISIBLE);
-                if (notificationList.getMedia_file() != null) {
-                    holder.gifiv.setVisibility(View.VISIBLE);
-                    holder.rl_image.setVisibility(View.VISIBLE);
-                    Glide.with(context).load(notificationList.getMedia_file())
-                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            holder.progressViewImage.setVisibility(View.GONE);
-                            return true;
-                        }
+                       @Override
+                       public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                           holder.progressViewImage.setVisibility(View.GONE);
+                           return false;
+                       }
+                   }).into(holder.gifiv);
+               } else {
+                   holder.messageTV.setVisibility(View.VISIBLE);
+                   if (notificationList.getMedia_file() != null) {
+                       holder.gifiv.setVisibility(View.VISIBLE);
+                       holder.rl_image.setVisibility(View.VISIBLE);
+                       Glide.with(context).load(notificationList.getMedia_file())
+                               .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
+                           @Override
+                           public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                               holder.progressViewImage.setVisibility(View.GONE);
+                               return true;
+                           }
 
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            holder.progressViewImage.setVisibility(View.GONE);
-                            return false;
-                        }
-                    }).into(holder.gifiv);
-                } else {
-                    holder.gifiv.setVisibility(View.GONE);
-                }
-                try {
-                    holder.testdata.setText(StringEscapeUtils.unescapeJava(notificationList.getNotificationContent()));
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
+                           @Override
+                           public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                               holder.progressViewImage.setVisibility(View.GONE);
+                               return false;
+                           }
+                       }).into(holder.gifiv);
+                   } else {
+                       holder.gifiv.setVisibility(View.GONE);
+                   }
+                   try {
+                       holder.testdata.setText(StringEscapeUtils.unescapeJava(notificationList.getNotificationContent()));
+                   } catch (IllegalArgumentException e) {
+                       e.printStackTrace();
 
-                }
-                final SpannableStringBuilder stringBuilder = new SpannableStringBuilder(holder.testdata.getText());
-                if (notificationList.getNotificationContent() != null) {
-                    int flag = 0;
-                    for (int i = 0; i < stringBuilder.length(); i++) {
-                        String sample = stringBuilder.toString();
-                        if ((stringBuilder.charAt(i) == '<')) {
-                            try {
-                                String text = "<";
-                                String text1 = ">";
+                   }
+                   final SpannableStringBuilder stringBuilder = new SpannableStringBuilder(holder.testdata.getText());
+                   if (notificationList.getNotificationContent() != null) {
+                       int flag = 0;
+                       for (int i = 0; i < stringBuilder.length(); i++) {
+                           String sample = stringBuilder.toString();
+                           if ((stringBuilder.charAt(i) == '<')) {
+                               try {
+                                   String text = "<";
+                                   String text1 = ">";
 
-                                if (flag == 0) {
-                                    int start = sample.indexOf(text, i);
-                                    int end = sample.indexOf(text1, i);
+                                   if (flag == 0) {
+                                       int start = sample.indexOf(text, i);
+                                       int end = sample.indexOf(text1, i);
 
-                                    Log.v("Indexes of", "Start : " + start + "," + end);
-                                    try {
-                                        substring = sample.substring(start, end + 1);
-                                        Log.v("String names: ", substring);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
+                                       Log.v("Indexes of", "Start : " + start + "," + end);
+                                       try {
+                                           substring = sample.substring(start, end + 1);
+                                           Log.v("String names: ", substring);
+                                       } catch (Exception e) {
+                                           e.printStackTrace();
+                                       }
 
 
-                                    if (substring.contains("<")) {
-                                        if (sample.contains(substring)) {
-                                            substring = substring.replace("<", "");
-                                            substring = substring.replace(">", "");
-                                            int index = substring.indexOf("^");
+                                       if (substring.contains("<")) {
+                                           if (sample.contains(substring)) {
+                                               substring = substring.replace("<", "");
+                                               substring = substring.replace(">", "");
+                                               int index = substring.indexOf("^");
 //                                    substring = substring.replace("^", "");
-                                            final String attendeeid = substring.substring(0, index);
-                                            substring = substring.substring(index + 1, substring.length());
+                                               final String attendeeid = substring.substring(0, index);
+                                               substring = substring.substring(index + 1, substring.length());
 
 
-                                            stringBuilder.setSpan(stringBuilder, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                            stringBuilder.setSpan(new ForegroundColorSpan(Color.BLUE), start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                               stringBuilder.setSpan(stringBuilder, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                               stringBuilder.setSpan(new ForegroundColorSpan(Color.BLUE), start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
-                                            stringBuilder.setSpan(new ClickableSpan() {
-                                                @Override
-                                                public void onClick(View widget) {
-                                                    attendeeDBList = dbHelper.getAttendeeDetailsId(attendeeid);
-                                                    Intent intent = new Intent(context, AttendeeDetailActivity.class);
-                                                    intent.putExtra("id", attendeeDBList.get(0).getAttendeeId());
-                                                    intent.putExtra("name", attendeeDBList.get(0).getFirstName() + " " + attendeeDBList.get(0).getLastName());
-                                                    intent.putExtra("city", attendeeDBList.get(0).getCity());
-                                                    intent.putExtra("country", attendeeDBList.get(0).getCountry());
-                                                    intent.putExtra("company", attendeeDBList.get(0).getCompanyName());
-                                                    intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
-                                                    intent.putExtra("description", attendeeDBList.get(0).getDescription());
-                                                    intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
-                                                    intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
-                                                    intent.putExtra("buddy_status", attendeeDBList.get(0).getBuddy_status());
+                                               stringBuilder.setSpan(new ClickableSpan() {
+                                                   @Override
+                                                   public void onClick(View widget) {
+                                                       attendeeDBList = dbHelper.getAttendeeDetailsId(attendeeid);
+                                                       Intent intent = new Intent(context, AttendeeDetailActivity.class);
+                                                       intent.putExtra("id", attendeeDBList.get(0).getAttendeeId());
+                                                       intent.putExtra("name", attendeeDBList.get(0).getFirstName() + " " + attendeeDBList.get(0).getLastName());
+                                                       intent.putExtra("city", attendeeDBList.get(0).getCity());
+                                                       intent.putExtra("country", attendeeDBList.get(0).getCountry());
+                                                       intent.putExtra("company", attendeeDBList.get(0).getCompanyName());
+                                                       intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
+                                                       intent.putExtra("description", attendeeDBList.get(0).getDescription());
+                                                       intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
+                                                       intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
+                                                       intent.putExtra("buddy_status", attendeeDBList.get(0).getBuddy_status());
 
-                                                    context.startActivity(intent);
-                                                }
-                                            }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                            stringBuilder.replace(start, end + 1, substring);
-                                            holder.testdata.setText(stringBuilder, TextView.BufferType.SPANNABLE);
-                                            holder.messageTV.setMovementMethod(LinkMovementMethod.getInstance());
-                                            holder.messageTV.setText(stringBuilder);
-                                            flag = 1;
+                                                       context.startActivity(intent);
+                                                   }
+                                               }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                               stringBuilder.replace(start, end + 1, substring);
+                                               holder.testdata.setText(stringBuilder, TextView.BufferType.SPANNABLE);
+                                               holder.messageTV.setMovementMethod(LinkMovementMethod.getInstance());
+                                               holder.messageTV.setText(stringBuilder);
+                                               flag = 1;
 //                        holder.attendee_comments.setText(attendees.getComment().indexOf(substring, start));
 //                        holder.attendee_comments.setText(attendees.getComment().indexOf(substring, start));
 //                        attendees.setComment(substring);
-                                        }
-                                    }
-                                } else {
+                                           }
+                                       }
+                                   } else {
 
-                                    int start = sample.indexOf(text, i);
-                                    int end = sample.indexOf(text1, i);
+                                       int start = sample.indexOf(text, i);
+                                       int end = sample.indexOf(text1, i);
 
-                                    Log.v("Indexes of", "Start : " + start + "," + end);
-                                    try {
-                                        substring = sample.substring(start, end + 1);
-                                        Log.v("String names: ", substring);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    if (substring.contains("<")) {
-                                        if (sample.contains(substring)) {
-                                            substring = substring.replace("<", "");
-                                            substring = substring.replace(">", "");
-                                            int index = substring.indexOf("^");
+                                       Log.v("Indexes of", "Start : " + start + "," + end);
+                                       try {
+                                           substring = sample.substring(start, end + 1);
+                                           Log.v("String names: ", substring);
+                                       } catch (Exception e) {
+                                           e.printStackTrace();
+                                       }
+                                       if (substring.contains("<")) {
+                                           if (sample.contains(substring)) {
+                                               substring = substring.replace("<", "");
+                                               substring = substring.replace(">", "");
+                                               int index = substring.indexOf("^");
 //                                    substring = substring.replace("^", "");
-                                            final String attendeeid = substring.substring(0, index);
-                                            substring = substring.substring(index + 1, substring.length());
+                                               final String attendeeid = substring.substring(0, index);
+                                               substring = substring.substring(index + 1, substring.length());
 
 
-                                            stringBuilder.setSpan(stringBuilder, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                            stringBuilder.setSpan(new ForegroundColorSpan(Color.BLUE), start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                               stringBuilder.setSpan(stringBuilder, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                               stringBuilder.setSpan(new ForegroundColorSpan(Color.BLUE), start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                                            stringBuilder.setSpan(new ClickableSpan() {
-                                                @Override
-                                                public void onClick(View widget) {
-                                                    attendeeDBList = dbHelper.getAttendeeDetailsId(attendeeid);
-                                                    Intent intent = new Intent(context, AttendeeDetailActivity.class);
-                                                    intent.putExtra("id", attendeeDBList.get(0).getAttendeeId());
-                                                    intent.putExtra("name", attendeeDBList.get(0).getFirstName() + " " + attendeeDBList.get(0).getLastName());
-                                                    intent.putExtra("city", attendeeDBList.get(0).getCity());
-                                                    intent.putExtra("country", attendeeDBList.get(0).getCountry());
-                                                    intent.putExtra("company", attendeeDBList.get(0).getCompanyName());
-                                                    intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
-                                                    intent.putExtra("description", attendeeDBList.get(0).getDescription());
-                                                    intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
-                                                    intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
-                                                    intent.putExtra("buddy_status", attendeeDBList.get(0).getBuddy_status());
+                                               stringBuilder.setSpan(new ClickableSpan() {
+                                                   @Override
+                                                   public void onClick(View widget) {
+                                                       attendeeDBList = dbHelper.getAttendeeDetailsId(attendeeid);
+                                                       Intent intent = new Intent(context, AttendeeDetailActivity.class);
+                                                       intent.putExtra("id", attendeeDBList.get(0).getAttendeeId());
+                                                       intent.putExtra("name", attendeeDBList.get(0).getFirstName() + " " + attendeeDBList.get(0).getLastName());
+                                                       intent.putExtra("city", attendeeDBList.get(0).getCity());
+                                                       intent.putExtra("country", attendeeDBList.get(0).getCountry());
+                                                       intent.putExtra("company", attendeeDBList.get(0).getCompanyName());
+                                                       intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
+                                                       intent.putExtra("description", attendeeDBList.get(0).getDescription());
+                                                       intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
+                                                       intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
+                                                       intent.putExtra("buddy_status", attendeeDBList.get(0).getBuddy_status());
 
-                                                    context.startActivity(intent);
-                                                }
-                                            }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                                       context.startActivity(intent);
+                                                   }
+                                               }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                                            stringBuilder.replace(start, end + 1, substring);
-                                            holder.testdata.setText(stringBuilder, TextView.BufferType.SPANNABLE);
-                                            holder.messageTV.setMovementMethod(LinkMovementMethod.getInstance());
+                                               stringBuilder.replace(start, end + 1, substring);
+                                               holder.testdata.setText(stringBuilder, TextView.BufferType.SPANNABLE);
+                                               holder.messageTV.setMovementMethod(LinkMovementMethod.getInstance());
 
-                                            holder.messageTV.setText(stringBuilder);
-                                        }
-                                    }
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                    holder.messageTV.setText(stringBuilder);
-                } else {
-                    holder.messageTV.setVisibility(View.GONE);
-                }
-            }
-        }
+                                               holder.messageTV.setText(stringBuilder);
+                                           }
+                                       }
+                                   }
+                               } catch (Exception e) {
+                                   e.printStackTrace();
+                               }
+                           }
+                       }
+                       holder.messageTV.setText(stringBuilder);
+                   } else {
+                       holder.messageTV.setVisibility(View.GONE);
+                   }
+               }
+           }
 
-        if (notificationList.getNotificationType().equalsIgnoreCase("Like")) {
-            holder.txt_msg.setText("Liked Your Post");
-            holder.messageTV.setVisibility(View.GONE);
-            String lName = notificationList.getAttendeeLastName();
-            if (notificationList.getMedia_file() != null) {
-                holder.gifiv.setVisibility(View.VISIBLE);
-                holder.rl_image.setVisibility(View.VISIBLE);
-                Glide.with(context).load(notificationList.getMedia_file())
-                        .apply(RequestOptions.skipMemoryCacheOf(true))
-                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        holder.progressViewImage.setVisibility(View.GONE);
-                        return true;
-                    }
+           if (notificationList.getNotificationType().equalsIgnoreCase("Like")) {
+               holder.txt_msg.setText("Liked Your Post");
+               holder.messageTV.setVisibility(View.GONE);
+               String lName = notificationList.getAttendeeLastName();
+               if (notificationList.getMedia_file() != null) {
+                   holder.gifiv.setVisibility(View.VISIBLE);
+                   holder.rl_image.setVisibility(View.VISIBLE);
+                   Glide.with(context).load(notificationList.getMedia_file())
+                           .apply(RequestOptions.skipMemoryCacheOf(true))
+                           .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).listener(new RequestListener<Drawable>() {
+                       @Override
+                       public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                           holder.progressViewImage.setVisibility(View.GONE);
+                           return true;
+                       }
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        return false;
-                    }
-                }).into(holder.gifiv);
-            } else {
-                holder.gifiv.setVisibility(View.GONE);
-                holder.rl_image.setVisibility(View.GONE);
-            }
+                       @Override
+                       public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                           return false;
+                       }
+                   }).into(holder.gifiv);
+               } else {
+                   holder.gifiv.setVisibility(View.GONE);
+                   holder.rl_image.setVisibility(View.GONE);
+               }
 
-            if (lName != null) {
-                holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
-            } else {
-                holder.nameTv.setText(notificationList.getAttendeeFirstName());
-            }
-        }
-        else if (notificationList.getNotificationType().equalsIgnoreCase("Cmnt")) {
-            holder.txt_msg.setText("commented on your post");
-            String lName = notificationList.getAttendeeLastName();
-            if (notificationList.getMedia_file() != null && !(notificationList.getMedia_file().equalsIgnoreCase("")) &&
-                    !(notificationList.getMedia_file().isEmpty())) {
-                holder.gifiv.setVisibility(View.VISIBLE);
-                holder.rl_image.setVisibility(View.VISIBLE);
-                Glide.with(context).load(notificationList.getMedia_file())
-                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+               if (lName != null) {
+                   holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
+               } else {
+                   holder.nameTv.setText(notificationList.getAttendeeFirstName());
+               }
+           } else if (notificationList.getNotificationType().equalsIgnoreCase("Cmnt")) {
+               holder.txt_msg.setText("commented on your post");
+               String lName = notificationList.getAttendeeLastName();
+               if (notificationList.getMedia_file() != null && !(notificationList.getMedia_file().equalsIgnoreCase("")) &&
+                       !(notificationList.getMedia_file().isEmpty())) {
+                   holder.gifiv.setVisibility(View.VISIBLE);
+                   holder.rl_image.setVisibility(View.VISIBLE);
+                   Glide.with(context).load(notificationList.getMedia_file())
+                           .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
+                       @Override
+                       public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 
-                        holder.progressViewImage.setVisibility(View.GONE);
-                        return true;
-                    }
+                           holder.progressViewImage.setVisibility(View.GONE);
+                           return true;
+                       }
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        holder.progressViewImage.setVisibility(View.GONE);
-                        return false;
-                    }
-                }).into(holder.gifiv);
-            }
-            else if(notificationList.getNotificationContent().contains("gif"))
-            {
-                holder.gifiv.setVisibility(View.VISIBLE);
-                holder.rl_image.setVisibility(View.VISIBLE);
-                Glide.with(context).load(notificationList.getNotificationContent())
-                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                       @Override
+                       public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                           holder.progressViewImage.setVisibility(View.GONE);
+                           return false;
+                       }
+                   }).into(holder.gifiv);
+               } else if (notificationList.getNotificationContent().contains("gif")) {
+                   holder.gifiv.setVisibility(View.VISIBLE);
+                   holder.rl_image.setVisibility(View.VISIBLE);
+                   Glide.with(context).load(notificationList.getNotificationContent())
+                           .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
+                       @Override
+                       public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 
-                        holder.progressViewImage.setVisibility(View.GONE);
-                        return true;
-                    }
+                           holder.progressViewImage.setVisibility(View.GONE);
+                           return true;
+                       }
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        holder.progressViewImage.setVisibility(View.GONE);
-                        return false;
-                    }
-                }).into(holder.gifiv);
-            }
-            else {
-                holder.gifiv.setVisibility(View.GONE);
-                holder.rl_image.setVisibility(View.GONE);
-            }
-            if (lName != null) {
-                holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
-            } else {
-                holder.nameTv.setText(notificationList.getAttendeeFirstName());
-            }
-        }
-        else if (notificationList.getNotificationType().equalsIgnoreCase("Post")) {
-            holder.txt_msg.setText("");
-            holder.txt_msg.setVisibility(View.GONE);
-            String lName = notificationList.getAttendeeLastName();
-            if (notificationList.getMedia_file() != null && !(notificationList.getMedia_file().equalsIgnoreCase("")) &&
-                    !(notificationList.getMedia_file().isEmpty())) {
-                holder.gifiv.setVisibility(View.VISIBLE);
-                holder.rl_image.setVisibility(View.VISIBLE);
-                Glide.with(context).load(notificationList.getMedia_file())
-                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        holder.progressViewImage.setVisibility(View.GONE);
-                        return true;
-                    }
+                       @Override
+                       public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                           holder.progressViewImage.setVisibility(View.GONE);
+                           return false;
+                       }
+                   }).into(holder.gifiv);
+               } else {
+                   holder.gifiv.setVisibility(View.GONE);
+                   holder.rl_image.setVisibility(View.GONE);
+               }
+               if (lName != null) {
+                   holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
+               } else {
+                   holder.nameTv.setText(notificationList.getAttendeeFirstName());
+               }
+           } else if (notificationList.getNotificationType().equalsIgnoreCase("Post")) {
+               holder.txt_msg.setText("");
+               holder.txt_msg.setVisibility(View.GONE);
+               String lName = notificationList.getAttendeeLastName();
+               if (notificationList.getMedia_file() != null && !(notificationList.getMedia_file().equalsIgnoreCase("")) &&
+                       !(notificationList.getMedia_file().isEmpty())) {
+                   holder.gifiv.setVisibility(View.VISIBLE);
+                   holder.rl_image.setVisibility(View.VISIBLE);
+                   Glide.with(context).load(notificationList.getMedia_file())
+                           .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
+                       @Override
+                       public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                           holder.progressViewImage.setVisibility(View.GONE);
+                           return true;
+                       }
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        holder.progressViewImage.setVisibility(View.GONE);
-                        return false;
-                    }
-                }).into(holder.gifiv);
-            } else {
-                holder.gifiv.setVisibility(View.GONE);
-                holder.rl_image.setVisibility(View.GONE);
-            }
-            if (lName != null) {
-                holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
-            } else {
-                holder.nameTv.setText(notificationList.getAttendeeFirstName());
-            }
-        }
-        else if (notificationList.getNotificationType().equalsIgnoreCase("T")) {
-            holder.txt_msg.setText("");
-            holder.txt_msg.setVisibility(View.GONE);
-            holder.gifiv.setVisibility(View.GONE);
-            holder.rl_image.setVisibility(View.GONE);
-            String lName = notificationList.getAttendeeLastName();
-            if (lName != null) {
-                holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
-            } else {
-                holder.nameTv.setText(notificationList.getAttendeeFirstName());
-            }
-        }
-        else if (notificationList.getNotificationType().equalsIgnoreCase("Quiz")) {
-            holder.txt_msg.setText("");
-            holder.txt_msg.setVisibility(View.GONE);
-            String lName = notificationList.getAttendeeLastName();
-            holder.gifiv.setVisibility(View.GONE);
-            holder.rl_image.setVisibility(View.GONE);
-            if (lName != null) {
-                holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
-            } else {
-                holder.nameTv.setText(notificationList.getAttendeeFirstName());
-            }
-        }
-        else {
-            if (notificationList.getMedia_file() != null && !(notificationList.getMedia_file().equalsIgnoreCase("")) &&
-                    !(notificationList.getMedia_file().isEmpty())) {
-                holder.gifiv.setVisibility(View.VISIBLE);
-                holder.rl_image.setVisibility(View.VISIBLE);
-                Glide.with(context).load((
-                        notificationList.getMedia_file()))
-                        .placeholder(R.drawable.profilepic_placeholder)
-                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop().centerCrop()
-                        .listener(new RequestListener<Drawable>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                //feedprogress.setVisibility(View.GONE);
-                                holder.progressViewImage.setVisibility(View.GONE);
-                                return false;
-                            }
+                       @Override
+                       public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                           holder.progressViewImage.setVisibility(View.GONE);
+                           return false;
+                       }
+                   }).into(holder.gifiv);
+               } else {
+                   holder.gifiv.setVisibility(View.GONE);
+                   holder.rl_image.setVisibility(View.GONE);
+               }
+               if (lName != null) {
+                   holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
+               } else {
+                   holder.nameTv.setText(notificationList.getAttendeeFirstName());
+               }
+           } else if (notificationList.getNotificationType().equalsIgnoreCase("T")) {
+               holder.txt_msg.setText("");
+               holder.txt_msg.setVisibility(View.GONE);
+               holder.gifiv.setVisibility(View.GONE);
+               holder.rl_image.setVisibility(View.GONE);
+               String lName = notificationList.getAttendeeLastName();
+               if (lName != null) {
+                   holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
+               } else {
+                   holder.nameTv.setText(notificationList.getAttendeeFirstName());
+               }
+           } else if (notificationList.getNotificationType().equalsIgnoreCase("Quiz")) {
+               holder.txt_msg.setText("");
+               holder.txt_msg.setVisibility(View.GONE);
+               String lName = notificationList.getAttendeeLastName();
+               holder.gifiv.setVisibility(View.GONE);
+               holder.rl_image.setVisibility(View.GONE);
+               if (lName != null) {
+                   holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
+               } else {
+                   holder.nameTv.setText(notificationList.getAttendeeFirstName());
+               }
+           } else {
+               if (notificationList.getMedia_file() != null && !(notificationList.getMedia_file().equalsIgnoreCase("")) &&
+                       !(notificationList.getMedia_file().isEmpty())) {
+                   holder.gifiv.setVisibility(View.VISIBLE);
+                   holder.rl_image.setVisibility(View.VISIBLE);
+                   Glide.with(context).load((
+                           notificationList.getMedia_file()))
+                           .placeholder(R.drawable.profilepic_placeholder)
+                           .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop().centerCrop()
+                           .listener(new RequestListener<Drawable>() {
+                               @Override
+                               public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                   //feedprogress.setVisibility(View.GONE);
+                                   holder.progressViewImage.setVisibility(View.GONE);
+                                   return false;
+                               }
 
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                //feedprogress.setVisibility(View.GONE);
-                                holder.progressViewImage.setVisibility(View.GONE);
-                                return false;
-                            }
-                        }).into(holder.gifiv);
+                               @Override
+                               public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                   //feedprogress.setVisibility(View.GONE);
+                                   holder.progressViewImage.setVisibility(View.GONE);
+                                   return false;
+                               }
+                           }).into(holder.gifiv);
 
                 /*Glide.with(context).load(notificationList.getMedia_file())
                         .apply(RequestOptions.skipMemoryCacheOf(true))
@@ -469,57 +485,57 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                         return false;
                     }
                 }).into(holder.gifiv);*/
-            } else {
-                holder.gifiv.setVisibility(View.GONE);
-                holder.rl_image.setVisibility(View.GONE);
-            }
+               } else {
+                   holder.gifiv.setVisibility(View.GONE);
+                   holder.rl_image.setVisibility(View.GONE);
+               }
 
-            String lName = notificationList.getAttendeeLastName();
-            if (lName != null) {
-                holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
-            } else {
-                holder.nameTv.setText(notificationList.getAttendeeFirstName());
-            }
-        }
+               String lName = notificationList.getAttendeeLastName();
+               if (lName != null) {
+                   holder.nameTv.setText(notificationList.getAttendeeFirstName() + " " + notificationList.getAttendeeLastName());
+               } else {
+                   holder.nameTv.setText(notificationList.getAttendeeFirstName());
+               }
+           }
 
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            Date date1 = formatter.parse(notificationList.getNotificationDate());
+           SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+           try {
+               Date date1 = formatter.parse(notificationList.getNotificationDate());
 
-            DateFormat originalFormat = new SimpleDateFormat("dd MMMM yyyy hh:mm a", Locale.UK);
+               DateFormat originalFormat = new SimpleDateFormat("dd MMMM yyyy hh:mm a", Locale.UK);
 
-            String date = originalFormat.format(date1);
+               String date = originalFormat.format(date1);
 
-            holder.dataTv.setText(date);
+               holder.dataTv.setText(date);
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+           } catch (ParseException e) {
+               e.printStackTrace();
+           }
 
-        if (notificationList.getProfilePic() != null) {
-            SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            picPath = prefs.getString(KEY_NOTIFICATION_PROFILE_PIC_PATH, "");
-            Glide.with(context).load((
-                    picPath/*ApiConstant.profilepic*/ + notificationList.getProfilePic()))
-                    .placeholder(R.drawable.profilepic_placeholder)
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop().centerCrop()
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            //feedprogress.setVisibility(View.GONE);
-                            holder.progressView.setVisibility(View.GONE);
-                            return false;
-                        }
+           if (notificationList.getProfilePic() != null) {
+               SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+               picPath = prefs.getString(KEY_NOTIFICATION_PROFILE_PIC_PATH, "");
+               Glide.with(context).load((
+                       picPath/*ApiConstant.profilepic*/ + notificationList.getProfilePic()))
+                       .placeholder(R.drawable.profilepic_placeholder)
+                       .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).circleCrop().centerCrop()
+                       .listener(new RequestListener<Drawable>() {
+                           @Override
+                           public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                               //feedprogress.setVisibility(View.GONE);
+                               holder.progressView.setVisibility(View.GONE);
+                               return false;
+                           }
 
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            //feedprogress.setVisibility(View.GONE);
-                            holder.progressView.setVisibility(View.GONE);
-                            return false;
-                        }
-                    }).into(holder.profileIv);
-            /*Glide.with(context).load(picPath*//*ApiConstant.profilepic*//* + notificationList.getProfilePic())
+                           @Override
+                           public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                               //feedprogress.setVisibility(View.GONE);
+                               holder.progressView.setVisibility(View.GONE);
+                               return false;
+                           }
+                       }).into(holder.profileIv);
+               /*Glide.with(context).load(picPath*//*ApiConstant.profilepic*//* + notificationList.getProfilePic())
                     .circleCrop().centerCrop()
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).listener(new RequestListener<Drawable>() {
                 @Override
@@ -536,97 +552,107 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 }
             }).into(holder.profileIv).onLoadStarted(context.getDrawable(R.drawable.profilepic_placeholder));
 */
-        } else {
-            holder.progressView.setVisibility(View.GONE);
+           } else {
+               holder.progressView.setVisibility(View.GONE);
 
-        }
+           }
 
-        if (notificationList.getNotificationType().equalsIgnoreCase("Cmnt")) {
-            holder.txt_msg.setVisibility(View.VISIBLE);
-            holder.arrowIv.setVisibility(View.VISIBLE);
-            holder.arrowIvmsg.setVisibility(View.GONE);
-            holder.ivtype.setImageResource(R.drawable.notifycoment);
-            holder.arrowIv.setVisibility(View.VISIBLE);
-            holder.arrowIv.setImageResource(R.drawable.ic_rightarrow);
-            if (notificationList.getMedia_file().equalsIgnoreCase("")) {
-                if(!notificationList.getNotificationContent().contains("gif")) {
-                    holder.gifiv.setVisibility(View.GONE);
-                    holder.rl_image.setVisibility(View.GONE);
-                }
-            }
-        } else if (notificationList.getNotificationType().equalsIgnoreCase("Like")) {
-            holder.txt_msg.setVisibility(View.VISIBLE);
-            holder.arrowIv.setVisibility(View.VISIBLE);
-            if (notificationList.getMedia_file().equalsIgnoreCase("")) {
-                holder.gifiv.setVisibility(View.GONE);
-                holder.rl_image.setVisibility(View.GONE);
-            }
-            holder.arrowIvmsg.setVisibility(View.GONE);
-            holder.ivtype.setImageResource(R.drawable.notifylike);
-            holder.arrowIv.setImageResource(R.drawable.ic_rightarrow);
-        } else if (notificationList.getNotificationType().equalsIgnoreCase("Msg")) {
-            holder.txt_msg.setVisibility(View.VISIBLE);
-            holder.arrowIvmsg.setVisibility(View.VISIBLE);
-            if (notificationList.getMedia_file().equalsIgnoreCase("")) {
-                holder.gifiv.setVisibility(View.GONE);
-                holder.rl_image.setVisibility(View.GONE);
-            }
-            holder.ivtype.setImageResource(R.drawable.notifymessage);
-            holder.arrowIv.setVisibility(View.GONE);
-            holder.arrowIvmsg.setImageResource(R.drawable.messageiv);
-            // holder.arrowIvmsg.setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_ATOP);
-        } else if (notificationList.getNotificationType().equalsIgnoreCase("Quiz")) {
-            holder.txt_msg.setVisibility(View.GONE);
-            holder.arrowIv.setVisibility(View.VISIBLE);
-            holder.gifiv.setVisibility(View.GONE);
-            holder.rl_image.setVisibility(View.GONE);
-            holder.arrowIvmsg.setVisibility(View.GONE);
-            holder.ivtype.setImageResource(R.drawable.notifyadmin);
-            holder.arrowIv.setImageResource(R.drawable.ic_rightarrow);
-        } else if (notificationList.getNotificationType().equalsIgnoreCase("Post")) {
-            holder.txt_msg.setVisibility(View.GONE);
-            holder.arrowIv.setVisibility(View.VISIBLE);
-            holder.arrowIvmsg.setVisibility(View.GONE);
-            holder.ivtype.setImageResource(R.drawable.notifyadmin);
-            holder.arrowIv.setImageResource(R.drawable.ic_rightarrow);
-        } else if (notificationList.getNotificationType().equalsIgnoreCase("T")) {
-            holder.txt_msg.setVisibility(View.GONE);
-            holder.arrowIv.setVisibility(View.VISIBLE);
-            holder.gifiv.setVisibility(View.GONE);
-            holder.rl_image.setVisibility(View.GONE);
-            holder.arrowIvmsg.setVisibility(View.GONE);
+           if (notificationList.getNotificationType().equalsIgnoreCase("Cmnt")) {
+               holder.txt_msg.setVisibility(View.VISIBLE);
+               holder.arrowIv.setVisibility(View.VISIBLE);
+               holder.arrowIvmsg.setVisibility(View.GONE);
+               holder.ivtype.setImageResource(R.drawable.notifycoment);
+               holder.arrowIv.setVisibility(View.VISIBLE);
+               holder.arrowIv.setImageResource(R.drawable.ic_rightarrow);
+               if (notificationList.getMedia_file().equalsIgnoreCase("")) {
+                   if (!notificationList.getNotificationContent().contains("gif")) {
+                       holder.gifiv.setVisibility(View.GONE);
+                       holder.rl_image.setVisibility(View.GONE);
+                   }
+               }
+           } else if (notificationList.getNotificationType().equalsIgnoreCase("Like")) {
+               holder.txt_msg.setVisibility(View.VISIBLE);
+               holder.arrowIv.setVisibility(View.VISIBLE);
+               if (notificationList.getMedia_file().equalsIgnoreCase("")) {
+                   holder.gifiv.setVisibility(View.GONE);
+                   holder.rl_image.setVisibility(View.GONE);
+               }
+               holder.arrowIvmsg.setVisibility(View.GONE);
+               holder.ivtype.setImageResource(R.drawable.notifylike);
+               holder.arrowIv.setImageResource(R.drawable.ic_rightarrow);
+           } else if (notificationList.getNotificationType().equalsIgnoreCase("Msg")) {
+               holder.txt_msg.setVisibility(View.VISIBLE);
+               holder.arrowIvmsg.setVisibility(View.VISIBLE);
+               if (notificationList.getMedia_file().equalsIgnoreCase("")) {
+                   holder.gifiv.setVisibility(View.GONE);
+                   holder.rl_image.setVisibility(View.GONE);
+               }
+               holder.ivtype.setImageResource(R.drawable.notifymessage);
+               holder.arrowIv.setVisibility(View.GONE);
+               holder.arrowIvmsg.setImageResource(R.drawable.messageiv);
+               // holder.arrowIvmsg.setColorFilter(Color.parseColor(colorActive), PorterDuff.Mode.SRC_ATOP);
+           } else if (notificationList.getNotificationType().equalsIgnoreCase("Quiz")) {
+               holder.txt_msg.setVisibility(View.GONE);
+               holder.arrowIv.setVisibility(View.VISIBLE);
+               holder.gifiv.setVisibility(View.GONE);
+               holder.rl_image.setVisibility(View.GONE);
+               holder.arrowIvmsg.setVisibility(View.GONE);
+               holder.ivtype.setImageResource(R.drawable.notifyadmin);
+               holder.arrowIv.setImageResource(R.drawable.ic_rightarrow);
+           } else if (notificationList.getNotificationType().equalsIgnoreCase("Post")) {
+               holder.txt_msg.setVisibility(View.GONE);
+               holder.arrowIv.setVisibility(View.VISIBLE);
+               holder.arrowIvmsg.setVisibility(View.GONE);
+               holder.ivtype.setImageResource(R.drawable.notifyadmin);
+               holder.arrowIv.setImageResource(R.drawable.ic_rightarrow);
+           } else if (notificationList.getNotificationType().equalsIgnoreCase("T")) {
+               holder.txt_msg.setVisibility(View.GONE);
+               holder.arrowIv.setVisibility(View.VISIBLE);
+               holder.gifiv.setVisibility(View.GONE);
+               holder.rl_image.setVisibility(View.GONE);
+               holder.arrowIvmsg.setVisibility(View.GONE);
 
-            holder.ivtype.setImageResource(R.drawable.notifylike);
-            holder.arrowIv.setImageResource(R.drawable.ic_rightarrow);
+               holder.ivtype.setImageResource(R.drawable.notifylike);
+               holder.arrowIv.setImageResource(R.drawable.ic_rightarrow);
 
-        } else if (notificationList.getNotificationType().equalsIgnoreCase("Live_poll")) {
-            holder.txt_msg.setVisibility(View.GONE);
-            holder.arrowIv.setVisibility(View.VISIBLE);
-            holder.gifiv.setVisibility(View.GONE);
-            holder.rl_image.setVisibility(View.GONE);
-            holder.arrowIvmsg.setVisibility(View.GONE);
+           } else if (notificationList.getNotificationType().equalsIgnoreCase("Live_poll")) {
+               holder.txt_msg.setVisibility(View.GONE);
+               holder.arrowIv.setVisibility(View.VISIBLE);
+               holder.gifiv.setVisibility(View.GONE);
+               holder.rl_image.setVisibility(View.GONE);
+               holder.arrowIvmsg.setVisibility(View.GONE);
 
-            holder.ivtype.setImageResource(R.drawable.notifylike);
-            holder.arrowIv.setImageResource(R.drawable.ic_rightarrow);
+               holder.ivtype.setImageResource(R.drawable.notifylike);
+               holder.arrowIv.setImageResource(R.drawable.ic_rightarrow);
 
-        } else {
-            holder.txt_msg.setVisibility(View.GONE);
-            holder.arrowIv.setVisibility(View.GONE);
-            holder.arrowIvmsg.setVisibility(View.GONE);
-            holder.arrowIvmsg.setVisibility(View.GONE);
-            if (notificationList.getMedia_file() != null) {
-                if (notificationList.getMedia_file().equalsIgnoreCase("")) {
-                    holder.gifiv.setVisibility(View.GONE);
-                    holder.rl_image.setVisibility(View.GONE);
-                }
-            }
+           } else if (notificationList.getNotificationType().equalsIgnoreCase("request") ||
+                   notificationList.getNotificationType().equalsIgnoreCase("accept")) {
+               holder.txt_msg.setVisibility(View.GONE);
+               holder.arrowIv.setVisibility(View.VISIBLE);
+               holder.gifiv.setVisibility(View.GONE);
+               holder.rl_image.setVisibility(View.GONE);
+               holder.arrowIvmsg.setVisibility(View.GONE);
 
-            holder.ivtype.setImageResource(R.drawable.notifyadmin);
-            holder.arrowIv.setVisibility(View.GONE);
-        }
+               holder.ivtype.setImageResource(R.drawable.notifylike);
+               holder.arrowIv.setImageResource(R.drawable.ic_rightarrow);
 
-        /*if ((position >= getItemCount() - 1))
-            listener.load();*/
+           } else {
+               holder.txt_msg.setVisibility(View.GONE);
+               holder.arrowIv.setVisibility(View.GONE);
+               holder.arrowIvmsg.setVisibility(View.GONE);
+               holder.arrowIvmsg.setVisibility(View.GONE);
+               if (notificationList.getMedia_file() != null) {
+                   if (notificationList.getMedia_file().equalsIgnoreCase("")) {
+                       holder.gifiv.setVisibility(View.GONE);
+                       holder.rl_image.setVisibility(View.GONE);
+                   }
+               }
+
+               holder.ivtype.setImageResource(R.drawable.notifyadmin);
+               holder.arrowIv.setVisibility(View.GONE);
+           }
+       }catch (Exception e)
+       {e.printStackTrace();}
     }
 
     @Override
@@ -637,14 +663,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public int getItemCount() {
-        return notificationLists.size();
+        return notificationLists == null ? 0 : notificationLists.size();//notificationLists.size();
     }
 
     public interface NotificationAdapterListner {
         void onContactSelected(NotificationList notification, Context context);
 
         void onReplyClick(NotificationList notification, Context context);
-        void load();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -696,4 +721,81 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             });
         }
     }
+    
+        /*
+        Helpers - Pagination
+   _________________________________________________________________________________________________
+    */
+
+    public void add(NotificationList r) {
+        notificationLists.add(r);
+        notifyItemInserted(notificationLists.size() - 1);
+    }
+
+    public void addAll(List<NotificationList> moveResults) {
+        for (NotificationList result : moveResults) {
+            add(result);
+        }
+    }
+
+    public void remove(NotificationList r) {
+        int position = notificationLists.indexOf(r);
+        if (position > -1) {
+            notificationLists.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    /*  public void clear() {
+          isLoadingAdded = false;
+          while (getItemCount() > 0) {
+              remove(getItem(0));
+          }
+      }
+  
+      public boolean isEmpty() {
+          return getItemCount() == 0;
+      }
+  
+  */
+    public void addLoadingFooter() {
+        isLoadingAdded = true;
+        add(new NotificationList());
+    }
+
+    public void removeLoadingFooter() {
+        isLoadingAdded = false;
+
+        int position = notificationLists.size() - 1;
+        NotificationList result = getItem(position);
+
+        if (result != null) {
+            notificationLists.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public NotificationList getItem(int position) {
+        return notificationLists.get(position);
+    }
+
+    /**
+     * Displays Pagination retry footer view along with appropriate errorMsg
+     *
+     * @param show
+     * @param errorMsg to display if page load fails
+     */
+    public void showRetry(boolean show, @Nullable String errorMsg) {
+        retryPageLoad = show;
+        notifyItemChanged(notificationLists.size() - 1);
+
+        if (errorMsg != null) this.errorMsg = errorMsg;
+    }
+
+
+
+    public List<NotificationList> getNotificationLists() {
+        return notificationLists;
+    }
+
 }

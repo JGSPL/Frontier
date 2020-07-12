@@ -587,7 +587,6 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                             }
                         }
                     }
-
                 }
 
                 Log.e("valid_ans", question_ans.toString());

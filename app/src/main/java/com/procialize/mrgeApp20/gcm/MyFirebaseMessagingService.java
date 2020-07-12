@@ -26,6 +26,7 @@ import com.procialize.mrgeApp20.Activity.SplashActivity;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.AttendeeChat.AttendeeChatActivity;
 import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyChat;
+import com.procialize.mrgeApp20.BuddyList.Activity.ActivityBuddyList;
 import com.procialize.mrgeApp20.BuddyList.DataModel.Buddy;
 import com.procialize.mrgeApp20.BuddyList.DataModel.chat_list_db;
 import com.procialize.mrgeApp20.DbHelper.DBHelper;
@@ -417,6 +418,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
        {
            Intent notificationIntent = new Intent(getApplicationContext(),
                    MrgeHomeActivity.class);
+           notificationIntent.putExtra("fromNotification", "fromNotification");
+           notificationIntent.putExtra("type", messageType);
+           notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                   | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+           contentIntent = PendingIntent.getActivity(
+                   getApplicationContext(), new Random().nextInt(),
+                   notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+       }else if(messageType.equalsIgnoreCase("request")||messageType.equalsIgnoreCase("accept"))
+       {
+           Intent notificationIntent = new Intent(getApplicationContext(),
+                   ActivityBuddyList.class);
            notificationIntent.putExtra("fromNotification", "fromNotification");
            notificationIntent.putExtra("type", messageType);
            notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
