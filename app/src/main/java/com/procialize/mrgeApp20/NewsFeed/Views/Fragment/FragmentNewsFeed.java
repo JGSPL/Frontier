@@ -422,6 +422,19 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         feedrecycler.setItemAnimator(new DefaultItemAnimator());
 
         feedrecycler.setAdapter(feedAdapter);
+
+        feedrecycler.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                JzvdStd.goOnPlayOnPause();
+                try {
+                    MyJzvdStd.releaseAllVideos();
+                    JzvdStd.releaseAllVideos();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         feedrecycler.addOnScrollListener(new PaginationScrollListener(mLayoutManager) {
             @Override
             protected void loadMoreItems() {
@@ -1813,6 +1826,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
                 if (response.isSuccessful()) {
                     dismissProgress();
+
                     List<NewsFeedList> results = response.body().getNewsFeedList();
 
                     String totalRecords = response.body().getTotalRecords();
@@ -2192,6 +2206,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             // progressbarForSubmit.setVisibility(View.GONE);
             Log.d("service end", "service end");
             //  fetchFeed(token, eventid, "" + pageNumber, pageSize);
+            isLastPage = false;
+            feedAdapter.getNewsFeedList().clear();
+            feedAdapter.notifyDataSetChanged();
             loadFirstPage();
             tv_uploading.clearAnimation();
             tv_uploading.setVisibility(View.GONE);

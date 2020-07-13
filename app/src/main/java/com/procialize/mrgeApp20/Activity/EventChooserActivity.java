@@ -3,6 +3,7 @@ package com.procialize.mrgeApp20.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -16,9 +17,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -873,6 +876,30 @@ public class EventChooserActivity extends AppCompatActivity implements EventAdap
                 Snackbar.make(linear, "Error", Snackbar.LENGTH_LONG).show();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(EventChooserActivity.this);
+                    builder.setTitle("Exit");
+                    builder.setMessage("Are you sure you want to exit?");
+                    builder.setNegativeButton("NO",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.setPositiveButton("YES",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    ActivityCompat.finishAffinity(EventChooserActivity.this);
+                                }
+                            });
+                    builder.show();
+
     }
 
 }

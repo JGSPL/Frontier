@@ -83,6 +83,7 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
     List<DocumentList> documentsList = new ArrayList<>();
     private APIService mAPIService;
     String listType="";
+    TextView pullrefresh;
 
     public static Activity activity;
 
@@ -126,7 +127,9 @@ public class DownloadsFragment extends Fragment implements DocumentsListAdapter.
         docRv = rootView.findViewById(R.id.docRv);
 
         TextView header = rootView.findViewById(R.id.title);
+        pullrefresh = rootView.findViewById(R.id.pullrefresh);
         header.setTextColor(Color.parseColor(colorActive));
+        pullrefresh.setTextColor(Color.parseColor(colorActive));
 
         docRvrefresh = rootView.findViewById(R.id.docRvrefresh);
         progressBar = rootView.findViewById(R.id.progressBar);

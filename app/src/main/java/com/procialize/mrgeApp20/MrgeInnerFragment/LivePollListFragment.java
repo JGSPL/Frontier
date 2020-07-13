@@ -102,6 +102,9 @@ public class LivePollListFragment extends Fragment implements PollNewAdapter.Pol
         return fragment;
     }
 
+    public LivePollListFragment() {
+        // doesn't do anything special
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -511,6 +511,11 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     linear_livestream.setVisibility(View.GONE);
                     youTubeLinkPosition = 0;
                     initializeYoutubePlayer(youTubeLinkPosition);
+                } else if (zoom_status.equalsIgnoreCase("1")) {
+                    Intent intent = new Intent(MrgeHomeActivity.this, InitAuthSDKActivity.class);
+                    intent.putExtra("meeting_id", zoom_meeting_id);
+                    intent.putExtra("meeting_password", zoom_password);
+                    startActivity(intent);
                 }
             }
         });

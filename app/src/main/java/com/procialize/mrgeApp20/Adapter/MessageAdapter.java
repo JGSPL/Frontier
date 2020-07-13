@@ -163,6 +163,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                     attendeetail.putExtra("designation", travel.getDesignation());
                     attendeetail.putExtra("description", "");
                     attendeetail.putExtra("profile", travel.getProfilePic());
+
                     context.startActivity(attendeetail);
                 }
             }
