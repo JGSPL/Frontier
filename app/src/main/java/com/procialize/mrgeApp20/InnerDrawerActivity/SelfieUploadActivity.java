@@ -930,9 +930,7 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
     @Override
     public void onPause() {
         super.onPause();
-
         JzvdStd.releaseAllVideos();
-
     }
 
     @Override
