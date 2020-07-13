@@ -102,6 +102,8 @@ public class QnASpeakerFragment extends Fragment implements QASpeakerAdapter.QAS
 
     public static Activity activity;
 
+    public QnASpeakerFragment() {
+    }
     public QnASpeakerFragment(Activity activity) {
         this.activity=activity;
     }

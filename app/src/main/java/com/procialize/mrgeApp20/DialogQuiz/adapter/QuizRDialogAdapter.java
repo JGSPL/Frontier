@@ -143,7 +143,6 @@ public class QuizRDialogAdapter extends RecyclerView.Adapter<QuizRDialogAdapter.
             holder.ansList.setAdapter(adapter);
 
         }
-
     }
 
 

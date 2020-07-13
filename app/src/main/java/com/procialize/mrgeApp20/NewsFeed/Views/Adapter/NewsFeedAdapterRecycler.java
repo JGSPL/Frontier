@@ -456,19 +456,21 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                                         @Override
                                         public void onClick(View widget) {
                                             attendeeDBList = dbHelper.getAttendeeDetailsId(attendeeid);
-                                            Intent intent = new Intent(context, AttendeeDetailActivity.class);
-                                            intent.putExtra("id", attendeeDBList.get(0).getAttendeeId());
-                                            intent.putExtra("name", attendeeDBList.get(0).getFirstName() + " " + attendeeDBList.get(0).getLastName());
-                                            intent.putExtra("city", attendeeDBList.get(0).getCity());
-                                            intent.putExtra("country", attendeeDBList.get(0).getCountry());
-                                            intent.putExtra("company", attendeeDBList.get(0).getCompanyName());
-                                            intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
-                                            intent.putExtra("description", attendeeDBList.get(0).getDescription());
-                                            intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
-                                            intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
-                                            intent.putExtra("buddy_status", attendeeDBList.get(0).getBuddy_status());
+                                            if(attendeeDBList.size() > 0) {
+                                                Intent intent = new Intent(context, AttendeeDetailActivity.class);
+                                                intent.putExtra("id", attendeeDBList.get(0).getAttendeeId());
+                                                intent.putExtra("name", attendeeDBList.get(0).getFirstName() + " " + attendeeDBList.get(0).getLastName());
+                                                intent.putExtra("city", attendeeDBList.get(0).getCity());
+                                                intent.putExtra("country", attendeeDBList.get(0).getCountry());
+                                                intent.putExtra("company", attendeeDBList.get(0).getCompanyName());
+                                                intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
+                                                intent.putExtra("description", attendeeDBList.get(0).getDescription());
+                                                intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
+                                                intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
+                                                intent.putExtra("buddy_status", attendeeDBList.get(0).getBuddy_status());
 
-                                            context.startActivity(intent);
+                                                context.startActivity(intent);
+                                            }
                                         }
                                     }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     stringBuilder.replace(start, end + 1, substring);

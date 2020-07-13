@@ -390,6 +390,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         if (MrgeHomeActivity.spot_quiz.equalsIgnoreCase("spot_quiz")) {
             new getQuizList().execute();
         }
+
         // new getQuizList().execute();
 
     }

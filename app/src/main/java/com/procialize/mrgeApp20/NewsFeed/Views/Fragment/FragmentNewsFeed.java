@@ -463,6 +463,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         });
 
         if(cd.isConnectingToInternet()) {
+            isLastPage = false;
+            feedAdapter.getNewsFeedList().clear();
+            feedAdapter.notifyDataSetChanged();
             loadFirstPage();
         }
 //------------------------------------------------------------
@@ -1085,7 +1088,8 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
             if (cd.isConnectingToInternet()) {
                 //fetchFeed(token, eventid);
-                loadFirstPage();
+
+                //loadFirstPage();
             }
 //            fetchFeed(token, eventid);
         } else {
@@ -1412,7 +1416,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                                 }
                             }
                         }
-
                         feedrecycler.smoothScrollToPosition(0);
                     }
                 });
@@ -2270,6 +2273,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         public void onReceive(Context context, Intent intent) {
             // progressbarForSubmit.setVisibility(View.GONE);
             //  fetchFeed(token, eventid, "1", pageSize);
+            isLastPage = false;
+            feedAdapter.getNewsFeedList().clear();
+            feedAdapter.notifyDataSetChanged();
             loadFirstPage();
         }
     }

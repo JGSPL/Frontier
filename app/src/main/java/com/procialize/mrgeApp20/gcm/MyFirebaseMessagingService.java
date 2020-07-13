@@ -216,10 +216,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     String folderUniqueId = message[3];
                     dbHelper.updateNewsFeedId(news_feed_id, folderUniqueId, db);
                     dbHelper.updateMultimediaInfo(media_file, news_feed_id, db, media_file_thumb, folderUniqueId);
-                    Log.e("n_media_file_id===>",news_feed_id);
+                   /* Log.e("n_media_file_id===>",news_feed_id);
                     Log.e("n_media_file===>",media_file);
                     Log.e("n_media_file_thumb===>",media_file_thumb);
-                    Log.e("n_media_file_UniqueId=>",folderUniqueId);
+                    Log.e("n_media_file_UniqueId=>",folderUniqueId);*/
                 }
             } catch (Exception e) {
                 e.printStackTrace();

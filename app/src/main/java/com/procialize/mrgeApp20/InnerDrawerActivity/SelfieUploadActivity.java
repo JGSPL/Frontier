@@ -946,9 +946,7 @@ public void showProgress() {
     @Override
     public void onPause() {
         super.onPause();
-
         JzvdStd.releaseAllVideos();
-
     }
 
     @Override

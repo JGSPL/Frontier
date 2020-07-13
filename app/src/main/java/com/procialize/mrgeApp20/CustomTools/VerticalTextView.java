@@ -49,24 +49,27 @@ public class VerticalTextView extends TextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        TextPaint textPaint = getPaint();
-        textPaint.setColor(getCurrentTextColor());
-        textPaint.drawableState = getDrawableState();
+        try {
+            TextPaint textPaint = getPaint();
+            textPaint.setColor(getCurrentTextColor());
+            textPaint.drawableState = getDrawableState();
 
-        canvas.save();
+            canvas.save();
 
-        if (topDown) {
-            canvas.translate(getWidth(), 0);
-            canvas.rotate(90);
-        } else {
-            canvas.translate(0, getHeight());
-            canvas.rotate(-90);
-        }
+            if (topDown) {
+                canvas.translate(getWidth(), 0);
+                canvas.rotate(90);
+            } else {
+                canvas.translate(0, getHeight());
+                canvas.rotate(-90);
+            }
 
-        canvas.translate(getCompoundPaddingLeft(), getExtendedPaddingTop());
+            canvas.translate(getCompoundPaddingLeft(), getExtendedPaddingTop());
 
-        getLayout().draw(canvas);
-        canvas.restore();
+            getLayout().draw(canvas);
+            canvas.restore();
+        }catch (Exception e)
+        {e.printStackTrace();}
     }
 
     public void init() {

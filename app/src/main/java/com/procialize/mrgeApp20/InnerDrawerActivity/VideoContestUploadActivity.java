@@ -16,6 +16,7 @@ import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -23,6 +24,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -140,13 +143,53 @@ public class VideoContestUploadActivity extends AppCompatActivity implements Pro
                 } else if (items[item].equals("Take Video")) {
                     if (result) {
                         userChoosenTask = "Take Video";
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            // Android M Permission check
+                            if (VideoContestUploadActivity.this.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != PackageManager.PERMISSION_GRANTED && VideoContestUploadActivity.this.checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE") != PackageManager.PERMISSION_GRANTED) {
+                                final String[] permissions = new String[]{"android.permission.READ_EXTERNAL_STORAGE"};
+                                final String[] permissionswrite = new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"};
+                                ActivityCompat.requestPermissions(VideoContestUploadActivity.this, permissionswrite, 0);
+                                ActivityCompat.requestPermissions(VideoContestUploadActivity.this, permissions, 0);
+                            } else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-                        Intent videoCaptureIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                        videoCaptureIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 15);
+
+                                    // Android M Permission check
+                                    if (VideoContestUploadActivity.this.checkSelfPermission(android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                                        final String[] permissions = new String[]{android.Manifest.permission.CAMERA};
+                                        ActivityCompat.requestPermissions(VideoContestUploadActivity.this,
+                                                permissions, 1);
+                                    } else {
+
+                                        Intent videoCaptureIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                                        videoCaptureIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 15);
 //                        videoCaptureIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1); //0 means low & 1 means high
-                        if (videoCaptureIntent.resolveActivity(getPackageManager()) != null) {
-                            startActivityForResult(videoCaptureIntent, REQUEST_VIDEO_CAPTURE);
+                                        if (videoCaptureIntent.resolveActivity(getPackageManager()) != null) {
+                                            startActivityForResult(videoCaptureIntent, REQUEST_VIDEO_CAPTURE);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    Intent videoCaptureIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                                    videoCaptureIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 15);
+//                        videoCaptureIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1); //0 means low & 1 means high
+                                    if (videoCaptureIntent.resolveActivity(getPackageManager()) != null) {
+                                        startActivityForResult(videoCaptureIntent, REQUEST_VIDEO_CAPTURE);
+                                    }
+                                }
+                            }
+
+                        } else {
+                            Intent videoCaptureIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                            videoCaptureIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 15);
+//                        videoCaptureIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1); //0 means low & 1 means high
+                            if (videoCaptureIntent.resolveActivity(getPackageManager()) != null) {
+                                startActivityForResult(videoCaptureIntent, REQUEST_VIDEO_CAPTURE);
+                            }
+
                         }
+
                     }
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
@@ -570,6 +613,22 @@ public class VideoContestUploadActivity extends AppCompatActivity implements Pro
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent videoCaptureIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                videoCaptureIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 15);
+//                        videoCaptureIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1); //0 means low & 1 means high
+                if (videoCaptureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(videoCaptureIntent, REQUEST_VIDEO_CAPTURE);
+                }
+            } else {
+                Toast.makeText(this, "No permission to read external storage.",
+                        Toast.LENGTH_SHORT).show();
 
-
+            }
+        }
+    }
 }
