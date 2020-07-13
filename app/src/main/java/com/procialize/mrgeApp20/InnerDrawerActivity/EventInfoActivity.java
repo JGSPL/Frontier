@@ -103,7 +103,7 @@ public class EventInfoActivity extends AppCompatActivity implements OnMapReadyCa
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid, colorActive;
     ImageView headerlogoIv;
-    RelativeLayout relative_head;
+    //RelativeLayout relative_head;
     List<SponsorsList> sponsorList;
     String filePath,eventLogoPath;
     LinearLayout linShare;
@@ -136,7 +136,7 @@ public class EventInfoActivity extends AppCompatActivity implements OnMapReadyCa
 //        eventid=intent.getStringExtra("eventId");
 //        eventnamestr=intent.getStringExtra("eventnamestr");
         cd = new ConnectionDetector(EventInfoActivity.this);
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.activetab), PorterDuff.Mode.SRC_ATOP);
+       // toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.activetab), PorterDuff.Mode.SRC_ATOP);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +164,7 @@ public class EventInfoActivity extends AppCompatActivity implements OnMapReadyCa
         SharedPreferences prefs = EventInfoActivity.this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         eventid = prefs.getString("eventid", "1");
         colorActive = prefs.getString("colorActive", "");
-        relative_head = findViewById(R.id.relative_head);
+        LinearLayout relative_head = findViewById(R.id.linear1);
         sessionManager = new SessionManager(this);
 
         try {
