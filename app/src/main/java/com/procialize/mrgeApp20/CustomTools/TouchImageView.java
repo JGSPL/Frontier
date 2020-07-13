@@ -274,13 +274,16 @@ public class TouchImageView extends AppCompatImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        onDrawReady = true;
-        imageRenderedAtLeastOnce = true;
-        if (delayedZoomVariables != null) {
-            setZoom(delayedZoomVariables.scale, delayedZoomVariables.focusX, delayedZoomVariables.focusY, delayedZoomVariables.scaleType);
-            delayedZoomVariables = null;
-        }
-        super.onDraw(canvas);
+        try {
+            onDrawReady = true;
+            imageRenderedAtLeastOnce = true;
+            if (delayedZoomVariables != null) {
+                setZoom(delayedZoomVariables.scale, delayedZoomVariables.focusX, delayedZoomVariables.focusY, delayedZoomVariables.scaleType);
+                delayedZoomVariables = null;
+            }
+            super.onDraw(canvas);
+        }catch (Exception e)
+        {e.printStackTrace();}
     }
 
     @Override

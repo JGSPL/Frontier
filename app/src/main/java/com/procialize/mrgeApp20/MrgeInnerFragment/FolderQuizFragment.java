@@ -4,14 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +25,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.procialize.mrgeApp20.Adapter.QuizFolderAdapter;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
 import com.procialize.mrgeApp20.DbHelper.ConnectionDetector;
-import com.procialize.mrgeApp20.DialogLivePoll.DialogLivePoll;
 import com.procialize.mrgeApp20.GetterSetter.Quiz;
 import com.procialize.mrgeApp20.GetterSetter.QuizFolder;
 import com.procialize.mrgeApp20.GetterSetter.QuizLogo;
@@ -44,32 +38,34 @@ import com.procialize.mrgeApp20.Parser.QuizOptionParser;
 import com.procialize.mrgeApp20.Parser.QuizParser;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
-import com.procialize.mrgeApp20.DialogQuiz.DialogQuiz;
 import com.procialize.mrgeApp20.Utility.MyApplication;
 import com.procialize.mrgeApp20.Utility.ServiceHandler;
-import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.jzvd.JzvdStd;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.procialize.mrgeApp20.Utility.Util.setNotification;
 import static com.procialize.mrgeApp20.util.CommonFunction.crashlytics;
 import static com.procialize.mrgeApp20.util.CommonFunction.firbaseAnalytics;
-import static android.content.Context.MODE_PRIVATE;
 
 public class FolderQuizFragment extends Fragment {
     public static MyApplication appDelegate;
+    public static Activity activity;
     public String Jsontr;
     ApiConstant constant;
     String MY_PREFS_NAME = "ProcializeInfo";
     ImageView headerlogoIv;
+    QuizLogo quizlogo;
+    SwipeRefreshLayout quizrefresher;
+    TextView empty, pullrefresh;
+    LinearLayout linear;
     private ProgressDialog pDialog;
     // Session Manager Class
     private SessionManager session;
@@ -85,19 +81,16 @@ public class FolderQuizFragment extends Fragment {
     private QuizParser quizParser;
     private QuizFolderParser quizFolderParser;
     private QuizLogoParser quizLogoParser;
-    QuizLogo quizlogo;
-
     private ArrayList<Quiz> quizList = new ArrayList<Quiz>();
     private ArrayList<QuizFolder> quizFolders = new ArrayList<QuizFolder>();
     private QuizOptionParser quizOptionParser;
     private ArrayList<QuizOptionList> quizOptionList = new ArrayList<QuizOptionList>();
-    SwipeRefreshLayout quizrefresher;
-    TextView empty, pullrefresh;
-    LinearLayout linear;
-    public static Activity activity;
+
+    public FolderQuizFragment() {
+    }
 
     public FolderQuizFragment(Activity activity) {
-        this.activity=activity;
+        this.activity = activity;
     }
 
     public static FolderQuizFragment newInstance() {
@@ -112,9 +105,10 @@ public class FolderQuizFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_folder_quiz, container, false);
 
         try {
-            setNotification(getActivity(), MrgeHomeActivity.tv_notification,MrgeHomeActivity.ll_notification_count);
-        }catch (Exception e)
-        {e.printStackTrace();}
+            setNotification(getActivity(), MrgeHomeActivity.tv_notification, MrgeHomeActivity.ll_notification_count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         constant = new ApiConstant();
         appDelegate = (MyApplication) getActivity().getApplicationContext();
@@ -123,8 +117,8 @@ public class FolderQuizFragment extends Fragment {
         session = new SessionManager(getContext());
         accessToken = session.getUserDetails().get(SessionManager.KEY_TOKEN);
 
-        crashlytics("Quiz Folder",accessToken);
-        firbaseAnalytics(getContext(), "Quiz Folder",accessToken);
+        crashlytics("Quiz Folder", accessToken);
+        firbaseAnalytics(getContext(), "Quiz Folder", accessToken);
 
         SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         event_id = prefs.getString("eventid", "1");
@@ -144,7 +138,7 @@ public class FolderQuizFragment extends Fragment {
         quizrefresher = view.findViewById(R.id.quizrefresher);
 
         RelativeLayout layoutTop = view.findViewById(R.id.layoutTop);
-      //  layoutTop.setBackgroundColor(Color.parseColor(colorActive));
+        //  layoutTop.setBackgroundColor(Color.parseColor(colorActive));
 
         quizNameList = view.findViewById(R.id.quiz_list);
         quizNameList.setScrollingCacheEnabled(false);
@@ -254,6 +248,7 @@ public class FolderQuizFragment extends Fragment {
         //--------------------------------------------------------------------------------------
         return view;
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -268,6 +263,12 @@ public class FolderQuizFragment extends Fragment {
     public void onPause() {
         super.onPause();
         JzvdStd.releaseAllVideos();
+    }
+
+    public void onBackpressed() {
+
+        Intent intent = new Intent(activity, MrgeHomeActivity.class);
+        activity.startActivity(intent);
     }
 
     /**
@@ -368,7 +369,7 @@ public class FolderQuizFragment extends Fragment {
                 if (quizlogo.getApp_quiz_logo() != null) {
                     Logoname = quizlogo.getApp_quiz_logo();
                 }
-            }catch(NullPointerException e){
+            } catch (NullPointerException e) {
 
             }
             String finalLogourl = logoUrl + Logoname;
@@ -376,19 +377,13 @@ public class FolderQuizFragment extends Fragment {
             empty.setTextColor(Color.parseColor(colorActive));
             if (quizFolders.size() != 0) {
                 empty.setVisibility(View.GONE);
-                adapter = new QuizFolderAdapter(getActivity(), quizFolders,finalLogourl);
+                adapter = new QuizFolderAdapter(getActivity(), quizFolders, finalLogourl);
                 quizNameList.setAdapter(adapter);
             } else {
                 empty.setVisibility(View.VISIBLE);
             }
 
         }
-    }
-
-    public void onBackpressed() {
-
-        Intent intent = new Intent(activity, MrgeHomeActivity.class);
-        activity.startActivity(intent);
     }
 
 

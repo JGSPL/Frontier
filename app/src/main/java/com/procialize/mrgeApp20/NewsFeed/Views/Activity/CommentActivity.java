@@ -257,6 +257,10 @@ TextView commentHeader;
         newsFeedPath = prefs.getString(KEY_NEWSFEED_PATH, "");
         newsFeedProfilePath = prefs.getString(KEY_NEWSFEED_PROFILE_PATH, "");
 
+        CardView myCardView1 = (CardView)findViewById(R.id.myCardView1);
+        ImageView iv_background = findViewById(R.id.iv_background);
+        iv_background.setBackgroundColor(Color.parseColor(colorActive));
+
 
         commentHeader = findViewById(R.id.commentHeader);
         commentHeader.setTextColor(Color.parseColor(colorActive));

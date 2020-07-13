@@ -3365,7 +3365,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }*/
 
     public void updateMultimediaInfo(String strPath, String news_feed_id, SQLiteDatabase db, String media_file_thumb, String folderUniqueId) {
-
+        //long affectedRowCount=0;
         db = this.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -3388,15 +3388,44 @@ public class DBHelper extends SQLiteOpenHelper {
                 whereCondition =  " MULTIMEDIA_TYPE='text' AND  NEWS_FEED_ID='" + news_feed_id + "'";
             }
 
-            String sql = "UPDATE TABLE_UPLOAD_MULTIMEDIA set IS_UPLOADED='true' where " + whereCondition;
+           // String sql = "UPDATE TABLE_UPLOAD_MULTIMEDIA set IS_UPLOADED='true' where " + whereCondition;
+            String sql = "DELETE FROM TABLE_UPLOAD_MULTIMEDIA where " + whereCondition;
             db.execSQL(sql);
+
+
+            /*Cursor cursor = null;
+            try
+            {
+                cursor = db.rawQuery("SELECT changes() AS affected_row_count", null);
+                if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst())
+                {
+                    affectedRowCount = cursor.getLong(cursor.getColumnIndex("affected_row_count"));
+                    Log.d("LOG", "affectedRowCount = " + affectedRowCount);
+                }
+                else
+                {
+                    // Some error occurred?
+                }
+            }
+            catch(SQLException e)
+            {
+                // Handle exception here.
+            }
+            finally
+            {
+                if(cursor != null)
+                {
+                    cursor.close();
+                }
+            }
+            db.beginTransactionNonExclusive();*/
             db.setTransactionSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             db.endTransaction();
         }
-        return;
+        return ;
     }
 
     public void updateUplodingFlag(String strPath, String news_feed_id, SQLiteDatabase db, String media_file_thumb, String folderUniqueId) {

@@ -64,6 +64,11 @@ public class EngagementFragment extends Fragment {
     String token;
     String event_id;
 
+    public EngagementFragment() {
+
+    }
+
+
     public EngagementFragment(Activity activity) {
         this.activity = activity;
     }
