@@ -20,8 +20,10 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.procialize.mrgeApp20.Activity.ProfileActivity;
 import com.procialize.mrgeApp20.ApiConstant.ApiConstant;
@@ -62,7 +64,10 @@ public class Util {
             SharedPreferences prefs1 = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
             String profilePic = prefs1.getString(KEY_EVENT_PROFILE_PATH,"");
             String eventLogo = prefs1.getString(KEY_EVENT_LIST_LOGO_PATH,"");
-            Glide.with(context).load(/*ApiConstant.imgURL + "uploads/app_logo/"*/eventLogo + MrgeHomeActivity.logoImg).listener(new RequestListener<Drawable>() {
+/*
+            Glide.with(context).load(*/
+/*ApiConstant.imgURL + "uploads/app_logo/"*//*
+eventLogo + MrgeHomeActivity.logoImg).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 //                    headerlogoIv.setImageResource(R.drawable.header_logo);
@@ -74,6 +79,26 @@ public class Util {
                     return false;
                 }
             }).into(headerlogoIv);
+*/
+
+            Glide.with(context).load(
+            /*ApiConstant.imgURL + "uploads/app_logo/"*/
+eventLogo + MrgeHomeActivity.logoImg)
+                    .apply(RequestOptions.skipMemoryCacheOf(false))
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            headerlogoIv.setImageResource(R.drawable.header_logo);
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            return false;
+                        }
+                    }).into(headerlogoIv);
+
         }
     }
 
@@ -89,7 +114,7 @@ public class Util {
             SharedPreferences prefs1 = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
             String profilePic = prefs1.getString(KEY_EVENT_PROFILE_PATH,"");
             String eventLogo = prefs1.getString(KEY_EVENT_LIST_LOGO_PATH,"");
-            Glide.with(context).load(/*ApiConstant.imgURL + "uploads/app_logo/"*/eventLogo + MrgeHomeActivity.logoImg).listener(new RequestListener<Drawable>() {
+            /*Glide.with(context).load(*//*ApiConstant.imgURL + "uploads/app_logo/"*//*eventLogo + MrgeHomeActivity.logoImg).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 //                    headerlogoIv.setImageResource(R.drawable.header_logo);
@@ -100,7 +125,24 @@ public class Util {
                 public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                     return false;
                 }
-            }).into(header_logo);
+            }).into(header_logo);*/
+            Glide.with(context).load(
+                    /*ApiConstant.imgURL + "uploads/app_logo/"*/
+                    eventLogo + MrgeHomeActivity.logoImg)
+                    .apply(RequestOptions.skipMemoryCacheOf(false))
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            header_logo.setImageResource(R.drawable.header_logo);
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            return false;
+                        }
+                    }).into(header_logo);
         }
     }
 

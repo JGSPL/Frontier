@@ -1973,6 +1973,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
                     }
                     //--------------------------------------
+                    db = procializeDB.getWritableDatabase();
                     procializeDB.clearNewsFeedTable();
                     procializeDB.clearBuzzMediaFeedTable();
                     if (response.body().getNewsFeedList().size() > 0) {
