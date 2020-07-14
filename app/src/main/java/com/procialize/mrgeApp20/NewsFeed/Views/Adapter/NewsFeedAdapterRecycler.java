@@ -55,7 +55,6 @@ import com.procialize.mrgeApp20.GetterSetter.NewsFeedList;
 import com.procialize.mrgeApp20.GetterSetter.news_feed_media;
 import com.procialize.mrgeApp20.NewsFeed.Views.Activity.PostNewActivity;
 import com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed;
-import com.procialize.mrgeApp20.NewsFeed.Views.PaginationUtils.PaginationAdapterCallback;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
 import com.procialize.mrgeApp20.Utility.Utility;
@@ -103,7 +102,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
     String substring;
     String device = Build.MODEL;
     RelativeLayout relative;
-    //List<news_feed_media> news_feed_media1;
+    List<news_feed_media> news_feed_media1;
     private List<AttendeeList> attendeeDBList;
     private Context context;
     private FeedAdapterListner listener;
@@ -113,42 +112,6 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
     private SQLiteDatabase db;
     private DBHelper dbHelper;
     private List<EventSettingList> eventSettingLists;
-    SwipeMultimediaAdapter swipepagerAdapter;
-
-    //---------------------Pagination-------------
-    private boolean isLoadingAdded = false;
-    private boolean retryPageLoad = false;
-
-    //private PaginationAdapterCallback mCallback;
-
-    private String errorMsg;
-    //-----------------------------------------------
-
-    public NewsFeedAdapterRecycler(Context context,Boolean value, FeedAdapterListner listener) {
-        this.context = context;
-        //this.mCallback = (PaginationAdapterCallback) context;
-        feedLists = new ArrayList<>();
-
-        this.listener = listener;
-
-        this.value = value;
-        if (context != null) {
-            SessionManager sessionManager = new SessionManager(context);
-            user = sessionManager.getUserDetails();
-            profilepic = user.get(SessionManager.KEY_PIC);
-            attendee_status = user.get(SessionManager.ATTENDEE_STATUS);
-            topMgmtFlag = sessionManager.getSkipFlag();
-            SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-            colorActive = prefs.getString("colorActive", "");
-            newsFeedPath = prefs.getString(KEY_NEWSFEED_PATH, "");
-            newsFeedProfilePath = prefs.getString(KEY_NEWSFEED_PROFILE_PATH, "");
-            cd = new ConnectionDetector(context);
-        }
-        //this.mCallback = (PaginationAdapterCallback) context;
-        procializeDB = new DBHelper(context);
-        db = procializeDB.getWritableDatabase();
-        dbHelper = new DBHelper(context);
-    }
 
     public NewsFeedAdapterRecycler(Context con, List<NewsFeedList> feedLists, FeedAdapterListner listener, Boolean value, RelativeLayout _relative) {
 
@@ -169,7 +132,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             newsFeedProfilePath = prefs.getString(KEY_NEWSFEED_PROFILE_PATH, "");
             cd = new ConnectionDetector(context);
         }
-       // this.mCallback = (PaginationAdapterCallback) con;
+
         procializeDB = new DBHelper(context);
         db = procializeDB.getWritableDatabase();
         dbHelper = new DBHelper(context);
@@ -195,21 +158,9 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return position;
-    }
-
-    @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
         NewsFeedList feed;
-
-
 
         if (position == 0) {
 
@@ -457,21 +408,19 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                                         @Override
                                         public void onClick(View widget) {
                                             attendeeDBList = dbHelper.getAttendeeDetailsId(attendeeid);
-                                            if(attendeeDBList.size() > 0) {
-                                                Intent intent = new Intent(context, AttendeeDetailActivity.class);
-                                                intent.putExtra("id", attendeeDBList.get(0).getAttendeeId());
-                                                intent.putExtra("name", attendeeDBList.get(0).getFirstName() + " " + attendeeDBList.get(0).getLastName());
-                                                intent.putExtra("city", attendeeDBList.get(0).getCity());
-                                                intent.putExtra("country", attendeeDBList.get(0).getCountry());
-                                                intent.putExtra("company", attendeeDBList.get(0).getCompanyName());
-                                                intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
-                                                intent.putExtra("description", attendeeDBList.get(0).getDescription());
-                                                intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
-                                                intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
-                                                intent.putExtra("buddy_status", attendeeDBList.get(0).getBuddy_status());
+                                            Intent intent = new Intent(context, AttendeeDetailActivity.class);
+                                            intent.putExtra("id", attendeeDBList.get(0).getAttendeeId());
+                                            intent.putExtra("name", attendeeDBList.get(0).getFirstName() + " " + attendeeDBList.get(0).getLastName());
+                                            intent.putExtra("city", attendeeDBList.get(0).getCity());
+                                            intent.putExtra("country", attendeeDBList.get(0).getCountry());
+                                            intent.putExtra("company", attendeeDBList.get(0).getCompanyName());
+                                            intent.putExtra("designation", attendeeDBList.get(0).getDesignation());
+                                            intent.putExtra("description", attendeeDBList.get(0).getDescription());
+                                            intent.putExtra("profile", attendeeDBList.get(0).getProfilePic());
+                                            intent.putExtra("mobile", attendeeDBList.get(0).getMobile());
+                                            intent.putExtra("buddy_status", attendeeDBList.get(0).getBuddy_status());
 
-                                                context.startActivity(intent);
-                                            }
+                                            context.startActivity(intent);
                                         }
                                     }, start, end + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                     stringBuilder.replace(start, end + 1, substring);
@@ -676,7 +625,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
         if (feed.getNews_feed_media() != null) {
             if (feed.getNews_feed_media().size() > 0) {
 
-                List<news_feed_media> news_feed_media1 = feed.getNews_feed_media();
+                news_feed_media1 = feed.getNews_feed_media();
 
                 if (news_feed_media1.size() >= 1) {
                     holder.feedimageIv.setVisibility(View.GONE);
@@ -689,7 +638,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
                     final ArrayList<String> imagesSelectednew = new ArrayList<>();
                     final ArrayList<String> imagesSelectednew1 = new ArrayList<>();
-                    //final ImageView[] ivArrayDotsPager;
+                    final ImageView[] ivArrayDotsPager;
                     for (int i = 0; i < news_feed_media1.size(); i++) {
                         imagesSelectednew.add(newsFeedPath /*ApiConstant.newsfeedwall*/ + news_feed_media1.get(i).getMediaFile());
                         if (news_feed_media1.get(i).getMediaFile().contains("mp4")) {
@@ -698,7 +647,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                             imagesSelectednew1.add("");
                         }
                     }
-                    swipepagerAdapter = new SwipeMultimediaAdapter(context, imagesSelectednew, imagesSelectednew1, news_feed_media1);
+                    final SwipeMultimediaAdapter swipepagerAdapter = new SwipeMultimediaAdapter(context, imagesSelectednew, imagesSelectednew1, news_feed_media1);
                     holder.viewPager.setAdapter(swipepagerAdapter);
                     swipepagerAdapter.notifyDataSetChanged();
 
@@ -715,7 +664,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                     holder.recycler_slider.setAdapter(swipeableRecyclerAdapter);*/
 
                     if (imagesSelectednew.size() > 1) {
-                        //ivArrayDotsPager = new ImageView[imagesSelectednew.size()];
+                        ivArrayDotsPager = new ImageView[imagesSelectednew.size()];
                         setupPagerIndidcatorDots(0, holder.pager_dots, imagesSelectednew.size());
                         holder.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                 @Override
@@ -957,7 +906,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
     @Override
     public int getItemCount() {
-        return feedLists == null ? 0 : feedLists.size();
+        return feedLists.size();
     }
 
     private void weightapply(RelativeLayout likeTv, RelativeLayout
@@ -1159,6 +1108,8 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
         void FeedEditOnClick(View v, NewsFeedList feed, int position);
 
+        void load();
+
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -1249,82 +1200,6 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
             weightapply(txtfeedRv, imagefeedRv, videofeedRv, viewone, viewteo);
 
         }
-    }
-
-      /*
-        Helpers - Pagination
-   _________________________________________________________________________________________________
-    */
-
-    public void add(NewsFeedList r) {
-        feedLists.add(r);
-        notifyItemInserted(feedLists.size() - 1);
-    }
-
-    public void addAll(List<NewsFeedList> moveResults) {
-        for (NewsFeedList result : moveResults) {
-            add(result);
-        }
-    }
-
-    public void remove(NewsFeedList r) {
-        int position = feedLists.indexOf(r);
-        if (position > -1) {
-            feedLists.remove(position);
-            notifyItemRemoved(position);
-        }
-    }
-
-  /*  public void clear() {
-        isLoadingAdded = false;
-        while (getItemCount() > 0) {
-            remove(getItem(0));
-        }
-    }
-
-    public boolean isEmpty() {
-        return getItemCount() == 0;
-    }
-
-*/
-    public void addLoadingFooter() {
-        isLoadingAdded = true;
-        add(new NewsFeedList());
-    }
-
-    public void removeLoadingFooter() {
-        isLoadingAdded = false;
-
-        int position = feedLists.size() - 1;
-        NewsFeedList result = getItem(position);
-
-        if (result != null) {
-            feedLists.remove(position);
-            notifyItemRemoved(position);
-        }
-    }
-
-    public NewsFeedList getItem(int position) {
-        return feedLists.get(position);
-    }
-
-    /**
-     * Displays Pagination retry footer view along with appropriate errorMsg
-     *
-     * @param show
-     * @param errorMsg to display if page load fails
-     */
-    public void showRetry(boolean show, @Nullable String errorMsg) {
-        retryPageLoad = show;
-        notifyItemChanged(feedLists.size() - 1);
-
-        if (errorMsg != null) this.errorMsg = errorMsg;
-    }
-
-
-
-    public List<NewsFeedList> getNewsFeedList() {
-        return feedLists;
     }
 
 }

@@ -49,6 +49,7 @@ import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.Utility.KeyboardUtility;
 import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -293,6 +294,8 @@ public class ActivityBuddyChat extends AppCompatActivity {
                     chat_message = msg;
                     PostChat(eventid, token, attendeeid, msg);
                     commentBt.setEnabled(false);
+                    KeyboardUtility.hideSoftKeyboard(ActivityBuddyChat.this);
+
                 } else {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(ActivityBuddyChat.this);
                     builder.setTitle("");

@@ -532,8 +532,8 @@ public class BackgroundService extends IntentService {
         builder.addFormDataPart("org_image_name", media_file+"#"+media_file_thumb+"#"+folderUniqueId);
 
         Log.e("media_file===>",media_file);
-        /*Log.e("media_file_thumb===>",media_file_thumb);
-        Log.e("media_file_UniqueId===>",folderUniqueId);*/
+        Log.e("media_file_thumb===>",media_file_thumb);
+        Log.e("media_file_UniqueId===>",folderUniqueId);
         // builder.addFormDataPart("isDebug", "1");
 
         RequestBody requestBody = builder.build();
@@ -547,7 +547,7 @@ public class BackgroundService extends IntentService {
                 .build();
 
         HttpEntity httpEntity = null;
-        okhttp3.Response response = null;
+        Response response = null;
 
         try {
             response = client.newCall(request).execute();
@@ -599,17 +599,15 @@ public class BackgroundService extends IntentService {
                     dbHelper.getReadableDatabase();
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
                     dbHelper.updateNewsFeedId(news_feed_id1, folderUniqueId, db);
-
-                    message = json.getString("msg");
                     dbHelper.updateMultimediaInfo(media_file, news_feed_id1, db, media_file_thumb, folderUniqueId);
-                        getFileToUpload();
-
+                    message = json.getString("msg");
+                    getFileToUpload();
                 } else {
                     dbHelper.getReadableDatabase();
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
                     dbHelper.updateNewsFeedId(news_feed_id1, folderUniqueId, db);
                     dbHelper.updateMultimediaInfo(media_file, news_feed_id1, db, media_file_thumb, folderUniqueId);
-                        getFileToUpload();
+                    getFileToUpload();
                 }
             } catch (Exception e) {
                 if (news_feed_id1 == null) {
@@ -619,15 +617,16 @@ public class BackgroundService extends IntentService {
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 dbHelper.updateNewsFeedId(news_feed_id1, folderUniqueId, db);
                 dbHelper.updateMultimediaInfo(media_file, news_feed_id1, db, media_file_thumb, folderUniqueId);
-                    getFileToUpload();
+                Log.e("JSON Parser", "Error parsing data " + e.toString());
+                getFileToUpload();
             }
         } catch (JSONException e) {
             dbHelper.getReadableDatabase();
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             dbHelper.updateNewsFeedId(news_feed_id1, folderUniqueId, db);
             dbHelper.updateMultimediaInfo(media_file, news_feed_id1, db, media_file_thumb, folderUniqueId);
-                getFileToUpload();
-
+            Log.e("JSON Parser", "Error parsing data " + e.toString());
+            getFileToUpload();
         }
         //return json.toString();
     }

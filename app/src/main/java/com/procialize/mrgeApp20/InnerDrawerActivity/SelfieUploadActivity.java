@@ -910,7 +910,7 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
         }
     }
 
-/*
+
     public void showProgress() {
         try {
             /*pDialog = new ProgressDialog(SelfieUploadActivity.this,
@@ -941,18 +941,6 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
             progressBar.setPrefix("");
         }*/
     }
-*/
-public void showProgress() {
-    progressBar.setVisibility(View.VISIBLE);
-    progressBar.setProgress(0);
-    progressBar.setMaxValue(100);
-    progressBar.setProgressColor(Color.parseColor(colorActive));
-    progressBar.setText(String.valueOf(0));
-    progressBar.setTextColor(Color.parseColor(colorActive));
-    progressBar.setSuffix("%");
-    progressBar.setPrefix("");
-
-}
 
 
     public void dismissProgress() {

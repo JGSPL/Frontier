@@ -56,6 +56,8 @@ import com.procialize.mrgeApp20.DbHelper.DBHelper;
 import com.procialize.mrgeApp20.MergeMain.MrgeHomeActivity;
 import com.procialize.mrgeApp20.R;
 import com.procialize.mrgeApp20.Session.SessionManager;
+import com.procialize.mrgeApp20.Utility.KeyboardUtility;
+import com.procialize.mrgeApp20.Utility.Utility;
 import com.procialize.mrgeApp20.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -298,6 +300,7 @@ public class AttendeeChatActivity extends AppCompatActivity {
                     String msg = StringEscapeUtils.escapeJava(commentEt.getText().toString());
                     PostChat(eventid,token,attendeeid,msg);
                     commentBt.setEnabled(false);
+                    KeyboardUtility.hideSoftKeyboard(AttendeeChatActivity.this);
                 } else {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(AttendeeChatActivity.this);
                     builder.setTitle("");
@@ -664,12 +667,16 @@ public class AttendeeChatActivity extends AppCompatActivity {
         protected void onPostExecute(String message) {
 
             if (liveChatAdapter != null) {
-                liveChatAdapter.notifyDataSetChanged();
+                //liveChatAdapter.notifyDataSetChanged();
                 qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
+                liveChatAdapter.notifyDataSetChanged();
+
             } else {
                 setAdapter(chat_lists);
             }
             qaRv.smoothScrollToPosition(liveChatAdapter.getItemCount());
+            liveChatAdapter.notifyDataSetChanged();
+
 
 
         }
