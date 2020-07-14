@@ -1,6 +1,7 @@
 package com.procialize.mrgeApp20.InnerDrawerActivity;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -126,7 +127,7 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
     File sourceFile;
     MyApplication appDelegate;
     private ConnectionDetector cd;
-
+    private ProgressDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -908,7 +909,25 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
     }
 
     public void showProgress() {
-        if (progressBar.getVisibility() == View.GONE) {
+        try {
+            /*pDialog = new ProgressDialog(SelfieUploadActivity.this,
+                    R.style.Base_Theme_AppCompat_Dialog_Alert);
+            pDialog.setMessage("Please wait while uploading");
+            pDialog.setTitle("Uploading Image");
+            pDialog.setCancelable(false);
+            pDialog.show();*/
+
+            pDialog = new ProgressDialog(SelfieUploadActivity.this);
+            pDialog.setCancelable(false);
+            pDialog.setMessage("Please wait while uploading");
+            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pDialog.setProgress(0);
+            pDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /*if (progressBar.getVisibility() == View.GONE) {
             progressBar.setVisibility(View.VISIBLE);
             progressBar.setProgress(0);
             progressBar.setMaxValue(100);
@@ -917,13 +936,15 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
             progressBar.setTextColor(Color.parseColor(colorActive));
             progressBar.setSuffix("%");
             progressBar.setPrefix("");
-        }
+        }*/
     }
 
     public void dismissProgress() {
-        if (progressBar.getVisibility() == View.VISIBLE) {
+        /*if (progressBar.getVisibility() == View.VISIBLE) {
             progressBar.setVisibility(View.GONE);
-        }
+        }*/
+        if(pDialog!=null && pDialog.isShowing())
+        pDialog.dismiss();
     }
 
 

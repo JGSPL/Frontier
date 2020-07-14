@@ -103,7 +103,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
     String substring;
     String device = Build.MODEL;
     RelativeLayout relative;
-    List<news_feed_media> news_feed_media1;
+    //List<news_feed_media> news_feed_media1;
     private List<AttendeeList> attendeeDBList;
     private Context context;
     private FeedAdapterListner listener;
@@ -113,6 +113,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
     private SQLiteDatabase db;
     private DBHelper dbHelper;
     private List<EventSettingList> eventSettingLists;
+    SwipeMultimediaAdapter swipepagerAdapter;
 
     //---------------------Pagination-------------
     private boolean isLoadingAdded = false;
@@ -675,7 +676,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
         if (feed.getNews_feed_media() != null) {
             if (feed.getNews_feed_media().size() > 0) {
 
-                news_feed_media1 = feed.getNews_feed_media();
+                List<news_feed_media> news_feed_media1 = feed.getNews_feed_media();
 
                 if (news_feed_media1.size() >= 1) {
                     holder.feedimageIv.setVisibility(View.GONE);
@@ -688,7 +689,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
                     final ArrayList<String> imagesSelectednew = new ArrayList<>();
                     final ArrayList<String> imagesSelectednew1 = new ArrayList<>();
-                    final ImageView[] ivArrayDotsPager;
+                    //final ImageView[] ivArrayDotsPager;
                     for (int i = 0; i < news_feed_media1.size(); i++) {
                         imagesSelectednew.add(newsFeedPath /*ApiConstant.newsfeedwall*/ + news_feed_media1.get(i).getMediaFile());
                         if (news_feed_media1.get(i).getMediaFile().contains("mp4")) {
@@ -697,7 +698,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                             imagesSelectednew1.add("");
                         }
                     }
-                    final SwipeMultimediaAdapter swipepagerAdapter = new SwipeMultimediaAdapter(context, imagesSelectednew, imagesSelectednew1, news_feed_media1);
+                    swipepagerAdapter = new SwipeMultimediaAdapter(context, imagesSelectednew, imagesSelectednew1, news_feed_media1);
                     holder.viewPager.setAdapter(swipepagerAdapter);
                     swipepagerAdapter.notifyDataSetChanged();
 
@@ -714,7 +715,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                     holder.recycler_slider.setAdapter(swipeableRecyclerAdapter);*/
 
                     if (imagesSelectednew.size() > 1) {
-                        ivArrayDotsPager = new ImageView[imagesSelectednew.size()];
+                        //ivArrayDotsPager = new ImageView[imagesSelectednew.size()];
                         setupPagerIndidcatorDots(0, holder.pager_dots, imagesSelectednew.size());
                         holder.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                 @Override

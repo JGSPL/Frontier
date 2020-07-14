@@ -204,7 +204,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 if(msgTye.equalsIgnoreCase("androidPost"))
                 {
-                    com.procialize.mrgeApp20.Background.BackgroundService.successfullUploadedMediaCount =com.procialize.mrgeApp20.Background.BackgroundService.successfullUploadedMediaCount++;
+                   // com.procialize.mrgeApp20.Background.BackgroundService.successfullUploadedMediaCount =com.procialize.mrgeApp20.Background.BackgroundService.successfullUploadedMediaCount++;
                     String[] message = remoteMessage.getData().get("message").split("#");
                     DBHelper dbHelper = new DBHelper(this);
                     dbHelper.getReadableDatabase();

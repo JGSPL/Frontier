@@ -248,11 +248,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         return rootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // setHasOptionsMenu(false);
-    }
 
     private void initView() {
         session = new SessionManager(getActivity());
@@ -347,7 +342,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         String uploloaded = preferences.getString("uploaded", "");
         String uploloaded1 = uploloaded;
 
-        if (!isMyServiceRunning(BackgroundService.class)) {
+        //if (!isMyServiceRunning(BackgroundService.class)) {
             if (newsFeedPostMultimediaList.size() > 0) {
                 Intent intent = new Intent(getActivity(), BackgroundService.class);
                 PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, intent, PendingIntent.FLAG_NO_CREATE);
@@ -387,7 +382,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                     }
                 }
             }
-        } else {
+        /*} else {
             isFinishedService = false;
             tv_uploading.clearAnimation();
             tv_uploading.setVisibility(View.GONE);
@@ -402,7 +397,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                     }
                 }
             }
-        }
+        }*/
 
        /* if (cd.isConnectingToInternet()) {
             fetchFeed(token, eventid, "" + pageNumber, pageSize);
@@ -465,6 +460,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         if(cd.isConnectingToInternet()) {
             isLastPage = false;
             feedAdapter.getNewsFeedList().clear();
+            feedrecycler.setLayoutManager(mLayoutManager);
+            feedrecycler.setItemAnimator(new DefaultItemAnimator());
+            feedrecycler.setAdapter(feedAdapter);
             feedAdapter.notifyDataSetChanged();
             loadFirstPage();
         }
@@ -511,6 +509,10 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                     // pageNumber = 1;
                     isLastPage = false;
                     feedAdapter.getNewsFeedList().clear();
+
+                    feedrecycler.setLayoutManager(mLayoutManager);
+                    feedrecycler.setItemAnimator(new DefaultItemAnimator());
+                    feedrecycler.setAdapter(feedAdapter);
                     feedAdapter.notifyDataSetChanged();
                     loadFirstPage();
 
@@ -2008,7 +2010,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 if (newsfeedrefresh.isRefreshing()) {
                     newsfeedrefresh.setRefreshing(false);
                 }
-                feedAdapter.showRetry(true, "Error in fetching record");
+                //feedAdapter.showRetry(true, "Error in fetching record");
             }
         });
 
@@ -2210,28 +2212,35 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             // progressbarForSubmit.setVisibility(View.GONE);
             Log.d("service end", "service end");
             //  fetchFeed(token, eventid, "" + pageNumber, pageSize);
-            isLastPage = false;
-            feedAdapter.getNewsFeedList().clear();
-            feedAdapter.notifyDataSetChanged();
-            loadFirstPage();
-            tv_uploading.clearAnimation();
-            tv_uploading.setVisibility(View.GONE);
+            if (!isMyServiceRunning(BackgroundService.class)) {
+                tv_uploading.clearAnimation();
+                tv_uploading.setVisibility(View.GONE);
+
+                isLastPage = false;
+                feedAdapter.getNewsFeedList().clear();
+                feedrecycler.setLayoutManager(mLayoutManager);
+                feedrecycler.setItemAnimator(new DefaultItemAnimator());
+                feedrecycler.setAdapter(feedAdapter);
+                feedAdapter.notifyDataSetChanged();
+                loadFirstPage();
+
+            }
             // progressbarForSubmit.setProgress(Integer.parseInt(String.valueOf(progress)));
             /* mTvCapital.setText("Capital : " + capital);*/
             //fetchFeed(token, eventid);
             //newsFeedPostMultimediaList = procializeDB.getNotUploadedMultiMedia();
             // insertMediaToLocalDb();
-            final Handler handler = new Handler();
+            /*final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
-                public void run() {
+                public void run() {*/
                     // Do something after 5s = 5000ms
-                    newsFeedPostMultimediaList = procializeDB.getNotUploadedMultiMedia();
+                   /* newsFeedPostMultimediaList = procializeDB.getNotUploadedMultiMedia();
                     if (newsFeedPostMultimediaList.size() > 0) {
                         Intent intent1 = new Intent(getActivity(), BackgroundService.class);
                         PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, intent1, PendingIntent.FLAG_NO_CREATE);
                         if (pendingIntent == null) {
-                            isFinishedService = true;
+                            isFinishedService = false;
                             // progressbarForSubmit.setVisibility(View.VISIBLE);
                             tv_uploading.setVisibility(View.VISIBLE);
                             Animation anim = new AlphaAnimation(0.0f, 1.0f);
@@ -2248,7 +2257,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                         intent1.putExtra("status", "");
                         getActivity().startService(intent1);
                     } else {
-                        isFinishedService = false;
+                        isFinishedService = true;
                         tv_uploading.clearAnimation();
                         tv_uploading.setVisibility(View.GONE);
                         if (procializeDB.getCountOfNotUploadedMultiMedia() == 0) {
@@ -2262,9 +2271,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                                 }
                             }
                         }
-                    }
-                }
-            }, 1000);
+                    }*/
+               /* }
+            }, 1000);*/
         }
     }
 
@@ -2275,11 +2284,12 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             //  fetchFeed(token, eventid, "1", pageSize);
             isLastPage = false;
             feedAdapter.getNewsFeedList().clear();
+            feedrecycler.setLayoutManager(mLayoutManager);
+            feedrecycler.setItemAnimator(new DefaultItemAnimator());
+            feedrecycler.setAdapter(feedAdapter);
             feedAdapter.notifyDataSetChanged();
             loadFirstPage();
         }
     }
-
-
     //-------------------------------------------------
 }
