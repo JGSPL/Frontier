@@ -628,7 +628,6 @@ public class AttendeeChatActivity extends AppCompatActivity {
         protected String doInBackground(String... f_url) {
             try {
                 String BuddyId = chat_id.replace("eventchat_", "");
-                Log.d("service end", "service end");
                 if (BuddyId.equalsIgnoreCase(attendeeid)) {
                     if (SpotEventChat != null) {
                         if (SpotEventChat.equalsIgnoreCase("eventchat")) {

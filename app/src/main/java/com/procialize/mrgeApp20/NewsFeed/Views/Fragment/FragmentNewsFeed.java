@@ -136,7 +136,10 @@ import static com.procialize.mrgeApp20.Session.SessionManager.MY_PREFS_NAME;
  */
 public class FragmentNewsFeed extends Fragment implements View.OnClickListener, NewsFeedAdapterRecycler.FeedAdapterListner, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
-    //---------------------Pagination -----------------------
+    public static boolean isFromPostNew;
+    boolean isBackroundReceiverCalled = false;
+    int backgroudServiceCount =0;
+    String isReceive = "false";
     private static final int PAGE_START = 1;
     public static SwipeRefreshLayout newsfeedrefresh;
     public static boolean isFinishedService = false;
@@ -180,7 +183,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     // limiting to 5 for this tutorial, since total pages in actual API is very large. Feel free to modify.
     private int TOTAL_PAGES = 50;
     private int currentPage = PAGE_START;
-    //-------------------------------------------------------
+    public static Intent backgroundServiceIntent;
 
     public FragmentNewsFeed() {
         // Required empty public constructor
@@ -344,8 +347,8 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
 
         //if (!isMyServiceRunning(BackgroundService.class)) {
             if (newsFeedPostMultimediaList.size() > 0) {
-                Intent intent = new Intent(getActivity(), BackgroundService.class);
-                PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, intent, PendingIntent.FLAG_NO_CREATE);
+                backgroundServiceIntent = new Intent(getActivity(), BackgroundService.class);
+                PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, backgroundServiceIntent, PendingIntent.FLAG_NO_CREATE);
                 if (pendingIntent == null) {
                     isFinishedService = true;
                     // progressbarForSubmit.setVisibility(View.VISIBLE);
@@ -361,11 +364,11 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                 tv_uploading.setVisibility(View.GONE);    // "service is already running!";
             }*/
 
-                intent.putExtra("arrayListNewsFeedMultiMedia", newsFeedPostMultimediaList);
-                intent.putExtra("api_access_token", token);
-                intent.putExtra("event_id", eventid);
-                intent.putExtra("status", "");
-                getActivity().startService(intent);
+                backgroundServiceIntent.putExtra("arrayListNewsFeedMultiMedia", newsFeedPostMultimediaList);
+                backgroundServiceIntent.putExtra("api_access_token", token);
+                backgroundServiceIntent.putExtra("event_id", eventid);
+                backgroundServiceIntent.putExtra("status", "");
+                getActivity().startService(backgroundServiceIntent);
             } else {
                 isFinishedService = false;
                 tv_uploading.clearAnimation();
@@ -458,12 +461,15 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
         });
 
         if(cd.isConnectingToInternet()) {
+            SharedPreferences preferences12 = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String  isFromPostNewsFeed = preferences12.getString("isFromPostNewsFeed","");
+
             isLastPage = false;
-            feedAdapter.getNewsFeedList().clear();
+            /*feedAdapter.getNewsFeedList().clear();
             feedrecycler.setLayoutManager(mLayoutManager);
             feedrecycler.setItemAnimator(new DefaultItemAnimator());
             feedrecycler.setAdapter(feedAdapter);
-            feedAdapter.notifyDataSetChanged();
+            feedAdapter.notifyDataSetChanged();*/
             loadFirstPage();
         }
 //------------------------------------------------------------
@@ -510,8 +516,6 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                     isLastPage = false;
                     feedAdapter.getNewsFeedList().clear();
 
-                    feedrecycler.setLayoutManager(mLayoutManager);
-                    feedrecycler.setItemAnimator(new DefaultItemAnimator());
                     feedrecycler.setAdapter(feedAdapter);
                     feedAdapter.notifyDataSetChanged();
                     loadFirstPage();
@@ -1848,6 +1852,9 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                     else
                         isLastPage = true;
 
+                    List<NewsFeedList> list = feedAdapter.getNewsFeedList();
+                    List<NewsFeedList> list1 = list;
+
                     //-----------For Youtube and zoom-----------------------
                     Log.i("hit", "post submitted to API." + response.body().toString());
                     // for (int i = 0; i < response.body().getLive_steaming_info().size(); i++) {
@@ -1995,6 +2002,7 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
                     db = procializeDB.getWritableDatabase();
                     procializeDB.clearNewsFeedTable();
                     procializeDB.clearBuzzMediaFeedTable();
+                    //feedrecycler.smoothScrollToPosition(0);
                     if (response.body().getNewsFeedList().size() > 0) {
                         saveFeedToDb(response);
                     }
@@ -2209,71 +2217,31 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
     private class BackgroundReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // progressbarForSubmit.setVisibility(View.GONE);
-            Log.d("service end", "service end");
-            //  fetchFeed(token, eventid, "" + pageNumber, pageSize);
-            if (!isMyServiceRunning(BackgroundService.class)) {
+
+            if(!isBackroundReceiverCalled) {
+                isBackroundReceiverCalled = true;
+                Log.d("service end", "service end");
+                backgroudServiceCount++;
+                Log.e("ServiceCount===>", backgroudServiceCount + "");
+                if (mAPIService.FeedFetchPost(token, eventid, "" + currentPage, pageSize).isExecuted())
+                    mAPIService.FeedFetchPost(token, eventid, "" + currentPage, pageSize).cancel();
+                //if (!isMyServiceRunning(BackgroundService.class)) {
                 tv_uploading.clearAnimation();
                 tv_uploading.setVisibility(View.GONE);
 
                 isLastPage = false;
                 feedAdapter.getNewsFeedList().clear();
-                feedrecycler.setLayoutManager(mLayoutManager);
-                feedrecycler.setItemAnimator(new DefaultItemAnimator());
-                feedrecycler.setAdapter(feedAdapter);
+            /*feedrecycler.setLayoutManager(mLayoutManager);
+            feedrecycler.setItemAnimator(new DefaultItemAnimator());
+            feedrecycler.setAdapter(feedAdapter);*/
                 feedAdapter.notifyDataSetChanged();
                 loadFirstPage();
-
+                LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
             }
-            // progressbarForSubmit.setProgress(Integer.parseInt(String.valueOf(progress)));
-            /* mTvCapital.setText("Capital : " + capital);*/
-            //fetchFeed(token, eventid);
-            //newsFeedPostMultimediaList = procializeDB.getNotUploadedMultiMedia();
-            // insertMediaToLocalDb();
-            /*final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {*/
-                    // Do something after 5s = 5000ms
-                   /* newsFeedPostMultimediaList = procializeDB.getNotUploadedMultiMedia();
-                    if (newsFeedPostMultimediaList.size() > 0) {
-                        Intent intent1 = new Intent(getActivity(), BackgroundService.class);
-                        PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, intent1, PendingIntent.FLAG_NO_CREATE);
-                        if (pendingIntent == null) {
-                            isFinishedService = false;
-                            // progressbarForSubmit.setVisibility(View.VISIBLE);
-                            tv_uploading.setVisibility(View.VISIBLE);
-                            Animation anim = new AlphaAnimation(0.0f, 1.0f);
-                            anim.setDuration(1000); //You can manage the blinking time with this parameter
-                            anim.setStartOffset(20);
-                            anim.setRepeatMode(Animation.REVERSE);
-                            anim.setRepeatCount(Animation.INFINITE);
-                            tv_uploading.startAnimation(anim);
-                        }
 
-                        intent1.putExtra("arrayListNewsFeedMultiMedia", newsFeedPostMultimediaList);
-                        intent1.putExtra("api_access_token", token);
-                        intent1.putExtra("event_id", eventid);
-                        intent1.putExtra("status", "");
-                        getActivity().startService(intent1);
-                    } else {
-                        isFinishedService = true;
-                        tv_uploading.clearAnimation();
-                        tv_uploading.setVisibility(View.GONE);
-                        if (procializeDB.getCountOfNotUploadedMultiMedia() == 0) {
-                            File dir = new File(Environment.getExternalStorageDirectory() + "/MrgeApp_cache");
-                            if (dir.isDirectory()) {
-                                String[] children = dir.list();
-                                if (children != null) {
-                                    for (int i = 0; i < children.length; i++) {
-                                        new File(dir, children[i]).delete();
-                                    }
-                                }
-                            }
-                        }
-                    }*/
-               /* }
-            }, 1000);*/
+
+
+
         }
     }
 
@@ -2284,12 +2252,26 @@ public class FragmentNewsFeed extends Fragment implements View.OnClickListener, 
             //  fetchFeed(token, eventid, "1", pageSize);
             isLastPage = false;
             feedAdapter.getNewsFeedList().clear();
-            feedrecycler.setLayoutManager(mLayoutManager);
+            /*feedrecycler.setLayoutManager(mLayoutManager);
             feedrecycler.setItemAnimator(new DefaultItemAnimator());
-            feedrecycler.setAdapter(feedAdapter);
+            feedrecycler.setAdapter(feedAdapter);*/
             feedAdapter.notifyDataSetChanged();
             loadFirstPage();
+
         }
     }
     //-------------------------------------------------
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
+    }
 }

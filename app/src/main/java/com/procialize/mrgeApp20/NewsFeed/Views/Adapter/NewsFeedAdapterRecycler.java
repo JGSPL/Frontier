@@ -700,7 +700,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                     }
                     swipepagerAdapter = new SwipeMultimediaAdapter(context, imagesSelectednew, imagesSelectednew1, news_feed_media1);
                     holder.viewPager.setAdapter(swipepagerAdapter);
-                    swipepagerAdapter.notifyDataSetChanged();
+                    //swipepagerAdapter.notifyDataSetChanged();
 
                    /* SwipeableRecyclerAdapter    swipeableRecyclerAdapter = new SwipeableRecyclerAdapter(context, imagesSelectednew, imagesSelectednew1, news_feed_media1);
                   //  RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
@@ -716,6 +716,11 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
 
                     if (imagesSelectednew.size() > 1) {
                         //ivArrayDotsPager = new ImageView[imagesSelectednew.size()];
+                        Log.e("pagerSize==>",imagesSelectednew.size()+"");
+                        for(int l=0;l<imagesSelectednew.size();l++)
+                        {
+                            Log.e(l+"==>",imagesSelectednew.get(l));
+                        }
                         setupPagerIndidcatorDots(0, holder.pager_dots, imagesSelectednew.size());
                         holder.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                 @Override
@@ -730,6 +735,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                                 public void onPageSelected(int position1) {
                                     JzvdStd.goOnPlayOnPause();
                                     swipableAdapterPosition = position1;
+                                    swipepagerAdapter.notifyDataSetChanged();
                                     setupPagerIndidcatorDots(position1, holder.pager_dots, imagesSelectednew.size());
 //                                WallFragment_POST.newsfeedrefresh.setEnabled(false);
                                 }
@@ -745,7 +751,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                         holder.pager_dots.setVisibility(View.GONE);
                     }
 
-                    holder.viewPager.setOnTouchListener(new View.OnTouchListener() {
+                    /*holder.viewPager.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
 
@@ -760,7 +766,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                             }
                             return false;
                         }
-                    });
+                    });*/
                 }
             } else {
                 holder.feedimageIv.setVisibility(View.GONE);
@@ -1137,7 +1143,7 @@ public class NewsFeedAdapterRecycler extends RecyclerView.Adapter<NewsFeedAdapte
                 }
             }
         } catch (Exception e) {
-
+e.printStackTrace();
         }
 
     }
