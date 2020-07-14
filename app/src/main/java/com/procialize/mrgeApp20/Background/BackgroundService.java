@@ -66,15 +66,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-import static com.procialize.mrgeApp20.NewsFeed.Views.Fragment.FragmentNewsFeed.backgroundServiceIntent;
-import static com.procialize.mrgeApp20.Session.SessionManager.MY_PREFS_NAME;
 import static com.procialize.mrgeApp20.UnsafeOkHttpClient.getUnsafeOkHttpClient;
 import static org.apache.http.HttpVersion.HTTP_1_1;
 
 
 public class BackgroundService extends IntentService {
 
-    int countServiceEnd;
     public static boolean isIntentServiceRunning;
     // private NotificationManager nm;
     private final Calendar time = Calendar.getInstance();
@@ -669,18 +666,10 @@ public class BackgroundService extends IntentService {
             status = arrayListNewsFeedMultiMedia.get(successfullUploadedMediaCount).getPostText();
             uploadToServer(media_type,media_file1, media_file_thumb1, folderUniqueId);
         } else {
-
-            countServiceEnd++;
-            Log.e("countServiceEnd==>",countServiceEnd+"");
             // Creating an intent for broadcastreceiver
-            if(backgroundServiceIntent!=null) {
-                stopService(backgroundServiceIntent);
-            }
-
-
             Intent broadcastIntent = new Intent(ApiConstant.BROADCAST_ACTION);
             // Attaching data to the intent
-            broadcastIntent.putExtra("isReceive", "true");
+            //broadcastIntent.putExtra(Constants.EXTRA_CAPITAL, capital);
             // Sending the broadcast
             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
         }
