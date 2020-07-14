@@ -352,7 +352,6 @@ public class AttendeeFragment extends Fragment implements AttendeeAdapter.Attend
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("service end", "service end");
                         procializeDB.clearAttendeesTable();
                         procializeDB.insertAttendeesInfo(attendeeList, db);
                     }

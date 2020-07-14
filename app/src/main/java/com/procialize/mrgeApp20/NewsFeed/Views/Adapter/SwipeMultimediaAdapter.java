@@ -74,7 +74,7 @@ public class SwipeMultimediaAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return images.size();
+        return images == null ? 0 : images.size();//images.size();
     }
 
     @Override

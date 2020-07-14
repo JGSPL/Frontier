@@ -128,6 +128,7 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
     MyApplication appDelegate;
     private ConnectionDetector cd;
     private ProgressDialog pDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,7 +191,7 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
 //            ContextWrapper cw = new ContextWrapper(HomeActivity.this);
             //path to /data/data/yourapp/app_data/dirName
 //            File directory = cw.getDir("/storage/emulated/0/Procialize/", Context.MODE_PRIVATE);
-            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/"+ ApiConstant.folderName+"/" + "background.jpg");
+            File mypath = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "/" + ApiConstant.folderName + "/" + "background.jpg");
             Resources res = getResources();
             Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(mypath));
             BitmapDrawable bd = new BitmapDrawable(res, bitmap);
@@ -215,7 +216,7 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
 //                if (data.equals("")) {
 //
 //                } else {
-               // showProgress();
+                // showProgress();
 
 
                 RequestBody token = RequestBody.create(MediaType.parse("text/plain"), apikey);
@@ -548,7 +549,7 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
             // Continue only if the File was successfully created
             if (file != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
-                        BuildConfig.APPLICATION_ID+".android.fileprovider",
+                        BuildConfig.APPLICATION_ID + ".android.fileprovider",
                         file);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
@@ -910,7 +911,6 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
         }
     }
 
-
     public void showProgress() {
         try {
             /*pDialog = new ProgressDialog(SelfieUploadActivity.this,
@@ -941,6 +941,7 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
             progressBar.setPrefix("");
         }*/
     }
+
 
 
     public void dismissProgress() {

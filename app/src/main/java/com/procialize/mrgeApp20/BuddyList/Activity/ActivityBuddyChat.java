@@ -689,7 +689,6 @@ public class ActivityBuddyChat extends AppCompatActivity {
         protected String doInBackground(String... f_url) {
             try {
                 String BuddyId = chat_id.replace("chat_", "");
-                Log.d("service end", "service end");
                 if (BuddyId.equalsIgnoreCase(attendeeid)) {
                     if (SpotChat != null) {
                         if (SpotChat.equalsIgnoreCase("chat")) {

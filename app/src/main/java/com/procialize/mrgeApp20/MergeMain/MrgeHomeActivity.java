@@ -220,7 +220,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
     String imgname, accesstoken;
     HashMap<String, String> user;
     String MY_PREFS_CATEGORY = "categorycnt";
-    WallPostReciever mReceiver;
+    WallPostReciever mReceiverWallpost;
     SpotLivePollReciever spotLivePollReciever;
     SpotQuizReciever spotQuizReciever;
     IntentFilter mFilter;
@@ -346,10 +346,10 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         initializeView();
 
         try {
-            mReceiver = new WallPostReciever();
+            mReceiverWallpost = new WallPostReciever();
             mFilter = new IntentFilter(ApiConstant.BROADCAST_ACTION_BUZZ_FEED);
             // Registering BroadcastReceiver with this activity for the intent filter
-            LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, mFilter);
+            LocalBroadcastManager.getInstance(this).registerReceiver(mReceiverWallpost, mFilter);
             Intent intent = new Intent(this, WallPostService.class);
             this.startService(intent);
         } catch (Exception e) {
@@ -434,7 +434,6 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Log.d("service end", "service end");
                                     if (spot_poll != null) {
                                         if (spot_poll.equalsIgnoreCase("spot_poll")) {
                                             DialogLivePoll dialogLivePoll = new DialogLivePoll();
@@ -4559,7 +4558,7 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(spotQuizReciever);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(spotLivePollReciever);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiverWallpost);
 
         procializeDB.close();
         dbHelper.close();
@@ -4908,7 +4907,6 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                             mHandler.post(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    Log.d("service end", "service end");
                                                     if (spot_quiz != null) {
                                                         if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
                                                             DialogQuiz dialogquiz = new DialogQuiz();
@@ -4930,7 +4928,6 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                                             mHandler.post(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    Log.d("service end", "service end");
                                                     if (spot_quiz != null) {
                                                         if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
                                                             DialogQuiz dialogquiz = new DialogQuiz();
@@ -4990,7 +4987,6 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         @Override
         public void onReceive(Context context, Intent intent) {
             // progressbarForSubmit.setVisibility(View.GONE);
-            Log.d("service end", "service end");
         }
     }
 
@@ -5005,7 +5001,6 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d("service end", "service end");
                             if (spot_quiz != null) {
                                 if (spot_quiz.equalsIgnoreCase("spot_quiz")) {
                                     /*DialogQuiz dialogquiz = new DialogQuiz();
@@ -5035,7 +5030,6 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d("service end", "service end");
                             if (spot_poll != null) {
                                 if (spot_poll.equalsIgnoreCase("spot_poll")) {
                                     DialogLivePoll dialogLivePoll = new DialogLivePoll();

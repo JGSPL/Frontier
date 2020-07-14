@@ -230,7 +230,6 @@ public class EventInfoFragment extends Fragment implements OnMapReadyCallback , 
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                Log.d("service end", "service end");
                 db = dbHelper.getReadableDatabase();
                 sponsorDBList = dbHelper.getSponsorList();
                 if (!cd.isConnectingToInternet()) {
