@@ -442,12 +442,11 @@ public class QuizActivity extends AppCompatActivity implements OnClickListener {
                         time = timerForQuiz;
                         //time = 10;
                     }
-                    time--;
+
                     txt_time.setText("" + ":" + checkdigit(time));
                     textViewTime.setText(String.valueOf(time));
                     progressBarCircle.setProgress(time);
-
-
+                    time--;
                 }
 
                 public void onFinish() {

@@ -215,7 +215,7 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
 //                if (data.equals("")) {
 //
 //                } else {
-                showProgress();
+               // showProgress();
 
 
                 RequestBody token = RequestBody.create(MediaType.parse("text/plain"), apikey);
@@ -391,12 +391,12 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
 
             super.onPostExecute(result);
             // Dismiss the progress dialog
-            dismissProgress();
             btnSubmit.setClickable(true);
             btnSubmit.setEnabled(true);
             if (error.equalsIgnoreCase("success")) {
 
                 // notifyDataSetChanged();
+                dismissProgress();
 
                 Toast.makeText(SelfieUploadActivity.this, message, Toast.LENGTH_SHORT)
                         .show();
@@ -406,6 +406,8 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
                 finish();
 
             } else {
+                dismissProgress();
+
                 Toast.makeText(SelfieUploadActivity.this, message, Toast.LENGTH_SHORT)
                         .show();
             }
@@ -908,6 +910,7 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
         }
     }
 
+/*
     public void showProgress() {
         try {
             /*pDialog = new ProgressDialog(SelfieUploadActivity.this,
@@ -938,6 +941,19 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
             progressBar.setPrefix("");
         }*/
     }
+*/
+public void showProgress() {
+    progressBar.setVisibility(View.VISIBLE);
+    progressBar.setProgress(0);
+    progressBar.setMaxValue(100);
+    progressBar.setProgressColor(Color.parseColor(colorActive));
+    progressBar.setText(String.valueOf(0));
+    progressBar.setTextColor(Color.parseColor(colorActive));
+    progressBar.setSuffix("%");
+    progressBar.setPrefix("");
+
+}
+
 
     public void dismissProgress() {
         /*if (progressBar.getVisibility() == View.VISIBLE) {
