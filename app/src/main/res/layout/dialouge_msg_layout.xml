@@ -23,7 +23,7 @@
             android:orientation="horizontal"
             android:padding="5dp">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             android:background="@color/colorwhite"
             android:orientation="vertical">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/nametv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                 android:textColor="@color/black" />
 
 
-            <com.procialize.mrgeApp20.Fonts.RobotoEditext
+            <com.procialize.frontier.Fonts.RobotoEditext
                 android:id="@+id/etmsg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                 android:textColor="#000"
                 android:textSize="@dimen/textsizesmall" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/counttv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
                 android:gravity="center"
                 android:weightSum="0">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                <com.procialize.frontier.Fonts.RobotoButton
                     android:id="@+id/ratebtn"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
@@ -121,7 +121,7 @@
                     android:textColor="@color/colorwhite"
                     android:textSize="14sp" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                <com.procialize.frontier.Fonts.RobotoButton
                     android:id="@+id/canclebtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

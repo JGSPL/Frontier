@@ -2,26 +2,26 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle" >
 
-    <corners android:radius="0dp" />
+    <corners android:radius="5dp" />
     // if you want clear round shape then make radius size is half of your  button`s height.
 
 
-    <solid android:color="@color/background" />
+    <solid android:color="@color/colorwhite" />
 
     <stroke
         android:width="1dp"
-        android:color="@color/background" />
+        android:color="@color/colorwhite" />
     // Button Colour
 
 
     <gradient
         android:angle="-90"
-        android:endColor="@color/background"
-        android:startColor="@color/background" />
+        android:endColor="@color/colorwhite"
+        android:startColor="@color/colorwhite" />
 
     <stroke
         android:width="1dp"
-        android:color="@color/background" />
+        android:color="@color/colorwhite" />
 
 
 

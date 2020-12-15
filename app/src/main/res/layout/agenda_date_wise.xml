@@ -67,7 +67,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+            <com.procialize.frontier.Fonts.RobotoTextViewHeader
                 android:id="@+id/nameTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                 />
 
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/descriptionTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -14,7 +14,7 @@
         android:layout_marginTop="10dp"
         android:orientation="vertical">
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Exhibitor Stall Number" />
@@ -27,14 +27,14 @@
             android:background="@drawable/edittexthmbg"
             android:padding="10dp" />
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Exhibitor Address/Details" />
 
 
-        <com.procialize.mrgeApp20.Fonts.RobotoEditext
+        <com.procialize.frontier.Fonts.RobotoEditext
             android:id="@+id/edit_address_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

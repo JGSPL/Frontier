@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
 
-    <com.procialize.mrgeApp20.CustomTools.CustomViewPager
+    <com.procialize.frontier.CustomTools.CustomViewPager
         android:id="@+id/viewpagerSecond"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

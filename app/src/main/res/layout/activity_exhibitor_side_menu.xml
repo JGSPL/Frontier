@@ -57,7 +57,7 @@
         android:background="@drawable/loader"
         android:visibility="gone" />
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/pullrefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
         android:visibility="visible" />
 
 
-    <com.procialize.mrgeApp20.Fonts.RobotoEditext
+    <com.procialize.frontier.Fonts.RobotoEditext
         android:id="@+id/searchEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

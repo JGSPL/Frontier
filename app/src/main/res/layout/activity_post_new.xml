@@ -6,13 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".NewsFeed.Views.Activity.PostNewActivity">
+    tools:context=".NewsFeed.Views.Activity.PostNewActivity"
+    android:background="@drawable/background_login">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="@android:color/black"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
 
@@ -41,15 +42,15 @@
                 android:src="@drawable/back_global"
                 android:visibility="visible" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/tv_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:text="Create Post"
-                android:textColor="@color/orange" />
+                android:textColor="@color/colorwhite" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/postbtn"
                 android:layout_width="80dp"
                 android:layout_margin="@dimen/album_dp_10"
@@ -58,8 +59,8 @@
                 android:layout_gravity="right"
                 android:gravity="center"
                 android:text="Post"
-                android:background="@color/colorwhite"
-                android:textColor="@color/orange" />
+                android:background="@drawable/btn_white"
+                android:textColor="@color/black" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -80,7 +81,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/colorwhite"
             android:layout_margin="5dp">
         <LinearLayout
             android:id="@+id/ll"
@@ -138,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="@color/black" />
+                    android:textColor="@color/colorwhite" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -152,7 +152,7 @@
             <include layout="@layout/users_list" />
 
 
-            <com.procialize.mrgeApp20.Fonts.RobotoEditext
+            <com.procialize.frontier.Fonts.RobotoEditext
                 android:id="@+id/posttextEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/grey_light"
+                android:background="@drawable/edit_transperent"
                 android:gravity="top|left"
                 android:hint="@string/typeMessage"
                 android:imeOptions="actionSend|flagNoEnterAction"
@@ -172,8 +172,9 @@
                 android:minLines="2"
                 android:padding="10dp"
                 android:scrollbars="vertical"
-                android:textColorHint="@color/black"
-                android:textSize="15dp" />
+                android:textColorHint="@color/colorwhite"
+                android:textSize="15dp"
+                android:textColor="@color/colorwhite"/>
 
             <TextView
                 android:id="@+id/textData"
@@ -197,7 +198,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="12dp"
                     android:text="0"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorwhite"
                     android:textSize="10sp" />
 
                 <TextView
@@ -206,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:text="/250"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorwhite"
                     android:textSize="10sp" />
 
             </LinearLayout>
@@ -228,18 +229,17 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
-
-                android:background="@color/activetab"
+                android:background="@android:color/transparent"
                 android:gravity="center"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:id="@+id/llUploadMedia2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:layout_marginBottom="10dp"
                     android:layout_margin="1.5dp"
-                    android:background="@color/colorwhite"
+                    android:background="@drawable/upload_media"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -250,7 +250,7 @@
                     android:layout_centerInParent="true"
                     android:contentDescription="TODO"
                     android:padding="2dp"
-                    android:tint="@color/orange"
+                    android:tint="@color/btn_back"
                     android:src="@drawable/upload_icon" />
 
                 <TextView
@@ -258,7 +258,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" Upload Image/Video"
-                    android:textColor="@color/orange">
+                    android:textColor="@color/btn_back">
 
                 </TextView>
                 </LinearLayout>
@@ -343,7 +343,7 @@
 
         </RelativeLayout>
 
-        <com.procialize.mrgeApp20.Fonts.RobotoButton
+        <com.procialize.frontier.Fonts.RobotoButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

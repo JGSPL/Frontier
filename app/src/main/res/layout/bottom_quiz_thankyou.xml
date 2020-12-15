@@ -26,7 +26,7 @@
                 android:padding="10dp">
             </ImageView>
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
@@ -35,8 +35,8 @@
                 android:gravity="center"
                 android:textColor="@color/black">
 
-            </com.procialize.mrgeApp20.Fonts.RobotoTextview>
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            </com.procialize.frontier.Fonts.RobotoTextview>
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/textsizenormal"
@@ -45,8 +45,8 @@
                 android:gravity="center"
                 android:textColor="@color/colorAccent">
 
-            </com.procialize.mrgeApp20.Fonts.RobotoTextview>
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            </com.procialize.frontier.Fonts.RobotoTextview>
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -57,7 +57,7 @@
                 android:gravity="center"
                 android:textColor="@color/colorAccent">
 
-            </com.procialize.mrgeApp20.Fonts.RobotoTextview>
+            </com.procialize.frontier.Fonts.RobotoTextview>
 
 
 

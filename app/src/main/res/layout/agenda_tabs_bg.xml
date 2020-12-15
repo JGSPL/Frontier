@@ -22,7 +22,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/tabsText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                 android:textColor="@drawable/selected_text"
                 android:textSize="14sp" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/tabsecondText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

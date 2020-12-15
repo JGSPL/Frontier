@@ -109,7 +109,7 @@
 
     </RelativeLayout>
 
-    <com.procialize.mrgeApp20.Fonts.RobotoButton
+    <com.procialize.frontier.Fonts.RobotoButton
         android:id="@+id/btn_share"
         android:layout_width="100dp"
         android:layout_height="35dp"

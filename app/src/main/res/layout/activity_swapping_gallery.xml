@@ -4,95 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.procialize.mrgeApp20.InnerDrawerActivity.SwappingGalleryActivity"
+    android:background="@drawable/background_login"
     android:id="@+id/linear"
-    android:background="@color/black">
+    tools:context="com.procialize.frontier.InnerDrawerActivity.SwappingGalleryActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transperent"
-        app:elevation="0dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:orientation="vertical">
 
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:contentInsetEnd="0dp"
-            android:contentInsetLeft="0dp"
-            android:contentInsetRight="0dp"
-            android:contentInsetStart="0dp"
-            android:elevation="@dimen/elevation"
-            android:minHeight="?attr/actionBarSize"
-            app:contentInsetEnd="0dp"
-            app:contentInsetLeft="0dp"
-            app:contentInsetRight="0dp"
-            app:contentInsetStart="0dp">
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:elevation="0dp">
 
-        <!--    <ImageView
-                android:id="@+id/headerlogoIv"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="-10dp"
-                android:contentDescription=" "
-                />
--->
-            <ImageView
-                android:id="@+id/backIv"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:contentDescription="TODO"
-                android:src="@drawable/back_white"
-                android:padding="@dimen/padding"
-                android:layout_marginLeft="13dp"/>
 
-            <LinearLayout
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="?attr/actionBarSize"
+                android:contentInsetStart="0dp"
+                android:contentInsetLeft="0dp"
+                android:contentInsetEnd="0dp"
+                android:contentInsetRight="0dp"
+                android:minHeight="?attr/actionBarSize"
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
-                    android:id="@+id/title"
+                app:contentInsetEnd="0dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetRight="0dp"
+                app:contentInsetStart="0dp"
+                app:navigationIcon="@drawable/back_global">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin"
-                    android:layout_weight="1"
-                    android:gravity="left"
-                    android:text=""
-                    android:textColor="@color/colorwhite"
-                    android:textFontWeight="1"
-                    android:textSize="@dimen/textsizenormal"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/headerlogoIv"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="-10dp"
-                    android:contentDescription=" "
-                    android:visibility="gone" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center">
+                    <com.procialize.frontier.Fonts.RobotoTextViewHeader
+                        android:id="@+id/tv_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="Selfie Engagement"
+                        android:textColor="@color/activetab"
+                        android:textFontWeight="1"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
 
                     <ImageView
-                        android:id="@+id/notificationlogoIv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/headerlogoIv"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:foregroundGravity="center"
-                        android:src="@drawable/ic_notification"
-                        android:tint="@color/colorwhite"/>
+                        android:layout_marginLeft="-100dp"
+                        android:layout_weight="5"
+                        android:contentDescription=" "
+                        android:visibility="visible" />
 
-                    <LinearLayout
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/notificationlogoIv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:foregroundGravity="center"
+                            android:src="@drawable/ic_notification" />
+
+                        <LinearLayout
                         android:id="@+id/ll_notification_count"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -104,26 +94,37 @@
                         android:orientation="horizontal"
                         android:visibility="visible">
 
-                        <TextView
-                            android:id="@+id/tv_notification"
-                            android:layout_width="wrap_content"
-                            android:layout_height="15dp"
-                            android:gravity="top|center"
-                            android:text="50"
-                            android:textColor="@color/black"
-                            android:textSize="8dp" />
-                    </LinearLayout>
-                </RelativeLayout>
-            </LinearLayout>
+                            <TextView
+                                android:id="@+id/tv_notification"
+                                android:layout_width="wrap_content"
+                                android:layout_height="15dp"
+                                android:gravity="top|center"
+                                android:text="50"
+                                android:textColor="@color/black"
+                                android:textSize="8dp" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/icicilogo"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:contentDescription=" "
+                        android:src="@drawable/icicilogo"
+                        android:visibility="visible" />
+                </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/linecolor"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/linecolor" />
 
 
     </com.google.android.material.appbar.AppBarLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -187,7 +188,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/savebtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -210,7 +211,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/sharebtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -226,13 +227,13 @@
         </LinearLayout>
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listrecycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:layout_marginBottom="5dp"/>
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listrecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal" />
+    </LinearLayout>
 
 </RelativeLayout>

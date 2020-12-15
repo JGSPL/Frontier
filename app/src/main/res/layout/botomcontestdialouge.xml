@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@+id/deleteTv"
             android:gravity="center"
             android:padding="@dimen/padding"
@@ -27,7 +27,7 @@
             android:layout_height="0.5dp"/>
 
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@+id/reportTv"
             android:gravity="center"
             android:padding="@dimen/padding"
@@ -43,7 +43,7 @@
             android:layout_height="0.5dp"/>
 
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@+id/hideTv"
             android:gravity="center"
             android:padding="@dimen/padding"
@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"/>
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@+id/cancelTv"
             android:gravity="center"
             android:padding="@dimen/padding"

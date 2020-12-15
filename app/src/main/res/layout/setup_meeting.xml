@@ -23,7 +23,7 @@
             android:orientation="horizontal"
             android:padding="5dp">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/exh_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                     android:layout_weight="5"
                     android:orientation="vertical">
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Select Date" />
@@ -83,7 +83,7 @@
                         android:background="@drawable/edittexthmbg"
                         android:orientation="horizontal">
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        <com.procialize.frontier.Fonts.RobotoTextview
                             android:id="@+id/txt_date"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
                     android:layout_weight="5"
                     android:orientation="vertical">
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Select Time" />
@@ -121,7 +121,7 @@
                         android:background="@drawable/edittexthmbg"
                         android:orientation="horizontal">
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        <com.procialize.frontier.Fonts.RobotoTextview
                             android:id="@+id/txt_time"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -142,13 +142,13 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="Description" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoEditext
+            <com.procialize.frontier.Fonts.RobotoEditext
                 android:id="@+id/etmsg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -170,7 +170,7 @@
                 android:textColor="#000"
                 android:textSize="@dimen/textsizenormal" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/counttv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -185,7 +185,7 @@
                 android:orientation="horizontal"
                 android:weightSum="1">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                <com.procialize.frontier.Fonts.RobotoButton
                     android:id="@+id/submit"
                     android:layout_width="0dp"
                     android:layout_height="40dp"

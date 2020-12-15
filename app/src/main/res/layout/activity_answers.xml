@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/unchecked_radio" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/textno1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
                 android:textColor="@color/textcolorLight"
                 android:textStyle="bold" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/quiz_question"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

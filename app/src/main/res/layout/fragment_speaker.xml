@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.Speaker.Views.SpeakerFragment"
+    tools:context="com.procialize.frontier.Speaker.Views.SpeakerFragment"
     android:id="@+id/linear">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+    <com.procialize.frontier.Fonts.RobotoTextInputEditext
         android:id="@+id/searchEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         android:textColor="@color/black"
         android:textSize="@dimen/textsizesmall" />
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/pullrefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

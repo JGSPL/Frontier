@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:padding="5dp"
             android:textSize="@dimen/textsizenormal"
             android:textColor="@color/black"
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                <com.procialize.frontier.Fonts.RobotoButton
                     android:layout_width="0dp"
                     android:id="@+id/ratebtn"
                     android:text="@string/ratebtn"
@@ -58,7 +58,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                <com.procialize.frontier.Fonts.RobotoButton
                     android:layout_width="0dp"
                     android:id="@+id/canclebtn"
                     android:text="@string/cancel"

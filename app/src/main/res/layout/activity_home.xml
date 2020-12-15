@@ -154,7 +154,7 @@
             </LinearLayout>
 
 
-            <com.procialize.mrgeApp20.CustomTools.CustomViewPager
+            <com.procialize.frontier.CustomTools.CustomViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -493,7 +493,7 @@
                     android:id="@+id/my"
                     layout="@layout/header" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/home"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -508,7 +508,7 @@
                     android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/eventInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -523,7 +523,7 @@
                     android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/notification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -538,7 +538,7 @@
                     android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/exh_analytics"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -562,7 +562,7 @@
                     android:scrollbars="none" />
 
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/contactus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -578,7 +578,7 @@
                     android:textSize="@dimen/textsizesmall"
                     android:visibility="visible" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/privacy_policy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -593,7 +593,7 @@
                     android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/eula"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -608,7 +608,7 @@
                     android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/switchbt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -624,7 +624,7 @@
                     android:textSize="@dimen/textsizesmall" />
 
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/chatbt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -641,7 +641,7 @@
                     android:visibility="gone" />
 
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -656,7 +656,7 @@
                     android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/txt_version"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

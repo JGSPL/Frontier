@@ -37,7 +37,7 @@
                 app:contentInsetRight="0dp"
                 app:contentInsetStart="0dp">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -46,7 +46,7 @@
                     android:text="Edit Exhibitor"
                     android:textColor="@color/black" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                <com.procialize.frontier.Fonts.RobotoButton
                     android:id="@+id/btn_save"
                     android:layout_width="60dp"
                     android:layout_height="35dp"
@@ -122,7 +122,7 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="*Exhibitor Logo" />

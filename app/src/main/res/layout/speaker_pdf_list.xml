@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/tv_pdf_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

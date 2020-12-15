@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.Fragments.AgendaFragment">
+    tools:context="com.procialize.frontier.Fragments.AgendaFragment"
+    android:background="@drawable/background_login">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -27,7 +28,6 @@
             android:contentInsetEnd="0dp"
             android:contentInsetRight="0dp"
             app:navigationIcon="@drawable/back_global"
-
             android:minHeight="?attr/actionBarSize"
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
@@ -39,8 +39,8 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="Like"
-                android:textColor="@color/activetab"/>
+                android:text="Likes"
+                android:textColor="@color/colorwhite"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -118,7 +118,7 @@
                             android:gravity="center_vertical"
                             android:orientation="vertical">
 
-                            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                            <com.procialize.frontier.Fonts.RobotoTextview
                                 android:id="@+id/nameTv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
-                                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                                <com.procialize.frontier.Fonts.RobotoTextview
                                     android:id="@+id/designationTv"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/textsizesmall" />
 
-                                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                                <com.procialize.frontier.Fonts.RobotoTextview
                                     android:id="@+id/dateTv"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
 
                             </LinearLayout>
 
-                            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                            <com.procialize.frontier.Fonts.RobotoTextview
                                 android:id="@+id/companyTv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
 
                     </LinearLayout>
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:id="@+id/headingTv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -209,7 +209,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <com.procialize.mrgeApp20.CustomTools.PixabayImageView
+                        <com.procialize.frontier.CustomTools.PixabayImageView
                             android:id="@+id/feedimageIv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

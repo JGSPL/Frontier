@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
     <TextView
@@ -34,31 +34,35 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:background="@drawable/edit_transperent"
+        android:orientation="horizontal"
+        android:padding="2dp">
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="top"
             android:padding="3dp">
-        <androidx.cardview.widget.CardView
-            android:id="@+id/myCardView"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="@dimen/album_dp_0">
 
-        <ImageView
-            android:id="@+id/profilestatus"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerInParent="true"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/profilepic_placeholder" />
-        </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/myCardView"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="@dimen/album_dp_0">
+
+                <ImageView
+                    android:id="@+id/profilestatus"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/profilepic_placeholder" />
+            </androidx.cardview.widget.CardView>
             <ProgressBar
                 android:id="@+id/progressView"
                 android:layout_width="wrap_content"
@@ -74,9 +78,9 @@
             android:layout_marginLeft="5dp"
             android:gravity="center_vertical"
             android:padding="5dp"
-            android:background="@color/colorwhite"
             android:hint="@string/whatsmind"
-            android:textColor="@color/black"
+            android:textColor="@color/colorwhite"
+            android:textColorHint="@color/colorwhite"
             android:textSize="@dimen/textsizesmall" />
 
     </LinearLayout>
@@ -85,21 +89,20 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/newsfeedrefresh"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="120dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            android:paddingBottom="70dp"
-            android:nestedScrollingEnabled="false"/>
+            android:nestedScrollingEnabled="false" />
 
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
+
 
 
 

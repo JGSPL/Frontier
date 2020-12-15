@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ImageView
+ <!--   <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/zm_bo_join_leave_bg" />
@@ -75,6 +75,6 @@
             android:text="@string/zm_bo_lbl_waiting_prompt"
             android:textColor="#F8F8F8"
             android:textSize="13sp" />
-    </LinearLayout>
+    </LinearLayout>-->
 
 </FrameLayout>

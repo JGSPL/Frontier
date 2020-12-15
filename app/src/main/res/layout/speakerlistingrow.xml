@@ -61,7 +61,7 @@
             android:gravity="top"
             android:orientation="vertical">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+            <com.procialize.frontier.Fonts.RobotoTextViewHeader
                 android:id="@+id/nameTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/locationTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/textsizesmall" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/designtionTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

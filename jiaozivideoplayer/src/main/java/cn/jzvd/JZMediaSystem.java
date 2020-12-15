@@ -157,6 +157,7 @@ public class JZMediaSystem extends JZMediaInterface implements MediaPlayer.OnPre
 
     @Override
     public boolean onError(MediaPlayer mediaPlayer, final int what, final int extra) {
+
         handler.post(() -> jzvd.onError(what, extra));
         return true;
     }

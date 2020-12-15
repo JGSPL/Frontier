@@ -3,7 +3,7 @@
     android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.procialize.mrgeApp20.Fragments.NewAgendaFragment">
+    tools:context="com.procialize.frontier.Fragments.NewAgendaFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -40,7 +40,7 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/text_msg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

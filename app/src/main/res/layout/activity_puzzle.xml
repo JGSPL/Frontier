@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rl_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_login">
+
+        <ImageView
+            android:id="@+id/iv_puzzle_grid"
+            android:layout_width="309dp"
+            android:layout_height="230dp"
+            android:layout_marginLeft="220dp"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/puzzleboard" />
+
+
+
+        <ImageView
+            android:id="@+id/iv_original_image"
+            android:layout_width="103dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_height="76dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="16dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/art_attack" />
+
+
+        <ImageView
+            android:id="@+id/iv_part_1"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="244dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/app_icon" />
+
+
+        <ImageView
+            android:id="@+id/iv_part_3"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="244dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/app_icon" />
+
+        <ImageView
+            android:id="@+id/iv_part_4"
+            android:layout_width="80dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="244dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/app_icon" />
+
+        <ImageView
+            android:id="@+id/iv_part_2"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="244dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/app_icon" />
+
+
+        <ImageView
+            android:id="@+id/iv_part_5"
+            android:layout_width="80dp"
+            android:layout_height="87dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="244dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/app_icon" />
+
+
+
+        <ImageView
+            android:id="@+id/iv_part_6"
+            android:layout_width="105dp"
+            android:layout_height="130dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="244dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/app_icon" />
+
+        <ImageView
+            android:id="@+id/iv_part_7"
+            android:layout_width="130dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="244dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/app_icon" />
+
+        <ImageView
+            android:id="@+id/iv_part_8"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="244dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/app_icon" />
+
+        <ImageView
+            android:id="@+id/iv_part_9"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="244dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/app_icon" />
+
+        <ImageView
+            android:id="@+id/iv_part_10"
+            android:layout_width="105dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="244dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/app_icon" />
+
+        <ImageView
+            android:id="@+id/iv_part_11"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="244dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/app_icon" />
+
+        <ImageView
+            android:id="@+id/iv_part_12"
+            android:layout_width="80dp"
+            android:layout_height="105dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="244dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/app_icon" />
+
+        <!--
+            <ImageView
+                android:id="@+id/iv_mask"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/mask_0" />-->
+        <ImageView
+            android:id="@+id/iv_puzzle_result_image"
+            android:layout_width="309dp"
+            android:layout_height="230dp"
+            android:layout_marginLeft="220dp"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/puzzleboard"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/timer_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginStart="40dp"
+            android:saveEnabled="true"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            tools:text="00:00" />
+    </RelativeLayout>
+</LinearLayout>

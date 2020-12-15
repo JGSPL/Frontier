@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/txt_docname"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                     android:gravity="center">
 
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoEditext
+                    <com.procialize.frontier.Fonts.RobotoEditext
                         android:id="@+id/nameTv"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

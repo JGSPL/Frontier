@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.Activity.MyAgendaSessionActivity">
+    tools:context="com.procialize.frontier.Activity.MyAgendaSessionActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.procialize.mrgeApp20.Fonts.RobotoTextview xmlns:android="http://schemas.android.com/apk/res/android"
+<com.procialize.frontier.Fonts.RobotoTextview xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ellipsize="end"

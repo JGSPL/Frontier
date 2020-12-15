@@ -82,7 +82,7 @@
             android:orientation="vertical">
 
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -92,7 +92,7 @@
                 android:textSize="@dimen/textsizesmall" />
 
 
-            <com.procialize.mrgeApp20.Fonts.RobotoButton
+            <com.procialize.frontier.Fonts.RobotoButton
                 android:id="@+id/uploadbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
 
         </GridView>
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@android:id/empty"
             android:layout_width="match_parent"
             android:layout_height="0dp"

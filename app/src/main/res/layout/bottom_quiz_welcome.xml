@@ -33,7 +33,7 @@
             android:layout_gravity="center"
             android:padding="10dp">
         </ImageView>
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textsizenormal"
@@ -42,10 +42,10 @@
             android:gravity="center"
             android:textColor="@color/black">
 
-        </com.procialize.mrgeApp20.Fonts.RobotoTextview>
+        </com.procialize.frontier.Fonts.RobotoTextview>
 
 
-        <com.procialize.mrgeApp20.Fonts.RobotoButton
+        <com.procialize.frontier.Fonts.RobotoButton
             android:layout_width="180dp"
             android:gravity="center"
             android:id="@+id/btnQuizStart"
@@ -57,7 +57,7 @@
             android:background="@color/activetab"
             android:layout_height="35dp">
 
-        </com.procialize.mrgeApp20.Fonts.RobotoButton>
+        </com.procialize.frontier.Fonts.RobotoButton>
 
     </LinearLayout>
     </ScrollView>

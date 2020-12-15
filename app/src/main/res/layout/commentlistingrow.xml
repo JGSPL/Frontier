@@ -4,12 +4,11 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/colorwhite">
+    android:background="@color/trans">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/newsfeedrowbg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -71,7 +70,7 @@
 
 
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/nameTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -79,11 +78,11 @@
                     android:paddingLeft="5dp"
                     android:text=""
                     android:autoLink="web"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorwhite"
                     android:textColorLink="@android:color/holo_blue_dark"
                     android:textSize="@dimen/textsizesmall" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/commentTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -92,7 +91,7 @@
                     android:autoLink="web"
                     android:paddingLeft="5dp"
                     android:text=""
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorwhite"
                     android:textColorLink="@android:color/holo_blue_dark"
                     android:textSize="@dimen/textsizesmall"
                     android:visibility="gone"/>
@@ -105,7 +104,7 @@
                     android:layout_marginTop="2dp"
                     android:paddingLeft="5dp"
                     android:text=""
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall"
                     android:visibility="gone" />
 
@@ -118,7 +117,7 @@
                     android:layout_toEndOf="@+id/imageView"
                     android:paddingLeft="5dp"
                     android:text=""
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/colorwhite"
                     android:textSize="8sp" />
 
             </RelativeLayout>

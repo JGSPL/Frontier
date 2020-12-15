@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MRGE</string>
+    <string name="app_name">Frontier2020</string>
     <string name="hint_email">Mobile Number</string>
     <string name="hint_password">* Enter Password</string>
 
@@ -14,7 +14,7 @@
     <string name="documents">Documents</string>
     <string name="livepol">Live Poll</string>
     <string name="quiz">Quiz</string>
-    <string name="contactus">Contact Helpdesk</string>
+    <string name="contactus">Contact us</string>
     <string name="privacy_policy">  Privacy Policy</string>
     <string name="swit">Switch Events</string>
     <string name="openDrawer">Drawer Open</string>
@@ -68,7 +68,7 @@
     <string name="speakerdetial">Speaker Details</string>
     <string name="sendrating">Send Rating</string>
     <string name="ratebtn">Rate</string>
-    <string name="search_attendee_here">Type here to search Attendee</string>
+    <string name="search_attendee_here">Type here to search attendee</string>
     <string name="search_speaker_here">Type here to search Speaker</string>
     <string name="search_event_here">Type here to search Event</string>
     <string name="search_exhicat_here">Type here to search exhibitors category</string>

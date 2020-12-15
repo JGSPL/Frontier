@@ -4,19 +4,18 @@ apply plugin: 'com.google.firebase.crashlytics'
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "com.procialize.mrgeApp20"
+        applicationId "com.procialize.frontier"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 8
+        versionName "1.0.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         ndk {
-            // abiFilters "armeabi-v7a", 'arm64-v8a', 'x86', 'x86_64'
-            abiFilters "armeabi-v7a", 'arm64-v8a', 'x86'
-
-        }
+             abiFilters "armeabi-v7a", 'arm64-v8a', 'x86', 'x86_64'
+//            abiFilters "armeabi-v7a", 'arm64-v8a', 'x86'
+       }
 /*        splits {
             density {
                 enable true
@@ -92,14 +91,14 @@ android {
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             }
         }*/
-        buildTypes {
-            release {
-                minifyEnabled true
-                shrinkResources true
-                resConfigs "en"
-                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            }
-        }
+//        buildTypes {
+//            release {
+//                minifyEnabled true
+//                shrinkResources true
+//                resConfigs "en"
+//                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            }
+//        }
 
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
@@ -129,7 +128,6 @@ dependencies {
     implementation project(path: ':keyframe')
     implementation project(path: ':YouTubeAndroidPlayerApi')
     implementation project(path: ':coffeetubefloatvideo')
- //   implementation project(path: ':flashytabbarandroidNew')
     implementation project(path: ':jiaozivideoplayer')
 
 
@@ -137,8 +135,8 @@ dependencies {
 
 
     //Zoom
-    implementation project(path: ':commonlib')
-    implementation project(path: ':mobilertc')
+//    implementation project(path: ':commonlib')
+//    implementation project(path: ':mobilertc')
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
@@ -212,9 +210,12 @@ dependencies {
     // implementation project(path: ':album')
     implementation 'com.writingminds:FFmpegAndroid:0.3.2'
 
+//    //Butterknife
+    implementation 'com.jakewharton:butterknife:10.2.3'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
     // Firebase Crashlytics dependency.
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-
+//    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
     //Firebase analytics
     //implementation 'com.google.firebase:firebase-analytics:17.3.0'
     implementation 'com.google.android.gms:play-services-analytics:11.8.0'
@@ -233,6 +234,6 @@ dependencies {
     implementation 'com.github.rubensousa:floatingtoolbar:1.5.1'
     implementation 'com.github.hani-momanii:SuperNova-Emoji:1.1'
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.1'
-
+    implementation 'com.google.firebase:firebase-core:11.8.0'
 }
 apply plugin: 'com.google.gms.google-services'

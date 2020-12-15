@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.Fragments.AttendeeFragment">
+    tools:context="com.procialize.frontier.Fragments.AttendeeFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -50,7 +50,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
         android:textColor="@color/activetab"
         android:textSize="@dimen/textsizenormal" />
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/pullrefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
         android:textSize="@dimen/textsizesmaller" />
 
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+    <com.procialize.frontier.Fonts.RobotoTextInputEditext
         android:id="@+id/searchEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

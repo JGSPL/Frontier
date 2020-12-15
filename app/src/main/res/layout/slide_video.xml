@@ -40,7 +40,7 @@
     </RelativeLayout>
 
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

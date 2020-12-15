@@ -3,20 +3,16 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="0dp"
-    android:background="@color/colorwhite"
-
+    android:layout_marginTop="5dp"
     android:layout_height="wrap_content"
+    android:background="@color/trans"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/mainLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
 
         <RelativeLayout
@@ -24,6 +20,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center">
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/myCardView"
                 android:layout_width="50dp"
@@ -65,39 +62,41 @@
             android:gravity="top"
             android:orientation="vertical">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+            <com.procialize.frontier.Fonts.RobotoTextViewHeader
                 android:id="@+id/nameTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:text="Abheejit Saxena"
-                android:textColor="@color/black"
+                android:textColor="@color/colorwhite"
                 android:textSize="15sp" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/designationTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:text=""
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/textsizesmall" />
+                android:textColor="@color/colorwhite"
+                android:textSize="@dimen/textsizesmall"
+                android:visibility="gone"/>
 
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/locationTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:text="Delhi"
                 android:layout_marginBottom="5dp"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorwhite"
                 android:textSize="@dimen/textsizesmall" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/linecolor">
+                android:background="@color/linecolor"
+                android:visibility="gone">
 
             </View>
 

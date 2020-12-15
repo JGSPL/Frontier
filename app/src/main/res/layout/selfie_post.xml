@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context="com.procialize.mrgeApp20.InnerDrawerActivity.SelfieUploadActivity">
+    tools:context="com.procialize.frontier.InnerDrawerActivity.SelfieUploadActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -59,7 +59,7 @@
 
 
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/txtTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                 android:scaleType="centerCrop" />
 
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+            <com.procialize.frontier.Fonts.RobotoTextInputEditext
                 android:id="@+id/editTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoButton
+            <com.procialize.frontier.Fonts.RobotoButton
                 android:id="@+id/btnSubmit"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"

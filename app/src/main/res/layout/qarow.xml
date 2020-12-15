@@ -66,13 +66,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/nameTv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/activetab"
                     android:textSize="@dimen/textsizesmall" />
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/designationTv"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -89,7 +89,7 @@
                 android:layout_weight="2"
                 android:gravity="left">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/dateTv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -110,14 +110,14 @@
             android:paddingLeft="10dp"
             android:orientation="vertical">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/QaTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="@dimen/textsizesmall" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/AnsTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/countTv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

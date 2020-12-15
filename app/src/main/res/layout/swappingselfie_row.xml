@@ -29,7 +29,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp" />
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@+id/nameTv"
             android:gravity="center"
             android:background="@color/trans"

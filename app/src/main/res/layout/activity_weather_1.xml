@@ -43,7 +43,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#1F73BA"
@@ -68,7 +68,7 @@
             android:layout_height="match_parent">
 
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/cityTv"
                 android:layout_marginLeft="25dp"
                 android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
                 />
 
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/countryTv"
                 android:layout_marginLeft="25dp"
                 android:layout_width="wrap_content"
@@ -103,7 +103,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/dateTv"
                 android:layout_marginRight="25dp"
                 android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
                 />
 
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/timeTv"
                 android:layout_marginRight="25dp"
                 android:layout_width="wrap_content"
@@ -165,7 +165,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        <com.procialize.frontier.Fonts.RobotoTextview
                             android:id="@+id/dayTv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -183,7 +183,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                            <com.procialize.frontier.Fonts.RobotoTextview
                                 android:id="@+id/tempTv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -207,7 +207,7 @@
 
                                 </LinearLayout>
 
-                                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                                <com.procialize.frontier.Fonts.RobotoTextview
                                     android:id="@+id/cTv"
                                     android:layout_weight="1.25"
                                     android:layout_width="wrap_content"
@@ -218,7 +218,7 @@
                                     android:text="C"
                                     />
 
-                                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                                <com.procialize.frontier.Fonts.RobotoTextview
                                     android:id="@+id/fTv"
                                     android:layout_weight="1.25"
                                     android:layout_width="wrap_content"
@@ -239,7 +239,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                            <com.procialize.frontier.Fonts.RobotoTextview
                                 android:id="@+id/maxTv"
                                 android:layout_margin="3dp"
                                 android:layout_width="wrap_content"
@@ -250,7 +250,7 @@
                                 android:text=""
                                 />
 
-                            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                            <com.procialize.frontier.Fonts.RobotoTextview
                                 android:id="@+id/minTv"
                                 android:layout_margin="3dp"
                                 android:layout_width="wrap_content"
@@ -279,7 +279,7 @@
                             android:layout_width="100dp"
                             android:layout_height="100dp" />
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        <com.procialize.frontier.Fonts.RobotoTextview
                             android:id="@+id/infoTv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -300,7 +300,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:layout_marginRight="0dp"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
@@ -313,7 +313,7 @@
                         />
 
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:id="@+id/feelTv"
                         android:layout_marginRight="25dp"
                         android:layout_weight="1"
@@ -338,7 +338,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:layout_marginRight="0dp"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
@@ -351,7 +351,7 @@
                         />
 
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:id="@+id/humidityTv"
                         android:layout_marginRight="25dp"
                         android:layout_weight="1"
@@ -376,7 +376,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:layout_marginRight="0dp"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
@@ -389,7 +389,7 @@
                         />
 
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:id="@+id/visibilityTv"
                         android:layout_marginRight="25dp"
                         android:layout_weight="1"
@@ -413,7 +413,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:layout_marginRight="0dp"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
@@ -426,7 +426,7 @@
                         />
 
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:id="@+id/indexTv"
                         android:layout_marginRight="25dp"
                         android:layout_weight="1"

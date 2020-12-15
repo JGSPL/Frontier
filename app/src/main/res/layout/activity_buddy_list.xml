@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                <com.procialize.frontier.Fonts.RobotoTextViewHeader
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <frontierer.Fonts.RobotoTextview
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
         android:layout_below="@+id/appBarLayout"
         android:orientation="vertical">
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+        <com.procialize.frontier.Fonts.RobotoTextInputEditext
             android:id="@+id/searchEt"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -164,7 +164,7 @@
             android:textColor="@color/inactivetab"
             android:textSize="12dp" />
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@+id/pullrefresh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -24,7 +24,7 @@
                 android:layout_weight="2"
                 android:gravity="center">
 
-                <com.procialize.mrgeApp20.CustomTools.ScaledImageView
+                <com.procialize.frontier.CustomTools.ScaledImageView
                     android:id="@+id/profileIV"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
@@ -52,7 +52,7 @@
                 android:layout_weight="5.75"
                 android:orientation="vertical">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/nameTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                     android:textSize="15dp" />
 
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/designationTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                 android:background="@drawable/backtxt"
                 android:orientation="horizontal">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/txt_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                 android:background="@drawable/backtxt"
                 android:orientation="horizontal">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/txt_time"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
             android:textColor="@color/inactivetab"
             android:textSize="@dimen/textsizesmall" />
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@+id/created_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
             android:background="#cccccc"
             android:orientation="horizontal">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/txt_status"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
@@ -182,7 +182,7 @@
                 android:textSize="@dimen/textsizesmall"
                 android:visibility="gone" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoButton
+            <com.procialize.frontier.Fonts.RobotoButton
                 android:id="@+id/btn_accept"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
@@ -200,7 +200,7 @@
                 android:background="@color/black"
                 android:visibility="gone" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoButton
+            <com.procialize.frontier.Fonts.RobotoButton
                 android:id="@+id/btn_reject"
                 android:layout_width="0dp"
                 android:layout_height="30dp"

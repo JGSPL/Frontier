@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                <com.procialize.frontier.Fonts.RobotoTextViewHeader
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <frontierer.Fonts.RobotoTextview
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -301,7 +301,7 @@
 
 
                     </LinearLayout>
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                    <com.procialize.frontier.Fonts.RobotoTextViewHeader
                         android:id="@+id/tv_sponsor_header"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -329,7 +329,7 @@
                         android:orientation="vertical"
                         android:padding="10dp">
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                        <com.procialize.frontier.Fonts.RobotoTextViewHeader
                             android:id="@+id/nameTv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

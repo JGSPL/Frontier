@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.NewsFeed.Views.Activity.CommentActivity">
+    tools:context="com.procialize.frontier.NewsFeed.Views.Activity.CommentActivity"
+    android:background="@drawable/background_login">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -39,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:text="Comment"
-                android:textColor="@color/activetab"/>
+                android:textColor="@color/colorwhite" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -72,7 +73,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorwhite"
+                    android:background="@color/trans"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -172,18 +173,7 @@
                                     android:padding="3dp"
                                     android:paddingLeft="5dp"
                                     android:text=""
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/textsizesmall" />
-
-                                <TextView
-                                    android:id="@+id/dateTv"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="4"
-                                    android:gravity="right"
-                                    android:padding="3dp"
-                                    android:text=""
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/colorwhite"
                                     android:textSize="@dimen/textsizesmall" />
 
                             </LinearLayout>
@@ -198,10 +188,19 @@
                                 android:padding="3dp"
                                 android:paddingLeft="5dp"
                                 android:text=""
-                                android:textColor="@color/black"
+                                android:textColor="@color/colorwhite"
                                 android:textSize="@dimen/textsizesmall"
                                 android:visibility="gone" />
-
+                            <TextView
+                                android:id="@+id/dateTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:padding="3dp"
+                                android:paddingLeft="5dp"
+                                android:text=""
+                                android:textColor="@color/colorwhite"
+                                android:textSize="@dimen/textsizesmall" />
 
                         </LinearLayout>
 
@@ -224,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <com.procialize.mrgeApp20.CustomTools.PixabayImageView
+                        <com.procialize.frontier.CustomTools.PixabayImageView
                             android:id="@+id/feedimageIv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -272,7 +271,7 @@
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:text=""
-                        android:textColor="@color/black"
+                        android:textColor="@color/colorwhite"
                         android:textColorLink="@android:color/holo_blue_dark"
                         android:textSize="@dimen/textsizesmall" />
 
@@ -283,7 +282,8 @@
                         android:layout_centerInParent="true"
                         android:visibility="gone"
                         app:cardElevation="@dimen/album_dp_0"
-                        android:layout_marginTop="10dp">
+                        android:layout_marginTop="10dp"
+                        android:background="@color/black">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -292,7 +292,8 @@
                             <androidx.viewpager.widget.ViewPager
                                 android:id="@+id/vp_slider"
                                 android:layout_width="match_parent"
-                                android:layout_height="250dp" />
+                                android:layout_height="250dp"
+                                android:background="@color/black"/>
 
                             <LinearLayout
                                 android:id="@+id/ll_dots"
@@ -301,7 +302,8 @@
                                 android:layout_below="@+id/vp_slider"
                                 android:layout_alignParentBottom="true"
                                 android:gravity="center"
-                                android:orientation="horizontal" />
+                                android:orientation="horizontal"
+                                android:background="@color/black"/>
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -312,10 +314,11 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:padding="2dp"
-                        android:weightSum="2">
+                        android:weightSum="2"
+                        android:visibility="gone">
 
                         <TextView
-                            android:id="@+id/likeTv"
+                            android:id="@+id/likeTv1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -328,7 +331,7 @@
                             android:textSize="@dimen/textsizesmall" />
 
                         <TextView
-                            android:id="@+id/commentTv"
+                            android:id="@+id/commentTv1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -354,6 +357,19 @@
                             android:gravity="center"
                             android:orientation="horizontal">
 
+                            <TextView
+                                android:id="@+id/likeTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="left"
+                                android:padding="5dp"
+                                android:paddingLeft="15dp"
+                                android:paddingTop="4dp"
+                                android:text="0 Like"
+                                android:textColor="@color/colorwhite"
+                                android:textSize="@dimen/textsizesmall" />
+
                             <ImageView
                                 android:id="@+id/iv_like"
                                 android:layout_width="wrap_content"
@@ -376,6 +392,17 @@
                             android:layout_weight="1.5"
                             android:gravity="center"
                             android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/commentTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:padding="5dp"
+                                android:paddingRight="15dp"
+                                android:text="0 Comments"
+                                android:textColor="@color/colorwhite"
+                                android:textSize="@dimen/textsizesmall" />
 
                             <ImageView
                                 android:id="@+id/iv_comment"
@@ -406,7 +433,9 @@
                                 android:layout_height="wrap_content"
                                 android:drawableRight="@drawable/ic_share"
                                 android:drawablePadding="5dp"
-                                android:gravity="center" />
+                                android:gravity="center"
+                                android:text="Share"
+                                android:textColor="@color/colorwhite" />
 
                         </LinearLayout>
 

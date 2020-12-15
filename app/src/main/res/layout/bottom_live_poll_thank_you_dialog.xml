@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/txtTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         android:orientation="vertical"
         android:layout_gravity="center"
         android:gravity="center">
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -52,7 +52,7 @@
         android:textSize="@dimen/textsizebigger"
         android:visibility="visible"/>
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -63,7 +63,7 @@
         android:visibility="visible"/>
 
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/tv_view_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

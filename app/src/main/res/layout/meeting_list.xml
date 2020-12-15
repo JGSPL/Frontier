@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <com.zipow.videobox.view.ScheduledMeetingsListView
+   <!-- <com.zipow.videobox.view.ScheduledMeetingsListView
         android:id="@+id/meetingsListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -35,6 +35,6 @@
             android:gravity="center"
             android:text="@string/zm_msg_no_upcoming_meetings_sub_note" />
         
-    </LinearLayout>
+    </LinearLayout>-->
 
 </FrameLayout>

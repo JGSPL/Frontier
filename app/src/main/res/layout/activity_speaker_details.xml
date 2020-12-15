@@ -5,7 +5,7 @@
     android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.procialize.mrgeApp20.Speaker.Views.SpeakerDetailsActivity">
+    tools:context="com.procialize.frontier.Speaker.Views.SpeakerDetailsActivity">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                <com.procialize.frontier.Fonts.RobotoTextViewHeader
                     android:id="@+id/speakertitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -197,7 +197,7 @@
                 android:gravity="left"
                 android:orientation="vertical">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                <com.procialize.frontier.Fonts.RobotoTextViewHeader
                     android:id="@+id/tvname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

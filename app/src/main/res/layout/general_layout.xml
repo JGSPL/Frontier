@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="9">
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@+id/txt_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -50,7 +50,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/txt_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
         android:textSize="@dimen/textsizesmall" />
 
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+    <com.procialize.frontier.Fonts.RobotoTextInputEditext
         android:id="@+id/searchEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

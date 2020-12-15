@@ -20,11 +20,11 @@
             android:src="@drawable/logo"
             android:visibility="gone" />
 
-        <com.procialize.mrgeApp20.CustomTools.AutoScrollViewPager
+        <com.procialize.frontier.CustomTools.AutoScrollViewPager
             android:id="@+id/pagerimage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="0dp"></com.procialize.mrgeApp20.CustomTools.AutoScrollViewPager>
+            android:layout_margin="0dp"></com.procialize.frontier.CustomTools.AutoScrollViewPager>
     </LinearLayout>
 
     <LinearLayout
@@ -57,7 +57,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                 </HorizontalScrollView>
             </LinearLayout>
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/txtname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

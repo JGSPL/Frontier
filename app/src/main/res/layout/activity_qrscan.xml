@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.InnerDrawerActivity.QRScanActivity"
+    tools:context="com.procialize.frontier.InnerDrawerActivity.QRScanActivity"
     android:id="@+id/linear">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -69,7 +69,7 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/txt_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/textsizesmall">
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                        <com.procialize.frontier.Fonts.RobotoTextInputEditext
                             android:id="@+id/edit_username_edit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/lastname">
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                        <com.procialize.frontier.Fonts.RobotoTextInputEditext
                             android:id="@+id/edit_first_name_edit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -148,7 +148,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/designation">
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                        <com.procialize.frontier.Fonts.RobotoTextInputEditext
                             android:id="@+id/edit_designation_edit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -167,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/company">
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                        <com.procialize.frontier.Fonts.RobotoTextInputEditext
                             android:id="@+id/edit_company_name_edit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -186,7 +186,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/city">
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                        <com.procialize.frontier.Fonts.RobotoTextInputEditext
                             android:id="@+id/edit_city_edit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -206,7 +206,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_email">
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                        <com.procialize.frontier.Fonts.RobotoTextInputEditext
                             android:id="@+id/edit_email_edit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -227,7 +227,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/mobile">
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+                        <com.procialize.frontier.Fonts.RobotoTextInputEditext
                             android:id="@+id/edit_mobile_edit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -255,7 +255,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoButton
+            <com.procialize.frontier.Fonts.RobotoButton
                 android:id="@+id/save_btn_qr"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
@@ -268,7 +268,7 @@
                 android:textColor="@color/colorwhite"
                 android:textSize="@dimen/textsizesmall" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoButton
+            <com.procialize.frontier.Fonts.RobotoButton
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

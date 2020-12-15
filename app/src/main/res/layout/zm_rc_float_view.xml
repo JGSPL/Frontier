@@ -10,8 +10,7 @@
        	android:id="@+id/rc_control"
        	android:layout_width="wrap_content"
    		android:layout_height="wrap_content"
-   		android:layout_gravity="center_vertical"
-   		android:src="@drawable/zm_rc_control"/>
+   		android:layout_gravity="center_vertical" />
     
 	<LinearLayout 
 	    android:id="@+id/rc_content_span"
@@ -28,16 +27,12 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_marginRight="9dp"
-	        android:layout_gravity="center_vertical"
-			android:contentDescription="@string/zm_accessibility_rc_show_keyboard_23042"
-	        android:src="@drawable/zm_rc_keyboard"/>
+	        android:layout_gravity="center_vertical" />
 	    <ImageView 
 	        android:id="@+id/rc_question"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"
-			android:contentDescription="@string/zm_accessibility_rc_more_info_23042"
-	        android:src="@drawable/zm_rc_question"/>
+	        android:layout_gravity="center_vertical" />
 	    <EditText 
 	        android:id="@+id/rc_hidden_edit"
 	        android:layout_width="0dp"

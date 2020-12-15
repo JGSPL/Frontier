@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.InnerDrawerActivity.FeedBackActivity">
+    tools:context="com.procialize.frontier.InnerDrawerActivity.FeedBackActivity"
+    android:background="@drawable/background_login">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -25,45 +26,49 @@
             android:contentInsetLeft="0dp"
             android:contentInsetEnd="0dp"
             android:contentInsetRight="0dp"
-            app:navigationIcon="@drawable/back_global"
-
             android:minHeight="?attr/actionBarSize"
+
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
-            app:contentInsetStart="0dp">
+            app:contentInsetStart="0dp"
+            app:navigationIcon="@drawable/back_global">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
-                    android:id="@+id/title"
+                <com.procialize.frontier.Fonts.RobotoTextViewHeader
+                    android:id="@+id/tv_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin"
                     android:layout_weight="1"
                     android:gravity="left"
-                    android:text=""
+                    android:text="Selfie Engagement"
                     android:textColor="@color/activetab"
                     android:textFontWeight="1"
-                    android:textSize="@dimen/textsizenormal" />
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/headerlogoIv"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="-10dp"
+                    android:layout_marginLeft="-100dp"
+                    android:layout_weight="5"
                     android:contentDescription=" "
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/notificationlogoIv"
@@ -95,24 +100,40 @@
                             android:textSize="8dp" />
                     </LinearLayout>
                 </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/icicilogo"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:contentDescription=" "
+                    android:src="@drawable/icicilogo"
+                    android:visibility="visible" />
             </LinearLayout>
+
         </androidx.appcompat.widget.Toolbar>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/linecolor" />
 
 
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/tvname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/appBarLayout"
         android:gravity="center"
         android:padding="4sp"
-        android:text="@string/gallery"
-        android:textColor="@color/activetab"
+        android:text="Frontier Gallery"
+        android:textColor="@color/colorwhite"
         android:textSize="@dimen/textsizenormal"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -131,7 +152,7 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/msg_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -139,4 +160,10 @@
         android:gravity="center"
         android:text="Images not available"
         android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/splashlogo" />
 </RelativeLayout>

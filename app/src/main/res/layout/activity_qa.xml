@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.InnerDrawerActivity.QAAttendeeActivity"
+    tools:context="com.procialize.frontier.InnerDrawerActivity.QAAttendeeActivity"
     android:id="@+id/linear">
 
 
@@ -52,7 +52,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
         android:textSize="17dp" />
 
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -83,7 +83,7 @@
 
     </Spinner>
 
-    <com.procialize.mrgeApp20.Fonts.RobotoButton
+    <com.procialize.frontier.Fonts.RobotoButton
         android:id="@+id/postbtn"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
@@ -96,7 +96,7 @@
         android:textColor="@color/colorwhite"
         android:textSize="@dimen/textsizesmall" />
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/pullrefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
             </androidx.recyclerview.widget.RecyclerView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@+id/txtEmpty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

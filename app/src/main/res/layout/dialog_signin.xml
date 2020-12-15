@@ -21,7 +21,7 @@
             android:orientation="horizontal"
             android:padding="5dp">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 android:orientation="horizontal"
                 android:weightSum="1">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                <com.procialize.frontier.Fonts.RobotoButton
                     android:id="@+id/submit"
                     android:layout_width="0dp"
                     android:layout_height="35dp"

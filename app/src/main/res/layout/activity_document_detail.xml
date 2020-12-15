@@ -77,7 +77,7 @@
         android:layout_weight="1"
         android:gravity="center">
 
-        <com.procialize.mrgeApp20.Fonts.RobotoButton
+        <com.procialize.frontier.Fonts.RobotoButton
             android:id="@+id/btn_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

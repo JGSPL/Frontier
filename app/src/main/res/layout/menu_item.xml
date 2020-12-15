@@ -9,12 +9,12 @@
     android:paddingTop="10dp"
     android:paddingRight="15dp"
     android:paddingBottom="10dp" >
-    <TextView
+ <!--   <TextView
         android:id="@+id/txtLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/ZMTextView.PopItem"
         android:singleLine="true"
-        android:text="Item" />
+        android:text="Item" />-->
 
 </LinearLayout>

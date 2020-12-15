@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.procialize.mrgeApp20.Activity.VideoViewActivity">
+    tools:context="com.procialize.frontier.Activity.VideoViewActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -74,7 +74,7 @@
     </LinearLayout>
 
 
-    <com.procialize.mrgeApp20.Fonts.RobotoButton
+    <com.procialize.frontier.Fonts.RobotoButton
         android:id="@+id/fullscreenBtn"
         android:visibility="gone"
         android:textColor="@color/colorwhite"

@@ -3,7 +3,6 @@
     android:id="@+id/agenda_list_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="left|center"
     android:orientation="vertical"
     android:padding="3dp">
 
@@ -20,7 +19,8 @@
             android:id="@+id/layoutTop"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:background="@android:color/transparent"></RelativeLayout>
+            android:background="@android:color/transparent"
+            android:visibility="gone"></RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/layoutBottom"
@@ -29,7 +29,7 @@
             android:layout_below="@id/layoutTop"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            >
+           android:visibility="gone" >
 
         </RelativeLayout>
 
@@ -40,7 +40,8 @@
             android:layout_above="@id/layoutBottom"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="-40dp"
-            android:adjustViewBounds="true">
+            android:adjustViewBounds="true"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/profileIV"
@@ -49,6 +50,7 @@
                 android:layout_centerInParent="true"
                 android:contentDescription="TODO"
                 android:src="@drawable/quizlogo" />
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
@@ -66,32 +68,35 @@
         android:id="@+id/linQuiz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="90dp"
-        android:background="@color/colorwhite"
+        android:minHeight="50dp"
+        android:background="@color/trans"
         android:baselineAligned="false"
-        android:gravity="left|center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center">
 
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:gravity="left|center"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <!-- Video Title -->
-            <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+            <com.procialize.frontier.Fonts.RobotoTextViewHeader
                 android:id="@+id/video_title_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:text="Quiz"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textColor="@color/btn_back"
+                android:textSize="14sp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"/>
 
 <!--
-            <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+            <frontierer.Fonts.RobotoTextViewHeader
                 android:id="@+id/video_title_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -103,7 +108,7 @@
                 android:textSize="16sp"  />
 -->
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/video_status"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -111,12 +116,9 @@
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:text="Tap to start"
-
-
-
-
                 android:textColor="@color/colorAccent"
-                android:textSize="10sp"  />
+                android:textSize="10sp"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
@@ -146,7 +148,7 @@
                 android:textSize="12dp" />
 
 &lt;!&ndash;
-            <com.procialize.mrgeApp20.CustomTools.CircleDisplay
+            <frontierer.CustomTools.CircleDisplay
                 android:id="@+id/progressbar"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
@@ -158,7 +160,8 @@
 -->
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <ProgressBar
                 android:id="@+id/progressBarCircle"
@@ -169,7 +172,8 @@
                 android:background="@drawable/quiz_pro"
                 android:indeterminate="false"
                 android:progressDrawable="@drawable/quiz_pro1"
-                android:rotation="-90" />
+                android:rotation="-90"
+                android:visibility="gone" />
 
 
             <!--  android:max="10"
@@ -194,7 +198,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/right_arrow1"
+                android:background="@drawable/right_quizarrow"
                 android:contentDescription="TODO"
                 android:tint="@color/colorAccent"
                 android:visibility="visible" />

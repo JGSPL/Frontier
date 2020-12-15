@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.Activity.AgendaDetailActivity"
+    tools:context="com.procialize.frontier.Activity.AgendaDetailActivity"
     android:id="@+id/relative">
 
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                <com.procialize.frontier.Fonts.RobotoTextViewHeader
                     android:id="@+id/agendatitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.procialize.mrgeApp20.Activity.AgendaDetailActivity"
+        tools:context="com.procialize.frontier.Activity.AgendaDetailActivity"
         android:id="@+id/relative2">
 
     <ProgressBar
@@ -160,7 +160,7 @@
         android:orientation="horizontal">
 
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@+id/tvtime"
             android:layout_width="0dp"
             android:background="@color/colorwhite"
@@ -183,7 +183,7 @@
 
         </View>
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@+id/tvtime2"
             android:layout_width="0dp"
             android:background="@color/colorwhite"
@@ -197,7 +197,7 @@
     </LinearLayout>
 
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+    <com.procialize.frontier.Fonts.RobotoTextViewHeader
         android:id="@+id/tvname"
         android:layout_width="match_parent"
         android:layout_below="@+id/linear2"

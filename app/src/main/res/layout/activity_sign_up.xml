@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context="com.procialize.mrgeApp20.Activity.SignUpActivity">
+    tools:context="com.procialize.frontier.Activity.SignUpActivity">
 
 
   <androidx.core.widget.NestedScrollView

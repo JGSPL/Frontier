@@ -34,7 +34,7 @@
             app:contentInsetRight="0dp"
             app:contentInsetStart="0dp">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
                 android:gravity="left"
                 android:orientation="vertical">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                <com.procialize.frontier.Fonts.RobotoTextViewHeader
                     android:id="@+id/tvname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
                     android:background="@color/linecolor" />
 
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/tvdesignation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -147,7 +147,7 @@
                     android:layout_marginRight="10dp"
                     android:background="@color/linecolor" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/tvcompany"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -165,7 +165,7 @@
                     android:layout_marginRight="10dp"
                     android:background="@color/linecolor" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/tvcity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -183,7 +183,7 @@
                     android:layout_marginRight="10dp"
                     android:background="@color/linecolor" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/tvmob"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
                     android:layout_marginRight="10dp"
                     android:background="@color/linecolor" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/tv_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

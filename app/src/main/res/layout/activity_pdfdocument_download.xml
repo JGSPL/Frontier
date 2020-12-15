@@ -7,7 +7,7 @@
     android:id="@+id/linear"
     android:background="@color/colorgrey"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.Activity.PdfViewerActivity">
+    tools:context="com.procialize.frontier.Activity.PdfViewerActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                <com.procialize.frontier.Fonts.RobotoTextViewHeader
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

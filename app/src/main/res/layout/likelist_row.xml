@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorwhite"
-    android:orientation="vertical">
+    android:background="@color/trans"
+    android:orientation="vertical"
+    android:layout_marginTop="5dp">
 
     <LinearLayout
         android:id="@+id/mainLL"
@@ -43,7 +44,7 @@
             android:gravity="center|left"
             android:padding="5dp"
             android:text="asasdas"
-            android:textColor="@color/black"
+            android:textColor="@color/colorwhite"
             android:textSize="@dimen/textsizesmall"/>
 
         <TextView
@@ -76,5 +77,6 @@
         android:layout_height="0.5dp"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="@dimen/album_dp_10"
-        android:background="@color/background" />
+        android:background="@color/background"
+        android:visibility="gone"/>
 </LinearLayout>

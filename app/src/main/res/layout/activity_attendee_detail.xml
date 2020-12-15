@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background"
-    tools:context="com.procialize.mrgeApp20.Speaker.Views.SpeakerDetailsActivity">
+    android:background="@drawable/background_login"
+    tools:context="com.procialize.frontier.Speaker.Views.SpeakerDetailsActivity">
 
     <RelativeLayout
         android:id="@+id/linear"
@@ -29,7 +29,7 @@
                 android:contentInsetLeft="0dp"
                 android:contentInsetRight="0dp"
                 app:navigationIcon="@drawable/back_global"
-
+                android:background="@color/black"
                 android:contentInsetStart="0dp"
                 android:elevation="@dimen/elevation"
                 android:minHeight="?attr/actionBarSize"
@@ -42,63 +42,77 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
-                    android:id="@+id/attendeetitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin"
-                    android:gravity="left"
-                    android:text="@string/attenddedetail"
-                    android:textColor="@color/activetab"
-                    android:textSize="@dimen/textsizenormal"
-                    android:layout_weight="1"
-                    android:textFontWeight="1"
-                    android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/headerlogoIv"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone"
-                    android:layout_marginLeft="-10dp"
-                    android:contentDescription=" "
-                     />
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center">
+                    <com.procialize.frontier.Fonts.RobotoTextViewHeader
+                        android:id="@+id/attendeetitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/attenddedetail"
+                        android:textColor="@color/activetab"
+                        android:textFontWeight="1"
+                        android:textSize="@dimen/textsizenormal"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
 
                     <ImageView
-                        android:id="@+id/notificationlogoIv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:foregroundGravity="center"
-                        android:src="@drawable/ic_notification" />
-                    <LinearLayout
-                        android:id="@+id/ll_notification_count"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:orientation="horizontal"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/count_circle"
-                        android:gravity="center"
-                        android:visibility="visible">
+                        android:id="@+id/headerlogoIv"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_marginLeft="-100dp"
+                        android:layout_weight="5"
+                        android:contentDescription=" "
+                        android:visibility="visible" />
 
-                        <TextView
-                            android:id="@+id/tv_notification"
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/notificationlogoIv"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:foregroundGravity="center"
+                            android:src="@drawable/ic_notification" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_notification_count"
+                            android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:gravity="top|center"
-                            android:text="50"
-                            android:textColor="@color/black"
-                            android:textSize="8dp" />
-                    </LinearLayout>
-                </RelativeLayout>
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/count_circle"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/tv_notification"
+                                android:layout_width="wrap_content"
+                                android:layout_height="15dp"
+                                android:gravity="top|center"
+                                android:text="50"
+                                android:textColor="@color/black"
+                                android:textSize="8dp" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/icicilogo"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:contentDescription=" "
+                        android:src="@drawable/icicilogo"
+                        android:visibility="visible" />
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
 
@@ -108,83 +122,96 @@
                 android:background="@color/linecolor" />
 
         </com.google.android.material.appbar.AppBarLayout>
+
+        <com.procialize.frontier.Fonts.RobotoTextview
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/appBarLayout"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="Attendee Details"
+            android:textAllCaps="false"
+            android:textColor="@color/colorwhite"
+            android:textSize="@dimen/textsizenormal" />
+
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_below="@id/appBarLayout"
+            android:layout_below="@id/title"
             android:layout_height="match_parent">
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ProgressBar
-                android:id="@+id/progressBarmain"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_centerInParent="true"
-                android:visibility="gone" />
-
             <RelativeLayout
-                android:id="@+id/relative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <RelativeLayout
-                    android:id="@+id/layoutTop"
-                    android:layout_width="match_parent"
-                    android:layout_height="90dp"
-                    android:background="@android:color/transparent"></RelativeLayout>
+                <ProgressBar
+                    android:id="@+id/progressBarmain"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone" />
 
                 <RelativeLayout
-                    android:id="@+id/layoutBottom"
+                    android:id="@+id/relative"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_below="@id/layoutTop"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@android:color/transparent">
+                    android:layout_height="wrap_content">
 
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/layoutBottom"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="-40dp"
-                    android:adjustViewBounds="true">
-                    <ImageView
-                        android:layout_width="95dp"
-                        android:layout_height="95dp"
-                        android:layout_centerInParent="true"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/image_border"
-                        android:scaleType="fitXY"
-                        />
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/myCardView"
-                        android:layout_width="90dp"
+                    <RelativeLayout
+                        android:id="@+id/layoutTop"
+                        android:layout_width="match_parent"
                         android:layout_height="90dp"
+                        android:background="@android:color/transparent"></RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layoutBottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_below="@id/layoutTop"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/transparent">
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@id/layoutBottom"
                         android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        app:cardCornerRadius="45dp"
-                        app:cardElevation="@dimen/album_dp_0">
+                        android:layout_marginBottom="-40dp"
+                        android:adjustViewBounds="true">
 
 
-                    <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/profileIV"
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:layout_centerInParent="true"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/profilepic_placeholder"
-                        android:scaleType="centerCrop"
-                         />
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_centerInParent="true"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/image_border" />
 
-                    </androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/myCardView"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            app:cardCornerRadius="45dp"
+                            app:cardElevation="@dimen/album_dp_0">
+
+
+                            <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/profileIV"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_centerInParent="true"
+                                android:adjustViewBounds="true"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/profilepic_placeholder" />
+
+                        </androidx.cardview.widget.CardView>
                     <ProgressBar xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/progressBar"
                         android:layout_width="20dp"
@@ -202,20 +229,17 @@
                     android:id="@+id/lintextUpper"
                     android:layout_marginRight="10dp"
                     android:layout_below="@+id/relative"
-                    android:background="@color/colorwhite"
-                    android:gravity="left"
+                    android:gravity="center"
                     android:orientation="vertical">
 
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                    <com.procialize.frontier.Fonts.RobotoTextViewHeader
                         android:id="@+id/tvname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
-                        android:drawableTint="@color/linecolor"
-                        android:drawablePadding="10dp"
-                        android:drawableLeft="@drawable/att_name"
-                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:textColor="@color/colorwhite"
                         android:textSize="@dimen/textsizesmall" />
 
                     <View
@@ -223,20 +247,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="40dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="40dp"
                         android:background="@color/linecolor" />
 
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:id="@+id/tvdesignation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
-                        android:drawableTint="@color/linecolor"
-
-                        android:drawableLeft="@drawable/att_designa"
-                        android:drawablePadding="10dp"
-                        android:textColor="@color/colorAccent"
+                        android:gravity="center"
+                        android:textColor="@color/colorwhite"
                         android:textSize="@dimen/textsizesmall" />
 
                     <View
@@ -244,19 +265,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="40dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="40dp"
                         android:background="@color/linecolor" />
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:id="@+id/tvcompany"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
-                        android:drawableTint="@color/linecolor"
-
-                        android:drawableLeft="@drawable/att_designa"
-                        android:drawablePadding="10dp"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorwhite"
                         android:textSize="@dimen/textsizesmall" />
 
                     <View
@@ -264,19 +281,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="40dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="40dp"
                         android:background="@color/linecolor" />
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:id="@+id/tvcity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
-                        android:drawableTint="@color/linecolor"
-
-                        android:drawableLeft="@drawable/att_place"
-                        android:drawablePadding="10dp"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorwhite"
                         android:textSize="@dimen/textsizesmall" />
 
                     <View
@@ -284,19 +297,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="40dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="40dp"
                         android:background="@color/linecolor" />
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:id="@+id/tvmob"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin"
-                        android:drawableTint="@color/linecolor"
-
-                        android:drawableLeft="@drawable/att_mobile"
-                        android:drawablePadding="10dp"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorwhite"
                         android:textSize="@dimen/textsizesmall" />
 
                     <View
@@ -304,10 +313,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="40dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="40dp"
                         android:background="@color/linecolor" />
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:id="@+id/tv_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -315,7 +324,7 @@
                         android:maxLines="7"
                         android:layout_marginLeft="5sp"
                         android:scrollbars="vertical"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorwhite"
                         android:textSize="@dimen/textsizesmall" />
 
 
@@ -330,7 +339,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_below="@+id/lintextUpper"
-                android:background="@color/colorwhite"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -343,7 +351,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:layout_margin="10dp"
-                        android:background="@drawable/edittextborder"
+                        android:background="@drawable/edit_transperent"
                         android:gravity="left|top"
                         android:hint="Type your message..."
                         android:imeOptions="actionDone"
@@ -352,7 +360,10 @@
                         android:maxLines="5"
                         android:padding="10dp"
                         android:scrollHorizontally="false"
-                        android:textSize="@dimen/textsizesmall" />
+                        android:textSize="@dimen/textsizesmall"
+                        android:textColorHint="@color/colorwhite"
+                        android:textColor="@color/colorwhite"/>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -363,8 +374,6 @@
                         android:id="@+id/linCoounter"
                         android:orientation="horizontal">
 
-
-
                         <TextView
                             android:id="@+id/txtcount"
                             android:layout_width="wrap_content"
@@ -372,6 +381,7 @@
                             android:text="0"
                             android:textColor="@color/black"
                             android:textSize="10sp" />
+
                         <TextView
                             android:id="@+id/txtcount1"
                             android:layout_width="wrap_content"
@@ -392,15 +402,13 @@
 
                     <LinearLayout
                         android:id="@+id/linMsg"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="10dp"
-
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
-                        android:layout_weight="5"
                         android:background="@color/activetab"
                         android:gravity="center"
                         android:orientation="horizontal">
@@ -420,6 +428,7 @@
                             android:textColor="@color/colorwhite"
                             android:textSize="@dimen/textsizesmall" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="40dp"
@@ -429,53 +438,54 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        >
+                        android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/linsave"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center"
-                        android:weightSum="10"
-                        android:layout_marginLeft="5dp"
-                        android:background="@color/activetab"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:src="@drawable/ic_buddy"
-                            android:layout_weight="3"
+                        <LinearLayout
+                            android:id="@+id/linsave"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:id="@+id/imgBuddy"
-                            android:padding="5dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="2dp"
-                            android:layout_marginLeft="2dp"
-                            android:background="@color/colorwhite"
-                            android:layout_height="match_parent"></ImageView>
-
-                        <TextView
-                            android:id="@+id/saveContact"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginRight="2dp"
-                            android:layout_marginBottom="2dp"
-                            android:layout_weight="7"
-                            android:background="@color/colorwhite"
-                            android:drawablePadding="0dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/activetab"
                             android:gravity="center"
-                            android:padding="0dp"
-                            android:text="Add to buddy list"
-                            android:textAllCaps="false"
-                            android:textColor="@color/activetab"
-                            android:textSize="@dimen/textsizesmall" />
-                    </LinearLayout>
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            android:weightSum="10">
+
+                            <ImageView
+                                android:id="@+id/imgBuddy"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginTop="2dp"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="3"
+                                android:background="@color/colorwhite"
+                                android:padding="5dp"
+                                android:src="@drawable/ic_buddy"></ImageView>
+
+                            <TextView
+                                android:id="@+id/saveContact"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="2dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="7"
+                                android:background="@color/colorwhite"
+                                android:drawablePadding="0dp"
+                                android:gravity="center"
+                                android:padding="0dp"
+                                android:text="Add to buddy list"
+                                android:textAllCaps="false"
+                                android:textColor="@color/activetab"
+                                android:textSize="@dimen/textsizesmall" />
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/txtRemove"
@@ -495,10 +505,15 @@
             </LinearLayout>
 
 
-        </RelativeLayout>
+            </RelativeLayout>
         </ScrollView>
 
 
-
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/splashlogo" />
 </RelativeLayout>

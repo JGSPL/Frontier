@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
+<!--
 
     <Button
         android:id="@+id/btnSchedule"
@@ -25,7 +26,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Meeting topic -->
+            &lt;!&ndash; Meeting topic &ndash;&gt;
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,7 +47,7 @@
                 </EditText>
             </LinearLayout>
 
-            <!-- Time Option -->
+            &lt;!&ndash; Time Option &ndash;&gt;
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,7 +82,7 @@
                         android:text="Thu 2012-09-27" />
                 </LinearLayout>
 
-                <!-- Start time -->
+                &lt;!&ndash; Start time &ndash;&gt;
 
                 <LinearLayout
                     android:id="@+id/optionTimeFrom"
@@ -105,7 +106,7 @@
 
                 </LinearLayout>
 
-                <!-- End time -->
+                &lt;!&ndash; End time &ndash;&gt;
 
                 <LinearLayout
                     android:id="@+id/optionTimeTo"
@@ -128,7 +129,7 @@
                         android:text="10:00 am" />
                 </LinearLayout>
 
-                <!-- time zone -->
+                &lt;!&ndash; time zone &ndash;&gt;
 
                 <LinearLayout
                     android:id="@+id/optionTimeZone"
@@ -152,7 +153,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Video Option -->
+            &lt;!&ndash; Video Option &ndash;&gt;
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -209,7 +210,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Audio Option -->
+            &lt;!&ndash; Audio Option &ndash;&gt;
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -333,7 +334,7 @@
 
             </LinearLayout>
 
-            <!-- Meeting Option -->
+            &lt;!&ndash; Meeting Option &ndash;&gt;
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -657,4 +658,5 @@
         </LinearLayout>
     </ScrollView>
 
+-->
 </LinearLayout>

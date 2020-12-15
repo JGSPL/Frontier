@@ -5,84 +5,90 @@
     android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    tools:context="com.procialize.mrgeApp20.InnerDrawerActivity.SwappingGalleryActivity">
+    android:background="@drawable/background_login"
+    tools:context="com.procialize.frontier.InnerDrawerActivity.SwappingGalleryActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transperent"
-        app:elevation="0dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:background="@color/black"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:elevation="0dp">
 
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:contentInsetEnd="0dp"
-            android:contentInsetLeft="0dp"
-            android:contentInsetRight="0dp"
             android:contentInsetStart="0dp"
-            android:elevation="@dimen/elevation"
-
+            android:contentInsetLeft="0dp"
+            android:contentInsetEnd="0dp"
+            android:contentInsetRight="0dp"
+            android:elevation="0dp"
             android:minHeight="?attr/actionBarSize"
+
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
-            app:contentInsetStart="0dp">
+            app:contentInsetStart="0dp"
+            app:navigationIcon="@drawable/back_global">
 
-            <!--    <ImageView
-                    android:id="@+id/headerlogoIv"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="-10dp"
-                    android:contentDescription=" "
-                    />
-    -->
-            <ImageView
-                android:id="@+id/backIv"
+            <!--  <TextView
+                android:id="@+id/txtHeaderQ"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:contentDescription="TODO"
-                android:src="@drawable/back_white"
-                android:padding="@dimen/padding"
-                android:layout_marginLeft="13dp"/>
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Quiz"
+                android:textSize="16sp">
 
+            </TextView>
+
+            <ImageView
+                android:id="@+id/headerlogoIv"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="-20dp"
+                android:contentDescription=" "
+                android:visibility="gone" />
+
+-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
-                    android:id="@+id/title"
+                <com.procialize.frontier.Fonts.RobotoTextViewHeader
+                    android:id="@+id/txtHeaderQ"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin"
                     android:layout_weight="1"
                     android:gravity="left"
-                    android:text=""
-                    android:textColor="@color/colorwhite"
+                    android:text="Quiz"
+                    android:textColor="@color/activetab"
                     android:textFontWeight="1"
                     android:textSize="@dimen/textsizenormal"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/headerlogoIv"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="5"
                     android:layout_gravity="center"
                     android:layout_marginLeft="-10dp"
                     android:contentDescription=" "
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/notificationlogoIv"
@@ -90,7 +96,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:foregroundGravity="center"
-                        android:tint="@color/colorwhite"
                         android:src="@drawable/ic_notification" />
 
                     <LinearLayout
@@ -115,13 +120,17 @@
                             android:textSize="8dp" />
                     </LinearLayout>
                 </RelativeLayout>
-            </LinearLayout>
 
+                <ImageView
+                    android:id="@+id/icicilogo"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:contentDescription=" "
+                    android:src="@drawable/icicilogo"
+                    android:visibility="visible" />
+            </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/linecolor"/>
 
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -186,7 +195,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/savebtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -209,7 +218,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/sharebtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

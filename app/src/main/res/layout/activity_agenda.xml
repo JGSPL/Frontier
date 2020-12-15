@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.Fragments.AgendaFragment">
+    tools:context="com.procialize.frontier.Fragments.AgendaFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -49,7 +49,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -59,7 +59,7 @@
         android:textSize="@dimen/textsizesmall" />
 
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

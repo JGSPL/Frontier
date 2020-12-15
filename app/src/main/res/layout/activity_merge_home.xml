@@ -1,146 +1,169 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer"
-    android:background="@drawable/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_login"
     android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/LinUpp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="10">
+        android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-
             android:background="@android:color/transparent"
+            android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:elevation="0dp">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:weightSum="10"
                 android:orientation="vertical">
+
+
+                -
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    app:navigationIcon="@drawable/menuicon"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@android:color/transparent">
+                    android:background="@android:color/black"
+                    app:navigationIcon="@drawable/menuicon">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:weightSum="10"
                         android:orientation="horizontal">
 
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:layout_weight="6"
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+                            <com.procialize.frontier.Fonts.RobotoTextview
+                                android:id="@+id/txtMainHeader"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="7.5"
+                                android:gravity="left"
+                                android:padding="@dimen/padding"
+                                android:text=""
+                                android:textColor="@color/activetab"
+                                android:textSize="@dimen/textsizenormal"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/headerlogoIv"
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="left"
+                                android:layout_marginLeft="-100dp"
+                                android:layout_weight="5" />
+
+                        </LinearLayout>
+
+
+                        -
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="2.5"
                             android:gravity="center"
                             android:orientation="horizontal"
-                            android:layout_weight="7.5">
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                            android:id="@+id/txtMainHeader"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="7.5"
-                            android:gravity="left"
-                            android:padding="@dimen/padding"
-                            android:text=""
-                            android:textColor="@color/activetab"
-                            android:textSize="@dimen/textsizenormal"
-                            android:visibility="gone" />
-
-
-                        <ImageView
-                            android:id="@+id/headerlogoIv"
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="7.5"
-                            android:contentDescription=" " />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="2.5">
-                        <ImageView
-                            android:id="@+id/grid_image_view"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right|center"
-                            android:layout_marginRight="5dp"
-                            android:contentDescription=" "
-                            android:layout_weight="0.90"
-                            android:src="@drawable/active_grid_view" />
-
-                        <ImageView
-                            android:id="@+id/list_image_view"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.90"
-                            android:layout_gravity="right|center"
-                            android:layout_marginRight="5dp"
-                            android:contentDescription=" "
-                            android:src="@drawable/active_list_view" />
-
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1.2"
-                            android:layout_marginRight="0dp"
-                            android:gravity="center"
-                            android:layout_gravity="center">
+                            android:visibility="gone">
 
                             <ImageView
-                                android:id="@+id/notificationlogoIv"
-                                android:layout_width="wrap_content"
+                                android:id="@+id/grid_image_view"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:foregroundGravity="center"
-                                android:src="@drawable/ic_notification" />
-                            <LinearLayout
-                                android:id="@+id/ll_notification_count"
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:orientation="horizontal"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/count_circle"
-                                android:gravity="center"
-                                android:visibility="visible">
+                                android:layout_gravity="right|center"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="0.90"
+                                android:contentDescription=" "
+                                android:src="@drawable/active_grid_view" />
 
-                                <TextView
-                                    android:id="@+id/tv_notification"
+                            <ImageView
+                                android:id="@+id/list_image_view"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right|center"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="0.90"
+                                android:contentDescription=" "
+                                android:src="@drawable/active_list_view" />
+
+
+                            -
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="0dp"
+                                android:layout_weight="1.2"
+                                android:gravity="center"
+                                android:visibility="gone">
+
+                                <ImageView
+                                    android:id="@+id/notificationlogoIv"
                                     android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:foregroundGravity="center"
+                                    android:src="@drawable/ic_notification" />
+
+
+                                -
+
+                                <LinearLayout
+                                    android:id="@+id/ll_notification_count"
+                                    android:layout_width="15dp"
                                     android:layout_height="15dp"
-                                    android:gravity="top|center"
-                                    android:text="50"
-                                    android:textColor="@color/black"
-                                    android:textSize="8dp" />
-                            </LinearLayout>
-                        </RelativeLayout>
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/count_circle"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:visibility="visible">
+
+                                    <TextView
+                                        android:id="@+id/tv_notification"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="15dp"
+                                        android:gravity="top|center"
+                                        android:text="50"
+                                        android:textColor="@color/black"
+                                        android:textSize="8dp" />
+
+                                </LinearLayout>
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_weight="3"
+                            android:src="@drawable/icicilogo" />
                     </LinearLayout>
-                    </LinearLayout>
+
                 </androidx.appcompat.widget.Toolbar>
 
             </LinearLayout>
@@ -150,48 +173,60 @@
                 android:layout_height="0dp"
                 android:background="@color/linecolor"
                 android:visibility="gone" />
+
         </com.google.android.material.appbar.AppBarLayout>
+
+
+        -
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
+            -
+
             <LinearLayout
                 android:id="@+id/linear_livestream"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-               android:layout_marginBottom="5dp"
-                android:visibility="visible"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+
+                -
+
                 <LinearLayout
-                    android:layout_width="35dp"
-                    android:background="#686868"
-                    android:gravity="center"
                     android:id="@+id/linStream"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_margin="5dp"
-                    android:layout_height="35dp">
-                <ImageView
-                    android:id="@+id/img_stream"
-                    android:layout_width="30dp"
-                    android:padding="5dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/livestream" />
+                    android:background="#686868"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/img_stream"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:padding="5dp"
+                        android:src="@drawable/livestream" />
+
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/txt_streaming"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
-                    android:maxHeight="35dp"
                     android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="10dp"
                     android:background="#686868"
-
+                    android:gravity="center"
+                    android:maxHeight="35dp"
+                    android:padding="10dp"
                     android:text="Nothing Streaming Currently"
                     android:textAllCaps="false"
                     android:textColor="@color/colorwhite"
@@ -200,6 +235,7 @@
             </LinearLayout>
 
 
+            -
 
             <LinearLayout
                 android:id="@+id/linear_layout"
@@ -222,44 +258,57 @@
                     android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+
+
+                -
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:weightSum="10">
+
+
+                    -
+
                     <LinearLayout
                         android:id="@+id/linear_changeView"
                         android:layout_width="match_parent"
-                        android:layout_weight="5"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/linear_livestream"
                         android:layout_margin="5dp"
+                        android:layout_weight="5"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:visibility="visible">
+
+
+                        -
+
                         <LinearLayout
-                            android:layout_width="35dp"
-                            android:background="#686868"
-                            android:gravity="center"
                             android:id="@+id/linChange"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:layout_margin="5dp"
-                            android:layout_height="35dp">
+                            android:background="#686868"
+                            android:gravity="center">
+
                             <ImageView
                                 android:id="@+id/img_view"
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:layout_margin="5dp"
                                 android:src="@drawable/ic_changeview" />
-                        </LinearLayout>
 
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/txt_change"
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
                             android:layout_gravity="center"
-                            android:gravity="center"
                             android:background="#686868"
+                            android:gravity="center"
                             android:text="Change View"
                             android:textAllCaps="false"
                             android:textColor="@color/colorwhite"
@@ -267,65 +316,73 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
-                    android:id="@+id/linear_zoom"
-                    android:layout_width="match_parent"
-                    android:layout_weight="5"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linear_livestream"
-                    android:layout_margin="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:visibility="visible">
-                    <LinearLayout
-                        android:layout_width="35dp"
-                        android:background="#686868"
-                        android:gravity="center"
-                        android:id="@+id/linzoom"
 
+                    -
+
+                    <LinearLayout
+                        android:id="@+id/linear_zoom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linear_livestream"
                         android:layout_margin="5dp"
-                        android:layout_height="35dp">
-                        <ImageView
-                            android:id="@+id/img_zoom"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                        android:layout_weight="5"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+
+                        -
+
+                        <LinearLayout
+                            android:id="@+id/linzoom"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:layout_margin="5dp"
-                            android:src="@drawable/zoommeeting" />
+                            android:background="#686868"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:id="@+id/img_zoom"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="5dp"
+                                android:src="@drawable/zoommeeting" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/txt_zoom"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:background="#686868"
+                            android:gravity="center"
+                            android:text="Participate via Video"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorwhite"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
-
-                    <TextView
-                        android:id="@+id/txt_zoom"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:background="#686868"
-                        android:text="Participate via Video"
-                        android:textAllCaps="false"
-                        android:textColor="@color/colorwhite"
-                        android:textSize="12sp" />
-0
                 </LinearLayout>
-                </LinearLayout>
-
 
             </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/content_frame"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="60dp"
                 android:visibility="gone" />
 
-            <com.procialize.mrgeApp20.CustomTools.CustomViewPager
+            <com.procialize.frontier.CustomTools.CustomViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/linear_layout"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-            <com.procialize.mrgeApp20.CustomTools.CustomViewPager
+            <com.procialize.frontier.CustomTools.CustomViewPager
                 android:id="@+id/Subviewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -333,7 +390,7 @@
                 android:visibility="gone"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-            <com.procialize.mrgeApp20.CustomTools.CustomViewPager
+            <com.procialize.frontier.CustomTools.CustomViewPager
                 android:id="@+id/Subviewpager2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -341,7 +398,7 @@
                 android:visibility="gone"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-            <com.procialize.mrgeApp20.CustomTools.CustomViewPager
+            <com.procialize.frontier.CustomTools.CustomViewPager
                 android:id="@+id/Subviewpager3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -350,13 +407,18 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
+            -
+
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:id="@+id/appbar"
+                android:layout_marginTop="50dp"
                 android:background="@android:color/transparent">
+
+
+                -
 
                 <LinearLayout
                     android:id="@+id/linTab2"
@@ -365,7 +427,8 @@
                     android:layout_marginBottom="5dp"
                     android:alpha="0.9"
                     android:background="@drawable/tab_bg_selected"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabsSecond"
@@ -378,21 +441,23 @@
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="0dp"
                         app:tabMode="fixed"
-                        app:tabSelectedTextColor="@color/colorwhite"
-                        app:tabTextAppearance="@style/MyCustomTabText"
-                        app:tabTextColor="@color/colorwhite" />
+                        app:tabSelectedTextColor="@color/black"
+                        app:tabTextAppearance="@style/MyCustomTabTextMain" />
 
                 </LinearLayout>
+
+
+                -
 
                 <LinearLayout
                     android:id="@+id/linTab3"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-
                     android:layout_marginBottom="5dp"
                     android:alpha="0.9"
                     android:background="@drawable/tab_bg_selected"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabsThird"
@@ -405,21 +470,23 @@
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="0dp"
                         app:tabMode="fixed"
-                        app:tabSelectedTextColor="@color/colorwhite"
-                        app:tabTextAppearance="@style/MyCustomTabText"
-                        app:tabTextColor="@color/colorwhite" />
+                        app:tabSelectedTextColor="@color/black"
+                        app:tabTextAppearance="@style/MyCustomTabText" />
 
                 </LinearLayout>
+
+
+                -
 
                 <LinearLayout
                     android:id="@+id/linTab4"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-
                     android:layout_marginBottom="5dp"
                     android:alpha="0.9"
                     android:background="@drawable/tab_bg_selected"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabsForth"
@@ -432,207 +499,238 @@
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="0dp"
                         app:tabMode="fixed"
-                        app:tabSelectedTextColor="@color/colorwhite"
-                        app:tabTextAppearance="@style/MyCustomTabText"
-                        app:tabTextColor="@color/colorwhite" />
+                        app:tabSelectedTextColor="@color/black"
+                        app:tabTextAppearance="@style/MyCustomTabText" />
 
                 </LinearLayout>
 
 
+                -
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="10dp"
-                    android:alpha="0.9"
-                    android:background="@drawable/tab_bg_selected"
+                    android:layout_height="120dp"
+                    android:background="@color/black"
                     android:orientation="vertical">
 
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_above="@+id/appbar"
+                        android:src="@drawable/splashlogo" />
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tabs"
                         android:layout_width="fill_parent"
                         android:layout_height="match_parent"
                         android:clickable="true"
-                        android:elevation="50dp"
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="0dp"
                         app:tabMode="fixed"
-                        app:tabSelectedTextColor="@color/colorwhite"
                         app:tabTextAppearance="@style/MyCustomTabTextMain"
-                        app:tabTextColor="@color/colorwhite" />
-                </LinearLayout>
+                        app:tabBackground="@drawable/tab_selector"
+                        app:tabSelectedTextColor="@color/black" />
 
+                </LinearLayout>
 
             </com.google.android.material.appbar.AppBarLayout>
 
         </RelativeLayout>
 
-
-        <!--
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/linear_livestream"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:background="#686868"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/txt_streaming"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="Nothing Streaming Currently"
-                            android:textAllCaps="false"
-                            android:textColor="@color/colorwhite"
-                            android:textSize="@dimen/textsizesmall" />
-
-                        <ImageView
-                            android:id="@+id/img_stream"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_margin="5dp"
-                            android:src="@drawable/livestream" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/linear_zoom"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:background="#686868"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/txt_zoom"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="No Meeting active currently"
-                            android:textAllCaps="false"
-                            android:textColor="@color/colorwhite"
-                            android:textSize="@dimen/textsizesmall" />
-
-                        <ImageView
-                            android:id="@+id/img_zoom"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_margin="5dp"
-                            android:src="@drawable/zoommeeting" />
-                    </LinearLayout>
+        <!--<LinearLayoutandroid:layout_width="match_parent"android:layout_height="wrap_content"android:orientation="vertical"><LinearLayoutandroid:id="@+id/linear_livestream"android:layout_width="match_parent"android:layout_height="wrap_content"android:layout_margin="5dp"android:background="#686868"android:gravity="center"android:orientation="horizontal"><TextViewandroid:id="@+id/txt_streaming"android:layout_width="wrap_content"android:layout_height="wrap_content"android:layout_gravity="center"android:gravity="center"android:text="Nothing Streaming Currently"android:textAllCaps="false"android:textColor="@color/colorwhite"android:textSize="@dimen/textsizesmall" /><ImageViewandroid:id="@+id/img_stream"android:layout_width="30dp"android:layout_height="30dp"android:layout_margin="5dp"android:src="@drawable/livestream" /></LinearLayout><LinearLayoutandroid:id="@+id/linear_zoom"android:layout_width="match_parent"android:layout_height="wrap_content"android:layout_margin="5dp"android:background="#686868"android:gravity="center"android:orientation="horizontal"><TextViewandroid:id="@+id/txt_zoom"android:layout_width="wrap_content"android:layout_height="wrap_content"android:layout_gravity="center"android:gravity="center"android:text="No Meeting active currently"android:textAllCaps="false"android:textColor="@color/colorwhite"android:textSize="@dimen/textsizesmall" /><ImageViewandroid:id="@+id/img_zoom"android:layout_width="30dp"android:layout_height="30dp"android:layout_margin="5dp"android:src="@drawable/zoommeeting" /></LinearLayout><LinearLayoutandroid:id="@+id/linear_layout"android:layout_width="match_parent"android:layout_height="wrap_content"android:orientation="vertical"android:visibility="gone"><ImageViewandroid:id="@+id/float_icon"android:layout_width="20dp"android:layout_height="20dp"android:layout_gravity="right"android:layout_marginRight="5dp"android:src="@drawable/floating_icon" /><fragmentandroid:id="@+id/youtube_player_fragment"android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"android:layout_width="match_parent"android:layout_height="wrap_content" /></LinearLayout><com.procialize.eventsapp.CustomTools.CustomViewPagerandroid:id="@+id/viewpager"android:layout_width="match_parent"android:layout_height="0dp"android:layout_above="@+id/tabs"android:layout_weight="9"app:layout_behavior="@string/appbar_scrolling_view_behavior" /><com.google.android.material.appbar.AppBarLayoutandroid:layout_width="match_parent"android:layout_height="0dp"android:layout_gravity="bottom"android:layout_weight="1"android:elevation="60dp"><com.google.android.material.tabs.TabLayoutandroid:id="@+id/tabs"android:layout_width="fill_parent"android:layout_height="match_parent"android:clickable="true"app:tabBackground="@drawable/agenda_tab_bg_selector"app:tabGravity="fill"app:tabIndicatorHeight="0dp"app:tabMode="fixed"app:tabSelectedTextColor="@color/inactivetab"app:tabTextAppearance="@style/MyCustomTabText"app:tabTextColor="@color/colorPrimary" /></com.google.android.material.appbar.AppBarLayout></LinearLayout> -->
 
 
-                    <LinearLayout
-                        android:id="@+id/linear_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <ImageView
-                            android:id="@+id/float_icon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="right"
-                            android:layout_marginRight="5dp"
-                            android:src="@drawable/floating_icon" />
-
-                        <fragment
-                            android:id="@+id/youtube_player_fragment"
-                            android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
-
-                    <com.procialize.eventsapp.CustomTools.CustomViewPager
-                        android:id="@+id/viewpager"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_above="@+id/tabs"
-                        android:layout_weight="9"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-                    <com.google.android.material.appbar.AppBarLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_gravity="bottom"
-                        android:layout_weight="1"
-                        android:elevation="60dp">
-
-                        <com.google.android.material.tabs.TabLayout
-                            android:id="@+id/tabs"
-                            android:layout_width="fill_parent"
-                            android:layout_height="match_parent"
-                            android:clickable="true"
-                            app:tabBackground="@drawable/agenda_tab_bg_selector"
-                            app:tabGravity="fill"
-                            app:tabIndicatorHeight="0dp"
-                            app:tabMode="fixed"
-                            app:tabSelectedTextColor="@color/inactivetab"
-                            app:tabTextAppearance="@style/MyCustomTabText"
-                            app:tabTextColor="@color/colorPrimary" />
-
-                    </com.google.android.material.appbar.AppBarLayout>
-                </LinearLayout>
-        -->
     </LinearLayout>
 
+
+    -
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@drawable/side_menu_bg_bk"
+        android:background="@color/black"
         android:fitsSystemWindows="false">
 
         <!--app:itemIconTint="@color/colorwhite"-->
+
+
         <!--app:itemTextColor="@color/colorwhite"-->
+
+
+        -
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
+            android:background="@color/black"
             android:scrollbars="vertical">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical" >
+                android:background="@color/black"
+                android:orientation="vertical">
 
                 <include
                     android:id="@+id/my"
                     layout="@layout/header"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/home"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/my"
-                    android:background="@color/colorwhite"
                     android:drawableLeft="@drawable/home"
-                    android:drawableRight="@drawable/ic_rightarrow"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/textcolorLight"
+
                     android:gravity="left|center"
                     android:paddingLeft="25dp"
                     android:paddingTop="15dp"
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
                     android:text="Home"
-                    android:textColor="@color/textcolorLight"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="visible" />
+
+                <com.procialize.frontier.Fonts.RobotoTextview
+                    android:id="@+id/notifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/my"
+                    android:drawableLeft="@drawable/notiication"
+                    android:drawablePadding="10dp"
+
+                    android:gravity="left|center"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="Notification"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="visible" />
+
+                <com.procialize.frontier.Fonts.RobotoTextview
+                    android:id="@+id/gallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/my"
+                    android:drawableLeft="@drawable/frontier_allery"
+                    android:drawablePadding="10dp"
+
+                    android:gravity="left|center"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="Frontier Gallery"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="visible" />
+
+                <com.procialize.frontier.Fonts.RobotoTextview
+                    android:id="@+id/side_video_gallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/my"
+                    android:drawableLeft="@drawable/video_gallery"
+                    android:drawablePadding="10dp"
+                    android:gravity="left|center"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="Frontier Video Gallery"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="visible" />
+
+                <com.procialize.frontier.Fonts.RobotoTextview
+                    android:id="@+id/frontier_special"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/my"
+                    android:drawableLeft="@drawable/frontier_special"
+                    android:drawablePadding="10dp"
+
+                    android:gravity="left|center"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="Frontier Special"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="visible" />
+
+                <com.procialize.frontier.Fonts.RobotoTextview
+                    android:id="@+id/game"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/my"
+                    android:drawableLeft="@drawable/game_icon"
+                    android:drawablePadding="10dp"
+
+                    android:gravity="left|center"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="Games"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="visible" />
+
+                <com.procialize.frontier.Fonts.RobotoTextview
+                    android:id="@+id/feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/my"
+                    android:drawableLeft="@drawable/feedback_icon"
+                    android:drawablePadding="10dp"
+
+                    android:gravity="left|center"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="Feedback"
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/home"
+                    android:layout_marginLeft="@dimen/album_dp_10"
+                    android:layout_marginRight="@dimen/album_dp_10"
+                    android:background="@color/textcolorLight"
+                    android:visibility="gone" />
+
+                <com.procialize.frontier.Fonts.RobotoTextview
+                    android:id="@+id/editProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/home"
+                    android:background="@color/background"
+                    android:drawableLeft="@drawable/s_editprofile"
+                    android:drawablePadding="10dp"
+
+                    android:gravity="left|center"
+                    android:paddingLeft="25dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:text="Edit Profile"
+                    android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall"
                     android:visibility="gone" />
 
@@ -645,34 +743,7 @@
                     android:background="@color/textcolorLight"
                     android:visibility="gone" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
-                    android:id="@+id/editProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/home"
-                    android:background="@color/background"
-                    android:drawableLeft="@drawable/s_editprofile"
-                    android:drawableRight="@drawable/ic_rightarrow"
-                    android:drawablePadding="10dp"
-                    android:drawableTint="@color/textcolorLight"
-                    android:gravity="left|center"
-                    android:paddingLeft="25dp"
-                    android:paddingTop="15dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="15dp"
-                    android:text="Edit Profile"
-                    android:textColor="@color/textcolorLight"
-                    android:textSize="@dimen/textsizesmall" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/home"
-                    android:layout_marginLeft="@dimen/album_dp_10"
-                    android:layout_marginRight="@dimen/album_dp_10"
-                    android:background="@color/textcolorLight" />
-
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/buddyList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -681,15 +752,16 @@
                     android:drawableLeft="@drawable/s_buddy"
                     android:drawableRight="@drawable/ic_rightarrow"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/textcolorLight"
+
                     android:gravity="left|center"
                     android:paddingLeft="25dp"
                     android:paddingTop="15dp"
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
                     android:text="Buddy List"
-                    android:textColor="@color/textcolorLight"
-                    android:textSize="@dimen/textsizesmall" />
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="gone" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -697,25 +769,24 @@
                     android:layout_below="@+id/home"
                     android:layout_marginLeft="@dimen/album_dp_10"
                     android:layout_marginRight="@dimen/album_dp_10"
-                    android:background="@color/textcolorLight" />
+                    android:background="@color/textcolorLight"
+                    android:visibility="gone" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/eula"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/buddyList"
-                    android:background="@color/background"
                     android:drawableLeft="@drawable/s_eula"
-                    android:drawableRight="@drawable/ic_rightarrow"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/textcolorLight"
+
                     android:gravity="left|center"
                     android:paddingLeft="25dp"
                     android:paddingTop="15dp"
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
                     android:text="@string/eula"
-                    android:textColor="@color/textcolorLight"
+                    android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall" />
 
                 <TextView
@@ -724,25 +795,24 @@
                     android:layout_below="@+id/home"
                     android:layout_marginLeft="@dimen/album_dp_10"
                     android:layout_marginRight="@dimen/album_dp_10"
-                    android:background="@color/textcolorLight" />
+                    android:background="@color/textcolorLight"
+                    android:visibility="gone" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/privacy_policy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/eula"
-                    android:background="@color/colorwhite"
                     android:drawableLeft="@drawable/s_privacy"
-                    android:drawableRight="@drawable/ic_rightarrow"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/textcolorLight"
+
                     android:gravity="left|center"
                     android:paddingLeft="25dp"
                     android:paddingTop="15dp"
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
                     android:text="@string/privacy_policy"
-                    android:textColor="@color/textcolorLight"
+                    android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall" />
 
                 <TextView
@@ -751,25 +821,24 @@
                     android:layout_below="@+id/home"
                     android:layout_marginLeft="@dimen/album_dp_10"
                     android:layout_marginRight="@dimen/album_dp_10"
-                    android:background="@color/textcolorLight" />
+                    android:background="@color/textcolorLight"
+                    android:visibility="gone" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/contactus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/privacy_policy"
-                    android:background="@color/background"
                     android:drawableLeft="@drawable/s_contacthelp"
-                    android:drawableRight="@drawable/ic_rightarrow"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/textcolorLight"
+
                     android:gravity="left|center"
                     android:paddingLeft="25dp"
                     android:paddingTop="15dp"
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
                     android:text="@string/contactus"
-                    android:textColor="@color/textcolorLight"
+                    android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall"
                     android:visibility="visible" />
 
@@ -779,26 +848,27 @@
                     android:layout_below="@+id/home"
                     android:layout_marginLeft="@dimen/album_dp_10"
                     android:layout_marginRight="@dimen/album_dp_10"
-                    android:background="@color/textcolorLight" />
+                    android:background="@color/textcolorLight"
+                    android:visibility="gone" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/switchbt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/contactus"
-                    android:background="@color/colorwhite"
                     android:drawableLeft="@drawable/s_switch"
                     android:drawableRight="@drawable/ic_rightarrow"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/textcolorLight"
+
                     android:gravity="left|center"
                     android:paddingLeft="25dp"
                     android:paddingTop="15dp"
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
                     android:text="@string/swit"
-                    android:textColor="@color/textcolorLight"
-                    android:textSize="@dimen/textsizesmall" />
+                    android:textColor="@color/colorwhite"
+                    android:textSize="@dimen/textsizesmall"
+                    android:visibility="gone" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -806,9 +876,10 @@
                     android:layout_below="@+id/home"
                     android:layout_marginLeft="@dimen/album_dp_10"
                     android:layout_marginRight="@dimen/album_dp_10"
-                    android:background="@color/textcolorLight" />
+                    android:background="@color/textcolorLight"
+                    android:visibility="gone" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/eventInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -822,11 +893,11 @@
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
                     android:text="Event Info"
-                    android:textColor="@color/textcolorLight"
+                    android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall"
                     android:visibility="gone" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/notification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -840,11 +911,11 @@
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
                     android:text="Notifications"
-                    android:textColor="@color/textcolorLight"
+                    android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall"
                     android:visibility="gone" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/exh_analytics"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -858,27 +929,19 @@
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
                     android:text="Exhibitor Analytics"
-                    android:textColor="@color/textcolorLight"
+                    android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall"
                     android:visibility="gone" />
 
-
-<!--                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/menurecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/exh_analytics"
-                    android:scrollbars="none"
-                    android:visibility="gone" />-->
+                <!-- <androidx.recyclerview.widget.RecyclerViewandroid:id="@+id/menurecycler"android:layout_width="match_parent"android:layout_height="wrap_content"android:layout_below="@+id/exh_analytics"android:scrollbars="none"android:visibility="gone" />-->
 
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/chatbt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/switchbt"
                     android:drawableLeft="@drawable/ic_question"
-                    android:drawableRight="@drawable/ic_rightarrow"
                     android:drawablePadding="10dp"
                     android:gravity="left"
                     android:paddingLeft="25dp"
@@ -886,28 +949,25 @@
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
                     android:text="@string/expert"
-                    android:textColor="@color/textcolorLight"
+                    android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall"
                     android:visibility="gone" />
 
-
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/chatbt"
-                    android:background="@color/background"
                     android:drawableLeft="@drawable/s_logout"
-                    android:drawableRight="@drawable/ic_rightarrow"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/textcolorLight"
+
                     android:gravity="left|center"
                     android:paddingLeft="25dp"
                     android:paddingTop="15dp"
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
                     android:text="Logout"
-                    android:textColor="@color/textcolorLight"
+                    android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall" />
 
                 <TextView
@@ -916,20 +976,20 @@
                     android:layout_below="@+id/home"
                     android:layout_marginLeft="@dimen/album_dp_10"
                     android:layout_marginRight="@dimen/album_dp_10"
-                    android:background="@color/textcolorLight" />
+                    android:background="@color/textcolorLight"
+                    android:visibility="gone" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/txt_version"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/logout"
-                    android:background="@color/background"
                     android:drawablePadding="10dp"
                     android:gravity="right"
                     android:paddingTop="15dp"
                     android:paddingRight="25dp"
                     android:paddingBottom="15dp"
-                    android:textColor="@color/textcolorLight"
+                    android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmall" />
 
             </LinearLayout>

@@ -14,7 +14,7 @@
         android:adjustViewBounds="true"
         android:visibility="gone"/>
 
-    <com.procialize.mrgeApp20.CustomTools.MyJzvdStd
+    <com.procialize.frontier.CustomTools.MyJzvdStd
         android:id="@+id/videoview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

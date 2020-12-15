@@ -16,7 +16,7 @@
         android:weightSum="10"
         android:layout_height="wrap_content">
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:layout_width="0dp"
             android:layout_weight="8"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             android:textSize="18sp"
             android:padding="8dp"
             android:layout_marginLeft="20dp">
-        </com.procialize.mrgeApp20.Fonts.RobotoTextview>
+        </com.procialize.frontier.Fonts.RobotoTextview>
 
         <ImageView
             android:layout_width="0dp"
@@ -57,7 +57,7 @@
 
 
 <!--
-                <com.procialize.mrgeApp20.CustomTools.NoScrollRecycler
+                <frontierer.CustomTools.NoScrollRecycler
                     android:id="@+id/quiz_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@android:id/empty"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -92,7 +92,7 @@
             </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.procialize.mrgeApp20.Fonts.RobotoButton
+    <com.procialize.frontier.Fonts.RobotoButton
         android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -109,7 +109,7 @@
         android:visibility="gone" />
 
 
-    <com.procialize.mrgeApp20.Fonts.RobotoButton
+    <com.procialize.frontier.Fonts.RobotoButton
         android:id="@+id/btnNext"
         android:layout_width="match_parent"
         android:layout_height="50dp"

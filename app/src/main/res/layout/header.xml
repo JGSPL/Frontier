@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_below="@+id/my">
+    android:layout_below="@+id/my"
+    android:background="@color/btn_back"
+    android:padding="2dp">
 
     <TextView
         android:id="@+id/eventname"
@@ -33,7 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin"
             android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_close"
@@ -41,7 +44,7 @@
                 android:layout_height="40dp"
                 android:src="@drawable/ic_close"
                 android:tint="@color/black"
-                android:padding="@dimen/album_dp_10"/>
+                android:padding="@dimen/album_dp_10" />
 
             <ImageView
                 android:id="@+id/iv_icon"
@@ -105,25 +108,26 @@
             android:layout_marginTop="@dimen/margin"
             android:layout_marginBottom="10dp"
             android:baselineAligned="false"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:gravity="center">
+
                 <ImageView
-                    android:layout_width="95dp"
-                    android:layout_height="95dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerInParent="true"
                     android:adjustViewBounds="true"
                     android:src="@drawable/image_border"
-                    android:scaleType="fitXY"
-                    />
+                    android:scaleType="fitXY" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/myCardView"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/image_border"
@@ -131,14 +135,15 @@
                     android:layout_centerInParent="true"
                     app:cardElevation="@dimen/album_dp_0">
 
-                <ImageView
-                    android:id="@+id/profileIV"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:layout_centerInParent="true"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="TODO"
-                    android:scaleType="centerCrop" />
+                    <ImageView
+                        android:id="@+id/profileIV"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="TODO"
+                        android:scaleType="centerCrop" />
                 </androidx.cardview.widget.CardView>
 
                 <ProgressBar
@@ -151,13 +156,15 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="5"
+                android:gravity="left"
                 android:orientation="vertical">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                <com.procialize.frontier.Fonts.RobotoTextViewHeader
                     android:id="@+id/nameTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -169,7 +176,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/textsizesmall" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/lastNameTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -181,7 +188,7 @@
                     android:textSize="@dimen/textsizenormal"
                     android:visibility="gone" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/designationTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -190,11 +197,11 @@
                     android:layout_toEndOf="@+id/imageView"
                     android:paddingLeft="5dp"
                     android:text="weqweqwe"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/textsizesmall" />
 
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/compantyTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -214,7 +221,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="2"
                 android:gravity="bottom|right"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/editIv"
@@ -229,4 +236,5 @@
         </LinearLayout>
 
     </RelativeLayout>
+
 </RelativeLayout>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorgrey"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.Activity.PdfViewerActivity">
+    tools:context="com.procialize.frontier.Activity.PdfViewerActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"

@@ -5,7 +5,8 @@
     android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.procialize.mrgeApp20.InnerDrawerActivity.SelfieUploadActivity">
+    android:background="@drawable/background_login"
+    tools:context="com.procialize.frontier.InnerDrawerActivity.SelfieUploadActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -20,33 +21,96 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:contentInsetEnd="0dp"
-            android:contentInsetLeft="0dp"
-            android:contentInsetRight="0dp"
             android:contentInsetStart="0dp"
-            android:elevation="@dimen/elevation"
-            app:navigationIcon="@drawable/back_global"
+            android:contentInsetLeft="0dp"
+            android:contentInsetEnd="0dp"
+            android:contentInsetRight="0dp"
+
             android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/back_global"
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
             app:contentInsetStart="0dp">
 
-            <ImageView
-                android:id="@+id/headerlogoIv"
-                android:layout_width="150dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="-10dp"
-                android:contentDescription=" "
-               />
+                android:orientation="horizontal">
+
+                <com.procialize.frontier.Fonts.RobotoTextViewHeader
+                    android:id="@+id/QuizHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="Quiz"
+                    android:textColor="@color/activetab"
+                    android:textFontWeight="1"
+                    android:textSize="@dimen/textsizenormal"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/headerlogoIv"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="-80dp"
+                    android:layout_weight="5"
+                    android:contentDescription=" "
+                    android:visibility="visible" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/notificationlogoIv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:foregroundGravity="center"
+                        android:src="@drawable/ic_notification" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_notification_count"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/count_circle"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/tv_notification"
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dp"
+                            android:gravity="top|center"
+                            android:text="50"
+                            android:textColor="@color/black"
+                            android:textSize="8dp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/icicilogo"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:contentDescription=" "
+                    android:src="@drawable/icicilogo"
+                    android:visibility="visible" />
+            </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/linecolor" />
 
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -68,7 +132,7 @@
             android:visibility="gone">
 
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/txtTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -94,7 +158,7 @@
                 android:scaleType="centerCrop" />
 
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextInputEditext
+            <com.procialize.frontier.Fonts.RobotoTextInputEditext
                 android:id="@+id/editTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,7 +177,7 @@
                 android:textSize="@dimen/textsizenormal"
                 android:visibility="visible" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoButton
+            <com.procialize.frontier.Fonts.RobotoButton
                 android:id="@+id/btnSubmit"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
@@ -135,11 +199,19 @@
         </RelativeLayout>
     </ScrollView>
 
-    <com.procialize.mrgeApp20.CustomTools.CircleDisplay
+    <com.procialize.frontier.CustomTools.CircleDisplay
         android:id="@+id/progressBar"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/black"
+        android:src="@drawable/splashlogo"
+        android:visibility="gone"/>
 </RelativeLayout>

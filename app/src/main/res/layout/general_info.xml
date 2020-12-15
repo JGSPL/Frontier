@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.Fragments.FeedFragment">
+    tools:context="com.procialize.frontier.Fragments.FeedFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -19,7 +19,7 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
                 android:textSize="@dimen/textsizenormal"
                 android:visibility="gone" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/pullrefresh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                     android:layout_gravity="center"
                     android:visibility="gone" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="9">
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        <com.procialize.frontier.Fonts.RobotoTextview
                             android:id="@+id/abtcurency_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="9">
 
-                        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                        <com.procialize.frontier.Fonts.RobotoTextview
                             android:id="@+id/weather_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

@@ -24,7 +24,7 @@
             android:orientation="horizontal"
             android:padding="5dp">
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                     android:background="@drawable/sendmessage"
                     android:orientation="horizontal">
 
-                    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                    <com.procialize.frontier.Fonts.RobotoTextview
                         android:id="@+id/nametv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <com.procialize.mrgeApp20.Fonts.RobotoEditext
+            <com.procialize.frontier.Fonts.RobotoEditext
                 android:id="@+id/etmsg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
                 android:textColor="#000"
                 android:textSize="@dimen/textsizenormal" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/counttv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
                 android:text="250"
                 android:textColor="#000" />
 
-            <com.procialize.mrgeApp20.Fonts.RobotoTextview
+            <com.procialize.frontier.Fonts.RobotoTextview
                 android:id="@+id/msg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                <com.procialize.frontier.Fonts.RobotoButton
                     android:id="@+id/send_notification"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
@@ -159,7 +159,7 @@
                     android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizesmaller" />
 
-                <com.procialize.mrgeApp20.Fonts.RobotoButton
+                <com.procialize.frontier.Fonts.RobotoButton
                     android:id="@+id/canclebtn"
                     android:layout_width="0dp"
                     android:layout_height="40dp"

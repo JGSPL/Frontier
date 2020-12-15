@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.Engagement.Activity.SelfieContestActivity">
-
+    android:background="@drawable/background_login"
+    tools:context="com.procialize.frontier.Engagement.Activity.SelfieContestActivity">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -39,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextViewHeader
+                <com.procialize.frontier.Fonts.RobotoTextViewHeader
                     android:id="@+id/tv_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -50,22 +54,25 @@
                     android:textColor="@color/activetab"
                     android:textFontWeight="1"
                     android:textSize="15dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:id="@+id/headerlogoIv"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="-10dp"
+                    android:layout_marginLeft="-100dp"
                     android:contentDescription=" "
-                    android:visibility="gone" />
+                    android:visibility="visible"
+                    android:layout_weight="5"/>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/notificationlogoIv"
@@ -97,6 +104,15 @@
                             android:textSize="8dp" />
                     </LinearLayout>
                 </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/icicilogo"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:contentDescription=" "
+                    android:src="@drawable/icicilogo"
+                    android:visibility="visible" />
             </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
@@ -116,18 +132,17 @@
         android:orientation="vertical">
 
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
-            android:textColor="@color/activetab"
-            android:textSize="@dimen/textsizesmall"
-            android:visibility="gone" />
+            android:text="Frontier Talent"
+            android:textColor="@color/colorwhite"
+            android:textSize="17dp" />
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@+id/seldescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,13 +154,13 @@
             android:visibility="gone" />
 
 
-        <com.procialize.mrgeApp20.Fonts.RobotoButton
+        <com.procialize.frontier.Fonts.RobotoButton
             android:id="@+id/uploadbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="7dp"
-            android:background="@drawable/selfiebutton"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/loginbutton"
             android:drawableLeft="@drawable/upload"
             android:drawablePadding="15dp"
             android:minHeight="0dp"
@@ -155,11 +170,11 @@
             android:paddingBottom="5dp"
             android:text="@string/upload_selfie"
             android:textAllCaps="false"
-            android:textColor="@color/colorwhite"
+            android:textColor="@color/black"
             android:textSize="@dimen/textsizesmall"
             android:textStyle="bold" />
 
-        <com.procialize.mrgeApp20.Fonts.RobotoTextview
+        <com.procialize.frontier.Fonts.RobotoTextview
             android:id="@+id/pullrefresh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -169,7 +184,7 @@
             android:text="Pull Down to Refresh"
             android:textColor="@color/inactivetab"
             android:textSize="10sp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -193,7 +208,14 @@
                 android:paddingRight="3dp" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
+    </LinearLayout>
 
     </LinearLayout>
-</LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/splashlogo"
+        android:background="@color/black"/>
+</RelativeLayout>

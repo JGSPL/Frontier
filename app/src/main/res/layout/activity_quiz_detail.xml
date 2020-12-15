@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.Activity.PollDetailActivity">
+    tools:context="com.procialize.frontier.Activity.PollDetailActivity">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -60,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:background="@drawable/loader"/>
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/txt_quiz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
         android:textColor="@color/activetab"
         android:textSize="@dimen/textsizenormal" />
 
-    <com.procialize.mrgeApp20.Fonts.RobotoTextview
+    <com.procialize.frontier.Fonts.RobotoTextview
         android:id="@+id/questionTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
         android:layout_margin="@dimen/margin"
         android:gravity="center">
 
-        <com.procialize.mrgeApp20.Fonts.RobotoButton
+        <com.procialize.frontier.Fonts.RobotoButton
             android:id="@+id/subBtn"
             android:layout_width="150dp"
             android:layout_height="wrap_content"

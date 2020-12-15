@@ -7,214 +7,124 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="com.procialize.mrgeApp20.Engagement.Fragment.EngagementFragment">
+    tools:context="com.procialize.frontier.Engagement.Fragment.EngagementFragment">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+   <androidx.core.widget.NestedScrollView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:scrollbars="vertical"
-            android:clipToPadding="false"
-            android:paddingBottom="120dp">
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginBottom="120dp"
+          android:orientation="vertical">
+
+
+         <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/jigsaw_puzzle"
+             android:layout_width="match_parent"
+             android:layout_height="200dp"
+             android:layout_margin="5dp"
+             card_view:cardUseCompatPadding="true">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:gravity="top"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:orientation="vertical">
 
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="150dp"
+                   android:background="@drawable/jg_puzzle"
+                   android:gravity="center"
+                   android:orientation="vertical" />
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/selfiecard_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    card_view:cardUseCompatPadding="true">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_margin="10dp"
-                                android:src="@drawable/selfie_engagement_logo" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/selfieTv"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="top"
-                                    android:gravity="center|left"
-                                    android:text="Selfie Engagement"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/textsizesmall"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/tv_selfie_total_items"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="top"
-                                    android:layout_marginTop="5dp"
-                                    android:gravity="center|left"
-                                    android:text=""
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/black"
-                                    android:textSize="12dp" />
-
-                            </LinearLayout>
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginRight="10dp"
-                                android:src="@drawable/ic_rightarrow" />
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_gravity="bottom"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@color/grey_light" />
-
-                        <TextView
-                            android:id="@+id/tv_selfie_desc"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:layout_margin="10dp"
-                            android:layout_marginTop="5dp"
-                            android:gravity="center|left"
-                            android:text=""
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/textsizesmall" />
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/videocard_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    card_view:cardUseCompatPadding="true">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="60dp"
-                                android:layout_height="60dp"
-                                android:layout_margin="10dp"
-                                android:src="@drawable/video_engagement_logo" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/videoTv"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="top"
-                                    android:gravity="center|left"
-                                    android:text="Video Engagement"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/textsizesmall"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/video_total_items"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="top"
-                                    android:layout_marginTop="5dp"
-                                    android:gravity="center|left"
-                                    android:text=""
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/black"
-                                    android:textSize="12dp" />
-
-                            </LinearLayout>
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginRight="10dp"
-                                android:src="@drawable/ic_rightarrow" />
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_gravity="bottom"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@color/grey_light" />
-
-                        <TextView
-                            android:id="@+id/tv_video_desc"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="top"
-                            android:layout_margin="10dp"
-                            android:layout_marginTop="5dp"
-                            android:gravity="center|left"
-                            android:text=""
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/textsizesmall" />
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-
+               <TextView
+                   android:id="@+id/jigsawTv"
+                   android:layout_width="match_parent"
+                   android:layout_height="50dp"
+                   android:layout_gravity="bottom"
+                   android:background="@color/btn_back"
+                   android:gravity="center|left"
+                   android:padding="5dp"
+                   android:text="Only you can complete this experience!\nClick here to solve the Frontier jigsaw puzzle."
+                   android:textAppearance="?android:attr/textAppearanceMedium"
+                   android:textColor="@color/black"
+                   android:textSize="@dimen/textsizesmall" />
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+         </androidx.cardview.widget.CardView>
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone" />
-    </RelativeLayout>
+
+         <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/celebrity_quiz"
+             android:layout_width="match_parent"
+             android:layout_height="200dp"
+             android:layout_margin="5dp"
+             card_view:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:orientation="vertical">
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="150dp"
+                   android:background="@drawable/vidya_balam"
+                   android:gravity="center"
+                   android:orientation="vertical" />
+
+               <TextView
+                   android:id="@+id/selfieTv"
+                   android:layout_width="match_parent"
+                   android:layout_height="50dp"
+                   android:layout_gravity="bottom"
+                   android:background="@color/btn_back"
+                   android:gravity="center|left"
+                   android:padding="5dp"
+                   android:text="Take the Frontier celebrity quiz and stand a chance to interact \nwith the Bollywood diva - Vidya Balan!"
+                   android:textAppearance="?android:attr/textAppearanceMedium"
+                   android:textColor="@color/black"
+                   android:textSize="@dimen/textsizesmall" />
+            </LinearLayout>
+         </androidx.cardview.widget.CardView>
+
+         <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/selfiecard_view"
+             android:layout_width="match_parent"
+             android:layout_height="200dp"
+             android:layout_margin="5dp"
+             card_view:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:orientation="vertical">
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="150dp"
+                   android:background="@drawable/selfie_talent"
+                   android:gravity="center"
+                   android:orientation="vertical" />
+
+               <TextView
+                   android:id="@+id/selfieTv"
+                   android:layout_width="match_parent"
+                   android:layout_height="50dp"
+                   android:layout_gravity="bottom"
+                   android:background="@color/btn_back"
+                   android:gravity="center|left"
+                   android:padding="5dp"
+                   android:text="Showcase your performance and stand a chance to perform live\n at the gala night"
+                   android:textAppearance="?android:attr/textAppearanceMedium"
+                   android:textColor="@color/black"
+                   android:textSize="@dimen/textsizesmall" />
+            </LinearLayout>
+         </androidx.cardview.widget.CardView>
+      </LinearLayout>
+   </androidx.core.widget.NestedScrollView>
 </LinearLayout>

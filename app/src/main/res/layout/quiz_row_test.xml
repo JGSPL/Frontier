@@ -43,7 +43,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <com.procialize.mrgeApp20.Fonts.RobotoTextview
+                <com.procialize.frontier.Fonts.RobotoTextview
                     android:id="@+id/textno1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorwhite"
                     android:textSize="@dimen/textsizenormal"
                     android:textStyle="bold" />
 
