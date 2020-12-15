@@ -65,7 +65,7 @@ public class VideoFirstLevelAdapter extends RecyclerView.Adapter<VideoFirstLevel
         final FirstLevelFilter videoList = videoLists.get(position);
 
         holder.nameTv.setText(videoList.getTitle());
-        holder.nameTv.setTextColor(Color.parseColor(colorActive));
+       // holder.nameTv.setTextColor(Color.parseColor(colorActive));
         if (videoList.getFileName().contains("youtu")) {
 
             String CurrentString = videoList.getFileName();
