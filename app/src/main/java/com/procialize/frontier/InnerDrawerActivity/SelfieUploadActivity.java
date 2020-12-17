@@ -122,7 +122,7 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
     ImageView headerlogoIv;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1, REQUEST_TAKE_PHOTO = 2;
     RelativeLayout liner;
-    private String picturePath = "";
+    private String picturePath = "", page;
     File sourceFile;
     MyApplication appDelegate;
     private ConnectionDetector cd;
@@ -175,10 +175,25 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
 
         sessionManager = new SessionManager(this);
 
-        postUrl = ApiConstant.baseUrl + "PostSelfie";
 
-        mAPIService = ApiUtils.getAPIService();
+        try {
+            page = getIntent().getExtras().getString("Page");
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(page.equalsIgnoreCase("gallery")){
+            postUrl = ApiConstant.gallerycontestUrl + "PostSelfie";
+
+            mAPIService = ApiUtils.getGalleryAPIService();
+
+        }else {
+            postUrl = ApiConstant.baseUrl + "PostSelfie";
+
+            mAPIService = ApiUtils.getAPIService();
+
+        }
         llData = findViewById(R.id.llData);
         HashMap<String, String> user = sessionManager.getUserDetails();
 
@@ -402,6 +417,8 @@ public class SelfieUploadActivity extends AppCompatActivity implements ProgressR
                         .show();
 
                 Intent MainIntent = new Intent(SelfieUploadActivity.this, SelfieContestActivity.class);
+                MainIntent.putExtra("Page", page);
+
                 startActivity(MainIntent);
                 finish();
 

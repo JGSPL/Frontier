@@ -21,10 +21,14 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.procialize.frontier.ApiConstant.ApiConstant;
 import com.procialize.frontier.DbHelper.ConnectionDetector;
 import com.procialize.frontier.GetterSetter.FirstLevelFilter;
 import com.procialize.frontier.R;
+import com.procialize.frontier.Session.SessionManager;
+import com.procialize.frontier.util.GetUserActivityReport;
 
+import java.util.HashMap;
 import java.util.List;
 
 import cn.jzvd.Jzvd;
@@ -41,7 +45,7 @@ import static com.procialize.frontier.Utility.Util.getYoutubeVideoIdFromUrl;
 public class SwipeVideoPagerAdapter extends PagerAdapter {
 
     String MY_PREFS_NAME = "ProcializeInfo";
-    String colorActive, img;
+    String colorActive, img, eventid, token;
     onItemClick listener;
     private List<FirstLevelFilter> images;
     private LayoutInflater inflater;
@@ -55,6 +59,10 @@ public class SwipeVideoPagerAdapter extends PagerAdapter {
         inflater = LayoutInflater.from(context);
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         colorActive = prefs.getString("colorActive", "");
+        eventid = prefs.getString("eventid", "1");
+        SessionManager sessionManager = new SessionManager(context);
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        token = user.get(SessionManager.KEY_TOKEN);
 
     }
 
@@ -79,6 +87,14 @@ public class SwipeVideoPagerAdapter extends PagerAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(context,token,
+                eventid,
+                ApiConstant.fileViewed,
+                "388",
+                firstLevelFilter.getId());
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
 
         JzvdStd video_view = myImageLayout.findViewById(R.id.video_view);
         TextView name = myImageLayout.findViewById(R.id.name);

@@ -21,11 +21,15 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.procialize.frontier.ApiConstant.ApiConstant;
 import com.procialize.frontier.GetterSetter.SelfieList;
 import com.procialize.frontier.R;
+import com.procialize.frontier.Session.SessionManager;
+import com.procialize.frontier.util.GetUserActivityReport;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -41,7 +45,7 @@ public class SwipeImageSelfieAdapter extends RecyclerView.Adapter<SwipeImageSelf
     private List<SelfieList> filtergallerylists;
     private Context context;
     private SwipeImageSelfieAdapterListner listener;
-    String picPath;
+    String picPath, eventid, token;
     String MY_PREFS_NAME = "ProcializeInfo";
 
     public SwipeImageSelfieAdapter(Context context, List<SelfieList> filtergallerylists, SwipeImageSelfieAdapterListner listener) {
@@ -52,6 +56,13 @@ public class SwipeImageSelfieAdapter extends RecyclerView.Adapter<SwipeImageSelf
 
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         picPath = prefs.getString(KEY_SELFIE_URL_PATH, "");
+        SharedPreferences prefs1 = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        eventid = prefs1.getString("eventid", "1");
+
+        SessionManager sessionManager = new SessionManager(context);
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        token = user.get(SessionManager.KEY_TOKEN);
+
     }
 
     @Override
@@ -72,6 +83,16 @@ public class SwipeImageSelfieAdapter extends RecyclerView.Adapter<SwipeImageSelf
             e.printStackTrace();
 
         }
+        //--------------------------------------------------------------------------------------
+        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(context,token,
+                eventid,
+                ApiConstant.fileViewed,
+                "355",
+                galleryList.getId());
+        getUserActivityReport.userActivityReport();
+        //--------------------------------------------------------------------------------------
+
+
 
         Glide.with(context).load(picPath/*ApiConstant.selfieimage*/ + galleryList.getFileName())
                 .apply(RequestOptions.skipMemoryCacheOf(true))

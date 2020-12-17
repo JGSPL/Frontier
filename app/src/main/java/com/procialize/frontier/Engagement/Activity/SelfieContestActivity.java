@@ -36,6 +36,7 @@ import com.procialize.frontier.Engagement.Adapter.SelfieAdapter;
 import com.procialize.frontier.ApiConstant.APIService;
 import com.procialize.frontier.ApiConstant.ApiUtils;
 import com.procialize.frontier.GetterSetter.DeleteSelfie;
+import com.procialize.frontier.GetterSetter.LivePollOptionList;
 import com.procialize.frontier.GetterSetter.ReportSelfie;
 import com.procialize.frontier.GetterSetter.ReportSelfieHide;
 import com.procialize.frontier.GetterSetter.SelfieLike;
@@ -79,7 +80,7 @@ public class SelfieContestActivity extends AppCompatActivity implements SelfieAd
     List<SelfieList> selfieLists;
     String MY_PREFS_NAME = "ProcializeInfo";
     String eventid;
-    String user_id, colorActive;
+    String user_id, colorActive, page;
     ImageView headerlogoIv;
     TextView header, seldescription,tv_header;
     private APIService mAPIService;
@@ -106,6 +107,16 @@ public class SelfieContestActivity extends AppCompatActivity implements SelfieAd
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     //    toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
 
+        SessionManager sessionManager = new SessionManager(this);
+
+        HashMap<String, String> user = sessionManager.getUserDetails();
+
+
+        user_id = user.get(SessionManager.KEY_ID);
+        // token
+        token = user.get(SessionManager.KEY_TOKEN);
+        crashlytics("Selfie Contest",user.get(SessionManager.KEY_TOKEN));
+        firbaseAnalytics(this, "Selfie Contest", token);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +126,32 @@ public class SelfieContestActivity extends AppCompatActivity implements SelfieAd
                 finish();
             }
         });
+
+        try {
+            page = getIntent().getExtras().getString("Page");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(page.equalsIgnoreCase("gallery")){
+            mAPIService = ApiUtils.getGalleryAPIService();
+            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                    eventid,
+                    ApiConstant.pageVisited,
+                    "355",
+                    "");
+            getUserActivityReport.userActivityReport();
+        }else {
+            mAPIService = ApiUtils.getAPIService();
+            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                    eventid,
+                    ApiConstant.pageVisited,
+                    "34",
+                    "");
+            getUserActivityReport.userActivityReport();
+
+        }
 
         headerlogoIv = findViewById(R.id.headerlogoIv);
         tv_header = findViewById(R.id.tv_header);
@@ -166,22 +203,13 @@ public class SelfieContestActivity extends AppCompatActivity implements SelfieAd
 
         progressBar = findViewById(R.id.progressBar);
 
-        mAPIService = ApiUtils.getAPIService();
 
-        SessionManager sessionManager = new SessionManager(this);
-
-        HashMap<String, String> user = sessionManager.getUserDetails();
-
-
-        user_id = user.get(SessionManager.KEY_ID);
-        // token
-        token = user.get(SessionManager.KEY_TOKEN);
-        crashlytics("Selfie Contest",user.get(SessionManager.KEY_TOKEN));
-        firbaseAnalytics(this, "Selfie Contest", token);
         uploadbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent selfie = new Intent(SelfieContestActivity.this, SelfieUploadActivity.class);
+                selfie.putExtra("Page", page);
+
                 startActivity(selfie);
                 finish();
             }
@@ -189,12 +217,13 @@ public class SelfieContestActivity extends AppCompatActivity implements SelfieAd
         selfiefeedrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 SelfieListFetch(token, eventid);
             }
-        });
 
-            SelfieListFetch(token, eventid);
+
+            });
+
+        SelfieListFetch(token, eventid);
 
 
         //-----------------------------For Notification count-----------------------------
@@ -207,12 +236,7 @@ public class SelfieContestActivity extends AppCompatActivity implements SelfieAd
         }
         //----------------------------------------------------------------------------------
 
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
-                eventid,
-                ApiConstant.pageVisited,
-                "34",
-                "");
-        getUserActivityReport.userActivityReport();
+
     }
 
     public void SelfieListFetch(String token, String eventid) {
@@ -236,7 +260,7 @@ public class SelfieContestActivity extends AppCompatActivity implements SelfieAd
                     dismissProgress();
                     Toast.makeText(getApplicationContext(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
-            }
+             }
 
             @Override
             public void onFailure(Call<SelfieListFetch> call, Throwable t) {
@@ -257,6 +281,15 @@ public class SelfieContestActivity extends AppCompatActivity implements SelfieAd
 
             selfieLists = response.body().getSelfieList();
 
+            if(page.equalsIgnoreCase("gallery")) {
+                try {
+                    if (!(response.body().getSelfie_title().equalsIgnoreCase(null))) {
+                        header.setText(response.body().getSelfie_title());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString(KEY_SELFIE_URL_PATH, response.body().getSelfie_url_path());
@@ -268,26 +301,6 @@ public class SelfieContestActivity extends AppCompatActivity implements SelfieAd
             selfierecycler.setAdapter(selfieAdapter);
             selfierecycler.scheduleLayoutAnimation();
 
-//            try {
-//                if (!(response.body().getSelfie_title().equalsIgnoreCase(null))) {
-//                    header.setText(response.body().getSelfie_title());
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//            try {
-//                if (!(response.body().getSelfie_description().equalsIgnoreCase(null))) {
-//                    seldescription.setText(response.body().getSelfie_description());
-//                    //seldescription.setVisibility(View.VISIBLE);
-//
-//                } else {
-//                    seldescription.setVisibility(View.GONE);
-//
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
 
 
         } else {
@@ -315,6 +328,9 @@ public class SelfieContestActivity extends AppCompatActivity implements SelfieAd
         Intent imageview = new Intent(this, SwappingSelfieActivity.class);
         imageview.putExtra("url", selfieList.getFileName());
         imageview.putExtra("gallerylist", (Serializable) selfieLists);
+        imageview.putExtra("page", page);
+
+
         startActivity(imageview);
 
 

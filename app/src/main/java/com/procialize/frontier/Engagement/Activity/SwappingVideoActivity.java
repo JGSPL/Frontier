@@ -89,7 +89,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
     ImageView headerlogoIv;
     String colorActive, eventid, user_id, token;
     String MY_PREFS_NAME = "ProcializeInfo";
-    String img = "";
+    String img = "",page;
     RecyclerView recyclerView;
     RelativeLayout relative;
     TextView tv_name, tv_like;
@@ -159,6 +159,7 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
         //positionSelect = getIntent().getStringExtra("position");
         firstLevelFilters = (List<VideoContest>) getIntent().getExtras().getSerializable("gallerylist");
         positionSelect = getIntent().getExtras().getString("positionSelect");
+        page = getIntent().getExtras().getString("page");
         mAPIService = ApiUtils.getAPIService();
         recyclerView = findViewById(R.id.listrecycler);
         pager = findViewById(R.id.pager);
@@ -386,14 +387,26 @@ public class SwappingVideoActivity extends AppCompatActivity implements SwipeEng
                 String UrlfileName = firstLevelFilters.get(rvposition).getFileName();
                 if (UrlfileName.contains("youtu")) {
                 } else {
-                    //---------------------------------------------------------------------------------------------------------
-                    GetUserActivityReport getUserActivityReport = new GetUserActivityReport(SwappingVideoActivity.this, token,
-                            eventid,
-                            ApiConstant.fileDownloaded,
-                            "22",
-                            firstLevelFilters.get(rvposition).getId());
-                    getUserActivityReport.userActivityReport();
-                    //---------------------------------------------------------------------------------------------
+                    if(page.equalsIgnoreCase("gallery")){
+                        //---------------------------------------------------------------------------------------------------------
+                        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(SwappingVideoActivity.this, token,
+                                eventid,
+                                ApiConstant.fileDownloaded,
+                                "388",
+                                firstLevelFilters.get(rvposition).getId());
+                        getUserActivityReport.userActivityReport();
+                        //---------------------------------------------------------------------------------------------
+
+                    }else {
+                        //---------------------------------------------------------------------------------------------------------
+                        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(SwappingVideoActivity.this, token,
+                                eventid,
+                                ApiConstant.fileDownloaded,
+                                "22",
+                                firstLevelFilters.get(rvposition).getId());
+                        getUserActivityReport.userActivityReport();
+                        //---------------------------------------------------------------------------------------------
+                    }
                     SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
                     String videoUrl = prefs.getString(KEY_VIDEO_URL_PATH, "");
 

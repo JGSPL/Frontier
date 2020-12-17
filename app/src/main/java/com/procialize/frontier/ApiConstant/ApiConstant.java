@@ -26,6 +26,10 @@ public class ApiConstant {
     //buddy url
     public static String buddybaseUrl = webUrl + "API/buddy/";
 
+    //buddy url
+    public static String gallerycontestUrl = webUrl + "API/contest_api_call/";
+
+
 
     //imag&Video prod
     public static String imgURL = webUrl;//"https://www.procialize.live/stage/baseapp/";

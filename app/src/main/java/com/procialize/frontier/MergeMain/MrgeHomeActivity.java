@@ -64,6 +64,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.utils.YouTubePlayerTracke
 import com.pipvideo.youtubepipvideoplayer.FlyingVideo;
 import com.pipvideo.youtubepipvideoplayer.TaskCoffeeVideo;
 import com.procialize.frontier.Activity.EULAActivity;
+import com.procialize.frontier.Activity.EngagementGalleryActivity;
 import com.procialize.frontier.Activity.EventChooserActivity;
 import com.procialize.frontier.Activity.ExhibitorAnalytics;
 import com.procialize.frontier.Activity.FrontierGallery;
@@ -881,7 +882,9 @@ public class MrgeHomeActivity extends AppCompatActivity {//implements CustomMenu
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MrgeHomeActivity.this, FrontierGallery.class);
+               // Intent intent = new Intent(MrgeHomeActivity.this, FrontierGallery.class);
+                Intent intent = new Intent(MrgeHomeActivity.this, EngagementGalleryActivity.class);
+
                 startActivity(intent);
 
             }

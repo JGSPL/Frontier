@@ -83,7 +83,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
     ImageView headerlogoIv;
     String colorActive, eventid, user_id, token,picPath;
     String MY_PREFS_NAME = "ProcializeInfo";
-    String img = "";
+    String img = "", page;
     RecyclerView recyclerView;
     LinearLayout btnlayout;
     RelativeLayout relative;
@@ -151,6 +151,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
         cd = new ConnectionDetector(this);
         name = getIntent().getExtras().getString("url");
         firstLevelFilters = (List<SelfieList>) getIntent().getExtras().getSerializable("gallerylist");
+        page = getIntent().getExtras().getString("page");
         mAPIService = ApiUtils.getAPIService();
         recyclerView = findViewById(R.id.listrecycler);
         btnlayout = findViewById(R.id.btnlayout);
@@ -373,15 +374,25 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
 
 
                     } else {
-
-                        //---------------------------------------------------------------------------------------------------------
-                        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(SwappingSelfieActivity.this, token,
-                                eventid,
-                                ApiConstant.fileDownloaded,
-                                "19",
-                                firstLevelFilters.get(rvposition).getId());
-                        getUserActivityReport.userActivityReport();
-                        //-----------------------------------------------------------------------------------------------
+                        if(page.equalsIgnoreCase("gallery")){
+                            //---------------------------------------------------------------------------------------------------------
+                            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(SwappingSelfieActivity.this, token,
+                                    eventid,
+                                    ApiConstant.fileDownloaded,
+                                    "355",
+                                    firstLevelFilters.get(rvposition).getId());
+                            getUserActivityReport.userActivityReport();
+                            //-----------------------------------------------------------------------------------------------
+                        }else {
+                            //---------------------------------------------------------------------------------------------------------
+                            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(SwappingSelfieActivity.this, token,
+                                    eventid,
+                                    ApiConstant.fileDownloaded,
+                                    "19",
+                                    firstLevelFilters.get(rvposition).getId());
+                            getUserActivityReport.userActivityReport();
+                            //-----------------------------------------------------------------------------------------------
+                        }
 
                         //new myAsyncTask().execute();
                         PicassoTrustAll.getInstance(SwappingSelfieActivity.this)
@@ -532,6 +543,7 @@ public class SwappingSelfieActivity extends AppCompatActivity implements SwipeIm
 
             @Override
             public void onPageSelected(int position) {
+
                 //---------------------------------------------------------------------------------------------------------
                 GetUserActivityReport getUserActivityReport = new GetUserActivityReport(SwappingSelfieActivity.this, token,
                         eventid,

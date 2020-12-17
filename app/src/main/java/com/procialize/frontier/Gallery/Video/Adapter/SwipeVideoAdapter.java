@@ -22,9 +22,13 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.procialize.frontier.ApiConstant.ApiConstant;
 import com.procialize.frontier.GetterSetter.FirstLevelFilter;
 import com.procialize.frontier.R;
+import com.procialize.frontier.Session.SessionManager;
+import com.procialize.frontier.util.GetUserActivityReport;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -49,6 +53,7 @@ public class SwipeVideoAdapter extends RecyclerView.Adapter<SwipeVideoAdapter.My
     private SparseBooleanArray selectedItems;
 
     String MY_PREFS_NAME = "ProcializeInfo";
+    String eventid, token;
 
     TrustManager[] trustAllCerts = new TrustManager[]{
             new X509TrustManager() {
@@ -75,6 +80,13 @@ public class SwipeVideoAdapter extends RecyclerView.Adapter<SwipeVideoAdapter.My
         this.listener = listener;
         this.context = context;
         selectedItems = new SparseBooleanArray(filtergallerylists.size());
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+
+        eventid = prefs.getString("eventid", "1");
+        SessionManager sessionManager = new SessionManager(context);
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        token = user.get(SessionManager.KEY_TOKEN);
+
     }
 
     @Override

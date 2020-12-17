@@ -15,15 +15,15 @@ import com.procialize.frontier.Engagement.Activity.VideoContestActivity;
 import com.procialize.frontier.R;
 import com.procialize.frontier.Utility.Util;
 
-public class EngagementActivity extends AppCompatActivity {
+public class EngagementGalleryActivity extends AppCompatActivity {
 
-    CardView videocard_view, selfiecard_view;
+    CardView videocard_view, selfiecard_view,gallerycard_view;
     ImageView headerlogoIv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_engagement2);
+        setContentView(R.layout.activity_engagementgallery);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -36,7 +36,7 @@ public class EngagementActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                onBackPressed();
-//                Intent intent = new Intent(SelfieContestActivity.this, EngagementActivity.class);
+//                Intent intent = new Intent(SelfieContestActivity.this, EngagementGalleryActivity.class);
 //                startActivity(intent);
                 finish();
             }
@@ -47,28 +47,38 @@ public class EngagementActivity extends AppCompatActivity {
 
         selfiecard_view = findViewById(R.id.selfiecard_view);
         videocard_view = findViewById(R.id.videocard_view);
+        gallerycard_view = findViewById(R.id.gallerycard_view);
+
+        gallerycard_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent selfie = new Intent(EngagementGalleryActivity.this, FrontierGallery.class);
+                selfie.putExtra("header", "selfieTitle");
+                selfie.putExtra("Page", "gallery");
+
+                startActivity(selfie);
+            }
+        });
 
         videocard_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent selfie = new Intent(EngagementActivity.this, VideoContestActivity.class);
+                Intent selfie = new Intent(EngagementGalleryActivity.this, VideoContestActivity.class);
                 selfie.putExtra("header", "selfieTitle");
-                selfie.putExtra("Page", "engagement");
+                selfie.putExtra("Page", "gallery");
 
                 startActivity(selfie);
-                finish();
             }
         });
 
         selfiecard_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent selfie = new Intent(EngagementActivity.this, SelfieContestActivity.class);
+                Intent selfie = new Intent(EngagementGalleryActivity.this, SelfieContestActivity.class);
                 selfie.putExtra("header", "selfieTitle");
-                selfie.putExtra("Page", "engagement");
+                selfie.putExtra("Page", "gallery");
 
                 startActivity(selfie);
-                finish();
             }
         });
     }

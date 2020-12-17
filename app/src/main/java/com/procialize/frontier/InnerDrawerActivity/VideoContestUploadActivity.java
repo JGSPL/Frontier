@@ -87,7 +87,7 @@ public class VideoContestUploadActivity extends AppCompatActivity implements Pro
     String eventId, colorActive;
     ImageView headerlogoIv;
     VideoView video_view;
-    String videoUrl;
+    String videoUrl, page;
     private Uri uri;
     private String pathToStoredVideo;
     private ImageView displayRecordedVideo;
@@ -400,6 +400,8 @@ public class VideoContestUploadActivity extends AppCompatActivity implements Pro
         if (response.body().getStatus().equals("success")) {
             Toast.makeText(this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(VideoContestUploadActivity.this, VideoContestActivity.class);
+            intent.putExtra("Page", page);
+
             startActivity(intent);
             finish();
         } else {
@@ -492,14 +494,36 @@ public class VideoContestUploadActivity extends AppCompatActivity implements Pro
         header.setTextColor(Color.parseColor(colorActive));
 
 
-        mAPIService = ApiUtils.getAPIService();
+        //mAPIService = ApiUtils.getAPIService();
 
         llData = findViewById(R.id.llData);
         HashMap<String, String> user = sessionManager.getUserDetails();
 
         // apikey
         apikey = user.get(SessionManager.KEY_TOKEN);
+        try {
+            page = getIntent().getExtras().getString("Page");
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(page.equalsIgnoreCase("gallery")){
+
+            mAPIService = ApiUtils.getGalleryAPIService();
+
+        }else {
+
+            mAPIService = ApiUtils.getAPIService();
+            //----------------------------------------------------------------------------------------------
+            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, apikey,
+                    eventId,
+                    ApiConstant.pageVisited,
+                    "39",
+                    "");
+            getUserActivityReport.userActivityReport();
+            //---------------------------------------------------------------
+        }
 
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -567,14 +591,7 @@ public class VideoContestUploadActivity extends AppCompatActivity implements Pro
 
 
         selectVideo();
-        //----------------------------------------------------------------------------------------------
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, apikey,
-                eventId,
-                ApiConstant.pageVisited,
-                "39",
-                "");
-        getUserActivityReport.userActivityReport();
-        //---------------------------------------------------------------
+
     }
 
     @Override

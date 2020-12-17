@@ -76,7 +76,7 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
     BottomSheetDialog dialog;
     Dialog myDialog;
     String MY_PREFS_NAME = "ProcializeInfo";
-    String eventid;
+    String eventid, page;
     String user_id, colorActive;
     ImageView headerlogoIv;
     TextView header, seldescription,tv_header;
@@ -143,7 +143,7 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
         progressBar = findViewById(R.id.progressBar);
 
 
-        mAPIService = ApiUtils.getAPIService();
+       // mAPIService = ApiUtils.getAPIService();
 
         SessionManager sessionManager = new SessionManager(this);
 
@@ -153,12 +153,44 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
         crashlytics("Video Contest",user.get(SessionManager.KEY_TOKEN));
         firbaseAnalytics(this, "Video Contest",token);
         uploadbtn.setBackgroundColor(Color.parseColor(colorActive));
+        try {
+            page = getIntent().getExtras().getString("Page");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(page.equalsIgnoreCase("gallery")){
+            mAPIService = ApiUtils.getGalleryAPIService();
+            //----------------------------------------------------------------------------------------------
+            /*GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                    eventid,
+                    ApiConstant.pageVisited,
+                    "388",
+                    "");
+            getUserActivityReport.userActivityReport();*/
+            //---------------------------------------------------------------
+
+        }else {
+            mAPIService = ApiUtils.getAPIService();
+            //----------------------------------------------------------------------------------------------
+            GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
+                    eventid,
+                    ApiConstant.pageVisited,
+                    "37",
+                    "");
+            getUserActivityReport.userActivityReport();
+            //---------------------------------------------------------------
+
+        }
 
         uploadbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent videoupload = new Intent(VideoContestActivity.this, VideoContestUploadActivity.class);
+                videoupload.putExtra("Page", page);
+
                 startActivity(videoupload);
                 finish();
             }
@@ -201,14 +233,7 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
         }
         //----------------------------------------------------------------------------------
 
-        //----------------------------------------------------------------------------------------------
-        GetUserActivityReport getUserActivityReport = new GetUserActivityReport(this, token,
-                eventid,
-                ApiConstant.pageVisited,
-                "37",
-                "");
-        getUserActivityReport.userActivityReport();
-        //---------------------------------------------------------------
+
     }
 
     public void SelfieListFetch(String token, String eventid) {
@@ -255,6 +280,15 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
 //            } catch (Exception e) {
 //                e.printStackTrace();
 //            }
+            if(page.equalsIgnoreCase("gallery")) {
+                try {
+                if (!(response.body().getVideo_title().equalsIgnoreCase(null))) {
+                    header.setText(response.body().getVideo_title());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            }
 
             try {
 //                if (!(response.body().getVideo_description().equalsIgnoreCase(null))) {
@@ -300,6 +334,7 @@ public class VideoContestActivity extends AppCompatActivity implements VideoCont
         Intent intent = new Intent(VideoContestActivity.this, SwappingVideoActivity.class);
         intent.putExtra("gallerylist",(Serializable) videoContest);
         intent.putExtra("positionSelect",""+pos);
+        intent.putExtra("page",page);
 
        /* intent.putExtra("url", videoContest.getFileName());
         intent.putExtra("title", videoContest.getTitle());

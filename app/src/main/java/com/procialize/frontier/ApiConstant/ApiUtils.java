@@ -23,6 +23,10 @@ public class ApiUtils {
 
         return BuddyClient.getClientbuddy(ApiConstant.buddybaseUrl).create(APIService.class);
     }
+    public static APIService getGalleryAPIService() {
+
+        return BuddyClient.getClientbuddy(ApiConstant.gallerycontestUrl).create(APIService.class);
+    }
 
     public static TenorApiService getTenorAPIService() {
 
